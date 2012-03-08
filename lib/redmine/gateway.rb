@@ -1,0 +1,3 @@
+class Redmine::Gateway
+  
+end

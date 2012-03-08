@@ -34,5 +34,3 @@ group :development, :test do
   gem 'rb-fsevent', "~> 0.9.0", :require => false if RUBY_PLATFORM =~ /darwin/i
   gem 'guard-livereload', "~> 0.4.2"
 end
-
-
