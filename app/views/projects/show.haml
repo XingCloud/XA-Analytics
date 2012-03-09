@@ -1,0 +1,9 @@
+.span3 
+  .well.sidebar-nav
+    %h3 数据分析
+    = tabs_tag :namespace => :sidebar, :builder => TabsOnRails::Bootstrap, :open_tabs => {:class => "nav nav-list"} do |tab|
+      %li.nav-header 事件
+      = tab.custom "Project", projects_path
+     
+.span9
+  
