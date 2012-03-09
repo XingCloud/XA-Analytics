@@ -28,7 +28,7 @@
           %a.brand{:href => "/"} XingCloud Analytic
           .container-fluid.nav-collapse
             = tabs_tag :namespace => :topbar, :builder => TabsOnRails::Bootstrap, :open_tabs => {:class => "nav"} do |tab|
-              = tab.project "Projects", projects_path
+              = tab.project "项目列表", projects_path
 
     .container-fluid
 
@@ -37,7 +37,7 @@
           %h1= @project.name
         .subnav{:style => "margin-bottom: 10px"}
           = tabs_tag :namespace => :sub, :builder => TabsOnRails::SubNav do |tab|
-            = tab.add_report "Add Report", new_project_report_path(@project)
+            = tab.add_report "添加自定义报告", new_project_report_path(@project)
         
         = notice_message
         = yield

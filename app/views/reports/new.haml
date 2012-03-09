@@ -1,0 +1,47 @@
+- title "新建报告"
+
+= simple_form_for @report, :url => project_reports_path(@project), :html => {:class => "form-horizontal"} do |f|
+  .page-header
+    %h3 
+      一般信息
+      %small 填写报告目的，和报告说明
+  .form-stacked
+
+    %fieldset
+      .row
+        .span6
+          = f.input :title
+          = f.input :description
+          = f.input :purpose
+          
+          = f.input :type do
+            .btn-group
+              - Report::TYPES.each do |type|
+                = link_to t(type, :scope => [:constants, :report]), "#type_#{type}", :class => "btn metric-btn"
+          = f.input :metrics do
+            .cur_metric
+            
+              
+        .span7
+          %h4
+            标题 目的和描述
+          %p
+            目的和描述会显示在报告的右侧
+
+#metric_group{:style => "display:none"}
+  = render :partial => "metric_group", :locals => {:report => @report}
+  
+:javascript
+  
+  $(function() {
+    $(".metric-btn").click(function() {
+      console.log("aa")
+      $(".metric-btn").removeClass("active");
+      $(this).addClass("active");
+      
+      $(".cur_metric").html("");
+      $("#metric_group " + $(this).attr("href")).clone().appendTo(".cur_metric");
+      
+      return false;
+    });
+  })

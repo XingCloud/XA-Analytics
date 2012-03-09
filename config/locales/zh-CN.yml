@@ -1,0 +1,6 @@
+zh-CN:
+  constants:
+    report:  
+      bar: "柱状图"
+      line: "曲线图"
+      table: "表格"

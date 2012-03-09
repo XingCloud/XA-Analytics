@@ -1,15 +1,12 @@
-class ReportsController < ApplicationController
-  before_filter :find_project
+class ReportsController < ProjectBaseController
   set_tab :add_report, :sub
   
   def new
     @report = @project.reports.build
   end
-
-  private
   
-  def find_project
-    @project = Project.find(params[:project_id])
+  def create
+    @report = Report.new(params[:report])
   end
   
 end

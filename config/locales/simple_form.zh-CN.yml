@@ -1,0 +1,36 @@
+zh-CN:
+  simple_form:
+    "yes": '是'
+    "no": '否'
+    required:
+      text: '必填'
+      mark: '*'
+      # You can uncomment the line below if you need to overwrite the whole required html.
+      # When using html, text and mark won't be used.
+      # html: '<abbr title="required">*</abbr>'
+    error_notification:
+      default_message: "发现一些错误，请完善后再次提交:"
+    labels:
+      report:
+        title: "标题"
+        purpose: "目的"
+        description: "描述"
+        type: "报告类型"
+        metrics: "指标组"
+        
+      metric:
+        event_key: "事件"
+        condition: "计算方法"
+        
+    # Labels and hints examples
+    # labels:
+    #   password: 'Password'
+    #   user:
+    #     new:
+    #       email: 'E-mail para efetuar o sign in.'
+    #     edit:
+    #       email: 'E-mail.'
+    # hints:
+    #   username: 'User name to sign in.'
+    #   password: 'No special characters, please.'
+

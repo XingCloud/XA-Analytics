@@ -1,0 +1,7 @@
+- javascript "jquery.chosen"
+
+= simple_form_for @metric, :url => project_metrics_path(@project) do |f|
+
+  = f.input :event_key do
+    = combo_event_key(f)
+    
