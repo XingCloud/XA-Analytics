@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120308070708) do
+ActiveRecord::Schema.define(:version => 20120309024341) do
 
   create_table "agents", :force => true do |t|
     t.integer  "project_id"
@@ -77,6 +77,17 @@ ActiveRecord::Schema.define(:version => 20120308070708) do
     t.string   "type"
     t.datetime "created_at",  :null => false
     t.datetime "updated_at",  :null => false
+    t.integer  "project_id"
+  end
+
+  add_index "reports", ["project_id"], :name => "index_reports_on_project_id"
+
+  create_table "user_attributes", :force => true do |t|
+    t.string   "name"
+    t.string   "key"
+    t.string   "type"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
   end
 
 end

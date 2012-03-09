@@ -4,10 +4,11 @@ class ProjectsController < ApplicationController
   
   def index
     @projects = Project.paginate(:page => params[:page])
+    render :layout => "welcome"
   end
   
   def show
-    render :layout => "analytic"
+    
   end
   
   private
