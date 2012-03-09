@@ -1,0 +1,59 @@
+!!! 5
+%html{:lang => "en"}
+  %head
+    %meta{:charset => "utf-8"}/
+    %title= content_for?(:title) ? yield(:title) : "XingCloud Analytic"
+    = csrf_meta_tags
+    / Le HTML5 shim, for IE6-8 support of HTML elements
+    /[if lt IE 9]
+      = javascript_include_tag "http://html5shim.googlecode.com/svn/trunk/html5.js"
+    / Le styles
+    = stylesheet_link_tag    "application"
+    = javascript_include_tag "application"
+    = yield :head
+    :css
+      body {
+        padding-top: 60px; /* 60px to make the container go all the way to the bottom of the topbar */
+      }
+
+
+  %body
+    .navbar.navbar-fixed-top
+      .navbar-inner
+        .container-fluid
+          %a.btn.btn-navbar{"data-target" => ".nav-collapse", "data-toggle" => "collapse"}
+            %span.i-bar
+            %span.i-bar
+            %span.i-bar
+          %a.brand{:href => "/"} XingCloud Analytic
+          .container-fluid.nav-collapse
+            = tabs_tag :namespace => :topbar, :builder => TabsOnRails::Bootstrap, :open_tabs => {:class => "nav"} do |tab|
+              = tab.project "Projects", projects_path
+
+    .container-fluid
+
+      .row-fluid
+        .span3
+          - if content_for?(:sidebar)
+            = yield :sidebar
+          - else
+            .well.sidebar-nav
+              %h3 菜单
+              = tabs_tag :namespace => :sidebar, :builder => TabsOnRails::Bootstrap, :open_tabs => {:class => "nav nav-list"} do |tab|
+                %li.nav-header 项目
+                = tab.project "Project", projects_path
+              
+        .span9
+          - if content_for?(:title)
+            .page-header
+              %h1= yield(:title)
+          = notice_message
+          = yield
+    
+      %footer
+        %p &copy; Company 2012
+    /
+      Le javascript
+      \==================================================
+    / Placed at the end of the document so the pages load faster
+    
