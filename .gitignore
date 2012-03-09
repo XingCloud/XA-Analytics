@@ -2,3 +2,6 @@
 log
 tmp
 .rvmrc
+nbproject
+config/database.yml
+
