@@ -9,7 +9,7 @@ module Redmine
     
     def initialize(text)
       begin
-        content = text
+        @content = text
         json = ActiveSupport::JSON.decode(text)
       rescue Exception => e
         @error = e.message

@@ -42,7 +42,7 @@
               %h3 菜单
               = tabs_tag :namespace => :sidebar, :builder => TabsOnRails::Bootstrap, :open_tabs => {:class => "nav nav-list"} do |tab|
                 %li.nav-header 项目
-                = tab.project "Project", projects_path
+                = tab.project "项目列表", projects_path
               
         .span9
           - if content_for?(:title)

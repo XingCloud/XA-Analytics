@@ -1,0 +1,36 @@
+- javascript "jquery.chosen"
+
+- Report::TYPES.each do |type|
+  .well.metrics{:id => "type_#{type}"}
+    .action-add{:"data-popup" => "width:800px;height:300", :href => new_project_metric_path(@project, :type => type)} + 添加指标
+    
+:css
+  .action-add {
+    border-collapse: collapse;
+    border: 1px dashed;
+    border-radius: 3px 3px 3px 3px;
+    cursor: pointer;
+    float: left;
+    font-size: 13px;
+    font-weight: bold;
+    height: 16px;
+    margin: 3px 10px 3px 0;
+    padding: 5px;
+    text-align: center;
+    width: 196px;
+    -moz-border-radius: 3px 3px 3px 3px;
+    -webkit-border-top-left-radius: 3px;
+    -webkit-border-top-right-radius: 3px;
+    -webkit-border-bottom-left-radius: 3px;
+    -webkit-border-bottom-right-radius: 3px;
+    
+    background: #F2F6FF;
+    border-color: #7B98E8;
+    color: #7B98E8;
+    
+    visibility: visible;
+  }
+  
+  .action-add:hover {
+    border: 1px dashed #7B9453;
+  }
