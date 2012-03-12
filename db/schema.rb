@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120309024341) do
+ActiveRecord::Schema.define(:version => 20120309092201) do
 
   create_table "agents", :force => true do |t|
     t.integer  "project_id"
@@ -43,10 +43,21 @@ ActiveRecord::Schema.define(:version => 20120309024341) do
     t.datetime "updated_at", :null => false
   end
 
-  create_table "game_users", :force => true do |t|
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+  create_table "menus", :force => true do |t|
+    t.string   "name",                      :null => false
+    t.string   "point",      :limit => 100
+    t.integer  "project_id",                :null => false
+    t.integer  "parent_id"
+    t.integer  "lft"
+    t.integer  "rgt"
+    t.integer  "depth"
+    t.string   "desc"
+    t.datetime "created_at",                :null => false
+    t.datetime "updated_at",                :null => false
   end
+
+  add_index "menus", ["parent_id"], :name => "index_menus_on_parent_id"
+  add_index "menus", ["project_id"], :name => "index_menus_on_project_id"
 
   create_table "metrics", :force => true do |t|
     t.integer  "report_id"

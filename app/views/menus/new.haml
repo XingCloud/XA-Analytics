@@ -1,0 +1,12 @@
+= form_for @menu do |f|
+  %label 菜单名称
+  = f.text_field(:name)
+  %label 指标值
+  = f.text_field(:point)
+  %span.help-inline Associated help text!
+  %label.checkbox 应用
+  = select('menu','project_id', Project.all.collect {|p| [ p.name, p.id ] }, {:include_blank => 'All'})
+  %label 菜单
+  = select('menu','parent_id', Menu.all.collect {|p| [ p.name, p.id ] }, {:include_blank => '--'})
+  %label 
+  = submit_tag('提交')

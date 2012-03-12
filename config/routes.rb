@@ -4,6 +4,7 @@ Analytic::Application.routes.draw do
   resources :projects do
     resources :reports
   end
+  resources :menus
   
   
   # The priority is based upon order of creation:
