@@ -1,6 +1,33 @@
 zh-CN:
+  activerecord:
+    models:
+      report: 报告
+      
+      reports/bar: "柱状图"
+      reports/table: "表格"
+      reports/line: "曲线图"
+        
+    attributes:
+      
+  edit: "编辑"
+  destroy: "删除"
+  delete: "删除"
+  view: "查看"
+  
   constants:
     report:  
       bar: "柱状图"
       line: "曲线图"
       table: "表格"
+    metric:
+      count: "发生的次数"
+      count_user: "发生的用户人数"
+      sum_val: "值的总和"
+      average_val: "值的平均"
+      
+      addition: "加法"
+      division: "除法(算百分比)"
+      multiplication: "乘法"
+      subduction: "减法"
+      
+      

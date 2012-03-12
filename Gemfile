@@ -23,6 +23,7 @@ gem 'rails-i18n', "~> 0.5.1"
 gem 'cells', "~> 3.8.3"
 gem 'will_paginate', "~> 3.0.3"
 gem 'tabs_on_rails', "~> 2.1.1"
+gem "dalli"
 
 group :development, :test do
   gem "pry", "~> 0.9.8"
@@ -35,3 +36,4 @@ group :development, :test do
   gem 'guard-livereload', "~> 0.4.2"
   gem 'thin'
 end
+

@@ -1,5 +1,6 @@
 module ApplicationHelper
   include LayoutHelper
+  include LinkHelper
   
   def translate_collection(array, options = {})
     scope = if options[:scope].is_a?(Array)

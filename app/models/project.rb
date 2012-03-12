@@ -4,4 +4,10 @@ class Project < ActiveRecord::Base
   
   validate :identifier, :presence => true, :uniqueness => true
   
+  def fetch_events
+    Rails.cache.fetch("Project.#{self.id}.events") do
+      self.events.select("distinct name").map(&:name)
+    end
+  end
+  
 end

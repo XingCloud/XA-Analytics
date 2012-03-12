@@ -2,8 +2,9 @@ Analytic::Application.routes.draw do
   
   root :to => "projects#index"
   resources :projects do
-    resources :reports
-    resources :metrics
+    resources :reports do
+      resources :metrics
+    end
   end
   
   
