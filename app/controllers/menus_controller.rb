@@ -1,13 +1,13 @@
 class MenusController < ApplicationController
-  layout 'menu'
+  set_tab :add_menu, :sub
+  before_filter :find_project
   def index
     @menus = Menu.all
-    p @menus
   end
 
   # 增加菜单
   def new
-   @menu = Menu.new
+    @menu = Menu.new
   end
 
   #
@@ -18,7 +18,7 @@ class MenusController < ApplicationController
   #
   def create
     @menu = Menu.create(params[:menu])
-    redirect_to :action => "index"
+    redirect_to project_path(@project)
   end
 
   #
@@ -29,6 +29,12 @@ class MenusController < ApplicationController
   #
   def destroy
 
+  end
+
+  private
+
+  def find_project
+    @project = Project.find(params[:project_id])
   end
 
 end

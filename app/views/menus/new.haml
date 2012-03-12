@@ -1,4 +1,4 @@
-= form_for @menu do |f|
+= form_for([:project,@menu]) do |f|
   %label 菜单名称
   = f.text_field(:name)
   %label 指标值

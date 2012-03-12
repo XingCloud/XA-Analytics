@@ -8,7 +8,7 @@ class ProjectsController < ApplicationController
   end
   
   def show
-    
+    @menus = Menu.all
   end
 
   

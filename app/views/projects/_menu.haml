@@ -1,6 +1,42 @@
-.row
-  .span12
-    Level 1 of column
-    .row
-      .span6 Level 2
-      .span6 Level 2
+.span3
+  .well.sodebar-nav
+    %ul.nav.nav-list#sortable
+      - @menus.each do |menu|
+        - if menu.parent_id.blank?
+          %li.nav-header= menu.name
+          - @menus.each do |sub|
+            - if sub.parent_id == menu.id
+              %li
+                %a= sub.name
+
+.span9
+
+:javascript
+
+  $(document).ready(function(){
+
+    $("#sortable").nestedSortable({
+      listType: 'ul',
+      items: 'li',
+      placeholder: "highlight",
+      forcePlaceholderSize: true,
+      handle: 'span',
+      helper: 'clone',
+      opacity: .6,
+      revert: 250,
+      tabSize: 25,
+      tolerance: 'pointer',
+      toleranceElement: '> span'
+    });
+
+   $('#serialize').click(function (){
+     alert('test')
+      var c = {set : JSON.stringify($('#sortable').nestedSortable('toHierarchy', {startDepthCount: 0}))};
+
+      $.post("/menus/update", c, alert('Saved Successfully'));
+
+      return false ;
+
+    });
+
+  });
