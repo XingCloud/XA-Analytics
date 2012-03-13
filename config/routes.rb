@@ -6,7 +6,6 @@ Analytic::Application.routes.draw do
     resources :metrics
     resources :menus
     end
-  end
   
 
   
