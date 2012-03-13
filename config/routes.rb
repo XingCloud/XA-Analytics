@@ -2,14 +2,11 @@ Analytic::Application.routes.draw do
   
   root :to => "projects#index"
   resources :projects do
-
+    
     resources :menus
-    resources :reports do
-      resources :metrics
-    end
-  end  
-
-  
+    resources :reports
+    resources :metrics
+  end
   
   # The priority is based upon order of creation:
   # first created -> highest priority.

@@ -1,4 +1,5 @@
 class Metric < ActiveRecord::Base
+  belongs_to :project
   belongs_to :report
   belongs_to :combine, :class_name => :"Metric"
   
@@ -20,6 +21,10 @@ class Metric < ActiveRecord::Base
       parts[i] = arg
       self.event_key = parts.join(".")
     end
+  end
+  
+  def short_attributes
+    {:id => self.id, :project_id => self.project_id, :name => self.name}
   end
   
   protected

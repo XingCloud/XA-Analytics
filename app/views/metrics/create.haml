@@ -1,2 +1,15 @@
+- javascript "models/metric"
+
 %p
-  = link_to_function "返回报告页面", "parent.location.reload()", :class => "btn btn-success"
+  = link_to_function "返回报告页面", "add_metric()", :class => "btn btn-success"
+  
+:javascript
+
+  function add_metric() {
+  
+    console.log( #{@metric.short_attributes.to_json} )
+    parent.metrics.push(new Metric(#{@metric.short_attributes.to_json}));
+    
+    parent.render_metrics();
+    close_dialog();
+  }
