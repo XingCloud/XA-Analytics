@@ -17,6 +17,7 @@ module Analytic
 
     # Custom directories with classes and modules you want to be autoloadable.
     config.autoload_paths += %W(#{config.root}/lib)
+    config.autoload_paths += %W(#{config.root}/app/models/reports)
 
     # Only load the plugins named here, in the order given (default is alphabetical).
     # :all can be used as a placeholder for all plugins not explicitly named.
@@ -55,7 +56,7 @@ module Analytic
 
     # Version of your assets, change this if you want to expire all your assets
     config.assets.version = '1.0'
-    
+    config.cache_store =  :dalli_store    
     config.generators do |g|
       g.test_framework :rspec
       g.template_engine :haml
@@ -65,4 +66,7 @@ module Analytic
 end
 
 APP_CONFIG = ActiveSupport::HashWithIndifferentAccess.new(YAML.load_file(Rails.root.join("config/app_config.yml"))[Rails.env]).freeze
+<<<<<<< HEAD
 YAML::ENGINE.yamler= 'syck'
+=======
+>>>>>>> 84a99d184af5815344013a13202981dd0c186c6f

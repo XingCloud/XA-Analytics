@@ -1,6 +1,7 @@
-- javascript "metrics"
+- javascript "jquery.chosen", "metrics"
+- stylesheet "jquery.chosen"
 
-= simple_form_for @metric, :url => project_report_metrics_path(@project, @report), :html => {:class => "form-horizontal"} do |f|
+= simple_form_for @metric, :url => project_report_metric_path(@project, @report, @metric), :html => {:method => :put, :class => "form-horizontal"} do |f|
   .row
     .span7#base
       = f.input :name
@@ -16,7 +17,6 @@
   .form-actions
     = f.submit "Submit", :class => "btn btn-primary"
     = link_to_function "取消", "close_dialog()"
-
+    
 :javascript
   var events = #{@events.to_json};
-  

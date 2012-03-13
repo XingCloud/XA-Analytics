@@ -1,0 +1,18 @@
+
+%p
+  = link_to "添加自定义报告", new_project_report_path(@project), :class => "btn"
+  
+%table.table
+  %tr
+    %th 报告名称
+    %th 创建时间
+    %th
+  - @reports.each do |report|
+    %tr
+      %td= link_to report.title.presence || "(没有设置)", project_report_path(@project, report)
+      %td= report.created_at
+      %td
+        = link_to_edit edit_project_report_path(@project, report)
+        = link_to_delete project_report_path(@project, report)
+      
+= will_paginate @reports

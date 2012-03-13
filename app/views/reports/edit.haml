@@ -1,0 +1,55 @@
+- stylesheet "reports"
+
+- title "新建报告"
+
+= simple_form_for @report, :as => :report, :url => project_report_path(@project, @report), :html => {:class => "form-horizontal"} do |f|
+  .page-header
+    %h3 
+      一般信息
+      %small 填写报告目的，和报告说明
+  .form-stacked
+
+    %fieldset
+      .row
+        .span6
+          = f.input :title
+          = f.input :description
+          = f.input :purpose
+          
+          = f.input :type do
+            = f.hidden_field :type
+            .btn-group
+              - Report.subclasses.each do |subclass|
+                = link_to subclass.model_name.human, "#type_#{subclass.name.parameterize}", :class => "btn metric-btn #{'active' if @report.class == subclass}", :"data-type" => subclass.name
+          = f.input :metrics do
+            .cur_metric
+            
+        .span7
+          %h4
+            标题 目的和描述
+          %p
+            目的和描述会显示在报告的右侧
+  .form-actions
+    = f.submit "提交", :class => "btn btn-primary"
+    = link_to "取消", project_reports_path(@project), :class => "btn" 
+#metric_group{:style => "display:none"}
+  = render :partial => "metric_group", :locals => {:report => @report}
+
+:javascript
+  
+  function select_report_type(link) {
+    $(".metric-btn").removeClass("active");
+    $(link).addClass("active");
+    $("#report_type").val($(link).data('type'));
+    
+    $(".cur_metric").html("");
+    $("#metric_group " + $(link).attr("href")).clone().appendTo(".cur_metric");
+  }
+  $(function() {
+    
+    $(".metric-btn").click(function() {
+      
+    });
+    
+    
+  })

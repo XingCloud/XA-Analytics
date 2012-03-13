@@ -11,7 +11,11 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
+<<<<<<< HEAD
 ActiveRecord::Schema.define(:version => 20120309092201) do
+=======
+ActiveRecord::Schema.define(:version => 20120312082037) do
+>>>>>>> 84a99d184af5815344013a13202981dd0c186c6f
 
   create_table "agents", :force => true do |t|
     t.integer  "project_id"
@@ -63,9 +67,16 @@ ActiveRecord::Schema.define(:version => 20120309092201) do
     t.integer  "report_id"
     t.string   "event_key"
     t.string   "condition"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.datetime "created_at",          :null => false
+    t.datetime "updated_at",          :null => false
+    t.integer  "combine_id"
+    t.string   "combine_action"
+    t.string   "comparison_operator"
+    t.string   "comparison"
+    t.string   "name"
   end
+
+  add_index "metrics", ["combine_id"], :name => "index_metrics_on_combine_id"
 
   create_table "platforms", :force => true do |t|
     t.string   "name"
@@ -86,12 +97,14 @@ ActiveRecord::Schema.define(:version => 20120309092201) do
     t.string   "description"
     t.string   "purpose"
     t.string   "type"
-    t.datetime "created_at",  :null => false
-    t.datetime "updated_at",  :null => false
+    t.datetime "created_at",                     :null => false
+    t.datetime "updated_at",                     :null => false
     t.integer  "project_id"
+    t.boolean  "public",      :default => false
   end
 
   add_index "reports", ["project_id"], :name => "index_reports_on_project_id"
+  add_index "reports", ["public"], :name => "index_reports_on_public"
 
   create_table "user_attributes", :force => true do |t|
     t.string   "name"

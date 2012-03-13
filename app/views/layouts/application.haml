@@ -37,8 +37,12 @@
           %h1= @project.name
         .subnav{:style => "margin-bottom: 10px"}
           = tabs_tag :namespace => :sub, :builder => TabsOnRails::SubNav do |tab|
+<<<<<<< HEAD
             = tab.add_report "添加自定义报告", new_project_report_path(@project)
             = tab.add_menu "添加菜单", new_project_menu_path(@project)
+=======
+            = tab.add_report "自定义报告", project_reports_path(@project)
+>>>>>>> 84a99d184af5815344013a13202981dd0c186c6f
         
         = notice_message
         = yield
