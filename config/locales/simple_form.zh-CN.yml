@@ -1,4 +1,11 @@
 zh-CN:
+  metric: &metric
+    event_key: "事件"
+    condition: "计算方法"
+    comparison_operator: "比较符"
+    comparison: "过滤范围"
+    combine_action: "与另一事件组合计算"
+    name: "名称"
   simple_form:
     "yes": '是'
     "no": '否'
@@ -18,13 +25,8 @@ zh-CN:
         type: "报告类型"
         metrics: "指标组"
         
-      metric: &metric
-        event_key: "事件"
-        condition: "计算方法"
-        comparison_operator: "比较符"
-        comparison: "过滤范围"
-        combine_action: "与另一事件组合计算"
-        name: "名称"
+      metric:
+        <<: *metric
         combine:
           <<: *metric
     hints:

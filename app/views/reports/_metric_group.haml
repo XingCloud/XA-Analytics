@@ -11,4 +11,10 @@
           .metric_container
         = image_tag("cleardot.gif", :class => "ly")
     .action-add{:"data-popup" => "width:1200px;", :href => new_project_report_metric_path(@project, @report, :type => subclass.name)} + 添加指标
-    
+
+:javascript
+  $(function() {
+    $(".ly").click(function() {
+      if (confirm("确定删除吗？"))
+    })
+  })

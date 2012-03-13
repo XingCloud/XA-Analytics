@@ -65,8 +65,5 @@ module Analytic
   end
 end
 
-APP_CONFIG = ActiveSupport::HashWithIndifferentAccess.new(YAML.load_file(Rails.root.join("config/app_config.yml"))[Rails.env]).freeze
-<<<<<<< HEAD
 YAML::ENGINE.yamler= 'syck'
-=======
->>>>>>> 84a99d184af5815344013a13202981dd0c186c6f
+APP_CONFIG = ActiveSupport::HashWithIndifferentAccess.new(YAML.load_file(Rails.root.join("config/app_config.yml"))[Rails.env]).freeze
