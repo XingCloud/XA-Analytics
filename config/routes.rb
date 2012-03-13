@@ -2,15 +2,10 @@ Analytic::Application.routes.draw do
   
   root :to => "projects#index"
   resources :projects do
-<<<<<<< HEAD
     resources :reports
     resources :metrics
     resources :menus
-=======
-    resources :reports do
-      resources :metrics
     end
->>>>>>> 84a99d184af5815344013a13202981dd0c186c6f
   end
   
 
