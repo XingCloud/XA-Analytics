@@ -12,6 +12,7 @@ group :assets do
   gem 'uglifier', '>= 1.0.3'
 end
 
+gem 'awesome_nested_set', "~> 2.1.2"
 gem 'jquery-rails', "~> 2.0.1"
 gem 'jbuilder', "~> 0.3.2"
 gem 'capistrano', "~> 2.11.2", :group => "development"
