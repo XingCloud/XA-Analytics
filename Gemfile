@@ -25,6 +25,7 @@ gem 'cells', "~> 3.8.3"
 gem 'will_paginate', "~> 3.0.3"
 gem 'tabs_on_rails', "~> 2.1.1"
 gem "dalli"
+gem "jammit"
 
 group :development, :test do
   gem "pry", "~> 0.9.8"

@@ -19,7 +19,7 @@
       .metric_display{"data-popup" => "width:1200px", :href => "${edit_url}"}
         = "${name}"
       .metric_container
-    = image_tag("cleardot.gif", :class => "ly")
+    = image_tag("cleardot.gif", :class => "ly del", "data-id" => "${id}")
     
 :javascript
   
@@ -38,10 +38,20 @@
     $("#metric_template").tmpl(metrics).appendTo("#metric_list")
   }
   
+  var metric_data = #{@report.metrics.map(&:short_attributes).to_json }
+  
   $(function() {
-    window.metrics = Metric.build(#{@report.metrics.map(&:short_attributes).to_json });
+  
+    for(var i = 0; i < metric_data.length; i++) {
+      metrics.add(new Metric(metric_data[i]));
+    }
     
-    render_metrics();
+    
+    /*render_metrics();*/
+    
+    $("#metric_list .del").live("click", function() {
+      metrics.find()
+    })
     
     $(".metric-btn").click(function() {
       select_report_type($(this));
