@@ -7,6 +7,15 @@ class Report < ActiveRecord::Base
     self.update_attributes(:public => true)
   end
   
+  
+  def self.type_name
+    self.name.demodulize.underscore
+  end
+  
+  def type_name
+    self.class.type_name
+  end
+  
 end
 
 

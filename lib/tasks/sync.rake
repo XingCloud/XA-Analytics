@@ -2,8 +2,10 @@ namespace :sync do
   
   # paginate_do 1, gateway, paginate, :project_id => 3
   #  => gateway.paginate(1, :project_id => 3)
-  def paginate_do(page, gateway, *args)
-    response = gateway.send(args.shift, page, *args)
+  def paginate_do(page, gateway, *args, &block)
+    method_name = args.first
+    other_args = args[1..-1]
+    response = gateway.send(method_name, page, *other_args)
     
     unless response.success?
       raise "Request Failure in Page: #{page}, Error: #{response.error}"
@@ -16,7 +18,7 @@ namespace :sync do
       return
     else
       yield items
-      paginate_do(page + 1, gateway, &block)
+      paginate_do(page + 1, gateway, *args, &block)
     end
   end
   

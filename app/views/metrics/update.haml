@@ -1,2 +1,22 @@
+- javascript "models/metric"
+
 %p
-  = link_to_function "返回报告页面", "parent.location.reload()", :class => "btn btn-success"
+  = link_to_function "返回报告页面", "update_metric()", :class => "btn btn-success"
+  
+
+:javascript
+
+  function update_metric() {
+    var current_metric = null;
+    
+    for(var i = 0; i < parent.metrics.length; i ++) {
+      if (parent.metrics[i].id == #{@metric.id}) {
+        current_metric = parent.metrics[i];
+        break;
+      }
+    }
+    console.log(current_metric)
+    current_metric.set_attributes( #{ @metric.short_attributes.to_json } );
+    parent.render_metrics();
+    close_dialog();
+  }

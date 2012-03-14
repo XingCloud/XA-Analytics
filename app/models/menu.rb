@@ -3,7 +3,7 @@ class Menu < ActiveRecord::Base
   belongs_to :project
   has_many :reports
   include MenuSortable
-  
+
   validate :name, :presence => true
   
 end

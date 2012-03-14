@@ -1,15 +1,14 @@
-= include_javascripts :library, :metric_lib
 - stylesheet "reports"
 
 - title "新建报告"
 
-= simple_form_for @report, :as => :report, :url => project_report_path(@project, @report), :html => {:class => "form-horizontal"} do |f|
+= simple_form_for @report, :as => :report, :url => project_reports_path(@project), :html => {:class => "form-horizontal"} do |f|
   .page-header
     %h3 
       一般信息
       %small 填写报告目的，和报告说明
   .form-stacked
-
+    
     %fieldset
       .row
         .span6

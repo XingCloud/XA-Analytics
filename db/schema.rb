@@ -11,11 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-<<<<<<< HEAD
-ActiveRecord::Schema.define(:version => 20120309092201) do
-=======
-ActiveRecord::Schema.define(:version => 20120312082037) do
->>>>>>> 84a99d184af5815344013a13202981dd0c186c6f
+ActiveRecord::Schema.define(:version => 20120313035213) do
 
   create_table "agents", :force => true do |t|
     t.integer  "project_id"
@@ -47,6 +43,11 @@ ActiveRecord::Schema.define(:version => 20120312082037) do
     t.datetime "updated_at", :null => false
   end
 
+  create_table "game_users", :force => true do |t|
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
   create_table "menus", :force => true do |t|
     t.string   "name",                      :null => false
     t.string   "point",      :limit => 100
@@ -74,6 +75,7 @@ ActiveRecord::Schema.define(:version => 20120312082037) do
     t.string   "comparison_operator"
     t.string   "comparison"
     t.string   "name"
+    t.integer  "project_id"
   end
 
   add_index "metrics", ["combine_id"], :name => "index_metrics_on_combine_id"

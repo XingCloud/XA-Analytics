@@ -1,0 +1,14 @@
+template_extension: jst.haml
+template_function: Haml
+
+
+
+javascripts:
+  library:
+    - vendor/assets/javascripts/underscore.js
+    - vendor/assets/javascripts/backbone.js
+    - vendor/assets/javascripts/haml.js
+
+  metric_lib:
+    - app/assets/javascripts/models/*.js
+    - app/views/**/*.jst.haml

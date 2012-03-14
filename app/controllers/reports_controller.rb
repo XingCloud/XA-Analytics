@@ -1,5 +1,5 @@
 class ReportsController < ProjectBaseController
-  set_tab :add_report, :sub
+  set_tab :report, :sub
   before_filter :find_report, :only => [:edit, :update, :destroy]
   
   def index
@@ -7,8 +7,7 @@ class ReportsController < ProjectBaseController
   end
   
   def new
-    @report = @project.reports.create
-    redirect_to edit_project_report_path(@project, @report)
+    @report = @project.reports.build
   end
   
   def edit

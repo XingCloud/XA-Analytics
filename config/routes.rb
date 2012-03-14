@@ -5,15 +5,12 @@ Analytic::Application.routes.draw do
     resources :reports
     resources :metrics
   end
-  
   resources :menus do
     collection do
       get 'reorder'
       post 'reorder'
     end
   end
-
-  
   
   # The priority is based upon order of creation:
   # first created -> highest priority.

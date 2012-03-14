@@ -15,8 +15,7 @@
       body {
         padding-top: 60px; /* 60px to make the container go all the way to the bottom of the topbar */
       }
-
-
+      
   %body
     .navbar.navbar-fixed-top
       .navbar-inner
@@ -37,7 +36,8 @@
           %h1= @project.name
         .subnav{:style => "margin-bottom: 10px"}
           = tabs_tag :namespace => :sub, :builder => TabsOnRails::SubNav do |tab|
-            = tab.add_report "添加自定义报告", new_project_report_path(@project)
+            = tab.project "首页", project_path(@project)
+            = tab.report "自定义报告", project_reports_path(@project)
         = notice_message
         = yield
     

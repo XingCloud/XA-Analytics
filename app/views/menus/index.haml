@@ -1,9 +1,16 @@
-.row
-  .span3
-    .well.sidebar-nav
-      = nested_list @menus.roots do |menu|
-        %div= "#{menu.name}"
-        = link_to "编辑",edit_menu_path(menu)
-        = link_to "删除",menu,:confirm=>'Are you sure?',:method => :delete
+%table.table
+  %tr
+    %th 菜单名称
+    %th 菜单描述
+    %th 创建时间
+    %th
+    %th
+  - @menus.each do |menu|
+    %tr
+      %td= menu.name
+      %td= menu.desc
+      %td= menu.created_at.strftime("%Y-%m-%d %H:%M:%S")
+      %td= link_to_edit edit_menu_path(menu)
+      %td= link_to_delete menu
 
-%span= link_to "返回", project_path(@project)
+= link_to '返回', project_path(@project)

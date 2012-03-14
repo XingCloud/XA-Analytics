@@ -1,16 +1,15 @@
 class MetricsController < ProjectBaseController
-  before_filter :find_report
   before_filter :find_metric, :only => [:edit, :update, :destroy]
   layout "dialog"
   
   def new
-    @metric = @report.metrics.build
+    @metric = @project.metrics.build
     @metric.build_combine
     set_events
   end
   
   def create
-    @metric = @report.metrics.build(params[:metric])
+    @metric = @project.metrics.build(params[:metric])
     if @metric.save
       flash.now[:notice] = t("metric.create.success")
     else
@@ -44,11 +43,7 @@ class MetricsController < ProjectBaseController
   private
   
   def find_metric
-    @metric = @report.metrics.find(params[:id])
-  end
-  
-  def find_report
-    @report = @project.reports.find(params[:report_id])
+    @metric = @project.metrics.find(params[:id])
   end
   
   def set_events
