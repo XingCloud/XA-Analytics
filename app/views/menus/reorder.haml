@@ -1,0 +1,14 @@
+.row
+  .span3
+    .well.sidebar-nav
+      #sortable
+        = nested_list @menus.roots do |menu|
+          %div= "#{menu.name}"
+        = form_tag reorder_menus_path(:project_id => @project.id) do
+          = submit_tag '保存'
+              
+
+
+%span= link_to "返回", project_path(@project)
+.span9
+ 

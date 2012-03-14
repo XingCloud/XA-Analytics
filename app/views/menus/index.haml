@@ -1,37 +1,9 @@
-.span3
-  .well.sodebar-nav
-    %ul.nav.nav-list#sortable
-      - @menus.each do |menu|
-        - if menu.parent_id.blank?
-          %li.nav-header= menu.name
-          - @menus.each do |sub|
-            - if sub.parent_id == menu.id
-              %li
-                %a= sub.name
+.row
+  .span3
+    .well.sidebar-nav
+      = nested_list @menus.roots do |menu|
+        %div= "#{menu.name}"
+        = link_to "编辑",edit_menu_path(menu)
+        = link_to "删除",menu,:confirm=>'Are you sure?',:method => :delete
 
-.span9
-
-:javascript
-
-  function sortable(){
-    $("#sortable").nestedSortable({
-      listType: 'ul',
-      items: 'li',
-      placeholder: "highlight",
-      forcePlaceholderSize: true,
-      handle: 'span',
-      helper: 'clone',
-      opacity: .6,
-      revert: 250,
-      tabSize: 25,
-      tolerance: 'pointer',
-      toleranceElement: '> span'
-    });
-  }
-
-  $(function(){
-    sortable();
-  });
-
-
-  
+%span= link_to "返回", project_path(@project)

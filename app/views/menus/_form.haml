@@ -1,0 +1,11 @@
+= form_for @menu do |f|
+  %label 菜单名称
+  = f.text_field(:name)
+  %label 报表
+  = select_tag('point', Report.all.collect {|p| [ p.title, p.id ] },{ :multiple => true, :size =>4, :id => "menu_report" })
+  %label 描述
+  = f.text_area(:desc)
+  %label
+  = f.hidden_field(:project_id)
+
+  = submit_tag('提交',:class=>'btn-primary')
