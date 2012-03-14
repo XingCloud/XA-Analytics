@@ -13,4 +13,14 @@ module ApplicationHelper
       [I18n.t(item, :scope => scope), item]
     }
   end
+  
+  def include_tempalate_js(*args)
+    filenames = args.map do |arg|
+      "/js_templates/#{arg}.jst.html"
+    end
+    
+    content_for(:head) { 
+      javascript_include_tag(*filenames)
+    }
+  end
 end

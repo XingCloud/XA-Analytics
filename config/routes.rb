@@ -8,6 +8,12 @@ Analytic::Application.routes.draw do
     resources :metrics
   end
   
+  match "/js_templates/:package.:extension",
+    :to => 'js_templates#package', :as => :jammit, :constraints => {
+      # A hack to allow extension to include "."
+      :extension => /.+/
+  }
+    
   # The priority is based upon order of creation:
   # first created -> highest priority.
 

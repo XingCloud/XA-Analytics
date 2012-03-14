@@ -1,7 +1,3 @@
-/*
- *= require backbone
-*/
-
 (function(){
   window.Metric = Backbone.Model.extend({
 
