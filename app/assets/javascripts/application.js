@@ -14,8 +14,7 @@
 //= require jquery_ujs
 //= require twitter/bootstrap
 //= require common
-//= require jquery.ui.core
-//= require jquery.ui.dialog
 //= require jquery.chosen
-
+//= require jquery-ui-1.8.18.custom.min
+//= require jquery.ui.nestedSortable
 

@@ -2,10 +2,14 @@ Analytic::Application.routes.draw do
   
   root :to => "projects#index"
   resources :projects do
-    
-    resources :menus
     resources :reports
     resources :metrics
+  end
+  resources :menus do
+    collection do
+      get 'reorder'
+      post 'reorder'
+    end
   end
   
   match "/js_templates/:package.:extension",

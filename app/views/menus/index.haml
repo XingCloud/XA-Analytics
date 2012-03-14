@@ -1,37 +1,16 @@
-.span3
-  .well.sodebar-nav
-    %ul.nav.nav-list#sortable
-      - @menus.each do |menu|
-        - if menu.parent_id.blank?
-          %li.nav-header= menu.name
-          - @menus.each do |sub|
-            - if sub.parent_id == menu.id
-              %li
-                %a= sub.name
+%table.table
+  %tr
+    %th 菜单名称
+    %th 菜单描述
+    %th 创建时间
+    %th
+    %th
+  - @menus.each do |menu|
+    %tr
+      %td= menu.name
+      %td= menu.desc
+      %td= menu.created_at.strftime("%Y-%m-%d %H:%M:%S")
+      %td= link_to_edit edit_menu_path(menu)
+      %td= link_to_delete menu
 
-.span9
-
-:javascript
-
-  function sortable(){
-    $("#sortable").nestedSortable({
-      listType: 'ul',
-      items: 'li',
-      placeholder: "highlight",
-      forcePlaceholderSize: true,
-      handle: 'span',
-      helper: 'clone',
-      opacity: .6,
-      revert: 250,
-      tabSize: 25,
-      tolerance: 'pointer',
-      toleranceElement: '> span'
-    });
-  }
-
-  $(function(){
-    sortable();
-  });
-
-
-  
+= link_to '返回', project_path(@project)

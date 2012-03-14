@@ -1,12 +1,3 @@
-= form_for([:project,@menu]) do |f|
-  %label 菜单名称
-  = f.text_field(:name)
-  %label 指标值
-  = f.text_field(:point)
-  %span.help-inline Associated help text!
-  %label 应用
-  = select('menu','project_id', Project.all.collect {|p| [ p.name, p.id ] }, {:include_blank => 'All'})
-  %label 菜单
-  = select('menu','parent_id', Menu.all.collect {|p| [ p.name, p.id ] }, {:include_blank => '--'})
-  %label
-  = submit_tag('提交',:class=>'btn-primary')
+= render 'form'
+
+= link_to 'Back', project_path(@project)
