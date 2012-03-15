@@ -1,0 +1,3 @@
+class BarReport < Report
+  
+end

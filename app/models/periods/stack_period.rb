@@ -1,0 +1,3 @@
+class StackPeriod < Period
+  
+end

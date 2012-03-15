@@ -2,23 +2,22 @@
   window.Metric = Backbone.Model.extend({
 
     initialize: function(options) {
-      this.set_attributes(options)
-    },
-
-    generate_edit_url: function() {
-      return "/projects/" + this.project_id + "/metrics/" + this.id + "/edit";
-    },
-
-    generate_delete_url : function() {
-      return "/projects/" + this.project_id + "/metrics/" + this.id;
-    },
-
-    set_attributes: function(options) {
+      this.set(options)
       this.id = options["id"];
       this.name = options["name"];
       this.project_id = options["project_id"];
-      this.edit_url = this.generate_edit_url();
-      this.delete_url = this.generate_delete_url();
+    },
+    
+    edit_url: function() {
+      return "/projects/" + this.attributes.project_id + "/metrics/" + this.attributes.id + "/edit";
+    },
+    
+    delete_url: function() {
+      return "/projects/" + this.attributes.project_id + "/metrics/" + this.attributes.id;
+    },
+    
+    destroy: function() {
+      this.view.remove();
     }
 
   });
@@ -33,18 +32,80 @@
   }
   
   window.MetricList = Backbone.Collection.extend({
-    model: Metric
+    model: Metric,
+    
+    addItem: function( options) {
+      this.add(new Metric(options))
+    },
+    
+    updateItem: function( options ) {
+      this.find(function(metric) {
+        return metric.id == options.id
+      }).set(options);
+      
+    }
   })
   
-  window.metrics = new MetricList;
+  window.Metrics = new MetricList;
   
   window.MetricView = Backbone.View.extend({
-    el: $("#metric_list"),
     template: JST["metrics/_show"],
+    events: {
+      "click img.del"      : "delete",
+    },
+    
+    initialize: function() {
+      _.bindAll(this, 'render');
+      
+      this.model.bind("change", this.render())
+      this.model.view = this;
+      
+      console.log(this)
+    },
+    
+    render: function() {
+      $(this.el).html(this.template(this.model));
+      
+      return this;
+    },
+    
+    delete: function() {
+      Metrics.remove(this.model)
+      this.model.destroy();
+    },
+    
+    addOne: function(metric) {
+      console.log(metric)
+    }
     
     
   })
   
-  window.App = new MetricView;
+  window.AppView = Backbone.View.extend({
+    el: $("#metric_list"),
+    template: JST["metric/_list"],
+            
+    initialize: function() {
+      _.bindAll(this, "render", "addOne");
+      
+      Metrics.bind("add", this.addOne);
+    },
+    
+    
+    addOne: function(metric) {
+      var view = new MetricView({model: metric}).render().el;
+      
+      this.$el.append(view);
+    },
+    
+    render: function() {
+      
+    },
+    
+    
+    
+  })
+  
+  window.App = new AppView;
    
 }());

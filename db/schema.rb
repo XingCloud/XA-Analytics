@@ -82,6 +82,19 @@ ActiveRecord::Schema.define(:version => 20120315055308) do
 
   add_index "metrics", ["combine_id"], :name => "index_metrics_on_combine_id"
 
+  create_table "periods", :force => true do |t|
+    t.integer  "report_id"
+    t.string   "type"
+    t.string   "rule"
+    t.string   "rate"
+    t.string   "label_number"
+    t.integer  "compare_number", :default => 0, :null => false
+    t.datetime "created_at",                    :null => false
+    t.datetime "updated_at",                    :null => false
+  end
+
+  add_index "periods", ["report_id", "type"], :name => "index_periods_on_report_id_and_type"
+
   create_table "platforms", :force => true do |t|
     t.string   "name"
     t.string   "identifier"

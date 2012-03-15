@@ -42,12 +42,12 @@
   $(function() {
   
     for(var i = 0; i < metric_data.length; i++) {
-      metrics.add(new Metric(metric_data[i]));
+      Metrics.add(new Metric(metric_data[i]));
     }
     
     
     /*render_metrics();*/
-    
+    /*
     $("#metric_list .del").live("click", function() {
       metrics.find()
     })
@@ -58,4 +58,5 @@
     });
 
     $(".metric-btn.active").click();
+    */
   })
