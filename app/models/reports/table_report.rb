@@ -1,0 +1,3 @@
+class TableReport < Report
+  
+end

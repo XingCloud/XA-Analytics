@@ -3,11 +3,13 @@ zh-CN:
     models:
       report: 报告
       
-      reports/bar: "柱状图"
-      reports/table: "表格"
-      reports/line: "曲线图"
-        
+      bar_report: "柱状图"
+      table_report: "表格"
+      line_report: "曲线图"
+      stack_report: "堆栈图"
+      
     attributes:
+      
       
   edit: "编辑"
   destroy: "删除"

@@ -18,7 +18,6 @@ class Report < ActiveRecord::Base
   
 end
 
-
-require_dependency "reports/line"
-require_dependency "reports/bar"
-require_dependency "reports/table"
+Dir.glob(File.dirname(__FILE__) + "/reports/*.rb").each do |file|
+  require_dependency file
+end

@@ -1,0 +1,3 @@
+class LineReport < Report
+  
+end

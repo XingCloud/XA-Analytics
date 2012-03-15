@@ -36,11 +36,34 @@
     model: Metric
   })
   
-  window.metrics = new MetricList;
+  window.Metrics = new MetricList;
   
   window.MetricView = Backbone.View.extend({
+    
     el: $("#metric_list"),
     template: JST["metrics/_show"],
+    
+    initialize: function() {
+      _.bindAll(this, 'render', 'close');
+      this.input = this.$("#new-todo");
+      
+      Metrics.bind("add",     this.addOne);
+      Metrics.bind("refresh", this.addAll);
+      Metrics.bind('all',     this.render);
+    },
+    
+    render: function() {
+      console.log("in render")
+      
+      $(this.el).set("html", this.template({ 
+        
+      }))
+    },
+    
+    close: function() {
+      console.log("close")
+    }
+    
     
     
   })

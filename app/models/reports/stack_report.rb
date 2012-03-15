@@ -1,0 +1,3 @@
+class StackReport < Report
+  
+end
