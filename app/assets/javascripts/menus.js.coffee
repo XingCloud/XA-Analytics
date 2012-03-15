@@ -2,6 +2,7 @@ jQuery ->
     $('#sortable ul:first-child').nestedSortable({
             listType: 'ul',
             items: 'li',
+            maxLevels: 2,
             handle: 'div'
     })
 

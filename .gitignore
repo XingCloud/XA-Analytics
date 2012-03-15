@@ -5,4 +5,5 @@ tmp
 nbproject
 config/database.yml
 *.orig
+db/schema.rb
 

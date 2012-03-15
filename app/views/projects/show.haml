@@ -1,9 +1,15 @@
+- stylesheet "menus"
 .row
   .span3
     .well.sidebar-nav
-      %div
+      %div#sortable
         = nested_list @menus.roots do |menu|
-          %div= "#{menu.name}"
+          - if menu.child?
+            %div= link_to "#{menu.name}"
+          -else
+            %div= "#{menu.name}"
+
+
   .span12
     .hero-unit
       %h1 Chart

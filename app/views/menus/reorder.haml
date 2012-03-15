@@ -1,14 +1,17 @@
+- javascript "menus"
+
+- title "菜单管理"
+
+.page-header
+  %h3
+  可拖动菜单，目前只支持两级之间的拖拽。
 .row
   .span3
     .well.sidebar-nav
       #sortable
         = nested_list @menus.roots do |menu|
           %div= "#{menu.name}"
-        = form_tag reorder_menus_path(:project_id => @project.id) do
-          = submit_tag '保存'
-              
-
-
-%span= link_to "返回", project_path(@project)
-.span9
- 
+        .form-actions
+        = form_tag reorder_menus_path(:project_id => @project) do
+          = submit_tag '保存',:class => 'btn btn-primary'
+          = link_to "取消", menus_path(:project_id=>@project), :class => "btn"
