@@ -14,13 +14,14 @@ module ApplicationHelper
     }
   end
   
-  def include_tempalate_js(*args)
+  def include_js_template(*args)
     filenames = args.map do |arg|
-      "/js_templates/#{arg}.jst.html"
+      "/js_templates/#{arg}.jst.haml"
     end
     
-    content_for(:head) { 
+    #content_for(:head) { 
       javascript_include_tag(*filenames)
-    }
+    #}
   end
+  
 end
