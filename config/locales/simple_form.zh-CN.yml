@@ -24,6 +24,11 @@ zh-CN:
         description: "描述"
         type: "报告类型"
         metrics: "指标组"
+
+      menu:
+        name: "名称"
+        desc: "描述"
+        point: "报表"
         
       metric:
         <<: *metric

@@ -2,6 +2,8 @@ class Report < ActiveRecord::Base
   belongs_to :project
   has_many :metrics, :dependent => :destroy
   has_one :cycle, :dependent => :destroy
+  has_many :menu_reports
+  has_many :menus,:through => :menu_reports
   
   def do_public
     self.update_attributes(:public => true)
