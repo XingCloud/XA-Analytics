@@ -12,6 +12,6 @@
         = nested_list @menus.roots do |menu|
           %div= "#{menu.name}"
         .form-actions
-        = form_tag reorder_menus_path(:project_id => @project) do
+        = form_tag reorder_project_menus_path(@project) do
           = submit_tag '保存',:class => 'btn btn-primary'
-          = link_to "取消", menus_path(:project_id=>@project), :class => "btn"
+          = link_to "取消", project_menus_path(@project), :class => "btn"

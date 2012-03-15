@@ -38,7 +38,7 @@
           = tabs_tag :namespace => :sub, :builder => TabsOnRails::SubNav do |tab|
             = tab.project "首页", project_path(@project)
             = tab.report "自定义报告", project_reports_path(@project)
-            = tab.menu '菜单管理', menus_path(:project_id=>@project)
+            = tab.menu '菜单管理', project_menus_path(@project)
         = notice_message
         = yield
     

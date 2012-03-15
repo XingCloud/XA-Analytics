@@ -23,14 +23,14 @@ class MenusController < ApplicationController
   def create
     @menu = Menu.new(params[:menu])
     @menu.create_association(params[:report_id])
-    redirect_to menus_path(:project_id => @menu.project)
+    redirect_to project_menus_path(@menu.project)
   end
 
   #
   def update
     @menu = Menu.find(params[:id])
     @menu.update_association(params[:menu],params[:report_id])
-    redirect_to menus_path(:project_id => @menu.project)
+    redirect_to project_menus_path(@menu.project)
   end
 
 
@@ -40,7 +40,7 @@ class MenusController < ApplicationController
       @menus = @project.menus
     elsif request.post?
       Menu.reorder(params[:menu])
-      redirect_to menus_path(:project_id => params[:project_id])
+      redirect_to project_menus_path(Project.find params[:project_id])
     end
   end
 
@@ -48,7 +48,7 @@ class MenusController < ApplicationController
   def destroy
     @menu = Menu.find(params[:id])
     @menu.destroy
-    redirect_to menus_path(:project_id => @menu.project)
+    redirect_to project_menus_path(@menu.project)
   end
 
   private

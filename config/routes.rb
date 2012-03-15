@@ -4,11 +4,11 @@ Analytic::Application.routes.draw do
   resources :projects do
     resources :reports
     resources :metrics
-  end
-  resources :menus do
-    collection do
-      get 'reorder'
-      post 'reorder'
+    resources :menus do
+      collection do
+        get 'reorder'
+        post 'reorder'
+      end
     end
   end
   
