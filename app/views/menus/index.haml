@@ -1,3 +1,7 @@
+%p
+  = link_to "添加菜单", new_menu_path(:project_id => @project), :class => "btn"
+  = link_to '菜单排序', reorder_menus_path(:project_id=>@project.id), :class => "btn"
+  
 %table.table
   %tr
     %th 菜单名称
@@ -12,5 +16,3 @@
       %td= menu.created_at.strftime("%Y-%m-%d %H:%M:%S")
       %td= link_to_edit edit_menu_path(menu)
       %td= link_to_delete menu
-
-= link_to '返回', project_path(@project)
