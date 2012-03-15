@@ -1,14 +1,16 @@
-.span2
+.span3
   .well.sidebar-nav
     %div
       = nested_list @menus.roots do |menu|
         %div= "#{menu.name}"
-
-  %div= link_to '管理菜单', reorder_menus_path(:project_id=>@project.id)
-  %div= link_to '新增菜单', new_menu_path(:project_id => @project.id)
-  %div= link_to '列表菜单', menus_path(:project_id => @project.id)
-
-.span9
+    %ul.nav.nav-pills
+      %li.active
+        = link_to '菜单排序', reorder_menus_path(:project_id=>@project.id)
+      %li
+        = link_to '新增菜单', new_menu_path(:project_id => @project.id)
+      %li
+        = link_to '菜单列表', menus_path(:project_id => @project.id)
+.span8
   .hero-unit
     %h1 Chart
   .row-fluid

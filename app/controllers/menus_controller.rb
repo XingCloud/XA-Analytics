@@ -1,5 +1,5 @@
 class MenusController < ApplicationController
-  layout "menu"
+#  layout "menu"
   before_filter :find_project,:only=>[:index,:new]
   def index
     @menus = @project.menus
@@ -8,6 +8,7 @@ class MenusController < ApplicationController
   # 增加菜单
   def new
     @menu = Menu.new
+    @report = @project.reports
     @menu.project_id = params[:project_id]
   end
 
