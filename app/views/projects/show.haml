@@ -1,28 +1,30 @@
-.span3
-  .well.sidebar-nav
-    %div
-      = nested_list @menus.roots do |menu|
-        %div= "#{menu.name}"
-    %ul.nav.nav-pills
-      %li.active
-        = link_to '菜单排序', reorder_menus_path(:project_id=>@project.id)
-      %li
-        = link_to '新增菜单', new_menu_path(:project_id => @project.id)
-      %li
-        = link_to '菜单列表', menus_path(:project_id => @project.id)
-.span8
-  .hero-unit
-    %h1 Chart
-  .row-fluid
-    %table.table.table-bordered
-      %thead
-        %tr
-          %th date
-          %th column
-          %th column
-      %tbody
-        %tr
-          %td{:rowspan=>2}1
-          %td Mark
-          %td Otto
-          %td mdo
+.row
+  .span4
+    .well.sidebar-nav
+      %div
+        = nested_list @menus.roots do |menu|
+          %div= "#{menu.name}"
+      %ul.nav.nav-pills
+        %li.active
+          = link_to '菜单排序', reorder_menus_path(:project_id=>@project.id)
+        %li
+          = link_to '新增菜单', new_menu_path(:project_id => @project.id)
+        %li
+          = link_to '菜单列表', menus_path(:project_id => @project.id)
+  .span12
+    .hero-unit
+      %h1 Chart
+    .row-fluid
+      %table.table.table-bordered
+        %thead
+          %tr
+            %th date
+            %th column
+            %th column
+            %th column
+        %tbody
+          %tr
+            %td{:rowspan=>2} t
+            %td Mark
+            %td Otto
+            %td mdo
