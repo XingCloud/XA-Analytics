@@ -1,0 +1,19 @@
+- stylesheet "menus"
+.row-fluid
+  .span3
+    .well.sidebar-nav
+      %h3 菜单
+      #sortable
+        = nested_list @menus.roots do |menu|
+          - if menu.child?
+            %div= link_to "#{menu.name}",project_menu_path(@project,menu)
+          -else
+            %div= "#{menu.name}"
+
+
+  .span9
+    %p
+    - @menu.reports.each do |rp|
+      = link_to rp.title, "javascript:void(0)",:onclick=>"#", :class => "btn"
+    %p
+    Chart
