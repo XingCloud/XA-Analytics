@@ -81,7 +81,7 @@
   
   window.AppView = Backbone.View.extend({
     el: $("#metric_list"),
-            
+    className: "btn-group",
     initialize: function() {
       _.bindAll(this, "addOne");
       

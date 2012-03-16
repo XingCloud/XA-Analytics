@@ -17,7 +17,16 @@
           = f.input :description
           = f.input :purpose
           
-          = render :partial => "metrics", :locals => {:f => f}
+          = f.input :type do
+            #report_types.btn-group
+
+          = f.input :metrics do
+            .well.metrics{:style => "float:left"}
+              #metric_list
+              .action-add{:"data-popup" => "width:1200px;", :href => new_project_metric_path(@project, :report_type => "line")}
+                + 添加指标
+
+  
           
         .span7
           %h4
@@ -28,6 +37,21 @@
     = f.submit "提交", :class => "btn btn-primary"
     = link_to "取消", project_reports_path(@project), :class => "btn" 
 
-
 = include_js_template :metric_view
 = javascript_include_tag "models/metric.js", "models/report_type.js"
+:javascript
+
+  var metric_data = #{@report.metrics.map(&:short_attributes).to_json }
+  var report_types = #{Report.subclasses.map{|subclass| {:selected => @report.class == subclass,:name => subclass.name, :human_name => subclass.model_name.human, :type_name => subclass.type_name} }.to_json}
+
+  $(function() {
+
+    _.each(report_types, function(rt) {
+      ReportTypes.add(new ReportType(rt));
+    });
+
+    _.each(metric_data, function(m) {
+      Metrics.add(new Metric(m))
+    });
+    
+  })

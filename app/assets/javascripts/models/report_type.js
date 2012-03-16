@@ -19,10 +19,11 @@
     },
     
     select: function(report_type) {
-      this.each(function() {
-        this.set("selected", false);
+      //先把所有选中的取消
+      this.each(function(item) {
+        item.set("selected", false);
       });
-      
+      //在把当前的选中
       report_type.set("selected", true);
     },
     
@@ -42,24 +43,33 @@
   
   window.ReportTypeView = Backbone.View.extend({
     tagName: "a",
-    
-    template: JST["reports/_type"],
+    className: "btn metric-btn",
     events: {
-      "click .metric-btn" : "select"
+      "click" : "select"
     },
     
     initialize: function() {
-      _.bindAll(this, "render")
+      _.bindAll(this, "render");
+      this.$el.attr("href", "#type_" + this.model.get("type_name")).data("type", this.model.get("name"))
       
+      this.model.bind("change", this.render)
       this.model.view = this;
     },
     
     select: function() {
       ReportTypes.select(this.model);
+      
+      return false;
     },
     
     render: function() {
-      $(this.el).html(this.template(this.model));
+      if (this.model.get("selected")) {
+        $(this.el).addClass("active");
+      } else {
+        $(this.el).removeClass("active");
+      }
+      
+      $(this.el).html(this.model.get("human_name"));
       
       return this;
     }
@@ -71,6 +81,9 @@
     
     initialize: function() {
       _.bindAll(this, "addOne");
+      
+      
+      this.$el.append($("<input type='hidden' name='metric[type] '>"))
       
       ReportTypes.bind("add", this.addOne);
     },
