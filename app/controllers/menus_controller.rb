@@ -1,6 +1,6 @@
 class MenusController < ApplicationController
-  #  layout "menu"
-  before_filter :find_project,:only=>[:index,:new]
+  
+  before_filter :find_project,:only=>[:index,:new,:show]
   def index
     @menus = @project.menus
   end
@@ -10,6 +10,11 @@ class MenusController < ApplicationController
     @menu = Menu.new
     @report = @project.reports
     @menu.project_id = params[:project_id]
+  end
+
+  def show
+    @menu = Menu.find(params[:id])
+    @menus = @project.menus
   end
 
   #
@@ -38,6 +43,7 @@ class MenusController < ApplicationController
     if request.get?
       @project = Project.find(params[:project_id])
       @menus = @project.menus
+      @report = @project.reports
     elsif request.post?
       Menu.reorder(params[:menu])
       redirect_to project_menus_path(Project.find params[:project_id])
