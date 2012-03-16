@@ -1,16 +1,17 @@
 - stylesheet "menus"
-.row
+.row-fluid
   .span3
     .well.sidebar-nav
-      %div#sortable
+      %h3 菜单
+      #sortable
         = nested_list @menus.roots do |menu|
           - if menu.child?
-            %div= link_to "#{menu.name}"
+            %div= link_to "#{menu.name}",project_menu_path(@project,menu)
           -else
             %div= "#{menu.name}"
 
 
-  .span12
+  .span9
     .hero-unit
       %h1 Chart
     .row-fluid
