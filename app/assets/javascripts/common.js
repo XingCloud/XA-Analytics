@@ -213,7 +213,6 @@ function close_dialog(){
 		var dialog = parent.$.dialog.list[i];
 		
 		if (dialog) {
-			console.log(dialog);
 			dialog.dialog("close");
 		}
 	}

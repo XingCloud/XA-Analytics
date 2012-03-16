@@ -1,6 +1,7 @@
 
 = f.input :type do
   = f.hidden_field :type
+  #report_types
   .btn-group
     - Report.subclasses.each do |subclass|
       = link_to subclass.model_name.human, "#type_#{subclass.type_name}", :class => "btn metric-btn #{'active' if @report.class == subclass}", :"data-type" => subclass.name
@@ -11,52 +12,20 @@
     .action-add{:"data-popup" => "width:1200px;", :href => new_project_metric_path(@project, :report_type => "line")}
       + 添加指标
     
-
-%script#metric_template{:type => "text/x-jquery-tmpl"}
-  .metric_box
-    .metric_picker
-      .metric_display{"data-popup" => "width:1200px", :href => "${edit_url}"}
-        = "${name}"
-      .metric_container
-    = image_tag("cleardot.gif", :class => "ly del", "data-id" => "${id}")
-    
 :javascript
   
-  function select_report_type(link) {
-    $(".metric-btn").removeClass("active");
-    $(link).addClass("active");
-
-    $("#report_type").val($(link).data('type'));
-
-    $(".cur_metric").html("");
-    $("#metric_group " + $(link).attr("href")).clone().appendTo(".cur_metric");
-  }
-  
-  function render_metrics() {
-    $("#metric_list").html();
-    $("#metric_template").tmpl(metrics).appendTo("#metric_list")
-  }
-  
   var metric_data = #{@report.metrics.map(&:short_attributes).to_json }
+  var report_types = #{Report.subclasses.map{|subclass| {:name => subclass.name, :human_name => subclass.model_name.human} }.to_json}
   
   $(function() {
-  
+    
+    _.each(report_types, function(rt) {
+      ReportTypes.add(new ReportType(rt));
+    });
+    
+    
     for(var i = 0; i < metric_data.length; i++) {
       Metrics.add(new Metric(metric_data[i]));
     }
     
-    
-    /*render_metrics();*/
-    /*
-    $("#metric_list .del").live("click", function() {
-      metrics.find()
-    })
-    
-    $(".metric-btn").click(function() {
-      select_report_type($(this));
-      return false;
-    });
-
-    $(".metric-btn.active").click();
-    */
   })

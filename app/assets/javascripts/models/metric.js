@@ -1,11 +1,9 @@
 (function(){
+  
   window.Metric = Backbone.Model.extend({
 
     initialize: function(options) {
-      this.set(options)
-      this.id = options["id"];
-      this.name = options["name"];
-      this.project_id = options["project_id"];
+      this.set(options);
     },
     
     edit_url: function() {
@@ -17,9 +15,9 @@
     },
     
     destroy: function() {
+      Metrics.remove(this)
       this.view.remove();
     }
-
   });
 
 
@@ -42,7 +40,6 @@
       this.find(function(metric) {
         return metric.id == options.id
       }).set(options);
-      
     }
   })
   
@@ -57,10 +54,8 @@
     initialize: function() {
       _.bindAll(this, 'render');
       
-      this.model.bind("change", this.render())
+      this.model.bind("change", this.render)
       this.model.view = this;
-      
-      console.log(this)
     },
     
     render: function() {
@@ -70,8 +65,11 @@
     },
     
     delete: function() {
-      Metrics.remove(this.model)
-      this.model.destroy();
+      if (confirm("确定删除吗？")) {
+        this.model.destroy();
+      } else {
+        return false;
+      }
     },
     
     addOne: function(metric) {
@@ -83,10 +81,9 @@
   
   window.AppView = Backbone.View.extend({
     el: $("#metric_list"),
-    template: JST["metric/_list"],
             
     initialize: function() {
-      _.bindAll(this, "render", "addOne");
+      _.bindAll(this, "addOne");
       
       Metrics.bind("add", this.addOne);
     },
@@ -96,13 +93,7 @@
       var view = new MetricView({model: metric}).render().el;
       
       this.$el.append(view);
-    },
-    
-    render: function() {
-      
-    },
-    
-    
+    }
     
   })
   
