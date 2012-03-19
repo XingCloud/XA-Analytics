@@ -16,7 +16,9 @@ class ReportsController < ProjectBaseController
   
   def update
     report_type = params[:report].delete(:type)
-    @report.update_column("type", report_type)
+    if Report.subclasses.map(&:name).include?(report_type)
+      @report.update_column("type", report_type)
+    end
     
     if @report.update_attributes(params[:report])
       redirect_to project_reports_path(@project), :notice => t("report.update.success")

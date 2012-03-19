@@ -34,9 +34,15 @@ zh-CN:
         <<: *metric
         combine:
           <<: *metric
+      period:
+        rule: "范围"
+        rate: "频率"
+        compare_number: "时间对比个数"
     hints:
       metric:
         name: "简短的描述，例如：唯一身份浏览量"
+      period:
+        compare_number: ""
     # Labels and hints examples
     # labels:
     #   password: 'Password'

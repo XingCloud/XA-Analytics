@@ -65,6 +65,7 @@
     render: function() {
       if (this.model.get("selected")) {
         $(this.el).addClass("active");
+        $("#report_type").val(this.model.get("name"));
       } else {
         $(this.el).removeClass("active");
       }
@@ -82,8 +83,7 @@
     initialize: function() {
       _.bindAll(this, "addOne");
       
-      
-      this.$el.append($("<input type='hidden' name='metric[type] '>"))
+      this.$el.append($("<input type='hidden' id='report_type' name='report[type]' />"))
       
       ReportTypes.bind("add", this.addOne);
     },

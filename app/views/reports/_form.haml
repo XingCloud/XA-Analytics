@@ -1,0 +1,40 @@
+.page-header
+  %h3 
+    一般信息
+    %small 填写报告目的，和报告说明
+.form-stacked
+
+  %fieldset
+    .row
+      .span6
+        = f.input :title
+        = f.input :type do
+          #report_types.btn-group
+
+        = f.input :metrics do
+          .well.metrics{:style => "float:left"}
+            = hidden_field_tag "report[metric_ids][]", ""
+            #metric_list
+            .action-add{:"data-popup" => "width:1200px;", :href => new_project_metric_path(@project, :report_type => "line")}
+              + 添加指标
+        = f.input :description, :as => :text, :input_html => {:style => "width: 300px; height: 200px"}
+      .span7
+        %h4
+          标题 目的和描述
+        %p
+          目的和描述会显示在报告的右侧
+          
+.page-header
+  %h3
+    周期与频率
+    %small 填写报告 默认周期与频率
+.form-stacked
+  = f.fields_for :period do |period|
+    = period.input :rule, :collection => translate_collection(Period::RULES, :scope => "period")
+    = period.input :rate, :collection => translate_collection(Period::RATES, :scope => "period")
+    = period.input :compare_number
+  
+      
+.form-actions
+  = f.submit "提交", :class => "btn btn-primary"
+  = link_to "取消", project_reports_path(@project), :class => "btn"

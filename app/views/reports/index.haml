@@ -5,11 +5,13 @@
 %table.table
   %tr
     %th 报告名称
+    %th 报告类型
     %th 创建时间
     %th
   - @reports.each do |report|
     %tr
       %td= link_to report.title.presence || "(没有设置)", project_report_path(@project, report)
+      %td= report.class.model_name.human
       %td= report.created_at
       %td
         = link_to_edit edit_project_report_path(@project, report)

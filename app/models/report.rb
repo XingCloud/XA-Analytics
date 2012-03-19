@@ -1,14 +1,16 @@
 class Report < ActiveRecord::Base
   belongs_to :project
   has_many :metrics, :dependent => :destroy
-  has_one :cycle, :dependent => :destroy
+  has_one :period, :dependent => :destroy
   has_many :menu_reports
   has_many :menus,:through => :menu_reports
+  
+  accepts_nested_attributes_for :metrics, :allow_destroy => true
+  accepts_nested_attributes_for :period
   
   def do_public
     self.update_attributes(:public => true)
   end
-  
   
   def self.type_name
     self.name.demodulize.underscore

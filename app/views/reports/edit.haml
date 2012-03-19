@@ -1,41 +1,11 @@
 - javascript "backbone_bundle"
 - stylesheet "reports"
 
-- title "新建报告"
+- title "编辑报告"
 
 = simple_form_for @report, :as => :report, :url => project_report_path(@project, @report), :html => {:class => "form-horizontal"} do |f|
-  .page-header
-    %h3 
-      一般信息
-      %small 填写报告目的，和报告说明
-  .form-stacked
+  = render :partial => "form", :locals => {:f => f}
 
-    %fieldset
-      .row
-        .span6
-          = f.input :title
-          = f.input :description
-          = f.input :purpose
-          
-          = f.input :type do
-            #report_types.btn-group
-
-          = f.input :metrics do
-            .well.metrics{:style => "float:left"}
-              #metric_list
-              .action-add{:"data-popup" => "width:1200px;", :href => new_project_metric_path(@project, :report_type => "line")}
-                + 添加指标
-
-  
-          
-        .span7
-          %h4
-            标题 目的和描述
-          %p
-            目的和描述会显示在报告的右侧
-  .form-actions
-    = f.submit "提交", :class => "btn btn-primary"
-    = link_to "取消", project_reports_path(@project), :class => "btn" 
 
 = include_js_template :metric_view
 = javascript_include_tag "models/metric.js", "models/report_type.js"
@@ -53,5 +23,5 @@
     _.each(metric_data, function(m) {
       Metrics.add(new Metric(m))
     });
-    
+
   })

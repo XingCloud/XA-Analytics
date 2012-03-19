@@ -7,6 +7,7 @@ zh-CN:
       table_report: "表格"
       line_report: "曲线图"
       stack_report: "堆栈图"
+      period: "周期"
       
     attributes:
       
@@ -31,5 +32,13 @@ zh-CN:
       division: "除法(算百分比)"
       multiplication: "乘法"
       subduction: "减法"
+    period:
+      last_week: "最近一周"
+      last_month: "最近一月"
+      last_day: "最近一天"
+      
+      five_min: "5分钟"
+      one_hour: "1小时"
+      one_day: "1天"
       
       

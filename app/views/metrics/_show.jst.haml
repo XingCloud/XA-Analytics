@@ -3,4 +3,5 @@
     .metric_display(data-popup="width:1200px" href=edit_url())
       = attributes.name
     .metric_container
+      %input(type="hidden" name="report[metric_ids][]" value=attributes.id)
   %img.ly.del(data-id=attributes.id src="/assets/cleardot.gif")
