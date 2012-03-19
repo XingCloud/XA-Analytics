@@ -83,8 +83,6 @@
     initialize: function() {
       _.bindAll(this, "addOne");
       
-      this.$el.append($("<input type='hidden' id='report_type' name='report[type]' />"))
-      
       ReportTypes.bind("add", this.addOne);
     },
     

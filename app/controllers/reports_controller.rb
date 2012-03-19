@@ -1,6 +1,6 @@
 class ReportsController < ProjectBaseController
   set_tab :report, :sub
-  before_filter :find_report, :only => [:edit, :update, :destroy]
+  before_filter :find_report, :only => [:show, :edit, :update, :destroy]
   
   def index
     @reports = @project.reports.paginate(:page => params[:page])
@@ -8,10 +8,23 @@ class ReportsController < ProjectBaseController
   
   def new
     @report = @project.reports.build
+    @report.build_period
   end
   
-  def edit
+  def create
+    report_type = params[:report].delete(:type)
+    if Report.subclasses.map(&:name).include?(report_type)
+      @report = report_type.constantize.new(params[:report])
+      @report.project = @project
+    else
+      @report = @project.reports.build(params[:report])
+    end
     
+    if @report.save
+      redirect_to project_report_path(@project, @report), :notice => t("report.create.success")
+    else
+      render :new
+    end
   end
   
   def update
@@ -32,9 +45,14 @@ class ReportsController < ProjectBaseController
     redirect_to project_reports_path(@project), :notice => t("report.delete.success")
   end
   
+  def show
+    render :layout => "application"
+  end
+  
   private
   
   def find_report
     @report = @project.reports.find(params[:id])
   end
+  
 end

@@ -9,6 +9,7 @@
       .span6
         = f.input :title
         = f.input :type do
+          = f.hidden_field :type
           #report_types.btn-group
 
         = f.input :metrics do

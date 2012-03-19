@@ -1,12 +1,12 @@
 module LinkHelper
   
   def link_to_delete(url, options = {})
-    link_to t(:delete), url, options.merge({:confirm => "are you sure?", :method => :delete})
+    link_to t(:delete), url, options.merge({:confirm => t(:confirm_msg), :method => :delete})
   end
   
   def button_to_delete(url, options = {})
     options[:class] = options[:class].to_a + ["btn btn-small btn-danger"]
-    options[:confirm] ||= "are you sure?"
+    options[:confirm] ||= t(:confirm_msg)
     options[:method] = :delete
     
     link_to "<i class='icon-trash icon-white'></i> Delete".html_safe, url, options

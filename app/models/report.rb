@@ -8,6 +8,8 @@ class Report < ActiveRecord::Base
   accepts_nested_attributes_for :metrics, :allow_destroy => true
   accepts_nested_attributes_for :period
   
+  validates_presence_of :type, :metric_ids, :period
+  
   def do_public
     self.update_attributes(:public => true)
   end

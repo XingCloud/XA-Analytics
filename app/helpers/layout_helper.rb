@@ -47,7 +47,7 @@ module LayoutHelper
   end
   
   def tlist(collection, options = {}, &block)
-    blank_message = options[:blank_message] || "Records Not Found."
+    blank_message = options[:blank_message] || t(:records_not_found)
     options[:tr_html] ||= {}
     
     if collection.blank?

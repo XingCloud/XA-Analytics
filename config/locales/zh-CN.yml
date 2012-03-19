@@ -41,4 +41,6 @@ zh-CN:
       one_hour: "1小时"
       one_day: "1天"
       
-      
+  records_not_found: "抱歉，没有找到记录."
+  confirm_msg: "确定执行该操作吗？"
+  
