@@ -24,7 +24,7 @@ module Highchart
   
   module Period
     
-    def to_xaxis_option
+    def xaxis_option
       options = {
         :labels => {
           :align => "left",
@@ -34,7 +34,7 @@ module Highchart
         :gridLineWidth => 1,
         :tickWidth => 0
       }
-
+      
       if ["five_min", "one_hour"].include?(self.rate)
         options[:type] = "datetime"
       else

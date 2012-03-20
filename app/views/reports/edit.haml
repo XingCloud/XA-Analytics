@@ -1,28 +1,3 @@
-- javascript "backbone_bundle"
-- stylesheet "reports"
-
 - title "编辑报告"
 
-= simple_form_for @report, :as => :report, :url => project_report_path(@project, @report), :html => {:class => "form-horizontal"} do |f|
-  = render :partial => "form", :locals => {:f => f}
-
-
-
-= javascript_include_tag "models/report.js"
-
-:javascript
-
-  var metric_data = #{@report.metrics.map(&:short_attributes).to_json }
-  var report_types = #{Report.subclasses.map{|subclass| {:selected => @report.class == subclass,:name => subclass.name, :human_name => subclass.model_name.human, :type_name => subclass.type_name} }.to_json}
-
-  $(function() {
-
-    _.each(report_types, function(rt) {
-      ReportTypes.add(new ReportType(rt));
-    });
-
-    _.each(metric_data, function(m) {
-      Metrics.add(new Metric(m))
-    });
-
-  })
+= render "form"

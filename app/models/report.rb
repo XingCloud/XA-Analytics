@@ -12,6 +12,8 @@ class Report < ActiveRecord::Base
   
   validates_presence_of :type, :metric_ids, :period
   
+  delegate :interval, :start_time, :to => :period
+  
   def do_public
     self.update_attributes(:public => true)
   end

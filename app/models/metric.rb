@@ -5,13 +5,17 @@ class Metric < ActiveRecord::Base
   belongs_to :report
   belongs_to :combine, :class_name => :"Metric"
   
-  OPERATIONS = ["count", "sum_val", "count_user", "average_val"]
+  OPERATIONS = ["count", "val_sum", "user_count", "average_val_by_count", "average_val_by_user_count"]
   COMPARISION_OPERATORS = ["<", "<=", "=", ">", ">="]
   COMBINE_ACTIONS = ["addition", "division", "multiplication", "subduction"]
   
   accepts_nested_attributes_for :combine, :allow_destroy => true
   
   before_validation :correct_combine
+  validates_presence_of :comparison_operator, :if => proc{|m| m.comparison.present? }
+  validates_presence_of :comparison, :if => proc {|m| m.comparison_operator.present? }
+  validates_presence_of :condition
+  
   
   6.times do |i|
     define_method "event_key_#{i}" do
@@ -27,6 +31,22 @@ class Metric < ActiveRecord::Base
   
   def short_attributes
     {:id => self.id, :project_id => self.project_id, :name => self.name}
+  end
+  
+  def request_option
+    options = {
+      :event_key => self.event_key,
+      :count_method => self.condition
+    }
+    
+    options.merge!({
+      :filter => {
+        :comparison_operator => self.comparison_operator,
+        :comparison_value => self.comparison
+      }
+    }) if self.comparison_operator.present?
+    
+    options
   end
   
   protected

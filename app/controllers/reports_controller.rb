@@ -50,7 +50,11 @@ class ReportsController < ProjectBaseController
   end
   
   def request_data
-    render :json => {:result => true, :data => [["2011-02-03", 55], ["2011-02-04", 56], ["2011-02-05", 88]]}
+    random_data = (Date.parse("2011-02-01")..Date.parse("2011-03-1")).map {|day|
+      [day.to_s, rand(100)]
+    }
+    
+    render :json => {:result => true, :data => random_data}
   end
   
   private

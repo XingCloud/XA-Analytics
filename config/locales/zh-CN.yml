@@ -24,9 +24,11 @@ zh-CN:
       table: "表格"
     metric:
       count: "发生的次数"
-      count_user: "发生的用户人数"
-      sum_val: "值的总和"
-      average_val: "值的平均"
+      user_count: "发生的用户人数"
+      val_sum: "值的总和"
+      average_val_by_count: "值的平均(按发生次数)"
+      average_val_by_user_count: "值的平均(按用户人数)"
+      
       
       addition: "加法"
       division: "除法(算百分比)"
@@ -40,6 +42,7 @@ zh-CN:
       five_min: "5分钟"
       one_hour: "1小时"
       one_day: "1天"
+      one_week: "1周"
       
   records_not_found: "抱歉，没有找到记录."
   confirm_msg: "确定执行该操作吗？"
