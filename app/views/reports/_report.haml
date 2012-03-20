@@ -1,2 +1,103 @@
-.row
+- javascript "backbone_bundle", "highcharts", "custom_highchart", "backbone"
+
+#chart_container
+
+
+= include_js_template :metric_view
+= javascript_include_tag "models/metric.js", "models/report_type.js"
+
+:javascript
   
+  var chart;
+  $(document).ready(function() {
+
+  	// define the options
+  	var options = {
+  		chart: {
+  			renderTo: 'chart_container'
+  		},
+  		title: {
+  			text: '#{@report.title}'
+  		},
+      subtitle: {
+        text: "XingCloud"
+      },
+  		xAxis: #{@report.period.to_xaxis_option.to_json},
+      
+  		yAxis: [{
+  			title: {
+  				text: null
+  			},
+  			labels: {
+  				align: 'left',
+  				x: 3,
+  				y: 16,
+  				formatter: function() {
+  					return Highcharts.numberFormat(this.value, 0);
+  				}
+  			},
+  			showFirstLabel: false
+  		}, { // right y axis
+  			linkedTo: 0,
+  			gridLineWidth: 0,
+  			opposite: true,
+  			title: {
+  				text: null
+  			},
+  			labels: {
+  				align: 'right',
+  				x: -3,
+  				y: 16,
+  				formatter: function() {
+  					return Highcharts.numberFormat(this.value, 0);
+  				}
+  			},
+  			showFirstLabel: false
+  		}],
+
+  		legend: {
+  			align: 'left',
+  			verticalAlign: 'top',
+  			y: 20,
+  			floating: true,
+  			borderWidth: 0
+  		},
+
+  		tooltip: {
+  			shared: true,
+  			crosshairs: true
+  		},
+
+  		plotOptions: {
+  			series: {
+  				cursor: 'pointer',
+  				point: {
+  					events: {
+  						click: function() {
+  							hs.htmlExpand(null, {
+  								pageOrigin: {
+  									x: this.pageX,
+  									y: this.pageY
+  								},
+  								headingText: this.series.name,
+  								maincontentText: Highcharts.dateFormat('%A, %b %e, %Y', this.x) +':<br/> '+
+  									this.y +' visits',
+  								width: 200
+  							});
+  						}
+  					}
+  				},
+  				marker: {
+  					lineWidth: 1
+  				}
+  			}
+  		},
+
+  		series: []
+  	};
+    
+    //options.series[0].data = [[Date.parse("2011-02-03"),11],[Date.parse("2011-02-04"),12],[Date.parse("2011-02-05"),13]]
+    chart = new Highcharts.Chart(options);
+    
+    #{ajax_load_report_data(@report)}
+  });

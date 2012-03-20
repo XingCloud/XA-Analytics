@@ -1,4 +1,6 @@
 class Metric < ActiveRecord::Base
+  include Highchart::Metric
+  
   belongs_to :project
   belongs_to :report
   belongs_to :combine, :class_name => :"Metric"

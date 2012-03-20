@@ -7,8 +7,9 @@
   = render :partial => "form", :locals => {:f => f}
 
 
-= include_js_template :metric_view
-= javascript_include_tag "models/metric.js", "models/report_type.js"
+
+= javascript_include_tag "models/report.js"
+
 :javascript
 
   var metric_data = #{@report.metrics.map(&:short_attributes).to_json }
