@@ -11,6 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
+
 ActiveRecord::Schema.define(:version => 20120320025027) do
 
   create_table "agents", :force => true do |t|
@@ -129,6 +130,7 @@ ActiveRecord::Schema.define(:version => 20120320025027) do
 
   add_index "reports", ["project_id"], :name => "index_reports_on_project_id"
   add_index "reports", ["public"], :name => "index_reports_on_public"
+
 
   create_table "roles", :force => true do |t|
     t.string   "name"

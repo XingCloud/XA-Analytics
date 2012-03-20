@@ -10,6 +10,7 @@ javascripts:
 templates:
   metric_view:
     - app/views/metrics/*.jst.haml
-    
+
+#use this
 metric_view:
   - app/views/**/*.jst.haml

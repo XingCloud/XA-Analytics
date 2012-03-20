@@ -2,7 +2,12 @@ Analytic::Application.routes.draw do
 
   root :to => "projects#index"
   resources :projects do
-    resources :reports
+    resources :reports do
+      member do
+        get :request_data
+      end
+    end
+    
     resources :metrics
     resources :menus do
       collection do

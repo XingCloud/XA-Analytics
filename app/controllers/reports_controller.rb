@@ -49,6 +49,10 @@ class ReportsController < ProjectBaseController
     render :layout => "application"
   end
   
+  def request_data
+    render :json => {:result => true, :data => [["2011-02-03", 55], ["2011-02-04", 56], ["2011-02-05", 88]]}
+  end
+  
   private
   
   def find_report

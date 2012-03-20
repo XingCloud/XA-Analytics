@@ -1,4 +1,6 @@
 class Report < ActiveRecord::Base
+  include Highchart::Report
+  
   belongs_to :project
   has_many :metrics, :dependent => :destroy
   has_one :period, :dependent => :destroy
