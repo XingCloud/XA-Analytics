@@ -1,5 +1,7 @@
 Analytic::Application.routes.draw do
   
+  resources :roles
+
   root :to => "projects#index"
   resources :projects do
     resources :reports do

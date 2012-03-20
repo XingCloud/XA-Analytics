@@ -6,9 +6,9 @@
       #sortable
         = nested_list @menus.roots do |menu|
           - if menu.child?
-            %div= link_to "#{menu.name}",project_menu_path(@project,menu)
+            = link_to "#{menu.name}",project_menu_path(@project,menu)
           -else
-            %div= "#{menu.name}"
+            = "#{menu.name}"
 
 
   .span9

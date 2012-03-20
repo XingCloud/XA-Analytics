@@ -25,6 +25,7 @@ gem 'cells', "~> 3.8.3"
 gem 'will_paginate', "~> 3.0.3"
 gem 'tabs_on_rails', "~> 2.1.1"
 gem "dalli"
+gem "cancan"
 #gem "jammit", :git => "git://github.com/yakjuly/jammit.git"
 
 group :development, :test do
