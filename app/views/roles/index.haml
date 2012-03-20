@@ -1,0 +1,15 @@
+%p
+  = link_to "添加角色", new_role_path, :class => "btn"
+
+%table.table
+  %tr
+    %th 角色名称
+    %th 创建时间
+    %th
+    %th
+  - @roles.each do |role|
+    %tr
+      %td= role.name
+      %td= role.created_at.strftime("%Y-%m-%d %H:%M:%S")
+      %td= link_to_edit edit_role_path(role)
+      %td= link_to_delete role

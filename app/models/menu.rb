@@ -4,6 +4,8 @@ class Menu < ActiveRecord::Base
   include MenuSortable
   has_many :menu_reports
   has_many :reports,:through => :menu_reports
+  has_many :permissions
+  has_many :roles, :through => :permissions
 
   validate :name, :presence => true
   attr_accessor :report_id

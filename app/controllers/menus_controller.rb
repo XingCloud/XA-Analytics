@@ -1,5 +1,5 @@
 class MenusController < ApplicationController
-  
+  load_and_authorize_resource
   before_filter :find_project,:only=>[:index,:new,:show]
   def index
     @menus = @project.menus
