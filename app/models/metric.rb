@@ -5,8 +5,8 @@ class Metric < ActiveRecord::Base
   belongs_to :report
   belongs_to :combine, :class_name => :"Metric"
   
-  OPERATIONS = ["count", "val_sum", "user_count", "average_val_by_count", "average_val_by_user_count"]
-  COMPARISION_OPERATORS = ["<", "<=", "=", ">", ">="]
+  OPERATIONS = ["count", "sum", "user_num"]
+  COMPARISION_OPERATORS = ["gt", "lt", "ge", "le", "eq", "ne", "between"]
   COMBINE_ACTIONS = ["addition", "division", "multiplication", "subduction"]
   
   accepts_nested_attributes_for :combine, :allow_destroy => true

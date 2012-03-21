@@ -1,31 +1,13 @@
 (function() {
-  window.render_metric = function(url, idx) {
-    
-    jQuery.get(url, null, function(resp, state, xhr) {
-      data = format_data(resp.data);
-            // 
-            // console.log(data)
-            // 
-            // _.each(data, function(item) {
-            //   chart.series[idx].data[Date.parse(item[0])] = item[1];
-            // })
-            // 
-            // chart.series[idx].redraw();
-            // 
-      chart.addSeries({
-        data: data
-      });
-      
-      // chart.redraw();
-  	});
-  }
-  
-  window.format_data = function(data) {
-    return _.map(data, function(item) {
-      item[0] = Date.parse(item[0])
-      return item;
-    })
-  }
+  Highcharts.setOptions({
+    lang: {
+    		months: ['一月','二月','三月','四月','五月','六月', '七月','八月','九月','十月','十一月','十二月'],
+    		weekdays: ['星期一', '星期二', '星期三', '星期四', '星期五', '星期六', '星期日'],
+    		shortMonths: ['1月','2月','3月','4月','5月','6月', '7月','8月','9月','10月','11月','12月'],
+    		printButtonTitle: "打印",
+    		loading: "加载中。。。"
+    	}
+  })
   
 })();
 

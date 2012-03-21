@@ -10,8 +10,7 @@ class ProjectsController < ApplicationController
   def show
     @menus = @project.menus
   end
-
-
+  
   private
   
   def find_project

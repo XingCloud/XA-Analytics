@@ -1,0 +1,274 @@
+/*
+ * jQuery UI Datepicker 1.8.18
+ *
+ * Copyright 2011, AUTHORS.txt (http://jqueryui.com/about)
+ * Dual licensed under the MIT or GPL Version 2 licenses.
+ * http://jquery.org/license
+ *
+ * http://docs.jquery.com/UI/Datepicker#theming
+ */
+.ui-datepicker { width: 17em; padding: .2em .2em 0; display: none; }
+.ui-datepicker .ui-datepicker-header { position:relative; padding:.2em 0; }
+.ui-datepicker .ui-datepicker-prev, .ui-datepicker .ui-datepicker-next { position:absolute; top: 2px; width: 1.8em; height: 1.8em; }
+.ui-datepicker .ui-datepicker-prev-hover, .ui-datepicker .ui-datepicker-next-hover { top: 1px; }
+.ui-datepicker .ui-datepicker-prev { left:2px; }
+.ui-datepicker .ui-datepicker-next { right:2px; }
+.ui-datepicker .ui-datepicker-prev-hover { left:1px; }
+.ui-datepicker .ui-datepicker-next-hover { right:1px; }
+.ui-datepicker .ui-datepicker-prev span, .ui-datepicker .ui-datepicker-next span { display: block; position: absolute; left: 50%; margin-left: -8px; top: 50%; margin-top: -8px;  }
+.ui-datepicker .ui-datepicker-title { margin: 0 2.3em; line-height: 1.8em; text-align: center; }
+.ui-datepicker .ui-datepicker-title select { font-size:1em; margin:1px 0; }
+.ui-datepicker select.ui-datepicker-month-year {width: 100%;}
+.ui-datepicker select.ui-datepicker-month, 
+.ui-datepicker select.ui-datepicker-year { width: 49%;}
+.ui-datepicker table {width: 100%; font-size: .9em; border-collapse: collapse; margin:0 0 .4em; }
+.ui-datepicker th { padding: .7em .3em; text-align: center; font-weight: bold; border: 0;  }
+.ui-datepicker td { border: 0; padding: 1px; }
+.ui-datepicker td span, .ui-datepicker td a { display: block; padding: .2em; text-align: right; text-decoration: none; }
+.ui-datepicker .ui-datepicker-buttonpane { background-image: none; margin: .7em 0 0 0; padding:0 .2em; border-left: 0; border-right: 0; border-bottom: 0; }
+.ui-datepicker .ui-datepicker-buttonpane button { float: right; margin: .5em .2em .4em; cursor: pointer; padding: .2em .6em .3em .6em; width:auto; overflow:visible; }
+.ui-datepicker .ui-datepicker-buttonpane button.ui-datepicker-current { float:left; }
+
+/* with multiple calendars */
+.ui-datepicker.ui-datepicker-multi { width:auto; }
+.ui-datepicker-multi .ui-datepicker-group { float:left; }
+.ui-datepicker-multi .ui-datepicker-group table { width:95%; margin:0 auto .4em; }
+.ui-datepicker-multi-2 .ui-datepicker-group { width:50%; }
+.ui-datepicker-multi-3 .ui-datepicker-group { width:33.3%; }
+.ui-datepicker-multi-4 .ui-datepicker-group { width:25%; }
+.ui-datepicker-multi .ui-datepicker-group-last .ui-datepicker-header { border-left-width:0; }
+.ui-datepicker-multi .ui-datepicker-group-middle .ui-datepicker-header { border-left-width:0; }
+.ui-datepicker-multi .ui-datepicker-buttonpane { clear:left; }
+.ui-datepicker-row-break { clear:both; width:100%; font-size:0em; }
+
+/* RTL support */
+.ui-datepicker-rtl { direction: rtl; }
+.ui-datepicker-rtl .ui-datepicker-prev { right: 2px; left: auto; }
+.ui-datepicker-rtl .ui-datepicker-next { left: 2px; right: auto; }
+.ui-datepicker-rtl .ui-datepicker-prev:hover { right: 1px; left: auto; }
+.ui-datepicker-rtl .ui-datepicker-next:hover { left: 1px; right: auto; }
+.ui-datepicker-rtl .ui-datepicker-buttonpane { clear:right; }
+.ui-datepicker-rtl .ui-datepicker-buttonpane button { float: left; }
+.ui-datepicker-rtl .ui-datepicker-buttonpane button.ui-datepicker-current { float:right; }
+.ui-datepicker-rtl .ui-datepicker-group { float:right; }
+.ui-datepicker-rtl .ui-datepicker-group-last .ui-datepicker-header { border-right-width:0; border-left-width:1px; }
+.ui-datepicker-rtl .ui-datepicker-group-middle .ui-datepicker-header { border-right-width:0; border-left-width:1px; }
+
+/* IE6 IFRAME FIX (taken from datepicker 1.5.3 */
+.ui-datepicker-cover {
+    display: none; /*sorry for IE5*/
+    display/**/: block; /*sorry for IE5*/
+    position: absolute; /*must have*/
+    z-index: -1; /*must have*/
+    filter: mask(); /*must have*/
+    top: -4px; /*must have*/
+    left: -4px; /*must have*/
+    width: 200px; /*must have*/
+    height: 200px; /*must have*/
+}
+//
+//
+///*
+// * jQuery UI Datepicker 1.8.7
+// *
+// * Copyright 2010, AUTHORS.txt (http://jqueryui.com/about)
+// * Dual licensed under the MIT or GPL Version 2 licenses.
+// * http://jquery.org/license
+// *
+// * http://docs.jquery.com/UI/Datepicker#theming
+// */
+//.ui-datepicker { width: 17em; padding: 0; display: none; border-color: #DDDDDD; }
+//.ui-datepicker {
+//  -moz-box-shadow: 0 4px 8px rgba(0,0,0,0.5);
+//  -webkit-box-shadow: 0 4px 8px rgba(0,0,0,0.5);
+//  box-shadow: 0 4px 8px rgba(0,0,0,0.5);
+//}
+//.ui-datepicker .ui-datepicker-header { position:relative; padding:.35em 0; border: none; border-bottom: 1px solid #B6B6B6; -moz-border-radius: 0; -webkit-border-radius: 0; border-radius: 0; }
+//.ui-datepicker .ui-datepicker-prev, .ui-datepicker .ui-datepicker-next { position:absolute; top: 6px; width: 1.8em; height: 1.8em; }
+//.ui-datepicker .ui-datepicker-prev-hover, .ui-datepicker .ui-datepicker-next-hover { border: 1px none; }
+//.ui-datepicker .ui-datepicker-prev { left:2px; }
+//.ui-datepicker .ui-datepicker-next { right:2px; }
+//.ui-datepicker .ui-datepicker-prev span { background-position: 0px -32px !important; }
+//.ui-datepicker .ui-datepicker-next span { background-position: -16px -32px !important; }
+//.ui-datepicker .ui-datepicker-prev-hover span { background-position: 0px -48px !important; }
+//.ui-datepicker .ui-datepicker-next-hover span { background-position: -16px -48px !important; }
+//.ui-datepicker .ui-datepicker-prev span, .ui-datepicker .ui-datepicker-next span { display: block; position: absolute; left: 50%; margin-left: -8px; top: 50%; margin-top: -8px; background: image-url('rails_admin/aristo/images/icon_sprite.png') no-repeat; }
+//.ui-datepicker .ui-datepicker-title { margin: 0 2.3em; line-height: 1.8em; text-align: center; font-size: 12px; text-shadow: 0 1px 0 rgba(255,255,255,0.6); }
+//.ui-datepicker .ui-datepicker-title select { font-size:1em; margin:1px 0; }
+//.ui-datepicker select.ui-datepicker-month-year {width: 100%;}
+//.ui-datepicker select.ui-datepicker-month, 
+//.ui-datepicker select.ui-datepicker-year { width: 49%;}
+//.ui-datepicker table {width: 100%; font-size: .9em; border-collapse: collapse; margin:0 0 .4em; }
+//.ui-datepicker th { padding: .7em .3em; text-align: center; font-weight: bold; border: 0;  }
+//.ui-datepicker td { border: 0; padding: 1px; }
+//.ui-datepicker td span, .ui-datepicker td a { display: block; padding: .2em; text-align: right; text-decoration: none; }
+//.ui-datepicker .ui-datepicker-buttonpane { background-image: none; margin: .7em 0 0 0; padding:0 .2em; border-left: 0; border-right: 0; border-bottom: 0; }
+//.ui-datepicker .ui-datepicker-buttonpane button { float: right; margin: .5em .2em .4em; cursor: pointer; padding: .2em .6em .3em .6em; width:auto; overflow:visible; }
+//.ui-datepicker .ui-datepicker-buttonpane button.ui-datepicker-current { float:left; }
+//.ui-datepicker-calendar .ui-state-default { background: transparent; border-color: #FFF; }
+//.ui-datepicker-calendar .ui-state-active { background: #5F83B9; border-color: #5F83B9; color: #FFF; font-weight: bold; text-shadow: 0 1px 1px #234386; }
+//
+///* with multiple calendars */
+//.ui-datepicker.ui-datepicker-multi { width:auto; }
+//.ui-datepicker-multi .ui-datepicker-group { float:left; }
+//.ui-datepicker-multi .ui-datepicker-group table { width:95%; margin:0 auto .4em; }
+//.ui-datepicker-multi-2 .ui-datepicker-group { width:50%; }
+//.ui-datepicker-multi-3 .ui-datepicker-group { width:33.3%; }
+//.ui-datepicker-multi-4 .ui-datepicker-group { width:25%; }
+//.ui-datepicker-multi .ui-datepicker-group-last .ui-datepicker-header { border-left-width:0; }
+//.ui-datepicker-multi .ui-datepicker-group-middle .ui-datepicker-header { border-left-width:0; }
+//.ui-datepicker-multi .ui-datepicker-buttonpane { clear:left; }
+//.ui-datepicker-row-break { clear:both; width:100%; }
+//
+///* RTL support */
+//.ui-datepicker-rtl { direction: rtl; }
+//.ui-datepicker-rtl .ui-datepicker-prev { right: 2px; left: auto; }
+//.ui-datepicker-rtl .ui-datepicker-next { left: 2px; right: auto; }
+//.ui-datepicker-rtl .ui-datepicker-prev:hover { right: 1px; left: auto; }
+//.ui-datepicker-rtl .ui-datepicker-next:hover { left: 1px; right: auto; }
+//.ui-datepicker-rtl .ui-datepicker-buttonpane { clear:right; }
+//.ui-datepicker-rtl .ui-datepicker-buttonpane button { float: left; }
+//.ui-datepicker-rtl .ui-datepicker-buttonpane button.ui-datepicker-current { float:right; }
+//.ui-datepicker-rtl .ui-datepicker-group { float:right; }
+//.ui-datepicker-rtl .ui-datepicker-group-last .ui-datepicker-header { border-right-width:0; border-left-width:1px; }
+//.ui-datepicker-rtl .ui-datepicker-group-middle .ui-datepicker-header { border-right-width:0; border-left-width:1px; }
+//
+///* IE6 IFRAME FIX (taken from datepicker 1.5.3 */
+//.ui-datepicker-cover {
+//    display: none; /*sorry for IE5*/
+//    display/**/: block; /*sorry for IE5*/
+//    position: absolute; /*must have*/
+//    z-index: -1; /*must have*/
+//    filter: mask(); /*must have*/
+//    top: -4px; /*must have*/
+//    left: -4px; /*must have*/
+//    width: 200px; /*must have*/
+//    height: 200px; /*must have*/
+//}
+//
+//
+//.ui-timepicker-table table th.periods {
+//  padding:0;
+//}
+//
+//.ui-datepicker {
+//  /* fix glitches */
+//  border-width:0px;
+//  table{
+//    margin:0px;
+//  }
+//  /* make present day stand out */
+//  td.ui-datepicker-today {
+//    background:#ccc;
+//    -webkit-box-shadow:inset 0 1px 1px #333;
+//    -moz-box-shadow:inset 0 1px 1px #333;
+//    box-shadow:0 1px 1px #333 inset;
+//    .ui-state-highlight{
+//      background:transparent;
+//      border:none;
+//      -webkit-box-shadow:none;
+//      -moz-box-shadow:none;
+//      box-shadow:none;
+//    }
+//  }
+//}
+
+
+
+/*
+ * Timepicker stylesheet
+ * Highly inspired from datepicker
+ * FG - Nov 2010 - Web3R
+ *
+ * version 0.0.3 : Fixed some settings, more dynamic
+ * version 0.0.4 : Removed width:100% on tables
+ * version 0.1.1 : set width 0 on tables to fix an ie6 bug
+ */
+/* line 12, ../../app/assets/stylesheets/jquery.ui.timepicker.css.scss */
+.ui-timepicker-inline {
+  display: inline;
+}
+
+/* line 14, ../../app/assets/stylesheets/jquery.ui.timepicker.css.scss */
+#ui-timepicker-div {
+  padding: 0.2em;
+}
+
+/* line 15, ../../app/assets/stylesheets/jquery.ui.timepicker.css.scss */
+.ui-timepicker-table {
+  display: inline-table;
+  width: 0;
+}
+
+/* line 16, ../../app/assets/stylesheets/jquery.ui.timepicker.css.scss */
+.ui-timepicker-table table {
+  margin: 0.15em 0 0 0;
+  border-collapse: collapse;
+}
+
+/* line 18, ../../app/assets/stylesheets/jquery.ui.timepicker.css.scss */
+.ui-timepicker-hours, .ui-timepicker-minutes {
+  padding: 0.2em;
+}
+
+/* line 20, ../../app/assets/stylesheets/jquery.ui.timepicker.css.scss */
+.ui-timepicker-table .ui-timepicker-title {
+  line-height: 1.8em;
+  text-align: center;
+}
+
+/* line 21, ../../app/assets/stylesheets/jquery.ui.timepicker.css.scss */
+.ui-timepicker-table td {
+  padding: 0.1em;
+  width: 2.2em;
+}
+
+/* line 22, ../../app/assets/stylesheets/jquery.ui.timepicker.css.scss */
+.ui-timepicker-table th.periods {
+  padding: 0.1em;
+  width: 2.2em;
+}
+
+/* span for disabled cells */
+/* line 25, ../../app/assets/stylesheets/jquery.ui.timepicker.css.scss */
+.ui-timepicker-table td span {
+  display: block;
+  padding: 0.2em 0.3em 0.2em 0.5em;
+  width: 1.2em;
+  text-align: right;
+  text-decoration: none;
+}
+
+/* anchors for clickable cells */
+/* line 34, ../../app/assets/stylesheets/jquery.ui.timepicker.css.scss */
+.ui-timepicker-table td a {
+  display: block;
+  padding: 0.2em 0.3em 0.2em 0.5em;
+  width: 1.2em;
+  cursor: pointer;
+  text-align: right;
+  text-decoration: none;
+}
+
+/* IE6 IFRAME FIX (taken from datepicker 1.5.3 */
+/* line 44, ../../app/assets/stylesheets/jquery.ui.timepicker.css.scss */
+.ui-timepicker-cover {
+  display: none;
+  /*sorry for IE5*/
+  display/**/: block;
+  /*sorry for IE5*/
+  position: absolute;
+  /*must have*/
+  z-index: -1;
+  /*must have*/
+  filter: mask();
+  /*must have*/
+  top: -4px;
+  /*must have*/
+  left: -4px;
+  /*must have*/
+  width: 200px;
+  /*must have*/
+  height: 200px;
+  /*must have*/
+}

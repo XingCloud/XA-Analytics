@@ -57,22 +57,10 @@ function check_keys(scope) {
 function toggle_combine_fieldset() {
   if ($("#metric_combine_action").val()) {
     $("#combine_fields").show();
+    $("#metric_combine_attributes__destroy").val("1");
   } else {
     $("#combine_fields").hide();
+    $("#metric_combine_attributes__destroy").val("0");
   }
 }
 
-$(function() {
-  $("#base .chzn-select").chosen().change(function() {
-    check_keys("#base");
-  })
-  
-  $("#combine .chzn-select}").chosen().change(function() {
-    check_keys("#combine")
-  })
-  
-  $("#metric_combine_action").change(function() {
-    toggle_combine_fieldset()
-  })
-  toggle_combine_fieldset()
-})

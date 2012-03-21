@@ -17,4 +17,5 @@
 //= require jquery.chosen
 //= require jquery-ui-1.8.18.custom.min
 //= require jquery.ui.nestedSortable
-
+//= require calendar
+//= require moment
