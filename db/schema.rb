@@ -11,7 +11,8 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120319120026) do
+
+ActiveRecord::Schema.define(:version => 20120320025027) do
 
   create_table "agents", :force => true do |t|
     t.integer  "project_id"
@@ -39,11 +40,6 @@ ActiveRecord::Schema.define(:version => 20120319120026) do
   create_table "events", :force => true do |t|
     t.integer  "project_id"
     t.string   "name"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
-  end
-
-  create_table "game_users", :force => true do |t|
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end
@@ -100,6 +96,13 @@ ActiveRecord::Schema.define(:version => 20120319120026) do
 
   add_index "periods", ["report_id", "type"], :name => "index_periods_on_report_id_and_type"
 
+  create_table "permissions", :id => false, :force => true do |t|
+    t.integer  "role_id"
+    t.integer  "menu_id"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
   create_table "platforms", :force => true do |t|
     t.string   "name"
     t.string   "identifier"
@@ -128,12 +131,6 @@ ActiveRecord::Schema.define(:version => 20120319120026) do
   add_index "reports", ["project_id"], :name => "index_reports_on_project_id"
   add_index "reports", ["public"], :name => "index_reports_on_public"
 
-  create_table "role_users", :id => false, :force => true do |t|
-    t.integer  "role_id"
-    t.integer  "user_id"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
-  end
 
   create_table "roles", :force => true do |t|
     t.string   "name"
@@ -147,6 +144,22 @@ ActiveRecord::Schema.define(:version => 20120319120026) do
     t.string   "type"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
+  end
+
+  create_table "user_roles", :id => false, :force => true do |t|
+    t.integer  "role_id"
+    t.integer  "user_id"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  create_table "users", :force => true do |t|
+    t.string   "login"
+    t.boolean  "admin"
+    t.string   "mail"
+    t.integer  "redmine_uid"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
   end
 
 end

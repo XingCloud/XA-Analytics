@@ -6,8 +6,15 @@ class Ability
        user ||= User.new # guest user (not logged in)
        if user.admin?
          can :manage, :all
+       elsif user.role? :analytics_admin
+         can :update, Menu
+         can :create, Menu
+         can :destroy,Menu
        else
-         can :read, :all
+         user.roles.each do |role|
+           can :read,Menu,:id => role.menus.map(&:id)
+         end
+
        end
 
     # The first argument to `can` is the action you are giving the user permission to do.

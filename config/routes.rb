@@ -1,6 +1,4 @@
 Analytic::Application.routes.draw do
-  
-  resources :roles
 
   root :to => "projects#index"
   resources :projects do
@@ -24,7 +22,9 @@ Analytic::Application.routes.draw do
       # A hack to allow extension to include "."
       :extension => /.+/
   }
-    
+
+  resources :roles
+
   # The priority is based upon order of creation:
   # first created -> highest priority.
 

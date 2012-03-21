@@ -1,6 +1,7 @@
 class RolesController < ApplicationController
   # GET /roles
   # GET /roles.json
+  layout 'menu'
   def index
     @roles = Role.all
 
@@ -25,6 +26,7 @@ class RolesController < ApplicationController
   # GET /roles/new.json
   def new
     @role = Role.new
+    @menus = Menu.all
 
     respond_to do |format|
       format.html # new.html.erb
@@ -35,6 +37,7 @@ class RolesController < ApplicationController
   # GET /roles/1/edit
   def edit
     @role = Role.find(params[:id])
+    @menus = Menu.all
   end
 
   # POST /roles
@@ -43,7 +46,7 @@ class RolesController < ApplicationController
     @role = Role.new(params[:role])
 
     respond_to do |format|
-      if @role.save
+      if @role.create_role_permissions(params[:menus])
         format.html { redirect_to @role, notice: 'Role was successfully created.' }
         format.json { render json: @role, status: :created, location: @role }
       else
@@ -59,7 +62,7 @@ class RolesController < ApplicationController
     @role = Role.find(params[:id])
 
     respond_to do |format|
-      if @role.update_attributes(params[:role])
+      if @role.update_role_permissions(params[:role],params[:menus])
         format.html { redirect_to @role, notice: 'Role was successfully updated.' }
         format.json { head :no_content }
       else

@@ -5,5 +5,6 @@ class CreateRoles < ActiveRecord::Migration
 
       t.timestamps
     end
+    Role.create(:name => 'analytics_admin')
   end
 end
