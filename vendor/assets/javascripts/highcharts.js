@@ -7615,7 +7615,10 @@ function Chart(userOptions, callback) {
 					}
 				}
 			}
+      
+			//余安坤
 			fireEvent(chart, 'tooltipRefresh', {
+			    textConfig: textConfig,
 					text: text,
 					x: x + plotLeft,
 					y: y + plotTop,

@@ -1,6 +1,6 @@
 class ReportsController < ProjectBaseController
   set_tab :report, :sub
-  before_filter :find_report, :only => [:show, :edit, :update, :destroy]
+  before_filter :find_report, :only => [:show, :edit, :update, :destroy, :request_data]
   
   def index
     @reports = @project.reports.paginate(:page => params[:page])
@@ -46,15 +46,26 @@ class ReportsController < ProjectBaseController
   end
   
   def show
+    @default_start_time = @report.start_time
+    @default_end_time = @report.end_time
     render :layout => "application"
   end
   
   def request_data
-    random_data = (Date.parse("2011-02-01")..Date.parse("2011-03-1")).map {|day|
-      [day.to_s, rand(100)]
-    }
-    
-    render :json => {:result => true, :data => random_data}
+    if params[:test] == "true"
+      index = 0
+      random_data = (Time.parse(params[:start_time]).to_i..Time.parse(params[:end_time]).to_i).step(@report.interval).map {|time|
+        index += 1
+        [Time.at(time).to_s, rand(100) + index * 10]
+      }
+      pp random_data
+      render :json => {:result => true, :data => random_data}
+    else
+      @metric = @report.metrics.find(params[:metric_id])
+      data = AnalyticService.new(@report, params).request_metric_data(@metric)
+      
+      render :json => data
+    end
   end
   
   private

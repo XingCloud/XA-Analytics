@@ -1,13 +1,26 @@
 - javascript "backbone_bundle", "highcharts", "custom_highchart", "backbone"
+- stylesheet "jquery.ui"
 
-#chart_container
-  #report_chart
-
+.row-fluid
+  .span9
+    #chart_container{:style => "position:relative"}
+      #report_desc{:style => "position: absolute;top: 10px;right: 10px;z-index: 999;"}
+      #report_chart
+  .span3
+    .well
+      %h3
+        = t(:description)
+        %small.pull-right
+          = link_to t(:edit), edit_project_report_path(@project, @report)
+      = simple_format @report.description
+      = render :partial => "periods/date_form"
+      
+          
 = javascript_include_tag "models/report.js"
 
 :javascript
   report.set(#{@report.to_json});
-  report.period = new Period(#{@report.period.to_json});
+  report.add_period(#{@report.period.to_json});
   report.draw();
   report.metrics.batch_create(#{@report.metrics.to_json});
   

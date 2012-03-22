@@ -1,5 +1,4 @@
-- javascript "jquery.chosen", "metrics"
-- stylesheet "jquery.chosen"
+- javascript "metrics"
 
 = simple_form_for @metric, :url => project_metric_path(@project, @metric), :html => {:method => :put, :class => "form-horizontal"} do |f|
   .row
@@ -11,6 +10,7 @@
       = f.input :combine_action, :collection => translate_collection(Metric::COMBINE_ACTIONS, :scope => "metric")
       
       = f.fields_for :combine do |combine|
+        = combine.hidden_field "_destroy"
         #combine_fields
           = render :partial => "form", :locals => {:builder => combine}
         
@@ -20,3 +20,18 @@
     
 :javascript
   var events = #{@events.to_json};
+  
+  $(function() {
+    $("#base .chzn-select").chosen().change(function() {
+      check_keys("#base");
+    })
+    
+    $("#combine .chzn-select}").chosen().change(function() {
+      check_keys("#combine")
+    })
+    
+    $("#metric_combine_action").change(function() {
+      toggle_combine_fieldset()
+    })
+    toggle_combine_fieldset()
+  })

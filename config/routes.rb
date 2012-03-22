@@ -14,7 +14,7 @@ Analytic::Application.routes.draw do
   resources :projects do
     resources :reports do
       member do
-        get :request_data
+        post :request_data
       end
     end
     

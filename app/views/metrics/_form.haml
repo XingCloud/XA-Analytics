@@ -6,5 +6,5 @@
 
 = builder.input :comparison do
   事件的值
-  = builder.select :comparison_operator, Metric::COMPARISION_OPERATORS, {:include_blank => true}, :style => "width: auto"
+  = builder.select :comparison_operator, translate_collection(Metric::COMPARISION_OPERATORS, :scope => "metric"), {:include_blank => true}, :style => "width: auto"
   = builder.text_field :comparison, :style => "width: 50px"
