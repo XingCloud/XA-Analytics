@@ -2,20 +2,20 @@ class Ability
   include CanCan::Ability
 
   def initialize(user)
-
-       user ||= User.new # guest user (not logged in)
-       if user.admin?
-         can :manage, :all
-       elsif user.role? :analytics_admin
-         can :update, Menu
-         can :create, Menu
-         can :destroy,Menu
-       else
-         user.roles.each do |role|
-           can :read,Menu,:id => role.menus.map(&:id)
-         end
-
-       end
+    user ||= User.new
+    pp user
+    if user.roles.blank?
+      can :index ,Project
+    elsif user.admin?
+      can :manage, :all
+    elsif user.role? :analytics_admin
+      can :manage, [Project, Report,Menu]
+    else
+      user.roles.each do |role|
+        can :read, Project
+        can :read, Menu, :id => role.menus.map(&:id)
+      end
+    end
 
     # The first argument to `can` is the action you are giving the user permission to do.
     # If you pass :manage it will apply to every action. Other common actions here are

@@ -7,16 +7,36 @@
     .fieldset
       .row
         .span6
-          = f.input :name
+          = f.input :name,:required => true
           .control-group
             %label.control-label 菜单
             .controls
               - @menus.each do |menu|
-                %label.checkbox.inline
-                  =check_box_tag("menus[]","#{menu.id}",false)
+                -if !menu.child?
+                  %label.checkbox
+                  = check_box_tag("menus[]","#{menu.id}",false)
                   = menu.name
+
+                  %span{:float=>'right'}
+                    - unless menu.children.blank?
+                      - menu.children.each do |sub|
+                        %label.checkbox.inline
+                          = check_box_tag("menus[]","#{sub.id}",false)
+                          = sub.name
+
+
 
   .form-actions
     = f.submit "提交", :class => "btn btn-primary"
     = link_to "取消", roles_path, :class => "btn"
 
+:javascript
+  $("form").submit(function(){
+        var len = $("[type=checkbox]:checked").size();
+        if ($("#role_name").val().length <= 0 || len <= 0 ){
+          alert("必须输入名称及至少选中一个菜单.");
+          return false;
+        }else{
+          return true;
+        }
+  });

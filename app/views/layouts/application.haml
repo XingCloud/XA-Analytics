@@ -28,6 +28,8 @@
           .container-fluid.nav-collapse
             = tabs_tag :namespace => :topbar, :builder => TabsOnRails::Bootstrap, :open_tabs => {:class => "nav"} do |tab|
               = tab.project "项目列表", projects_path
+              = tab.role "Role",roles_path
+              = tab.user "User",users_path
 
     .container-fluid
 

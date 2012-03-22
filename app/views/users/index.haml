@@ -1,0 +1,16 @@
+%p
+
+%table.table.table-bordered
+  %tr
+    %th Name
+    %th Email
+    %th Created_at
+    %th
+  - @users.each do |user|
+    %tr
+      %td= user.login
+      %td= user.email
+      %td= user.created_at.strftime("%Y-%m-%d %H:%M:%S")
+      %td= link_to '分配角色',new_role_user_path(user)
+      %td= link_to '编辑角色',edit_role_user_path(user)
+= will_paginate @users

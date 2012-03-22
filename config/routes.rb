@@ -1,5 +1,15 @@
 Analytic::Application.routes.draw do
 
+  devise_for :users
+  resources :users do
+    member do
+      get :new_role
+      get :edit_role
+      put :assign_role
+      put :update_role
+    end
+  end
+
   root :to => "projects#index"
   resources :projects do
     resources :reports do
