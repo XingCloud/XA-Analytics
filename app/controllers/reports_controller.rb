@@ -53,10 +53,12 @@ class ReportsController < ProjectBaseController
   
   def request_data
     if params[:test] == "true"
-      random_data = (Date.parse(params[:start_time])..Date.parse(params[:end_time])).map {|day|
-        [day.to_s, rand(100)]
+      index = 0
+      random_data = (Time.parse(params[:start_time]).to_i..Time.parse(params[:end_time]).to_i).step(@report.interval).map {|time|
+        index += 1
+        [Time.at(time).to_s, rand(100) + index * 10]
       }
-      
+      pp random_data
       render :json => {:result => true, :data => random_data}
     else
       @metric = @report.metrics.find(params[:metric_id])

@@ -56,7 +56,7 @@ class AnalyticService
   
   def commit(url, options = {}, request_options = {})
     url = URI.parse( File.join(BASE_URL, url) )
-    response = Net::HTTP.post_form(url, options)
+    response = Net::HTTP.post_form(url, {:params => options.to_json})
     
     if response.is_a?(Net::HTTPSuccess)
       ActiveSupport::JSON.decode(response.body)

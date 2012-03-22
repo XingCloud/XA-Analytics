@@ -24,6 +24,19 @@ module Highchart
   
   module Period
     
+    def interval
+      case self.rate
+      when "min5"
+        5 * 60
+      when "hour"
+        3600
+      when "day"
+        24 * 3600
+      when "week"
+        7 * 24 * 3600
+      end
+    end
+    
     def xaxis_option
       options = {
         :labels => {
@@ -40,17 +53,7 @@ module Highchart
       else
         options[:type] = "date"
       end
-
-      options["tickInterval"] = case self.rate
-      when "five_min"
-        5 * 60 * 1000
-      when "one_hour"
-        3600 * 1000
-      when "one_day"
-        24 * 3600 * 1000
-      when "one_week"
-        7 * 24 * 3600 * 1000
-      end
+      
 
       options
     end

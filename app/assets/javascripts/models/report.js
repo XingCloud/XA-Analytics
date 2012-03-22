@@ -1,4 +1,11 @@
 (function(){
+  
+  Highcharts.setOptions({
+    global : {
+      useUTC: false
+    }
+  });
+  
   format_data = function(data) {
     return _.map(data, function(item) {
       item[0] = Date.parse(item[0])
@@ -36,7 +43,19 @@
           text: ""
         },
     		chart: {
-    			renderTo: "chart_container"
+    			renderTo: "chart_container",
+    			events: {
+    			  tooltipRefresh: function(obj) {
+    			    var html = "";
+    		      _.each(obj.textConfig.points, function(point) {
+    		        html += "<div style='color:" + point.series.color + "; float:left;margin-left:5px;'>" + point.series.name + " " + point.y + "</div>";
+    		      })
+    		      
+    		      html += "<div style='text-align:right'>" + Highcharts.dateFormat(this.options.tooltip.xDateFormat, new Date(obj.textConfig.x)) + "</div>";
+    		      
+    		      $("#report_desc").html(html);
+    			  }
+    			}
     		},
     		title: {
     			text: "Chart Analytics"
@@ -50,9 +69,9 @@
             x : 0,
             y : 10
           },
-          gridLineWidth : 0.5,
+          gridLineWidth : 0,
           tickWidth : 0,
-          
+          showFirstLabel: true,
           type: "datetime",
           dateTimeLabelFormats: {
           	second: '%H:%M:%S',
@@ -67,54 +86,51 @@
         
     		yAxis: [{
     		  min: 0,
+    		  gridLineWidth : 0.5,
     			title: {
     				text: null
     			},
     			labels: {
-    				align: 'left',
+    				align: 'right',
     				x: 3,
     				y: 16,
     				formatter: function() {
     					return Highcharts.numberFormat(this.value, 0);
     				}
     			},
-    			showFirstLabel: false
-    		}, { // right y axis
-    			linkedTo: 0,
-    			gridLineWidth: 0,
-    			opposite: true,
-    			title: {
-    				text: null
-    			},
-    			labels: {
-    				align: 'right',
-    				x: -3,
-    				y: 16,
-    				formatter: function() {
-    					return Highcharts.numberFormat(this.value, 0);
-    				}
-    			},
-    			showFirstLabel: false
+    			showFirstLabel: true
     		}],
 
-    		legend: {
-    			align: 'left',
-    			verticalAlign: 'top',
-    			y: 20,
-    			floating: true,
-    			borderWidth: 0
-    		},
-
     		tooltip: {
+    		  enabled: true,
     			shared: true,
-    			crosshairs: true
+    			crosshairs: [
+    			  {
+    			    color: "#C98657"
+    			  },
+    			  false
+    			],
+    			borderWidth: 0.5    			
+    		},
+    		
+    		legend: {
+    		  borderWidth: 0,
+    		  align: "left",
+    		  floating: true,
+    		  layout: "vertical",
+    		  verticalAlign: 'top',
+    		  y: -10,
+    		  labelFormatter: function() {
+          	return this.name + " 峰值 " + _.max(this.yData, function(item) { return item } );
+          }
     		}
     	};
-    	
     	
     	options.chart.renderTo = this.view.el;
     	options.title.text = this.get("title");
     	options.xAxis.type = this.period.type();
+    	options.tooltip.xDateFormat = this.period.dateformat();
+    	options.subtitle.text = this.period.range();
     	return options;
     }
     
@@ -133,6 +149,25 @@
         this.trigger("draw", this);
       //   this.drawed = true;
       // }
+    },
+    
+    chart_options: function() {
+      return { 
+        name: this.get("name"),
+        realname: this.get("name"),
+        data: format_data(this.data),
+        marker: {
+          enabled: false,
+          fillColor: '#FFFFFF',
+          lineColor: null,
+          lineWidth: 1,
+          states: {
+            hover: {
+              enabled: true
+            }
+          }
+        }
+      }
     }
     
   })
@@ -160,6 +195,25 @@
       this.set(options);
       this.set_default_time();
       this.view = new PeriodView({model: this});
+    },
+    
+    range: function() {
+      return this.get("start_time") + " 至 " + this.get("end_time");
+    },
+    
+    dateformat: function() {
+      var format;
+      
+      switch(this.get("rate")) {
+        case "hour":
+          format = "%Y-%m-%d %H"
+          break;
+        default:
+          format = "%Y-%m-%d"
+          break;
+      }
+      
+      return format;
     },
     
     set_default_time: function() {
@@ -190,7 +244,7 @@
     },
     
     tickInterval: function() {
-      return 24 * 3600 * 1000;
+      
     },
     
     type: function() {
@@ -253,10 +307,7 @@
     drawMetric: function(metric) {
       console.log("draw metric")
       this.request_data(function() {
-        metric.report.chart.addSeries({ 
-          name: metric.get("name"),
-          data: format_data(metric.data) 
-        });
+        metric.report.chart.addSeries(metric.chart_options());
       })
       
     },

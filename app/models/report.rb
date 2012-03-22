@@ -12,7 +12,7 @@ class Report < ActiveRecord::Base
   
   validates_presence_of :title, :type, :metric_ids, :period
   
-  delegate :rate, :start_time, :end_time, :to => :period
+  delegate :rate, :interval, :start_time, :end_time, :to => :period
   
   def do_public
     self.update_attributes(:public => true)
@@ -26,6 +26,9 @@ class Report < ActiveRecord::Base
     self.class.type_name
   end
   
+  def to_json
+    super(:methods => [:type_name])
+  end
 end
 
 Dir.glob(File.dirname(__FILE__) + "/reports/*.rb").each do |file|
