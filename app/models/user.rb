@@ -1,15 +1,32 @@
 class User < ActiveRecord::Base
+  # Include default devise modules. Others available are:
+  # :token_authenticatable, :encryptable, :confirmable, :lockable, :timeoutable and :omniauthable
+  devise :database_authenticatable, :registerable,
+         :recoverable, :rememberable, :trackable, :validatable
+
+  # Setup accessible (or protected) attributes for your model
+  attr_accessible :email, :password, :password_confirmation, :remember_me
   has_many :projects
   has_many :user_roles
   has_many :roles, :through => :user_roles
 
   def role?(role)
+    return false if self.roles.blank?
     return !!self.roles.find_by_name(role.to_s)
   end
 
-  def asign_role(role)
-    self.roles << Role.find(role)
+  # 分配权限
+  def asign_role(role_ids)
+    self.roles << Role.find(role_ids)
     self.save
+  end
+
+  # 编辑权限
+  def update_role(role_ids)
+    unless role_ids.blank?
+      self.role_ids = role_ids
+      self.save
+    end
   end
 
   def menus

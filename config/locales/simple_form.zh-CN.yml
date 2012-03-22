@@ -29,7 +29,8 @@ zh-CN:
         name: "名称"
         desc: "描述"
         point: "报表"
-        
+      role:
+        name: "名称"
       metric:
         <<: *metric
         combine:

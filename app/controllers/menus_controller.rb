@@ -1,6 +1,7 @@
 class MenusController < ApplicationController
-  load_and_authorize_resource
-  before_filter :find_project,:only=>[:index,:new,:show]
+  #load_and_authorize_resource
+  before_filter :find_project, :only=>[:index, :new, :show]
+
   def index
     @menus = @project.menus
   end
@@ -34,7 +35,7 @@ class MenusController < ApplicationController
   #
   def update
     @menu = Menu.find(params[:id])
-    @menu.update_association(params[:menu],params[:report_id])
+    @menu.update_association(params[:menu], params[:report_id])
     redirect_to project_menus_path(@menu.project)
   end
 

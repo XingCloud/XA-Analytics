@@ -28,12 +28,15 @@
           .container-fluid.nav-collapse
             = tabs_tag :namespace => :topbar, :builder => TabsOnRails::Bootstrap, :open_tabs => {:class => "nav"} do |tab|
               = tab.project "项目列表", projects_path
+              = tab.role "Role",roles_path
+              = tab.user "User",users_path
 
     .container-fluid
 
       .row-fluid
         .page-header
-          %h1= @project.name
+          - if user_signed_in?
+            %h1= @project.name
         .subnav{:style => "margin-bottom: 10px"}
           = tabs_tag :namespace => :sub, :builder => TabsOnRails::SubNav do |tab|
             = tab.project "首页", project_path(@project)
