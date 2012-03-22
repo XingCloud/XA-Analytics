@@ -1,5 +1,7 @@
 (function(){
   
+  window.DEBUG = true;
+  
   Highcharts.setOptions({
     global : {
       useUTC: false
@@ -34,6 +36,7 @@
       this.chart.destroy();
       this.chart = new Highcharts.Chart(this.chart_options());
       this.metrics.each(function(metric){
+        metric.drawed = false;
         metric.draw();
       });
     },
@@ -128,7 +131,7 @@
     		  verticalAlign: 'top',
     		  y: -10,
     		  labelFormatter: function() {
-          	return this.name + " 峰值 " + _.max(this.yData, function(item) { return item } );
+          	return this.name + " 峰值 " + (_.max(this.yData, function(item) { return item } ) || "");
           }
     		}
     	};
@@ -136,6 +139,10 @@
     	options.chart.renderTo = this.view.el;
     	options.title.text = this.get("title");
     	options.xAxis.type = this.period.type();
+    	if (this.period.compare) {
+    	  options.xAxis.tickInterval = this.period.tickInterval();
+    	}
+    	
     	options.tooltip.xDateFormat = this.period.dateformat();
     	options.subtitle.text = this.period.range();
     	return options;
@@ -157,18 +164,24 @@
       });
     },
     
-    request_data: function(callback) {
-      var self = this;
-      
-      var params = {
-        start_time: this.report.period.get("start_time"),
-        end_time: this.report.period.get("end_time")
+    request_params: function() {
+      return {
+        start_time: moment(this.report.period.get("start_time")).format("YYYY-MM-DD"),
+        end_time: moment(this.report.period.get("end_time")).format("YYYY-MM-DD")
       }
+    },
+    
+    request_url: function() {
+      return "/projects/" + this.report.get("project_id") + "/reports/" + this.report.id + "/request_data?metric_id=" + this.id + (window.DEBUG ? "&test=true" : "");
+    },
+    
+    request_data: function(callback) {
+      var self = this, params = this.request_params();
       
       console.log(params);
       
       $.ajax({
-        url: "/projects/" + this.report.get("project_id") + "/reports/" + this.report.id + "/request_data?metric_id=" + this.id + "&test=true",
+        url: this.request_url(),
         dataType: "json",
         type: "post",
         data: params,
@@ -204,10 +217,60 @@
     
   });
   
+  window.CompareMetric = Metric.extend({
+    initialize: function(options) {
+      this.set(options);
+      this.set("metric_id", this.id);
+      this.set("id", null);
+    },
+    
+    request_params: function() {
+      console.log("compare metric request params");
+      var params = {
+        start_time: this.get("start_time").format("YYYY-MM-DD"),
+        end_time: this.get("end_time").format("YYYY-MM-DD")
+      }
+      console.log(params);
+      return params;
+    },
+    
+    request_url: function() {
+      return "/projects/" + this.report.get("project_id") + "/reports/" + this.report.id + "/request_data?metric_id=" + this.get("metric_id") + (window.DEBUG ? "&test=true" : "");
+    },
+    
+    assign_start_time: function(val) {
+      this.set("start_time", moment(val));
+      this.set("end_time", moment(val).add("ms", this.report.period.compare_length()));
+      this.set("name", val + this.get("realname"));
+    },
+    
+    chart_options: function() {
+      return { 
+        name: this.get("name"),
+        realname: this.get("name"),
+        data: this.data.map(function(item) { return item[1]}),
+        pointStart: moment(this.report.period.get("start_time")),
+        pointInterval: this.report.period.get("interval") * 1000,
+        marker: {
+          enabled: false,
+          fillColor: '#FFFFFF',
+          lineColor: null,
+          lineWidth: 1,
+          states: {
+            hover: {
+              enabled: true
+            }
+          }
+        }
+      }
+    }
+  });
+  
   window.Period = Backbone.Model.extend({
     initialize: function(options) {
       this.set(options);
       this.set_default_time();
+      this.compare = (this.get("compare_number") > 0)
       this.view = new PeriodView({model: this});
     },
     
@@ -234,27 +297,60 @@
       if (!this.get("start_time")) {
         var start_time;
         
-        switch (this.get("rule")) {
-          case "last_week": 
-            start_time = moment().subtract("weeks", 1);
-            break;
-          case "last_day":
-            start_time = moment().subtract("days", 1);
-            break;
-          case "last_month":
-            start_time = moment().subtract("months", 1);
-            break;
-        }
-        this.set({start_time : start_time.format("YYYY-MM-DD") });
+        start_time = moment().subtract("ms", this.compare_length());
+        this.set({start_time : start_time });
       }
       
       if (!this.get("end_time")) {
-        this.set({end_time : moment().format("YYYY-MM-DD")});
+        this.set({end_time : moment()});
       }
+    },
+    
+    compare_start_time: function(index) {
+      var base_time = moment(this.get("start_time"));
+      
+      return base_time.clone().subtract("ms", index * this.compare_length());
+    },
+    
+    compare_end_time: function(index) {
+      var base_time = moment(this.get("end_time"));
+      
+      return base_time.clone().subtract("ms", index * this.compare_length());
+    },
+    
+    compare_length: function() {
+      var length;
+      switch(this.get("rule")) {
+        case "last_week":
+          length = 7 * 24 * 3600 * 1000;
+          break;
+        case "last_day":
+          length = 24 * 3600 * 1000;
+          break;
+        case "last_month":
+          length = 30 * 24 * 3600 * 1000;
+          break;
+      }
+      
+      return length;
     },
     
     type: function() {
       return "datetime";
+    },
+    
+    tickInterval: function() {
+      if (this.compare) {
+        return 24 * 3600 * 1000;
+      } else {
+        return null;
+      }
+    },
+    
+    
+    assign_start_time: function(val) {
+      this.set("start_time", val);
+      this.set("end_time", moment(val).add("ms", this.compare_length()).format("YYYY-MM-DD") );
     }
   });
   
@@ -264,14 +360,37 @@
       
     },
     
-    batch_create: function(array) {
+    batch_create: function(metric_options) {
       var self = this;
       
-      _.each(array, function(item) {
-        var metric = new Metric(item);
-        metric.report = this.report;
-        self.add(metric);
-      });
+      if (this.report.period.get("compare_number") < 1) {
+        _.each(metric_options, function(item) {
+          var metric = new Metric(item);
+          metric.report = this.report;
+          self.add(metric);
+        });
+      } else {
+        _.each(metric_options, function(item, idx) {
+          console.log(self.report.period)
+          //多个对比时间
+          for(var i = 0; i <= self.report.period.get("compare_number"); i++) {
+            var metric = new CompareMetric(item);
+            
+            metric.set({
+              start_time: self.report.period.compare_start_time(i),
+              end_time: self.report.period.compare_end_time(i),
+              compare_index: i
+            });
+            
+            metric.set("realname", metric.get("name"));
+            metric.set("name", metric.get("start_time").format("YYYY-MM-DD") + " " + metric.get("name") );
+            
+            metric.report = this.report;
+            self.add(metric);
+          }
+        });
+      }
+      
     }
     
   });
@@ -283,13 +402,32 @@
     },
     initialize: function() {
       _.bindAll(this, "refresh");
+      
     },
     
     refresh: function() {
-      this.model.set("start_time", this.$("#start_time").val());
-      this.model.set("end_time", this.$("#end_time").val());
+      this.assign_time();
       
       this.model.report.redraw();
+    },
+    
+    
+    assign_time: function() {
+      if (this.model.compare) {
+        var self = this;
+        
+        this.model.assign_start_time(self.$("#compare_time_1").val());
+        
+        this.model.report.metrics.each(function(metric) {  
+          
+          metric.assign_start_time( 
+            self.$("#compare_time_" + Number(metric.get("compare_index") + 1)).val()
+          );
+        });
+      } else {
+        this.model.set("start_time", moment(this.$("#start_time").val()));
+        this.model.set("end_time", moment(this.$("#end_time").val()));
+      }
     }
   });
   

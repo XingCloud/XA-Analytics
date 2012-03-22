@@ -14,7 +14,7 @@ class Period < ActiveRecord::Base
     when "last_week"
       Date.today - 1.week
     when "last_month"
-      Date.today - 30.day
+      Date.today - 1.month
     end
   end
   
@@ -22,8 +22,20 @@ class Period < ActiveRecord::Base
     Date.today
   end
   
+  def compare_start_time(index)
+    index = index + 1
+    case self.rule
+    when "last_day"
+      Date.today - index.day
+    when "last_week"
+      Date.today - index.week
+    when "last_month"
+      Date.today - index.month
+    end
+  end
+  
   def to_json
-    super(:methods => [:start_time, :end_time])
+    super(:methods => [:start_time, :end_time, :interval])
   end
   
 end
