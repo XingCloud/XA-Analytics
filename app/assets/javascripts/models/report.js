@@ -37,7 +37,14 @@
         metric.draw();
       });
     },
+    
     chart_options: function() {
+      if (this.get("type_name") == "line_report") {
+        return this.line_chart_option();
+      }
+    },
+    
+    line_chart_option: function() {
       var options = {
         credits: {
           text: ""
@@ -142,13 +149,38 @@
     },
     
     draw: function() {
-      console.log("metric draw action")
-      // if (this.drawed) {
-      //         this.trigger("redraw", this);
-      //       } else {
-        this.trigger("draw", this);
-      //   this.drawed = true;
-      // }
+      console.log("metric draw")
+      var self = this;
+      
+      this.request_data(function() {
+        self.trigger("draw", self);
+      });
+    },
+    
+    request_data: function(callback) {
+      var self = this;
+      
+      var params = {
+        start_time: this.report.period.get("start_time"),
+        end_time: this.report.period.get("end_time")
+      }
+      
+      console.log(params);
+      
+      $.ajax({
+        url: "/projects/" + this.report.get("project_id") + "/reports/" + this.report.id + "/request_data?metric_id=" + this.id + "&test=true",
+        dataType: "json",
+        type: "post",
+        data: params,
+        success: function(resp) {
+          if (resp.result) {
+            self.data = resp.data;
+            callback();
+          } else {
+            alert(resp.error);
+          }
+        }
+      });
     },
     
     chart_options: function() {
@@ -167,28 +199,10 @@
             }
           }
         }
-      }
+      };
     }
     
-  })
-  
-  window.MetricList = Backbone.Collection.extend({
-    model: Metric,
-    initialize: function() {
-      
-    },
-    
-    batch_create: function(array) {
-      var self = this;
-      
-      _.each(array, function(item) {
-        var metric = new Metric(item);
-        metric.report = this.report;
-        self.add(metric);
-      });
-    }
-    
-  })
+  });
   
   window.Period = Backbone.Model.extend({
     initialize: function(options) {
@@ -206,7 +220,7 @@
       
       switch(this.get("rate")) {
         case "hour":
-          format = "%Y-%m-%d %H"
+          format = "%Y-%m-%d %H时"
           break;
         default:
           format = "%Y-%m-%d"
@@ -239,18 +253,28 @@
       }
     },
     
-    calculate: function() {
-      
-    },
-    
-    tickInterval: function() {
-      
-    },
-    
     type: function() {
       return "datetime";
     }
-  })
+  });
+  
+  window.MetricList = Backbone.Collection.extend({
+    model: Metric,
+    initialize: function() {
+      
+    },
+    
+    batch_create: function(array) {
+      var self = this;
+      
+      _.each(array, function(item) {
+        var metric = new Metric(item);
+        metric.report = this.report;
+        self.add(metric);
+      });
+    }
+    
+  });
   
   window.PeriodView = Backbone.View.extend({
     el: $("#period"),
@@ -272,54 +296,13 @@
   window.MetricView = Backbone.View.extend({
     initialize: function() {
       this.model.view = this;
-      _.bindAll(this, "drawMetric", "redrawMetric");
+      _.bindAll(this, "drawMetric");
       
       this.model.bind("draw", this.drawMetric);
-      this.model.bind("redraw", this.redrawMetric);
-    },
-    
-    request_data: function(call_back) {
-      var self = this;
-      
-      var params = {
-        start_time: this.model.report.period.get("start_time"),
-        end_time: this.model.report.period.get("end_time")
-      }
-      
-      console.log(params);
-      
-      $.ajax({
-        url: "/projects/" + this.model.report.get("project_id") + "/reports/" + this.model.report.id + "/request_data?metric_id=" + this.model.id + "&test=true",
-        dataType: "json",
-        type: "post",
-        data: params,
-        success: function(resp) {
-          if (resp.result) {
-            self.model.data = resp.data;
-            call_back();
-          } else {
-            alert(resp.error);
-          }
-        }
-      });
     },
     
     drawMetric: function(metric) {
-      console.log("draw metric")
-      this.request_data(function() {
-        metric.report.chart.addSeries(metric.chart_options());
-      })
-      
-    },
-    
-    redrawMetric: function(metric) {
-      console.log("redraw metric")
-      var index = report.metrics.indexOf(metric);
-      this.request_data(function() {
-        metric.report.chart.series[index].data = metric.data;
-        metric.report.chart.series[index].redraw();
-        metric.report.chart.redraw();
-      });
+      metric.report.chart.addSeries(metric.chart_options());
     }
   });
   
@@ -332,7 +315,7 @@
     render: function() {
       report.chart = new Highcharts.Chart(this.model.chart_options());
     }
-  })
+  });
   
   window.AppView = Backbone.View.extend({
     el: $("#chart_container"),
@@ -345,8 +328,7 @@
     
     drawChart: function(report) {
       console.log("draw chart")
-      var view = new ReportView({model : report});
-      view.render();
+      var view = new ReportView({model : report}).render();
     },
     
     addMetric: function(metric) {
