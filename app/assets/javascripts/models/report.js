@@ -100,24 +100,22 @@
                     }
                 },
 
-                yAxis:[
-                    {
-                        min:0,
-                        gridLineWidth:0.5,
-                        title:{
-                            text:null
-                        },
-                        labels:{
-                            align:'right',
-                            x:3,
-                            y:16,
-                            formatter:function () {
-                                return Highcharts.numberFormat(this.value, 0);
-                            }
-                        },
-                        showFirstLabel:true
-                    }
-                ],
+                yAxis: {
+                    min:0,
+                    gridLineWidth:0.5,
+                    title:{
+                        text:null
+                    },
+                    labels:{
+                        align:'right',
+                        x:3,
+                        y:16,
+                        formatter:function () {
+                            return Highcharts.numberFormat(this.value, 0);
+                        }
+                    },
+                    showFirstLabel:true
+                },
 
                 tooltip:{
                     enabled:true,
@@ -161,6 +159,9 @@
         bar_chart_option: function () {
             var options = this.line_chart_option();
             options.chart.type = "column";
+            options.tooltip.crosshairs = null;
+            options.xAxis.labels.align = "center";
+            options.xAxis.tickInterval = this.period.get("interval") * 1000;
             return options;
 
         },
@@ -168,6 +169,9 @@
         stack_chart_option: function(){
             var options = this.line_chart_option();
             options.chart.type = "column";
+            options.tooltip.crosshairs = null;
+            options.xAxis.labels.align = "center";
+            options.xAxis.tickInterval = this.period.get("interval") * 1000;
             options["plotOptions"] = {
                 column:{
                     stacking:'normal'
