@@ -1,4 +1,5 @@
 class ProjectsController < ApplicationController
+  #load_and_authorize_resource
   before_filter :find_project, :only => [:show]
   set_tab :project, :sidebar
   
@@ -14,6 +15,6 @@ class ProjectsController < ApplicationController
   private
   
   def find_project
-    @project = Project.find(params[:id])
+    @project = Project.find_by_id(params[:id]) || Project.find_by_identifier(params[:id])
   end
 end

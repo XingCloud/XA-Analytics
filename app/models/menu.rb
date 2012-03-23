@@ -7,7 +7,8 @@ class Menu < ActiveRecord::Base
   has_many :permissions
   has_many :roles, :through => :permissions
 
-  validate :name, :presence => true
+  validates_presence_of :name
+
   attr_accessor :report_id
   def create_association(report_ids)
     unless report_ids.blank?

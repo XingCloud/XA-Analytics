@@ -2,7 +2,7 @@
   = link_to "添加菜单", new_project_menu_path(@project), :class => "btn"
   = link_to '菜单排序', reorder_project_menus_path(@project), :class => "btn"
   
-%table.table
+%table.table.table-bordered
   %tr
     %th 菜单名称
     %th 菜单描述
@@ -10,9 +10,18 @@
     %th
     %th
   - @menus.each do |menu|
-    %tr
-      %td= menu.name
-      %td= menu.desc
-      %td= menu.created_at.strftime("%Y-%m-%d %H:%M:%S")
-      %td= link_to_edit edit_project_menu_path(@project,menu)
-      %td= link_to_delete project_menu_path(@project,menu)
+    - if !menu.child?
+      %tr
+        %td= menu.name
+        %td= menu.desc
+        %td= menu.created_at.strftime("%Y-%m-%d %H:%M:%S")
+        %td= link_to_edit edit_project_menu_path(@project,menu)
+        %td= link_to_delete project_menu_path(@project,menu)
+      - unless menu.children.blank?
+        - menu.children.each do |sub_menu|
+          %tr
+            %td= raw "&nbsp;&nbsp;&nbsp;#{sub_menu.name}"
+            %td= sub_menu.desc
+            %td= sub_menu.created_at.strftime("%Y-%m-%d %H:%M:%S")
+            %td= link_to_edit edit_project_menu_path(@project,sub_menu)
+            %td= link_to_delete project_menu_path(@project,sub_menu)

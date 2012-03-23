@@ -12,9 +12,17 @@
             %label.control-label 菜单
             .controls
               - @menus.each do |menu|
-                %label.checkbox.inline
-                  =check_box_tag("menus[]","#{menu.id}",@role.menus.include?(menu))
+                -if !menu.child?
+                  %label.checkbox
+                  = check_box_tag("menus[]","#{menu.id}",@role.menus.include?(menu))
                   = menu.name
+
+                  %span{:float=>'right'}
+                    - unless menu.children.blank?
+                      - menu.children.each do |sub|
+                        %label.checkbox.inline
+                          = check_box_tag("menus[]","#{sub.id}",@role.menus.include?(sub))
+                          = sub.name
 
   .form-actions
     = f.submit "提交", :class => "btn btn-primary"
