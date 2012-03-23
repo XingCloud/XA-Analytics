@@ -1,19 +1,20 @@
 class ProjectsController < ApplicationController
-  #load_and_authorize_resource
-  before_filter :find_project, :only => [:show]
+
+  before_filter :find_project, :only => [:show,:members]
   set_tab :project, :sidebar
-  
+
   def index
     @projects = Project.paginate(:page => params[:page])
     render :layout => "welcome"
   end
-  
+
   def show
     @menus = @project.menus
   end
-  
+
+
   private
-  
+
   def find_project
     @project = Project.find_by_id(params[:id]) || Project.find_by_identifier(params[:id])
   end

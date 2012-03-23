@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120320025027) do
+ActiveRecord::Schema.define(:version => 20120323031128) do
 
   create_table "agents", :force => true do |t|
     t.integer  "project_id"
@@ -39,6 +39,20 @@ ActiveRecord::Schema.define(:version => 20120320025027) do
   create_table "events", :force => true do |t|
     t.integer  "project_id"
     t.string   "name"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  create_table "member_roles", :force => true do |t|
+    t.integer  "member_id"
+    t.integer  "role_id"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  create_table "members", :force => true do |t|
+    t.integer  "user_id"
+    t.integer  "project_id"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end
@@ -146,7 +160,7 @@ ActiveRecord::Schema.define(:version => 20120320025027) do
 
   create_table "user_roles", :id => false, :force => true do |t|
     t.integer  "role_id"
-    t.integer  "user_id"
+    t.integer  "member_id"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end
@@ -156,8 +170,18 @@ ActiveRecord::Schema.define(:version => 20120320025027) do
     t.boolean  "admin"
     t.string   "mail"
     t.integer  "redmine_uid"
-    t.datetime "created_at",  :null => false
-    t.datetime "updated_at",  :null => false
+    t.datetime "created_at",                             :null => false
+    t.datetime "updated_at",                             :null => false
+    t.string   "email",                  :default => "", :null => false
+    t.string   "encrypted_password",     :default => "", :null => false
+    t.string   "reset_password_token"
+    t.datetime "reset_password_sent_at"
+    t.datetime "remember_created_at"
+    t.integer  "sign_in_count",          :default => 0
+    t.datetime "current_sign_in_at"
+    t.datetime "last_sign_in_at"
+    t.string   "current_sign_in_ip"
+    t.string   "last_sign_in_ip"
   end
 
 end

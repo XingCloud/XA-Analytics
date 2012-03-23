@@ -1,6 +1,11 @@
 class Role < ActiveRecord::Base
+
   has_many :user_roles
   has_many :users, :through => :user_roles
+
+  has_many :member_roles
+  has_many :members, :through => :member_roles
+
   has_many :permissions
   has_many :menus, :through => :permissions
 

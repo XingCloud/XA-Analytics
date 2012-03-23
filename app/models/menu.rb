@@ -1,9 +1,12 @@
 class Menu < ActiveRecord::Base
   acts_as_nested_set :scope => :project_id,:depth => 2
-  belongs_to :project
   include MenuSortable
+
+  belongs_to :project
+
   has_many :menu_reports
   has_many :reports,:through => :menu_reports
+
   has_many :permissions
   has_many :roles, :through => :permissions
 

@@ -7,8 +7,7 @@ class UsersController < ApplicationController
   end
 
   def new_role
-    @user = User.find(params[:id])
-    @roles = Role.all
+
   end
 
   # 分配角色
@@ -27,6 +26,11 @@ class UsersController < ApplicationController
     @user = User.find(params[:id])
     @user.update_role(params[:role])
     redirect_to users_path
+  end
+
+  def sign_out
+    session[:user] = nil
+    redirect_to root_url
   end
 
 end

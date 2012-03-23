@@ -3,17 +3,14 @@ class Ability
 
   def initialize(user)
     user ||= User.new
-    pp user
-    if user.roles.blank?
-      can :index ,Project
-    elsif user.admin?
+    if user.admin?
       can :manage, :all
-    elsif user.role? :analytics_admin
-      can :manage, [Project, Report,Menu]
     else
-      user.roles.each do |role|
-        can :read, Project
-        can :read, Menu, :id => role.menus.map(&:id)
+      user.members.each do |member|
+        member.roles.each do |role|
+          can :read, Project, :members => {:id => user.project_ids}
+          can :read, Menu, :id => role.menus.map(&:id)
+        end
       end
     end
 

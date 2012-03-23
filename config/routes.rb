@@ -1,6 +1,9 @@
 Analytic::Application.routes.draw do
 
-  devise_for :users
+  devise_for :users do
+    get 'login' => 'devise/sessions#new'
+    get 'logout' => 'devise/sessions#destroy'
+  end
   resources :users do
     member do
       get :new_role
@@ -17,7 +20,6 @@ Analytic::Application.routes.draw do
         post :request_data
       end
     end
-    
     resources :metrics
     resources :menus do
       collection do
@@ -25,13 +27,21 @@ Analytic::Application.routes.draw do
         post 'reorder'
       end
     end
+    resources :members do
+      member do
+        get :new_role
+        get :edit_role
+        put :assign_role
+        put :update_role
+      end
+    end
   end
-  
+
   match "/js_templates/:package.:extension",
-    :to => 'js_templates#package', :as => :jammit, :constraints => {
-      # A hack to allow extension to include "."
-      :extension => /.+/
-  }
+        :to => 'js_templates#package', :as => :jammit, :constraints => {
+          # A hack to allow extension to include "."
+          :extension => /.+/
+      }
 
   resources :roles
 
