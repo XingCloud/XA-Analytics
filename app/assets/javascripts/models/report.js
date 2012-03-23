@@ -1,6 +1,6 @@
 (function () {
 
-    window.DEBUG = true;
+    window.DEBUG = false;
 
     Highcharts.setOptions({
         global:{

@@ -31,10 +31,18 @@ class AnalyticService
     
     pp options
     
-    commit("/dd/event", options)
+    self.class.commit("/dd/event", options)
   end
   
-  
+  def self.events(project, page = 1)
+    params = {
+      :project_id => project.identifier,
+      :idx => page,
+      :pagesize => 50
+    }
+    
+    commit("/dd/evlist", params)
+  end
   
   private
   
@@ -55,7 +63,7 @@ class AnalyticService
   end
   
   
-  def commit(url, options = {}, request_options = {})
+  def self.commit(url, options = {}, request_options = {})
     url = URI.parse( File.join(BASE_URL, url) )
     response = Net::HTTP.post_form(url, {:params => options.to_json, :p => 1})
     
@@ -63,7 +71,7 @@ class AnalyticService
     if response.is_a?(Net::HTTPSuccess)
       ActiveSupport::JSON.decode(response.body)
     else
-      {:result => false, :error => "Request: #{response.code}"}
+      {"result" => false, "error" => "Request: #{response.code}"}
     end
     
   end
