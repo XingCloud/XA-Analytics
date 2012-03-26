@@ -29,8 +29,7 @@ class UsersController < ApplicationController
   end
 
   def sign_out
-    session[:user] = nil
-    redirect_to root_url
+    redirect_to CASClient::Frameworks::Rails::Filter.logout_url
   end
 
 end

@@ -228,7 +228,6 @@
                 },
                 error: function(resp) {
                   console.log(resp);
-                  alert("请求失败");
                 }
                 
             });

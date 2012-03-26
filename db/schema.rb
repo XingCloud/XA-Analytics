@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120323031128) do
+ActiveRecord::Schema.define(:version => 20120326061233) do
 
   create_table "agents", :force => true do |t|
     t.integer  "project_id"
@@ -39,6 +39,11 @@ ActiveRecord::Schema.define(:version => 20120323031128) do
   create_table "events", :force => true do |t|
     t.integer  "project_id"
     t.string   "name"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  create_table "game_users", :force => true do |t|
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end
@@ -144,23 +149,33 @@ ActiveRecord::Schema.define(:version => 20120323031128) do
   add_index "reports", ["project_id"], :name => "index_reports_on_project_id"
   add_index "reports", ["public"], :name => "index_reports_on_public"
 
+  create_table "role_users", :id => false, :force => true do |t|
+    t.integer  "role_id"
+    t.integer  "user_id"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
   create_table "roles", :force => true do |t|
     t.string   "name"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end
 
-  create_table "user_attributes", :force => true do |t|
-    t.string   "name"
-    t.string   "key"
-    t.string   "type"
+  create_table "sessions", :force => true do |t|
+    t.string   "session_id", :null => false
+    t.text     "data"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end
 
-  create_table "user_roles", :id => false, :force => true do |t|
-    t.integer  "role_id"
-    t.integer  "member_id"
+  add_index "sessions", ["session_id"], :name => "index_sessions_on_session_id"
+  add_index "sessions", ["updated_at"], :name => "index_sessions_on_updated_at"
+
+  create_table "user_attributes", :force => true do |t|
+    t.string   "name"
+    t.string   "key"
+    t.string   "type"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end
@@ -183,5 +198,8 @@ ActiveRecord::Schema.define(:version => 20120323031128) do
     t.string   "current_sign_in_ip"
     t.string   "last_sign_in_ip"
   end
+
+  add_index "users", ["email"], :name => "index_users_on_email", :unique => true
+  add_index "users", ["reset_password_token"], :name => "index_users_on_reset_password_token", :unique => true
 
 end

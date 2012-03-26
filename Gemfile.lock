@@ -35,6 +35,8 @@ GEM
     bcrypt-ruby (3.0.1)
     blankslate (2.1.2.4)
     bson (1.6.1)
+    bson_ext (1.6.1)
+      bson (~> 1.6.1)
     builder (3.0.0)
     cancan (1.6.7)
     capistrano (2.11.2)
@@ -156,6 +158,7 @@ GEM
       rdoc (~> 3.4)
       thor (~> 0.14.6)
     rake (0.9.2.2)
+    rb-fsevent (0.9.0)
     rdoc (3.12)
       json (~> 1.4)
     rspec (2.8.0)
@@ -220,6 +223,7 @@ PLATFORMS
 
 DEPENDENCIES
   awesome_nested_set (~> 2.1.2)
+  bson_ext
   cancan
   capistrano (~> 2.11.2)
   cells (~> 3.8.3)
@@ -238,6 +242,7 @@ DEPENDENCIES
   pry (~> 0.9.8)
   rails (= 3.2.2.rc1)
   rails-i18n (~> 0.5.1)
+  rb-fsevent (~> 0.9.0)
   rspec-cells (~> 0.1.2)
   rspec-rails (~> 2.8.1)
   rubycas-client
