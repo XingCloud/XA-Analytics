@@ -6,9 +6,9 @@ class User < ActiveRecord::Base
 
   # Setup accessible (or protected) attributes for your model
   attr_accessible :email, :password, :password_confirmation, :remember_me
-  has_many :projects
-  has_many :user_roles
-  has_many :roles, :through => :user_roles
+
+  has_many :members
+  has_many :projects,:through => :members
 
   def role?(role)
     return false if self.roles.blank?

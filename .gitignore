@@ -6,5 +6,5 @@ nbproject
 config/database.yml
 *.orig
 db/schema.rb
+analytic/.idea/*
 .idea/*
-
