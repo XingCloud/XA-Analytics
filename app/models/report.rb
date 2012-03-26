@@ -12,7 +12,7 @@ class Report < ActiveRecord::Base
   
   validates_presence_of :title, :type, :metric_ids, :period
   
-  delegate :rate, :interval, :start_time, :end_time, :to => :period
+  delegate :rate, :interval, :start_time, :end_time, :compare?, :to => :period
   delegate :identifier, :to => :project
   
   def do_public

@@ -38,4 +38,8 @@ class Period < ActiveRecord::Base
     super(:methods => [:start_time, :end_time, :interval])
   end
   
+  def compare?
+    self.compare_number > 0
+  end
+  
 end

@@ -12,8 +12,12 @@
 
 
   .span9
-    %p
-    - @menu.reports.each do |rp|
-      = link_to rp.title, "javascript:void(0)",:onclick=>"#", :class => "btn"
-    %p
-    Chart
+    %ul.nav.nav-tabs
+      - @menu.reports.each do |rp|
+        %li= link_to rp.title, "javascript:void(0)", :onclick=>"#"
+    
+      
+    .row-fluid
+      .span12
+        - @report = @menu.reports.first
+        = render :partial => "reports/report"

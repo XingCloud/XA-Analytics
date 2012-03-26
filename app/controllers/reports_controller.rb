@@ -34,9 +34,9 @@ class ReportsController < ProjectBaseController
     end
     
     if @report.update_attributes(params[:report])
-      redirect_to project_reports_path(@project), :notice => t("report.update.success")
+      redirect_to project_report_path(@project, @report), :notice => t("report.update.success")
     else
-      render :new
+      render :edit
     end
   end
   
@@ -62,9 +62,9 @@ class ReportsController < ProjectBaseController
       render :json => {:result => true, :data => random_data}
     else
       @metric = @report.metrics.find(params[:metric_id])
-      data = AnalyticService.new(@report, params).request_metric_data(@metric)
+      json = AnalyticService.new(@report, params).request_metric_data(@metric)
       
-      render :json => data
+      render :json => json
     end
   end
   
