@@ -98,6 +98,11 @@ Event.domReady = {
 }
 
 Event.domReady.add(function() {
+    <% if session[:cas_user].blank? %>
+        <% unless Rails.env == "development" %>
+            window.location.href = "http://p.xingcloud.com";
+        <% end %>
+    <% else %>
     var header  = document.createElement("div");
     header.className = "navbar navbar-fixed-top";
     
@@ -114,7 +119,6 @@ Event.domReady.add(function() {
                                     + "<li class='active'><a href='<%= root_url %>'>Analytics</a></li>"
                                     + "<li><a href='http://rrdsrv.xingcloud.com'>Cloud</a></li>"
                                 + "</ul>"
-                                <% if session[:cas_user].present? %>
                                 + "<ul class='nav pull-right'>"
                                     + "<li class='divider-vertical'></li>"
                                     + "<li class='dropdown'>"
@@ -124,10 +128,10 @@ Event.domReady.add(function() {
                                             + "<li><a href='/users/sign_out' data-method='delete' rel='nofollow'>logout</a></li>"
                                         + "</ul>"
                                 + "</ul>"
-                                <% end %>
                             + "</div>"
                         + "</div>"
                     + "</div>";
     
     document.body.insertBefore(header, document.body.childNodes[0]);
+    <% end %>
 })

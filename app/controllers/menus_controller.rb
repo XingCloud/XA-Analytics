@@ -1,6 +1,7 @@
 class MenusController < ApplicationController
-  before_filter :find_project, :only=>[:index, :new, :show]
-
+  set_tab :menu, :sub, :only => [:index, :new, :create, :edit, :update, :reorder]
+  before_filter :find_project, :only=>[:index, :new, :show, :report]
+  
   def index
     @menus = @project.menus
   end
@@ -13,8 +14,11 @@ class MenusController < ApplicationController
   end
 
   def show
-    @menu = Menu.find(params[:id])
     @menus = @project.menus
+    @menu = @menus.find(params[:id])
+    if @menu.reports.present?
+      redirect_to report_project_menu_path(@project, @menu, :report_id => @menu.reports.first.id)
+    end
   end
 
   #
@@ -55,6 +59,12 @@ class MenusController < ApplicationController
     @menu = Menu.find(params[:id])
     @menu.destroy
     redirect_to project_menus_path(@menu.project)
+  end
+  
+  def report
+    @menus = @project.menus
+    @menu = @menus.find(params[:id])
+    @report = @menu.reports.find(params[:report_id])
   end
 
   private

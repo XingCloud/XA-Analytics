@@ -1,18 +1,17 @@
 - javascript "metrics"
 
 = simple_form_for @metric, :url => project_metric_path(@project, @metric), :html => {:method => :put, :class => "form-horizontal"} do |f|
-  .row
-    .span7#base
-      = f.input :name
-      = render :partial => "form", :locals => {:builder => f}
-      
-    .span7#combine
-      = f.input :combine_action, :collection => translate_collection(Metric::COMBINE_ACTIONS, :scope => "metric")
-      
-      = f.fields_for :combine do |combine|
-        = combine.hidden_field "_destroy"
-        #combine_fields
-          = render :partial => "form", :locals => {:builder => combine}
+  #base
+    = f.input :name
+    = render :partial => "form", :locals => {:builder => f}
+    
+  #combine
+    = f.input :combine_action, :collection => translate_collection(Metric::COMBINE_ACTIONS, :scope => "metric")
+    
+    = f.fields_for :combine do |combine|
+      = combine.hidden_field "_destroy"
+      #combine_fields
+        = render :partial => "form", :locals => {:builder => combine}
         
   .form-actions
     = f.submit "Submit", :class => "btn btn-primary"

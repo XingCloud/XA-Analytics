@@ -1,0 +1,7 @@
+.well
+  - menus.roots.each do |menu|
+    %h4= menu.name
+    %ul.nav.nav-list
+      - menu.children.each do |sub_menu|
+        %li{:class => @menu == sub_menu ? "active" : nil}
+          = link_to sub_menu.name, project_menu_path(project, sub_menu)

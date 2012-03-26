@@ -1,0 +1,12 @@
+.row-fluid
+  .span2
+    = render :partial => "left_nav", :locals => {:project => @project, :menus => @menus}
+  .span10
+    %ul.nav.nav-tabs
+      - @menu.reports.each do |rp|
+        %li{:class => rp == @report ? "active" : nil}= link_to rp.title, report_project_menu_path(@project, @menu, :report_id => rp.id)
+
+
+    .row-fluid
+      .span12
+        = render :partial => "reports/report"

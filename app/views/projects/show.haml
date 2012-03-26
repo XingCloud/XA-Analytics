@@ -4,27 +4,17 @@
     .well.sidebar-nav
       %h3 菜单
       #sortable
-        = nested_list @menus.roots do |menu|
+        = nested_list @project.menus.roots do |menu|
           - if menu.child?
-            = link_to "#{menu.name}",project_menu_path(@project,menu)
+            = link_to menu.name, project_menu_path(@project,menu)
           -else
             = "#{menu.name}"
 
 
   .span9
-    .hero-unit
-      %h1 Chart
-    .row-fluid
-      %table.table.table-bordered
-        %thead
-          %tr
-            %th date
-            %th column
-            %th column
-            %th column
-        %tbody
-          %tr
-            %td{:rowspan=>2} t
-            %td Mark
-            %td Otto
-            %td mdo
+    .page-header
+      %h1 自定义菜单
+    %p
+      = link_to "自定义菜单", project_menus_path(@project)
+    
+    

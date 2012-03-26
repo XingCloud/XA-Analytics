@@ -1,6 +1,7 @@
 module MenusHelper
   def nested_list(menus, &block)
     return "" if menus.blank?
+    
     html = "<ul class='nav nav-list'>"
     menus.each do |menu|
       html << "<li id='menu_#{menu.id}' class='#{params[:id].to_i == menu.id ? 'active' : ''}'>"

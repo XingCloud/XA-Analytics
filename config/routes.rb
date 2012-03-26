@@ -26,6 +26,10 @@ Analytic::Application.routes.draw do
         get 'reorder'
         post 'reorder'
       end
+      
+      member do
+        get :report
+      end
     end
     resources :members do
       member do

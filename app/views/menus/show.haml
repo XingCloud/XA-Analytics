@@ -1,23 +1,9 @@
 - stylesheet "menus"
 .row-fluid
-  .span3
-    .well.sidebar-nav
-      %h3 菜单
-      #sortable
-        = nested_list @menus.roots do |menu|
-          - if menu.child?
-            = link_to "#{menu.name}",project_menu_path(@project,menu)
-          -else
-            = "#{menu.name}"
+  .span2
+    = render :partial => "left_nav", :locals => {:project => @project, :menus => @menus}
 
-
-  .span9
-    %ul.nav.nav-tabs
-      - @menu.reports.each do |rp|
-        %li= link_to rp.title, "javascript:void(0)", :onclick=>"#"
-    
-      
-    .row-fluid
-      .span12
-        - @report = @menu.reports.first
-        = render :partial => "reports/report"
+  .span10
+    .hero
+      还没有为该菜单设置报告，
+      = link_to "点击这里进行配置", edit_project_menu_path(@project, @menu)

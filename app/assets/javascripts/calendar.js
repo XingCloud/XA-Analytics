@@ -100,6 +100,7 @@ jQuery(function($) {
         this.datepicker = $('<input type="text" value="' + (this.options.datepicker.value || this.element.val()) + '" />');
 
         this.datepicker.css("margin-right", "10px");
+        this.datepicker.css("width", "180px");
 
         this.datepicker.insertAfter(this.element);
 
