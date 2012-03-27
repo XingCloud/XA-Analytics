@@ -3,17 +3,19 @@ class Ability
 
   def initialize(user)
     user ||= User.new
-    if user.admin?
-      can :manage, :all
-    else
-      user.members.each do |member|
-        member.roles.each do |role|
-          can :read, Project, :members => {:id => user.project_ids}
-          can :read, Menu, :id => role.menus.map(&:id)
-        end
-      end
-    end
-
+    can :manage, :all
+        # 
+        # if user.admin?
+        #   can :manage, :all
+        # else
+        #   user.members.each do |member|
+        #     member.roles.each do |role|
+        #       can :read, Project, :members => {:id => user.project_ids}
+        #       can :read, Menu, :id => role.menus.map(&:id)
+        #     end
+        #   end
+        # end
+    
     # The first argument to `can` is the action you are giving the user permission to do.
     # If you pass :manage it will apply to every action. Other common actions here are
     # :read, :create, :update and :destroy.
