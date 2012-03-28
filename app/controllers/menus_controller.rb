@@ -1,7 +1,8 @@
 class MenusController < ApplicationController
 
   set_tab :menu, :sub, :only => [:index, :new, :create, :edit, :update, :reorder]
-  before_filter :find_project, :only=>[:index, :new, :show, :report]
+  before_filter :find_project, :only=>[:index, :new, :show, :report,:edit]
+  before_filter :find_common_menus,:only =>[:show,:report]
 
   def index
     @menus = @project.menus
@@ -10,7 +11,7 @@ class MenusController < ApplicationController
   # 增加菜单
   def new
     @menu = Menu.new
-    @report = @project.reports
+    @reports = @project.reports
     @menu.project_id = params[:project_id]
     if request.xhr?
       render :partial => 'new' ,:layout => 'popup'
@@ -18,10 +19,8 @@ class MenusController < ApplicationController
   end
 
   def show
-    @menu = Menu.find(params[:id])
-    @common_menus = Menu.all(:conditions => ["status = ? and parent_id is null ", Menu::STATUS_DEFAULT])
+    @menu = Menu.find_by_id(params[:id])
     @menus = @project.menus
-
     if @menu.reports.present?
       redirect_to report_project_menu_path(@project, @menu, :report_id => @menu.reports.first.id)
     end
@@ -29,9 +28,12 @@ class MenusController < ApplicationController
 
   #
   def edit
-    @menu = Menu.find(params[:id])
-    @project = @menu.project
-    @report = @project.reports
+    @menu = Menu.find_by_id(params[:id])
+    if @menu.present? && @menu.project
+      @reports = @project.reports
+    else
+      @reports = Report.all(:conditions => ["template = ?",0])
+    end
     if request.xhr?
       render :partial => 'edit',:layout => 'popup'
     end
@@ -47,7 +49,7 @@ class MenusController < ApplicationController
 
   #
   def update
-    @menu = Menu.find(params[:id])
+    @menu = Menu.find_by_id(params[:id])
     @menu.update_association(params[:menu], params[:report_id])
     redirect_to project_menus_path(@menu.project)
   end
@@ -55,9 +57,9 @@ class MenusController < ApplicationController
 
   def reorder
     if request.get?
-      @project = Project.find(params[:project_id])
+      @project = Project.find_by_id(params[:project_id])
       @menus = @project.menus
-      @report = @project.reports
+      @reports = @project.reports
     elsif request.post?
       Menu.reorder(params[:menu])
       redirect_to project_menus_path(Project.find params[:project_id])
@@ -79,14 +81,18 @@ class MenusController < ApplicationController
   
   def report
     @menus = @project.menus
-    @menu = @menus.find(params[:id])
+    @menu = @menus.find_by_id(params[:id])
     @report = @menu.reports.find(params[:report_id])
   end
 
   private
 
   def find_project
-    @project = Project.find(params[:project_id])
+    @project = Project.find_by_id(params[:project_id])
+  end
+
+  def find_common_menus
+    @common_menus = Menu.all(:conditions => ["status = ? and parent_id is null ", Menu::STATUS_DEFAULT])
   end
 
 end

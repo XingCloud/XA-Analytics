@@ -13,7 +13,7 @@
             %label.string.optional.control-label
               %div　报表
               %div.controls
-                = select_tag :report_id, options_for_select(@report.map {|p| [ p.title, p.id ] }),{ :multiple => true, :size =>4, :id => "menu_report" }
+                = select_tag :report_id, options_for_select(@reports.map {|p| [ p.title, p.id ] }),{ :multiple => true, :size =>4, :id => "menu_report" }
           = f.input :desc
           = f.hidden_field(:project_id)
 

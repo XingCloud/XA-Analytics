@@ -11,10 +11,10 @@ class ProjectsController < ApplicationController
   end
 
   def show
-    @menu = Menu.find(params[:id])
     @common_menus = Menu.all(:conditions => ["status = ? and parent_id is null ", Menu::STATUS_DEFAULT])
     @menus = @project.menus
-    if @menu.present?
+    @menu = @menus.detect{|menu| menu.leaf? }
+    if @menu && @menu.reports.present?
       redirect_to project_menu_path(@project, @menu)
     end
 
