@@ -64,3 +64,40 @@ function toggle_combine_fieldset() {
   }
 }
 
+function load_event(link) {
+  var matches = $(link).prev().attr("id").match(/^(.*?)(\d+)$/);
+  var prev_str = matches[1];
+  var target_row = matches[2];
+  
+  var siblings = $("input[id^='" + prev_id + "']");
+  
+  var data = {}
+  siblings.each(function(input) {
+    var indx = input.match(/(\d+)$/)[1];
+    data["l" + index] = input.val();
+  });
+  
+  var target_body = $("#" + $(link).attr("data-target")).find(".modal-body");
+  
+  $.ajax({
+    url : "/projects/" + PROJECT_IDENTIFIER + "/event_item?target_row=" + target_row,
+    data : data,
+    dataType: "html",
+    beforeSend: function(xhr) {
+      target_body.html(
+        '<div class="progress progress-striped
+             active">
+          <div class="bar"
+               style="width: 100%;"></div>
+        </div>'
+      );
+    },
+    success : function(resp) {
+      target_body.html(resp)
+    },
+    error: function() {
+      target_body.html("error");
+    }
+  })
+  console.log(siblings)
+}

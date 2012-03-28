@@ -35,17 +35,17 @@ class AnalyticService
     self.class.commit("/dd/event", {:params => options.to_json, :p => 1})
   end
   
-  def self.events(project, page = 1)
-    params = {
-      :project_id => project.identifier,
-      :idx => page,
-      :pagesize => 50
-    }
+  def check_event_key(project, event_index, event_filters)
+    options = {:project_id => project.identifier, :target_row => event_index.to_s, :condition => event}
     
-    commit("/dd/evlist", params)
+    self.class.commit("/dd/evlist", {:params => options.to_json })
   end
   
   private
+  
+  def filter_to_condition(event_filters)
+    
+  end
   
   def metric_option_of(metric)
     options = {

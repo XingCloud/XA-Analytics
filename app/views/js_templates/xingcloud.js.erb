@@ -99,8 +99,10 @@ Event.domReady = {
 
 Event.domReady.add(function() {
     <% if session[:cas_user].blank? %>
-        <% unless Rails.env == "development" %>
-            window.location.href = "http://p.xingcloud.com";
+        <% if Rails.env == "development" %>
+        
+        <% else %>
+            window.location.href = <%= @cas_login_url %>;
         <% end %>
     <% else %>
     var header  = document.createElement("div");
@@ -113,19 +115,19 @@ Event.domReady.add(function() {
                                 + "<span class='i-bar'></span>"
                                 + "<span class='i-bar'></span>"
                             + "</a>"
-                            + "<a class='brand' href='http://p.xingcloud.com'>XingCloud</a>"
+                            + "<a class='brand' href='http://p.xingcloud.com'>行云</a>"
                             + "<div class='container-fluid nav-collapse'>"
                                 + "<ul class='nav'>"
-                                    + "<li class='active'><a href='<%= root_url %>'>Analytics</a></li>"
-                                    + "<li><a href='http://rrdsrv.xingcloud.com'>Cloud</a></li>"
+                                    + "<li class='active'><a href='<%= project_path(@project) %>'>数据分析</a></li>"
+                                    + "<li><a href='http://rrdsrv.xingcloud.com/?identifier=<%= @project.identifier %>'>云监控</a></li>"
                                 + "</ul>"
                                 + "<ul class='nav pull-right'>"
                                     + "<li class='divider-vertical'></li>"
                                     + "<li class='dropdown'>"
                                         + "<a href='#' class='dropdown-toggle' data-toggle='dropdown'><%= session[:cas_user] %><b class='caret'></b></a>"
                                         + "<ul class='dropdown-menu'>"
-                                            + "<li><a href='/users/edit_current'>Change Password</a></li>"
-                                            + "<li><a href='/sign_out' data-method='delete' rel='nofollow'>logout</a></li>"
+                                            + "<li><a href='http://p.xingcloud.com/my/account'>账号设置</a></li>"
+                                            + "<li><a href='http://p.xingcloud.com/logout' rel='nofollow'>退出</a></li>"
                                         + "</ul>"
                                 + "</ul>"
                             + "</div>"
