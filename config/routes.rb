@@ -19,6 +19,9 @@ Analytic::Application.routes.draw do
       member do
         post :request_data
       end
+      collection do
+        get :choose_template
+      end
     end
     resources :metrics
     resources :menus do

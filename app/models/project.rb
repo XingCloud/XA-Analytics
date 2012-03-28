@@ -28,5 +28,15 @@ class Project < ActiveRecord::Base
       raise json["error"]
     end
   end
+
+  def create_template_reports
+    Report.find_all_by_template(1).each do |report|
+      new_report = report.clone_as_template(self.id)
+      if not new_report.save
+        return false
+      end
+    end
+    return true
+  end
   
 end

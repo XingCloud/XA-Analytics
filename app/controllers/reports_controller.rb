@@ -7,8 +7,19 @@ class ReportsController < ProjectBaseController
   end
   
   def new
-    @report = @project.reports.build
-    @report.build_period
+    if params[:template_id].nil?
+      @report = @project.reports.build
+      @report.build_period
+    else
+      template = Report.find(params[:template_id])
+      if (not template.nil?) and template.template == 1
+        @report = template.clone_as_template(@project.id)
+      else
+        @report = @project.reports.build
+        @report.build_period
+      end
+    end
+
   end
   
   def create
@@ -66,6 +77,10 @@ class ReportsController < ProjectBaseController
       
       render :json => json
     end
+  end
+
+  def choose_template
+    @template_reports = Report.find_all_by_template(1)
   end
   
   private
