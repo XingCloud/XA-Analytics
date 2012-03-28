@@ -1,7 +1,9 @@
-%p
-  = link_to "添加菜单", new_project_menu_path(@project), :class => "btn"
-  = link_to '菜单排序', reorder_project_menus_path(@project), :class => "btn"
-  
+
+.btn{:'add_menu'=> "#{new_project_menu_path(@project)}"} 添加菜单
+.btn{:'reorder_menu'=> "#{reorder_project_menus_path(@project)}"} 菜单排序
+
+%div{:style=>'visibility:hidden;height:10px'}
+
 %table.table.table-bordered
   %tr
     %th 菜单名称
@@ -15,7 +17,7 @@
         %td= menu.name
         %td= menu.desc
         %td= menu.created_at.strftime("%Y-%m-%d %H:%M:%S")
-        %td= link_to_edit edit_project_menu_path(@project,menu)
+        %td= link_to_edit "javascript:void(0)",:onclick=>"edit_menu('#{edit_project_menu_path(@project,menu)}')"
         %td= link_to_delete project_menu_path(@project,menu)
       - unless menu.children.blank?
         - menu.children.each do |sub_menu|
@@ -23,5 +25,10 @@
             %td= raw "&nbsp;&nbsp;&nbsp;#{sub_menu.name}"
             %td= sub_menu.desc
             %td= sub_menu.created_at.strftime("%Y-%m-%d %H:%M:%S")
-            %td= link_to_edit edit_project_menu_path(@project,sub_menu)
+            %td= link_to_edit "javascript:void(0)",:onclick=>"edit_menu('#{edit_project_menu_path(@project,sub_menu)}')"
             %td= link_to_delete project_menu_path(@project,sub_menu)
+
+
+.modal.fade#menu{:style=>"height:800px;width:800px;display:none",:title=>'添加菜单'}
+
+= javascript_include_tag 'models/menu.js'

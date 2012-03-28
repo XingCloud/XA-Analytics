@@ -1,9 +1,5 @@
 Analytic::Application.routes.draw do
 
-  # devise_for :users do
-  #   get 'login' => 'devise/sessions#new'
-  #   get 'logout' => 'devise/sessions#destroy'
-  # end
   
   match "/sign_out" => "users#sign_out"
   
@@ -35,13 +31,12 @@ Analytic::Application.routes.draw do
         get :report
       end
     end
-    resources :members do
-      member do
-        get :new_role
-        get :edit_role
-        put :assign_role
-        put :update_role
-      end
+  end
+
+  resources :template_menus do
+    collection do
+      get 'reorder'
+      post 'reorder'
     end
   end
   

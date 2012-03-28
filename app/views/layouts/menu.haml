@@ -31,6 +31,7 @@
               = tab.project "Projects", projects_path
               = tab.role "Role",roles_path
               = tab.user "User",users_path
+              = tab.template '通用菜单管理',template_menus_path
     .container-fluid
       .page_top
         = render_breadcrumb
@@ -38,7 +39,7 @@
         = yield
     
       %footer
-        %p &copy; Company 2012
+        %p &copy; Company 2012-2017
     /
       Le javascript
       \==================================================

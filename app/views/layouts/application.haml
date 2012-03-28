@@ -20,6 +20,23 @@
       }
       
   %body
+
+    .navbar.navbar-fixed-top
+      .navbar-inner
+        .container-fluid
+          %a.btn.btn-navbar{"data-target" => ".nav-collapse", "data-toggle" => "collapse"}
+            %span.i-bar
+            %span.i-bar
+            %span.i-bar
+          %a.brand{:href => "/"} XingCloud Analytic
+          .container-fluid.nav-collapse
+            = tabs_tag :namespace => :topbar, :builder => TabsOnRails::Bootstrap, :open_tabs => {:class => "nav"} do |tab|
+              = tab.project "项目列表", projects_path
+              = tab.role "Role",roles_path
+              = tab.user "User",users_path
+              = tab.template '通用菜单管理',template_menus_path
+
+
     .container-fluid
 
       .row-fluid
@@ -32,7 +49,7 @@
           = tabs_tag :namespace => :sub, :builder => TabsOnRails::SubNav do |tab|
             = tab.project "首页", project_path(@project)
             = tab.report "自定义报告", project_reports_path(@project)
-            = tab.menu '菜单管理', project_menus_path(@project)
+            = tab.menu '自定义菜单管理', project_menus_path(@project)
         = notice_message
         = yield
       
