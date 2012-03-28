@@ -12,10 +12,10 @@ class Metric < ActiveRecord::Base
   accepts_nested_attributes_for :combine, :allow_destroy => true
   
   before_validation :correct_combine
+  validates_presence_of :name, :if => proc{|m| m.combine_id.blank? }
   validates_presence_of :comparison_operator, :if => proc{|m| m.comparison.present? }
   validates_presence_of :comparison, :if => proc {|m| m.comparison_operator.present? }
   validates_presence_of :condition
-  
   
   6.times do |i|
     define_method "event_key_#{i}" do

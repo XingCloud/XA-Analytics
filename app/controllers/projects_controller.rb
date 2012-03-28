@@ -1,6 +1,8 @@
 class ProjectsController < ApplicationController
+  skip_before_filter :cas_filter, :only => :index
+  #before_filter CASClient::Frameworks::Rails::GatewayFilter, :only => :index
 
-  before_filter :find_project, :only => [:show,:members]
+  before_filter :find_project, :only => [:show, :members]
   set_tab :project, :sidebar
 
   def index
@@ -11,8 +13,12 @@ class ProjectsController < ApplicationController
   def show
     @common_menus = Menu.all(:conditions => ["status = ? and parent_id is null ", Menu::STATUS_DEFAULT])
     @menus = @project.menus
-  end
+    @menu = @project.menus.detect { |menu| menu.leaf? }
+    if @menu.present?
+      redirect_to project_menu_path(@project, @menu)
+    end
 
+  end
 
   private
 

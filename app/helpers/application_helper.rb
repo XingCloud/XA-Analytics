@@ -19,9 +19,7 @@ module ApplicationHelper
       "/js_templates/#{arg}.jst.haml"
     end
     
-    #content_for(:head) { 
-      javascript_include_tag(*filenames)
-    #}
+    javascript_include_tag(*filenames)
   end
   
 end

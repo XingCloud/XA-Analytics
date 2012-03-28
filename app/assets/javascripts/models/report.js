@@ -1,7 +1,19 @@
 (function () {
-
-    window.DEBUG = true;
-
+    $.xhrPool = [];
+    $.xhrPool.abortAll = function() {
+      _.each(this, function(jqXHR) {
+        jqXHR.abort();
+      });
+    };
+    
+    $.ajaxSetup({
+      beforeSend: function(jqXHR) {
+        $.xhrPool.push(jqXHR);
+      }
+    });
+    
+    window.DEBUG = false;
+    
     Highcharts.setOptions({
         global:{
             useUTC:false
@@ -12,7 +24,7 @@
         return _.map(data, function (item) {
             item[0] = Date.parse(item[0])
             return item;
-        })
+        });
     }
 
     window.Report = Backbone.Model.extend({
@@ -25,7 +37,6 @@
         add_period:function (options) {
             this.period = new Period(options);
             this.period.report = this;
-            this.trigger("add_period", this.period);
         },
 
         draw:function () {
@@ -40,7 +51,7 @@
                 metric.draw();
             });
         },
-
+        
         chart_options:function () {
             if (this.get("type_name") == "line_report") {
                 return this.line_chart_option();
@@ -198,8 +209,8 @@
 
         request_params:function () {
             return {
-                start_time:moment(this.report.period.get("start_time")).format("YYYY-MM-DD"),
-                end_time:moment(this.report.period.get("end_time")).format("YYYY-MM-DD")
+                start_time : moment(this.report.period.get("start_time")).format("YYYY-MM-DD"),
+                end_time : moment(this.report.period.get("end_time")).format("YYYY-MM-DD")
             }
         },
 
@@ -222,10 +233,17 @@
                         self.data = resp.data;
                         callback();
                     } else {
+                        self.data = []
+                        callback();
                         alert(resp.error);
                     }
+                },
+                error: function(resp) {
+                  console.log(resp);
                 }
+                
             });
+            
         },
 
         chart_options:function () {
@@ -259,8 +277,8 @@
         request_params:function () {
             console.log("compare metric request params");
             var params = {
-                start_time:this.get("start_time").format("YYYY-MM-DD"),
-                end_time:this.get("end_time").format("YYYY-MM-DD")
+                start_time : this.get("start_time").format("YYYY-MM-DD"),
+                end_time : this.get("end_time").format("YYYY-MM-DD")
             }
             console.log(params);
             return params;
@@ -309,7 +327,7 @@
         },
 
         range:function () {
-            return this.get("start_time") + " 至 " + this.get("end_time");
+            return moment(this.get("start_time")).format("YYYY-MM-DD") + " 至 " + moment(this.get("end_time")).format("YYYY-MM-DD");
         },
 
         dateformat:function () {

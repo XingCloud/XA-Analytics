@@ -5,14 +5,14 @@ class Report < ActiveRecord::Base
   has_many :metrics, :dependent => :destroy
   has_one :period, :dependent => :destroy
   has_many :menu_reports
-  has_many :menus,:through => :menu_reports
+  has_many :menus, :through => :menu_reports
   
   accepts_nested_attributes_for :metrics, :allow_destroy => true
   accepts_nested_attributes_for :period
   
   validates_presence_of :title, :type, :metric_ids, :period
   
-  delegate :rate, :interval, :start_time, :end_time, :to => :period
+  delegate :rate, :interval, :start_time, :end_time, :compare?, :to => :period
   delegate :identifier, :to => :project
   
   def do_public

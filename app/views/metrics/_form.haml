@@ -1,7 +1,5 @@
 - (0...6).each do |i|
-  = builder.input "event_key_#{i}", :collection => instance_variable_get("@event_key_#{i}"), :include_blank => false, :input_html => {:class => "chzn-select"}, | 
-    :label => "事件第#{i+1}层"
-
+  = builder.input "event_key_#{i}", :include_blank => false, :label => "事件第#{i+1}层"
 = builder.input :condition, :collection => translate_collection(Metric::OPERATIONS, :scope => "metric"), :include_blank => false
 
 = builder.input :comparison do

@@ -1,27 +1,9 @@
 - stylesheet "menus"
 .row-fluid
-  .span3
-    .well.sidebar-nav
-      %h3 通用菜单
-      #sortable
-        = nested_list @common_menus do |comm_menu|
-          - if comm_menu.root?
-            = "#{comm_menu.name}"
-          -else
-            = link_to "#{comm_menu.name}",project_menu_path(@project,comm_menu)
+  .span2
+    = render :partial => "left_nav", :locals => {:project => @project, :menus => @menus}
 
-      %h3 自定义菜单
-      #custom
-        = nested_list @menus.roots do |menu|
-          - if menu.child?
-            = link_to "#{menu.name}",project_menu_path(@project,menu)
-          -else
-            = "#{menu.name}"
-
-
-  .span9
-    %p
-    - @menu.reports.each do |rp|
-      = link_to rp.title, "javascript:void(0)",:onclick=>"#", :class => "btn"
-    %p
-    Chart
+  .span10
+    .hero
+      还没有为该菜单设置报告，
+      = link_to "点击这里进行配置", edit_project_menu_path(@project, @menu)

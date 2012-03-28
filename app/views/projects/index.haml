@@ -5,3 +5,4 @@
   = tlist @projects, :cols => 2 do |project|
     %td= link_to project.name, project_path(project)
     %td= project.identifier
+= will_paginate @projects

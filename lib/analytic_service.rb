@@ -14,6 +14,7 @@ class AnalyticService
       :interval       => @report.rate.upcase,
       :start_time     => options[:start_time],
       :end_time       => options[:end_time],
+      :compare        => @report.compare?
     }
   end
   
@@ -24,17 +25,25 @@ class AnalyticService
     if combo = metric.combine
       options.merge!({
         :combine => {
-          :action => metric.combine_action
+          :action => metric.combine_action.to_s.upcase
         }.merge(metric_option_of(combo))
       })
     end
     
     pp options
     
-    commit("/dd/event", options)
+    self.class.commit("/dd/event", {:params => options.to_json, :p => 1})
   end
   
-  
+  def self.events(project, page = 1)
+    params = {
+      :project_id => project.identifier,
+      :idx => page,
+      :pagesize => 50
+    }
+    
+    commit("/dd/evlist", params)
+  end
   
   private
   
@@ -55,15 +64,17 @@ class AnalyticService
   end
   
   
-  def commit(url, options = {}, request_options = {})
+  def self.commit(url, options = {}, request_options = {})
     url = URI.parse( File.join(BASE_URL, url) )
-    response = Net::HTTP.post_form(url, {:params => options.to_json, :p => 1})
+    pp url
+    pp options
+    response = Net::HTTP.post_form(url, options)
     
     pp response.body
     if response.is_a?(Net::HTTPSuccess)
       ActiveSupport::JSON.decode(response.body)
     else
-      {:result => false, :error => "Request: #{response.code}"}
+      {"result" => false, "error" => "Request: #{response.code}"}
     end
     
   end

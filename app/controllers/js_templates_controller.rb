@@ -1,4 +1,5 @@
 class JsTemplatesController < ApplicationController
+  skip_before_filter :cas_filter
   
   ASSETS = YAML.load_file(Rails.root.join("config/assets.yml"))
   ASSET_ROOT            = File.expand_path((defined?(Rails) && Rails.root.to_s.length > 0) ? Rails.root : ENV['RAILS_ROOT'] || ".") unless defined?(ASSET_ROOT)
@@ -8,6 +9,10 @@ class JsTemplatesController < ApplicationController
     
     raise "Can not find this package #{@package}" unless ASSETS.has_key?(@package)
     render :js => pack_templates
+  end
+  
+  def xingcloud
+    render :js => render_to_string("xingcloud", :layout=> false)
   end
   
   private

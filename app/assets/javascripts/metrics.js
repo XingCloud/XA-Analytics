@@ -57,10 +57,10 @@ function check_keys(scope) {
 function toggle_combine_fieldset() {
   if ($("#metric_combine_action").val()) {
     $("#combine_fields").show();
-    $("#metric_combine_attributes__destroy").val("1");
+    $("#metric_combine_attributes__destroy").val("0");
   } else {
     $("#combine_fields").hide();
-    $("#metric_combine_attributes__destroy").val("0");
+    $("#metric_combine_attributes__destroy").val("1");
   }
 }
 

@@ -27,7 +27,9 @@ gem 'tabs_on_rails', "~> 2.1.1"
 gem "dalli"
 gem "cancan"
 gem "devise"
-
+gem "rubycas-client"
+#gem "mongoid"
+#gem "bson_ext"
 #gem "jammit", :git => "git://github.com/yakjuly/jammit.git"
 
 group :development, :test do

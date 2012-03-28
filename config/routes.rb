@@ -26,6 +26,10 @@ Analytic::Application.routes.draw do
         get 'reorder'
         post 'reorder'
       end
+      
+      member do
+        get :report
+      end
     end
   end
 
@@ -41,7 +45,8 @@ Analytic::Application.routes.draw do
           # A hack to allow extension to include "."
           :extension => /.+/
       }
-
+  match "/xingcloud/global.js", :to => "js_templates#xingcloud", :format => "js"
+  
   resources :roles
 
   # The priority is based upon order of creation:
