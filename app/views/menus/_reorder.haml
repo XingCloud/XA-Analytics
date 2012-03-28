@@ -12,10 +12,12 @@
       #sortable
         = nested_list @menus.roots do |menu|
           - if menu.child?
-            %div= link_to menu.name, edit_project_menu_path(@project,menu)
+            %div= link_to menu.name, "javascript:void(0)",:onclick=>"edit_menu('#{edit_project_menu_path(@project,menu)}')"
           -else
             %div= "#{menu.name}"
         .form-actions
         = form_tag reorder_project_menus_path(@project),:class=>'form-horizontal' do
           = submit_tag '保存',:class => 'btn btn-primary'
           = link_to "取消", project_menus_path(@project), :class => "btn"
+
+= javascript_include_tag 'jquery-1.7.1.min.js','jquery-ui-1.8.18.custom.min.js','jquery.ui.nestedSortable.js','menus.js'

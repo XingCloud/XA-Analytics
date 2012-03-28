@@ -30,6 +30,7 @@
               = tab.project "项目列表", projects_path
               = tab.role "Role",roles_path
               = tab.user "User",users_path
+              = tab.template '通用菜单管理',template_menus_path
 
     .container-fluid
 
@@ -43,7 +44,7 @@
           = tabs_tag :namespace => :sub, :builder => TabsOnRails::SubNav do |tab|
             = tab.project "首页", project_path(@project)
             = tab.report "自定义报告", project_reports_path(@project)
-            = tab.menu '菜单管理', project_menus_path(@project)
+            = tab.menu '自定义菜单管理', project_menus_path(@project)
         = notice_message
         = yield
       

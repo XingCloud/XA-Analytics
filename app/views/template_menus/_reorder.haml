@@ -1,0 +1,23 @@
+- javascript "menus"
+
+- title "菜单管理"
+
+.page-header
+  %h3
+  可拖动菜单，目前只支持两级之间的拖拽。
+.row-fluid
+  .span3
+  .span9
+    .well.sidebar-nav
+      #sortable
+        = nested_list @menus do |menu|
+          - if menu.root?
+            %div= "#{menu.name}"
+          -else
+            %div= link_to menu.name, edit_template_menu_path(menu)
+        .form-actions
+        = form_tag reorder_template_menus_path(),:class=>'form-horizontal' do
+          = submit_tag '保存',:class => 'btn btn-primary'
+          = link_to "取消", template_menus_path, :class => "btn"
+
+= javascript_include_tag 'jquery.js','jquery-1.7.1.min.js','jquery-ui-1.8.18.custom.min.js','jquery.ui.nestedSortable.js','menus.js'

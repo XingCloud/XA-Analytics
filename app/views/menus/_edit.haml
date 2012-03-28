@@ -4,11 +4,11 @@
   .page-header
     .h3
       一般信息
-      %small 菜单名称及描述
+      %small 菜单名称及描述  报表可多选，最多选择四个报表
   .form-stocked
 
     %fieldset
-      .row
+      .row-fluid
         .span6
           = f.input :name
           - if @menu.child?
@@ -21,12 +21,6 @@
           = f.input :desc
           = f.hidden_field(:project_id)
 
-        .span7
-          %h4
-            菜单名称
-          %p
-            描述 报表可多选，最多选择四个报表
   .form-actions
     = f.submit "提交", :class => "btn btn-primary"
     = link_to "取消", project_menus_path(@project), :class => "btn"
- 

@@ -1,0 +1,33 @@
+.btn{:'add_menu'=>''} 添加菜单
+.btn{:'reorder_menu'=>''} 菜单排序
+
+%div{:style=>'visibility:hidden;height:10px'}
+
+%table.table.table-bordered
+  %tr
+    %th 菜单名称
+    %th 菜单描述
+    %th 创建时间
+    %th
+    %th
+  - @menus.each do |menu|
+    - if !menu.child?
+      %tr
+        %td= menu.name
+        %td= menu.desc
+        %td= menu.created_at.strftime("%Y-%m-%d %H:%M:%S")
+        %td= link_to_edit "javascript:void(0)",:onclick=>"edit_menu('#{edit_template_menu_path(menu)}')"
+        %td= link_to_delete template_menu_path(menu)
+      - unless menu.children.blank?
+        - menu.children.each do |sub_menu|
+          %tr
+            %td= raw "&nbsp;&nbsp;&nbsp;#{sub_menu.name}"
+            %td= sub_menu.desc
+            %td= sub_menu.created_at.strftime("%Y-%m-%d %H:%M:%S")
+            %td= link_to_edit "javascript:void(0)",:onclick=>"edit_menu('#{edit_template_menu_path(sub_menu)}')"
+            %td= link_to_delete template_menu_path(sub_menu)
+
+
+.modal.fade#menu{:style=>"height:600px;width:800px;display:none",:title=>'添加菜单'}
+
+= javascript_include_tag 'template_menus.js'
