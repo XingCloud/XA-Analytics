@@ -11,9 +11,9 @@ class ProjectsController < ApplicationController
   end
 
   def show
+    @menu = Menu.find(params[:id])
     @common_menus = Menu.all(:conditions => ["status = ? and parent_id is null ", Menu::STATUS_DEFAULT])
     @menus = @project.menus
-    @menu = @project.menus.detect { |menu| menu.leaf? }
     if @menu.present?
       redirect_to project_menu_path(@project, @menu)
     end

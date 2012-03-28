@@ -32,6 +32,6 @@ class Report < ActiveRecord::Base
   end
 end
 
-Dir.glob(File.dirname(__FILE__) + "/reports/*.rb").each do |file|
-  require_dependency file
-end
+#Dir.glob(File.dirname(__FILE__) + "/reports/*.rb").each do |file|
+#  require_dependency file
+#end
