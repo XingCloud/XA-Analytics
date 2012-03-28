@@ -28,14 +28,14 @@ class TemplateMenusController < ApplicationController
   end
 
   def edit
-    @menu = Menu.find(params[:id])
+    @menu = Menu.find_by_id(params[:id])
     if request.xhr?
       render :partial => 'edit', :layout => 'popup'
     end
   end
 
   def update
-    @menu = Menu.find(params[:id])
+    @menu = Menu.find_by_id(params[:id])
     if @menu.update_association(params[:menu], params[:report_id])
       redirect_to template_menus_path
     else
@@ -56,7 +56,7 @@ class TemplateMenusController < ApplicationController
   end
 
   def destroy
-    @menu = Menu.find(params[:id])
+    @menu = Menu.find_by_id(params[:id])
     if @menu.status == Menu::STATUS_DEFAULT && current_user.admin
       @menu.destroy
     end
@@ -66,7 +66,7 @@ class TemplateMenusController < ApplicationController
 
   # TODO
   def find_reports
-    @reports = Report.all
+    @reports = Report.all(:conditions => ["template = ?",Report::COMMON_TEMPLATE])
   end
 
 end
