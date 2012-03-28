@@ -47,8 +47,6 @@ Analytic::Application.routes.draw do
       }
   match "/xingcloud/global.js", :to => "js_templates#xingcloud", :format => "js"
   
-  resources :roles
-
   # The priority is based upon order of creation:
   # first created -> highest priority.
 

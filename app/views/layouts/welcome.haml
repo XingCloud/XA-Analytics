@@ -31,9 +31,6 @@
           .container-fluid.nav-collapse
             = tabs_tag :namespace => :topbar, :builder => TabsOnRails::Bootstrap, :open_tabs => {:class => "nav"} do |tab|
               = tab.project "Projects", projects_path
-              = tab.role "Role",roles_path
-              = tab.user "User",users_path
-              = tab.template '通用菜单管理',template_menus_path
 
     .container-fluid
       .page_top
@@ -48,7 +45,7 @@
               = tabs_tag :namespace => :sidebar, :builder => TabsOnRails::Bootstrap, :open_tabs => {:class => "nav nav-list"} do |tab|
                 %li.nav-header 项目
                 = tab.project "项目列表", projects_path
-              
+                = tab.template '通用菜单管理',template_menus_path
         .span10
           - if content_for?(:title)
             .page-header
