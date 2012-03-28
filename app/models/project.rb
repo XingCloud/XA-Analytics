@@ -3,8 +3,7 @@ class Project < ActiveRecord::Base
   has_many :metrics
   has_many :events
   has_many :menus
-  has_many :members
-  has_many :users, :through => :members
+
 
   validate :identifier, :presence => true, :uniqueness => true
   
