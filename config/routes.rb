@@ -1,9 +1,8 @@
 Analytic::Application.routes.draw do
 
-  #devise_for :users do
-  #  get 'login' => 'devise/sessions#new'
-  #  get 'logout' => 'devise/sessions#destroy'
-  #end
+  
+  match "/sign_out" => "users#sign_out"
+  
   resources :users do
     member do
       get :new_role
@@ -11,8 +10,9 @@ Analytic::Application.routes.draw do
       put :assign_role
       put :update_role
     end
+    
   end
-
+  
   root :to => "projects#index"
   resources :projects do
     resources :reports do
@@ -39,7 +39,7 @@ Analytic::Application.routes.draw do
       post 'reorder'
     end
   end
-
+  
   match "/js_templates/:package.:extension",
         :to => 'js_templates#package', :as => :jammit, :constraints => {
           # A hack to allow extension to include "."
@@ -74,7 +74,7 @@ Analytic::Application.routes.draw do
   #       get 'sold'
   #     end
   #   end
-
+  
   # Sample resource route with sub-resources:
   #   resources :products do
   #     resources :comments, :sales

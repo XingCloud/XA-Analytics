@@ -1,7 +1,8 @@
 class UsersController < ApplicationController
   layout 'menu'
   #before_filter :authenticate_user!
-  load_and_authorize_resource
+  # load_and_authorize_resource
+  
   def index
     @users = User.paginate(:page => params[:page], :per_page => 50)
   end
@@ -29,7 +30,8 @@ class UsersController < ApplicationController
   end
 
   def sign_out
-    redirect_to CASClient::Frameworks::Rails::Filter.logout_url
+    reset_session
+    CASClient::Frameworks::Rails::Filter.logout(self, root_url) and return
   end
 
 end
