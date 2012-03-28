@@ -18,17 +18,9 @@
     = link_to_function "取消", "close_dialog()"
     
 :javascript
-  var events = #{@events.to_json};
+  PROJECT_IDENTIFIER = "#{@project.identifier}";
   
   $(function() {
-    $("#base .chzn-select").chosen().change(function() {
-      check_keys("#base");
-    })
-    
-    $("#combine .chzn-select}").chosen().change(function() {
-      check_keys("#combine")
-    })
-    
     $("#metric_combine_action").change(function() {
       toggle_combine_fieldset()
     })

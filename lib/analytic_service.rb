@@ -35,16 +35,20 @@ class AnalyticService
     self.class.commit("/dd/event", {:params => options.to_json, :p => 1})
   end
   
-  def check_event_key(project, event_index, event_filters)
-    options = {:project_id => project.identifier, :target_row => event_index.to_s, :condition => event}
+  def self.check_event_key(project, target_row, condition)
+    options = {:project_id => project.identifier, :target_row => target_row, :condition => filter_condition(condition, target_row)}
     
-    self.class.commit("/dd/evlist", {:params => options.to_json })
+    commit("/dd/evlist", {:params => options.to_json })
   end
   
   private
   
-  def filter_to_condition(event_filters)
-    
+  def self.filter_condition(condition, target_row)
+    condition.each do |k,v|
+      if v.blank? || v == "*" || k == target_row
+        condition.delete(k)
+      end
+    end
   end
   
   def metric_option_of(metric)

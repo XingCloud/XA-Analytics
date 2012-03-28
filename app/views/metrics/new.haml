@@ -19,9 +19,10 @@
     = link_to_function "取消", "close_dialog()"
 
 :javascript
-
+  PROJECT_IDENTIFIER = "#{@project.identifier}";
+  
   $(function() {
-    PROJECT_IDENTIFIER = #{@project.identifier}
+    
 
     $("#metric_combine_action").change(function() {
       toggle_combine_fieldset()
