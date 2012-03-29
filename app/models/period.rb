@@ -43,7 +43,7 @@ class Period < ActiveRecord::Base
   end
 
   def template_attributes
-    {:rule => self.rule, :rate => self.rate, :compare_number => self.compare_number}
+    self.attributes.slice("rule", "rate", "compare_number")
   end
   
 end

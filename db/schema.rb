@@ -10,7 +10,8 @@
 # you'll amass, the slower it'll run and the greater likelihood for issues).
 #
 # It's strongly recommended to check this file into your version control system.
-ActiveRecord::Schema.define(:version => 20120326084757) do
+
+ActiveRecord::Schema.define(:version => 20120328075423) do
 
   create_table "agents", :force => true do |t|
     t.integer  "project_id"

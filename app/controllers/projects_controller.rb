@@ -19,9 +19,11 @@ class ProjectsController < ApplicationController
   end
   
   def event_item
+    @default_value = params[:condition][params[:target_row]] rescue nil
     json = AnalyticService.check_event_key(@project, params[:target_row], params[:condition])
     pp json
-    render :text => "Abc"
+    @items = ["visit", "pay", "good"] * 3
+    render :layout => false
   end
 
   private
