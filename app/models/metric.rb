@@ -3,7 +3,7 @@ class Metric < ActiveRecord::Base
   
   belongs_to :project
   belongs_to :report
-  belongs_to :combine, :class_name => :"Metric"
+  has_one :combine, :class_name => :"Metric", :foreign_key => "combine_id"
   
   OPERATIONS = ["count", "sum", "user_num"]
   COMPARISION_OPERATORS = ["gt", "lt", "ge", "le", "eq", "ne", "between"]

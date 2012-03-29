@@ -72,15 +72,15 @@ class AnalyticService
     url = URI.parse( File.join(BASE_URL, url) )
     pp url
     pp options
-    response = Net::HTTP.post_form(url, options)
-    
-    pp response.body
-    if response.is_a?(Net::HTTPSuccess)
-      ActiveSupport::JSON.decode(response.body)
-    else
-      {"result" => false, "error" => "Request: #{response.code}"}
+    Timeout.timeout(15) do
+      response = Net::HTTP.post_form(url, options)
+      pp response.body
+      if response.is_a?(Net::HTTPSuccess)
+        return ActiveSupport::JSON.decode(response.body)
+      else
+        return {"result" => false, "error" => "Request: #{response.code}"}
+      end
     end
-    
   end
   
   def parse_data(resp)

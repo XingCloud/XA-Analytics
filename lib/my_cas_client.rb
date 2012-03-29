@@ -1,7 +1,8 @@
+require "uri"
 module MyCasClient
   
   def cas_for_authentication_url(controller)
-    redirect_url = login_url(controller)
+    redirect_url = "http://p.xingcloud.com:11011/cas/login?service=#{URI.escape(controller.request.referer)}"
 
     if use_gatewaying?
       controller.session[:cas_sent_to_gateway] = true
