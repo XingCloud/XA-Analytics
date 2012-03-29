@@ -10,18 +10,14 @@ class Project < ActiveRecord::Base
   def create_template_menus
     Project.transaction do
       Menu.template.roots.each do |template_big_menu|
+        big_menu = self.menus.create(:name=>template_big_menu.name)
 
-        big_menu = self.menus.create!(:name=>template_big_menu.name)
-        
         template_big_menu.children.each do |template_sub_menu|
-          m = self.menus.build(:name => template_sub_menu.name, :parent_id => big_menu.id)
-          
-          m.save!
-          
+          m = self.menus.create(:name => template_sub_menu.name)
+          m.move_to_child_of(big_menu)
           template_sub_menu.reports.each do |report|
-            self.reports << report.clone_as_template(self.id)
+            m.reports << report.clone_as_template(self.id)
           end
-          
         end
       end
     end
