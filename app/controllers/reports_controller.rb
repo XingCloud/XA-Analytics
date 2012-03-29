@@ -82,6 +82,14 @@ class ReportsController < ProjectBaseController
   def choose_template
     @template_reports = Report.find_all_by_template(1)
   end
+
+  def import_template
+    if @project.create_template_reports
+      redirect_to project_reports_path(@project), :notice => "Imported"
+    else
+      redirect_to project_reports_path(@project), :alert => "Failed to import"
+    end
+  end
   
   private
   

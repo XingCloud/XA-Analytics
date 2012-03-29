@@ -26,6 +26,7 @@ Analytic::Application.routes.draw do
       end
       collection do
         get :choose_template
+        post :import_template
       end
     end
     resources :metrics
