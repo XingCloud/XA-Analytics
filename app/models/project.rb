@@ -6,16 +6,16 @@ class Project < ActiveRecord::Base
 
 
   validate :identifier, :presence => true, :uniqueness => true
-  
+
   def fetch_events
     Rails.cache.fetch("Project.#{self.id}.events") do
       self.events.select("distinct name").map(&:name)
     end
   end
-  
+
   def get_remote_events(page = 1)
     json = AnalyticService.events(self, page)
-    
+
     if json["result"]
       if json["data"].present?
         pp json["data"]
@@ -38,5 +38,28 @@ class Project < ActiveRecord::Base
     end
     return true
   end
-  
+
+  # add default menu
+  def create_template_menus
+    templates = Menu.all(:conditions => 'status = 0 and parent_id is null') # template menus
+    if templates.blank?
+      log.warn 'Plese configuration template menus.'
+    else
+      templates.each do |menu|
+        parent = Menu.create(:name=>menu.name, :project_id => self.id, :desc => menu.desc)
+        unless menu.children.blank?
+          menu.children.each do |child|
+            m = Menu.new
+            m.name = child.name
+            m.parent_id = parent.id
+            m.project_id = self.id
+            m.desc = child.desc
+            m.reports << child.reports
+            m.save
+          end
+        end
+      end
+    end
+  end
+
 end

@@ -2,7 +2,6 @@ class MenusController < ApplicationController
 
   set_tab :menu, :sub, :only => [:index, :new, :create, :edit, :update, :reorder]
   before_filter :find_project, :only=>[:index, :new, :show, :report,:edit]
-  before_filter :find_common_menus,:only =>[:show,:report]
 
   def index
     @menus = @project.menus
@@ -89,10 +88,6 @@ class MenusController < ApplicationController
 
   def find_project
     @project = Project.find_by_id(params[:project_id])
-  end
-
-  def find_common_menus
-    @common_menus = Menu.all(:conditions => ["status = ? and parent_id is null ", Menu::STATUS_DEFAULT])
   end
 
 end

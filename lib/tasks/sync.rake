@@ -38,6 +38,7 @@ namespace :sync do
         if proj.save
           if new_flag
             proj.create_template_reports
+            proj.create_template_menus
           end
           puts "save project #{proj.identifier}"
         else
@@ -61,4 +62,13 @@ namespace :sync do
     
     
   end
+
+  # 所有项目初始化菜单
+  task :init_menus => :environment do
+    menus = Menu.all(:conditions => 'status = 0') # template menus
+    Project.all.each do |p|
+       p << menus
+    end
+  end
+
 end
