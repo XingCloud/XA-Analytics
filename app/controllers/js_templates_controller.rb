@@ -1,5 +1,6 @@
 class JsTemplatesController < ApplicationController
   skip_before_filter :cas_filter
+  before_filter :find_project, :only => [:xingcloud]
   
   ASSETS = YAML.load_file(Rails.root.join("config/assets.yml"))
   ASSET_ROOT            = File.expand_path((defined?(Rails) && Rails.root.to_s.length > 0) ? Rails.root : ENV['RAILS_ROOT'] || ".") unless defined?(ASSET_ROOT)
@@ -12,10 +13,16 @@ class JsTemplatesController < ApplicationController
   end
   
   def xingcloud
+    @cas_login_url = CASClient::Frameworks::Rails::Filter.cas_for_authentication_url(self)
+    
     render :js => render_to_string("xingcloud", :layout=> false)
   end
   
   private
+  
+  def find_project
+    @project = Project.find_by_identifier(params[:identifier]) || Project.first
+  end
   
   def templates
     File.open(path, 'rb:UTF-8') {|f| f.read }

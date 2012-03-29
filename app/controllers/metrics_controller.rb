@@ -5,7 +5,6 @@ class MetricsController < ProjectBaseController
   def new
     @metric = @project.metrics.build
     @metric.build_combine
-    set_events
   end
   
   def create
@@ -13,7 +12,7 @@ class MetricsController < ProjectBaseController
     if @metric.save
       flash.now[:notice] = t("metric.create.success")
     else
-      set_events
+      logger.info @metric.errors.full_messages.inspect
       render :new
     end
   end
@@ -22,7 +21,6 @@ class MetricsController < ProjectBaseController
     unless @metric.combine
       @metric.build_combine
     end
-    set_events
   end
   
   def update
@@ -30,7 +28,6 @@ class MetricsController < ProjectBaseController
     if @metric.save
       flash.now[:notice] = t("metric.update.success")
     else
-      set_events
       render :edit
     end
   end
@@ -44,24 +41,6 @@ class MetricsController < ProjectBaseController
   
   def find_metric
     @metric = @project.metrics.find(params[:id])
-  end
-  
-  def set_events
-    @events = @project.fetch_events
-    split_event_keys(@events)
-  end
-  
-  def split_event_keys(events)
-    (0...6).each {|i|
-      instance_variable_set "@event_key_#{i}", ["*"]
-    }
-    events.each do |event|
-      event.to_s.split(".").each_with_index do |k, idx|
-        var = instance_variable_get "@event_key_#{idx}"
-        
-        var << k unless var.include?(k)
-      end
-    end
   end
   
 end

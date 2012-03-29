@@ -7,7 +7,6 @@ class Menu < ActiveRecord::Base
   has_many :menu_reports
   has_many :reports,:through => :menu_reports
 
-
   validates_presence_of :name
 
   attr_accessor :report_id

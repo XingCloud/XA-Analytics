@@ -35,17 +35,21 @@ class AnalyticService
     self.class.commit("/dd/event", {:params => options.to_json, :p => 1})
   end
   
-  def self.events(project, page = 1)
-    params = {
-      :project_id => project.identifier,
-      :idx => page,
-      :pagesize => 50
-    }
+  def self.check_event_key(project, target_row, condition)
+    options = {:project_id => project.identifier, :target_row => target_row, :condition => filter_condition(condition, target_row)}
     
-    commit("/dd/evlist", params)
+    commit("/dd/evlist", {:params => options.to_json })
   end
   
   private
+  
+  def self.filter_condition(condition, target_row)
+    condition.each do |k,v|
+      if v.blank? || v == "*" || k == target_row
+        condition.delete(k)
+      end
+    end
+  end
   
   def metric_option_of(metric)
     options = {
@@ -68,15 +72,15 @@ class AnalyticService
     url = URI.parse( File.join(BASE_URL, url) )
     pp url
     pp options
-    response = Net::HTTP.post_form(url, options)
-    
-    pp response.body
-    if response.is_a?(Net::HTTPSuccess)
-      ActiveSupport::JSON.decode(response.body)
-    else
-      {"result" => false, "error" => "Request: #{response.code}"}
+    Timeout.timeout(15) do
+      response = Net::HTTP.post_form(url, options)
+      pp response.body
+      if response.is_a?(Net::HTTPSuccess)
+        return ActiveSupport::JSON.decode(response.body)
+      else
+        return {"result" => false, "error" => "Request: #{response.code}"}
+      end
     end
-    
   end
   
   def parse_data(resp)

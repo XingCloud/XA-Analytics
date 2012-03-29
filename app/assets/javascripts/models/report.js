@@ -228,6 +228,7 @@
                 dataType:"json",
                 type:"post",
                 data:params,
+                async: true,
                 success:function (resp) {
                     if (resp.result) {
                         self.data = resp.data;

@@ -15,6 +15,11 @@ Analytic::Application.routes.draw do
   
   root :to => "projects#index"
   resources :projects do
+    
+    member do
+      post :event_item
+    end
+    
     resources :reports do
       member do
         post :request_data

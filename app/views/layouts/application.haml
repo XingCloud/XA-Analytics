@@ -10,7 +10,7 @@
     /[if lt IE 9]
       = javascript_include_tag "http://html5shim.googlecode.com/svn/trunk/html5.js"
     / Le styles
-    = javascript_include_tag "/xingcloud/global"
+    %script{:type => "text/javascript", :src => "/xingcloud/global.js?project_id=#{@project.identifier}"}
     = stylesheet_link_tag    "application"
     = javascript_include_tag "application"
     = yield :head
@@ -20,21 +20,8 @@
       }
       
   %body
-
-    .navbar.navbar-fixed-top
-      .navbar-inner
-        .container-fluid
-          %a.btn.btn-navbar{"data-target" => ".nav-collapse", "data-toggle" => "collapse"}
-            %span.i-bar
-            %span.i-bar
-            %span.i-bar
-          %a.brand{:href => "/"} XingCloud Analytic
-          .container-fluid.nav-collapse
-            = tabs_tag :namespace => :topbar, :builder => TabsOnRails::Bootstrap, :open_tabs => {:class => "nav"} do |tab|
-              = tab.project "项目列表", projects_path
-
     .container-fluid
-
+      
       .row-fluid
         .page-header
           %h1

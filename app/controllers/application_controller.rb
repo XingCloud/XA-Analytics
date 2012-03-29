@@ -2,7 +2,7 @@ class ApplicationController < ActionController::Base
   include Bootstrap::Breadcrumb
   
   before_filter :cas_filter
-  before_filter :debug_cas
+  #before_filter :debug_cas
   
   protected
   
