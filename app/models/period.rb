@@ -41,5 +41,9 @@ class Period < ActiveRecord::Base
   def compare?
     self.compare_number > 0
   end
+
+  def template_attributes
+    {:rule => self.rule, :rate => self.rate, :compare_number => self.compare_number}
+  end
   
 end

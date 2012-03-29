@@ -1,0 +1,10 @@
+- title '选择模板报告'
+
+= form_tag new_project_report_path(@project), :method => "get", :class => "form-horizontal" do
+  %fieldset
+    .control-group
+      = label_tag :choose_template_label, "选择模板:",  :class => "control-label", :for => "template_id"
+      .controls
+        = select_tag :template_id, options_from_collection_for_select(@template_reports, :id, :title)
+    .form-actions
+      = submit_tag "下一步", :class => "btn btn-primary"

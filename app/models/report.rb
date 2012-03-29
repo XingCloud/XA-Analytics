@@ -15,8 +15,8 @@ class Report < ActiveRecord::Base
   delegate :rate, :interval, :start_time, :end_time, :compare?, :to => :period
   delegate :identifier, :to => :project
 
-  COMMON_TEMPLATE = 0 #所有项目通用的默认报表
-  CUSTOM_TEMPLATE = 1
+  COMMON_TEMPLATE = 1
+  CUSTOM_TEMPLATE = 0
 
   def do_public
     self.update_attributes(:public => true)
@@ -32,6 +32,21 @@ class Report < ActiveRecord::Base
 
   def to_json
     super(:methods => [:type_name])
+  end
+
+  def clone_as_template(project_id)
+    new_metrics = []
+    self.metrics.all.each do |metric|
+      new_metric = metric.clone_as_template(project_id)
+      if new_metric.save
+        new_metrics.push(new_metric.id)
+      end
+    end
+    self.type.constantize.new({:title => self.title,
+                               :metric_ids => new_metrics,
+                               :description => self.description,
+                               :period_attributes => self.period.template_attributes,
+                               :project_id => project_id})
   end
 end
 

@@ -3,8 +3,7 @@ class Project < ActiveRecord::Base
   has_many :metrics
   has_many :events
   has_many :menus
-  has_many :members
-  has_many :users, :through => :members
+
 
   validate :identifier, :presence => true, :uniqueness => true
   
@@ -28,6 +27,16 @@ class Project < ActiveRecord::Base
     else
       raise json["error"]
     end
+  end
+
+  def create_template_reports
+    Report.find_all_by_template(1).each do |report|
+      new_report = report.clone_as_template(self.id)
+      if not new_report.save
+        return false
+      end
+    end
+    return true
   end
   
 end

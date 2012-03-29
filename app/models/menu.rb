@@ -5,10 +5,7 @@ class Menu < ActiveRecord::Base
   belongs_to :project
 
   has_many :menu_reports
-  has_many :reports, :through => :menu_reports
-  
-  has_many :permissions
-  has_many :roles, :through => :permissions
+  has_many :reports,:through => :menu_reports
 
   validates_presence_of :name
 
