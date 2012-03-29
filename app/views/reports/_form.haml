@@ -20,7 +20,7 @@
             .well.metrics{:style => "float:left"}
               = hidden_field_tag "report[metric_ids][]", ""
               #metric_list
-              .action-add{:"data-popup" => "width:1200px;", :href => new_project_metric_path(@project, :report_type => "line")}
+              .action-add{:"data-popup" => "width:800px;", :title => "添加指标", :href => new_project_metric_path(@project, :report_type => "line")}
                 + 添加指标
           = f.input :description, :as => :text, :input_html => {:style => "width: 300px; height: 200px"}
         .span7

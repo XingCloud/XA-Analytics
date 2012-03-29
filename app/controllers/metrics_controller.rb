@@ -5,6 +5,7 @@ class MetricsController < ProjectBaseController
   def new
     @metric = @project.metrics.build
     @metric.build_combine
+    
   end
   
   def create

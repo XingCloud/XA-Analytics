@@ -13,7 +13,7 @@ class ProjectsController < ApplicationController
   def show
     @menus = @project.menus
     @menu = @menus.detect{|menu| menu.leaf? }
-    if @menu && @menu.reports.present?
+    if @menu
       redirect_to project_menu_path(@project, @menu)
     end
   end

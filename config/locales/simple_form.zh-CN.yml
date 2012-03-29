@@ -41,7 +41,8 @@ zh-CN:
         compare_number: "时间对比个数"
     hints:
       metric:
-        name: "简短的描述，例如：唯一身份浏览量"
+        name: "简短的描述"
+        comparison: "用来过滤条件，非必填"
       period:
         compare_number: ""
     # Labels and hints examples

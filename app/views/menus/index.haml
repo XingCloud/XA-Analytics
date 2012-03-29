@@ -28,7 +28,6 @@
             %td= link_to_edit "javascript:void(0)",:onclick=>"edit_menu('#{edit_project_menu_path(@project,sub_menu)}')"
             %td= link_to_delete project_menu_path(@project,sub_menu)
 
-
 .modal.fade#menu{:style=>"height:800px;width:800px;display:none",:title=>'添加菜单'}
 
 = javascript_include_tag 'models/menu.js'

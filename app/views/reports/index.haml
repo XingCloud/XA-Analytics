@@ -1,6 +1,6 @@
 %p
-  = link_to "添加自定义报告", new_project_report_path(@project), :class => "btn"
-  = link_to "添加模板报告", choose_template_project_reports_path(@project), :class => "btn"
+  = link_to "添加报告", new_project_report_path(@project), :class => "btn"
+  = link_to "从预设的报告中添加", choose_template_project_reports_path(@project), :class => "btn"
   = link_to "导入模板报告", import_template_project_reports_path(@project), :method => "post", :style => "color:white", :class => "pull-right"
 
 %table.table

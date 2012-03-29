@@ -1,4 +1,8 @@
 .well
+  - if menus.roots.blank?
+    %p
+      您还没有添加菜单，
+      = link_to "请点击添加", project_menus_path(project)
   - menus.roots.each do |menu|
     %h4= menu.name
     %ul.nav.nav-list
