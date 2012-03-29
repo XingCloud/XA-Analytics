@@ -11,13 +11,8 @@
       loading..
     .modal-footer
       %a.btn{"data-dismiss" => "modal"} 取消
+      %a.btn.btn-primary.choose 确定
     
-.control-group.string.optional
-  %label.string.optional.control-label
-    符合条件的事件数量
-  .controls
-    %span.label.label-info
-      123
   
   
 = builder.input :condition, :collection => translate_collection(Metric::OPERATIONS, :scope => "metric"), :include_blank => false

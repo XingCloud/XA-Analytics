@@ -69,8 +69,9 @@ function load_event(link) {
   var prev_str = matches[1];
   var target_row = "l" + matches[2];
   var modal = $("#" + $(link).attr("data-target"))
-  var target_body = modal.find(".modal-body");
+  var modal_body = modal.find(".modal-body");
   var siblings = $("input[id^='" + prev_str + "']");
+  var input = $(link).prev();
   var condition = {}
   
   siblings.each(function() {
@@ -83,20 +84,25 @@ function load_event(link) {
     dataType: "html",
     type: "post",
     beforeSend: function() {
-      console.log(modal)
       modal.modal("show");
-      target_body.html(
+      modal_body.html(
         '<div class="progress progress-striped active">' +
           '<div class="bar" style="width: 100%;"></div>' +
         '</div>'
       );
-      
     },
     success : function(resp) {
-      target_body.html(resp);
+      modal_body.html(resp);
+      modal_body.find(".chzn-select").chosen();
+      var total_height =  $(".chzn-container").height() + modal_body.find(".chzn-drop").height()
+      modal_body.height(total_height);
+      modal.find("a.choose").unbind("click").click(function() {
+        input.val(modal_body.find("select").val());
+        modal.modal("hide");
+      });
     },
     error: function() {
-      target_body.html("error");
+      modal_body.html("error");
     }
   });
 }
