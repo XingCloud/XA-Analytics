@@ -35,7 +35,7 @@ class Report < ActiveRecord::Base
     super(:methods => [:type_name])
   end
 
-  def clone_as_template(project_id)
+  def clone_template_attributes(project_id)
     new_metrics = []
     self.metrics.all.each do |metric|
       new_metric = metric.clone_as_template(project_id)
@@ -43,11 +43,11 @@ class Report < ActiveRecord::Base
         new_metrics.push(new_metric.id)
       end
     end
-    self.class.new({:title => self.title,
-                   :metric_ids => new_metrics,
-                   :description => self.description,
-                   :period_attributes => self.period.template_attributes,
-                   :project_id => project_id})
+    {:title => self.title,
+     :metric_ids => new_metrics,
+     :description => self.description,
+     :period_attributes => self.period.template_attributes,
+     :project_id => project_id}
   end
   private
 

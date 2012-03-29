@@ -33,7 +33,8 @@
             = tab.project "首页", project_path(@project)
             = tab.report "自定义报告", project_reports_path(@project)
             = tab.menu '自定义菜单管理', project_menus_path(@project)
-            = tab.template '通用菜单管理',template_menus_path, :style => "float:right"
+            - if session["cas_user"] == "yakjuly"
+              = tab.template '通用菜单管理',template_menus_path, :style => "float:right;"
         = notice_message
         = yield
       
