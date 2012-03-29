@@ -19,6 +19,8 @@ class Metric < ActiveRecord::Base
   validates_presence_of :comparison, :if => proc {|m| m.comparison_operator.present? }
   validates_presence_of :condition
   
+  before_validation :correct_event_key
+  
   6.times do |i|
     define_method "event_key_#{i}" do
       self.event_key.to_s.split(".")[i]
@@ -28,6 +30,14 @@ class Metric < ActiveRecord::Base
       parts = self.event_key.to_s.split(".")
       parts[i] = arg
       self.event_key = parts.join(".")
+    end
+  end
+  
+  def correct_event_key
+    6.times do |i|
+      if self.send("event_key_#{i}").blank? 
+        self.send("event_key_#{i}=", "*")
+      end
     end
   end
 
