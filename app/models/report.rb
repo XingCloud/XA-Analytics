@@ -43,11 +43,11 @@ class Report < ActiveRecord::Base
         new_metrics.push(new_metric.id)
       end
     end
-    self.type.constantize.new({:title => self.title,
-                               :metric_ids => new_metrics,
-                               :description => self.description,
-                               :period_attributes => self.period.template_attributes,
-                               :project_id => project_id})
+    self.class.new({:title => self.title,
+                   :metric_ids => new_metrics,
+                   :description => self.description,
+                   :period_attributes => self.period.template_attributes,
+                   :project_id => project_id})
   end
   private
 

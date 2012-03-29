@@ -51,14 +51,9 @@ class Metric < ActiveRecord::Base
   end
 
   def template_attributes
-    {:event_key => self.event_key,
-     :condition => self.condition,
-     :combine_action => self.combine_action,
-     :comparison_operator => self.comparison_operator,
-     :comparison => self.comparison,
-     :name => self.name}
+    self.attributes.slice("event_key", "condition", "combine_action", "comparision_operator", "comparison", "name")
   end
-
+  
   def clone_as_template(project_id)
     attrs = self.template_attributes
     attrs[:project_id] = project_id
@@ -68,7 +63,7 @@ class Metric < ActiveRecord::Base
     end
     Metric.new(attrs)
   end
-
+  
   protected
 
   def correct_combine
