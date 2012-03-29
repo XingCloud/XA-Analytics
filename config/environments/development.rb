@@ -47,5 +47,5 @@ Rails::Rack::Logger.class_eval do
       Rails.logger.level = previous_level
     end 
   end 
-  alias_method_chain :call, :quiet_assets 
+  alias_method_chain :call, :quiet_assets
 end

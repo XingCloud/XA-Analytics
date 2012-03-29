@@ -1,24 +1,7 @@
--#.well
+.well
   - menus.roots.each do |menu|
     %h4= menu.name
     %ul.nav.nav-list
       - menu.children.each do |sub_menu|
         %li{:class => @menu == sub_menu ? "active" : nil}
           = link_to sub_menu.name, project_menu_path(project, sub_menu)
-
-.well
-  %h3 通用菜单
-  #sortable
-    = nested_list @common_menus do |comm_menu|
-      - if comm_menu.root?
-        = "#{comm_menu.name}"
-      -else
-        = link_to "#{comm_menu.name}",project_menu_path(@project,comm_menu)
-
-  %h3 自定义菜单
-  #custom
-    = nested_list @menus.roots do |menu|
-      - if menu.child?
-        = link_to "#{menu.name}",project_menu_path(@project,menu)
-      -else
-        = "#{menu.name}"

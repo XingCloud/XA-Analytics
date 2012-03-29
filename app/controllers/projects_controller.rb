@@ -11,7 +11,6 @@ class ProjectsController < ApplicationController
   end
 
   def show
-    @common_menus = Menu.all(:conditions => ["status = ? and parent_id is null ", Menu::STATUS_DEFAULT])
     @menus = @project.menus
     @menu = @menus.detect{|menu| menu.leaf? }
     if @menu && @menu.reports.present?
