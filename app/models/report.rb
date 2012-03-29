@@ -15,6 +15,9 @@ class Report < ActiveRecord::Base
   delegate :rate, :interval, :start_time, :end_time, :compare?, :to => :period
   delegate :identifier, :to => :project
 
+  COMMON_TEMPLATE = 1
+  CUSTOM_TEMPLATE = 0
+
   def do_public
     self.update_attributes(:public => true)
   end
