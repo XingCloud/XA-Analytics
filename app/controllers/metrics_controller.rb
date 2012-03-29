@@ -13,6 +13,7 @@ class MetricsController < ProjectBaseController
     if @metric.save
       flash.now[:notice] = t("metric.create.success")
     else
+      logger.info @metric.errors.full_messages.inspect
       set_events
       render :new
     end

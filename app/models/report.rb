@@ -1,5 +1,6 @@
 class Report < ActiveRecord::Base
   include Highchart::Report
+  after_initialize :default_values
 
   belongs_to :project
   has_many :metrics, :dependent => :destroy
@@ -44,6 +45,11 @@ class Report < ActiveRecord::Base
                                :description => self.description,
                                :period_attributes => self.period.template_attributes,
                                :project_id => project_id})
+  end
+  private
+
+  def default_values
+    self.template ||= 0
   end
 end
 

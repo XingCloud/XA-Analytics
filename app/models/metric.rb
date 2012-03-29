@@ -1,9 +1,12 @@
 class Metric < ActiveRecord::Base
   include Highchart::Metric
+  after_initialize :default_values
 
   belongs_to :project
   belongs_to :report
-  belongs_to :combine, :class_name => :"Metric"
+  #self is a child
+  has_one :combine, :class_name => "Metric", :foreign_key => "combine_id"
+
 
   OPERATIONS = ["count", "sum", "user_num"]
   COMPARISION_OPERATORS = ["gt", "lt", "ge", "le", "eq", "ne", "between"]
@@ -12,7 +15,6 @@ class Metric < ActiveRecord::Base
   accepts_nested_attributes_for :combine, :allow_destroy => true
 
   before_validation :correct_combine
-  validates_presence_of :name, :if => proc{|m| m.combine_id.blank? }
   validates_presence_of :comparison_operator, :if => proc{|m| m.comparison.present? }
   validates_presence_of :comparison, :if => proc {|m| m.comparison_operator.present? }
   validates_presence_of :condition
@@ -52,7 +54,6 @@ class Metric < ActiveRecord::Base
   def template_attributes
     {:event_key => self.event_key,
      :condition => self.condition,
-     :combine_id => self.combine_id,
      :combine_action => self.combine_action,
      :comparison_operator => self.comparison_operator,
      :comparison => self.comparison,
@@ -62,9 +63,8 @@ class Metric < ActiveRecord::Base
   def clone_as_template(project_id)
     attrs = self.template_attributes
     attrs[:project_id] = project_id
-    if not self.combine_id.nil?
-      combine_metric = Metric.find(self.combine_id)
-      combine_attrs = combine_metric.template_attributes
+    if not self.combine.nil?
+      combine_attrs = self.combine.template_attributes
       attrs[:combine_attributes] = combine_attrs
     end
     Metric.new(attrs)
@@ -76,6 +76,10 @@ class Metric < ActiveRecord::Base
     if self.combine_action.blank?
       self.combine = nil
     end
+  end
+
+  def default_values
+    self.name ||= "Unknown Metric"
   end
 
 end
