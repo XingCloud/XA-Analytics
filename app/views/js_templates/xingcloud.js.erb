@@ -102,7 +102,9 @@ Event.domReady.add(function() {
         <% if Rails.env == "development" %>
         
         <% else %>
+          <% unless params[:skip_auth] %>
             window.location.href = "<%= @cas_login_url %>";
+          <% end %>
         <% end %>
     <% else %>
     var header  = document.createElement("div");

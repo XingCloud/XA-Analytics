@@ -43,6 +43,7 @@ zh-CN:
       metric:
         name: "简短的描述"
         comparison: "用来过滤条件，非必填"
+        condition: "天数可用于 周活跃用户，月活跃用户等 非必填"
       period:
         compare_number: ""
     # Labels and hints examples
