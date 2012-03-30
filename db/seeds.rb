@@ -18,7 +18,7 @@ metric = Metric.new({:name => "登陆人数",
 if metric.save
   report = Report::LineReport.new({:title => "登陆人数",
                            :metric_ids => [metric.id],
-                           :description => "",
+                           :description => "最近一天每五分钟登陆用户数",
                            :period_attributes => {:rule => "last_day", :rate => "min5", :compare_number => "0"},
                            :template => 1})
   if report.save
@@ -40,7 +40,7 @@ metric = Metric.new({:name => "登陆次数",
 if metric.save
   report = Report::LineReport.new({:title => "登陆次数",
                           :metric_ids => [metric.id],
-                          :description => "",
+                          :description => "最近一天每五分钟用户登陆次数",
                           :period_attributes => {:rule => "last_day", :rate => "min5", :compare_number => "0"},
                           :template => 1})
   if report.save
@@ -62,7 +62,7 @@ metric = Metric.new({:name => "支付用户数",
 if metric.save
   report = Report::LineReport.new({:title => "支付用户数",
                            :metric_ids => [metric.id],
-                           :description => "",
+                           :description => "最近一天每五分钟付费用户数",
                            :period_attributes => {:rule => "last_day", :rate => "min5", :compare_number => "0"},
                            :template => 1})
   if report.save
@@ -84,7 +84,7 @@ metric = Metric.new({:name => "支付额",
 if metric.save
   report = Report::LineReport.new({:title => "支付额",
                            :metric_ids => [metric.id],
-                           :description => "",
+                           :description => "最近一天每五分钟用户支付额度",
                            :period_attributes => {:rule => "last_day", :rate => "min5", :compare_number => "0"},
                            :template => 1})
   if report.save
@@ -106,7 +106,7 @@ metric = Metric.new({:name => "支付次数",
 if metric.save
   report = Report::LineReport.new({:title => "支付次数",
                            :metric_ids => [metric.id],
-                           :description => "",
+                           :description => "最近一天每五分钟用户支付次数",
                            :period_attributes => {:rule => "last_day", :rate => "min5", :compare_number => "0"},
                            :template => 1})
   if report.save
@@ -131,7 +131,7 @@ metric = Metric.new({:name => "ARPU值",
 if metric.save
   report = Report::LineReport.new({:title => "ARPU值",
                            :metric_ids => [metric.id],
-                           :description => "",
+                           :description => "最近一天每五分钟单个用户平均支付额度",
                            :period_attributes => {:rule => "last_day", :rate => "min5", :compare_number => "0"},
                            :template => 1})
   if report.save
@@ -156,7 +156,7 @@ metric = Metric.new({:name => "付费率",
 if metric.save
   report = Report::LineReport.new({:title => "付费率",
                            :metric_ids => [metric.id],
-                           :description => "",
+                           :description => "最近一天每五分钟付费用户比率",
                            :period_attributes => {:rule => "last_day", :rate => "min5", :compare_number => "0"},
                            :template => 1})
   if report.save

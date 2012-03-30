@@ -84,11 +84,8 @@ class ReportsController < ProjectBaseController
   end
 
   def import_template
-    if @project.create_template_menus
-      redirect_to project_reports_path(@project), :notice => "Imported"
-    else
-      redirect_to project_reports_path(@project), :alert => "Failed to import"
-    end
+    @project.create_template_menus
+    redirect_to project_reports_path(@project), :notice => "Imported"
   end
   
   private

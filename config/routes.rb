@@ -48,6 +48,9 @@ Analytic::Application.routes.draw do
       post 'reorder'
     end
   end
+
+  resources :template_reports
+  resources :template_metrics
   
   match "/js_templates/:package.:extension",
         :to => 'js_templates#package', :as => :jammit, :constraints => {

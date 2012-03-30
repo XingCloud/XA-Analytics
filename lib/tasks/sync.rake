@@ -21,25 +21,16 @@ namespace :sync do
       paginate_do(page + 1, gateway, *args, &block)
     end
   end
-  
-  
+
+
   task :projects => :environment do
     @gateway = Redmine::ProjectGateway.new
-    
+
     paginate_do(1, @gateway, :paginate) do |projects|
       projects.each do |project|
-        proj = Project.where(:identifier => project["identifier"]).first
-        new_flag = false
-        if proj.nil?
-          proj = Project.new(:name => project["name"], :identifier => project["identifier"])
-          new_flag = true
-        end
+        proj = Project.where(:identifier => project["identifier"]).first || Project.new(:name => project["name"], :identifier => project["identifier"])
 
         if proj.save
-          if new_flag
-            proj.create_template_reports
-            proj.create_template_menus
-          end
           puts "save project #{proj.identifier}"
         else
           puts "failure project #{proj.identifier}"
