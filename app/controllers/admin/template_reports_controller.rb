@@ -1,5 +1,7 @@
-class TemplateReportsController < ApplicationController
+class Admin::TemplateReportsController < ApplicationController
+  layout "admin"
   before_filter :find_report, :only => [:edit, :update, :destroy]
+  set_tab :template_reports, :sidebar
 
   def index
     @reports = Report.where(:template => 1).paginate(:page => params[:page])
@@ -20,7 +22,7 @@ class TemplateReportsController < ApplicationController
     end
 
     if @report.save
-      redirect_to template_reports_path(), :notice => t("report.create.success")
+      redirect_to admin_template_reports_path(), :notice => t("report.create.success")
     else
       render :new
     end
@@ -33,7 +35,7 @@ class TemplateReportsController < ApplicationController
     end
 
     if @report.update_attributes(params[:report])
-      redirect_to template_reports_path(), :notice => t("report.update.success")
+      redirect_to admin_template_reports_path(), :notice => t("report.update.success")
     else
       render :edit
     end
@@ -41,7 +43,7 @@ class TemplateReportsController < ApplicationController
 
   def destroy
     @report.destroy
-    redirect_to template_reports_path(), :notice => t("report.delete.success")
+    redirect_to admin_template_reports_path(), :notice => t("report.delete.success")
   end
 
   private

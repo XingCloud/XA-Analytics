@@ -1,0 +1,2 @@
+module Admin::TemplateMenusHelper
+end

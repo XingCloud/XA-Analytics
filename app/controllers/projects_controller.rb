@@ -1,14 +1,6 @@
 class ProjectsController < ApplicationController
-  skip_before_filter :cas_filter, :only => :index
-  #before_filter CASClient::Frameworks::Rails::GatewayFilter, :only => :index
-
   before_filter :find_project, :only => [:show, :members, :event_item]
   set_tab :project, :sidebar
-
-  def index
-    @projects = Project.paginate(:page => params[:page])
-    render :layout => "welcome"
-  end
 
   def show
     @menus = @project.menus

@@ -10,14 +10,14 @@
       if (this.attributes.project_id != null)
         return "/projects/" + this.attributes.project_id + "/metrics/" + this.attributes.id + "/edit";
       else
-        return "/template_metrics/" + this.attributes.id + "/edit";
+        return "/admin/template_metrics/" + this.attributes.id + "/edit";
     },
     
     delete_url: function() {
       if (this.attributes.project_id != null)
         return "/projects/" + this.attributes.project_id + "/metrics/" + this.attributes.id;
       else
-        return "/template_metrics/" + this.attributes.id;
+        return "/admin/template_metrics/" + this.attributes.id;
     },
     
     destroy: function() {

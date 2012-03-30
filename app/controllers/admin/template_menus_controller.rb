@@ -1,6 +1,7 @@
-class TemplateMenusController < ApplicationController
-  layout 'menu'
+class Admin::TemplateMenusController < ApplicationController
+  layout 'admin'
   before_filter :find_reports, :only => [:new, :edit]
+  set_tab :template_menus, :sidebar
 
   def index
     @menus = Menu.all(:conditions => {:status => Menu::STATUS_DEFAULT})
@@ -20,7 +21,7 @@ class TemplateMenusController < ApplicationController
       @menus = Menu.all(:conditions => ["status = ? and parent_id is null ", Menu::STATUS_DEFAULT])
     elsif request.post?
       Menu.reorder(params[:menu])
-      redirect_to template_menus_path
+      redirect_to admin_template_menus_path
     end
     if request.xhr?
       render :partial => 'reorder', :layout => 'popup'
@@ -37,9 +38,9 @@ class TemplateMenusController < ApplicationController
   def update
     @menu = Menu.find_by_id(params[:id])
     if @menu.update_association(params[:menu], params[:report_id])
-      redirect_to template_menus_path
+      redirect_to admin_template_menus_path
     else
-      redirect_to edit_template_menus_path
+      redirect_to edit_admin_template_menus_path
     end
 
   end
@@ -49,9 +50,9 @@ class TemplateMenusController < ApplicationController
     @menu.status = Menu::STATUS_DEFAULT
     @menu.create_association(params[:report_id])
     if @menu.save
-      redirect_to template_menus_path
+      redirect_to admin_template_menus_path
     else
-      redirect_to new_template_menu_path
+      redirect_to new_admin_template_menu_path
     end
   end
 
@@ -60,6 +61,7 @@ class TemplateMenusController < ApplicationController
     if @menu.status == Menu::STATUS_DEFAULT && current_user.admin
       @menu.destroy
     end
+    redirect_to admin_template_menus_path
   end
 
   private

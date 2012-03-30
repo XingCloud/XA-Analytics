@@ -14,10 +14,10 @@
           - if menu.root?
             %div= "#{menu.name}"
           -else
-            %div= link_to menu.name, edit_template_menu_path(menu)
+            %div= link_to menu.name, edit_admin_template_menu_path(menu)
         .form-actions
-        = form_tag reorder_template_menus_path(),:class=>'form-horizontal' do
+        = form_tag reorder_admin_template_menus_path(),:class=>'form-horizontal' do
           = submit_tag '保存',:class => 'btn btn-primary'
-          = link_to "取消", template_menus_path, :class => "btn"
+          = link_to "取消", admin_template_menus_path, :class => "btn"
 
 = javascript_include_tag 'jquery.js','jquery-1.7.1.min.js','jquery-ui-1.8.18.custom.min.js','jquery.ui.nestedSortable.js','menus.js'

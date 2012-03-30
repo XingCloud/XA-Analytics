@@ -13,7 +13,7 @@ Analytic::Application.routes.draw do
     
   end
   
-  root :to => "projects#index"
+  root :to => "admin/projects#index"
   resources :projects do
     
     member do
@@ -42,15 +42,18 @@ Analytic::Application.routes.draw do
     end
   end
 
-  resources :template_menus do
-    collection do
-      get 'reorder'
-      post 'reorder'
+  namespace :admin do
+    resources :template_menus do
+      collection do
+        get 'reorder'
+        post 'reorder'
+      end
     end
+    resources :template_reports
+    resources :template_metrics
+    resources :projects
   end
 
-  resources :template_reports
-  resources :template_metrics
   
   match "/js_templates/:package.:extension",
         :to => 'js_templates#package', :as => :jammit, :constraints => {

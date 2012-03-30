@@ -8,21 +8,36 @@
     /[if lt IE 9]
       = javascript_include_tag "http://html5shim.googlecode.com/svn/trunk/html5.js"
     / Le styles
-    
-    = javascript_include_tag "/xingcloud/global"
+
     = stylesheet_link_tag    "application"
     = javascript_include_tag "application"
-    = yield :head
+
     :css
       body {
         padding-top: 60px; /* 60px to make the container go all the way to the bottom of the topbar */
       }
 
-
   %body
+    %div{:class => "navbar navbar-fixed-top"}
+      .navbar-inner
+        .container-fluid
+          %a.brand{:href => "http://p.xingcloud.com"} 行云
+          %div{:class => "container-fluid nav-collapse"}
+            %ul.nav
+              %li.active
+                %a{:href => "/"} 数据分析
+            %ul{:class => "nav pull-right"}
+              %li.divider-vertical
+              %li.dropdown
+                %a.dropdown-toggle{:href => "#", 'data-toggle' => 'dropdown'}
+                  = session[:cas_user]
+                  %b.caret
+                %ul.dropdown-menu
+                  %li
+                    %a{:href => "http://p.xingcloud.com/my/account"} 账号设置
+                    %a{:href => "http://p.xingcloud.com/logout", :rel => "nofollow"} 退出
+
     .container-fluid
-      .page_top
-        = render_breadcrumb
       .row-fluid
         .span2
           - if content_for?(:sidebar)
@@ -31,9 +46,9 @@
             .well.sidebar-nav
               %h3 菜单
               = tabs_tag :namespace => :sidebar, :builder => TabsOnRails::Bootstrap, :open_tabs => {:class => "nav nav-list"} do |tab|
-                %li.nav-header 项目
-                = tab.project "项目列表", projects_path
-                = tab.template '通用菜单管理',template_menus_path
+                = tab.project '项目列表', admin_projects_path
+                = tab.template_menus '通用菜单管理',admin_template_menus_path
+                = tab.template_reports '通用报告管理',admin_template_reports_path
         .span10
           - if content_for?(:title)
             .page-header

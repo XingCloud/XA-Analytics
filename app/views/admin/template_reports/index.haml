@@ -1,7 +1,7 @@
-- title '模板报告'
+- title '通用报告管理'
 
 %p
-  = link_to "添加模板报告", new_template_report_path(), :class => "btn"
+  = link_to "添加通用报告", new_admin_template_report_path(), :class => "btn"
 
 %table.table
   %tr
@@ -15,7 +15,7 @@
       %td= report.class.model_name.human
       %td= report.created_at
       %td
-        = link_to_edit edit_template_report_path(report)
-        = link_to_delete template_report_path(report)
+        = link_to_edit edit_admin_template_report_path(report)
+        = link_to_delete admin_template_report_path(report)
 
 = will_paginate @reports

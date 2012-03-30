@@ -1,6 +1,6 @@
 - javascript "metrics"
 
-= simple_form_for @metric, :url => template_metric_path(@metric), :html => {:method => :put, :class => "form-horizontal"} do |f|
+= simple_form_for @metric, :url => admin_template_metric_path(@metric), :html => {:method => :put, :class => "form-horizontal"} do |f|
   #base
     = f.input :name
     = render :partial => "form", :locals => {:builder => f}

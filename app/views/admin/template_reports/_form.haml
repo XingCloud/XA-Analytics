@@ -1,7 +1,7 @@
 - javascript "backbone_bundle"
 - stylesheet "reports"
 
-= simple_form_for @report, :as => :report, :url => @report.persisted? ? template_report_path(@report) : template_reports_path(), :html => { :method => @report.persisted? ? "put" : "post", :class => "form-horizontal"} do |f|
+= simple_form_for @report, :as => :report, :url => @report.persisted? ? admin_template_report_path(@report) : admin_template_reports_path(), :html => { :method => @report.persisted? ? "put" : "post", :class => "form-horizontal"} do |f|
   .page-header
     %h3 
       一般信息
@@ -20,7 +20,7 @@
             .well.metrics{:style => "float:left"}
               = hidden_field_tag "report[metric_ids][]", ""
               #metric_list
-              .action-add{:"data-popup" => "width:800px;", :title => "添加指标", :href => new_template_metric_path(:report_type => "line")}
+              .action-add{:"data-popup" => "width:800px;", :title => "添加指标", :href => new_admin_template_metric_path(:report_type => "line")}
                 + 添加指标
           = f.input :description, :as => :text, :input_html => {:style => "width: 300px; height: 200px"}
         .span7
@@ -42,7 +42,7 @@
       
   .form-actions
     = f.submit "提交", :class => "btn btn-primary"
-    = link_to "取消", template_reports_path(), :class => "btn"
+    = link_to "取消", admin_template_reports_path(), :class => "btn"
 
 = include_js_template :metric_view
 = javascript_include_tag "models/metric.js", "models/report_type.js"
