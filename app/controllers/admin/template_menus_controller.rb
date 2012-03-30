@@ -57,9 +57,7 @@ class Admin::TemplateMenusController < ApplicationController
 
   def destroy
     @menu = Menu.find_by_id(params[:id])
-    if @menu.status == Menu::STATUS_DEFAULT && current_user.admin
       @menu.destroy
-    end
     redirect_to admin_template_menus_path
   end
 

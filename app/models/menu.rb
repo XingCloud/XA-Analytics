@@ -1,7 +1,7 @@
 class Menu < ActiveRecord::Base
   belongs_to :project
 
-  has_many :menu_reports, :dependent => :destroy
+  has_many :menu_reports  #:dependent => :destroy
   has_many :reports, :through => :menu_reports
 
   acts_as_nested_set
