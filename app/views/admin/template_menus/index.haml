@@ -12,7 +12,8 @@
   - @menus.each do |menu|
     - if !menu.child?
       %tr{:id => "menu[#{menu.id}]=root" }
-        %td= menu.name
+        %td
+          %span.folder= menu.name
         %td= menu.desc
         %td= menu.created_at.strftime("%Y-%m-%d %H:%M:%S")
         %td= link_to_edit "javascript:void(0)",:onclick=>"edit_menu('#{edit_admin_template_menu_path(menu)}')"
@@ -20,7 +21,8 @@
       - unless menu.children.blank?
         - menu.children.each do |sub_menu|
           %tr{:id => "menu[#{sub_menu.id}]=#{menu.id}" }
-            %td= raw "&nbsp;&nbsp;&nbsp;#{sub_menu.name}"
+            %td
+              %span.file= raw "&nbsp;&nbsp;&nbsp;#{sub_menu.name}"
             %td= sub_menu.desc
             %td= sub_menu.created_at.strftime("%Y-%m-%d %H:%M:%S")
             %td= link_to_edit "javascript:void(0)",:onclick=>"edit_menu('#{edit_admin_template_menu_path(sub_menu)}')"

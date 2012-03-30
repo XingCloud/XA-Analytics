@@ -4,7 +4,7 @@ class Menu < ActiveRecord::Base
   has_many :menu_reports, :dependent => :destroy
   has_many :reports, :through => :menu_reports
 
-  acts_as_nested_set :scope => [:project_id, :parent_id], :depth => 2
+  acts_as_nested_set
 
   include MenuSortable
 
@@ -21,7 +21,7 @@ class Menu < ActiveRecord::Base
   def create_association(report_ids)
     menu = Menu.create(:name=>self.name,:desc => self.desc,:project_id => self.project_id)
     unless self.parent_id.blank?
-      parent = Menu.find(self.parent_id)
+      parent = Menu.find_by_id(self.parent_id)
       menu.move_to_child_of(parent)
     end
 
@@ -33,8 +33,8 @@ class Menu < ActiveRecord::Base
   def update_association(menu, report_ids)
     self.update_attributes(:name=>menu[:name],:desc => menu[:desc])
     unless menu[:parent_id].blank?
-      parent = Menu.find(menu[:parent_id])
-      #self.move_to_child_of(parent)
+      parent = Menu.find_by_id(menu[:parent_id])
+      self.update_attributes(:parent_id => parent.id)
     end
     unless report_ids.blank?
       self.report_ids = report_ids
