@@ -11,7 +11,8 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120328075423) do
+
+ActiveRecord::Schema.define(:version => 20120330032723) do
 
   create_table "agents", :force => true do |t|
     t.integer  "project_id"
@@ -79,6 +80,7 @@ ActiveRecord::Schema.define(:version => 20120328075423) do
     t.string   "comparison"
     t.string   "name"
     t.integer  "project_id"
+    t.integer  "number_of_day"
   end
 
   add_index "metrics", ["combine_id"], :name => "index_metrics_on_combine_id"

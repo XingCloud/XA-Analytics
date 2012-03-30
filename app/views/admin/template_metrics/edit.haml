@@ -1,0 +1,26 @@
+- javascript "metrics"
+
+= simple_form_for @metric, :url => admin_template_metric_path(@metric), :html => {:method => :put, :class => "form-horizontal"} do |f|
+  #base
+    = f.input :name
+    = render :partial => "form", :locals => {:builder => f}
+    
+  #combine
+    = f.input :combine_action, :collection => translate_collection(Metric::COMBINE_ACTIONS, :scope => "metric")
+    
+    = f.fields_for :combine do |combine|
+      = combine.hidden_field "_destroy"
+      #combine_fields
+        = render :partial => "form", :locals => {:builder => combine}
+        
+  .form-actions
+    = f.submit "提交", :class => "btn btn-primary"
+    = link_to_function "取消", "close_dialog()", :class => "btn"
+    
+:javascript
+  $(function() {
+    $("#metric_combine_action").change(function() {
+      toggle_combine_fieldset()
+    })
+    toggle_combine_fieldset()
+  })

@@ -4,7 +4,6 @@ gem 'rails', '3.2.2.rc1'
 
 gem 'mysql2'
 
-
 group :assets do
   gem 'sass-rails',   '~> 3.2.3'
   gem 'coffee-rails', '~> 3.2.1'
@@ -17,6 +16,7 @@ gem 'jquery-rails', "~> 2.0.1"
 gem 'jbuilder', "~> 0.3.2"
 gem 'capistrano', "~> 2.11.2", :group => "development"
 gem 'haml', "~> 3.1.4"
+gem 'haml-rails', '~> 0.3.4'
 gem 'twitter-bootstrap-rails', "~> 2.0.3"
 gem 'simple_form', "~> 2.0.1"
 gem 'nested_form', "~> 0.2.0"

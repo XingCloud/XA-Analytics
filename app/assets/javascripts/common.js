@@ -20,6 +20,12 @@ $.extend({
 		        zIndex  : 99999,
 		        modal   : opts.modal || true,
 		        bgiframe: true,
+		        create: function(event, ui) {
+              $("body").css({ overflow: 'hidden' })
+             },
+             beforeClose: function(event, ui) {
+              $("body").css({ overflow: 'inherit' })
+             },
 		        close: function() {
 		            //判断是否是登录页面
 		            if (/passport\.oa\.com\/modules\/passport\/signin\.ashx/.test(opts.url)) {

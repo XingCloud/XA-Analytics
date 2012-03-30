@@ -1,0 +1,21 @@
+- title '通用报告管理'
+
+%p
+  = link_to "添加通用报告", new_admin_template_report_path(), :class => "btn"
+
+%table.table
+  %tr
+    %th 报告名称
+    %th 报告类型
+    %th 创建时间
+    %th
+  - @reports.each do |report|
+    %tr
+      %td= report.title.presence || "(没有设置)"
+      %td= report.class.model_name.human
+      %td= report.created_at
+      %td
+        = link_to_edit edit_admin_template_report_path(report)
+        = link_to_delete admin_template_report_path(report)
+
+= will_paginate @reports

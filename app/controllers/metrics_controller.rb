@@ -12,7 +12,7 @@ class MetricsController < ProjectBaseController
     if @metric.save
       flash.now[:notice] = t("metric.create.success")
     else
-      logger.info @metric.errors.full_messages.inspect
+      @metric.combine || @metric.build_combine
       render :new
     end
   end

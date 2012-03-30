@@ -1,6 +1,6 @@
 $(function() {
     $("[add_menu]").live("click", function() {
-        $.get('/template_menus/new',
+        $.get('/admin/template_menus/new',
             function(data, status) {
                 if (status == 'success') {
                     $("#menu").html(data);
@@ -10,7 +10,7 @@ $(function() {
     });
 
     $("[reorder_menu]").live("click", function() {
-        $.get('/template_menus/reorder',
+        $.get('/admin/template_menus/reorder',
             function(data, status) {
                 if (status == 'success') {
                     $("#menu").html(data);
