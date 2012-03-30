@@ -18,10 +18,9 @@ class Metric < ActiveRecord::Base
   validates_presence_of :comparison_operator, :if => proc{|m| m.comparison.present? }
   validates_presence_of :comparison, :if => proc {|m| m.comparison_operator.present? }
   validates_presence_of :condition
+  validates_numericality_of :number_of_day, :only_integer => true, :greater_than => 0, :if => proc{|m| m.number_of_day.present? }
   
   before_validation :correct_event_key
-  
-  attr_accessor :number_of_day_operation
   
   6.times do |i|
     define_method "event_key_#{i}" do
