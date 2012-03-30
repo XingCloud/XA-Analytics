@@ -45,24 +45,7 @@ class Metric < ActiveRecord::Base
   def short_attributes
     {:id => self.id, :project_id => self.project_id, :name => self.name}
   end
-
-  def request_option
-    options = {
-      :event_key => self.event_key,
-      :count_method => self.condition
-    }
-    options[:number_of_day] = self.number_of_day if self.number_of_day.present?
-    
-    options.merge!({
-      :filter => {
-        :comparison_operator => self.comparison_operator,
-        :comparison_value => self.comparison
-      }
-    }) if self.comparison_operator.present?
-
-    options
-  end
-
+  
   def template_attributes
     self.attributes.slice("event_key", "condition", "combine_action", "comparision_operator", "comparison", "name")
   end

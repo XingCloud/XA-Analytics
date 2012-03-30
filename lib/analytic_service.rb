@@ -5,6 +5,18 @@ class AnalyticService
   
   BASE_URL = "http://50.22.226.204:8080"
   
+  def self.logger
+    unless @logger
+      @logger ||= Logger.new(Rails.root.join("log/api_request.log"))
+      @logger.formatter = proc { |severity, datetime, progname, msg|
+        "#{datetime.strftime("%m-%d %H:%M:%S")}: #{msg}\n"
+      }
+    end
+    
+    @logger
+  end
+  
+  
   def initialize(report, options = {})
     
     @report = report
@@ -57,6 +69,10 @@ class AnalyticService
       :count_method => metric.condition.upcase
     }
     
+    if metric.number_of_day.present?
+      options[:number_of_day] = metric.number_of_day
+    end
+    
     options.merge!({
       :filter => {
         :comparison_operator => metric.comparison_operator.upcase,
@@ -72,8 +88,12 @@ class AnalyticService
     url = URI.parse( File.join(BASE_URL, url) )
     pp url
     pp options
+    
+    logger.info "Request: #{url} \n #{options.pretty_inspect}"
+    
     Timeout.timeout(15) do
       response = Net::HTTP.post_form(url, options)
+      logger.info "Response: #{response.code}"
       pp response.body
       if response.is_a?(Net::HTTPSuccess)
         return ActiveSupport::JSON.decode(response.body)
@@ -81,10 +101,6 @@ class AnalyticService
         return {"result" => false, "error" => "Request: #{response.code}"}
       end
     end
-  end
-  
-  def parse_data(resp)
-    
   end
   
 end
