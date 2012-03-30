@@ -48,6 +48,7 @@ class Admin::TemplateMenusController < ApplicationController
     @menu = Menu.new(params[:menu])
     @menu.status = Menu::STATUS_DEFAULT
     status = @menu.create_association(params[:report_id])
+    p status
     if status
       redirect_to admin_template_menus_path
     else

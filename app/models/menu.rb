@@ -19,7 +19,7 @@ class Menu < ActiveRecord::Base
 
 
   def create_association(report_ids)
-    menu = Menu.create(:name=>self.name,:desc => self.desc,:project_id => self.project_id)
+    menu = Menu.create(:status => self.status,:name=>self.name,:desc => self.desc,:project_id => self.project_id)
     unless self.parent_id.blank?
       parent = Menu.find_by_id(self.parent_id)
       menu.move_to_child_of(parent)
@@ -28,6 +28,7 @@ class Menu < ActiveRecord::Base
     unless report_ids.blank?
       menu.reports << Report.find(report_ids)
     end
+    menu
   end
 
   def update_association(menu, report_ids)
@@ -39,7 +40,7 @@ class Menu < ActiveRecord::Base
     unless report_ids.blank?
       self.report_ids = report_ids
     end
-
+     self
   end
 
 end
