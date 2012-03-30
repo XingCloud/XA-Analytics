@@ -21,6 +21,8 @@ class Metric < ActiveRecord::Base
   
   before_validation :correct_event_key
   
+  attr_accessor :number_of_day_operation
+  
   6.times do |i|
     define_method "event_key_#{i}" do
       self.event_key.to_s.split(".")[i]

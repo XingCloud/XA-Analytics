@@ -36,10 +36,6 @@ namespace :sync do
         end
 
         if proj.save
-          if new_flag
-            proj.create_template_reports
-            proj.create_template_menus
-          end
           puts "save project #{proj.identifier}"
         else
           puts "failure project #{proj.identifier}"

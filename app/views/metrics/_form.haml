@@ -14,8 +14,13 @@
       %a.btn.btn-primary.choose 确定
     
   
-  
-= builder.input :condition, :collection => translate_collection(Metric::OPERATIONS, :scope => "metric"), :include_blank => false
+
+
+= builder.input :condition do
+  在
+  = builder.text_field :number_of_day_operation, :style => "width: 50px"
+  天内
+  = builder.select :condition, translate_collection(Metric::OPERATIONS, :scope => "metric"), {:include_blank => false}, :style => "width: auto"
 
 = builder.input :comparison do
   = builder.select :comparison_operator, translate_collection(Metric::COMPARISION_OPERATORS, :scope => "metric"), {:include_blank => true}, :style => "width: auto"

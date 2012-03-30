@@ -9,7 +9,7 @@
       = javascript_include_tag "http://html5shim.googlecode.com/svn/trunk/html5.js"
     / Le styles
     
-    = javascript_include_tag "/xingcloud/global"
+    %script{:type => "text/javascript", :src => "/xingcloud/global.js?skip_auth=true"}
     = stylesheet_link_tag    "application"
     = javascript_include_tag "application"
     = yield :head
