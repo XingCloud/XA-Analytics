@@ -51,7 +51,8 @@ class Metric < ActiveRecord::Base
       :event_key => self.event_key,
       :count_method => self.condition
     }
-
+    options[:number_of_day] = self.number_of_day if self.number_of_day.present?
+    
     options.merge!({
       :filter => {
         :comparison_operator => self.comparison_operator,
