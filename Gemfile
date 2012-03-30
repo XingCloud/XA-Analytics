@@ -26,6 +26,8 @@ gem 'will_paginate', "~> 3.0.3"
 gem 'tabs_on_rails', "~> 2.1.1"
 gem "dalli"
 gem "rubycas-client", "2.3.9.rc1"
+gem 'the_sortable_tree'
+
 #gem "mongoid"
 #gem "bson_ext"
 #gem "jammit", :git => "git://github.com/yakjuly/jammit.git"

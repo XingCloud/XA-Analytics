@@ -19,3 +19,4 @@
 //= require jquery.ui.nestedSortable
 //= require calendar
 //= require moment
+//= require jquery.tablednd

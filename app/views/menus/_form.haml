@@ -9,6 +9,7 @@
       .row
         .span6
           = f.input :name
+          = f.input :parent_id,:collection => @menus
           .control-group.string.optional
             %label.string.optional.control-label
               %div　报表

@@ -1,5 +1,5 @@
 jQuery ->
-    $('#sortable ul:first-child').nestedSortable({
+    $('#sortable').nestedSortable({
             listType: 'ul',
             items: 'li',
             maxLevels: 2

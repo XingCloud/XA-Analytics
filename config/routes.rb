@@ -2,7 +2,7 @@ Analytic::Application.routes.draw do
 
   
   match "/sign_out" => "users#sign_out"
-  
+
   resources :users do
     member do
       get :new_role
