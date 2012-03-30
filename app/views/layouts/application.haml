@@ -10,7 +10,10 @@
     /[if lt IE 9]
       = javascript_include_tag "http://html5shim.googlecode.com/svn/trunk/html5.js"
     / Le styles
-    %script{:type => "text/javascript", :src => "/xingcloud/global.js?project_id=#{@project.identifier}"}
+    - if not @project.nil?
+      %script{:type => "text/javascript", :src => "/xingcloud/global.js?project_id=#{@project.identifier}"}
+    - else
+      %script{:type => "text/javascript", :src => "/xingcloud/global.js"}
     = stylesheet_link_tag    "application"
     = javascript_include_tag "application"
     = yield :head
@@ -23,19 +26,20 @@
     .container-fluid
       
       .row-fluid
-        .page-header
-          %h1
-            = @project.name
-            %small
-              = @project.identifier
-        .subnav{:style => "margin-bottom: 10px"}
-          = tabs_tag :namespace => :sub, :builder => TabsOnRails::SubNav do |tab|
-            = tab.project "首页", project_path(@project)
-            = tab.report "报告管理", project_reports_path(@project)
-            = tab.menu '菜单管理', project_menus_path(@project)
-            - if session["cas_user"] == "yakjuly"
-              = tab.template '预设菜单管理',template_menus_path, :style => "float:right;"
-        = notice_message
+        - if not @project.nil?
+          .page-header
+            %h1
+              = @project.name
+              %small
+                = @project.identifier
+          .subnav{:style => "margin-bottom: 10px"}
+            = tabs_tag :namespace => :sub, :builder => TabsOnRails::SubNav do |tab|
+              = tab.project "首页", project_path(@project)
+              = tab.report "报告管理", project_reports_path(@project)
+              = tab.menu '菜单管理', project_menus_path(@project)
+              - if session["cas_user"] == "yakjuly"
+                = tab.template '预设菜单管理',template_menus_path, :style => "float:right;"
+          = notice_message
         = yield
       
       %footer

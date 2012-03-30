@@ -7,11 +7,17 @@
     },
     
     edit_url: function() {
-      return "/projects/" + this.attributes.project_id + "/metrics/" + this.attributes.id + "/edit";
+      if (this.attributes.project_id != null)
+        return "/projects/" + this.attributes.project_id + "/metrics/" + this.attributes.id + "/edit";
+      else
+        return "/template_metrics/" + this.attributes.id + "/edit";
     },
     
     delete_url: function() {
-      return "/projects/" + this.attributes.project_id + "/metrics/" + this.attributes.id;
+      if (this.attributes.project_id != null)
+        return "/projects/" + this.attributes.project_id + "/metrics/" + this.attributes.id;
+      else
+        return "/template_metrics/" + this.attributes.id;
     },
     
     destroy: function() {

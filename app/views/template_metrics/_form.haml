@@ -1,0 +1,21 @@
+- (0...6).each do |i|
+  = builder.input "event_key_#{i}", :include_blank => false, :label => "事件第#{i+1}层" do
+    = builder.text_field "event_key_#{i}"
+    
+  .modal.hide.fade{:id => "modal_#{i}"}
+    .modal-header
+      %a.close{"data-dismiss" => "modal"} x
+      %h3 符合条件的值
+    .modal-body
+      loading..
+    .modal-footer
+      %a.btn{"data-dismiss" => "modal"} 取消
+      %a.btn.btn-primary.choose 确定
+    
+  
+  
+= builder.input :condition, :collection => translate_collection(Metric::OPERATIONS, :scope => "metric"), :include_blank => false
+
+= builder.input :comparison do
+  = builder.select :comparison_operator, translate_collection(Metric::COMPARISION_OPERATORS, :scope => "metric"), {:include_blank => true}, :style => "width: auto"
+  = builder.text_field :comparison, :style => "width: 50px"
