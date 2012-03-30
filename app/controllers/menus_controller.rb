@@ -1,7 +1,8 @@
 class MenusController < ApplicationController
 
   set_tab :menu, :sub, :only => [:index, :new, :create, :edit, :update, :reorder]
-  before_filter :find_project, :only=>[:index, :new, :show, :report,:edit]
+  before_filter :find_project, :only=>[:index, :new, :show, :report, :edit]
+
   def index
     @menus = @project.menus
   end
@@ -13,7 +14,7 @@ class MenusController < ApplicationController
     @menus = @project.menus.all(:conditions => ["parent_id is null"])
     @menu.project_id = params[:project_id]
     if request.xhr?
-      render :partial => 'new' ,:layout => 'popup'
+      render :partial => 'new', :layout => 'popup'
     end
   end
 
@@ -32,10 +33,10 @@ class MenusController < ApplicationController
     if @menu.present? && @menu.project
       @reports = @project.reports
     else
-      @reports = Report.all(:conditions => ["template = ?",0])
+      @reports = Report.all(:conditions => ["template = ?", 0])
     end
     if request.xhr?
-      render :partial => 'edit',:layout => 'popup'
+      render :partial => 'edit', :layout => 'popup'
     end
   end
 
@@ -71,12 +72,10 @@ class MenusController < ApplicationController
   # TODO
   def destroy
     @menu = Menu.find(params[:id])
-    if @menu.status == Menu::STATUS_CUSTOM && @menu.project == @project
-        @menu.destroy
-    end
+    @menu.destroy
     redirect_to project_menus_path(@menu.project)
   end
-  
+
   def report
     @menus = @project.menus
     @menu = @menus.find_by_id(params[:id])
