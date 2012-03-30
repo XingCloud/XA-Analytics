@@ -10,6 +10,7 @@ class Admin::TemplateMenusController < ApplicationController
   #
   def new
     @menu = Menu.new
+    @menus = Menu.all(:conditions => ["status = ? and parent_id is null ", Menu::STATUS_DEFAULT])
     if request.xhr?
       render :partial => 'new', :layout => 'popup'
     end
@@ -23,13 +24,11 @@ class Admin::TemplateMenusController < ApplicationController
       Menu.reorder(params[:menu])
       redirect_to admin_template_menus_path
     end
-    if request.xhr?
-      render :partial => 'reorder', :layout => 'popup'
-    end
   end
 
   def edit
     @menu = Menu.find_by_id(params[:id])
+    @menus = Menu.all(:conditions => ["status = ? and parent_id is null ", Menu::STATUS_DEFAULT])
     if request.xhr?
       render :partial => 'edit', :layout => 'popup'
     end
@@ -48,8 +47,8 @@ class Admin::TemplateMenusController < ApplicationController
   def create
     @menu = Menu.new(params[:menu])
     @menu.status = Menu::STATUS_DEFAULT
-    @menu.create_association(params[:report_id])
-    if @menu.save
+    status = @menu.create_association(params[:report_id])
+    if status
       redirect_to admin_template_menus_path
     else
       redirect_to new_admin_template_menu_path
@@ -68,7 +67,7 @@ class Admin::TemplateMenusController < ApplicationController
 
   # TODO
   def find_reports
-    @reports = Report.all(:conditions => ["template = ?",Report::COMMON_TEMPLATE])
+    @reports = Report.all(:conditions => ["template = ?", Report::COMMON_TEMPLATE])
   end
 
 end

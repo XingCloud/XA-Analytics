@@ -29,6 +29,7 @@ zh-CN:
         name: "名称"
         desc: "描述"
         point: "报表"
+        parent_id: "父菜单"
       role:
         name: "名称"
       metric:

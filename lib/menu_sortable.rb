@@ -62,7 +62,6 @@ module MenuSortable
     def find_all_root(arr)
       arrs = []
       arr.each_with_index do |item, index|
-        p item
         if item.include?("root")
           arrs << index
         end
