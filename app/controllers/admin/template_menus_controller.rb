@@ -2,6 +2,7 @@ class Admin::TemplateMenusController < ApplicationController
   layout 'admin'
   before_filter :find_reports, :only => [:new, :edit]
   set_tab :template_menus, :sidebar
+  before_filter :find_menu, :only => [:rename, :edit, :update, :destroy]
 
   def index
     @menus = Menu.all(:conditions => {:status => Menu::STATUS_DEFAULT})
@@ -18,7 +19,6 @@ class Admin::TemplateMenusController < ApplicationController
 
   #
   def rename
-    @menu = Menu.find_by_id(params[:id])
     if request.xhr?
       render :partial => 'rename', :layout => 'popup'
     end
@@ -35,7 +35,6 @@ class Admin::TemplateMenusController < ApplicationController
   end
 
   def edit
-    @menu = Menu.find_by_id(params[:id])
     @menus = Menu.parent_menus
     if request.xhr?
       render :partial => 'edit', :layout => 'popup'
@@ -43,7 +42,6 @@ class Admin::TemplateMenusController < ApplicationController
   end
 
   def update
-    @menu = Menu.find_by_id(params[:id])
     if @menu.update_association(params[:menu], params[:report_id])
       redirect_to admin_template_menus_path
     else
@@ -64,16 +62,19 @@ class Admin::TemplateMenusController < ApplicationController
   end
 
   def destroy
-    @menu = Menu.find_by_id(params[:id])
     @menu.destroy
     redirect_to admin_template_menus_path
   end
 
   private
 
-  # TODO
+
   def find_reports
-    @reports = Report.all(:conditions => ["template = ?", Report::COMMON_TEMPLATE])
+    @reports = Report.template
+  end
+
+  def find_menu
+    @menu = Menu.find_by_id(params[:id])
   end
 
 end

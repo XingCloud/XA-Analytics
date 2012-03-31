@@ -5,15 +5,16 @@
 %table.table.table-bordered
   %tr
     %th 菜单名称
+    %th 报表
     %th 菜单描述
     %th 创建时间
-    %th
-    %th
+
   - @menus.each do |menu|
     - if !menu.child?
       %tr{:id => "menu[#{menu.id}]=root" }
         %td
           %span.folder= menu.name
+        %td
         %td= menu.desc
         %td= menu.created_at.strftime("%Y-%m-%d %H:%M:%S")
         %td= link_to "改名","javascript:void(0)",:onclick=>"edit_menu('#{rename_admin_template_menu_path(menu)}')"
@@ -23,6 +24,7 @@
           %tr{:id => "menu[#{sub_menu.id}]=#{menu.id}" }
             %td
               %span.file= raw "&nbsp;&nbsp;&nbsp;#{sub_menu.name}"
+            %td= sub_menu.reports.map(&:title).join("|")
             %td= sub_menu.desc
             %td= sub_menu.created_at.strftime("%Y-%m-%d %H:%M:%S")
             %td= link_to_edit "javascript:void(0)",:onclick=>"edit_menu('#{edit_admin_template_menu_path(sub_menu)}')"
