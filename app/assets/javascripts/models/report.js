@@ -16,7 +16,7 @@
     
     Highcharts.setOptions({
         global:{
-            useUTC:false
+            useUTC: false
         }
     });
 
@@ -94,7 +94,10 @@
                     labels:{
                         align:"left",
                         x:0,
-                        y:10
+                        y:10,
+                        formatter: function() {
+                           return Highcharts.dateFormat('%m-%d %h时', this.value);
+                        }
                     },
                     gridLineWidth:0,
                     tickWidth:0,
@@ -102,9 +105,9 @@
                     type:"datetime",
                     dateTimeLabelFormats:{
                         second:'%H:%M:%S',
-                        minute:'%H:%M',
-                        hour:'%H:%M',
-                        day:'%b%e日',
+                        minute:'%H时%M分',
+                        hour:'%H时',
+                        day:'%b%e日 %H时',
                         week:'%b%e日',
                         month:'%b \'%y',
                         year:'%Y'
@@ -241,6 +244,8 @@
                 },
                 error: function(resp) {
                   console.log(resp);
+                  self.data = [];
+                  callback();
                 }
                 
             });
@@ -299,9 +304,7 @@
             return {
                 name:this.get("name"),
                 realname:this.get("name"),
-                data:this.data.map(function (item) {
-                    return item[1]
-                }),
+                data:this.data,
                 pointStart:moment(this.report.period.get("start_time")),
                 pointInterval:this.report.period.get("interval") * 1000,
                 marker:{

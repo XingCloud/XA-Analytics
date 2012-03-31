@@ -27,6 +27,7 @@ gem 'tabs_on_rails', "~> 2.1.1"
 gem "dalli"
 gem "rubycas-client", "2.3.9.rc1"
 gem 'the_sortable_tree'
+gem "paper_trail"
 
 #gem "mongoid"
 #gem "bson_ext"
@@ -43,4 +44,3 @@ group :development, :test do
   gem 'guard-livereload', "~> 0.4.2"
   gem 'thin'
 end
-

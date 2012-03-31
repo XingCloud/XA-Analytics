@@ -14,4 +14,8 @@ class ApplicationController < ActionController::Base
     pp session
   end
   
+  def user_for_paper_trail
+    session[:cas_user]
+  end
+  
 end

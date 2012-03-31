@@ -116,6 +116,9 @@ GEM
     net-ssh (2.3.0)
     net-ssh-gateway (1.1.0)
       net-ssh (>= 1.99.1)
+    paper_trail (2.6.3)
+      activerecord (~> 3.0)
+      railties (~> 3.0)
     polyglot (0.3.3)
     pry (0.9.8.4)
       coderay (~> 1.0.5)
@@ -223,6 +226,7 @@ DEPENDENCIES
   jquery-rails (~> 2.0.1)
   mysql2
   nested_form (~> 0.2.0)
+  paper_trail
   pry (~> 0.9.8)
   rails (= 3.2.2.rc1)
   rails-i18n (~> 0.5.1)

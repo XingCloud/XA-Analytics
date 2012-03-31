@@ -1,6 +1,5 @@
 class Report < ActiveRecord::Base
   include Highchart::Report
-  after_initialize :default_values
 
   belongs_to :project
   has_many :metrics, :dependent => :destroy
@@ -18,9 +17,15 @@ class Report < ActiveRecord::Base
 
   COMMON_TEMPLATE = 1
   CUSTOM_TEMPLATE = 0
+<<<<<<< HEAD
 
   scope :template, where(:template => COMMON_TEMPLATE)
 
+=======
+  
+  has_paper_trail
+  
+>>>>>>> c90b58ad2b71e3726f2e62af18e967083f0b6745
   def do_public
     self.update_attributes(:public => true)
   end
@@ -51,12 +56,16 @@ class Report < ActiveRecord::Base
                     :period_attributes => self.period.template_attributes,
                     :project_id => project_id})
   end
+<<<<<<< HEAD
 
   private
 
   def default_values
     self.template ||= 0
   end
+=======
+  
+>>>>>>> c90b58ad2b71e3726f2e62af18e967083f0b6745
 end
 
 Dir.glob(File.dirname(__FILE__) + "/reports/*.rb").each do |file|
