@@ -1,20 +1,17 @@
 = simple_form_for @menu, :as => :menu, :url=> @menu.new_record? ? project_menus_path(@project) : project_menu_path(@project,@menu) ,:html => {:class => "form-horizontal"} do |f|
-  .page-header
-    .h3
-      一般信息
-      %small 菜单名称及描述  报表可多选，最多选择四个报表
+
   .form-stocked
 
     %fieldset
       .row
         .span6
           = f.input :name
-          = f.input :parent_id,:collection => @menus
-          .control-group.string.optional#parent_menus_sel{:style=>'display:none;'}
+          = f.input :parent_id,:collection => @menus,:input_html => {:class =>'chzn-select'}
+          .control-group.string.optional#parent_menus_sel{:style=>"#{@menu.new_record? ? 'display:none;' : 'display:block;' }"}
             %label.string.optional.control-label
               %div　报表
               %div.controls
-                = select_tag :report_id, options_for_select(@reports.map {|p| [ p.title, p.id ] }),{ :multiple => true, :size =>4, :id => "menu_report" }
+                = select_tag :report_id, options_for_select(@reports.map {|p| [ p.title, p.id ] },@menu.report_ids),{ :'data-placeholder'=>"请选择多个报表...",:class=>"chzn-select",:multiple => true, :size =>4, :id => "menu_report" }
           = f.input :desc
           = f.hidden_field(:project_id)
 
@@ -24,6 +21,7 @@
 
 :javascript
   $(function(){
+    $(".chzn-select").chosen();
     $("select").change(function(){
       $("select option:selected").each(function(ele,t){
         if ($(t).val() == 0){

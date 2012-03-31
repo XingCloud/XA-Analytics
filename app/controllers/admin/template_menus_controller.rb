@@ -10,16 +10,24 @@ class Admin::TemplateMenusController < ApplicationController
   #
   def new
     @menu = Menu.new
-    @menus = Menu.all(:conditions => ["status = ? and parent_id is null ", Menu::STATUS_DEFAULT])
+    @menus = Menu.parent_menus
     if request.xhr?
       render :partial => 'new', :layout => 'popup'
     end
   end
 
   #
+  def rename
+    @menu = Menu.find_by_id(params[:id])
+    if request.xhr?
+      render :partial => 'rename', :layout => 'popup'
+    end
+  end
+
+  #
   def reorder
     if request.get?
-      @menus = Menu.all(:conditions => ["status = ? and parent_id is null ", Menu::STATUS_DEFAULT])
+      @menus = Menu.parent_menus
     elsif request.post?
       Menu.reorder(params[:menu])
       redirect_to admin_template_menus_path
@@ -28,7 +36,7 @@ class Admin::TemplateMenusController < ApplicationController
 
   def edit
     @menu = Menu.find_by_id(params[:id])
-    @menus = Menu.all(:conditions => ["status = ? and parent_id is null ", Menu::STATUS_DEFAULT])
+    @menus = Menu.parent_menus
     if request.xhr?
       render :partial => 'edit', :layout => 'popup'
     end
@@ -47,9 +55,8 @@ class Admin::TemplateMenusController < ApplicationController
   def create
     @menu = Menu.new(params[:menu])
     @menu.status = Menu::STATUS_DEFAULT
-    status = @menu.create_association(params[:report_id])
-    p status
-    if status
+    menu = @menu.create_association(params[:report_id])
+    if menu
       redirect_to admin_template_menus_path
     else
       redirect_to new_admin_template_menu_path
@@ -58,7 +65,7 @@ class Admin::TemplateMenusController < ApplicationController
 
   def destroy
     @menu = Menu.find_by_id(params[:id])
-      @menu.destroy
+    @menu.destroy
     redirect_to admin_template_menus_path
   end
 
