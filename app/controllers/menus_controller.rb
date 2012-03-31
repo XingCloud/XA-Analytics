@@ -1,7 +1,7 @@
 class MenusController < ApplicationController
 
   set_tab :menu, :sub, :only => [:index, :new, :create, :edit, :update, :reorder]
-  before_filter :find_project, :only=>[:index, :new, :show, :report, :edit]
+  before_filter :find_project, :only=>[:index, :new, :show, :report, :edit, :rename]
 
   def index
     @menus = @project.menus
@@ -11,7 +11,7 @@ class MenusController < ApplicationController
   def new
     @menu = Menu.new
     @reports = @project.reports
-    @menus = @project.menus.all(:conditions => ["parent_id is null"])
+    @menus = Menu.project_menus @project
     @menu.project_id = params[:project_id]
     if request.xhr?
       render :partial => 'new', :layout => 'popup'
@@ -27,14 +27,18 @@ class MenusController < ApplicationController
   end
 
   #
+  def rename
+    @menu = Menu.find_by_id(params[:id])
+    if request.xhr?
+      render :partial => 'rename', :layout => 'popup'
+    end
+  end
+
+  #
   def edit
     @menu = Menu.find_by_id(params[:id])
-    @menus = @project.menus.all(:conditions => ["parent_id is null"])
-    if @menu.present? && @menu.project
-      @reports = @project.reports
-    else
-      @reports = Report.all(:conditions => ["template = ?", 0])
-    end
+    @menus = Menu.project_menus @project
+    @reports = @project.reports
     if request.xhr?
       render :partial => 'edit', :layout => 'popup'
     end

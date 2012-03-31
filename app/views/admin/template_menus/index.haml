@@ -16,7 +16,7 @@
           %span.folder= menu.name
         %td= menu.desc
         %td= menu.created_at.strftime("%Y-%m-%d %H:%M:%S")
-        %td= link_to_edit "javascript:void(0)",:onclick=>"edit_menu('#{edit_admin_template_menu_path(menu)}')"
+        %td= link_to "改名","javascript:void(0)",:onclick=>"edit_menu('#{rename_admin_template_menu_path(menu)}')"
         %td= link_to_delete admin_template_menu_path(menu)
       - unless menu.children.blank?
         - menu.children.each do |sub_menu|
@@ -29,7 +29,7 @@
             %td= link_to_delete admin_template_menu_path(sub_menu)
 
 
-.modal.fade#menu{:style=>"height:600px;width:800px;display:none",:title=>'添加菜单'}
+.modal.fade#menu{:style=>"height:600px;width:600px;display:none"}
 
 = javascript_include_tag 'template_menus.js'
 

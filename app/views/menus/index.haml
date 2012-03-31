@@ -1,7 +1,6 @@
 - javascript "menus"
 
 .btn{:'add_menu'=> "#{new_project_menu_path(@project)}"} 添加菜单
--#.btn{:'reorder_menu'=> "#{reorder_project_menus_path(@project)}"} 菜单排序
 
 %div{:style=>'visibility:hidden;height:10px'}
 
@@ -20,7 +19,7 @@
           %span.folder= menu.name
         %td= menu.desc
         %td= menu.created_at.strftime("%Y-%m-%d %H:%M:%S")
-        %td= link_to_edit "javascript:void(0)",:onclick=>"edit_menu('#{edit_project_menu_path(@project,menu)}')"
+        %td= link_to '改名', "javascript:void(0)",:onclick=>"edit_menu('#{rename_project_menu_path(@project,menu)}')"
         %td= link_to_delete project_menu_path(@project,menu)
       - unless menu.children.blank?
         - menu.children.each do |sub_menu|
@@ -32,7 +31,7 @@
             %td= link_to_edit "javascript:void(0)",:onclick=>"edit_menu('#{edit_project_menu_path(@project,sub_menu)}')"
             %td= link_to_delete project_menu_path(@project,sub_menu)
 
-.modal.fade#menu{:style=>"height:800px;width:800px;display:none",:title=>'添加菜单'}
+.modal.fade#menu{:style=>"height:600px;width:600px;display:none"}
 
 :javascript
   $(function(){

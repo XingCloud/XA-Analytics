@@ -1,6 +1,6 @@
 Analytic::Application.routes.draw do
 
-  
+
   match "/sign_out" => "users#sign_out"
 
   resources :users do
@@ -10,16 +10,16 @@ Analytic::Application.routes.draw do
       put :assign_role
       put :update_role
     end
-    
+
   end
-  
+
   root :to => "admin/projects#index"
   resources :projects do
-    
+
     member do
       post :event_item
     end
-    
+
     resources :reports do
       member do
         post :request_data
@@ -31,11 +31,14 @@ Analytic::Application.routes.draw do
     end
     resources :metrics
     resources :menus do
+      member do
+        get :rename
+      end
       collection do
         get 'reorder'
         post 'reorder'
       end
-      
+
       member do
         get :report
       end
@@ -44,6 +47,9 @@ Analytic::Application.routes.draw do
 
   namespace :admin do
     resources :template_menus do
+      member do
+        get :rename
+      end
       collection do
         get 'reorder'
         post 'reorder'
@@ -54,14 +60,14 @@ Analytic::Application.routes.draw do
     resources :projects
   end
 
-  
+
   match "/js_templates/:package.:extension",
         :to => 'js_templates#package', :as => :jammit, :constraints => {
           # A hack to allow extension to include "."
           :extension => /.+/
       }
   match "/xingcloud/global.js", :to => "js_templates#xingcloud", :format => "js"
-  
+
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
@@ -87,7 +93,7 @@ Analytic::Application.routes.draw do
   #       get 'sold'
   #     end
   #   end
-  
+
   # Sample resource route with sub-resources:
   #   resources :products do
   #     resources :comments, :sales
