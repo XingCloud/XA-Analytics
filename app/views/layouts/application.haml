@@ -10,10 +10,7 @@
     /[if lt IE 9]
       = javascript_include_tag "http://html5shim.googlecode.com/svn/trunk/html5.js"
     / Le styles
-    - if not @project.nil?
-      %script{:type => "text/javascript", :src => "/xingcloud/global.js?project_id=#{@project.identifier}"}
-    - else
-      %script{:type => "text/javascript", :src => "/xingcloud/global.js"}
+    %script{:type => "text/javascript", :src => "http://p.xingcloud.com:3001/xingcloud.js?project_id=#{@project.identifier}"}
     = stylesheet_link_tag    "application"
     = javascript_include_tag "application"
     = yield :head
