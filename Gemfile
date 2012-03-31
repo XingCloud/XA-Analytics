@@ -42,5 +42,5 @@ group :development, :test do
   gem "guard-spork", "~> 0.5.2"
 #  gem 'rb-fsevent', "~> 0.9.0", :require => false if RUBY_PLATFORM =~ /darwin/i
   gem 'guard-livereload', "~> 0.4.2"
-  gem 'thin'
 end
+gem 'thin'
