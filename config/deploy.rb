@@ -15,7 +15,7 @@ set :deploy_to, "/home/app/apps/analytic"
 set :branch, "master"
 set :git_shallow_clone, 1
 set :scm_verbose, true
-set :deploy_via, :remote_cache
+#set :deploy_via, :remote_cache
 
 default_environment["PATH"] = "/sbin:/bin:/usr/kerberos/bin:/usr/local/bin:/bin:/usr/bin:/home/app/bin:/usr/local/sbin:/usr/sbin:"
 
