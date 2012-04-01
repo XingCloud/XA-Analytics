@@ -1,21 +1,12 @@
 - javascript "backbone_bundle", "highcharts", "custom_highchart", "backbone"
-- stylesheet "jquery.ui"
 
 .row-fluid
   .span9
     #chart_container{:style => "position:relative"}
-      #report_desc{:style => "position: absolute;top: 10px;right: 10px;z-index: 999;"}
+      #report_desc
       #report_chart
       #report_legend
-        - @report.metrics.in_groups_of(4, false).each do |metric_group|
-          .row
-            - metric_group.each do |metric|
-              .span2.well{:style => "text-align:center;"}
-                %h3= metric.name
-                %div
-                  峰值
-                  .span{:id => "max_#{metric.id}"}
-          
+      
   .span3
     .well
       %h3
@@ -25,8 +16,13 @@
       = simple_format @report.description
       = render :partial => "periods/date_form"
       
-          
-= javascript_include_tag "models/report.js"
+= include_js_template :metric_view
+= javascript_include_tag "models/report.js?time=#{Time.now.to_i}"
+:css
+  .metric_legend {
+    text-align:center;
+    cursor:pointer;
+  }
 
 :javascript
   report.set(#{@report.to_json});

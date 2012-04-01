@@ -96,7 +96,7 @@
                         x:0,
                         y:10,
                         formatter: function() {
-                           return Highcharts.dateFormat('%m-%d %h时', this.value);
+                           return Highcharts.dateFormat('%m-%d %l时', this.value);
                         }
                     },
                     gridLineWidth:0,
@@ -216,7 +216,35 @@
         initialize:function (options) {
             this.set(options);
         },
-
+        
+        max_val: function() {
+            if (this.data) {
+                var max = _.max(this.data, function(item) {
+                    return item[1];
+                });
+                console.log(max[1])
+                return max[1];
+            } else {
+                return "";
+            }
+            
+        },
+        
+        sum_val: function() {
+            if (this.data) {
+                var total = 0;
+                _.each(this.data, function(item) {
+                    if (typeof item[1] == "number") {
+                        total += item[1];
+                    }
+                });
+                return total;
+            } else {
+                return "";
+            }
+            
+        },
+        
         draw:function () {
             console.log("metric draw")
             var self = this;
@@ -300,7 +328,28 @@
             this.set("metric_id", this.id);
             this.set("id", null);
         },
+        
+        max_val: function() {
+            if (this.data) {
+                return _.max(this.data);
+            } else {
+                return ""
+            }
+        },
+        sum_val: function() {
+            if (this.data) {
+                var total = 0;
+                _.each(this.data, function(item) {
+                    if (typeof item == "number") {
+                        total += item;
+                    }
+                });
 
+                return total;
+            } else {
+                return ""
+            }
+        },
         request_params:function () {
             console.log("compare metric request params");
             var params = {
@@ -440,6 +489,7 @@
                 _.each(metric_options, function (item) {
                     var metric = new Metric(item);
                     metric.report = this.report;
+                    metric.set("target_legend", "metric_" + metric.get("id"));
                     self.add(metric);
                 });
             } else {
@@ -454,10 +504,12 @@
                             end_time:self.report.period.compare_end_time(i),
                             compare_index:i
                         });
-
+                        
+                        console.log("metric_" + metric.get("metric_id") + "_" + metric.get("start_time").format("YYYY-MM-DD"))
                         metric.set("realname", metric.get("name"));
                         metric.set("name", metric.get("start_time").format("YYYY-MM-DD") + " " + metric.get("name"));
-
+                        metric.set("target_legend", "metric_" + metric.get("metric_id") + "_" + metric.get("start_time").format("YYYY-MM-DD"));
+                        
                         metric.report = this.report;
                         self.add(metric);
                     }
@@ -499,6 +551,7 @@
     });
 
     window.MetricView = Backbone.View.extend({
+        el: $("#report_legend"),
         initialize:function () {
             this.model.view = this;
             _.bindAll(this, "drawMetric");
@@ -507,7 +560,27 @@
         },
 
         drawMetric:function (metric) {
-            metric.report.chart.addSeries(metric.series_options());
+            var series = metric.report.chart.addSeries(metric.series_options());
+            this.updateLegend(metric, series);
+        },
+        
+        updateLegend: function(metric, series) {
+            var $legend = this.$el.find("#" + metric.get("target_legend"));
+            
+            $legend.find(".name").css("color", series.color)
+            $legend.find(".max_val").html( String(metric.max_val()) );
+            $legend.find(".sum_val").html( String(metric.sum_val()) );
+            $legend.find(".name").html(metric.get("name"));
+            
+            $legend.unbind("click").click(function() {
+                if (series.visible) {
+                    series.hide();
+                    $(this).css("color", "silver");
+                } else {
+                    series.show();
+                    $(this).css("color", "");
+                }
+            })
         }
     });
 
@@ -515,11 +588,14 @@
         el:$("#report_chart"),
         initialize:function () {
             this.model.view = this;
+            
         },
 
         render:function () {
             report.chart = new Highcharts.Chart(this.model.chart_options());
         }
+        
+       
     });
 
     window.AppView = Backbone.View.extend({
@@ -539,6 +615,17 @@
         addMetric:function (metric) {
             var view = new MetricView({model:metric});
             metric.draw();
+            this.drawLegend(metric)
+        },
+        
+        drawLegend: function(metric) {
+            console.log("Drawlegend")
+            var template = window.JST["reports/_legend"];
+            var html = template(metric);
+            console.log(metric.get("target_legend"));
+            this.$el.find("#report_legend").append(html);
+            
+            
         }
     })
 

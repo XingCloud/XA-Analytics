@@ -49,7 +49,7 @@ class JsTemplatesController < ApplicationController
     
     
     paths                  = ASSETS[@package].flatten.uniq.map {|glob| glob_files(glob) }.flatten.uniq
-    
+    pp paths
     text_parts += paths.map do |file|
       file =~ /\/views\/(.*?)\./
       name = $1
