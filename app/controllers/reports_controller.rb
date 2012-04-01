@@ -77,6 +77,10 @@ class ReportsController < ProjectBaseController
       
       render :json => json
     end
+  rescue Timeout::Error => e
+    render :json => {:result => false, :timeout => true, :error => e.message}
+  rescue Exception => e
+    render :json => {:result => false, :error => e.message}
   end
 
   def choose_template

@@ -1,16 +1,16 @@
 (function () {
-    $.xhrPool = [];
-    $.xhrPool.abortAll = function() {
-      _.each(this, function(jqXHR) {
-        jqXHR.abort();
-      });
-    };
-    
-    $.ajaxSetup({
-      beforeSend: function(jqXHR) {
-        $.xhrPool.push(jqXHR);
-      }
-    });
+    // $.xhrPool = [];
+    // $.xhrPool.abortAll = function() {
+    //   _.each(this, function(jqXHR) {
+    //     jqXHR.abort();
+    //   });
+    // };
+    // 
+    // $.ajaxSetup({
+    //   beforeSend: function(jqXHR) {
+    //     $.xhrPool.push(jqXHR);
+    //   }
+    // });
     
     window.DEBUG = false;
     
@@ -85,7 +85,7 @@
                     }
                 },
                 title:{
-                    text:"Chart Analytics"
+                    text: "Chart Analytics"
                 },
                 subtitle:{
                     text:"XingCloud"
@@ -130,7 +130,7 @@
                     },
                     showFirstLabel:true
                 },
-
+                
                 tooltip:{
                     enabled:true,
                     shared:true,
@@ -142,8 +142,13 @@
                     ],
                     borderWidth:0.5
                 },
-
+                
+                loading: {
+                    hideDuration: 500,
+                    showDuration: 500
+                },
                 legend:{
+                    enabled:false,
                     borderWidth:0,
                     align:"left",
                     floating:true,
@@ -151,22 +156,33 @@
                     verticalAlign:'top',
                     y:-10,
                     labelFormatter:function () {
-                        return this.name + " 峰值 " + (_.max(this.yData, function (item) {
-                            return item
-                        }) || "");
+                        
+                        if (this.options.timeout) {
+                            return this.name + " 超时";
+                        } else {
+                            return this.name + " 峰值 " + (_.max(this.yData, function (item) {
+                                return item
+                            }) || "");
+                        }
+                        
                     }
                 }
             };
 
             options.chart.renderTo = this.view.el;
-            options.title.text = this.get("title");
+            //options.title.text = this.get("title");
+            //options.subtitle.text = this.period.range();
+            
+            options.title.text = "";
+            options.subtitle.text = "";
+            
             options.xAxis.type = this.period.type();
             if (this.period.compare) {
                 options.xAxis.tickInterval = this.period.tickInterval();
             }
 
             options.tooltip.xDateFormat = this.period.dateformat();
-            options.subtitle.text = this.period.range();
+            
             return options;
         },
 
@@ -232,31 +248,36 @@
                 type:"post",
                 data:params,
                 async: true,
+                beforeSend: function() {
+                  self.report.chart.showLoading();  
+                },
                 success:function (resp) {
+                    self.report.chart.hideLoading();  
                     if (resp.result) {
                         self.data = resp.data;
+                        self.timeout = false;
                         callback();
                     } else {
-                        self.data = []
+                        self.data = [];
+                        self.timeout = resp.timeout;
                         callback();
-                        alert(resp.error);
                     }
                 },
                 error: function(resp) {
-                  console.log(resp);
-                  self.data = [];
-                  callback();
+                    self.report.chart.hideLoading();
+                    self.data = [];
+                    callback();
                 }
-                
             });
             
         },
 
-        chart_options:function () {
+        series_options:function () {
             return {
                 name:this.get("name"),
                 realname:this.get("name"),
                 data:format_data(this.data),
+                timeout: this.timeout,
                 marker:{
                     enabled:false,
                     fillColor:'#FFFFFF',
@@ -300,7 +321,7 @@
             this.set("name", val + this.get("realname"));
         },
 
-        chart_options:function () {
+        series_options:function () {
             return {
                 name:this.get("name"),
                 realname:this.get("name"),
@@ -412,10 +433,6 @@
 
     window.MetricList = Backbone.Collection.extend({
         model:Metric,
-        initialize:function () {
-
-        },
-
         batch_create:function (metric_options) {
             var self = this;
 
@@ -446,7 +463,6 @@
                     }
                 });
             }
-
         }
 
     });
@@ -456,26 +472,21 @@
         events:{
             "click a#search":"refresh",
         },
+        
         initialize:function () {
             _.bindAll(this, "refresh");
-
         },
 
         refresh:function () {
             this.assign_time();
-
             this.model.report.redraw();
         },
-
-
+        
         assign_time:function () {
             if (this.model.compare) {
                 var self = this;
-
                 this.model.assign_start_time(self.$("#compare_time_1").val());
-
                 this.model.report.metrics.each(function (metric) {
-
                     metric.assign_start_time(
                         self.$("#compare_time_" + Number(metric.get("compare_index") + 1)).val()
                     );
@@ -496,7 +507,7 @@
         },
 
         drawMetric:function (metric) {
-            metric.report.chart.addSeries(metric.chart_options());
+            metric.report.chart.addSeries(metric.series_options());
         }
     });
 

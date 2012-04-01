@@ -1,10 +1,15 @@
 class ApplicationController < ActionController::Base
   include Bootstrap::Breadcrumb
-  
+  helper_method :current_user
   before_filter :cas_filter
   #before_filter :debug_cas
   
   protected
+  
+  def current_user
+    pp session[:cas_user]
+    session[:cas_user]
+  end
   
   def cas_filter
     CASClient::Frameworks::Rails::Filter.filter(self)

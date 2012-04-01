@@ -6,6 +6,16 @@
     #chart_container{:style => "position:relative"}
       #report_desc{:style => "position: absolute;top: 10px;right: 10px;z-index: 999;"}
       #report_chart
+      #report_legend
+        - @report.metrics.in_groups_of(4, false).each do |metric_group|
+          .row
+            - metric_group.each do |metric|
+              .span2.well{:style => "text-align:center;"}
+                %h3= metric.name
+                %div
+                  峰值
+                  .span{:id => "max_#{metric.id}"}
+          
   .span3
     .well
       %h3
