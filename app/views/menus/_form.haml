@@ -6,7 +6,7 @@
       .row
         .span6
           = f.input :name
-          = f.input :parent_id,:collection => @menus,:input_html => {:class =>'chzn-select'}
+          = f.input :parent_id,:collection => @menus,:input_html => {:class =>'chzn-select',:tabindex=>"-1"}
           .control-group.string.optional#parent_menus_sel{:style=>"#{@menu.new_record? ? 'display:none;' : 'display:block;' }"}
             %label.string.optional.control-label
               %div　报表
@@ -16,7 +16,7 @@
           = f.hidden_field(:project_id)
 
   .form-actions
-    = f.submit "提交", :class => "btn btn-primary"
+    = f.submit "提交", :class => "btn btn-primary" ,:'data-loading-text'=>"loading..."
     = link_to "取消", "javascript:void(0)", :onclick=>"$('#menu').modal('hide')",:class => "btn"
 
 :javascript

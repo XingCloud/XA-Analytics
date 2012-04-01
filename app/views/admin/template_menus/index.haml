@@ -1,3 +1,7 @@
+- stylesheet "menus"
+
+- title '通用菜单管理'
+
 .btn{:'add_menu'=>''} 添加菜单
 
 %div{:style=>'visibility:hidden;height:10px'}
@@ -13,7 +17,7 @@
     - if !menu.child?
       %tr{:id => "menu[#{menu.id}]=root" }
         %td
-          %span.folder= menu.name
+          %span.icon.folder= menu.name
         %td
         %td= menu.desc
         %td= menu.created_at.strftime("%Y-%m-%d %H:%M:%S")
@@ -23,7 +27,7 @@
         - menu.children.each do |sub_menu|
           %tr{:id => "menu[#{sub_menu.id}]=#{menu.id}" }
             %td
-              %span.file= raw "&nbsp;&nbsp;&nbsp;#{sub_menu.name}"
+              %span.icon.file= raw "&nbsp;&nbsp;&nbsp;#{sub_menu.name}"
             %td= sub_menu.reports.map(&:title).join("|")
             %td= sub_menu.desc
             %td= sub_menu.created_at.strftime("%Y-%m-%d %H:%M:%S")
