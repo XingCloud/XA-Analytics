@@ -218,7 +218,7 @@
         },
         
         max_val: function() {
-            if (this.data) {
+            if (this.data && this.data.length) {
                 var max = _.max(this.data, function(item) {
                     return item[1];
                 });
@@ -231,7 +231,7 @@
         },
         
         sum_val: function() {
-            if (this.data) {
+            if (this.data && this.data.length) {
                 var total = 0;
                 _.each(this.data, function(item) {
                     if (typeof item[1] == "number") {
@@ -330,14 +330,14 @@
         },
         
         max_val: function() {
-            if (this.data) {
+            if (this.data && this.data.length) {
                 return _.max(this.data);
             } else {
                 return ""
             }
         },
         sum_val: function() {
-            if (this.data) {
+            if (this.data && this.data.length) {
                 var total = 0;
                 _.each(this.data, function(item) {
                     if (typeof item == "number") {
