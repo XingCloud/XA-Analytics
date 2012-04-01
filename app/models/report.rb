@@ -17,9 +17,9 @@ class Report < ActiveRecord::Base
 
   COMMON_TEMPLATE = 1
   CUSTOM_TEMPLATE = 0
-  
-  has_paper_trail
-  
+
+  scope :template, where(:template => COMMON_TEMPLATE)
+
   def do_public
     self.update_attributes(:public => true)
   end
@@ -45,12 +45,18 @@ class Report < ActiveRecord::Base
       end
     end
     self.class.new({:title => self.title,
-     :metric_ids => new_metrics,
-     :description => self.description,
-     :period_attributes => self.period.template_attributes,
-     :project_id => project_id})
+                    :metric_ids => new_metrics,
+                    :description => self.description,
+                    :period_attributes => self.period.template_attributes,
+                    :project_id => project_id})
   end
-  
+
+  private
+
+  def default_values
+    self.template ||= 0
+  end
+
 end
 
 Dir.glob(File.dirname(__FILE__) + "/reports/*.rb").each do |file|

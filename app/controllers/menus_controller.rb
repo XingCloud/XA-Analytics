@@ -1,7 +1,8 @@
 class MenusController < ApplicationController
 
   set_tab :menu, :sub, :only => [:index, :new, :create, :edit, :update, :reorder]
-  before_filter :find_project, :only=>[:index, :new, :show, :report, :edit, :rename]
+  before_filter :find_project
+  before_filter :find_menu, :only =>[:show, :rename, :edit, :update, :destroy]
 
   def index
     @menus = @project.menus
@@ -19,7 +20,6 @@ class MenusController < ApplicationController
   end
 
   def show
-    @menu = Menu.find_by_id(params[:id])
     @menus = @project.menus
     if @menu.reports.present?
       redirect_to report_project_menu_path(@project, @menu, :report_id => @menu.reports.first.id)
@@ -28,7 +28,6 @@ class MenusController < ApplicationController
 
   #
   def rename
-    @menu = Menu.find_by_id(params[:id])
     if request.xhr?
       render :partial => 'rename', :layout => 'popup'
     end
@@ -36,7 +35,6 @@ class MenusController < ApplicationController
 
   #
   def edit
-    @menu = Menu.find_by_id(params[:id])
     @menus = Menu.project_menus @project
     @reports = @project.reports
     if request.xhr?
@@ -49,14 +47,13 @@ class MenusController < ApplicationController
     @menu = Menu.new(params[:menu])
     @menu.status = Menu::STATUS_CUSTOM
     @menu.create_association(params[:report_id])
-    redirect_to project_menus_path(@menu.project)
+    redirect_to project_menus_path(@menu.project), :notice => t("project.menu.create.success")
   end
 
   #
   def update
-    @menu = Menu.find_by_id(params[:id])
     @menu.update_association(params[:menu], params[:report_id])
-    redirect_to project_menus_path(@menu.project)
+    redirect_to project_menus_path(@menu.project), :notice => t("project.menu.update.success")
   end
 
 
@@ -66,16 +63,13 @@ class MenusController < ApplicationController
       @menus = @project.menus
       @reports = @project.reports
     elsif request.post?
-      p params[:menu]
       Menu.reorder(params[:menu])
-      redirect_to project_menus_path(Project.find params[:project_id])
+      redirect_to project_menus_path(@project), :notice => t("project.menus.reorder.success")
     end
   end
 
   #
-  # TODO
   def destroy
-    @menu = Menu.find(params[:id])
     @menu.destroy
     redirect_to project_menus_path(@menu.project)
   end
@@ -90,6 +84,12 @@ class MenusController < ApplicationController
 
   def find_project
     @project = Project.find_by_id(params[:project_id])
+  end
+
+  def find_menu
+    pp @project.menus
+
+    @menu = @project.menus.find(params[:id])
   end
 
 end
