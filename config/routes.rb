@@ -1,19 +1,11 @@
 Analytic::Application.routes.draw do
 
-
+  root :to => "admin/projects#index"
   match "/sign_out" => "users#sign_out"
 
-  resources :users do
-    member do
-      get :new_role
-      get :edit_role
-      put :assign_role
-      put :update_role
-    end
+  resources :users
 
-  end
-
-  root :to => "admin/projects#index"
+  
   resources :projects do
 
     member do
@@ -26,21 +18,18 @@ Analytic::Application.routes.draw do
       end
       collection do
         get :choose_template
-        post :import_template
       end
     end
     resources :metrics
     resources :menus do
       member do
         get :rename
-      end
-      collection do
-        get 'reorder'
-        post 'reorder'
-      end
-
-      member do
         get :report
+      end
+      
+      collection do
+        get :reorder
+        post :reorder
       end
     end
   end
@@ -66,7 +55,6 @@ Analytic::Application.routes.draw do
           # A hack to allow extension to include "."
           :extension => /.+/
       }
-  match "/xingcloud/global.js", :to => "js_templates#xingcloud", :format => "js"
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

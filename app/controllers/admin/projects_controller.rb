@@ -1,4 +1,4 @@
-class Admin::ProjectsController < ApplicationController
+class Admin::ProjectsController < Admin::BaseController
   set_tab :project, :sidebar
 
   def index

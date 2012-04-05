@@ -102,16 +102,7 @@
                     gridLineWidth:0,
                     tickWidth:0,
                     showFirstLabel:true,
-                    type:"datetime",
-                    dateTimeLabelFormats:{
-                        second:'%H:%M:%S',
-                        minute:'%H时%M分',
-                        hour:'%H时',
-                        day:'%b%e日 %H时',
-                        week:'%b%e日',
-                        month:'%b \'%y',
-                        year:'%Y'
-                    }
+                    type:"datetime"
                 },
 
                 yAxis: {
@@ -177,10 +168,8 @@
             options.subtitle.text = "";
             
             options.xAxis.type = this.period.type();
-            if (this.period.compare) {
-                options.xAxis.tickInterval = this.period.tickInterval();
-            }
-
+            options.xAxis.tickInterval = this.period.tickInterval();
+            options.xAxis.labels.formatter = this.period.xAxisFormatter();
             options.tooltip.xDateFormat = this.period.dateformat();
             
             return options;
@@ -287,13 +276,14 @@
                         callback();
                     } else {
                         self.data = [];
-                        self.timeout = resp.timeout;
+                        self.trigger("error", {timeout : resp.timeout, error: resp.error})
                         callback();
                     }
                 },
                 error: function(resp) {
                     self.report.chart.hideLoading();
                     self.data = [];
+                    self.trigger("error", {timeout : false, error: "request error"});
                     callback();
                 }
             });
@@ -408,11 +398,14 @@
             var format;
 
             switch (this.get("rate")) {
+                case "min5":
+                    format = "%Y-%m-%d %H时%M分";
+                    break;
                 case "hour":
-                    format = "%Y-%m-%d %H时"
+                    format = "%Y-%m-%d %H时";
                     break;
                 default:
-                    format = "%Y-%m-%d"
+                    format = "%Y-%m-%d";
                     break;
             }
 
@@ -466,13 +459,36 @@
         },
 
         tickInterval:function () {
-            if (this.compare) {
+            var time_range = moment(this.get("end_time")) - moment(this.get("start_time"));
+            
+            if (time_range <= 24 * 3600 * 1000) {
+                //长度为1天 显示24个小时
+                return 3 * 3600 * 1000;
+            } else if (time_range <= 2 * 24 * 3600 * 1000) {
+                //长度为2天以内
+                return 6 * 3600 * 1000;
+            } else if (time_range <= 16 * 24 * 3600 * 1000) {
                 return 24 * 3600 * 1000;
+            } else if (time_range <= 28 * 24 * 3600 * 1000) {
+                return 3 * 24 * 3600 * 1000;
             } else {
-                return null;
+                return 7 * 24 * 3600 * 1000;
+            }
+        
+        },
+        
+        xAxisFormatter: function() {
+            return function() {
+                //pending
+                var time = moment(this.value);
+                
+                if (time.hours() == 0) {
+                    return time.format("M月D日")
+                } else {
+                    return time.format("H时")
+                }
             }
         },
-
 
         assign_start_time:function (val) {
             this.set("start_time", val);
@@ -532,6 +548,7 @@
         refresh:function () {
             this.assign_time();
             this.model.report.redraw();
+            return false;
         },
         
         assign_time:function () {
@@ -554,9 +571,16 @@
         el: $("#report_legend"),
         initialize:function () {
             this.model.view = this;
-            _.bindAll(this, "drawMetric");
+            _.bindAll(this, "drawMetric", "showError");
 
             this.model.bind("draw", this.drawMetric);
+            this.model.bind("error", this.showError);
+        },
+        
+        showError: function(metric, error) {
+            console.log("showError")
+            console.log(error)
+            console.log(metric)
         },
 
         drawMetric:function (metric) {
@@ -567,7 +591,7 @@
         updateLegend: function(metric, series) {
             var $legend = this.$el.find("#" + metric.get("target_legend"));
             
-            $legend.find(".name").css("color", series.color)
+            $legend.find(".name").css("color", series.color);
             $legend.find(".max_val").html( String(metric.max_val()) );
             $legend.find(".sum_val").html( String(metric.sum_val()) );
             $legend.find(".name").html(metric.get("name"));

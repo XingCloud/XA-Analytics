@@ -1,7 +1,7 @@
-class Admin::TemplateMenusController < ApplicationController
-  layout 'admin'
-  before_filter :find_reports, :only => [:new, :edit]
+class Admin::TemplateMenusController < Admin::BaseController
   set_tab :template_menus, :sidebar
+  
+  before_filter :find_reports, :only => [:new, :edit]
   before_filter :find_menu, :only => [:rename, :edit, :update, :destroy]
 
   def index

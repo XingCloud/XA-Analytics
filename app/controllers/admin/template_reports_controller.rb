@@ -1,8 +1,7 @@
-class Admin::TemplateReportsController < ApplicationController
-  layout "admin"
+class Admin::TemplateReportsController < Admin::BaseController
   before_filter :find_report, :only => [:edit, :update, :destroy]
   set_tab :template_reports, :sidebar
-
+  
   def index
     @reports = Report.where(:template => 1).paginate(:page => params[:page])
   end

@@ -82,14 +82,9 @@ class ReportsController < ProjectBaseController
   rescue Exception => e
     render :json => {:result => false, :error => e.message}
   end
-
+  
   def choose_template
     @template_reports = Report.find_all_by_template(1)
-  end
-
-  def import_template
-    @project.create_template_menus
-    redirect_to project_reports_path(@project), :notice => "Imported"
   end
   
   private

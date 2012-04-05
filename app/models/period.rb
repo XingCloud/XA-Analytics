@@ -23,7 +23,9 @@ class Period < ActiveRecord::Base
   end
   
   def compare_start_time(index)
-    index = index + 1
+    total = self.compare_number
+    index = self.compare_number - index
+    
     case self.rule
     when "last_day"
       Date.today - index.day
