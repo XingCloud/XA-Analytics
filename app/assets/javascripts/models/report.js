@@ -1,17 +1,4 @@
 (function () {
-    // $.xhrPool = [];
-    // $.xhrPool.abortAll = function() {
-    //   _.each(this, function(jqXHR) {
-    //     jqXHR.abort();
-    //   });
-    // };
-    // 
-    // $.ajaxSetup({
-    //   beforeSend: function(jqXHR) {
-    //     $.xhrPool.push(jqXHR);
-    //   }
-    // });
-    
     window.DEBUG = false;
     
     Highcharts.setOptions({

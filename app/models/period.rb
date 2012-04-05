@@ -10,7 +10,7 @@ class Period < ActiveRecord::Base
   def start_time
     day = case self.rule
     when "last_day"
-      Date.yesterday
+      Date.today
     when "last_week"
       Date.today - 1.week
     when "last_month"

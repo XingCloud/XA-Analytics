@@ -1,5 +1,5 @@
 set :application, "analytic"
-set :repository,  "git@yakjuly.com:analytic.git"
+set :repository,  "git@119.254.28.37:analytic.git"
 
 set :scm, :git
 # Or: `accurev`, `bzr`, `cvs`, `darcs`, `git`, `mercurial`, `perforce`, `subversion` or `none`
