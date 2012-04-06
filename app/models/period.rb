@@ -12,14 +12,21 @@ class Period < ActiveRecord::Base
     when "last_day"
       Date.today
     when "last_week"
-      Date.today - 1.week
+      Date.today.beginning_of_week - 1.week
     when "last_month"
-      Date.today - 1.month
+      Date.today.prev_month.beginning_of_month
     end
   end
   
   def end_time
-    Date.today
+    case self.rule
+    when "last_day"
+      Date.today
+    when "last_week"
+      Date.today.end_of_week - 1.week
+    when "last_month"
+      Date.today.prev_month.end_of_month
+    end
   end
   
   def compare_start_time(index)

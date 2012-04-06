@@ -157,7 +157,7 @@
             options.xAxis.type = this.period.type();
             options.xAxis.tickInterval = this.period.tickInterval();
             options.xAxis.labels.formatter = this.period.xAxisFormatter();
-            options.tooltip.xDateFormat = this.period.dateformat();
+            options.tooltip.xDateFormat = this.period.tooltipDateFormat();
             
             return options;
         },
@@ -381,18 +381,18 @@
             return moment(this.get("start_time")).format("YYYY-MM-DD") + " 至 " + moment(this.get("end_time")).format("YYYY-MM-DD");
         },
 
-        dateformat:function () {
+        tooltipDateFormat:function () {
             var format;
 
             switch (this.get("rate")) {
                 case "min5":
-                    format = "%Y-%m-%d %H时%M分";
+                    format = "%m月%d日%a %H时%M分 ";
                     break;
                 case "hour":
-                    format = "%Y-%m-%d %H时";
+                    format = "%Y年%m月%d日%a %H时";
                     break;
                 default:
-                    format = "%Y-%m-%d";
+                    format = "%Y年%m月%d日%a";
                     break;
             }
 
@@ -414,14 +414,14 @@
 
         compare_start_time:function (index) {
             var base_time = moment(this.get("start_time"));
-
-            return base_time.clone().subtract("ms", index * this.compare_length());
+            var num = this.get("compare_number") - index;
+            return base_time.clone().subtract("ms", num * this.compare_length());
         },
 
         compare_end_time:function (index) {
             var base_time = moment(this.get("end_time"));
-
-            return base_time.clone().subtract("ms", index * this.compare_length());
+            var num = this.get("compare_number") - index;
+            return base_time.clone().subtract("ms", num * this.compare_length());
         },
 
         compare_length:function () {
@@ -450,7 +450,7 @@
             
             if (time_range <= 24 * 3600 * 1000) {
                 //长度为1天 显示24个小时
-                return 3 * 3600 * 1000;
+                return 1 * 3600 * 1000;
             } else if (time_range <= 2 * 24 * 3600 * 1000) {
                 //长度为2天以内
                 return 6 * 3600 * 1000;
@@ -501,7 +501,7 @@
                     //多个对比时间
                     for (var i = 0; i <= self.report.period.get("compare_number"); i++) {
                         var metric = new CompareMetric(item);
-
+                        
                         metric.set({
                             start_time:self.report.period.compare_start_time(i),
                             end_time:self.report.period.compare_end_time(i),
