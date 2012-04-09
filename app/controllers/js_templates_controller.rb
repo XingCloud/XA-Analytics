@@ -35,15 +35,6 @@ class JsTemplatesController < ApplicationController
     paths
   end
   
-=begin
-  (function(){
-  window.JST = window.JST || {};
-
-  window.JST['_edit'] = Haml('sdfdf');
-  window.JST['_show'] = Haml('.user\n  .abc\n    good\n    ');
-  })();
-=end
-  
   def pack_templates
     text_parts = ["(function(){", "window.JST = window.JST || {};"]
     
@@ -60,10 +51,6 @@ class JsTemplatesController < ApplicationController
     
     text_parts << "})();"
     text_parts.join("\n")
-  end
-  
-  def jst_template?
-    @extension =~ /jst\.haml/
   end
   
   def parse_request

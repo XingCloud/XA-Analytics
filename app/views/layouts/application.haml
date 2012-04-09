@@ -10,7 +10,7 @@
     /[if lt IE 9]
       = javascript_include_tag "http://html5shim.googlecode.com/svn/trunk/html5.js"
     / Le styles
-    = javascript_include_tag "http://p.xingcloud.com:3001/xingcloud.js?project_id=#{@project.identifier}&login=#{current_user}"
+    = javascript_include_tag "http://p.xingcloud.com:3001/xingcloud.js?project_id=#{@project.identifier}&select=analytic"
     = stylesheet_link_tag    "application"
     = javascript_include_tag "application"
     = yield :head
