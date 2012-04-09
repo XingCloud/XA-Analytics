@@ -1,0 +1,5 @@
+%li{:class => active ? "tab_header active" : "tab_header", :id => "report_tab_header#{index}"}
+  %a{:href => "#report_tab#{index}", "data-toggle" => "tab"}
+    %i{:class => "icon-remove-sign close", :onclick => "javascript:remove_tab(#{index});"}
+    = report_tab.title.presence || "报告标签"
+    &nbsp;

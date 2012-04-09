@@ -60,19 +60,19 @@ ActiveRecord::Schema.define(:version => 20120405065524) do
 
   create_table "report_categories", :force => true do |t|
     t.string   "name"
-    t.integer  "template"
+    t.integer  "template",   :default => 0
     t.integer  "position"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.datetime "created_at",                :null => false
+    t.datetime "updated_at",                :null => false
   end
 
   create_table "report_tabs", :force => true do |t|
     t.integer  "report_id"
     t.string   "title"
     t.string   "description"
-    t.string   "type"
-    t.datetime "created_at",  :null => false
-    t.datetime "updated_at",  :null => false
+    t.string   "chart_type",  :default => "line"
+    t.datetime "created_at",                      :null => false
+    t.datetime "updated_at",                      :null => false
   end
 
   add_index "report_tabs", ["report_id"], :name => "index_report_tabs_on_report_id"
@@ -85,10 +85,11 @@ ActiveRecord::Schema.define(:version => 20120405065524) do
   create_table "reports", :force => true do |t|
     t.integer  "project_id"
     t.integer  "report_category_id"
-    t.integer  "template"
+    t.integer  "template",           :default => 0
+    t.integer  "position"
     t.string   "title"
-    t.datetime "created_at",         :null => false
-    t.datetime "updated_at",         :null => false
+    t.datetime "created_at",                        :null => false
+    t.datetime "updated_at",                        :null => false
   end
 
   add_index "reports", ["project_id"], :name => "index_reports_on_project_id"

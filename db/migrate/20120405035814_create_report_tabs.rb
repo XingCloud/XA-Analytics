@@ -4,7 +4,7 @@ class CreateReportTabs < ActiveRecord::Migration
       t.integer :report_id
       t.string :title
       t.string :description
-      t.string :type
+      t.string :chart_type, :default => "line"
 
       t.timestamps
     end

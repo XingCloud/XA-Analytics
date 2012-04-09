@@ -1,4 +1,0 @@
-class BarReport < Report
-  
-  
-end

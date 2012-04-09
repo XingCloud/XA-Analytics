@@ -19,7 +19,16 @@ Analytic::Application.routes.draw do
   end
 
   namespace :admin do
-    resources :template_reports
+    resources :template_reports do
+      member do
+        get :add_tab
+        get :remove_tab
+      end
+      collection do
+        post :add_tab
+        post :remove_tab
+      end
+    end
     resources :template_report_tabs
     resources :template_report_categories do
       member do

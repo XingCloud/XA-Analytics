@@ -1,3 +1,0 @@
-class LineReport < Report
-  
-end

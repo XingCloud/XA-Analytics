@@ -1,0 +1,15 @@
+%div{:id => "report_tab#{index}", :class => report_tab == @report.report_tabs.first ? "tab-pane active" : "tab-pane"}
+  .control-group
+    %label.control-label{:for => "report_report_tabs_attributes_#{index}_title"} 标题
+    .controls
+      %input{:id => "report_report_tabs_attributes_#{index}_title", :name => "report[report_tabs_attributes][#{index}][title]", :type => "text", :value => report_tab.title}
+  .control-group
+    %label.control-label{:for => "report_report_tabs_attributes_#{index}_chart_type"} 报告类型
+    .controls
+      %input{:id => "report_report_tabs_attributes_#{index}_chart_type", :name => "report[report_tabs_attributes][#{index}][chart_type]", :type => "hidden", :value => report_tab.chart_type}
+      .btn-group{:id => "report_tab_types#{index}", "data-toggle" => "buttons-radio"}
+        %a{:id => "report_tab_type#{index}_line", :class => report_tab.chart_type == "line" ? "btn active" : "btn", :href => "javascript:select_report_tab_type(#{index}, 'line');", :value => "LineReportTab"} 线状图
+        %a{:id => "report_tab_type#{index}_bar", :class => report_tab.chart_type == "bar" ? "btn active" : "btn", :href => "javascript:select_report_tab_type(#{index}, 'bar');", :value => "BarReportTab"} 柱状图
+
+
+:javascript

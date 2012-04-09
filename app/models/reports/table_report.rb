@@ -1,3 +1,0 @@
-class TableReport < Report
-  
-end
