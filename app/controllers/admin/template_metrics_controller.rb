@@ -1,4 +1,4 @@
-class Admin::TemplateMetricsController < ApplicationController
+class Admin::TemplateMetricsController < Admin::BaseController
   before_filter :find_metric, :only => [:edit, :update, :destroy]
   layout "dialog"
 

@@ -1,8 +1,7 @@
-class Admin::TemplateReportsController < ApplicationController
-  layout "admin"
+class Admin::TemplateReportsController < Admin::BaseController
   before_filter :find_report, :only => [:edit, :update, :destroy]
   set_tab :template_reports, :sidebar
-
+  
   def index
     @categories = ReportCategory.where(:template => 1).order("position asc").all
     @reports = Report.find_all_by_report_category_id(nil)
