@@ -87,8 +87,6 @@ class MenusController < ApplicationController
   end
 
   def find_menu
-    pp @project.menus
-
     @menu = @project.menus.find(params[:id])
   end
 
