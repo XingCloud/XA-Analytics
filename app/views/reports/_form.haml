@@ -1,18 +1,19 @@
+- stylesheet "reports"
+
 = form_for @report, :url => @project.nil? ? (@report.persisted? ? edit_admin_template_report_path(@report) : admin_template_reports_path()) : (@report.persisted? ? edit_project_report_path(@project, @report) : project_reports_path(@project) ), :method => "post", :html => {:class => "form-horizontal"} do |f|
   %fieldset
-    %legend 基本信息
     .control-group
       = f.label :title, "标题", :class => "control-label"
       .controls
         = f.text_field :title
-    %legend 报告内容
+
     %ul#tab_header_container{:class => "nav nav-tabs"}
       - (0..@report.report_tabs.length-1).each do |index|
         = render :partial => "report_tabs/header", :locals => {:report_tab => @report.report_tabs[index], :index => index, :active => (index == 0)}
       %li#add_tab
         %a{:href => "javascript:add_tab();"}
           %i{:class => "icon-plus"}
-          添加菜单
+          添加标签
     #tab_body_container.tab-content
       - (0..@report.report_tabs.length-1).each do |index|
         = render :partial => "report_tabs/form", :locals => {:report_tab => @report.report_tabs[index], :index => index}
@@ -24,6 +25,7 @@
   = render :partial => "report_tabs/form", :locals => {:report_tab => ReportTab.new, :index => "@index@"}
 #new_tab_header.hidden
   = render :partial => "report_tabs/header", :locals => {:report_tab => ReportTab.new, :index => "@index@", :active => false}
+
 
 :javascript
   var index = #{@report.report_tabs.length};

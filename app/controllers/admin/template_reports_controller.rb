@@ -10,6 +10,7 @@ class Admin::TemplateReportsController < Admin::BaseController
   def new
     @report = Report.new
     @report.report_tabs.build
+    @report.report_tabs[0].metric_ids = [1]
   end
 
   def create

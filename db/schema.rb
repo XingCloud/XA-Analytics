@@ -44,6 +44,11 @@ ActiveRecord::Schema.define(:version => 20120405065524) do
 
   add_index "metrics", ["combine_id"], :name => "index_metrics_on_combine_id"
 
+  create_table "metrics_report_tabs", :id => false, :force => true do |t|
+    t.integer "report_tab_id"
+    t.integer "metric_id"
+  end
+
   create_table "platforms", :force => true do |t|
     t.string   "name"
     t.string   "identifier"
@@ -76,11 +81,6 @@ ActiveRecord::Schema.define(:version => 20120405065524) do
   end
 
   add_index "report_tabs", ["report_id"], :name => "index_report_tabs_on_report_id"
-
-  create_table "report_tabs_metrics", :id => false, :force => true do |t|
-    t.integer "report_tab_id"
-    t.integer "metric_id"
-  end
 
   create_table "reports", :force => true do |t|
     t.integer  "project_id"

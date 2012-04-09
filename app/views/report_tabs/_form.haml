@@ -10,6 +10,19 @@
       .btn-group{:id => "report_tab_types#{index}", "data-toggle" => "buttons-radio"}
         %a{:id => "report_tab_type#{index}_line", :class => report_tab.chart_type == "line" ? "btn active" : "btn", :href => "javascript:select_report_tab_type(#{index}, 'line');", :value => "LineReportTab"} 线状图
         %a{:id => "report_tab_type#{index}_bar", :class => report_tab.chart_type == "bar" ? "btn active" : "btn", :href => "javascript:select_report_tab_type(#{index}, 'bar');", :value => "BarReportTab"} 柱状图
-
-
+  .control-group
+    %label.control-label{:for => "report_report_tabs_attributes_#{index}_metric_ids"} 指标组
+    .controls
+      .well.metrics
+        - report_tab.metrics.each do |metric|
+          .metric_box
+            .metric_picker
+              .metric_display{"data-popup" => "width:800px", :href => @project.nil? ? edit_admin_template_metric_path(metric) : edit_project_metric_path(@project, metric)}
+                = metric.name
+              .metric_container
+                %input{:type => "hidden", :name => "report[report_tabs_attributes][#{index}][metric_ids][]", :value => metric.id}
+            %img.ly.del{:src => "/assets/cleardot.gif"} &nbsp;
+        .action-add
+          %i.icon-plus
+          添加指标
 :javascript
