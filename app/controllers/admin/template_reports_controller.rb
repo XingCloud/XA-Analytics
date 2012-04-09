@@ -4,46 +4,21 @@ class Admin::TemplateReportsController < ApplicationController
   set_tab :template_reports, :sidebar
 
   def index
-    @reports = Report.where(:template => 1).paginate(:page => params[:page])
+    @categories = ReportCategory.where(:template => 1).order("position asc").all
+    @reports = Report.find_all_by_report_category_id(nil)
   end
 
   def new
     @report = Report.new
-    @report.build_period
   end
 
   def create
-    report_type = params[:report].delete(:type)
-    params[:report][:template] = 1
-    if Report.subclasses.map(&:name).include?(report_type)
-      @report = report_type.constantize.new(params[:report])
-    else
-      @report = Report.new(params[:report])
-    end
-
-    if @report.save
-      redirect_to admin_template_reports_path(), :notice => t("report.create.success")
-    else
-      render :new
-    end
   end
 
   def update
-    report_type = params[:report].delete(:type)
-    if Report.subclasses.map(&:name).include?(report_type)
-      @report.update_column("type", report_type)
-    end
-
-    if @report.update_attributes(params[:report])
-      redirect_to admin_template_reports_path(), :notice => t("report.update.success")
-    else
-      render :edit
-    end
   end
 
   def destroy
-    @report.destroy
-    redirect_to admin_template_reports_path(), :notice => t("report.delete.success")
   end
 
   private

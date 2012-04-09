@@ -1,0 +1,9 @@
+= form_for @report, :url => @project.nil? ? admin_template_reports_path() : project_reports_path(@project), :method => "post", :html => {:class => "form-horizontal"} do |f|
+  %fieldset
+    %legend 基本信息
+    .control-group
+      = f.label :title, "标题", :class => "control-label"
+      .controls
+        = f.text_field :title
+  %fieldset
+    %legend 报告内容

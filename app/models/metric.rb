@@ -2,7 +2,7 @@ class Metric < ActiveRecord::Base
   include Highchart::Metric
 
   belongs_to :project
-  belongs_to :report
+  has_and_belongs_to_many :report_tabs
   
   has_one :combine, :class_name => "Metric", :foreign_key => "combine_id"
   

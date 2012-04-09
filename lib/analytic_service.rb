@@ -17,36 +17,26 @@ class AnalyticService
   end
   
   
-  def initialize(report, options = {})
-    
-    @report = report
-    
+  def initialize(options = {})
+
     @analytic_options = {
-      :project_id     => @report.identifier, #@report.project_id,
-      :interval       => @report.rate.upcase,
+      :project_id     => options[:identifier],
+      :interval       => options[:rate],
       :start_time     => options[:start_time],
       :end_time       => options[:end_time],
-      :compare        => @report.compare?
+      :compare        => options[:compare]
     }
   end
-  
-  def request_metric_data(metric)
-    options = @analytic_options.merge metric_option_of(metric)
-    
-    # if have combine operation
-    if combo = metric.combine
-      options.merge!({
-        :combine => {
-          :action => metric.combine_action.to_s.upcase
-        }.merge(metric_option_of(combo))
-      })
+
+  def request_metrics_data(metrics)
+    metrics_data = {}
+    metrics.each do |metric|
+      metric_data = self.request_metric_data(metric)
+      metrics_data[metric.id.to_sym] = metric_data
     end
-    
-    pp options
-    
-    self.class.commit("/dd/event", {:params => options.to_json, :p => 1})
+    metrics_data
   end
-  
+
   def self.check_event_key(project, target_row, condition)
     options = {:project_id => project.identifier, :target_row => target_row, :condition => filter_condition(condition, target_row)}
     
@@ -54,7 +44,24 @@ class AnalyticService
   end
   
   private
-  
+
+  def request_metric_data(metric)
+    options = @analytic_options.merge metric_option_of(metric)
+
+    # if have combine operation
+    if combo = metric.combine
+      options.merge!({
+                         :combine => {
+                             :action => metric.combine_action.to_s.upcase
+                         }.merge(metric_option_of(combo))
+                     })
+    end
+
+    pp options
+
+    self.class.commit("/dd/event", {:params => options.to_json, :p => 1})
+  end
+
   def self.filter_condition(condition, target_row)
     condition.each do |k,v|
       if v.blank? || v == "*" || k == target_row

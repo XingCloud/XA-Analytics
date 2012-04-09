@@ -48,7 +48,6 @@
               %h3 菜单
               = tabs_tag :namespace => :sidebar, :builder => TabsOnRails::Bootstrap, :open_tabs => {:class => "nav nav-list"} do |tab|
                 = tab.project '项目列表', admin_projects_path
-                = tab.template_menus '通用菜单管理',admin_template_menus_path
                 = tab.template_reports '通用报告管理',admin_template_reports_path
         .span10
           - if content_for?(:title)

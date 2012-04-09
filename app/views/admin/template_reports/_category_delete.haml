@@ -1,0 +1,9 @@
+= form_for category, :url => @project.nil? ? admin_template_report_category_path(category) : project_report_category_path(@project, category), :html => {:id => "category_delete#{id}", :method => "delete", :class => "modal", :style => "display: none;"} do |f|
+  .modal-header
+    %a.close{"data-dismiss" => "modal"} x
+    %h3 删除分类
+  .modal-body{:style => "text-align:center;"}
+    %strong 确认删除分类#{category.name}？
+  .modal-footer
+    = button_tag "取消", :class => "btn", :type => "button", :onclick => "$('#category_delete#{id}').modal('hide')"
+    = f.submit "确定", :class => "btn btn-primary"

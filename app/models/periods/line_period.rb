@@ -1,3 +1,0 @@
-class LinePeriod < Period
-  
-end

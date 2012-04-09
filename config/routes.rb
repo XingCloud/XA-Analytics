@@ -20,42 +20,21 @@ Analytic::Application.routes.draw do
       post :event_item
     end
 
-    resources :reports do
-      member do
-        post :request_data
-      end
-      collection do
-        get :choose_template
-        post :import_template
-      end
-    end
     resources :metrics
-    resources :menus do
-      member do
-        get :rename
-      end
-      collection do
-        get 'reorder'
-        post 'reorder'
-      end
-
-      member do
-        get :report
-      end
-    end
+    resources :reports
+    resources :report_categories
+    resources :report_tabs
   end
 
   namespace :admin do
-    resources :template_menus do
+    resources :template_reports
+    resources :template_report_tabs
+    resources :template_report_categories do
       member do
-        get :rename
-      end
-      collection do
-        get 'reorder'
-        post 'reorder'
+        get :shift_up
+        get :shift_down
       end
     end
-    resources :template_reports
     resources :template_metrics
     resources :projects
   end

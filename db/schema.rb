@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120331085815) do
+ActiveRecord::Schema.define(:version => 20120405065524) do
 
   create_table "agents", :force => true do |t|
     t.integer  "project_id"
@@ -21,14 +21,6 @@ ActiveRecord::Schema.define(:version => 20120331085815) do
     t.datetime "updated_at",  :null => false
   end
 
-  create_table "cycles", :force => true do |t|
-    t.integer  "report_id"
-    t.string   "rate"
-    t.integer  "period"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
-  end
-
   create_table "districts", :force => true do |t|
     t.string   "name"
     t.string   "identifier"
@@ -36,39 +28,7 @@ ActiveRecord::Schema.define(:version => 20120331085815) do
     t.datetime "updated_at", :null => false
   end
 
-  create_table "events", :force => true do |t|
-    t.integer  "project_id"
-    t.string   "name"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
-  end
-
-  create_table "menu_reports", :id => false, :force => true do |t|
-    t.integer  "menu_id"
-    t.integer  "report_id"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
-  end
-
-  create_table "menus", :force => true do |t|
-    t.string   "name",                      :null => false
-    t.string   "point",      :limit => 100
-    t.integer  "project_id"
-    t.integer  "parent_id"
-    t.integer  "lft"
-    t.integer  "rgt"
-    t.integer  "depth"
-    t.string   "desc"
-    t.datetime "created_at",                :null => false
-    t.datetime "updated_at",                :null => false
-    t.boolean  "status"
-  end
-
-  add_index "menus", ["parent_id"], :name => "index_menus_on_parent_id"
-  add_index "menus", ["project_id"], :name => "index_menus_on_project_id"
-
   create_table "metrics", :force => true do |t|
-    t.integer  "report_id"
     t.string   "event_key"
     t.string   "condition"
     t.datetime "created_at",          :null => false
@@ -84,19 +44,6 @@ ActiveRecord::Schema.define(:version => 20120331085815) do
 
   add_index "metrics", ["combine_id"], :name => "index_metrics_on_combine_id"
 
-  create_table "periods", :force => true do |t|
-    t.integer  "report_id"
-    t.string   "type"
-    t.string   "rule"
-    t.string   "rate"
-    t.string   "label_number"
-    t.integer  "compare_number", :default => 0, :null => false
-    t.datetime "created_at",                    :null => false
-    t.datetime "updated_at",                    :null => false
-  end
-
-  add_index "periods", ["report_id", "type"], :name => "index_periods_on_report_id_and_type"
-
   create_table "platforms", :force => true do |t|
     t.string   "name"
     t.string   "identifier"
@@ -111,20 +58,41 @@ ActiveRecord::Schema.define(:version => 20120331085815) do
     t.datetime "updated_at", :null => false
   end
 
-  create_table "reports", :force => true do |t|
+  create_table "report_categories", :force => true do |t|
+    t.string   "name"
+    t.integer  "template"
+    t.integer  "position"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  create_table "report_tabs", :force => true do |t|
+    t.integer  "report_id"
     t.string   "title"
     t.string   "description"
-    t.string   "purpose"
     t.string   "type"
-    t.datetime "created_at",                     :null => false
-    t.datetime "updated_at",                     :null => false
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
+  end
+
+  add_index "report_tabs", ["report_id"], :name => "index_report_tabs_on_report_id"
+
+  create_table "report_tabs_metrics", :id => false, :force => true do |t|
+    t.integer "report_tab_id"
+    t.integer "metric_id"
+  end
+
+  create_table "reports", :force => true do |t|
     t.integer  "project_id"
-    t.boolean  "public",      :default => false
+    t.integer  "report_category_id"
     t.integer  "template"
+    t.string   "title"
+    t.datetime "created_at",         :null => false
+    t.datetime "updated_at",         :null => false
   end
 
   add_index "reports", ["project_id"], :name => "index_reports_on_project_id"
-  add_index "reports", ["public"], :name => "index_reports_on_public"
+  add_index "reports", ["report_category_id"], :name => "index_reports_on_report_category_id"
 
   create_table "sessions", :force => true do |t|
     t.string   "session_id", :null => false
@@ -149,18 +117,8 @@ ActiveRecord::Schema.define(:version => 20120331085815) do
     t.boolean  "admin"
     t.string   "mail"
     t.integer  "redmine_uid"
-    t.datetime "created_at",                             :null => false
-    t.datetime "updated_at",                             :null => false
-    t.string   "email",                  :default => "", :null => false
-    t.string   "encrypted_password",     :default => "", :null => false
-    t.string   "reset_password_token"
-    t.datetime "reset_password_sent_at"
-    t.datetime "remember_created_at"
-    t.integer  "sign_in_count",          :default => 0
-    t.datetime "current_sign_in_at"
-    t.datetime "last_sign_in_at"
-    t.string   "current_sign_in_ip"
-    t.string   "last_sign_in_ip"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
   end
 
   create_table "versions", :force => true do |t|
