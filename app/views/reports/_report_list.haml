@@ -1,0 +1,42 @@
+- title '报告管理'
+
+%p
+  = link_to "添加报告", new_admin_template_report_path(), :class => "btn"
+  = link_to "添加分类", "#category_new", :class => "btn", "data-toggle" => "modal"
+
+%table.table
+  %tr
+    %th{:width => "50%"} 标题
+    %th{:width => "30%"}  创建时间
+    %th{:width => "15%"}
+  - if @categories.empty? and @reports.empty?
+    %tr
+      %td{:colspan => "3", :style => "text-align: center;"} 没有数据
+  - @categories.each do |category|
+    %tr
+      %td
+        %i{:class => "icon-folder-open"}
+        %em= category.name
+      %td= category.created_at
+      %td= render :partial => "reports/category_dropdown", :locals => {:category => category}
+    - category.reports.each do |report|
+      %tr
+        %td
+          &nbsp;&nbsp;&nbsp;&nbsp;
+          %i{:class => "icon-file"}
+          = report.title
+        %td= report.created_at
+        %td= render :partial => "reports/report_dropdown", :locals => {:report => report}
+  - @reports.each do |report|
+    %tr
+      %td
+        %i{:class => "icon-file"}
+        = report.title
+      %td= report.created_at
+      %td= render :partial => "reports/report_dropdown", :locals => {:report => report}
+
+
+= render "reports/category_new"
+- @categories.each do |category|
+  = render :partial => "reports/category_edit", :locals => {:category => category, :id => category.id}
+  = render :partial => "reports/category_delete", :locals => {:category => category, :id => category.id}
