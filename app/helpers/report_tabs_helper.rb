@@ -1,0 +1,2 @@
+module ReportTabsHelper
+end
