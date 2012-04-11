@@ -21,6 +21,6 @@ class ProjectsController < ApplicationController
   private
 
   def find_project
-    @project = Project.find_by_id(params[:id]) || Project.find_by_identifier(params[:id])
+    @project = Project.fetch(params[:id])
   end
 end

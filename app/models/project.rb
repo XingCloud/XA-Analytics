@@ -23,4 +23,22 @@ class Project < ActiveRecord::Base
     end
   end
   
+  def self.fetch(identifier)
+    project = Project.find_by_id(identifier) || Project.find_by_identifier(identifier) || Project.find_remote(identifier)
+    if project.blank?
+      raise ActiveRecord::RecordNotFound, "Project can not find #{identifier}"
+    end
+  end
+  
+  def self.find_remote(identifier)
+    project = BasisService.find_project(identifier)
+    if project.present?
+      unless Project.exists?(:identifier => project["identifier"])
+        Project.create(project.slice("identifier", "name"))
+      end
+    end
+    
+    Project.find_by_identifier(identifier)
+  end
+  
 end
