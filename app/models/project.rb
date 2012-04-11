@@ -27,6 +27,8 @@ class Project < ActiveRecord::Base
     project = Project.find_by_id(identifier) || Project.find_by_identifier(identifier) || Project.find_remote(identifier)
     if project.blank?
       raise ActiveRecord::RecordNotFound, "Project can not find #{identifier}"
+    else
+      project
     end
   end
   

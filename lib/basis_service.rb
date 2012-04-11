@@ -8,6 +8,9 @@ class BasisService
   BASIC_USERNAME = APP_CONFIG[:basis][:basic_username]
   BASIC_PASSWORD = APP_CONFIG[:basis][:basic_password]
   
+  def self.base_url
+    URI::HTTP.build({:host => HOST, :port => PORT}).to_s
+  end
   
   def self.find_project(identifier)
     req = Net::HTTP::Get.new("/projects/#{identifier}")

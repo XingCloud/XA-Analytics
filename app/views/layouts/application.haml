@@ -10,11 +10,7 @@
     /[if lt IE 9]
       = javascript_include_tag "http://html5shim.googlecode.com/svn/trunk/html5.js"
     / Le styles
-    - if Rails.env == "development"
-      = javascript_include_tag "http://10.1.138.48:3001/xingcloud.js?project_id=#{@project.identifier}&select=analytic"
-    - else
-      = javascript_include_tag "http://p.xingcloud.com/xingcloud.js?project_id=#{@project.identifier}&select=analytic"
-    
+    = javascript_include_tag "#{BasisService.base_url}/xingcloud.js?project_id=#{@project.identifier}&select=analytic"
     = stylesheet_link_tag    "application"
     = javascript_include_tag "application"
     = yield :head
