@@ -5,12 +5,13 @@ class MetricsController < ProjectBaseController
   def new
     @metric = @project.metrics.build
     @metric.build_combine
+    @tab_index = params[:tab_index]
   end
   
   def create
     @metric = @project.metrics.build(params[:metric])
     if @metric.save
-      flash.now[:notice] = t("metric.create.success")
+      @tab_index = params[:tab_index]
     else
       @metric.combine || @metric.build_combine
       render :new
@@ -18,6 +19,7 @@ class MetricsController < ProjectBaseController
   end
   
   def edit
+    @tab_index = params[:tab_index]
     unless @metric.combine
       @metric.build_combine
     end
@@ -26,7 +28,7 @@ class MetricsController < ProjectBaseController
   def update
     @metric.attributes=(params[:metric])
     if @metric.save
-      flash.now[:notice] = t("metric.update.success")
+      @tab_index = params[:tab_index]
     else
       render :edit
     end

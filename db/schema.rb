@@ -67,12 +67,14 @@ ActiveRecord::Schema.define(:version => 20120405065524) do
     t.string   "name"
     t.integer  "template",   :default => 0
     t.integer  "position"
+    t.integer  "project_id"
     t.datetime "created_at",                :null => false
     t.datetime "updated_at",                :null => false
   end
 
   create_table "report_tabs", :force => true do |t|
     t.integer  "report_id"
+    t.integer  "project_id"
     t.string   "title"
     t.string   "description"
     t.string   "chart_type",  :default => "line"

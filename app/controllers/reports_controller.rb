@@ -1,51 +1,41 @@
 class ReportsController < ProjectBaseController
   set_tab :report, :sub
-  before_filter :find_report, :only => [:show, :edit, :update, :destroy, :request_data]
+  before_filter :find_report, :only => [:show, :edit, :update, :destroy, :set_category]
   
   def index
-    @reports = @project.reports.paginate(:page => params[:page])
+    @categories = @project.report_categories.order("position asc").all
+    @reports = @project.reports.where(:report_category_id => nil).all
   end
   
   def new
-    if params[:template_id].nil?
-      @report = @project.reports.build
-      @report.build_period
-    else
-      template = Report.find(params[:template_id])
-      if (not template.nil?) and template.template == 1
-        @report = template.clone_as_template(@project.id)
-      else
-        @report = @project.reports.build
-        @report.build_period
-      end
-    end
-
+    @report = @project.reports.build
+    @report.report_tabs.build
   end
   
   def create
-    report_type = params[:report].delete(:type)
-    if Report.subclasses.map(&:name).include?(report_type)
-      @report = report_type.constantize.new(params[:report])
-      @report.project = @project
-    else
-      @report = @project.reports.build(params[:report])
-    end
-    
+    @report = @project.reports.build(params[:report])
     if @report.save
-      redirect_to project_report_path(@project, @report), :notice => t("report.create.success")
+      redirect_to project_reports_path(@project)
     else
       render :new
     end
   end
+
+  def edit
+
+  end
   
   def update
-    report_type = params[:report].delete(:type)
-    if Report.subclasses.map(&:name).include?(report_type)
-      @report.update_column("type", report_type)
+    @report.attributes = params[:report]
+    report_tab_ids = params[:report][:report_tabs_attributes].map{|pair| pair[1][:id]}
+    @report.report_tabs.each do |report_tab|
+      if report_tab_ids.index(report_tab.id.to_s).nil?
+        report_tab.destroy
+      end
     end
-    
-    if @report.update_attributes(params[:report])
-      redirect_to project_report_path(@project, @report), :notice => t("report.update.success")
+
+    if @report.save
+      redirect_to project_reports_path(@project)
     else
       render :edit
     end
@@ -53,38 +43,20 @@ class ReportsController < ProjectBaseController
   
   def destroy
     @report.destroy
-    redirect_to project_reports_path(@project), :notice => t("report.delete.success")
+    redirect_to project_reports_path(@project)
   end
-  
-  def show
-    @default_start_time = @report.start_time
-    @default_end_time = @report.end_time
-    render :layout => "application"
-  end
-  
-  def request_data
-    if params[:test] == "true"
-      index = 0
-      random_data = (Time.parse(params[:start_time]).to_i..Time.parse(params[:end_time]).to_i).step(@report.interval).map {|time|
-        index += 1
-        [Time.at(time).to_s, rand(100) + index * 10]
-      }
-      pp random_data
-      render :json => {:result => true, :data => random_data}
+
+  def set_category
+    if (not params[:report_category_id].nil? and
+        params[:report_category_id].present? and
+        not @project.report_categories.find_all_by_id(params[:report_category_id]).empty?)
+      @report.report_category_id = params[:report_category_id]
+      @report.save
+      redirect_to project_reports_path(@project)
     else
-      @metric = @report.metrics.find(params[:metric_id])
-      json = AnalyticService.new(@report, params).request_metric_data(@metric)
-      
-      render :json => json
+      redirect_to project_reports_path(@project)
     end
-  rescue Timeout::Error => e
-    render :json => {:result => false, :timeout => true, :error => e.message}
-  rescue Exception => e
-    render :json => {:result => false, :error => e.message}
-  end
-  
-  def choose_template
-    @template_reports = Report.find_all_by_template(1)
+
   end
   
   private

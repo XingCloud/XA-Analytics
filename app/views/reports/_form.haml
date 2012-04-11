@@ -1,6 +1,6 @@
 - stylesheet "reports"
 
-= form_for @report, :url => @project.nil? ? (@report.persisted? ? edit_admin_template_report_path(@report) : admin_template_reports_path()) : (@report.persisted? ? edit_project_report_path(@project, @report) : project_reports_path(@project) ), :method => "post", :html => {:class => "form-horizontal"} do |f|
+= form_for @report, :url => @project.nil? ? (@report.persisted? ? admin_template_report_path(@report) : admin_template_reports_path()) : (@report.persisted? ? project_report_path(@project, @report) : project_reports_path(@project) ), :method => @report.persisted? ? "put": "post", :html => {:class => "form-horizontal"} do |f|
   %fieldset
     .control-group
       = f.label :title, "标题", :class => "control-label"
@@ -8,45 +8,16 @@
         = f.text_field :title
 
     %ul#tab_header_container{:class => "nav nav-tabs"}
-      - (0..@report.report_tabs.length-1).each do |index|
-        = render :partial => "report_tabs/header", :locals => {:report_tab => @report.report_tabs[index], :index => index, :active => (index == 0)}
       %li#add_tab
-        %a{:href => "javascript:add_tab();"}
+        %a{:href => "javascript:report_tabs_view.addOne(#{ReportTab.new.js_attributes.to_json});"}
           %i{:class => "icon-plus"}
           添加标签
     #tab_body_container.tab-content
-      - (0..@report.report_tabs.length-1).each do |index|
-        = render :partial => "report_tabs/form", :locals => {:report_tab => @report.report_tabs[index], :index => index}
     .form-actions
       = f.submit "保存", :class => "btn btn-primary"
-      = f.button "取消", :class => "btn", :type => "button"
-
-#new_tab.hidden
-  = render :partial => "report_tabs/form", :locals => {:report_tab => ReportTab.new, :index => "@index@"}
-#new_tab_header.hidden
-  = render :partial => "report_tabs/header", :locals => {:report_tab => ReportTab.new, :index => "@index@", :active => false}
+      %a.btn{:href => @project.nil? ? admin_template_reports_path() : project_reports_path(@project)} 取消
 
 
 :javascript
-  var index = #{@report.report_tabs.length};
-  function add_tab(){
-    var new_tab = $($("#new_tab_header").html().replace(/@index@/g, index)).insertBefore("#add_tab");
-    $("#tab_body_container").append($("#new_tab").html().replace(/@index@/g, index));
-    $('#tab_header_container li.tab_header a[data-toggle="tab"]').click();
-    index++;
-  }
-
-  function remove_tab(index){
-    if($('#tab_header_container li.tab_header').length < 2) return;
-    if($("#report_tab_header"+index).hasClass("active")){
-      $("#report_tab_header"+index).prev().find('a[data-toggle="tab"]').click();
-    }
-    $("#report_tab_header"+index).remove();
-    $("#report_tab"+index).remove();
-  }
-
-  function select_report_tab_type(index, type){
-    $('#report_tab_types'+index+' a').removeClass('active');
-    $('#report_tab_type'+index+'_'+type).addClass('active');
-    $('#report_report_tabs_attributes_'+index+'_chart_type').val(type);
-  }
+  var report_tabs_view = new Analytics.Views.ReportTabs.EditListView();
+  report_tabs_view.render(#{@report.report_tabs.map(&:js_attributes).to_json});

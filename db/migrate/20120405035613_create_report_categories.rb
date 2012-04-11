@@ -4,6 +4,7 @@ class CreateReportCategories < ActiveRecord::Migration
       t.string :name
       t.integer :template, :default => 0
       t.integer :position
+      t.integer :project_id
 
       t.timestamps
     end

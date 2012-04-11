@@ -1,0 +1,28 @@
+.dropdown
+  %a{:class => "dropdown-toggle btn", "data-toggle" => "dropdown", :href => "#"}
+    操作
+    %b.caret
+  %ul{:class => "dropdown-menu"}
+    %li
+      %a{:href => @project.nil? ? edit_admin_template_report_path(report) : edit_project_report_path(@project, report)}
+        %i{:class => "icon-edit"}
+        &nbsp;编辑
+    %li
+      %a{:href => @project.nil? ? admin_template_report_path(report) : project_report_path(@project, report), "data-confirm" => "确认删除", "data-method" => "delete"}
+        %i{:class => "icon-trash"}
+        &nbsp;删除
+    %li.divider
+    - if @categories.length == 0
+      %li{:style => "text-align: center;"}
+        %i 暂无分类
+    - else
+      - @categories.each do |category|
+        %li
+          - if category.id == report.report_category_id
+            %a{:href => "#"}
+              %i{:class => "icon-ok"}
+              = category.name
+          - else
+            %a{:href => (@project.nil? ? set_category_admin_template_report_path(report) : set_category_project_report_path(@project, report)) + "?report_category_id=" + category.id.to_s}
+              %i{:class => "icon-folder-close"}
+              = category.name

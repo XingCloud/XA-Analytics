@@ -21,19 +21,24 @@
       
   %body
     .container-fluid
-      
       .row-fluid
-        .page-header
-          %h1
-            = @project.name
-            %small= @project.identifier
-        .subnav{:style => "margin-bottom: 10px"}
-          = tabs_tag :namespace => :sub, :builder => TabsOnRails::SubNav do |tab|
-            = tab.project "首页", project_path(@project)
-            = tab.report "报告管理", project_reports_path(@project)
-            = tab.menu '菜单管理', project_menus_path(@project)
-        = notice_message
-        = yield
+        .subnav
+          %ul.nav.nav-pills
+            %li.span2
+              %a{:href => "#"} &nbsp;
+            %li
+              %a{:href => project_path(@project)}
+                %i.icon-home
+                首页
+            %li
+              %a{:href => project_reports_path(@project)}
+                %i.icon-cog
+                报告管理
+        .row-fluid{:style => "padding-top: 10px;"}
+          .span2
+            = render "reports/left_nav"
+          .span10
+            = yield
       
       %footer
         %p &copy; XingCloud 2012
@@ -41,4 +46,5 @@
       Le javascript
       \==================================================
     / Placed at the end of the document so the pages load faster
-    
+
+:css

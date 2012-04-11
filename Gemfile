@@ -28,6 +28,7 @@ gem "dalli"
 gem "rubycas-client", "2.3.9.rc1"
 gem 'the_sortable_tree'
 gem "paper_trail"
+gem "ejs"
 
 #gem "mongoid"
 #gem "bson_ext"

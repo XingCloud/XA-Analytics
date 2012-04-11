@@ -1,27 +1,29 @@
-- (0...6).each do |i|
-  = builder.input "event_key_#{i}", :include_blank => false, :label => "事件第#{i+1}层" do
-    = builder.text_field "event_key_#{i}"
-    = link_to_function "选择", "load_event(this)", :class => "btn btn-small", "data-toggle" => "modal", "data-target" => "modal_#{i}"
-    
-  .modal.hide.fade{:id => "modal_#{i}"}
-    .modal-header
-      %a.close{"data-dismiss" => "modal"} x
-      %h3 符合条件的值
-    .modal-body
-      loading..
-    .modal-footer
-      %a.btn{"data-dismiss" => "modal"} 取消
-      %a.btn.btn-primary.choose 确定
-    
-  
+- javascript "metrics"
 
+= simple_form_for @metric, :url => @project.nil? ? (@metric.persisted? ? admin_template_metric_path(@metric) : admin_template_metrics_path()) : (@metric.persisted? ? project_metric_path(@project, @metric) :  project_metrics_path(@project)), :html => {:class => "form-horizontal"} do |f|
+  %input{:type => "hidden", :name => "tab_index", :value => @tab_index}
+  #base
+    = f.input :name
+    = render :partial => "metrics/event_form", :locals => {:builder => f}
 
-= builder.input :condition do
-  在
-  = builder.text_field :number_of_day, :style => "width: 50px"
-  天内
-  = builder.select :condition, translate_collection(Metric::OPERATIONS, :scope => "metric"), {:include_blank => false}, :style => "width: auto"
-  
-= builder.input :comparison do
-  = builder.select :comparison_operator, translate_collection(Metric::COMPARISION_OPERATORS, :scope => "metric"), {:include_blank => true}, :style => "width: auto"
-  = builder.text_field :comparison, :style => "width: 50px"
+  #combine
+    = f.input :combine_action, :collection => translate_collection(Metric::COMBINE_ACTIONS, :scope => "metric")
+
+    = f.fields_for :combine do |combine|
+      = combine.hidden_field "_destroy"
+      #combine_fields
+        = render :partial => "metrics/event_form", :locals => {:builder => combine}
+
+  .form-actions
+    = f.submit "提交", :class => "btn btn-primary"
+    = link_to_function "取消", "close_dialog()", :class => "btn"
+
+:javascript
+  PROJECT_IDENTIFIER = "#{@project.nil? ? nil : @project.indentifier}";
+
+  $(function() {
+    $("#metric_combine_action").change(function() {
+      toggle_combine_fieldset()
+    })
+    toggle_combine_fieldset()
+  })

@@ -13,20 +13,24 @@ Analytic::Application.routes.draw do
     end
 
     resources :metrics
-    resources :reports
-    resources :report_categories
+    resources :reports do
+      member do
+        get :set_category
+      end
+    end
+    resources :report_categories do
+      member do
+        get :shift_up
+        get :shift_down
+      end
+    end
     resources :report_tabs
   end
 
   namespace :admin do
     resources :template_reports do
       member do
-        get :add_tab
-        get :remove_tab
-      end
-      collection do
-        post :add_tab
-        post :remove_tab
+        get :set_category
       end
     end
     resources :template_report_tabs

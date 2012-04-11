@@ -1,19 +1,4 @@
-- stylesheet "menus"
 
-.row-fluid
-  .span2
-    = render :partial => "menus/left_nav", :locals => {:project => @project, :menus => @project.menus}
-    
-  .span10
-    .hero-unit
-      %h1 数据分析
-      %p
-        使用数据分析功能，只需要以下3个步骤
-      %ol
-        %li 添加报告， 选择需要显示的事件，计算方法，时间周期 保存即可
-        %li 添加菜单， 菜单有两级，一级菜单 起目录作用, 二级菜单显示报告，可排序
-        %li 查看报告，回到首页就能看到你想分析的数据了!
-      %p
-        = link_to "开始添加菜单吧 »", project_menus_path(@project), :class => "btn btn-primary btn-large"
+
     
     

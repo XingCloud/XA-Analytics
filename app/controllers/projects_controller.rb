@@ -3,11 +3,7 @@ class ProjectsController < ApplicationController
   set_tab :project, :sidebar
 
   def show
-    @menus = @project.menus
-    @menu = @menus.detect{|menu| menu.leaf? }
-    if @menu
-      redirect_to project_menu_path(@project, @menu)
-    end
+
   end
   
   def event_item

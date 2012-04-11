@@ -1,10 +1,1 @@
-%p
-  = link_to_function "返回报告页面", "add_metric()", :class => "btn btn-success"
-  
-:javascript
-
-  function add_metric() {
-    parent.Metrics.addItem(#{@metric.short_attributes.to_json});
-    
-    close_dialog();
-  }
+= render "metrics/create_back"

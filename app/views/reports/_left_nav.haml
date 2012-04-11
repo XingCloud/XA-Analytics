@@ -1,0 +1,24 @@
+#nav-accordion.accordion
+  .accordion-group
+    .accordion-heading
+      %a.accordion-toggle{"data-toggle" => "collapse", "data-parent" => "#nav-accordion", :href => "#collapse-template"}
+        %i.icon-list-alt
+        默认报告
+    #collapse-template.accordion-body.collapse.in
+      .accordion-inner
+        %ul.nav.nav-list
+          = render(:partial => "reports/left_menu",
+                   :locals => {:categories => ReportCategory.where({:template => 1}).order("position asc").all(),
+                               :reports => Report.where("template = ? and report_category_id = ?", 1, nil).all()})
+  .accordion-group
+    .accordion-heading
+      %a.accordion-toggle{"data-toggle" => "collapse", "data-parent" => "#nav-accordion", :href => "#collapse-custom"}
+        %i.icon-list-alt
+        自定义报告
+    #collapse-custom.accordion-body.collapse
+      .accordion-inner
+        %ul.nav.nav-list
+          = render(:partial => "reports/left_menu",
+                   :locals => {:categories => @project.report_categories.all(),
+                               :reports => @project.reports.where(:report_category_id => nil).all()})
+

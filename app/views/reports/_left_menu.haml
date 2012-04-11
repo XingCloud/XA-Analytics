@@ -1,0 +1,16 @@
+- categories.each do |category|
+  %li.nav-header
+    = category.name
+  - category.reports.all().each do |report|
+    %li
+      %a{:href => project_report_path(@project, report)}
+        %i.icon-file
+        = report.title
+- if reports.length > 0
+  %li.nav-header
+    未知分类
+  - reports.each do |report|
+    %li
+      %a{:href => project_report_path(@project, report)}
+        %i.icon-file
+        = report.title
