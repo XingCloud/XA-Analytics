@@ -67,7 +67,7 @@ class ReportsController < ProjectBaseController
   
   def find_report
     if @project.reports.find_all_by_id(params[:id]).empty?
-      @report = Report.where(:template => 1).find(params[:id])
+      @report = Report.where(:project_id => nil).find(params[:id])
     else
       @report = @project.reports.find(params[:id])
     end
