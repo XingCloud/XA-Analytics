@@ -19,7 +19,7 @@
     = link_to_function "取消", "close_dialog()", :class => "btn"
 
 :javascript
-  PROJECT_IDENTIFIER = "#{@project.nil? ? nil : @project.indentifier}";
+  PROJECT_IDENTIFIER = "#{@project.nil? ? nil : @project.identifier}";
 
   $(function() {
     $("#metric_combine_action").change(function() {

@@ -1,0 +1,47 @@
+.chart-container
+  .switcher-container.right
+    .btn-group{"data-toggle" => "buttons-radio"}
+      %a.btn{:href => "#"} 分钟
+      %a.btn{:href => "#"} 小时
+      %a.btn.active{:href => "#"} 天
+      %a.btn{:href => "#"} 月
+  #highchart-container.left
+  %table
+    %tbody
+      %tr
+        %td
+          总数
+        %td
+          中位数
+        %td
+          最大值
+        %td
+          最小值
+
+:css
+
+  .chart-container .left{
+    float: left;
+  }
+
+  .chart-container .right{
+    float: right;
+  }
+
+  .chart-container table{
+    text-align: center;
+    width: 100%;
+  }
+
+  #highchart-container{
+    width: 100%;
+    height: 200px;
+  }
+
+  #stats-container{
+    text-align: center;
+  }
+
+  .switcher-container .btn-group a{
+    width: 40px;
+  }

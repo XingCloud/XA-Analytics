@@ -4,9 +4,9 @@ class Admin::TemplateReportCategoriesController < ApplicationController
   before_filter :find_category, :only => [:edit, :destroy, :shift_up, :shift_down]
 
   def create
-    last_category = ReportCategory.where(:template => 1).order("position asc").last
+    last_category = ReportCategory.where(:project_id => 1).order("position asc").last
     position = last_category.nil? ? 0 : last_category.position
-    ReportCategory.create(params[:report_category].merge({:position => position+1, :template => 1}))
+    ReportCategory.create(params[:report_category].merge({:position => position+1}))
     redirect_to admin_template_reports_path()
   end
 

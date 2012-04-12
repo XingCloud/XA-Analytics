@@ -1,5 +1,4 @@
 class ReportsController < ProjectBaseController
-  set_tab :report, :sub
   before_filter :find_report, :only => [:show, :edit, :update, :destroy, :set_category]
   
   def index
@@ -10,6 +9,7 @@ class ReportsController < ProjectBaseController
   def new
     @report = @project.reports.build
     @report.report_tabs.build
+    @report.report_tabs[0].project_id = @project.id
   end
   
   def create
@@ -22,6 +22,10 @@ class ReportsController < ProjectBaseController
   end
 
   def edit
+
+  end
+
+  def show
 
   end
   
@@ -62,7 +66,11 @@ class ReportsController < ProjectBaseController
   private
   
   def find_report
-    @report = @project.reports.find(params[:id])
+    if @project.reports.find_all_by_id(params[:id]).empty?
+      @report = Report.where(:template => 1).find(params[:id])
+    else
+      @report = @project.reports.find(params[:id])
+    end
   end
   
 end

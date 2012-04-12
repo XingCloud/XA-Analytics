@@ -3,7 +3,6 @@ class CreateReports < ActiveRecord::Migration
     create_table :reports do |t|
       t.integer :project_id
       t.integer :report_category_id
-      t.integer :template, :default => 0
       t.integer :position
       t.string :title
 

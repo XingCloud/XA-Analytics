@@ -9,7 +9,7 @@
 
     %ul#tab_header_container{:class => "nav nav-tabs"}
       %li#add_tab
-        %a{:href => "javascript:report_tabs_view.addOne(#{ReportTab.new.js_attributes.to_json});"}
+        %a{:href => "javascript:report_tabs_view.addOne(#{@project.nil? ? ReportTab.new.js_attributes.to_json : @project.report_tabs.build.js_attributes.to_json});"}
           %i{:class => "icon-plus"}
           添加标签
     #tab_body_container.tab-content

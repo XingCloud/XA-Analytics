@@ -5,8 +5,8 @@ class Admin::TemplateReportsController < Admin::BaseController
   set_tab :template_reports, :sidebar
   
   def index
-    @categories = ReportCategory.where(:template => 1).order("position asc").all
-    @reports = Report.where("project_id = ? and report_category_id = ?", nil, nil).all
+    @categories = ReportCategory.where(:project_id => nil).order("position asc").all
+    @reports = Report.where({:project_id => nil, :report_category_id => nil}).all
   end
 
   def new

@@ -7,10 +7,5 @@ class Report < ActiveRecord::Base
 
   accepts_nested_attributes_for :report_tabs, :allow_destroy => true
 
-  validates_presence_of :title, :template
-
-  COMMON_TEMPLATE = 1
-  CUSTOM_TEMPLATE = 0
-
-  scope :template, where(:template => COMMON_TEMPLATE)
+  validates_presence_of :title
 end
