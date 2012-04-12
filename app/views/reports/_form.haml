@@ -9,7 +9,7 @@
 
     %ul#tab_header_container{:class => "nav nav-tabs"}
       %li#add_tab
-        %a{:href => "javascript:report_tabs_view.addOne(#{@project.nil? ? ReportTab.new.js_attributes.to_json : @project.report_tabs.build.js_attributes.to_json});"}
+        %a{:href => "javascript:report_tabs_router.add();"}
           %i{:class => "icon-plus"}
           添加标签
     #tab_body_container.tab-content
@@ -19,5 +19,6 @@
 
 
 :javascript
-  var report_tabs_view = new Analytics.Views.ReportTabs.EditListView();
-  report_tabs_view.render(#{@report.report_tabs.map(&:js_attributes).to_json});
+  var report_tabs_router = new Analytics.Routers.ReportTabsRouter(#{@report.report_tabs.map(&:attributes).to_json});
+  var metrics_router = new Analytics.Routers.MetricsRouter();
+  report_tabs_router.showMetrics(metrics_router, #{@report.metrics_attributes});

@@ -1,6 +1,6 @@
 var Analytics = {
     Models: {},
     Views: {},
-    Controllers: {},
+    Routers: {},
     Collections: {}
 };

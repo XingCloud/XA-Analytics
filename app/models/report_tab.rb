@@ -6,9 +6,8 @@ class ReportTab < ActiveRecord::Base
 
   validates_presence_of :title, :chart_type
 
-  def js_attributes
-    attributes.merge({:metrics => metrics.map(&:attributes)})
+  def metrics_attributes
+    metrics.map(&:attributes)
   end
-
 
 end

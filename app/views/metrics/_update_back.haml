@@ -1,3 +1,3 @@
 :javascript
-  parent.report_tabs_view.updateMetric(#{@tab_index}, #{@metric.attributes.to_json});
+  parent.metrics_router.update(#{@metric.attributes.to_json});
   close_dialog();
