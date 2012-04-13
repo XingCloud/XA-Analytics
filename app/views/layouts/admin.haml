@@ -11,6 +11,7 @@
     
     = stylesheet_link_tag    "application"
     = javascript_include_tag "application"
+    = stylesheet_link_tag "reports"
     = yield :head
 
     :css
@@ -39,22 +40,8 @@
                     %a{:href => "http://p.xingcloud.com/logout", :rel => "nofollow"} 退出
 
     .container-fluid
-      .row-fluid
-        .span2
-          - if content_for?(:sidebar)
-            = yield :sidebar
-          - else
-            .well.sidebar-nav
-              %h3 菜单
-              = tabs_tag :namespace => :sidebar, :builder => TabsOnRails::Bootstrap, :open_tabs => {:class => "nav nav-list"} do |tab|
-                = tab.project '项目列表', admin_projects_path
-                = tab.template_reports '通用报告管理',admin_template_reports_path
-        .span10
-          - if content_for?(:title)
-            .page-header
-              %h1= yield(:title)
-          = notice_message
-          = yield
+      #container.row-fluid
+        = yield
     
       %footer
         %p &copy; Company 2012
@@ -62,4 +49,8 @@
       Le javascript
       \==================================================
     / Placed at the end of the document so the pages load faster
-    
+
+:javascript
+  var reports_router = new Analytics.Routers.ReportsRouter([]);
+  var report_categories_router = new Analytics.Routers.ReportCategoriesRouter();
+  Backbone.history.start();

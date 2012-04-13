@@ -1,25 +1,46 @@
 class ReportCategoriesController < ApplicationController
   before_filter :find_project
-  before_filter :find_category, :only => [:edit, :destroy, :shift_up, :shift_down]
+  before_filter :html_header, :only => [:new, :edit]
+  before_filter :find_category, :only => [:edit, :update, :destroy, :shift_up, :shift_down]
+  before_filter :json_header, :only => [:create, :update, :destroy, :shift_up, :shift_down]
+
+  def new
+    @category = @project.report_categories.build()
+    render :partial => "report_categories/form"
+  end
+
+  def edit
+    render :partial => "report_categories/form"
+  end
 
   def create
     last_category = @project.report_categories.order("position asc").last
     position = last_category.nil? ? 0 : last_category.position
-    @project.report_categories.build(params[:report_category].merge({:position => position+1})).save
-    redirect_to project_reports_path(@project)
+    @category = @project.report_categories.build(params[:report_category].merge({:position => position+1}))
+    if @category.save
+      render :json => @category, :status => 200
+    else
+      render :json => @category, :status => 500
+    end
   end
 
-  def edit
-    @category.update_attributes(params[:report_category])
-    redirect_to project_reports_path(@project)
+  def update
+    if @category.update_attributes(params[:report_category])
+      render :json => @category, :status => 200
+    else
+      render :json => @category, :status => 500
+    end
   end
 
   def destroy
     @category.reports.each do |report|
       report.update_attribute(:report_category_id, nil)
     end
-    @category.destroy
-    redirect_to project_reports_path(@project)
+    if @category.destroy
+      render :json => @category, :status => 200
+    else
+      render :json => @category, :status => 500
+    end
   end
 
   def shift_up
@@ -27,9 +48,14 @@ class ReportCategoriesController < ApplicationController
     if not last_category.nil?
       position = last_category.position
       last_category.update_attribute(:position, @category.position)
-      @category.update_attribute(:position, position)
+      if @category.update_attribute(:position, position)
+        render :json => @category, :status => 200
+      else
+        render :json => @category, :status => 500
+      end
+    else
+      render :json => @category, :status => 200
     end
-    redirect_to project_reports_path(@project)
 
   end
 
@@ -38,9 +64,14 @@ class ReportCategoriesController < ApplicationController
     if not first_category.nil?
       position = first_category.position
       first_category.update_attribute(:position, @category.position)
-      @category.update_attribute(:position, position)
+      if @category.update_attribute(:position, position)
+        render :json => @category, :status => 200
+      else
+        render :json => @category, :status => 500
+      end
+    else
+      render :json => @category, :status => 200
     end
-    redirect_to admin_template_reports_path(@project)
   end
 
   private
@@ -51,6 +82,14 @@ class ReportCategoriesController < ApplicationController
 
   def find_category
     @category = ReportCategory.find(params[:id])
+  end
+
+  def html_header
+    response.headers['Content-Type'] = 'text/html; charset=utf-8'
+  end
+
+  def json_header
+    response.headers['Content-Type'] = 'application/json; charset=utf-8'
   end
 
 end

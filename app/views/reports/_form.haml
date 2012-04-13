@@ -1,24 +1,40 @@
-- stylesheet "reports"
+.span2
+  - if not @project.nil?
+    = render "projects/left_nav"
+  - else
+    = render "admin/projects/left_nav"
 
-= form_for @report, :url => @project.nil? ? (@report.persisted? ? admin_template_report_path(@report) : admin_template_reports_path()) : (@report.persisted? ? project_report_path(@project, @report) : project_reports_path(@project) ), :method => @report.persisted? ? "put": "post", :html => {:class => "form-horizontal"} do |f|
-  %fieldset
-    .control-group
-      = f.label :title, "标题", :class => "control-label"
-      .controls
-        = f.text_field :title
+.span10
 
-    %ul#tab_header_container{:class => "nav nav-tabs"}
-      %li#add_tab
-        %a{:href => "javascript:report_tabs_router.add();"}
-          %i{:class => "icon-plus"}
-          添加标签
-    #tab_body_container.tab-content
-    .form-actions
-      = f.submit "保存", :class => "btn btn-primary"
-      %a.btn{:href => @project.nil? ? admin_template_reports_path() : project_reports_path(@project)} 取消
+  - if @report.persisted?
+    %h3 编辑报告
+    %hr
+  - else
+    %h3 新建报告
+    %hr
+
+  = form_for @report, :url => "#", :html => {:class => "form-horizontal", :onsubmit => "return false"} do |f|
+    %fieldset
+      .control-group
+        = f.label :title, "标题", :class => "control-label"
+        .controls
+          = f.text_field :title
+
+      %ul#tab_header_container{:class => "nav nav-tabs"}
+        %li#add_tab
+          %a{:href => "javascript:report_tabs_router.add();"}
+            %i{:class => "icon-plus"}
+            添加标签
+      #tab_body_container.tab-content
+      .form-actions
+        - if @report.persisted?
+          %a.btn.btn-primary{:onclick => "reports_router.update('edit_report_#{@report.id}', #{@report.id})"} 保存
+        - else
+          %a.btn.btn-primary{:onclick => "reports_router.create('new_report')"} 保存
+        %a.btn{:href => "#/reports"} 取消
 
 
-:javascript
-  var report_tabs_router = new Analytics.Routers.ReportTabsRouter(#{@report.report_tabs.map(&:attributes).to_json});
-  var metrics_router = new Analytics.Routers.MetricsRouter();
-  report_tabs_router.showMetrics(metrics_router, #{@report.metrics_attributes});
+  :javascript
+    var report_tabs_router = new Analytics.Routers.ReportTabsRouter(#{@report.report_tabs.map(&:attributes).to_json});
+    var metrics_router = new Analytics.Routers.MetricsRouter();
+    report_tabs_router.showMetrics(metrics_router, #{@report.metrics_attributes});

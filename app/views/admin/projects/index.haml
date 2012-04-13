@@ -1,8 +1,12 @@
-- title "项目列表"
+.span2
+  = render "admin/projects/left_nav"
 
-%table.table.table-striped.table-bordered.table-condensed
-  = theads("project", "identifier")
-  = tlist @projects, :cols => 2 do |project|
-    %td= link_to project.name, project_path(project)
-    %td= project.identifier
-= will_paginate @projects
+.span10
+  %h3 项目列表
+  %hr
+  %table.table.table-striped.table-bordered.table-condensed
+    = theads("project", "identifier")
+    = tlist @projects, :cols => 2 do |project|
+      %td= link_to project.name, project_path(project)
+      %td= project.identifier
+  = will_paginate @projects

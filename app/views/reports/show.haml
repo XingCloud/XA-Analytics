@@ -5,17 +5,9 @@
     - @report.report_tabs.each do |report_tab|
       - if report_tab == @report.report_tabs.first
         %li.active
-          %a{:href => "#report_tab"+report_tab.id.to_s, "data-toggle" => "tab"}
+          %a{:href => "#/reports/#{report.id}/report_tabs/#{report_tab.id}"}
             = report_tab.title
       - else
         %li
-          %a{:href => "#report_tab"+report_tab.id.to_s, "data-toggle" => "tab"}
+          %a{:href => "#/reports/#{report.id}/report_tabs/#{report_tab.id}"}
             = report_tab.title
-  .tab-content
-    - @report.report_tabs.each do |report_tab|
-      - if report_tab == @report.report_tabs.first
-        .tab-pane.active{:id => "report_tab"+report_tab.id.to_s}
-          = render :partial => "reports/chart", :locals => {:report_tab => report_tab}
-      - else
-        .tab-pane{:id => "report_tab"+report_tab.id.to_s}
-          = render :partial => "reports/chart", :locals => {:report_tab => report_tab}

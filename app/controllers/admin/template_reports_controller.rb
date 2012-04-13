@@ -2,29 +2,33 @@ require 'set'
 
 class Admin::TemplateReportsController < Admin::BaseController
   before_filter :find_report, :only => [:edit, :update, :destroy, :set_category]
+  before_filter :html_header, :only => [:index, :new, :edit]
+  before_filter :json_header, :only => [:create, :update, :destroy, :set_category]
   set_tab :template_reports, :sidebar
   
   def index
     @categories = ReportCategory.where(:project_id => nil).order("position asc").all
     @reports = Report.where({:project_id => nil, :report_category_id => nil}).all
+    render :partial => "reports/list", :status => 200
   end
 
   def new
     @report = Report.new
     @report.report_tabs.build
+    render :partial => "reports/form", :status => 200
   end
 
   def create
     @report = Report.new(params[:report])
     if @report.save
-      redirect_to admin_template_reports_path()
+      render :json => @report, :status => 200
     else
-      render :new
+      render :json => @report, :status => 500
     end
   end
 
   def edit
-
+    render :partial => "reports/form", :status => 200
   end
 
   def update
@@ -38,15 +42,18 @@ class Admin::TemplateReportsController < Admin::BaseController
     end
 
     if @report.save
-      redirect_to admin_template_reports_path()
+      render :json => @report, :status => 200
     else
-      render :edit
+      render :json => @report, :status => 500
     end
   end
 
   def destroy
-    @report.destroy
-    redirect_to admin_template_reports_path()
+    if @report.destroy
+      render :json => @report, :status => 200
+    else
+      render :json => @report, :status => 500
+    end
   end
 
   def set_category
@@ -55,10 +62,9 @@ class Admin::TemplateReportsController < Admin::BaseController
         not ReportCategory.find_all_by_id(params[:report_category_id]).empty?)
       @report.report_category_id = params[:report_category_id]
       @report.save
-      redirect_to admin_template_reports_path()
-    else
-      redirect_to admin_template_reports_path()
     end
+
+    render :json => @report, :status => 200
 
   end
 
@@ -67,4 +73,13 @@ class Admin::TemplateReportsController < Admin::BaseController
   def find_report
     @report = Report.find(params[:id])
   end
+
+  def html_header
+    response.headers['Content-Type'] = 'text/html; charset=utf-8'
+  end
+
+  def json_header
+    response.headers['Content-Type'] = 'application/json; charset=utf-8'
+  end
+
 end

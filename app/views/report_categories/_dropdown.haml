@@ -4,18 +4,18 @@
     %b.caret
   %ul{:class => "dropdown-menu"}
     %li
-      %a{:href => "#category_edit#{category.id}", "data-toggle" => "modal"}
+      %a{:href => "#/report_categories/edit/#{category.id}", "data-toggle" => "modal"}
         %i{:class => "icon-edit"}
         &nbsp;编辑
     %li
-      %a{:href => @project.nil? ? shift_up_admin_template_report_category_path(category) : shift_up_project_report_category_path(@project, category)}
+      %a{:href => "#/report_categories/shift_up/#{category.id}"}
         %i{:class => "icon-arrow-up"}
         &nbsp;向上
     %li
-      %a{:href => @project.nil? ? shift_down_admin_template_report_category_path(category) : shift_down_project_report_category_path(@project, category)}
+      %a{:href => "#/report_categories/shift_down/#{category.id}"}
         %i{:class => "icon-arrow-down"}
         &nbsp;向下
     %li
-      %a{:href => "#category_delete#{category.id}", "data-toggle" => "modal"}
+      %a{:href => "#/report_categories/delete/#{category.id}", "data-toggle" => "modal"}
         %i{:class => "icon-trash"}
         &nbsp;删除

@@ -13,6 +13,7 @@
     = javascript_include_tag "#{BasisService.base_url}/xingcloud.js?project_id=#{@project.identifier}&select=analytic"
     = stylesheet_link_tag    "application"
     = javascript_include_tag "application"
+    = stylesheet_link_tag "reports"
     = yield :head
       
   %body
@@ -27,21 +28,25 @@
                 %i.icon-home
                 首页
             %li
-              %a{:href => project_reports_path(@project)}
+              %a{:href => "#/reports"}
                 %i.icon-cog
                 报告管理
-        .row-fluid{:style => "padding-top: 10px;"}
-          .span2
-            = render "reports/left_nav"
-          .span10
-            = yield
+        #container.row-fluid{:style => "padding-top: 10px;"}
+          = yield
       
       %footer
         %p &copy; XingCloud 2012
+
     /
       Le javascript
       \==================================================
     / Placed at the end of the document so the pages load faster
+
+:javascript
+  var project = new Analytics.Models.Project(#{@project.attributes.to_json});
+  var reports_router = new Analytics.Routers.ReportsRouter([]);
+  var report_categories_router = new Analytics.Routers.ReportCategoriesRouter();
+  Backbone.history.start();
 
 :css
   body {

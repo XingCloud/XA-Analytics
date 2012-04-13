@@ -17,7 +17,7 @@ gem 'jbuilder', "~> 0.3.2"
 gem 'capistrano', "~> 2.11.2", :group => "development"
 gem 'haml', "~> 3.1.4"
 gem 'haml-rails', '~> 0.3.4'
-gem 'twitter-bootstrap-rails', "~> 2.0.3"
+gem 'twitter-bootstrap-rails'
 gem 'simple_form', "~> 2.0.1"
 gem 'nested_form', "~> 0.2.0"
 gem 'rails-i18n', "~> 0.5.1"

@@ -4,11 +4,11 @@
     %b.caret
   %ul{:class => "dropdown-menu"}
     %li
-      %a{:href => @project.nil? ? edit_admin_template_report_path(report) : edit_project_report_path(@project, report)}
+      %a{:href => "#/reports/#{report.id}/edit"}
         %i{:class => "icon-edit"}
         &nbsp;编辑
     %li
-      %a{:href => @project.nil? ? admin_template_report_path(report) : project_report_path(@project, report), "data-confirm" => "确认删除", "data-method" => "delete"}
+      %a{:href => "#/reports/#{report.id}/delete"}
         %i{:class => "icon-trash"}
         &nbsp;删除
     %li.divider
@@ -23,6 +23,6 @@
               %i{:class => "icon-ok"}
               = category.name
           - else
-            %a{:href => (@project.nil? ? set_category_admin_template_report_path(report) : set_category_project_report_path(@project, report)) + "?report_category_id=" + category.id.to_s}
+            %a{:href => "#/reports/#{report.id}/set_category/#{category.id.to_s}"}
               %i{:class => "icon-folder-close"}
               = category.name

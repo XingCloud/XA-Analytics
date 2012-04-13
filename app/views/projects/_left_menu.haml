@@ -1,0 +1,19 @@
+- if categories.empty? and reports.empty?
+  %li
+    %i 暂无数据
+- categories.each do |category|
+  %li.nav-header
+    = category.name
+  - category.reports.all().each do |report|
+    %li{:class => "#{(not @report.nil? and @report.id == report.id) ? 'active' : ''}"}
+      %a{:href => "#/reports/#{report.id}"}
+        %i.icon-file
+        = report.title
+- if reports.length > 0
+  %li.nav-header
+    未知分类
+  - reports.each do |report|
+    %li{:class => "#{(not @report.nil? and @report.id == report.id) ? 'active' : ''}"}
+      %a{:href => "#/reports/#{report.id}"}
+        %i.icon-file
+        = report.title

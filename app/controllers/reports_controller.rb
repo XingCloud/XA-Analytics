@@ -1,28 +1,32 @@
 class ReportsController < ProjectBaseController
   before_filter :find_report, :only => [:show, :edit, :update, :destroy, :set_category]
+  before_filter :html_header, :only => [:index, :new, :edit]
+  before_filter :json_header, :only => [:create, :update, :destroy, :set_category]
   
   def index
     @categories = @project.report_categories.order("position asc").all
     @reports = @project.reports.where(:report_category_id => nil).all
+    render :partial => "reports/list", :status => 200
   end
   
   def new
     @report = @project.reports.build
     @report.report_tabs.build
     @report.report_tabs[0].project_id = @project.id
+    render :partial => "reports/form", :status => 200
   end
   
   def create
     @report = @project.reports.build(params[:report])
     if @report.save
-      redirect_to project_reports_path(@project)
+      render :json => @report, :status => 200
     else
-      render :new
+      render :json => @report, :status => 500
     end
   end
 
   def edit
-
+    render :partial => "reports/form", :status => 200
   end
 
   def show
@@ -39,15 +43,18 @@ class ReportsController < ProjectBaseController
     end
 
     if @report.save
-      redirect_to project_reports_path(@project)
+      render :json => @report, :status => 200
     else
-      render :edit
+      render :json => @report, :status => 500
     end
   end
   
   def destroy
-    @report.destroy
-    redirect_to project_reports_path(@project)
+    if @report.destroy
+      render :json => @report, :status => 200
+    else
+      render :json => @report, :status => 500
+    end
   end
 
   def set_category
@@ -56,10 +63,9 @@ class ReportsController < ProjectBaseController
         not @project.report_categories.find_all_by_id(params[:report_category_id]).empty?)
       @report.report_category_id = params[:report_category_id]
       @report.save
-      redirect_to project_reports_path(@project)
-    else
-      redirect_to project_reports_path(@project)
     end
+
+    render :json => @report, :status => 200
 
   end
   
@@ -71,6 +77,14 @@ class ReportsController < ProjectBaseController
     else
       @report = @project.reports.find(params[:id])
     end
+  end
+
+  def html_header
+    response.headers['Content-Type'] = 'text/html; charset=utf-8'
+  end
+
+  def json_header
+    response.headers['Content-Type'] = 'application/json; charset=utf-8'
   end
   
 end

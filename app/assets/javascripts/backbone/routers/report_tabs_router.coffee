@@ -23,8 +23,9 @@ class Analytics.Routers.ReportTabsRouter extends Backbone.Router
 
   showMetrics: (metrics_router, metrics_map) ->
     @report_tabs.each (report_tab) ->
-      for metric in metrics_map[report_tab.get("id").toString()]
-        metrics_router.add(report_tab.get('index'), metric)
+      if report_tab.get("id")?
+        for metric in metrics_map[report_tab.get("id").toString()]
+          metrics_router.add(report_tab.get('index'), metric)
 
   addTab : (option, active) ->
     option['index'] = @index_increment
