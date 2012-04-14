@@ -1,0 +1,83 @@
+.Vc
+  %h3 最多可选择2个用户群来过滤您的报告&nbsp;
+  %span
+  .ngb
+    .tB
+      .H5
+        .GN 默认用户群
+        %ul
+          - Segment.template.each do |segment|
+            %li
+              %span &nbsp;
+              #default_segment
+                %input{:type=>"checkbox",:id => "segment_#{segment.id}"}
+                  %label{:for =>"segment_#{segment.id}"}= segment.name
+
+    .tB
+      .H5
+        .GN 自定义用户群
+        %ul
+          - Segment.customs(@project).each do |custom|
+            %li
+              %span.e= link_to_delete project_segment_path(@project,custom)
+              %span.e= link_to "编辑","javascript:void(0)",:onclick=>"edit_segment('#{edit_project_segment_path(@project,custom)}')"
+
+              #custom_segment
+                %input{:type=>"checkbox",:id =>"segment_#{custom.id}"}
+                  %label{:for => "segment_#{custom.id}"}= custom.name
+
+    .um
+      %span.u#segment_apply 应用
+      %span.e#segment_cancel 取消
+      .u#add_custom_sengment
+        %strong +
+        新自定义用户群
+
+:javascript
+  $(function(){
+    $("#add_custom_sengment").click(function(){
+      $.get("#{new_project_segment_path(@project)}",function(data){
+        $("#segment_list").html(data);
+      });
+    });
+
+    $("#menu_segment").click(function(){
+       $("#segment_list").toggle(function(){
+        $("#menu_segment").addClass("active");
+       });
+    });
+
+  });
+
+  //add background
+  $(".H5 ul li").each(function(){
+  $(this).click(function(){
+      var check = $(".H5").find("input:checked").length >= 2
+      var item = $(this).find("input[type='checkbox']")[0]
+
+                    if($(item).attr("checked") && check ){
+                      $(item).attr("checked",false)
+                      $(this).removeClass("ym");
+                    }else{
+                      $(item).attr("checked",true)
+                      $(this).addClass("ym");
+                    }
+      if(check){
+        $(".H5").find("input:not(:checked)").each(function(){
+          $(this).attr("disabled","disabled");
+        })
+      }else{
+        $(".H5").find("input:not(:checked)").each(function(){
+                  $(this).removeAttr("disabled");
+                })
+
+      }
+  });
+  });
+
+  //
+  function edit_segment(url){
+    $.get(url,function(data){
+      $("#segment_list").html(data);
+    });
+  }

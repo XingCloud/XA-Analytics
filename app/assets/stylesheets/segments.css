@@ -1,0 +1,195 @@
+.03{
+ border-top: 1px dotted;
+}
+.dY{
+    padding: 15px 10px;
+}
+.te{
+    padding: 10px;
+}
+.Ai{
+    min-width: 680px;
+    padding: 15px 10px;
+    position: relative;
+}
+.Rs.Gl {
+    border : 1px solid #CCCCCC;
+    padding: 10px;
+}
+.Rs{
+    background-color: #EFEFEF;
+    border-radius: 5px 5px 5px 5px;
+}
+.jI{
+    clear:both;
+}
+.Ik.Gl{
+    background-color: #FFFFFF;
+}
+.Ik{
+    border: 1px solid #CCCCCC;
+    border-radius: 5px 5px 5px 5px;
+    overflow:auto;
+    padding: 10px 0 10px 10px;
+}
+
+.wl.dI {
+    background-color: #EFEFEF;
+    color: #000000;
+    font-size: 1.1em;
+    font-weight: bold;
+    margin-left: 80px;
+    padding: 5px 0;
+    width: 100px;
+}
+
+.wl {
+    border-left: 1px solid #CCCCCC;
+    border-right: 1px solid #CCCCCC;
+    clear: both;
+    margin: -1px 0;
+    position: relative;
+    text-align: center;
+}
+
+.e {
+    color: #005C9C;
+    cursor: pointer;
+}
+/**
+ * segments
+ */
+.lv {
+    border-top: 1px solid #E5E5E5;
+}
+
+.Vc {
+    background: none repeat scroll 0 0 #F5F5F5;
+    margin: 0;
+    min-width: 550px;
+    overflow: auto;
+    padding: 0 10px;
+}
+
+.Vc .ym {
+    background-color: #FFCC66;
+}
+
+.Vc h3 {
+    color: #222222;
+    font-size: 15px;
+    font-weight: normal;
+    padding: 0;
+}
+.tB {
+    float: left;
+    width: 50%;
+}
+.H5 {
+    padding: 5px;
+}
+.um {
+    clear: both;
+    height: 30px;
+    margin-left: 5px;
+    margin-right: 2px;
+    padding: 0;
+}
+.um span {
+    float: left;
+}
+.um span {
+    float: left;
+}
+.um div {
+    float: right;
+}
+.um .e {
+    line-height: 23px;
+    padding: 0 8px;
+}
+
+.GN {
+    font-size: 13px;
+    font-weight: bold;
+}
+
+.Vc .zm {
+    background-color: #FFCC66;
+}
+
+.Vc ul {
+    background-color: #FFFFFF;
+    border: 1px solid #999999;
+    height: 150px;
+    list-style: none outside none;
+    margin: 0.4em 0;
+    overflow: auto;
+    padding: 0;
+    width: 100%;
+}
+
+.Vc ul li {
+    border-bottom: 1px solid #EEEEEE;
+    display: block;
+    font-size: 11px;
+    min-height: 15px;
+    overflow: auto;
+    padding: 3px 4px;
+    vertical-align: middle;
+}
+
+li.pU {
+    background-color: #F8F8F8;
+}
+
+.Vc ul li label, .Vc ul li div, .Vc ul li span {
+    cursor: pointer;
+    display: inline-block;
+}
+
+.Vc ul li div {
+    float: left;
+}
+.Vc ul li div input {
+    margin: 0;
+    padding: 0;
+}
+.Vc ul li label {
+    padding-left: 3px;
+}
+.Vc ul li span {
+    float: right;
+}
+
+
+
+
+.u {
+    background-color: #E8E8E8;
+    background-image: -moz-linear-gradient(center top , #FAFAFA, #DADADA);
+    border: 1px solid #BBBBBB;
+    border-radius: 2px 2px 2px 2px;
+    color: #222222;
+    cursor: pointer;
+    height: 21px;
+    line-height: 22px;
+    min-width: 50px;
+    padding: 0 8px;
+    text-align: center;
+    text-decoration: none;
+    text-shadow: 0 1px 0 #F2F2F2;
+    vertical-align: middle;
+}
+.u, .Hf, .rb {
+    display: inline-block;
+}
+
+
+.e {
+    color: #005C9C;
+    cursor: pointer;
+}
+a, a:visited, .e {
+    color: #005C9C;
+}
