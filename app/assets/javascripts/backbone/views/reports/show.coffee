@@ -2,7 +2,6 @@ Analytics.Views.Reports ||= {}
 
 class Analytics.Views.Reports.DatePickerView extends Backbone.View
   template: JST["backbone/templates/reports/datepicker"]
-  id: "date-range"
   el: "#report-datepicker"
   events:
     "click .date-input": "click_input"
@@ -39,20 +38,20 @@ class Analytics.Views.Reports.DatePickerView extends Backbone.View
       calendars: 3,
       mode: 'range',
       onChange: (dates,el) ->
-        $('.date-input.active input.start').val(dates[0].getFullYear()+'-'+(dates[0].getMonth()+1)+'-'+dates[0].getDate())
-        $('.date-input.active input.end').val(dates[1].getFullYear()+'-'+(dates[1].getMonth()+1)+'-'+dates[1].getDate())
+        $('.date-input.active input.start').val($.format.date(dates[0], "yyyy-MM-dd"))
+        $('.date-input.active input.end').val($.format.date(dates[1], "yyyy-MM-dd"))
         $('.date-input.active input.date').val($.format.date(dates[0], "yyyy/MM/dd") + ' - ' + $.format.date(dates[1], "yyyy/MM/dd"))
         if $('#choose-range').val() != 'custom'
           $('#choose-range').val('custom')
     })
 
   set_date: (element, from, to) ->
-    $(element+' input.start').val(from.getFullYear()+'-'+(from.getMonth()+1)+'-'+from.getDate())
-    $(element+' input.end').val(to.getFullYear()+'-'+(to.getMonth()+1)+'-'+to.getDate())
+    $(element+' input.start').val($.format.date(from, "yyyy-MM-dd"))
+    $(element+' input.end').val($.format.date(to, "yyyy-MM-dd"))
     $(element+' input.date').val(@range_text(from, to))
 
   parse_date: (element) ->
-    [new Date(Date.parse($(element+' input.start').val())), new Date(Date.parse($(element+' input.end').val()))]
+    [new Date(Analytics.Utils.parseDate($(element+' input.start').val())), new Date(Analytics.Utils.parseDate($(element+' input.end').val()))]
 
   range_text: (from, to) ->
     $.format.date(from, "yyyy/MM/dd") + ' - ' + $.format.date(to, "yyyy/MM/dd")
@@ -105,7 +104,7 @@ class Analytics.Views.Reports.DatePickerView extends Backbone.View
         from = new Date(to.getTime() - 1000 * 60 * 60 * 24 * 6)
         toggle = true
       when "last_month"
-        to = new Date(Date.parse(to.getFullYear()+"/"+(to.getMonth()+1)+"/1") - 1000 * 60 * 60 * 24)
+        to = new Date(Analytics.Utils.parseDate(to.getFullYear()+"/"+(to.getMonth()+1)+"/1") - 1000 * 60 * 60 * 24)
         from = new Date(to.getTime() - 1000 * 60 * 60 * 24 * (to.getDate()-1))
         toggle = true
       else toggle = false
@@ -152,9 +151,151 @@ class Analytics.Views.Reports.DatePickerView extends Backbone.View
       options["compare_end_time"] = compare_dates[1]
     @model.set(options)
 
+class Analytics.Views.Reports.RateView extends Backbone.View
+  template: JST["backbone/templates/reports/rate"]
+  el: "#rate-container"
+  events:
+    "click .btn.rate": "change_rate"
+
+  initialize: () ->
+    _.bindAll(this, "render")
+
+  render: () ->
+    $(@el).html(@template({model: @model}))
+
+  change_rate: (ev) ->
+    $('button.btn.rate').removeClass('active')
+    $(ev.currentTarget).addClass('active')
+    $('#rate').val($(ev.currentTarget).attr("value"))
+    @model.set({"rate": $(ev.currentTarget).attr("value")})
+
 class Analytics.Views.Reports.ShowView extends Backbone.View
+
+  chart_options: () ->
+    "credits":
+      "enabled": false
+    "title":
+      "text": ""
+    "chart":
+      "renderTo": "chart"
+      "height": 200
+    "yAxis":
+      "min": 0
+      "gridLineWidth": 0.5
+      "showFirstLabel": true
+      "title":
+        "text": ""
+    "xAxis":
+      "tickInterval": @tick_interval()
+      "gridLineWidth": 0
+      "tickWidth": 0
+      "showFirstLabel": true
+      "type": "datetime"
+      "labels":
+        "align": "right"
+        "formatter": () -> Highcharts.dateFormat('%b %d', this.value)
+    "tooltip":
+      "enabled": true
+      "shared": true
+    "legend":
+      "enabled": true
+      "align": "top"
+      "verticalAlign": "top"
+      "borderWidth": 0
+      "margin": 20
 
   initialize: () ->
     _.bindAll(this, "render")
     @model.bind "change", @render
     @model.view = this
+    @date_picker = new Analytics.Views.Reports.DatePickerView({model: @model})
+    @rate = new Analytics.Views.Reports.RateView({model: @model});
+    @date_picker.render()
+    @rate.render()
+
+  init_chart: () ->
+    options = @chart_options()
+
+    if (@model.get("end_time").getTime() - @model.get("start_time").getTime() <= 1000 * 60 * 60 * 24) and (@model.get("rate") == "hour" or @model.get("rate") == "min5")
+      options.xAxis.labels.formatter = () ->
+        Highcharts.dateFormat('%b %d %H:%M', this.value)
+
+    if @model.get("compare")
+      options.xAxis = [options.xAxis, options.xAxis]
+    options.series = []
+
+    metrics = @model.get("report_tab").metrics
+    for metric in metrics
+      options.series.push({
+        name: metric.name,
+        id: metric.id,
+        data: []
+      })
+      if @model.get("compare")
+        options.series.push({
+          name: metric.name+"(对比)",
+          id: "compare"+metric.id,
+          data: [],
+          xAxis: 1
+        })
+
+    @chart = new Highcharts.Chart(options)
+
+  render: () ->
+    if @chart?
+      @chart.destroy()
+    @init_chart()
+    $.blockUI({
+      message: $('#loader-message')
+    })
+    $.ajax({
+      url: @base_url(@model) + "/data",
+      dataType: "json",
+      type: "get",
+      data: @model.ajax_attrs(),
+      success: @success_resp
+    })
+
+  destroy: () ->
+    @date_picker.remove()
+    @rate.remove()
+    @remove()
+
+  success_resp: (resp) ->
+    report = reports_router.reports.find((item) -> item.id == resp.report_id)
+    if report?
+      $.unblockUI()
+      if resp.status == 0
+        for series in resp.data
+          if series["return"]["result"]
+            data = ([Analytics.Utils.parseUTCDate(num[0]), num[1]] for num in series["return"]["data"])
+            report.view.chart.get(series["id"]).setData(data)
+          if series["compare"] and series["compare_return"]["result"]
+            data = ([Analytics.Utils.parseUTCDate(num[0]), num[1]] for num in series["compare_return"]["data"])
+            report.view.chart.get("compare"+series["id"]).setData(data)
+
+  tick_interval: () ->
+    rate = @model.get("rate")
+    period = @model.get("end_time").getTime() - @model.get("start_time").getTime()
+    if period <= 1000 * 60 * 60 * 24
+      1000 * 60 * 60 * 2
+    else if period <= 1000 * 60 * 60 * 24 * 14
+      1000 * 60 * 60 * 24
+    else if period <= 1000 * 60 * 60 * 24 * 72
+      1000 * 60 * 60 * 24 * 7
+    else
+      1000 * 60 * 60 * 24 * 30
+
+  point_interval: () ->
+    switch @model.get("rate")
+      when "min5" then 1000 * 60 * 5
+      when "hour" then 1000 * 60 * 60
+      when "day" then 1000 * 60 * 60 * 24
+      when "week" then 1000 * 60 * 60 * 24 * 7
+      when "month" then 1000 * 60 * 60 * 30
+
+  base_url: () ->
+    "/projects/"+project.id+"/reports/"+@model.get("id")+"/report_tabs/"+$('#report_tab_id').val()
+
+
+

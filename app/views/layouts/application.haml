@@ -17,6 +17,8 @@
     = yield :head
       
   %body
+    #loader-message{:style => "display: none"}
+      %img{:src => "/assets/ajax-loader.gif"}
     .container-fluid
       .row-fluid
         .subnav
@@ -33,6 +35,7 @@
                 报告管理
         #container.row-fluid{:style => "padding-top: 10px;"}
           = yield
+
       
       %footer
         %p &copy; XingCloud 2012
@@ -43,7 +46,6 @@
     / Placed at the end of the document so the pages load faster
 
 :javascript
-  var project = new Analytics.Models.Project(#{@project.attributes.to_json})
   Backbone.history.start();
 
 :css

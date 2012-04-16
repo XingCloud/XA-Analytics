@@ -15,24 +15,31 @@ class AnalyticService
     
     @logger
   end
-  
-  
-  def initialize(options = {})
 
-    @analytic_options = {
-      :project_id     => options[:identifier],
-      :interval       => options[:rate],
-      :start_time     => options[:start_time],
-      :end_time       => options[:end_time],
-      :compare        => options[:compare]
+  def request_metrics_data(identifier, options, metrics)
+    analytic_options = {
+        :project_id     => identifier,
+        :interval       => options[:rate].upcase,
+        :start_time     => options[:start_time],
+        :end_time       => options[:end_time]
     }
-  end
-
-  def request_metrics_data(metrics)
-    metrics_data = {}
+    if options[:compare] == "true"
+      analytic_compare_options = {
+          :project_id     => identifier,
+          :interval       => options[:rate].upcase,
+          :start_time     => options[:compare_start_time],
+          :end_time       => options[:compare_end_time]
+      }
+    end
+    metrics_data = []
     metrics.each do |metric|
-      metric_data = request_metric_data(metric)
-      metrics_data[metric.id] = metric_data
+      metric_data = request_metric_data(analytic_options, metric)
+      if options[:compare] == "true"
+        compare_metric_data = request_metric_data(analytic_compare_options, metric)
+        metrics_data.push({:id => metric.id, :name => metric.name, :compare => true, :return => metric_data, :compare_return => compare_metric_data})
+      else
+        metrics_data.push({:id => metric.id, :name => metric.name, :compare => false, :return => metric_data})
+      end
     end
     metrics_data
   end
@@ -45,8 +52,8 @@ class AnalyticService
   
   private
 
-  def request_metric_data(metric)
-    options = @analytic_options.merge metric_option_of(metric)
+  def request_metric_data(analytic_options, metric)
+    options = analytic_options.merge metric_option_of(metric)
 
     # if have combine operation
     if combo = metric.combine

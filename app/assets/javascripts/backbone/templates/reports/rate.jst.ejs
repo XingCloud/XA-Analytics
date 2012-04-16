@@ -1,0 +1,8 @@
+<div class="btn-group right">
+    <input type="hidden" id="rate" name="rate" value="<%= model.get('rate') %>"/>
+    <button class="<%= model.get('rate') == 'min5' ? 'btn rate active' : 'btn rate' %>" value="min5">分钟</button>
+    <button class="<%= model.get('rate') == 'hour' ? 'btn rate active' : 'btn rate' %>" value="hour">小时</button>
+    <button class="<%= model.get('rate') == 'day' ? 'btn rate active' : 'btn rate' %>" value="day">天</button>
+    <button class="<%= model.get('rate') == 'week' ? 'btn rate active' : 'btn rate' %>" value="week">周</button>
+    <button class="<%= model.get('rate') == 'month' ? 'btn rate active' : 'btn rate' %>" value="month">月</button>
+</div>

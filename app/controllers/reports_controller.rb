@@ -1,5 +1,6 @@
 class ReportsController < ProjectBaseController
-  before_filter :find_report, :only => [:show, :edit, :update, :destroy, :set_category]
+  before_filter :find_report, :only => [:edit, :update, :destroy, :set_category]
+  before_filter :find_report_with_template, :only => [:show]
   before_filter :html_header, :only => [:index, :new, :edit, :show]
   before_filter :json_header, :only => [:create, :update, :destroy, :set_category]
   
@@ -75,8 +76,12 @@ class ReportsController < ProjectBaseController
   end
   
   private
-  
+
   def find_report
+     @report = @project.reports.find(params[:id])
+  end
+
+  def find_report_with_template
     if @project.reports.find_all_by_id(params[:id]).empty?
       @report = Report.where(:project_id => nil).find(params[:id])
     else

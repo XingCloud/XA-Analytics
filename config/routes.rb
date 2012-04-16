@@ -17,6 +17,11 @@ Analytic::Application.routes.draw do
       member do
         get :set_category
       end
+      resources :report_tabs do
+        member do
+          get :data
+        end
+      end
     end
     resources :report_categories do
       member do
@@ -24,7 +29,6 @@ Analytic::Application.routes.draw do
         get :shift_down
       end
     end
-    resources :report_tabs
   end
 
   namespace :admin do
@@ -32,8 +36,8 @@ Analytic::Application.routes.draw do
       member do
         get :set_category
       end
+      resources :template_report_tabs
     end
-    resources :template_report_tabs
     resources :template_report_categories do
       member do
         get :shift_up

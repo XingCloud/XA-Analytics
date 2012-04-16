@@ -1,6 +1,6 @@
 .span2
   = render "projects/left_nav"
-.span10
+#block-container.span10
   .row-fluid
     #report-title.left
       %h3
@@ -18,6 +18,7 @@
           编辑报告
   .row-fluid
     %br
+    %input#report_tab_id{:type => "hidden", :value => "#{@report_tab.id}"}
     %ul.nav.nav-tabs
       - @report.report_tabs.each do |tab|
         - if tab.id == @report_tab.id
@@ -28,19 +29,14 @@
           %li
             %a{:href => "#/reports/#{@report.id}/report_tabs/#{tab.id}"}
               = tab.title
-  .row-fluid
-    .btn-group.right
-      %input{:type => "hidden", :id => "rate", :name => "rate", :value => "day"}
-      %a.btn.rate{:value => "min5"} 五分钟
-      %a.btn.rate{:value => "hour"} 小时
-      %a.btn.rate.active{:value => "day"} 天
-      %a.btn.rate{:value => "month"} 月
+  #rate-container.row-fluid
 
-    #chart.left
+  .row-fluid
+    #chart
 
 :javascript
-  var report = reports_router.report(#{@report.attributes.to_json});
-  new Analytics.Views.Reports.DatePickerView({model: report}).render();
+  var project = new Analytics.Models.Project(#{@project.attributes.to_json})
+  var report = reports_router.report(#{(@report.attributes).merge({:report_tab => @report_tab.js_attributes}).to_json});
 
 :css
   .left{

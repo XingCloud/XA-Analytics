@@ -6,6 +6,7 @@ class Analytics.Routers.ReportsRouter extends Backbone.Router
     "/reports/:id/edit" : "edit"
     "/reports/:id/delete" : "delete"
     "/reports/:id/set_category/:category_id" : "set_category"
+    "/reports/:id/report_tabs/:report_tab_id" : "choose_tab"
 
 
   initialize: () ->
@@ -74,11 +75,19 @@ class Analytics.Routers.ReportsRouter extends Backbone.Router
 
     window.location.href = "#/reports"
 
+  choose_tab: (id, report_tab_id) ->
+    Analytics.Request.get '/projects/'+project.get("id")+'/reports/'+id, {"report_tab_id": report_tab_id}, (data) ->
+      $('#container').html data
+
   report: (options) ->
-    r = @reports.find((report) -> report.id == options["id"])
-    if not r?
-      r = new Analytics.Models.Report(options)
-      r.view = new Analytics.Views.Reports.ShowView({model: r})
-      r.view.render()
-      @reports.add(r)
-    r
+    report = @reports.find((item) -> item.id == options["id"])
+    old_options = {}
+    if report?
+      old_options = report.attributes
+      @reports.remove report
+      report.view.destroy()
+    new_report = new Analytics.Models.Report(old_options)
+    new_report.set(options)
+    new Analytics.Views.Reports.ShowView({model: new_report})
+    new_report.view.render()
+    @reports.add new_report

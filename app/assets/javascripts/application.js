@@ -18,6 +18,7 @@
 //= require jquery.chosen
 //= require jquery.dateFormat
 //= require jquery-ui
+//= require jquery.blockUI
 //= require moment
 //= require underscore
 //= require haml

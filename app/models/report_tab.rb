@@ -10,4 +10,8 @@ class ReportTab < ActiveRecord::Base
     metrics.map(&:attributes)
   end
 
+  def js_attributes
+    attributes.merge({:metrics => metrics.map{|metric| {:id => metric.id, :name => metric.name}}})
+  end
+
 end
