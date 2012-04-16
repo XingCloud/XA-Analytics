@@ -1,18 +1,1 @@
--title '通用用户群管理'
-
-%p
-  = link_to "增加用户群", new_admin_template_segment_path, :class => 'btn'
-  %table.table
-    %tr
-      %th 用户群名称
-      %th 表达式
-      %th 创建时间
-      %th
-    -@segments.each do |segment|
-      %tr
-        %td= segment.name
-        %td= "type"
-        %td= segment.created_at.strftime('%Y-%m-%d %H:%M:%S')
-        %td
-          = link_to_edit edit_admin_template_segment_path(segment)
-          = link_to_delete admin_template_segment_path(segment)
+= render "segments/list"

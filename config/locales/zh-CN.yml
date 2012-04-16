@@ -51,7 +51,23 @@ zh-CN:
       hour: "1小时"
       day: "1天"
       week: "1周"
-      
+    segment:
+      gt: "大于"
+      lt: "小于"
+      gte: "大于等于"
+      lte: "小于等于"
+      eq: "等于"
+      ne: "不等于"
+      register_time: "注册时间"
+      last_login_time: "最后登陆时间"
+      first_pay_time: "首次付费时间"
+      last_pay_time: "最后付费时间"
+      grade: 等级
+      game_time: 游戏时间
+      pay_amount: 付费量
+      language: 语言
+      platform: 平台
+
   records_not_found: "抱歉，没有找到记录."
   confirm_msg: "确定执行该操作吗？"
   start_time: "开始时间"

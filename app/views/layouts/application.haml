@@ -14,6 +14,7 @@
     = stylesheet_link_tag    "application"
     = javascript_include_tag "application"
     = stylesheet_link_tag "reports"
+    = stylesheet_link_tag "segments"
     = yield :head
       
   %body
@@ -46,6 +47,7 @@
     / Placed at the end of the document so the pages load faster
 
 :javascript
+  var project = new Analytics.Models.Project(#{@project.attributes.to_json});
   Backbone.history.start();
 
 :css

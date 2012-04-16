@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120405065524) do
+ActiveRecord::Schema.define(:version => 20120410024549) do
 
   create_table "agents", :force => true do |t|
     t.integer  "project_id"
@@ -24,6 +24,15 @@ ActiveRecord::Schema.define(:version => 20120405065524) do
   create_table "districts", :force => true do |t|
     t.string   "name"
     t.string   "identifier"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  create_table "expressions", :force => true do |t|
+    t.string   "name"
+    t.string   "operator"
+    t.string   "value"
+    t.integer  "segment_id"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end
@@ -94,6 +103,13 @@ ActiveRecord::Schema.define(:version => 20120405065524) do
 
   add_index "reports", ["project_id"], :name => "index_reports_on_project_id"
   add_index "reports", ["report_category_id"], :name => "index_reports_on_report_category_id"
+
+  create_table "segments", :force => true do |t|
+    t.string   "name"
+    t.integer  "project_id"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
 
   create_table "sessions", :force => true do |t|
     t.string   "session_id", :null => false

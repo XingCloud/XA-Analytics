@@ -6,3 +6,4 @@
     = tabs_tag :namespace => :sidebar, :builder => TabsOnRails::Bootstrap, :open_tabs => {:class => "nav nav-list"} do |tab|
       = tab.project '项目列表', admin_projects_path
       = tab.template_reports '通用报告管理',"#/reports"
+      = tab.template_segments '通用用户群管理',"#/segments"

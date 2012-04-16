@@ -8,7 +8,7 @@ class SegmentsController < ApplicationController
   end
 
   def create
-    @segment = Segment.new(params[:segment].merge!(:project_id => @project.id, :status => Segment::CUSTOM_SEGMENT))
+    @segment = Segment.new(params[:segment].merge!(:project_id => @project.id))
     @segment.create_segment(params[:expression_name], params[:expression_operator], params[:expression_value])
     if @segment.persisted?
       redirect_to project_segments_path, :notice => t("segments.create.success")
