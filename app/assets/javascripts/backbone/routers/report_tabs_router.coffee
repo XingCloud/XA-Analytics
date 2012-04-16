@@ -1,8 +1,10 @@
 class Analytics.Routers.ReportTabsRouter extends Backbone.Router
 
-  initialize : (options) ->
-    @index_increment = 0
+  initialize: () ->
     @report_tabs = new Analytics.Collections.ReportTabs()
+
+  set_tabs : (options) ->
+    @index_increment = 0
     if options.length > 0
       for i in [0..options.length - 1]
         @addTab options[i], (i==0)

@@ -31,8 +31,8 @@ class AnalyticService
   def request_metrics_data(metrics)
     metrics_data = {}
     metrics.each do |metric|
-      metric_data = self.request_metric_data(metric)
-      metrics_data[metric.id.to_sym] = metric_data
+      metric_data = request_metric_data(metric)
+      metrics_data[metric.id] = metric_data
     end
     metrics_data
   end
@@ -98,7 +98,7 @@ class AnalyticService
     
     logger.info "Request: #{url} \n #{options.pretty_inspect}"
     
-    Timeout.timeout(15) do
+    Timeout.timeout(180) do
       response = Net::HTTP.post_form(url, options)
       logger.info "Response: #{response.code}"
       pp response.body

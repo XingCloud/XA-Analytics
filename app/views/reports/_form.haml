@@ -34,7 +34,6 @@
         %a.btn{:href => "#/reports"} 取消
 
 
-  :javascript
-    var report_tabs_router = new Analytics.Routers.ReportTabsRouter(#{@report.report_tabs.map(&:attributes).to_json});
-    var metrics_router = new Analytics.Routers.MetricsRouter();
-    report_tabs_router.showMetrics(metrics_router, #{@report.metrics_attributes});
+:javascript
+  report_tabs_router.set_tabs(#{@report.report_tabs.map(&:attributes).to_json});
+  report_tabs_router.showMetrics(metrics_router, #{@report.metrics_attributes});

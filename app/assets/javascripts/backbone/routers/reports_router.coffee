@@ -8,10 +8,8 @@ class Analytics.Routers.ReportsRouter extends Backbone.Router
     "/reports/:id/set_category/:category_id" : "set_category"
 
 
-  initialize: (options) ->
+  initialize: () ->
     @reports = new Analytics.Collections.Reports()
-    for option in options
-      @reports.add(new Analytics.Models.Report(option))
 
   index: () ->
     if project?
@@ -38,7 +36,10 @@ class Analytics.Routers.ReportsRouter extends Backbone.Router
         $('#container').html data
 
   show: (id) ->
-    alert "haha"
+    $('.nav.nav-list li').removeClass('active')
+    $('#report'+id).addClass('active')
+    Analytics.Request.get '/projects/'+project.get("id")+'/reports/'+id, {}, (data) ->
+      $('#container').html data
 
   create: (form_id) ->
     if project?
@@ -72,3 +73,12 @@ class Analytics.Routers.ReportsRouter extends Backbone.Router
       Analytics.Request.get '/admin/template_reports/'+id+'/set_category', {report_category_id : category_id}, (data) -> {}
 
     window.location.href = "#/reports"
+
+  update_report: (options) ->
+    r = @reports.find((report) -> report.id == options["id"])
+    if r?
+      r.set(options)
+    else
+      r = new Analytics.Models.Report(options)
+      new Analytics.Views.Reports.ShowView({model: r}).render()
+      @reports.add(r)

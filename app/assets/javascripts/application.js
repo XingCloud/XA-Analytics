@@ -16,6 +16,7 @@
 //= require twitter/bootstrap
 //= require common
 //= require jquery.chosen
+//= require jquery.dateFormat
 //= require jquery-ui-1.8.18.custom.min
 //= require jquery.ui.nestedSortable
 //= require calendar
@@ -24,6 +25,7 @@
 //= require underscore
 //= require haml
 //= require backbone
+//= require datepicker
 //= require analytics
 //= require_tree ./backbone/models
 //= require_tree ./backbone/collections
@@ -31,5 +33,6 @@
 //= require_tree ./backbone/views
 //= require_tree ./backbone/routers
 //= require_directory ./backbone/lib
+//= require_directory ./backbone
 
 

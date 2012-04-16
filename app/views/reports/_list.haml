@@ -32,13 +32,21 @@
           %td
             &nbsp;&nbsp;&nbsp;&nbsp;
             %i{:class => "icon-file"}
-            = report.title
+            - if @project.nil?
+              = report.title
+            - else
+              %a{:href => "#/reports/#{report.id}"}
+                = report.title
           %td= report.created_at
           %td= render :partial => "reports/dropdown", :locals => {:report => report}
     - @reports.each do |report|
       %tr
         %td
           %i{:class => "icon-file"}
-          = report.title
+          - if @project.nil?
+            = report.title
+          - else
+            %a{:href => "#/reports/#{report.id}"}
+              = report.title
         %td= report.created_at
         %td= render :partial => "reports/dropdown", :locals => {:report => report}

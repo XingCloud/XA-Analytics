@@ -43,10 +43,7 @@
     / Placed at the end of the document so the pages load faster
 
 :javascript
-  var project = new Analytics.Models.Project(#{@project.attributes.to_json});
-  var reports_router = new Analytics.Routers.ReportsRouter([]);
-  var report_categories_router = new Analytics.Routers.ReportCategoriesRouter();
-  Backbone.history.start();
+  project.set(#{@project.attributes.to_json});
 
 :css
   body {

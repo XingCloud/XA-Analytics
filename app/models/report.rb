@@ -16,4 +16,9 @@ class Report < ActiveRecord::Base
     end
     attrs.to_json
   end
+
+  def clone_as_template
+
+  end
+
 end

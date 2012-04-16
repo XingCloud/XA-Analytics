@@ -1,6 +1,6 @@
 class ReportsController < ProjectBaseController
   before_filter :find_report, :only => [:show, :edit, :update, :destroy, :set_category]
-  before_filter :html_header, :only => [:index, :new, :edit]
+  before_filter :html_header, :only => [:index, :new, :edit, :show]
   before_filter :json_header, :only => [:create, :update, :destroy, :set_category]
   
   def index
@@ -30,7 +30,12 @@ class ReportsController < ProjectBaseController
   end
 
   def show
-
+    if not params[:report_tab_id].nil?
+      @report_tab = @report.report_tabs.find(params[:report_tab_id])
+    else
+      @report_tab = @report.report_tabs.first
+    end
+    render :partial => "reports/show", :status => 200
   end
   
   def update
