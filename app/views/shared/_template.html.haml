@@ -28,7 +28,7 @@
 :javascript
   $(function(){
     $("span.e").click(function(){
-      $.get("#{template_segment_path}",function(data){
+      $.get("#{segments_template_path}",function(data){
        $($(".Rs").last()).remove();
        $("#expressionlist").append(data);
       });

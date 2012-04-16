@@ -1,0 +1,29 @@
+-title '通用用户群管理'
+
+.span2
+  - if not @project.nil?
+    = render "projects/left_nav"
+  - else
+    = render "admin/projects/left_nav"
+
+.span10
+  %h3 用户群管理
+  %hr
+
+  %p
+    = link_to "增加用户群", "#/segments/new", :class => "btn"
+    %table.table
+      %tr
+        %th 用户群名称
+        %th 创建时间
+        %th
+      -@segments.each do |segment|
+        %tr
+          %td= segment.name
+          %td= segment.created_at.strftime('%Y-%m-%d %H:%M:%S')
+          %td
+            %li{:class => "icon-edit"}
+            = link_to_edit "#/segments/#{segment.id}/edit"
+            %li{:class => "icon-trash"}
+            %a{:href => "#/segments/#{segment.id}/delete"} 删除
+

@@ -5,7 +5,7 @@ Analytic::Application.routes.draw do
 
   resources :users
 
-  
+
   resources :projects do
 
     member do
@@ -25,6 +25,11 @@ Analytic::Application.routes.draw do
       end
     end
     resources :report_tabs
+    resources :segments do
+      collection do
+        get 'template'
+      end
+    end
   end
 
   namespace :admin do
@@ -42,8 +47,9 @@ Analytic::Application.routes.draw do
     end
     resources :template_metrics
     resources :projects
+    resources :template_segments
   end
-
+  match "segments/template"
 
   match "/js_templates/:package.:extension",
         :to => 'js_templates#package', :as => :jammit, :constraints => {

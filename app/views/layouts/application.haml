@@ -14,6 +14,7 @@
     = stylesheet_link_tag    "application"
     = javascript_include_tag "application"
     = stylesheet_link_tag "reports"
+    = stylesheet_link_tag "segments"
     = yield :head
       
   %body
@@ -45,6 +46,7 @@
 :javascript
   var project = new Analytics.Models.Project(#{@project.attributes.to_json});
   var reports_router = new Analytics.Routers.ReportsRouter([]);
+  var segments_router = new Analytics.Routers.SegmentsRouter([]);
   var report_categories_router = new Analytics.Routers.ReportCategoriesRouter();
   Backbone.history.start();
 
