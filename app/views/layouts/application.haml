@@ -43,7 +43,8 @@
     / Placed at the end of the document so the pages load faster
 
 :javascript
-  project.set(#{@project.attributes.to_json});
+  var project = new Analytics.Models.Project(#{@project.attributes.to_json})
+  Backbone.history.start();
 
 :css
   body {

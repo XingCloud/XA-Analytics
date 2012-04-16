@@ -74,11 +74,11 @@ class Analytics.Routers.ReportsRouter extends Backbone.Router
 
     window.location.href = "#/reports"
 
-  update_report: (options) ->
+  report: (options) ->
     r = @reports.find((report) -> report.id == options["id"])
-    if r?
-      r.set(options)
-    else
+    if not r?
       r = new Analytics.Models.Report(options)
-      new Analytics.Views.Reports.ShowView({model: r}).render()
+      r.view = new Analytics.Views.Reports.ShowView({model: r})
+      r.view.render()
       @reports.add(r)
+    r

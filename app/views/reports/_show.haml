@@ -39,7 +39,8 @@
     #chart.left
 
 :javascript
-  reports_router.update_report(#{@report.attributes.to_json});
+  var report = reports_router.report(#{@report.attributes.to_json});
+  new Analytics.Views.Reports.DatePickerView({model: report}).render();
 
 :css
   .left{

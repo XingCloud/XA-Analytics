@@ -75,13 +75,13 @@ class Analytics.Views.Reports.DatePickerView extends Backbone.View
       $('#date-range-field a').css({borderBottomRightRadius:5})
 
   click_ok: (ev) ->
-    @set_model()
     dates = @parse_date('#date-control')
     $('#date-range-field span').text(@range_text(dates[0], dates[1]))
     $('#datepicker-container').toggle();
     $('#date-range-field a').html('&#9660;')
     $('#date-range-field').css({borderBottomLeftRadius:5, borderBottomRightRadius:5})
     $('#date-range-field a').css({borderBottomRightRadius:5})
+    @set_model()
 
   click_cancel: (ev) ->
     @setup()
@@ -158,4 +158,3 @@ class Analytics.Views.Reports.ShowView extends Backbone.View
     _.bindAll(this, "render")
     @model.bind "change", @render
     @model.view = this
-    new Analytics.Views.Reports.DatePickerView({model: @model}).render()
