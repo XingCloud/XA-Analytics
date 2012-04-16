@@ -1,4 +1,5 @@
 .bundle
+.sass-cache/
 log
 tmp
 .rvmrc
@@ -6,5 +7,6 @@ nbproject
 config/database.yml
 *.orig
 db/schema.rb
+db/*.sqlite3
 analytic/.idea/*
 .idea/*

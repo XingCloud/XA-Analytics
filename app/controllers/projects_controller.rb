@@ -27,6 +27,10 @@ class ProjectsController < ApplicationController
       @report = reports.first
     end
 
+    if not @report.nil?
+      @report_tab = @report.report_tabs.first
+    end
+
   end
   
   def event_item

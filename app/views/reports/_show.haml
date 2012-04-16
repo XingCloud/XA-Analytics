@@ -1,0 +1,51 @@
+.span2
+  = render "projects/left_nav"
+.span10
+  .row-fluid
+    #report-title.left
+      %h3
+        = @report.title
+    #report-datepicker
+  .row-fluid
+    %hr
+    .btn-group
+      %a.btn{:href => "#"}
+        %i.icon-user
+        用户群
+      - if not @report.project_id.nil?
+        %a.btn{:href => "#/reports/#{@report.id}/edit"}
+          %i.icon-edit
+          编辑报告
+  .row-fluid
+    %br
+    %ul.nav.nav-tabs
+      - @report.report_tabs.each do |tab|
+        - if tab.id == @report_tab.id
+          %li.active
+            %a{:href => "#/reports/#{@report.id}/report_tabs/#{tab.id}"}
+              = tab.title
+        - else
+          %li
+            %a{:href => "#/reports/#{@report.id}/report_tabs/#{tab.id}"}
+              = tab.title
+  .row-fluid
+    .btn-group.right
+      %input{:type => "hidden", :id => "rate", :name => "rate", :value => "day"}
+      %a.btn.rate{:value => "min5"} 五分钟
+      %a.btn.rate{:value => "hour"} 小时
+      %a.btn.rate.active{:value => "day"} 天
+      %a.btn.rate{:value => "month"} 月
+
+    #chart.left
+
+:javascript
+  var report = reports_router.report(#{@report.attributes.to_json});
+  new Analytics.Views.Reports.DatePickerView({model: report}).render();
+
+:css
+  .left{
+    float: left;
+  }
+  .right{
+    float: right;
+  }

@@ -11,8 +11,8 @@
  *= require_self
  *= require bootstrap_and_overrides
  *= require jquery.ui
- *= require calendar
  *= require jquery.chosen
+ *= require datepicker
 */
 
 /* supporting docs pages */

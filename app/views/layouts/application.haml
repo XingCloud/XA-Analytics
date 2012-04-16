@@ -44,6 +44,7 @@
     / Placed at the end of the document so the pages load faster
 
 :javascript
+
   var project = new Analytics.Models.Project(#{@project.attributes.to_json});
   var reports_router = new Analytics.Routers.ReportsRouter([]);
   var segments_router = new Analytics.Routers.SegmentsRouter([]);

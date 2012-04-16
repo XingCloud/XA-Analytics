@@ -6,7 +6,7 @@
     = category.name
   - category.reports.all().each do |report|
     %li{:class => "#{(not @report.nil? and @report.id == report.id) ? 'active' : ''}"}
-      %a{:href => "#/reports/#{report.id}"}
+      %a{:href => "#/reports/#{report.id}", :id => "report#{report.id}"}
         %i.icon-file
         = report.title
 - if reports.length > 0
@@ -14,6 +14,6 @@
     未知分类
   - reports.each do |report|
     %li{:class => "#{(not @report.nil? and @report.id == report.id) ? 'active' : ''}"}
-      %a{:href => "#/reports/#{report.id}"}
+      %a{:href => "#/reports/#{report.id}", :id => "report#{report.id}"}
         %i.icon-file
         = report.title
