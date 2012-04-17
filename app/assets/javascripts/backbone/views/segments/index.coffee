@@ -5,15 +5,15 @@ class Analytics.Views.Segments.IndexView extends Backbone.View
   events:
     "click span#segment_apply":"segment_query"
     "click span#segment_cancel":"segment_cancel"
-
+    "click .H5 ul li":"select_segment"
 
   initialize: () ->
     _.bindAll(this, "segment_query","segment_cancel","select_segment")
 
   segment_query: () ->
     segment_list =  $(".H5").find("input:checked")
-    segments =  (new_segment(segment) for segment in segment_list)
-    console.log(segment_ids)
+    segments =  (@new_segment(segment) for segment in segment_list)
+
     project.set("segments",segments);
 
   new_segment: (segment) ->
@@ -22,6 +22,8 @@ class Analytics.Views.Segments.IndexView extends Backbone.View
   segment_cancel: () ->
     $("#segment_list").hide();
 
+  select_segment: (event) ->
+#    if $(".H5").find("input:checked").length >= 2
 
 
 

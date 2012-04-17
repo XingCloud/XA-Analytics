@@ -12,12 +12,27 @@ class Analytics.Models.Report extends Backbone.Model
     @report_tabs = new Analytics.Collections.ReportTabs()
     @set options
 
-  ajax_attrs: () ->
-    {
-      "start_time": $.format.date(@get("start_time"), "yyyy-MM-dd")
-      "end_time": $.format.date(@get("end_time"), "yyyy-MM-dd")
-      "compare_start_time": $.format.date(@get("compare_start_time"), "yyyy-MM-dd")
-      "compare_end_time": $.format.date(new Date(@get("compare_start_time").getTime()+@get("end_time").getTime()-@get("start_time").getTime()), "yyyy-MM-dd")
-      "rate": @get("rate")
-      "compare": @get("compare")
-    }
+  ajax_params: (segments) ->
+    params = []
+    if not segments? or segments.length == 0
+      segments = [{id: ""}]
+    for segment in segments
+      for metric in @get("report_tab").metrics
+        params.push({
+          "start_time": $.format.date(@get("start_time"), "yyyy-MM-dd"),
+          "end_time": $.format.date(@get("end_time"), "yyyy-MM-dd"),
+          "interval": @get("rate").toUpperCase(),
+          "metric_id": metric.id,
+          "segment_id": segment.id,
+          "compare": false
+        })
+        if @get("compare")
+          params.push({
+            "start_time": $.format.date(@get("compare_start_time"), "yyyy-MM-dd"),
+            "end_time": $.format.date(@get("compare_end_time"), "yyyy-MM-dd"),
+            "interval": @get("rate").toUpperCase(),
+            "metric_id": metric.id,
+            "segment_id": segment.id,
+            "compare": true
+          })
+    params
