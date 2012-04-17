@@ -1,11 +1,12 @@
 class SegmentsController < ApplicationController
 
   before_filter :find_project
+  before_filter :html_header, :only => [:new, :edit]
   @@IDX = 0
 
   def new
     @segment = Segment.new
-    render :partial => 'form', :layout => 'popup'
+    render :partial => 'common'
   end
 
   def create
@@ -20,7 +21,7 @@ class SegmentsController < ApplicationController
 
   def edit
     @segment = Segment.find_by_id(params[:id])
-    render :partial => 'form', :layout => 'popup'
+    render :partial => 'common'
   end
 
   def update
@@ -35,7 +36,7 @@ class SegmentsController < ApplicationController
 
   def template
     @idx = @@IDX += 1
-    render :partial => 'shared/template',:locals => {:segment => nil,:idx => @idx}
+    render :partial => 'shared/template', :locals => {:segment => nil, :idx => @idx}
   end
 
 
@@ -49,6 +50,10 @@ class SegmentsController < ApplicationController
 
   def find_project
     @project = Project.find_by_id(params[:project_id])
+  end
+
+  def html_header
+    response.headers['Content-Type'] = 'text/html; charset=utf-8'
   end
 
 end

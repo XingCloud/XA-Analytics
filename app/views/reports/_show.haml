@@ -37,9 +37,8 @@
     #chart
 
 :javascript
-  var project = new Analytics.Models.Project(#{@project.attributes.to_json})
+  var project = new Analytics.Models.Project(#{@project.js_attributes.to_json})
   var report = reports_router.report(#{(@report.attributes).merge({:report_tab => @report_tab.js_attributes}).to_json});
-  var segments_router = new Analytics.Routers.SegmentsRouter([]);
 
 :css
   .left{

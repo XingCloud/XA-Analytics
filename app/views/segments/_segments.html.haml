@@ -7,10 +7,10 @@
         .GN 默认用户群
         %ul
           - Segment.template.each do |segment|
-            %li
+            %li{:value => segment.id}
               %span &nbsp;
               #default_segment
-                %input{:type=>"checkbox",:id => "segment_#{segment.id}"}
+                %input{:type=>"checkbox",:id => "segment_#{segment.id}",:name=>"segment_id",:value => segment.id}
                   %label{:for =>"segment_#{segment.id}"}= segment.name
 
     .tB
@@ -18,12 +18,12 @@
         .GN 自定义用户群
         %ul
           - Segment.customs(@project).each do |custom|
-            %li
+            %li{:value => custom.id}
               %span.e= link_to_delete project_segment_path(@project,custom)
               %span.e= link_to "编辑","javascript:void(0)",:onclick=>"edit_segment('#{edit_project_segment_path(@project,custom)}')"
 
               #custom_segment
-                %input{:type=>"checkbox",:id =>"segment_#{custom.id}"}
+                %input{:type=>"checkbox",:id =>"segment_#{custom.id}",:name=>"segment_id",:value => custom.id}
                   %label{:for => "segment_#{custom.id}"}= custom.name
 
     .um

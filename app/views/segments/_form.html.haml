@@ -14,21 +14,4 @@
   - else
     %h3 新建用户群
     %hr
-
-  = form_for @segment, :url => "#", :html => {:class => "form-horizontal", :onsubmit => "return false"} do |f|
-    %fieldset
-      .control-group
-        = f.label :name, "名称", :class => "control-label"
-        .controls
-          = f.text_field :name
-        .03
-          .dY
-            .te
-              .Ai#expressionlist
-                = render :partial=>'shared/template',:locals => {:segment => @segment,:idx => 0}
-    .form-actions
-      - if @segment.persisted?
-        %a.btn.btn-primary{:onclick => "segments_router.update('edit_segment_#{@segment.id}', #{@segment.id})"} 保存
-      - else
-        %a.btn.btn-primary{:onclick => "segments_router.create('new_segment')"} 保存
-      %a.btn{:href => "#/segments"} 取消
+  = render "segments/common"
