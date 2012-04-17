@@ -14,7 +14,6 @@ class Analytics.Routers.SegmentsRouter extends Backbone.Router
 
   index: () ->
     if project?
-      alert('haha')
       Analytics.Request.get '/projects/' + project.get("id") + '/segments', {}, (data) ->
         $("#container").html data
     else
