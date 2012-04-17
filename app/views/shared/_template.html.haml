@@ -8,8 +8,6 @@
         = select_tag :'expression_operator[]',options_for_select(translate_collection(Expression::EXPRESSION_OPERATORS,:scope => 'segment')),{:class=>'chzn-select',:tabindex=>"-1", :id => "segment_expression_operator" }
         = text_field_tag :'expression_value[]',nil,:id=>"segment_expression_value"
   .wl.dI{:id => "and_#{idx}"} 及
-  .jU
-    %span.e　删除
   .Rs
     .Ik
       %span.e#add_expression 添加"AND"语句
@@ -26,8 +24,6 @@
           = select_tag :'expression_operator[]',options_for_select(translate_collection(Expression::EXPRESSION_OPERATORS,:scope => 'segment'),segment.operator),{:class=>'chzn-select',:tabindex=>"-1", :id => "segment_expression_operator_#{segment.id}" }
           = text_field_tag :'expression_value[]',segment.value,:id=>"segment_expression_value_#{segment.id}"
     .wl.dI{:id => "and_s#{idx}"} 及
-    .jU
-      %span.e　删除
   .Rs
     .Ik
       %span.e#add_expression 添加"AND"语句
@@ -43,6 +39,12 @@
       });
 
     })
+    //
+    if($(".jU span").length <= 1){
+      $(".jU span").hide();
+    }else{
+      $(".jU span").show();
+    }
   });
 
   function remove_expression(exp){
