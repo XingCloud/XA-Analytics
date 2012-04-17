@@ -1,7 +1,6 @@
 Analytics.Views.Segments ||= {}
 
 class Analytics.Views.Segments.IndexView extends Backbone.View
-  template: JST["backbone/templates/segments/segment"]
   el: "#segment_list"
   events:
     "click span#segment_apply":"segment_query"
@@ -18,7 +17,7 @@ class Analytics.Views.Segments.IndexView extends Backbone.View
     $("#segment_list").hide();
 
   select_segment: () ->
-    alert("select_segment");
+    project.set({"": []})
 
 
 

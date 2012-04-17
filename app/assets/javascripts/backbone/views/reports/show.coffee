@@ -225,19 +225,28 @@ class Analytics.Views.Reports.ShowView extends Backbone.View
     options.series = []
 
     metrics = @model.get("report_tab").metrics
-    for metric in metrics
-      options.series.push({
-        name: metric.name,
-        id: metric.id,
-        data: []
-      })
-      if @model.get("compare")
+    segments = project.get("segments")
+    if not segment_ids? or segment_ids.length == 0
+      segments = [null]
+    for segment in segments
+      for metric in metrics
+        name = metric.name
+        id = "metric"+metric.id
+        if segment?
+          name = name + "(" + segment.name + ")"
+          id = id+"_segment"+segment.id
         options.series.push({
-          name: metric.name+"(对比)",
-          id: "compare"+metric.id,
-          data: [],
-          xAxis: 1
+          name: name,
+          id: id,
+          data: []
         })
+        if @model.get("compare")
+          options.series.push({
+            name: name+"(对比)",
+            id: "compare_"+id,
+            data: [],
+            xAxis: 1
+          })
 
     @chart = new Highcharts.Chart(options)
 
@@ -248,31 +257,42 @@ class Analytics.Views.Reports.ShowView extends Backbone.View
     $.blockUI({
       message: $('#loader-message')
     })
-    $.ajax({
-      url: @base_url(@model) + "/data",
-      dataType: "json",
-      type: "get",
-      data: @model.ajax_attrs(),
-      success: @success_resp
-    })
+    params = @model.ajax_params(project.get("segments"))
+    Analytics.Request.counter = params.length
+    for param in params
+      $.ajax({
+        url: @base_url(@model) + "/data",
+        dataType: "json",
+        type: "get",
+        data: param,
+        success: @success_resp,
+        error: @error_resp
+      })
 
   destroy: () ->
     @date_picker.remove()
     @rate.remove()
     @remove()
 
+  error_resp: (resp) ->
+    Analytics.Request.counter = Analytics.Request.counter - 1
+    if Analytics.Request.counter == 0
+      $.unblockUI()
+
   success_resp: (resp) ->
     report = reports_router.reports.find((item) -> item.id == resp.report_id)
     if report?
+      if resp["result"]
+        data = ([Analytics.Utils.parseUTCDate(num[0]), num[1]] for num in resp["data"])
+        id = "metric"+resp["metric_id"]
+        if resp["segment_id"]?
+          id = id+"_segment"+resp["segment_id"]
+        if resp["compare"] == "true"
+          id = "compare_"+id
+        report.view.chart.get(id).setData(data)
+    Analytics.Request.counter = Analytics.Request.counter - 1
+    if Analytics.Request.counter == 0
       $.unblockUI()
-      if resp.status == 0
-        for series in resp.data
-          if series["return"]["result"]
-            data = ([Analytics.Utils.parseUTCDate(num[0]), num[1]] for num in series["return"]["data"])
-            report.view.chart.get(series["id"]).setData(data)
-          if series["compare"] and series["compare_return"]["result"]
-            data = ([Analytics.Utils.parseUTCDate(num[0]), num[1]] for num in series["compare_return"]["data"])
-            report.view.chart.get("compare"+series["id"]).setData(data)
 
   tick_interval: () ->
     rate = @model.get("rate")

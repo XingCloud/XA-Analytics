@@ -16,44 +16,6 @@ class AnalyticService
     @logger
   end
 
-  def request_metrics_data(identifier, options, metrics)
-    analytic_options = {
-        :project_id     => identifier,
-        :interval       => options[:rate].upcase,
-        :segment        => options[:segment],
-        :start_time     => options[:start_time],
-        :end_time       => options[:end_time]
-    }
-    if options[:compare] == "true"
-      analytic_compare_options = {
-          :project_id     => identifier,
-          :interval       => options[:rate].upcase,
-          :segment        => options[:segment],
-          :start_time     => options[:compare_start_time],
-          :end_time       => options[:compare_end_time]
-      }
-    end
-    metrics_data = []
-    metrics.each do |metric|
-      metric_data = request_metric_data(analytic_options, metric)
-      if options[:compare] == "true"
-        compare_metric_data = request_metric_data(analytic_compare_options, metric)
-        metrics_data.push({:id => metric.id, :name => metric.name, :compare => true, :return => metric_data, :compare_return => compare_metric_data})
-      else
-        metrics_data.push({:id => metric.id, :name => metric.name, :compare => false, :return => metric_data})
-      end
-    end
-    metrics_data
-  end
-
-  def self.check_event_key(project, target_row, condition)
-    options = {:project_id => project.identifier, :target_row => target_row, :condition => filter_condition(condition, target_row)}
-    
-    commit("/dd/evlist", {:params => options.to_json })
-  end
-  
-  private
-
   def request_metric_data(analytic_options, metric)
     options = analytic_options.merge metric_option_of(metric)
 
@@ -70,6 +32,15 @@ class AnalyticService
 
     self.class.commit("/dd/event", {:params => options.to_json, :p => 1})
   end
+
+  def self.check_event_key(project, target_row, condition)
+    options = {:project_id => project.identifier, :target_row => target_row, :condition => filter_condition(condition, target_row)}
+    
+    commit("/dd/evlist", {:params => options.to_json })
+  end
+  
+  private
+
 
   def self.filter_condition(condition, target_row)
     condition.each do |k,v|

@@ -33,3 +33,5 @@ Analytics.Request.delete = (url, data, callback) ->
     success : (rtdata) ->
       callback(rtdata)
   })
+
+Analytics.Request.counter = 0
