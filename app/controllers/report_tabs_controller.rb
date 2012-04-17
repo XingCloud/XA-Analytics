@@ -4,6 +4,8 @@ class ReportTabsController < ApplicationController
 
   def data
     service = AnalyticService.new()
+    segment = Segment.find_by_id(params[:segment_id])
+    params[:segment] =  segment.to_hsh.to_json unless segment.blank?
     render :json => build_results(0, service.request_metrics_data(@project.identifier, params, @report_tab.metrics), "")
   rescue Timeout::Error => e
     render :json => build_results(-1, {}, e.message)

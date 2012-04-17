@@ -3,6 +3,7 @@ class Project < ActiveRecord::Base
   has_many :reports, :dependent => :destroy
   has_many :report_tabs, :dependent => :destroy
   has_many :metrics, :dependent => :destroy
+  has_many :segments,:dependent => :destroy
   
   validate :identifier, :presence => true, :uniqueness => true
 

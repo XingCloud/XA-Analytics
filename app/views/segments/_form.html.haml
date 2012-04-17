@@ -25,7 +25,7 @@
           .dY
             .te
               .Ai#expressionlist
-                = render :partial=>'shared/template',:locals => {:segment => @segment}
+                = render :partial=>'shared/template',:locals => {:segment => @segment,:idx => 0}
     .form-actions
       - if @segment.persisted?
         %a.btn.btn-primary{:onclick => "segments_router.update('edit_segment_#{@segment.id}', #{@segment.id})"} 保存

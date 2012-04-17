@@ -3,7 +3,7 @@ source 'https://rubygems.org'
 gem 'rails', '3.2.2.rc1'
 
 gem 'mysql2'
-gem 'sqlite3', :group => "developement"
+#gem 'sqlite3', :group => "developement"
 
 group :assets do
   gem 'sass-rails'

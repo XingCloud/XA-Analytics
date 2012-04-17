@@ -9,7 +9,12 @@ class Expression < ActiveRecord::Base
     if self.name.match("time")
       {self.name => {"$handler" => "DateSplittor"}}
     else
-      {self.name => {"$#{self.operator}" => self.value}}
+      if ["grade","game_time","pay_amount"].include? self.name
+        {self.name => {"$#{self.operator}" => self.value.to_i}}
+      else
+        {self.name => {"$#{self.operator}" => self.value}}
+      end
+
     end
   end
 

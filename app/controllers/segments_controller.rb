@@ -1,6 +1,7 @@
 class SegmentsController < ApplicationController
 
   before_filter :find_project
+  @@IDX = 0
 
   def new
     @segment = Segment.new
@@ -33,7 +34,8 @@ class SegmentsController < ApplicationController
   end
 
   def template
-    render :partial => 'shared/template', :locals => {:segment => nil}
+    @idx = @@IDX += 1
+    render :partial => 'shared/template',:locals => {:segment => nil,:idx => @idx}
   end
 
 

@@ -1,33 +1,42 @@
 - if segment.blank? || segment.new_record?
-  .Rs.Gl
+  .jU{:id => "remove_#{idx}",:onclick => "javascript:remove_expression('#{idx}')"}
+    %span.e　删除
+  .Rs.Gl{:id => "expression_#{idx}"}
     .jI
       .Ik.Gl
         = select_tag :'expression_name[]', options_for_select(translate_collection(Segment::DEFAULT_USER_ATTRIBUTES,:scope=>'segment'),nil),{:class=>'chzn-select',:tabindex=>"-1", :id => "segment_expression_name" }
         = select_tag :'expression_operator[]',options_for_select(translate_collection(Expression::EXPRESSION_OPERATORS,:scope => 'segment')),{:class=>'chzn-select',:tabindex=>"-1", :id => "segment_expression_operator" }
         = text_field_tag :'expression_value[]',nil,:id=>"segment_expression_value"
-  .wl.dI 及
+  .wl.dI{:id => "and_#{idx}"} 及
+  .jU
+    %span.e　删除
   .Rs
     .Ik
-      %span.e 添加"AND"语句
+      %span.e#add_expression 添加"AND"语句
+
 
 - else
-  - segment.expressions.each do |segment|
-    .Rs.Gl
+  - segment.expressions.each_with_index do |segment,idx|
+    .jU{:id => "remove_s#{idx}",:onclick => "remove_expression('s#{idx}');"}
+      %span.e　删除
+    .Rs.Gl{:id => "expression_s#{idx}"}
       .jI
         .Ik.Gl
           = select_tag :'expression_name[]', options_for_select(translate_collection(Segment::DEFAULT_USER_ATTRIBUTES,:scope=>'segment'),segment.name),{:class=>'chzn-select',:tabindex=>"-1", :id => "segment_expression_name_#{segment.id}" }
           = select_tag :'expression_operator[]',options_for_select(translate_collection(Expression::EXPRESSION_OPERATORS,:scope => 'segment'),segment.operator),{:class=>'chzn-select',:tabindex=>"-1", :id => "segment_expression_operator_#{segment.id}" }
           = text_field_tag :'expression_value[]',segment.value,:id=>"segment_expression_value_#{segment.id}"
-    .wl.dI 及
+    .wl.dI{:id => "and_s#{idx}"} 及
+    .jU
+      %span.e　删除
   .Rs
     .Ik
-      %span.e 添加"AND"语句
+      %span.e#add_expression 添加"AND"语句
 
 
 
 :javascript
   $(function(){
-    $("span.e").click(function(){
+    $("#add_expression").click(function(){
       $.get("#{segments_template_path}",function(data){
        $($(".Rs").last()).remove();
        $("#expressionlist").append(data);
@@ -35,3 +44,9 @@
 
     })
   });
+
+  function remove_expression(exp){
+     $("#remove_" + exp).remove();
+     $("#expression_" + exp).remove();
+     $("#and_" + exp).remove();
+  }

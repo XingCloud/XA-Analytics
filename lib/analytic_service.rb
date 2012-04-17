@@ -20,6 +20,7 @@ class AnalyticService
     analytic_options = {
         :project_id     => identifier,
         :interval       => options[:rate].upcase,
+        :segment        => options[:segment],
         :start_time     => options[:start_time],
         :end_time       => options[:end_time]
     }
@@ -27,6 +28,7 @@ class AnalyticService
       analytic_compare_options = {
           :project_id     => identifier,
           :interval       => options[:rate].upcase,
+          :segment        => options[:segment],
           :start_time     => options[:compare_start_time],
           :end_time       => options[:compare_end_time]
       }

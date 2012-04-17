@@ -193,3 +193,27 @@ li.pU {
 a, a:visited, .e {
     color: #005C9C;
 }
+
+
+.jU {
+    -moz-border-bottom-colors: none;
+    -moz-border-image: none;
+    -moz-border-left-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-top-colors: none;
+    background-color: #EFEFEF;
+    border-color: #CCCCCC #CCCCCC -moz-use-text-color;
+    border-radius: 3px 3px 0 0;
+    border-width: 1px 1px 0;
+    float: right;
+    margin: -19px 20px 0 0;
+    padding: 2px 5px;
+    position: absolute;
+    right: 50px;
+    text-align: center;
+}
+
+.te span.e {
+    font-weight: bold;
+    text-decoration: none;
+}
