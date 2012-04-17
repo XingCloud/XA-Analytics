@@ -292,7 +292,7 @@ class Analytics.Views.Reports.ShowView extends Backbone.View
         id = "metric"+resp["metric_id"]
         if resp["segment_id"]?
           id = id+"_segment"+resp["segment_id"]
-        if resp["compare"] == "true"
+        if resp["compare"]
           id = "compare_"+id
         report.view.chart.get(id).setData(data)
     Analytics.Request.counter = Analytics.Request.counter - 1
