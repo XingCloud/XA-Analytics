@@ -7,6 +7,7 @@ class Analytics.Routers.ReportsRouter extends Backbone.Router
     "/reports/:id/delete" : "delete"
     "/reports/:id/set_category/:category_id" : "set_category"
     "/reports/:id/report_tabs/:report_tab_id" : "choose_tab"
+    "/reports/:id/toggle": "toggle"
 
 
   initialize: () ->
@@ -91,3 +92,10 @@ class Analytics.Routers.ReportsRouter extends Backbone.Router
     new Analytics.Views.Reports.ShowView({model: new_report})
     new_report.view.render()
     @reports.add new_report
+    new_report
+
+  toggle: () ->
+    if $("#segment_list").is(":visible")
+      $("#segment_list").hide()
+    else
+      $("#segment_list").show()

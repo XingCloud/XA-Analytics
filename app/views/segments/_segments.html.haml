@@ -19,7 +19,8 @@
         %ul
           - Segment.customs(@project).each do |custom|
             %li{:value => custom.id}
-              %span.e= link_to_delete project_segment_path(@project,custom)
+              %span.e
+                %a{:href => "#/segments/#{custom.id}/delete"} 删除
               %span.e= link_to "编辑","javascript:void(0)",:onclick=>"edit_segment('#{edit_project_segment_path(@project,custom)}')"
 
               #custom_segment
