@@ -10,7 +10,7 @@ class Analytics.Models.ReportTab extends Backbone.Model
     @set options
 
   add_metric_url: (tab_index) ->
-    if not @get("project_id")?
+    if not project?
       "/admin/template_metrics/new?tab_index="+tab_index
     else
-      "/projects/"+@get("project_id")+"/metrics/new?tab_index="+tab_index
+      "/projects/"+project.id+"/metrics/new?tab_index="+tab_index
