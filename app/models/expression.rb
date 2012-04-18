@@ -2,7 +2,7 @@ class Expression < ActiveRecord::Base
   belongs_to :segment
 
   #
-  EXPRESSION_OPERATORS = ["gt","gte", "lt", "lte", "eq"]
+  EXPRESSION_OPERATORS = ["gt","gte", "lt", "lte", "eq","handler"]
 
   # 组装给后端的数据
   def to_hsh
