@@ -35,6 +35,7 @@ class ProjectsController < ApplicationController
   private
 
   def first_report(project)
+    report = nil
     default_categories = ReportCategory.where({:project_id => nil}).order("position asc")
     default_reports = Report.where({:project_id => nil, :report_category_id => nil})
     categories = project.report_categories
