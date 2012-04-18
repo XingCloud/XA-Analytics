@@ -1,37 +1,28 @@
 Analytics.Request ||= {}
 
 Analytics.Request.get = (url, params, callback) ->
-  $.get(url, params).success((data) ->
-    #do something here
-    callback(data)
-  ).error(() ->
-    #do something here
-  )
+  Analytics.Request.ajax(url, params, "GET", callback)
 
 Analytics.Request.post = (url, data, callback) ->
-  $.post(url, data).success((rtdata) ->
-    #do something here
-    callback(rtdata)
-  ).error(() ->
-    #do something here
-  )
+  Analytics.Request.ajax(url, data, "POST", callback)
 
 Analytics.Request.put = (url, data, callback) ->
-  $.ajax({
-    type : 'PUT'
-    url : url
-    data : data
-    success : (rtdata) ->
-      callback(rtdata)
-  })
+  Analytics.Request.ajax(url, data, "PUT", callback)
 
 Analytics.Request.delete = (url, data, callback) ->
+  Analytics.Request.ajax(url, data, "DELETE", callback)
+
+Analytics.Request.ajax = (url, data, type, success) ->
+  $('#loading-message').fadeIn(200)
   $.ajax({
-    type : 'DELETE'
+    type : type
     url : url
     data : data
     success : (rtdata) ->
-      callback(rtdata)
+      $('#loading-message').fadeOut(200)
+      success(rtdata)
+    error: (rtdata) ->
+      $('#loading-message').fadeOut(200)
   })
 
 Analytics.Request.counter = 0

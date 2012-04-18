@@ -20,7 +20,7 @@ class Analytics.Views.Segments.IndexView extends Backbone.View
     {"id": $(segment).attr("value"),"name":$(segment).next().text()}
 
   segment_cancel: () ->
-    $("#segment_list").hide();
+    $("#segment_list").toggle();
 
   select_segment: (event) ->
 #    if $(".H5").find("input:checked").length >= 2

@@ -1,7 +1,7 @@
 class ReportsController < ProjectBaseController
   before_filter :find_report, :only => [:edit, :update, :destroy, :set_category]
   before_filter :find_report_with_template, :only => [:show]
-  before_filter :html_header, :only => [:index, :new, :edit, :show]
+  before_filter :html_header, :only => [:index, :new, :edit, :show, :create, :update, :destroy, :set_category]
   before_filter :json_header, :only => [:create, :update, :destroy, :set_category]
   
   def index
