@@ -21,6 +21,12 @@
 :javascript
   $(function(){
    $("#segment_console").click(function(){
-    $("#segment_list").hide();
+    if(typeof(project) == "undefined"){
+      history.back();
+    }
+    else {
+      $("#segment_list").hide();
+    }
+
    })
   })
