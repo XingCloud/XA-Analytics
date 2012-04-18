@@ -312,8 +312,10 @@ class Analytics.Views.Reports.ShowView extends Backbone.View
   tick_interval: () ->
     rate = @model.get("rate")
     period = @model.get("end_time").getTime() - @model.get("start_time").getTime()
-    if period <= 1000 * 60 * 60 * 24
+    if period <= 0
       1000 * 60 * 60 * 2
+    if period <= 1000 * 60 * 60 * 24
+      1000 * 60 * 60 * 3
     else if period <= 1000 * 60 * 60 * 24 * 14
       1000 * 60 * 60 * 24
     else if period <= 1000 * 60 * 60 * 24 * 72
@@ -333,6 +335,6 @@ class Analytics.Views.Reports.ShowView extends Backbone.View
     "/projects/"+project.id+"/reports/"+@model.get("id")+"/report_tabs/"+$('#report_tab_id').val()
 
   toggle_segment: () ->
-    Analytics.Request.get "/projects/"+project.id+"/reports/"+@model.get("id") + "/render_segment",(data) ->
+    Analytics.Request.get "/projects/"+project.id+"/reports/"+@model.get("id") + "/render_segment",{}, (data) ->
       $("#segment_list").html(data)
     $('#segment_list').toggle()
