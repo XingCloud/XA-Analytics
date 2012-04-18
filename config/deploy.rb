@@ -1,5 +1,5 @@
-set :application, "analytic"
-set :repository,  "git@119.254.28.37:analytic.git"
+set :application, "XingCloud-Analytic-2.0"
+set :repository,  "git@github.com:fangjian601/XingCloud-Analytics.git"
 
 set :scm, :git
 # Or: `accurev`, `bzr`, `cvs`, `darcs`, `git`, `mercurial`, `perforce`, `subversion` or `none`
@@ -19,7 +19,7 @@ set :scm, :git
 
 set :user, "app"
 set :use_sudo, false
-set :deploy_to, "/home/app/apps/analytic"
+set :deploy_to, "/home/app/apps/analytic2.0"
 
 set :branch, "master"
 set :git_shallow_clone, 1
@@ -30,9 +30,9 @@ default_environment["PATH"] = "/sbin:/bin:/usr/kerberos/bin:/usr/local/bin:/bin:
 
 task :custom_symlink do
   
-  # %w(tmp log).each do |dir|
-  #   run "cd #{release_path} && rm -rf #{dir} && ln -sf #{shared_path}/#{dir} ."
-  # end
+  %w(tmp log).each do |dir|
+    run "cd #{release_path} && rm -rf #{dir} && ln -sf #{shared_path}/#{dir} ."
+  end
   
   %w(database app_config).each do |config_file|
     run "cd #{release_path} && rm -rf config/#{config_file}.yml && ln -sf #{shared_path}/config/#{config_file}.yml config/#{config_file}.yml"
