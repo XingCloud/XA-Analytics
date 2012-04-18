@@ -10,6 +10,7 @@ Analytic::Application.routes.draw do
 
     member do
       post :event_item
+      get  :dashboard
     end
 
     resources :metrics

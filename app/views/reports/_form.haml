@@ -31,7 +31,7 @@
           %a.btn.btn-primary{:onclick => "reports_router.update('edit_report_#{@report.id}', #{@report.id})"} 保存
         - else
           %a.btn.btn-primary{:onclick => "reports_router.create('new_report')"} 保存
-        %a.btn{:href => "#/reports"} 取消
+        %a.btn{:onclick => "history.back()"} 取消
 
 
 :javascript
