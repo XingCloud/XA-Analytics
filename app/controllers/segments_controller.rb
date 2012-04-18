@@ -11,7 +11,7 @@ class SegmentsController < ApplicationController
 
   def create
     @segment = Segment.new(params[:segment].merge!(:project_id => @project.id))
-    @report = params[:report_id].blank? ? @project.reports.first : @project.reports.find(params[:report_id])
+    @report = find_report(@project)
     @report_tab = @report.report_tabs.first
     if @segment.create_segment(params[:expression_name], params[:expression_operator], params[:expression_value])
       render :partial => "reports/show"
@@ -27,7 +27,7 @@ class SegmentsController < ApplicationController
 
   def update
     @segment = Segment.find_by_id(params[:id])
-    @report = params[:report_id].blank? ? @project.reports.first : @project.reports.find(params[:report_id])
+    @report = find_report(@project)
     @report_tab = @report.report_tabs.first
     if @segment.update_segment(params[:segment], params[:expression_name], params[:expression_operator], params[:expression_value])
       render :partial => "reports/show"
@@ -54,6 +54,18 @@ class SegmentsController < ApplicationController
   end
 
   private
+
+  def find_report(project)
+    if params[:report_id].blank?
+      project.reports.first
+    else
+      if project.reports.find_by_id(params[:report_id]).nil?
+        Report.where({:project_id => nil, :id => params[:report_id]}).first
+      else
+        project.reports.find(params[:report_id])
+      end
+    end
+  end
 
   def find_project
     @project = Project.find_by_id(params[:project_id])
