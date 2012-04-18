@@ -36,9 +36,8 @@
 
 :javascript
   $(function(){
-
     $("#add_custom_sengment").click(function(){
-      $.get("#{new_project_segment_path(@project)}",function(data){
+      Analytics.Request.get("#{new_project_segment_path(@project)}",{},function(data){
         $("#segment_list").html(data);
       });
     });
@@ -89,7 +88,7 @@
 
   //
   function edit_segment(url){
-    $.get(url,function(data){
+   Analytics.Request.get(url,{},function(data){
       $("#segment_list").html(data);
     });
   }

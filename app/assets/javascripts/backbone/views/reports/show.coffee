@@ -333,9 +333,6 @@ class Analytics.Views.Reports.ShowView extends Backbone.View
     "/projects/"+project.id+"/reports/"+@model.get("id")+"/report_tabs/"+$('#report_tab_id').val()
 
   toggle_segment: () ->
-    $.get "/projects/"+project.id+"/reports/"+@model.get("id") + "/render_segment",(data) ->
+    Analytics.Request.get "/projects/"+project.id+"/reports/"+@model.get("id") + "/render_segment",(data) ->
       $("#segment_list").html(data)
     $('#segment_list').toggle()
-
-
-
