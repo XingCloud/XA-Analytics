@@ -21,4 +21,9 @@
           = render(:partial => "projects/left_menu",
                    :locals => {:categories => @project.report_categories.all(),
                                :reports => @project.reports.where(:report_category_id => nil).all()})
+- if not @report.nil?
+  #nav-create-report{:style => "text-align: center;"}
+    %a.btn.btn-primary.btn-large{:href => "#/reports/new"}
+      %i.icon-plus.icon-white
+      新建报告
 
