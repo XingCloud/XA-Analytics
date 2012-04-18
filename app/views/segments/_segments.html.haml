@@ -53,6 +53,7 @@
   //add background
   $(".H5 ul li").each(function(){
     $(this).bind("click",function(){
+      var item = $(this).find("input[type='checkbox']")[0]
       if ($(".H5").find("input:checked").length >= 2){
         $(".H5").find("input:not(:checked)").each(function(){
           $(this).attr("disabled","disabled");
