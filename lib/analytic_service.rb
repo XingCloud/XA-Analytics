@@ -3,7 +3,7 @@ require "net/http"
 
 class AnalyticService
   
-  BASE_URL = "http://50.22.226.204:8080"
+  BASE_URL = APP_CONFIG[:analytics_base_url]
   
   def self.logger
     unless @logger

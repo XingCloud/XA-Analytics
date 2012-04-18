@@ -34,17 +34,15 @@ class Analytics.Routers.ReportTabsRouter extends Backbone.Router
     report_tab = new Analytics.Models.ReportTab(option)
     @report_tabs.add report_tab
 
-    header = new Analytics.Views.ReportTabs.EditHeaderView({
-      model : report_tab,
-      id : "report_tab_header" + @index_increment,
-      className : (if active then "active tab_header" else "tab_header")})
-    $('#add_tab').before header.render().el
+    id = "report_tab_header" + @index_increment
+    className = if active then "active tab_header" else "tab_header"
+    $('#add_tab').before('<li class="'+className+'" id="'+id+'"></li>')
+    new Analytics.Views.ReportTabs.EditHeaderView({model : report_tab, el: "#"+id}).render()
 
-    body = new Analytics.Views.ReportTabs.EditBodyView({
-      model : report_tab,
-      id : "report_tab" + @index_increment,
-      className : (if active then "active tab-pane" else "tab-pane")})
-    $("#tab_body_container").append body.render().el
+    id = "report_tab" + @index_increment
+    className = if active then "active tab-pane" else "tab-pane"
+    $('#tab_body_container').append('<div class="'+className+'" id="'+id+'"></div>')
+    new Analytics.Views.ReportTabs.EditBodyView({model : report_tab, el: "#"+id}).render()
 
     @index_increment = @index_increment + 1
 

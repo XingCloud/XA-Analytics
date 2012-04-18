@@ -2,7 +2,6 @@ Analytics.Views.ReportTabs ||= {}
 
 class Analytics.Views.ReportTabs.EditHeaderView extends Backbone.View
   template: JST["backbone/templates/report_tabs/edit_header"]
-  tagName: "li"
 
   initialize: () ->
     _.bindAll(this, "render", "click")
@@ -11,7 +10,6 @@ class Analytics.Views.ReportTabs.EditHeaderView extends Backbone.View
 
   render: () ->
     $(@el).html(@template({model : @model}))
-    this
 
   click: () ->
     $(@el).find('a[data-toggle="tab"]').click()
@@ -21,7 +19,8 @@ class Analytics.Views.ReportTabs.EditHeaderView extends Backbone.View
 
 class Analytics.Views.ReportTabs.EditBodyView extends Backbone.View
   template: JST["backbone/templates/report_tabs/edit_body"]
-  tagName: "div"
+  events:
+    "click .type-btn" : "change_type"
 
   initialize: () ->
     _.bindAll this, "render"
@@ -30,8 +29,12 @@ class Analytics.Views.ReportTabs.EditBodyView extends Backbone.View
 
   render: () ->
     $(@el).html(@template({model : @model}))
-    this
 
   destroy: () ->
     $(@el).remove()
+
+  change_type: (ev) ->
+    $(@el).find(' .type-btn').removeClass('active')
+    $(ev.currentTarget).addClass('active')
+    $('#report_report_tabs_attributes_'+@model.get("index")+'_chart_type').val($(ev.currentTarget).attr("value"))
 
