@@ -36,6 +36,7 @@
 
 :javascript
   $(function(){
+
     $("#add_custom_sengment").click(function(){
       $.get("#{new_project_segment_path(@project)}",function(data){
         $("#segment_list").html(data);
@@ -48,32 +49,59 @@
        });
     });
 
+    //add background
+      $(".H5 ul li").each(function(){
+        init_check_box($(this))
+        $(this).bind("click",function(){
+
+          var item = $(this).find("input[type='checkbox']")[0]
+          if ($(".H5").find("input:checked").length == 2){
+            $(".H5").find("input:not(:checked)").each(function(){
+              $(this).attr("disabled","disabled");
+            })
+            release_checked($(this))
+          }else{
+                if($(item).attr("checked")){
+                  $(item).attr("checked",false)
+                  $(this).removeClass("ym");
+                }else{
+                  $(item).attr("checked",true)
+                  $(this).addClass("ym");
+                }
+          }
+
+        });
+      });
+
   });
 
-  //add background
-  $(".H5 ul li").each(function(){
-    $(this).bind("click",function(){
-      var item = $(this).find("input[type='checkbox']")[0]
-      if ($(".H5").find("input:checked").length >= 2){
-        $(".H5").find("input:not(:checked)").each(function(){
-          $(this).attr("disabled","disabled");
-        })
-      }else{
-            if($(item).attr("checked")){
-              $(item).attr("checked",false)
-              $(this).removeClass("ym");
-            }else{
-              $(item).attr("checked",true)
-              $(this).addClass("ym");
-            }
-      }
+  function release_checked(item){
+    var ele = $(item).find("input[type='checkbox']")[0]
+    if($(ele).attr("checked")){
+      $(ele).attr("checked",false)
+      $(item).removeClass("ym");
+    }
+    $(".H5").find("input:not(:checked)").each(function(){
+      $(this).removeAttr("disabled");
+    })
+  }
 
-    });
-  });
 
   //
   function edit_segment(url){
     $.get(url,function(data){
       $("#segment_list").html(data);
     });
+  }
+
+  function init_check_box(item){
+   var ele = $(item).find("input[type='checkbox']")[0]
+   if ( typeof project != 'undefined'){
+    $(project.get("segments")).each(function(){
+         if ($(this).attr("id") == $(ele).attr("value")){
+            $(ele).attr("checked",true)
+            $(item).addClass("ym")
+         }
+       })
+   }
   }

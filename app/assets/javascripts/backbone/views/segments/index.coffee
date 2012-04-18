@@ -13,14 +13,14 @@ class Analytics.Views.Segments.IndexView extends Backbone.View
   segment_query: () ->
     segment_list =  $(".H5").find("input:checked")
     segments =  (@new_segment(segment) for segment in segment_list)
-
     project.set("segments",segments);
+    $("#segment_list").hide();
 
   new_segment: (segment) ->
     {"id": $(segment).attr("value"),"name":$(segment).next().text()}
 
   segment_cancel: () ->
-    $("#segment_list").toggle();
+    $("#segment_list").hide();
 
   select_segment: (event) ->
 #    if $(".H5").find("input:checked").length >= 2
