@@ -12,6 +12,8 @@
       - if not @report.project_id.nil?
         %a.btn{:href => "#/reports/#{@report.id}/edit"}
           %i.icon-edit{:title => "编辑报告"}
+      %a#refresh-btn.btn
+        %i.icon-refresh{:title => "刷新"}
 
     #report-datepicker.right
 

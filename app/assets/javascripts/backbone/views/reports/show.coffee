@@ -177,6 +177,7 @@ class Analytics.Views.Reports.ShowView extends Backbone.View
   el: "#block-container"
   events:
     "click #segment-btn": "toggle_segment"
+    "click #refresh-btn": "render"
 
   chart_options: () ->
     "credits":
@@ -200,7 +201,7 @@ class Analytics.Views.Reports.ShowView extends Backbone.View
       "showFirstLabel": true
       "type": "datetime"
       "labels":
-        "align": "right"
+        "align": "center"
         "formatter": () -> Highcharts.dateFormat('%b %d', this.value)
     "tooltip":
       "enabled": true
