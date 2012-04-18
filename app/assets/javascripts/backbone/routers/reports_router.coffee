@@ -1,6 +1,6 @@
 class Analytics.Routers.ReportsRouter extends Backbone.Router
   routes:
-    "" : "project_show"
+    "" : "dashboard"
     "/reports" : "index"
     "/reports/new" : "new"
     "/reports/:id" : "show"
@@ -14,7 +14,7 @@ class Analytics.Routers.ReportsRouter extends Backbone.Router
   initialize: () ->
     @reports = new Analytics.Collections.Reports()
 
-  project_show: () ->
+  dashboard: () ->
     Analytics.Request.get '/projects/'+project.get("id")+'/dashboard', {}, (data) ->
       $('#container').html data
 

@@ -19,6 +19,9 @@ class Analytics.Views.Reports.DatePickerView extends Backbone.View
     @toggle()
     @setup()
 
+  remove: () ->
+    $(@el).empty()
+
   setup: () ->
     $('#datepicker-calendar').DatePickerSetDate([@model.get("start_time"), @model.get("end_time")], true)
     $('#date-range-field span').text(@range_text(@model.get("start_time"), @model.get("end_time")))
@@ -174,6 +177,7 @@ class Analytics.Views.Reports.ShowView extends Backbone.View
   el: "#block-container"
   events:
     "click #segment-btn": "toggle_segment"
+    "click #refresh-btn": "render"
 
   chart_options: () ->
     "credits":
@@ -183,6 +187,7 @@ class Analytics.Views.Reports.ShowView extends Backbone.View
     "chart":
       "renderTo": "chart"
       "height": 200
+      "type": @model.get("report_tab").chart_type
     "yAxis":
       "min": 0
       "gridLineWidth": 0.5
@@ -196,7 +201,7 @@ class Analytics.Views.Reports.ShowView extends Backbone.View
       "showFirstLabel": true
       "type": "datetime"
       "labels":
-        "align": "right"
+        "align": "center"
         "formatter": () -> Highcharts.dateFormat('%b %d', this.value)
     "tooltip":
       "enabled": true

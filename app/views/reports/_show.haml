@@ -1,26 +1,27 @@
 .span2
   = render "projects/left_nav"
 #block-container.span10
-  .row-fluid
+  .row-fluid#report-header
     #report-title.left
       %h3
         = @report.title
-    #report-datepicker
-  .row-fluid
-    %hr
-    .btn-group
+        &nbsp;
+    .left.btn-group
       %a#segment-btn.btn
-        %i.icon-user
-        用户群
+        %i.icon-user{:title => "用户群"}
       - if not @report.project_id.nil?
         %a.btn{:href => "#/reports/#{@report.id}/edit"}
-          %i.icon-edit
-          编辑报告
-  .row-fluid
+          %i.icon-edit{:title => "编辑报告"}
+      %a#refresh-btn.btn
+        %i.icon-refresh{:title => "刷新"}
+
+    #report-datepicker.right
+
+  .row-fluid#report-tabs
+
     .te#segment_list{:style=>'display:none;'}
       =render :partial=>'segments/segments'
-    %br
-    %input#report_tab_id{:type => "hidden", :value => "#{@report_tab.id}"}
+
     %ul.nav.nav-tabs
       - @report.report_tabs.each do |tab|
         - if tab.id == @report_tab.id
@@ -31,10 +32,11 @@
           %li
             %a{:href => "#/reports/#{@report.id}/report_tabs/#{tab.id}"}
               = tab.title
-  #rate-container.row-fluid
 
-  .row-fluid
-    #chart
+  .row-fluid#rate-container
+  .row-fluid#chart
+
+%input#report_tab_id{:type => "hidden", :value => "#{@report_tab.id}"}
 
 :javascript
   var project = new Analytics.Models.Project(#{@project.js_attributes.to_json})
@@ -45,4 +47,12 @@
   }
   .right{
     float: right;
+  }
+
+  #report-header{
+    padding-bottom: 5px
+  }
+
+  #report-tabs{
+    padding-top: 5px;
   }
