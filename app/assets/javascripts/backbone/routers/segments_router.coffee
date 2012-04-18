@@ -5,7 +5,6 @@ class Analytics.Routers.SegmentsRouter extends Backbone.Router
     "/segments/:id" : "show"
     "/segments/:id/edit" : "edit"
     "/segments/:id/delete" : "destroy"
-    "/segments/toggle" : "toggle"
 
 
   initialize: (options) ->
@@ -42,8 +41,8 @@ class Analytics.Routers.SegmentsRouter extends Backbone.Router
 
   create: (form_id) ->
     if project?
-      Analytics.Request.post '/projects/' + project.get("id") + '/segments', $('#' + form_id).serialize(), (data) -> {}
-      window.location.href = "#/reports/" + report.get("id")
+      Analytics.Request.post '/projects/' + project.get("id") + '/segments?report_id=' + report.get("id"), $('#' + form_id).serialize(), (data) ->
+        $("#container").html data
     else
       Analytics.Request.post '/admin/template_segments', $('#' + form_id).serialize(), (data) -> {}
       window.location.href = "#/segments"
@@ -51,8 +50,8 @@ class Analytics.Routers.SegmentsRouter extends Backbone.Router
 
   update: (form_id, id) ->
     if project?
-      Analytics.Request.put '/projects/' + project.get("id") + '/segments/' + id, $('#' + form_id).serialize(), (data) -> {}
-      window.location.href = "#/reports/" + report.get("id")
+      Analytics.Request.put '/projects/' + project.get("id") + '/segments/' + id + '?report_id=' + report.get("id"), $('#' + form_id).serialize(), (data) ->
+        $("#container").html data
     else
       Analytics.Request.put '/admin/template_segments/' + id, $('#' + form_id).serialize(), (data) -> {}
       window.location.href = "#/segments"

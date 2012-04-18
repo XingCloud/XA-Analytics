@@ -1,7 +1,7 @@
 class SegmentsController < ApplicationController
 
   before_filter :find_project
-  before_filter :html_header, :only => [:new, :edit,:destroy]
+  before_filter :html_header, :only => [:new, :edit, :destroy]
   @@IDX = 0
 
   def new
@@ -11,8 +11,10 @@ class SegmentsController < ApplicationController
 
   def create
     @segment = Segment.new(params[:segment].merge!(:project_id => @project.id))
+    @report = params[:report_id].blank? ? @project.reports.first : @project.reports.find(params[:report_id])
+    @report_tab = @report.report_tabs.first
     if @segment.create_segment(params[:expression_name], params[:expression_operator], params[:expression_value])
-      render :json => @segment, :notice => t(:'segment.created.success')
+      render :partial => "reports/show"
     else
       render "new"
     end
@@ -25,8 +27,10 @@ class SegmentsController < ApplicationController
 
   def update
     @segment = Segment.find_by_id(params[:id])
+    @report = params[:report_id].blank? ? @project.reports.first : @project.reports.find(params[:report_id])
+    @report_tab = @report.report_tabs.first
     if @segment.update_segment(params[:segment], params[:expression_name], params[:expression_operator], params[:expression_value])
-      render :json => @segment, :notice => t(:'segment.updated.success')
+      render :partial => "reports/show"
     else
       render :edit
     end
@@ -42,7 +46,7 @@ class SegmentsController < ApplicationController
   def destroy
     @segment = @project.segments.find(params[:id])
     if @segment.destroy
-      render :json => @segment, :status => 200 , :notice => t(:'segment.destroy.success')
+      render :json => @segment, :status => 200, :notice => t(:'segment.destroy.success')
     else
       render :json => @segment, :notice => t(:'segment.destroy.failed')
     end

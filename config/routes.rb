@@ -17,6 +17,7 @@ Analytic::Application.routes.draw do
       member do
         get :set_category
       end
+      get :render_segment, :as => :collection
       resources :report_tabs do
         member do
           get :data

@@ -38,6 +38,10 @@ class ReportsController < ProjectBaseController
     end
     render :partial => "reports/show", :status => 200
   end
+
+  def render_segment
+    render :partial=>'segments/segments'
+  end
   
   def update
     @report.attributes = params[:report]
