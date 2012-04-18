@@ -44,19 +44,19 @@ class Analytics.Routers.ReportsRouter extends Backbone.Router
 
   create: (form_id) ->
     if project?
-      Analytics.Request.post '/projects/'+project.get("id")+'/reports', $('#'+form_id).serialize(), (data) -> {}
+      Analytics.Request.post '/projects/'+project.get("id")+'/reports', $('#'+form_id).serialize(), (data) ->
+        $('#container').html data
     else
-      Analytics.Request.post '/admin/template_reports', $('#'+form_id).serialize(), (data) -> {}
-
-    window.location.href = "#/reports"
+      Analytics.Request.post '/admin/template_reports', $('#'+form_id).serialize(), (data) ->
+        window.location.href = "#/reports"
 
   update: (form_id, id) ->
     if project?
-      Analytics.Request.put '/projects/'+project.get("id")+'/reports/'+id, $('#'+form_id).serialize(), (data) -> {}
+      Analytics.Request.put '/projects/'+project.get("id")+'/reports/'+id, $('#'+form_id).serialize(), (data) ->
+        $('#container').html data
     else
-      Analytics.Request.put '/admin/template_reports/'+id, $('#'+form_id).serialize(), (data) -> {}
-
-    window.location.href = "#/reports"
+      Analytics.Request.put '/admin/template_reports/'+id, $('#'+form_id).serialize(), (data) ->
+        window.location.href = "#/reports"
 
   delete: (id) ->
     if confirm("确认删除？")
