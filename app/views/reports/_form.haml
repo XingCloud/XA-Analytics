@@ -35,5 +35,7 @@
 
 
 :javascript
+  var metrics_router = new Analytics.Routers.MetricsRouter();
+  var report_tabs_router = new Analytics.Routers.ReportTabsRouter();
   report_tabs_router.set_tabs(#{@report.report_tabs.map(&:attributes).to_json});
   report_tabs_router.showMetrics(metrics_router, #{@report.metrics_attributes});

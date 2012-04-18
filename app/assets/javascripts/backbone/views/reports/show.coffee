@@ -171,6 +171,10 @@ class Analytics.Views.Reports.RateView extends Backbone.View
 
 class Analytics.Views.Reports.ShowView extends Backbone.View
 
+  el: "#block-container"
+  events:
+    "click #segment-btn": "toggle_segment"
+
   chart_options: () ->
     "credits":
       "enabled": false
@@ -257,10 +261,11 @@ class Analytics.Views.Reports.ShowView extends Backbone.View
     if @chart?
       @chart.destroy()
     @init_chart()
-    $.blockUI({
-      message: $('#loader-message')
-    })
     params = @model.ajax_params(project.get("segments"))
+    if params.length > 0
+      $.blockUI({
+        message: $('#loader-message')
+      })
     Analytics.Request.counter = params.length
     for param in params
       $.ajax({
@@ -321,6 +326,9 @@ class Analytics.Views.Reports.ShowView extends Backbone.View
 
   base_url: () ->
     "/projects/"+project.id+"/reports/"+@model.get("id")+"/report_tabs/"+$('#report_tab_id').val()
+
+  toggle_segment: () ->
+    $('#segment_list').toggle()
 
 
 

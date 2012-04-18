@@ -78,7 +78,7 @@ class AnalyticService
     
     logger.info "Request: #{url} \n #{options.pretty_inspect}"
     
-    Timeout.timeout(180) do
+    Timeout.timeout(10) do
       response = Net::HTTP.post_form(url, options)
       logger.info "Response: #{response.code}"
       pp response.body

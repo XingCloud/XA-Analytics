@@ -9,7 +9,7 @@
   .row-fluid
     %hr
     .btn-group
-      %a.btn{:href => "#/reports/#{@report.id}/toggle",:id=>"segment_toggle"}
+      %a#segment-btn.btn
         %i.icon-user
         用户群
       - if not @report.project_id.nil?
