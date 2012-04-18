@@ -39,7 +39,6 @@
 %input#report_tab_id{:type => "hidden", :value => "#{@report_tab.id}"}
 
 :javascript
-  var project = new Analytics.Models.Project(#{@project.js_attributes.to_json})
   var report = reports_router.report(#{(@report.attributes).merge({:report_tab => @report_tab.js_attributes}).to_json});
 :css
   .left{
