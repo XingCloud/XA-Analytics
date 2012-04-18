@@ -1,5 +1,4 @@
 class Analytics.Models.Report extends Backbone.Model
-
   defaults:
     "end_time": new Date()
     "start_time": new Date(new Date().getTime() - 1000 * 60 * 60 * 24 * 6)

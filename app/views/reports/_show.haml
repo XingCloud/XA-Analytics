@@ -7,11 +7,9 @@
         = @report.title
     #report-datepicker
   .row-fluid
-    .te#segment_list{:style=>'display:block;'}
-      =render :partial=>'segments/segments'
     %hr
     .btn-group
-      %a.btn{:href => "#/segments/"}
+      %a.btn{:href => "#/reports/#{@report.id}/toggle",:id=>"segment_toggle"}
         %i.icon-user
         用户群
       - if not @report.project_id.nil?
@@ -19,6 +17,8 @@
           %i.icon-edit
           编辑报告
   .row-fluid
+    .te#segment_list{:style=>'display:none;'}
+      =render :partial=>'segments/segments'
     %br
     %input#report_tab_id{:type => "hidden", :value => "#{@report_tab.id}"}
     %ul.nav.nav-tabs
