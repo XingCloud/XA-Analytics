@@ -38,6 +38,11 @@ class AnalyticService
     
     commit("/dd/evlist", {:params => options.to_json })
   end
+
+  def self.user_attribute(project)
+    options = {:project_id => project.identifier}
+    commit("/dd/up",{:params => options.to_json })
+  end
   
   private
 

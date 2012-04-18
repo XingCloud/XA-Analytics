@@ -52,28 +52,22 @@
 
   //add background
   $(".H5 ul li").each(function(){
-  $(this).click(function(){
-      var check = $(".H5").find("input:checked").length >= 2
-      var item = $(this).find("input[type='checkbox']")[0]
-
-                    if($(item).attr("checked") && check ){
-                      $(item).attr("checked",false)
-                      $(this).removeClass("ym");
-                    }else{
-                      $(item).attr("checked",true)
-                      $(this).addClass("ym");
-                    }
-      if(check){
+    $(this).bind("click",function(){
+      if ($(".H5").find("input:checked").length >= 2){
         $(".H5").find("input:not(:checked)").each(function(){
           $(this).attr("disabled","disabled");
         })
       }else{
-        $(".H5").find("input:not(:checked)").each(function(){
-                  $(this).removeAttr("disabled");
-                })
-
+            if($(item).attr("checked")){
+              $(item).attr("checked",false)
+              $(this).removeClass("ym");
+            }else{
+              $(item).attr("checked",true)
+              $(this).addClass("ym");
+            }
       }
-  });
+
+    });
   });
 
   //

@@ -41,6 +41,11 @@ class ProjectsController < ApplicationController
     render :layout => false
   end
 
+  def user_attributes
+    json = AnalyticService.user_attribute(@project)
+    @list = json["data"]
+  end
+
   private
 
   def find_project
