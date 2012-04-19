@@ -13,6 +13,8 @@
  *= require jquery.ui
  *= require jquery.chosen
  *= require datepicker
+ *= require segments
+ *= require reports
 */
 
 body {
