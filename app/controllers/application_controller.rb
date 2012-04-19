@@ -1,5 +1,4 @@
 class ApplicationController < ActionController::Base
-  include Bootstrap::Breadcrumb
   helper_method :current_user
   before_filter :cas_filter
   #before_filter :debug_cas

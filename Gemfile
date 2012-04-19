@@ -1,48 +1,36 @@
 source 'https://rubygems.org'
 
-gem 'rails', '3.2.2.rc1'
-
+gem 'rails'
 gem 'mysql2'
-gem 'sqlite3', :group => "development"
+gem 'jquery-rails'
+gem 'haml'
+gem 'haml-rails'
+gem 'twitter-bootstrap-rails'
+gem 'rails-i18n'
+gem 'cells'
+gem 'will_paginate'
+gem "rubycas-client"
+gem "paper_trail"
+gem "ejs"
+gem 'thin'
+gem 'dalli'
+gem 'simple_form'
+
+group :development, :test do
+  gem "pry"
+  gem "rspec-rails"
+  gem "rspec-cells"
+  gem "spork"
+  gem "guard-rspec"
+  gem "guard-spork"
+  gem 'guard-livereload'
+  gem 'capistrano'
+  gem 'sqlite3'
+end
 
 group :assets do
   gem 'sass-rails'
   gem 'coffee-rails'
   gem 'therubyracer'
-  gem 'uglifier', '>= 1.0.3'
+  gem 'uglifier'
 end
-
-gem 'awesome_nested_set', "~> 2.1.2"
-gem 'jquery-rails', "~> 2.0.1"
-gem 'jbuilder', "~> 0.3.2"
-gem 'capistrano', "~> 2.11.2", :group => "development"
-gem 'haml', "~> 3.1.4"
-gem 'haml-rails', '~> 0.3.4'
-gem 'twitter-bootstrap-rails'
-gem 'simple_form', "~> 2.0.1"
-gem 'nested_form', "~> 0.2.0"
-gem 'rails-i18n', "~> 0.5.1"
-gem 'cells', "~> 3.8.3"
-gem 'will_paginate', "~> 3.0.3"
-gem 'tabs_on_rails', "~> 2.1.1"
-gem "dalli"
-gem "rubycas-client", "2.3.9.rc1"
-gem 'the_sortable_tree'
-gem "paper_trail"
-gem "ejs"
-
-#gem "mongoid"
-#gem "bson_ext"
-#gem "jammit", :git => "git://github.com/yakjuly/jammit.git"
-
-group :development, :test do
-  gem "pry", "~> 0.9.8"
-  gem "rspec-rails", "~> 2.8.1"
-  gem "rspec-cells", "~> 0.1.2"
-  gem "spork", "~> 0.9.0"
-  gem "guard-rspec", "~> 0.6.0"
-  gem "guard-spork", "~> 0.5.2"
-#  gem 'rb-fsevent', "~> 0.9.0", :require => false if RUBY_PLATFORM =~ /darwin/i
-  gem 'guard-livereload', "~> 0.4.2"
-end
-gem 'thin'

@@ -4,7 +4,6 @@ class Admin::TemplateReportsController < Admin::BaseController
   before_filter :find_report, :only => [:edit, :update, :destroy, :set_category]
   before_filter :html_header, :only => [:index, :new, :edit]
   before_filter :json_header, :only => [:create, :update, :destroy, :set_category]
-  set_tab :template_reports, :sidebar
   
   def index
     @categories = ReportCategory.where(:project_id => nil).order("position asc").all

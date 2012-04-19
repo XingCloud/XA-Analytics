@@ -1,7 +1,6 @@
 class ProjectsController < ApplicationController
   before_filter :find_project, :only => [:show, :members, :event_item, :dashboard]
   before_filter :html_header, :only => [:dashboard]
-  set_tab :project, :sidebar
 
   def show
     @report = first_report(@project)

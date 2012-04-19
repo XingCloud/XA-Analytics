@@ -1,6 +1,4 @@
 class Metric < ActiveRecord::Base
-  include Highchart::Metric
-
   belongs_to :project
   has_and_belongs_to_many :report_tabs
   

@@ -1,9 +1,15 @@
-- if content_for?(:sidebar)
-  = yield :sidebar
-- else
-  .well.sidebar-nav
-    %h3 菜单
-    = tabs_tag :namespace => :sidebar, :builder => TabsOnRails::Bootstrap, :open_tabs => {:class => "nav nav-list"} do |tab|
-      = tab.project '项目列表', admin_projects_path
-      = tab.template_reports '通用报告管理',"#/reports"
-      = tab.template_segments '通用用户群管理',"#/segments"
+.well.sidebar-nav
+  %h3 菜单
+  %url.nav.nav-list
+    %li
+      %a{:href => admin_projects_path()}
+        %i.icon-home
+        项目列表
+    %li
+      %a{:href => "#/reports"}
+        %i.icon-file
+        通用报告管理
+    %li
+      %a{:href => "#/segments"}
+        %i.icon-user
+        通用用户群管理

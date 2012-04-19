@@ -1,7 +1,5 @@
 class Admin::TemplateSegmentsController < Admin::BaseController
 
-  set_tab :template_segments, :sidebar
-
   before_filter :find_segment, :only => [:edit, :destroy, :update]
 
   def index
