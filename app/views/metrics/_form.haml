@@ -1,5 +1,3 @@
-- javascript "metrics"
-
 = simple_form_for @metric, :url => @project.nil? ? (@metric.persisted? ? admin_template_metric_path(@metric) : admin_template_metrics_path()) : (@metric.persisted? ? project_metric_path(@project, @metric) :  project_metrics_path(@project)), :html => {:class => "form-horizontal"} do |f|
   %input{:type => "hidden", :name => "tab_index", :value => @tab_index}
   #base

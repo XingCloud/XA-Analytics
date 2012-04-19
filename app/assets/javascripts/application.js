@@ -26,6 +26,7 @@
 //= require highcharts
 //= require datepicker
 //= require analytics
+//= require metrics
 //= require_tree ./backbone/models
 //= require_tree ./backbone/collections
 //= require_tree ./backbone/templates

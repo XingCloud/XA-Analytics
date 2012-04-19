@@ -1,3 +1,0 @@
-module HighchartHelper
-  
-end

@@ -9,36 +9,12 @@
       = javascript_include_tag "http://html5shim.googlecode.com/svn/trunk/html5.js"
     / Le styles
     
+    = javascript_include_tag "#{BasisService.base_url}/xingcloud.js?project_id=&select=analytic"
     = stylesheet_link_tag    "application"
     = javascript_include_tag "application"
     = stylesheet_link_tag "reports"
     = stylesheet_link_tag "segments"
     = yield :head
-
-    :css
-      body {
-        padding-top: 60px; /* 60px to make the container go all the way to the bottom of the topbar */
-      }
-
-  %body
-    %div{:class => "navbar navbar-fixed-top"}
-      .navbar-inner
-        .container-fluid
-          %a.brand{:href => "http://p.xingcloud.com"} 行云
-          %div{:class => "container-fluid nav-collapse"}
-            %ul.nav
-              %li.active
-                %a{:href => "/"} 数据分析
-            %ul{:class => "nav pull-right"}
-              %li.divider-vertical
-              %li.dropdown
-                %a.dropdown-toggle{:href => "#", 'data-toggle' => 'dropdown'}
-                  = session[:cas_user]
-                  %b.caret
-                %ul.dropdown-menu
-                  %li
-                    %a{:href => "http://p.xingcloud.com/my/account"} 账号设置
-                    %a{:href => "http://p.xingcloud.com/logout", :rel => "nofollow"} 退出
 
     .container-fluid
       #container.row-fluid

@@ -5,8 +5,12 @@
   %h3 项目列表
   %hr
   %table.table.table-striped.table-bordered.table-condensed
-    = theads("project", "identifier")
-    = tlist @projects, :cols => 2 do |project|
-      %td= link_to project.name, project_path(project)
-      %td= project.identifier
+    %thead
+      %th 项目
+      %th 标示符
+    %tbody
+      - @projects.each do |project|
+        %tr
+          %td= link_to project.name, project_path(project)
+          %td= project.identifier
   = will_paginate @projects
