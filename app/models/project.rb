@@ -29,7 +29,11 @@ class Project < ActiveRecord::Base
     Project.find_by_identifier(identifier)
   end
 
-  def js_attributes()
-    self.attributes.merge(:segments => [])
+  def js_attributes
+    attributes.merge({:segments => [],
+                      :reports => reports.uncategorized.map(&:short_attributes),
+                      :report_categories => report_categories.map(&:js_attributes),
+                      :template_reports => Report.template.uncategorized.map(&:short_attributes),
+                      :template_report_categories => ReportCategory.template.map(&:js_attributes)})
   end
 end

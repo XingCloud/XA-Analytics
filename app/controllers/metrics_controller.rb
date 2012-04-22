@@ -1,36 +1,28 @@
 class MetricsController < ProjectBaseController
-  before_filter :find_metric, :only => [:edit, :update, :destroy]
-  layout "dialog"
-  
-  def new
-    @metric = @project.metrics.build
-    @metric.build_combine
-    @tab_index = params[:tab_index]
+  before_filter :find_metric, :only => [:show, :edit, :update, :destroy]
+  before_filter :json_header
+
+
+  def show
+    render :json => @metric.js_attributes
   end
-  
+
   def create
     @metric = @project.metrics.build(params[:metric])
     if @metric.save
-      @tab_index = params[:tab_index]
+      render :json => @metric.js_attributes
     else
-      @metric.combine || @metric.build_combine
-      render :new
-    end
-  end
-  
-  def edit
-    @tab_index = params[:tab_index]
-    unless @metric.combine
-      @metric.build_combine
+      render :json => @metric.js_attributes, :status => 500
     end
   end
   
   def update
+    pp params
     @metric.attributes=(params[:metric])
     if @metric.save
-      @tab_index = params[:tab_index]
+      render :json => @metric.js_attributes
     else
-      render :edit
+      render :json => @metric.js_attributes, :status => 500
     end
   end
   
@@ -43,6 +35,10 @@ class MetricsController < ProjectBaseController
   
   def find_metric
     @metric = @project.metrics.find(params[:id])
+  end
+
+  def json_header
+    response.headers['Content-Type'] = 'application/json; charset=utf-8'
   end
   
 end

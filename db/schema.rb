@@ -11,22 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120410024549) do
-
-  create_table "agents", :force => true do |t|
-    t.integer  "project_id"
-    t.integer  "district_id"
-    t.string   "identifier"
-    t.datetime "created_at",  :null => false
-    t.datetime "updated_at",  :null => false
-  end
-
-  create_table "districts", :force => true do |t|
-    t.string   "name"
-    t.string   "identifier"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
-  end
+ActiveRecord::Schema.define(:version => 20120418085328) do
 
   create_table "expressions", :force => true do |t|
     t.string   "name"
@@ -38,17 +23,17 @@ ActiveRecord::Schema.define(:version => 20120410024549) do
   end
 
   create_table "metrics", :force => true do |t|
+    t.integer  "project_id"
+    t.integer  "combine_id"
+    t.integer  "number_of_day"
+    t.string   "name"
     t.string   "event_key"
     t.string   "condition"
-    t.datetime "created_at",          :null => false
-    t.datetime "updated_at",          :null => false
-    t.integer  "combine_id"
     t.string   "combine_action"
     t.string   "comparison_operator"
     t.string   "comparison"
-    t.string   "name"
-    t.integer  "project_id"
-    t.integer  "number_of_day"
+    t.datetime "created_at",          :null => false
+    t.datetime "updated_at",          :null => false
   end
 
   add_index "metrics", ["combine_id"], :name => "index_metrics_on_combine_id"
@@ -56,13 +41,6 @@ ActiveRecord::Schema.define(:version => 20120410024549) do
   create_table "metrics_report_tabs", :id => false, :force => true do |t|
     t.integer "report_tab_id"
     t.integer "metric_id"
-  end
-
-  create_table "platforms", :force => true do |t|
-    t.string   "name"
-    t.string   "identifier"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
   end
 
   create_table "projects", :force => true do |t|
@@ -88,6 +66,9 @@ ActiveRecord::Schema.define(:version => 20120410024549) do
     t.string   "chart_type",  :default => "line"
     t.datetime "created_at",                      :null => false
     t.datetime "updated_at",                      :null => false
+    t.integer  "length"
+    t.string   "interval"
+    t.integer  "compare"
   end
 
   add_index "report_tabs", ["report_id"], :name => "index_report_tabs_on_report_id"
@@ -120,23 +101,6 @@ ActiveRecord::Schema.define(:version => 20120410024549) do
 
   add_index "sessions", ["session_id"], :name => "index_sessions_on_session_id"
   add_index "sessions", ["updated_at"], :name => "index_sessions_on_updated_at"
-
-  create_table "user_attributes", :force => true do |t|
-    t.string   "name"
-    t.string   "key"
-    t.string   "type"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
-  end
-
-  create_table "users", :force => true do |t|
-    t.string   "login"
-    t.boolean  "admin"
-    t.string   "mail"
-    t.integer  "redmine_uid"
-    t.datetime "created_at",  :null => false
-    t.datetime "updated_at",  :null => false
-  end
 
   create_table "versions", :force => true do |t|
     t.string   "item_type",  :null => false

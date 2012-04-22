@@ -1,0 +1,31 @@
+<% if @id?: %>
+    <h3>编辑报告</h3>
+    <hr/>
+    <form class="form-horizontal" action="#" id="edit_report_form_<%= @id %>" onsubmit="return false;">
+<% else: %>
+    <h3>新建报告</h3>
+    <hr/>
+    <form class="form-horizontal" action="#" id="new_report_form" onsubmit="return false;">
+<% end %>
+    <fieldset>
+        <div class="control-group">
+            <label class="control-label" for="report_title">标题</label>
+            <div class="controls">
+                <input type="text" id="report_title" name="title" value="<%= @title %>"/>
+            </div>
+        </div>
+        <ul class="nav nav-tabs">
+            <li id="tab-add">
+                <a>
+                    <i class="icon-plus"></i>
+                    添加标签
+                </a>
+            </li>
+        </ul>
+        <div class="tab-content">
+        </div>
+        <div class="form-actions">
+            <a class="btn btn-primary" id="submit">保存</a>
+            <a class="btn" id="cancel">取消</a>
+        </div>
+    </fieldset>

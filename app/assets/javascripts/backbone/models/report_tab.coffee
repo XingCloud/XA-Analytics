@@ -1,16 +1,18 @@
 class Analytics.Models.ReportTab extends Backbone.Model
-
-  headerView: null
-  bodyView: null
-
   defaults:
     chart_type: 'line'
+    interval: 'day'
+    length: 7
+    compare: 0
+    start_time: $.format.date(new Date(), "yyyy/MM/dd")
+    compare_start_time: $.format.date(new Date(new Date().getTime() - 7 * 86400000), "yyyy/MM/dd")
+    metrics: []
 
   initialize: (options) ->
     @set options
 
-  add_metric_url: (tab_index) ->
-    if not project?
-      "/admin/template_metrics/new?tab_index="+tab_index
+  urlRoot: () ->
+    if @get('project_id')?
+      "/projects/"+@get('project_id')+'/reports/'+@get('report_id')+'/report_tabs'
     else
-      "/projects/"+project.id+"/metrics/new?tab_index="+tab_index
+      "/template/reports/"+@get('report_id')+'/report_tabs'

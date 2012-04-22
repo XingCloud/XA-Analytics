@@ -1,0 +1,4 @@
+<a href="#report_tab_<%= @index %>" data-toggle="tab">
+    <i class="icon-remove-sign close"></i>
+    <%= (if @title? then @title else '报告标签') %>&nbsp;
+</a>

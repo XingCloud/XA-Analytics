@@ -1,0 +1,27 @@
+<div class="row-fluid" id="report-header">
+    <div class="left" id="report-title"><h3><%= @title %>&nbsp;&nbsp;</h3></div>
+    <div class="left btn-group">
+        <a class="btn" id="segment-btn"><i class="icon-user" title="用户群"/></a>
+        <% if @project_id?: %>
+            <a class="btn" href="#/reports/<%= @id %>/edit">
+                <i class="icon-edit" title="编辑报告"/>
+            </a>
+        <% end %>
+        <a class="btn" id="refresh-btn">
+            <i class="icon-refresh" title="刷新"/>
+        </a>
+    </div>
+    <div class="right" id="report-datepicker"></div>
+</div>
+<div class="row-fluid" id="report-tabs">
+    <ul class="nav nav-tabs">
+        <% for report_tab in @report_tabs_attributes: %>
+            <% if @project_id?: %>
+                <li class="<%= (if @report_tabs_attributes.indexOf(report_tab) == 0 then 'active' else '')%>"><a href="#/reports/<%= @id %>/report_tabs/<%= report_tab.id %>"><%= report_tab.title %></a></li>
+            <% else: %>
+                <li class="<%= (if @report_tabs_attributes.indexOf(report_tab) == 0 then 'active' else '')%>"><a href="#/template/reports/<%= @id %>/report_tabs/<%= report_tab.id %>"><%= report_tab.title %></a></li>
+            <% end %>
+        <% end %>
+    </ul>
+</div>
+<div class="row-fluid" id="tab-container"></div>

@@ -1,15 +1,18 @@
 class ReportTab < ActiveRecord::Base
   belongs_to :report
   has_and_belongs_to_many :metrics
+  validates_presence_of :title, :chart_type, :interval, :length, :compare
 
-  validates_presence_of :title, :chart_type
 
   def metrics_attributes
     metrics.map(&:attributes)
   end
 
   def js_attributes
-    attributes.merge({:metrics => metrics.map{|metric| {:id => metric.id, :name => metric.name}}})
+    attributes.merge({:metrics => metrics.map(&:short_attributes)})
   end
 
+  def short_attributes
+    {:id => id, :title => title}
+  end
 end

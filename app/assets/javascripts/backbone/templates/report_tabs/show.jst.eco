@@ -1,0 +1,27 @@
+<div id="interval">
+    <div class="btn-group right">
+        <button class="<%= ( if @interval == 'min5' then 'btn rate active' else 'btn rate') %>" value="min5">分钟</button>
+        <button class="<%= ( if @interval == 'hour' then 'btn rate active' else 'btn rate') %>" value="hour">小时</button>
+        <button class="<%= ( if @interval == 'day' then 'btn rate active' else 'btn rate') %>" value="day">天</button>
+        <button class="<%= ( if @interval == 'week' then 'btn rate active' else 'btn rate') %>" value="week">周</button>
+        <button class="<%= ( if @interval == 'month' then 'btn rate active' else 'btn rate') %>" value="month">月</button>
+    </div>
+    <div class="right"><label style="padding: 6px 8px 0 0;">报告频率:</label></div>
+    <div class="right" id="length-control" style="padding-right: 8px;">
+        <div class="controls">
+            <input class="input-mini left" type="text" value="<%= @length %>" id="length" style="width: 30px;" />
+            <button type="button" class="btn">OK</button>
+        </div>
+    </div>
+    <div class="right"><label style="padding: 6px 8px 0 0;">报告时长(天):</label></div>
+    <div class="right" id="compare-control" style="padding: 6px 8px 0 0;">
+        <% if @compare: %>
+            <input type="checkbox" id="compare" checked="checked" />
+        <% else: %>
+            <input type="checkbox" id="compare" />
+        <% end %>
+    </div>
+    <div class="right"><label style="padding: 6px 8px 0 0;">与过去对比:</label></div>
+</div>
+<div id="chart">
+</div>

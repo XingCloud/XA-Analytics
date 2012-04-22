@@ -1,0 +1,43 @@
+<div class="container-fluid">
+    <div class="row-fluid">
+        <div class="navbar">
+            <div id="analytics-navbar" class="navbar-inner">
+                <div class="container">
+                    <a class="brand span2" href="#">
+                        <%= @name %>
+                    </a>
+                    <div class="nav-collapse">
+                        <ul class="nav">
+                            <li>
+                                <a href="#">
+                                    <i class="icon-home"></i>
+                                    首页
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#/reports">
+                                    <i class="icon-home"></i>
+                                    报告管理
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row-fluid">
+        <div class="span2" id="left-nav">
+            <%- JST["backbone/templates/projects/left-nav"](this) %>
+        </div>
+        <div class="span10" id="main-container"></div>
+    </div>
+    <div class="row-fluid">
+        <div id="loader-message" style="display: none;">
+            <div class="progress progress-striped active">
+                <div class="width: 100%;" style="width: 100%;"></div>
+            </div>
+        </div>
+        <div id="loading-message" style="display: none;"> 载入中...</div>
+    </div>
+</div>

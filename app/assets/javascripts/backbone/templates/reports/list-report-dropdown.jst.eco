@@ -1,0 +1,58 @@
+<div class="dropdown">
+    <a class="dropdown-toggle btn" data-toggle="dropdown" href="#">
+        操作
+        <b class="caret"></b>
+    </a>
+    <ul class="dropdown-menu">
+        <li>
+            <% if @project?: %>
+                <a href="#/reports/<%= @id %>/edit">
+                    <i class="icon-edit"></i>
+                    &nbsp;编辑
+                </a>
+            <% else: %>
+                <a href="#/template/reports/<%= @id %>/edit">
+                    <i class="icon-edit"></i>
+                    &nbsp;编辑
+                </a>
+            <% end %>
+        </li>
+        <li>
+            <% if @project?: %>
+                <a href="#/reports/<%= @id %>/delete">
+                    <i class="icon-trash"></i>
+                    &nbsp;删除
+                </a>
+            <% else: %>
+                <a href="#/template/reports/<%= @id %>/delete">
+                    <i class="icon-trash"></i>
+                    &nbsp;删除
+                </a>
+            <% end %>
+        </li>
+        <li class="divider"></li>
+        <% if not @categories.length: %>
+            <li style="text-align: center;"><i>暂无分类</i></li>
+        <% end %>
+        <% for category in @categories: %>
+            <% if category.id == @report_category_id: %>
+                <a href="#">
+                    <i class="icon-ok"></i>
+                    <%= category.name %>
+                </a>
+            <% else: %>
+                <% if @project?: %>
+                    <a href="#/reports/<%= @id %>/set_category/<%= category.id %>">
+                        <i class="icon-folder-close"></i>
+                        <%= category.name %>
+                    </a>
+                <% else: %>
+                    <a href="#/template/reports/<%= @id %>/set_category/<%= category.id %>">
+                        <i class="icon-folder-close"></i>
+                        <%= category.name %>
+                    </a>
+                <% end %>
+            <% end %>
+        <% end %>
+    </ul>
+</div>

@@ -3,11 +3,6 @@ class ProjectsController < ApplicationController
   before_filter :html_header, :only => [:dashboard]
 
   def show
-    @report = first_report(@project)
-    if not @report.nil?
-      @report_tab = @report.report_tabs.first
-    end
-
   end
 
   def dashboard
@@ -23,7 +18,7 @@ class ProjectsController < ApplicationController
     json = AnalyticService.check_event_key(@project, params[:target_row], params[:condition])
     
     @items = json["data"]["items"]
-    render :layout => false
+    render :json => @items
   end
 
   def user_attributes

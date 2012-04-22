@@ -1,37 +1,39 @@
 class Analytics.Models.Report extends Backbone.Model
-  defaults:
-    "end_time": new Date()
-    "start_time": new Date(new Date().getTime() - 1000 * 60 * 60 * 24 * 6)
-    "compare": false
-    "compare_end_time": new Date()
-    "compare_start_time": new Date(new Date().getTime() - 1000 * 60 * 60 * 24 * 6)
-    "rate": "day"
+  active_tab: 0
 
   initialize: (options) ->
-    @report_tabs = new Analytics.Collections.ReportTabs()
     @set options
+    report_tabs = []
+    if options.report_tabs_attributes?
+      _.each(options.report_tabs_attributes, (report_tab_attributes) ->
+        report_tabs.push(new Analytics.Models.ReportTab(report_tab_attributes))
+      )
+    @report_tabs = _.clone(report_tabs)
 
-  ajax_params: (segments) ->
-    params = []
-    if not segments? or segments.length == 0
-      segments = [{id: ""}]
-    for segment in segments
-      for metric in @get("report_tab").metrics
-        params.push({
-          "start_time": $.format.date(@get("start_time"), "yyyy-MM-dd"),
-          "end_time": $.format.date(@get("end_time"), "yyyy-MM-dd"),
-          "interval": @get("rate").toUpperCase(),
-          "metric_id": metric.id,
-          "segment_id": segment.id,
-          "compare": false
-        })
-        if @get("compare")
-          params.push({
-            "start_time": $.format.date(@get("compare_start_time"), "yyyy-MM-dd"),
-            "end_time": $.format.date(@get("compare_end_time"), "yyyy-MM-dd"),
-            "interval": @get("rate").toUpperCase(),
-            "metric_id": metric.id,
-            "segment_id": segment.id,
-            "compare": true
-          })
-    params
+  show_attributes: () ->
+    attr = _.clone(@attributes)
+    attr.report_tabs_attributes = []
+    _.each(@report_tabs, (report_tab) -> attr.report_tabs_attributes.push(report_tab.attributes))
+    attr
+
+  parse: (resp) ->
+    if resp.report_tabs_attributes?
+      for report_tab in @report_tabs
+        if not _.find(resp.report_tabs_attributes, (item) -> item.id == report_tab.id)?
+          @report_tabs.slice(@report_tabs.indexOf(report_tab), 1)
+      for report_tab_attributes in resp.report_tabs_attributes
+        report_tab = _.find(@report_tabs, (item) -> item.id == report_tab_attributes.id)
+        if report_tab?
+          report_tab.set(report_tab_attributes)
+        else
+          @report_tabs.push(new Analytics.Models.ReportTab(report_tab_attributes))
+    resp
+
+  urlRoot: () ->
+    if @get('project_id')?
+      "/projects/"+@get('project_id')+'/reports'
+    else
+      "/template/reports"
+
+  toJSON: () ->
+    {report: @attributes}

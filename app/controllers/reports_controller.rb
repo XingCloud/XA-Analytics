@@ -1,42 +1,22 @@
 class ReportsController < ProjectBaseController
-  before_filter :find_report, :only => [:edit, :update, :destroy, :set_category]
-  before_filter :find_report_with_template, :only => [:show]
-  before_filter :html_header, :only => [:index, :new, :edit, :show, :create, :update, :destroy, :set_category]
-  before_filter :json_header, :only => [:create, :update, :destroy, :set_category]
+  before_filter :find_report, :only => [:show, :edit, :update, :destroy, :set_category]
+  before_filter :json_header
   
   def index
-    @categories = @project.report_categories.order("position asc").all
-    @reports = @project.reports.where(:report_category_id => nil).all
-    render :partial => "reports/list", :status => 200
+    render :json => @project.reports.map(&:js_attributes)
   end
-  
-  def new
-    @report = @project.reports.build
-    @report.report_tabs.build
-    @report.report_tabs[0].project_id = @project.id
-    render :partial => "reports/form", :status => 200
-  end
-  
+
   def create
     @report = @project.reports.build(params[:report])
     if @report.save
-      render :json => @report, :status => 200
+      render :json => @report.js_attributes
     else
-      render :json => @report, :status => 500
+      render :json => @report.js_attributes, :status => 500
     end
-  end
-
-  def edit
-    render :partial => "reports/form", :status => 200
   end
 
   def show
-    if not params[:report_tab_id].nil?
-      @report_tab = @report.report_tabs.find(params[:report_tab_id])
-    else
-      @report_tab = @report.report_tabs.first
-    end
-    render :partial => "reports/show", :status => 200
+    render :json => @report.js_attributes
   end
 
   def render_segment
@@ -44,18 +24,19 @@ class ReportsController < ProjectBaseController
   end
   
   def update
+    pp params
     @report.attributes = params[:report]
-    report_tab_ids = params[:report][:report_tabs_attributes].map{|pair| pair[1][:id]}
+    report_tab_ids = params[:report][:report_tabs_attributes].map{|report_tab| report_tab[:id]}
     @report.report_tabs.each do |report_tab|
       if report_tab_ids.index(report_tab.id.to_s).nil?
-        report_tab.destroy
+        @report.report_tabs.destroy(report_tab.id)
       end
     end
 
     if @report.save
-      render :json => @report, :status => 200
+      render :json => @report.js_attributes
     else
-      render :json => @report, :status => 500
+      render :json => @report.js_attributes, :status => 500
     end
   end
   
@@ -83,18 +64,6 @@ class ReportsController < ProjectBaseController
 
   def find_report
      @report = @project.reports.find(params[:id])
-  end
-
-  def find_report_with_template
-    if @project.reports.find_all_by_id(params[:id]).empty?
-      @report = Report.where(:project_id => nil).find(params[:id])
-    else
-      @report = @project.reports.find(params[:id])
-    end
-  end
-
-  def html_header
-    response.headers['Content-Type'] = 'text/html; charset=utf-8'
   end
 
   def json_header

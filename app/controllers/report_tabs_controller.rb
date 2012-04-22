@@ -1,6 +1,24 @@
-class ReportTabsController < ApplicationController
-  before_filter :find_report_tab, :only => [:data]
-  before_filter :json_header, :only =>[:data]
+class ReportTabsController < ProjectBaseController
+  before_filter :find_report_tab, :only => [:show, :update, :data]
+  before_filter :json_header
+
+  def show
+    render :json => @report_tab.js_attributes
+  end
+
+  def update
+    @report_tab.attributes = {
+        :interval => params[:interval],
+        :compare => params[:compare],
+        :length => params[:length]
+    }
+
+    if @report_tab.save
+      render :json => @report_tab.js_attributes
+    else
+      render :json => @report_tab.js_attributes, :status => 500
+    end
+  end
 
   def data
     service = AnalyticService.new()
@@ -33,8 +51,7 @@ class ReportTabsController < ApplicationController
 
 
   def find_report_tab
-    @project = Project.find(params[:project_id])
-    @report = Report.find(params[:report_id])
+    @report = @project.reports.find(params[:report_id])
     @report_tab = @report.report_tabs.find(params[:id])
   end
 

@@ -13,43 +13,7 @@
     = javascript_include_tag "#{BasisService.base_url}/xingcloud.js?project_id=#{@project.identifier}&select=analytic"
     = stylesheet_link_tag    "application"
     = javascript_include_tag "application"
-    = yield :head
-      
+
   %body
-    .container-fluid
-      .row-fluid
-        .navbar
-          .navbar-inner#analytics-navbar
-            .container
-              %a.brand.span2{:href => "#"}
-                = @project.name
-              .nav-collapse
-                %ul.nav
-                  %li
-                    %a{:href => "#"}
-                      %i.icon-home
-                      首页
-                  %li
-                    %a{:href => "#/reports"}
-                      %i.icon-cog
-                      报告管理
-        #container.row-fluid
-          = yield
-
-      
-      %footer
-        %p &copy; XingCloud 2012
-
-    #loader-message{:style => "display: none"}
-      .progress.progress-striped.active
-        .bar{:style => "width: 100%;"}
-    #loading-message{:style => "display: none"} 载入中...
-
-    /
-      Le javascript
-      \==================================================
-    / Placed at the end of the document so the pages load faster
-
-:javascript
-  var project = new Analytics.Models.Project(#{@project.attributes.to_json});
-  Backbone.history.start();
+    #container
+      = yield

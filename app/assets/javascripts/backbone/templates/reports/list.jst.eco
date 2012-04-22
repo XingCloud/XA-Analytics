@@ -1,0 +1,77 @@
+<% if @project?: %>
+    <h3>报告管理</h3>
+    <hr/>
+    <p>
+        <a class="btn" href="#/reports/new">添加报告</a>
+        <a class="btn" href="#/report_categories/new">添加分类</a>
+    </p>
+<% else: %>
+    <h3>默认报告管理</h3>
+    <hr/>
+    <p>
+        <a class="btn" href="#/template/reports/new">添加报告</a>
+        <a class="btn" href="#/template/report_categories/new">添加分类</a>
+    </p>
+<% end %>
+
+<table class="table">
+    <tr>
+        <th width="50%">标题</th>
+        <th width="30%">创建时间</th>
+        <th width="15%"></th>
+    </tr>
+    <% if (not @categories.length) and (not @reports.length): %>
+        <tr><td colspan="3" style="text-align: center;">没有数据</td></tr>
+    <% end %>
+    <% for category in _.sortBy(@categories, (item) -> item.position): %>
+        <tr>
+            <td><i class="icon-folder-open"></i><em>&nbsp;&nbsp;<%= category.name %></em></td>
+            <td><%= category.created_at %></td>
+            <td>
+                <% clone_category = _.clone(category) %>
+                <% clone_category.project = @project %>
+                <%- JST['backbone/templates/reports/list-category-dropdown'](clone_category) %>
+            </td>
+        </tr>
+        <% for report in category.reports: %>
+            <tr>
+                <td>
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+                    <i class="icon-file"></i>
+                    <% if @project?: %>
+                        <a href="#/reports/<%= report.id %>"><%= report.title %></a>
+                    <% else: %>
+                        <%= report.title %>
+                    <% end %>
+                </td>
+                <td><%= report.created_at %></td>
+                <td>
+                    <% clone_report = _.clone(report) %>
+                    <% clone_report.project = @project %>
+                    <% clone_report.categories = @categories %>
+                    <%- JST['backbone/templates/reports/list-report-dropdown'](clone_report) %>
+                </td>
+            </tr>
+        <% end %>
+    <% end %>
+    <% for report in @reports: %>
+        <tr>
+            <td>
+                <i class="icon-file"></i>
+                <% if @project?: %>
+                <a href="#/reports/<%= report.id %>"><%= report.title %></a>
+                <% else: %>
+                <%= report.title %>
+                <% end %>
+            </td>
+            <td><%= report.created_at %></td>
+            <td>
+                <% clone_report = _.clone(report) %>
+                <% clone_report.project = @project %>
+                <% clone_report.categories = @categories %>
+                <%- JST['backbone/templates/reports/list-report-dropdown'](clone_report) %>
+            </td>
+        </tr>
+    <% end %>
+</table>
+

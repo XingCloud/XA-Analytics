@@ -19,6 +19,7 @@
 //= require jquery.dateFormat
 //= require jquery-ui
 //= require jquery.blockUI
+//= require jquery.form_to_json
 //= require moment
 //= require underscore
 //= require haml

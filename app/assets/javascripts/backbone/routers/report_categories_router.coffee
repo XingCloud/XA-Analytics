@@ -1,64 +1,56 @@
 class Analytics.Routers.ReportCategoriesRouter extends Backbone.Router
   routes:
     "/report_categories/new" : "new"
-    "/report_categories/edit/:id" : "edit"
-    "/report_categories/delete/:id" : "delete"
-    "/report_categories/shift_up/:id" : "shift_up"
-    "/report_categories/shift_down/:id" : "shift_down"
+    "/report_categories/:id/edit" : "edit"
+    "/report_categories/:id/delete" : "delete"
+    "/report_categories/:id/shift_up" : "shift_up"
+    "/report_categories/:id/shift_down" : "shift_down"
+
+    "/template/report_categories/new" : "template_new"
+    "/template/report_categories/:id/edit" : "edit"
+    "/template/report_categories/:id/delete" : "delete"
+    "/template/report_categories/:id/shift_up" : "shift_up"
+    "/template/report_categories/:id/shift_down" : "shift_down"
+
+
+  initialize: (project) ->
+    @project = project
 
   new: () ->
-    if project?
-      Analytics.Request.get '/projects/'+project.get("id")+'/report_categories/new', {} , (data) ->
-        $('#container').html(data)
-    else
-      Analytics.Request.get '/admin/template_report_categories/new', {} , (data) ->
-        $('#container').html(data)
+    report_category = new Analytics.Models.ReportCategory({project_id : @project.id})
+    new Analytics.Views.ReportCategories.FormView({model: report_category, id : "new_report_category"}).render()
+
+  template_new: () ->
+    report_category = new Analytics.Models.ReportCategory()
+    new Analytics.Views.ReportCategories.FormView({model: report_category, id : "new_report_category"}).render()
 
   edit: (id) ->
-    if project?
-      Analytics.Request.get '/projects/'+project.get("id")+'/report_categories/'+id+'/edit/', {} , (data) ->
-        $('#container').html(data)
-    else
-      Analytics.Request.get '/admin/template_report_categories/'+id+'/edit/', {} , (data) ->
-        $('#container').html(data)
-
-  create: (form_id) ->
-    if project?
-      Analytics.Request.post '/projects/'+project.get("id")+'/report_categories', $('#'+form_id).serialize(), (data) -> {}
-    else
-      Analytics.Request.post '/admin/template_report_categories', $('#'+form_id).serialize(), (data) -> {}
-
-    window.location.href = "#/reports"
-
-  update: (form_id, id) ->
-    if project?
-      Analytics.Request.put '/projects/'+project.get("id")+'/report_categories/'+id, $('#'+form_id).serialize(), (data) -> {}
-    else
-      Analytics.Request.put '/admin/template_report_categories/'+id, $('#'+form_id).serialize(), (data) -> {}
-
-    window.location.href = "#/reports"
+    report_category = reports_router.reports.categories.get(id)
+    new Analytics.Views.ReportCategories.FormView({model: report_category, id : "edit_report_category"+id}).render()
 
   delete: (id) ->
-    if confirm('确认删除？')
-      if project?
-        Analytics.Request.delete '/projects/'+project.get("id")+'/report_categories/'+id, {}, (data) -> {}
-      else
-        Analytics.Request.delete '/admin/template_report_categories/'+id, {}, (data) -> {}
-
-    window.location.href = "#/reports"
+    report_category = reports_router.reports.categories.get(id)
+    if confirm("确认删除分类"+report_category.get("name"))
+      report_category.destroy({wait: true, success : (model, resp) ->
+          reports_router.reports.each((report) ->
+            if report.get("report_category_id") == model.id
+              report.set({report_category_id : null}, {silent: true})
+          )
+          reports_router.reports.trigger('change')
+          window.location.href = "#/reports"
+        }
+      )
+    else
+      window.location.href = "#/reports"
 
   shift_up: (id) ->
-    if project?
-      Analytics.Request.get '/projects/'+project.get("id")+'/report_categories/'+id+'/shift_up', {}, (data) -> {}
-    else
-      Analytics.Request.get '/admin/template_report_categories/'+id+'/shift_up', {}, (data) -> {}
-
-    window.location.href = "#/reports"
+    report_category = reports_router.reports.categories.get(id)
+    report_category.shift("up", {success: (resp, status, xhr) ->
+      window.location.href = "#/reports"
+    })
 
   shift_down: (id) ->
-    if project?
-      Analytics.Request.get '/projects/'+project.get("id")+'/report_categories/'+id+'/shift_down', {}, (data) -> {}
-    else
-      Analytics.Request.get '/admin/template_report_categories/'+id+'/shift_down', {}, (data) -> {}
-
-    window.location.href = "#/reports"
+    report_category = reports_router.reports.categories.get(id)
+    report_category.shift("down", {success: (resp, status, xhr) ->
+      window.location.href = "#/reports"
+    })

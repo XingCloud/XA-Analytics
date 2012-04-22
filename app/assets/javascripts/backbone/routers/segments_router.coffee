@@ -7,10 +7,10 @@ class Analytics.Routers.SegmentsRouter extends Backbone.Router
     "/segments/:id/delete" : "destroy"
 
 
-  initialize: (options) ->
+  initialize: (project) ->
+    @project = project
     @segments = new Analytics.Collections.Segments()
-    for option in options
-      @segments.add(new Analytics.Models.Segment(option))
+    @segments.project = project
 
   index: () ->
     if project?

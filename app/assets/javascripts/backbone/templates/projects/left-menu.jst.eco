@@ -1,0 +1,39 @@
+<% if (not @categories.length) and (not @reports.length): %>
+    <li><i>暂无数据</i></li>
+<% end %>
+<% for category in _.sortBy(@categories, (item) -> item.position): %>
+    <li class="nav-header"><%= category.name %></li>
+    <% for report in category.reports: %>
+        <li id="report<%= report.id %>">
+            <% if @project?: %>
+                <a href="#/reports/<%= report.id %>">
+                    <i class="icon-file"></i>
+                    <%= report.title %>
+                </a>
+            <% else: %>
+                <a href="#/template/reports/<%= report.id %>">
+                    <i class="icon-file"></i>
+                    <%= report.title %>
+                </a>
+            <% end %>
+        </li>
+    <% end %>
+<% end %>
+<% if @reports.length: %>
+    <li class="nav-header">未知分类</li>
+<% end %>
+<% for report in @reports: %>
+    <li id="report<%= report.id %>">
+        <% if @project?: %>
+        <a href="#/reports/<%= report.id %>">
+            <i class="icon-file"></i>
+            <%= report.title %>
+        </a>
+        <% else: %>
+        <a href="#/template/reports/<%= report.id %>">
+            <i class="icon-file"></i>
+            <%= report.title %>
+        </a>
+        <% end %>
+    </li>
+<% end %>

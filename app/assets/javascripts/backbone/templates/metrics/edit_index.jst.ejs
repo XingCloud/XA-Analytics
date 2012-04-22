@@ -1,9 +1,0 @@
-<div class="metric_picker">
-    <div class="metric_display" data-popup="width:800px" title="修改指标" href="<%= model.edit_url(model.get('tab_index')) %>">
-        <%= model.get("name") %>
-    </div>
-    <div class="metric_container">
-        <input type="hidden" name="report[report_tabs_attributes][<%= model.get('tab_index') %>][metric_ids][]" value="<%= model.get('id') %>" />
-    </div>
-    <img src="/assets/cleardot.gif" class="del ly" /> &nbsp;
-</div>

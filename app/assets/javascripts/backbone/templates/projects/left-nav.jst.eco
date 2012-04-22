@@ -1,0 +1,37 @@
+<div id="nav-accordion" class="accordion">
+    <div class="accordion-group">
+        <div class="accordion-heading">
+            <a class="accordion-toggle" data-toggle="collapse" data-parent="#nav-accordion" href="#collapse-template">
+                <i class="icon-list-alt"></i>
+                默认报告
+            </a>
+        </div>
+        <div class="according-body in" id="collapse-template">
+            <div class="accordion-inner">
+                <ul class="nav nav-list" id="template-reports-nav-list">
+                    <%- JST['backbone/templates/projects/left-menu']({categories : @template_report_categories, reports : @template_reports, project : null}) %>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="accordion-group">
+        <div class="accordion-heading">
+            <a class="accordion-toggle" data-toggle="collapse" data-parent="#nav-accordion" href="#collapse-custom">
+                <i class="icon-list-alt"></i>
+                自定义报告
+            </a>
+        </div>
+        <div class="according-body in" id="collapse-custom">
+            <div class="accordion-inner">
+                <ul class="nav nav-list" id="report-nav-list">
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="nav-create-report" style="text-align: center;">
+    <a class="btn btn-primary btn-large" href="#/reports/new">
+        <i class="icon-plus icon-white"></i>
+        新建报告
+    </a>
+</div>

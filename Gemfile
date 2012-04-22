@@ -15,6 +15,7 @@ gem "ejs"
 gem 'thin'
 gem 'dalli'
 gem 'simple_form'
+gem 'eco'
 
 group :development, :test do
   gem "pry"

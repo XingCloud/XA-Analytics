@@ -1,100 +1,71 @@
 class Analytics.Routers.ReportsRouter extends Backbone.Router
   routes:
-    "" : "dashboard"
     "/reports" : "index"
     "/reports/new" : "new"
     "/reports/:id" : "show"
     "/reports/:id/edit" : "edit"
     "/reports/:id/delete" : "delete"
     "/reports/:id/set_category/:category_id" : "set_category"
-    "/reports/:id/report_tabs/:report_tab_id" : "choose_tab"
-    "/reports/:id/toggle": "toggle"
+
+    "/template/reports" : "index"
+    "/template/reports/new" : "template_new"
+    "/template/reports/:id" : "template_show"
+    "/template/reports/:id/edit" : "edit"
+    "/template/reports/:id/delete" : "template_delete"
+    "/template/reports/:id/set_category/:category_id" : "template_set_category"
+
+  initialize: (project, options, category_options) ->
+    @project = project
+    @reports = new Analytics.Collections.Reports(options, category_options)
+    @reports.project = project
 
 
-  initialize: () ->
-    @reports = new Analytics.Collections.Reports()
+  index: (project_id) ->
+    if not @reports.view?
+      new Analytics.Views.Reports.IndexView({id : "index_report", collection: @reports})
+    @reports.view.render()
 
-  dashboard: () ->
-    Analytics.Request.get '/projects/'+project.get("id")+'/dashboard', {}, (data) ->
-      $('#container').html data
-
-  index: () ->
-    if project?
-      Analytics.Request.get '/projects/'+project.get("id")+'/reports', {}, (data) ->
-        $('#container').html data
-    else
-      Analytics.Request.get '/admin/template_reports', {}, (data) ->
-        $('#container').html data
-
-  new: () ->
-    if project?
-      Analytics.Request.get '/projects/'+project.get("id")+'/reports/new', {}, (data) ->
-        $('#container').html data
-    else
-      Analytics.Request.get '/admin/template_reports/new', {}, (data) ->
-        $('#container').html data
-
-  edit: (id) ->
-    if project?
-      Analytics.Request.get '/projects/'+project.get("id")+'/reports/'+id+'/edit', {}, (data) ->
-        $('#container').html data
-    else
-      Analytics.Request.get '/admin/template_reports/'+id+'/edit', {}, (data) ->
-        $('#container').html data
 
   show: (id) ->
-    $('.nav.nav-list li').removeClass('active')
-    $('#report'+id).addClass('active')
-    Analytics.Request.get '/projects/'+project.get("id")+'/reports/'+id, {}, (data) ->
-      $('#container').html data
+    @do_show(@project.id, id)
 
-  create: (form_id) ->
-    if project?
-      Analytics.Request.post '/projects/'+project.get("id")+'/reports', $('#'+form_id).serialize(), (data) ->
-        window.location.href = "#/reports/"+data["id"]
-    else
-      Analytics.Request.post '/admin/template_reports', $('#'+form_id).serialize(), (data) ->
-        window.location.href = "#/reports"
+  template_show: (id) ->
+    @do_show(null, id)
 
-  update: (form_id, id) ->
-    if project?
-      Analytics.Request.put '/projects/'+project.get("id")+'/reports/'+id, $('#'+form_id).serialize(), (data) ->
-        window.location.href = "#/reports/"+data["id"]
-    else
-      Analytics.Request.put '/admin/template_reports/'+id, $('#'+form_id).serialize(), (data) ->
-        window.location.href = "#/reports"
+  new: () ->
+    report = new Analytics.Models.Report({
+      project_id: @project.id,
+      report_tabs_attributes: [new Analytics.Models.ReportTab({project_id: @project.id}).attributes]
+    })
+    report.collection = @reports
+    new Analytics.Views.Reports.FormView({id : "new_report", model: report}).render()
 
-  delete: (id) ->
-    if confirm("确认删除？")
-      if project?
-        Analytics.Request.delete '/projects/'+project.get("id")+'/reports/'+id, {}, (data) -> {}
-      else
-        Analytics.Request.delete '/admin/template_reports/'+id, {}, (data) -> {}
+  template_new: () ->
+    report = new Analytics.Models.Report({
+      project_id: null,
+      report_tabs_attributes: [new Analytics.Models.ReportTab({project_id: null}).attributes]
+    })
+    report.collection = @reports
+    new Analytics.Views.Reports.FormView({id : "new_report", model: report}).render()
 
-    window.location.href = "#/reports"
+  edit: (id) ->
+    report = @reports.get(id)
+    new Analytics.Views.Reports.FormView({id : "edit_report_"+report.id, model: report}).render()
 
-  set_category: (id, category_id) ->
-    if project?
-      Analytics.Request.get '/projects/'+project.get("id")+'/reports/'+id+'/set_category', {report_category_id : category_id}, (data) -> {}
-    else
-      Analytics.Request.get '/admin/template_reports/'+id+'/set_category', {report_category_id : category_id}, (data) -> {}
-
-    window.location.href = "#/reports"
-
-  choose_tab: (id, report_tab_id) ->
-    Analytics.Request.get '/projects/'+project.get("id")+'/reports/'+id, {"report_tab_id": report_tab_id}, (data) ->
-      $('#container').html data
-
-  report: (options) ->
-    report = @reports.find((item) -> item.id == options["id"])
-    old_options = {}
+  do_show: (project_id, id) ->
+    report = @reports.get(id)
     if report?
-      old_options = report.attributes
-      @reports.remove report
-      report.view.destroy()
-    new_report = new Analytics.Models.Report(old_options)
-    new_report.set(options)
-    new Analytics.Views.Reports.ShowView({model: new_report})
-    new_report.view.render()
-    @reports.add new_report
-    new_report
+      if not report.view?
+        new Analytics.Views.Reports.ShowView({model: report, id : "report_"+id})
+      report.view.render()
+    else
+      report = new Analytics.Models.Report({project_id : project_id, id : id})
+      new Analytics.Views.Reports.ShowView({model: report, id : "#report_"+id})
+      report.fetch({success: (model, resp) -> reports_router.reports.add(model)})
+    $('#nav-accordion ul li').removeClass('active')
+    $('#report'+id).addClass('active')
+
+
+
+
+

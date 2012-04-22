@@ -42,4 +42,12 @@ class Segment < ActiveRecord::Base
     segments
   end
 
+  def short_attributes
+    {:id => id, :name => name}
+  end
+
+  def js_attributes
+    attributes.merge({:expressions => expressions.map(&:attributes)})
+  end
+
 end

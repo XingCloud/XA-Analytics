@@ -1,0 +1,133 @@
+<div class="modal-header">
+    <a class="close" data-dismiss="modal">x</a>
+    <% if @id?: %>
+        <h3>编辑指标</h3>
+    <% else: %>
+        <h3>新建指标</h3>
+    <% end %>
+</div>
+<div class="modal-body">
+    <% if @id?: %>
+        <form class="form-horizontal" action="#" id="edit_metric_form_<%= @id %>" onsubmit="return false;">
+    <% else: %>
+        <form class="form-horizontal" action="#" id="new_metric_form" onsubmit="return false;">
+    <% end %>
+        <fieldset>
+            <div class="control-group">
+                <label class="control-label" for="metric_name">
+                    <abbr title="必填">*</abbr>
+                    指标名称
+                </label>
+                <div class="controls">
+                    <input type="text" id="metric_name" name="name" value="<%= @name  %>"/>
+                </div>
+            </div>
+            <% for i in [0..5]: %>
+                <div class="control-group">
+                    <label class="control-label" for="metric_event_key_<%= i %>">事件第<%= i+1 %>层</label>
+                    <div class="controls">
+                        <input class="event-input" level="<%= i %>" combine="0" type="text" id="metric_event_key_<%= i %>" name="event_key_<%= i %>" value="<%= @['event_key_'+i] %>"/>
+                        <img src="/assets/sync.gif" style="display: none;"/>
+                    </div>
+                </div>
+            <% end %>
+            <div class="control-group">
+                <label class="control-label" for="metric_condition">
+                    <abbr title="必填">*</abbr>
+                    计算方法
+                </label>
+                <div class="controls">
+                    在
+                    <input class="input-mini" type="text" id="metric_number_of_day" name="number_of_day" value="<%= @number_of_day %>"/>
+                    天内
+                    <select id="metric_condition" name="condition" style="width: auto;">
+                        <option value="count" <%= if @condition == 'count' then 'selected="selected"' %> >发生的次数</option>
+                        <option value="sum" <%= if @condition == 'sum' then 'selected="selected"' %> >值的总和</option>
+                        <option value="user_sum" <%= if @condition == 'user_sum' then 'selected="selected"' %> >发生的用户人数</option>
+                    </select>
+                    <p class="help-block">天数可用于 周活跃用户，月活跃用户等 非必填</p>
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label" for="metric_comparison">事件的值</label>
+                <div class="controls">
+                    <select id="metric_comparison_operator" name="comparison_operator" style="width: auto">
+                        <option value="" <%= if not @comparison_operator? or (@comparison_operator? == '') then 'selected="selected"' %> ></option>
+                        <option value="gt" <%= if @comparison_operator == 'gt' then 'selected="selected"' %> >&gt;</option>
+                        <option value="lt" <%= if @comparison_operator == 'lt' then 'selected="selected"' %> >&lt;</option>
+                        <option value="ge" <%= if @comparison_operator == 'ge' then 'selected="selected"' %> >&gt;=</option>
+                        <option value="le" <%= if @comparison_operator == 'le' then 'selected="selected"' %> >&lt;=</option>
+                        <option value="eq" <%= if @comparison_operator == 'eq' then 'selected="selected"' %> >==</option>
+                        <option value="ne" <%= if @comparison_operator == 'ne' then 'selected="selected"' %> >!=</option>
+                    </select>
+                    <input class="input-mini" id="metric_comparison" name="comparison" type="text" value="<%= @comparison %>">
+                    <p class="help-block">用来过滤条件，非必填</p>
+                </div>
+            </div>
+
+            <div class="control-group">
+                <label class="control-label" for="metric_combine_action"> 与另一事件组合计算</label>
+                <div class="controls">
+                    <select id="metric_combine_action" name="combine_action">
+                        <option value="" <%= if not @combine_action? or (@combine_action? == '') then 'selected="selected"' %> ></option>
+                        <option value="addition" <%= if @combine_action == 'addition' then 'selected="selected"' %> >加法</option>
+                        <option value="division" <%= if @combine_action == 'division' then 'selected="selected"' %> >除法(算百分比)</option>
+                        <option value="multiplication" <%= if @combine_action == 'multiplication' then 'selected="selected"' %> >乘法</option>
+                        <option value="subduction" <%= if @combine_action == 'subduction' then 'selected="selected"' %> >减法</option>
+                    </select>
+                    <input id="metric_combine_attributes__destroy" name="combine_attributes[_destroy]" type="hidden" value="<%= if @combine_attributes? then 0 else 1 %>">
+                    <input id="metric_combine_attributes_id" name="combine_attributes[id]" type="hidden" value="<%= if @combine_attributes? then @combine_attributes.id %>"/>
+                </div>
+            </div>
+
+            <div id="combine-fields" style="display: <%= if @combine_attributes? then 'block' else 'none' %>">
+                <% for i in [0..5]: %>
+                    <div class="control-group">
+                        <label class="control-label" for="metric_combine_attributes_event_key_<%= i %>">事件第<%= i+1 %>层</label>
+                        <div class="controls">
+                            <input class="event-input" level="<%= i %>" combine="1" type="text" id="metric_combine_attributes_event_key_<%= i %>" name="combine_attributes[event_key_<%= i %>]" value="<%= if @combine_attributes? then @combine_attributes['event_key_'+i] %>"/>
+                            <img src="/assets/sync.gif" style="display: none;"/>
+                        </div>
+                    </div>
+                <% end %>
+                <div class="control-group">
+                    <label class="control-label" for="metric_combine_attributes_condition">
+                        <abbr title="必填">*</abbr>
+                        计算方法
+                    </label>
+                    <div class="controls">
+                        在
+                        <input class="input-mini" type="text" id="metric_combine_attributes_number_of_day" name="combine_attributes[number_of_day]" value="<%= if @combine_attributes? then @combine_attributes.number_of_day %>"/>
+                        天内
+                        <select id="metric_combine_attributes_condition" name="combine_attributes[condition]" style="width: auto;">
+                            <option value="count" <%= if @combine_attributes? and @combine_attributes.condition == 'count' then 'selected="selected"' %> >发生的次数</option>
+                            <option value="sum" <%= if @combine_attributes? and @combine_attributes.condition == 'sum' then 'selected="selected"' %> >值的总和</option>
+                            <option value="user_sum" <%= if @combine_attributes? and @combine_attributes.condition == 'user_sum' then 'selected="selected"' %> >发生的用户人数</option>
+                        </select>
+                        <p class="help-block">天数可用于 周活跃用户，月活跃用户等 非必填</p>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label" for="metric_combine_attributes_comparison">事件的值</label>
+                    <div class="controls">
+                        <select id="metric_combine_attributes_comparison_operator" name="combine_attributes[comparison_operator]" style="width: auto">
+                            <option value="" <%= if not @combine_attributes? or not @combine_attributes.comparison_operator? or (@combine_attributes.comparison_operator? == '') then 'selected="selected"' %> ></option>
+                            <option value="gt" <%= if @combine_attributes? and @combine_attributes.comparison_operator == 'gt' then 'selected="selected"' %> >&gt;</option>
+                            <option value="lt" <%= if @combine_attributes? and @combine_attributes.comparison_operator == 'lt' then 'selected="selected"' %> >&lt;</option>
+                            <option value="ge" <%= if @combine_attributes? and @combine_attributes.comparison_operator == 'ge' then 'selected="selected"' %> >&gt;=</option>
+                            <option value="le" <%= if @combine_attributes? and @combine_attributes.comparison_operator == 'le' then 'selected="selected"' %> >&lt;=</option>
+                            <option value="eq" <%= if @combine_attributes? and @combine_attributes.comparison_operator == 'eq' then 'selected="selected"' %> >==</option>
+                            <option value="ne" <%= if @combine_attributes? and @combine_attributes.comparison_operator == 'ne' then 'selected="selected"' %> >!=</option>
+                        </select>
+                        <input class="input-mini" id="metric_combine_attributes_comparison" name="combine_attributes[comparison]" type="text" value="<%= if @combine_attributes? then @combine_attributes.comparison %>">
+                        <p class="help-block">用来过滤条件，非必填</p>
+                    </div>
+                </div>
+            </div>
+        </fieldset>
+    </form>
+</div>
+<div class="modal-footer">
+    <a class="btn" id="metric-cancel">取消</a>
+    <a class="btn btn-primary" id="metric-submit">保存</a>
+</div>

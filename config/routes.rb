@@ -38,22 +38,22 @@ Analytic::Application.routes.draw do
     end
   end
 
-  namespace :admin do
-    resources :template_reports do
+  namespace :template do
+    resources :reports do
       member do
         get :set_category
       end
-      resources :template_report_tabs
+      resources :report_tabs
     end
-    resources :template_report_categories do
+    resources :report_categories do
       member do
         get :shift_up
         get :shift_down
       end
     end
-    resources :template_metrics
+    resources :metrics
     resources :projects
-    resources :template_segments
+    resources :segments
   end
   match "segments/template"
 

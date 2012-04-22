@@ -42,8 +42,20 @@ class Metric < ActiveRecord::Base
     end
   end
 
+  def js_attributes
+    attributes.merge({
+      :combine_attributes => (combine.js_attributes unless combine.nil?),
+      :event_key_0 => event_key_0,
+      :event_key_1 => event_key_1,
+      :event_key_2 => event_key_2,
+      :event_key_3 => event_key_3,
+      :event_key_4 => event_key_4,
+      :event_key_5 => event_key_5
+    })
+  end
+
   def short_attributes
-    {:id => self.id, :project_id => self.project_id, :name => self.name}
+    {:id => self.id, :name => self.name, :project_id => project_id}
   end
   
   def template_attributes
