@@ -24,7 +24,6 @@ class ReportsController < ProjectBaseController
   end
   
   def update
-    pp params
     @report.attributes = params[:report]
     report_tab_ids = params[:report][:report_tabs_attributes].map{|report_tab| report_tab[:id]}
     @report.report_tabs.each do |report_tab|
@@ -32,7 +31,6 @@ class ReportsController < ProjectBaseController
         @report.report_tabs.destroy(report_tab.id)
       end
     end
-
     if @report.save
       render :json => @report.js_attributes
     else
@@ -42,9 +40,9 @@ class ReportsController < ProjectBaseController
   
   def destroy
     if @report.destroy
-      render :json => @report, :status => 200
+      render :json => @report.js_attributes
     else
-      render :json => @report, :status => 500
+      render :json => @report.js_attributes, :status => 500
     end
   end
 
@@ -56,10 +54,10 @@ class ReportsController < ProjectBaseController
       @report.save
     end
 
-    render :json => @report, :status => 200
+    render :json => @report.js_attributes, :status => 200
 
   end
-  
+
   private
 
   def find_report
@@ -69,5 +67,5 @@ class ReportsController < ProjectBaseController
   def json_header
     response.headers['Content-Type'] = 'application/json; charset=utf-8'
   end
-  
+
 end

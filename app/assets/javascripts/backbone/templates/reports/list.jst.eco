@@ -1,18 +1,9 @@
-<% if @project?: %>
-    <h3>报告管理</h3>
-    <hr/>
-    <p>
-        <a class="btn" href="#/reports/new">添加报告</a>
-        <a class="btn" href="#/report_categories/new">添加分类</a>
-    </p>
-<% else: %>
-    <h3>默认报告管理</h3>
-    <hr/>
-    <p>
-        <a class="btn" href="#/template/reports/new">添加报告</a>
-        <a class="btn" href="#/template/report_categories/new">添加分类</a>
-    </p>
-<% end %>
+<h3>报告管理</h3>
+<hr/>
+<p>
+    <a class="btn" href="#/reports/new">添加报告</a>
+    <a class="btn" href="#/report_categories/new">添加分类</a>
+</p>
 
 <table class="table">
     <tr>
@@ -28,9 +19,7 @@
             <td><i class="icon-folder-open"></i><em>&nbsp;&nbsp;<%= category.name %></em></td>
             <td><%= category.created_at %></td>
             <td>
-                <% clone_category = _.clone(category) %>
-                <% clone_category.project = @project %>
-                <%- JST['backbone/templates/reports/list-category-dropdown'](clone_category) %>
+                <%- JST['backbone/templates/reports/list-category-dropdown'](category) %>
             </td>
         </tr>
         <% for report in category.reports: %>
@@ -47,7 +36,6 @@
                 <td><%= report.created_at %></td>
                 <td>
                     <% clone_report = _.clone(report) %>
-                    <% clone_report.project = @project %>
                     <% clone_report.categories = @categories %>
                     <%- JST['backbone/templates/reports/list-report-dropdown'](clone_report) %>
                 </td>
@@ -67,7 +55,6 @@
             <td><%= report.created_at %></td>
             <td>
                 <% clone_report = _.clone(report) %>
-                <% clone_report.project = @project %>
                 <% clone_report.categories = @categories %>
                 <%- JST['backbone/templates/reports/list-report-dropdown'](clone_report) %>
             </td>

@@ -15,6 +15,8 @@ class Analytics.Views.Reports.FormView extends Backbone.View
     $(@el).html(@template(@model.attributes))
     for report_tab in @model.report_tabs
       @do_add_tab(report_tab, @index == 0)
+    if not @model.id?
+      @do_add_tab(new Analytics.Models.ReportTab({project_id: @model.get("project_id")}), true)
     $('#main-container').html(@el)
 
   add_tab: (ev) ->

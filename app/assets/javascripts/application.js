@@ -14,7 +14,6 @@
 //= require jquery
 //= require jquery_ujs
 //= require twitter/bootstrap
-//= require common
 //= require jquery.chosen
 //= require jquery.dateFormat
 //= require jquery-ui
@@ -27,7 +26,6 @@
 //= require highcharts
 //= require datepicker
 //= require analytics
-//= require metrics
 //= require_tree ./backbone/models
 //= require_tree ./backbone/collections
 //= require_tree ./backbone/templates

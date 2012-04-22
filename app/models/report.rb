@@ -21,7 +21,7 @@ class Report < ActiveRecord::Base
   end
 
   def short_attributes
-    {:id => id, :title => title, :created_at => created_at}
+    {:id => id, :title => title, :created_at => created_at, :report_category_id => report_category_id}
   end
 
   def js_attributes

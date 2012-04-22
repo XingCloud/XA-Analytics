@@ -20,7 +20,7 @@ class Analytics.Models.Report extends Backbone.Model
     if resp.report_tabs_attributes?
       for report_tab in @report_tabs
         if not _.find(resp.report_tabs_attributes, (item) -> item.id == report_tab.id)?
-          @report_tabs.slice(@report_tabs.indexOf(report_tab), 1)
+          @report_tabs.splice(@report_tabs.indexOf(report_tab), 1)
       for report_tab_attributes in resp.report_tabs_attributes
         report_tab = _.find(@report_tabs, (item) -> item.id == report_tab_attributes.id)
         if report_tab?
@@ -37,3 +37,28 @@ class Analytics.Models.Report extends Backbone.Model
 
   toJSON: () ->
     {report: @attributes}
+
+  set_category: (category_id, options) ->
+    success = options.success
+    options.url = @urlRoot()+'/'+@id+'/set_category?report_category_id='+category_id
+    model = this
+    old_category = @collection.categories.get(@get("report_category_id"))
+    collection = @collection
+    options.success =  (resp, status, xhr) ->
+
+      if old_category?
+        report_in_category = _.find(old_category.get("reports"), (item) -> item.id == resp.id)
+        old_category.get("reports").splice(old_category.get("reports").indexOf(report_in_category), 1)
+      if resp.report_category_id?
+        category = collection.categories.get(resp.report_category_id)
+        category.get("reports").push({
+          "id": resp.id,
+          "title": resp.title,
+          "created_at": resp.created_at,
+          "report_category_id": resp.report_category_id
+        })
+      model.set(resp)
+      collection.trigger "change"
+      success(resp, status, xhr)
+
+    Backbone.sync('read', this, options)

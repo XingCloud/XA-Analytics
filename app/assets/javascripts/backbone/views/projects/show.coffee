@@ -11,3 +11,4 @@ class Analytics.Views.Projects.ShowView extends Backbone.View
   render: () ->
     $(@el).html(@template(@model.attributes))
     new Analytics.Views.Reports.NavView({collection : reports_router.reports}).render()
+    reports_router.show(@model.first_report().id)

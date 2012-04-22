@@ -5,56 +5,28 @@
     </a>
     <ul class="dropdown-menu">
         <li>
-            <% if @project?: %>
-                <a href="#/report_categories/<%= @id %>/edit">
-                    <i class="icon-edit"></i>
-                    &nbsp;编辑
-                </a>
-            <% else: %>
-                <a href="#/template/report_categories/<%= @id %>/edit">
-                    <i class="icon-edit"></i>
-                    &nbsp;编辑
-                </a>
-            <% end %>
+            <a href="#/report_categories/<%= @id %>/edit">
+                <i class="icon-edit"></i>
+                &nbsp;编辑
+            </a>
         </li>
         <li>
-            <% if @project?: %>
-                <a href="#/report_categories/<%= @id %>/shift_up">
-                    <i class="icon-arrow-up"></i>
-                    &nbsp;向上
-                </a>
-            <% else: %>
-                <a href="#/template/report_categories/<%= @id %>/shift_up">
-                    <i class="icon-arrow-up"></i>
-                    &nbsp;向上
-                </a>
-            <% end %>
+            <a href="#/report_categories/<%= @id %>/shift_up">
+                <i class="icon-arrow-up"></i>
+                &nbsp;向上
+            </a>
         </li>
         <li>
-            <% if @project?: %>
-                <a href="#/report_categories/<%= @id %>/shift_down">
-                    <i class="icon-arrow-down"></i>
-                    &nbsp;向下
-                </a>
-            <% else: %>
-                <a href="#/template/report_categories/<%= @id %>/shift_down">
-                    <i class="icon-arrow-down"></i>
-                    &nbsp;向下
-                </a>
-            <% end %>
+            <a href="#/report_categories/<%= @id %>/shift_down">
+                <i class="icon-arrow-down"></i>
+                &nbsp;向下
+            </a>
         </li>
         <li>
-            <% if @project?: %>
-                <a href="#/report_categories/<%= @id %>/delete">
-                    <i class="icon-trash"></i>
-                    &nbsp;删除
-                </a>
-            <% else: %>
-                <a href="#/template/report_categories/<%= @id %>/delete">
-                    <i class="icon-trash"></i>
-                    &nbsp;删除
-                </a>
-            <% end %>
+            <a href="#/report_categories/<%= @id %>/delete">
+                <i class="icon-trash"></i>
+                &nbsp;删除
+            </a>
         </li>
     </ul>
 </div>

@@ -7,12 +7,7 @@ class Analytics.Routers.ReportsRouter extends Backbone.Router
     "/reports/:id/delete" : "delete"
     "/reports/:id/set_category/:category_id" : "set_category"
 
-    "/template/reports" : "index"
-    "/template/reports/new" : "template_new"
     "/template/reports/:id" : "template_show"
-    "/template/reports/:id/edit" : "edit"
-    "/template/reports/:id/delete" : "template_delete"
-    "/template/reports/:id/set_category/:category_id" : "template_set_category"
 
   initialize: (project, options, category_options) ->
     @project = project
@@ -33,24 +28,46 @@ class Analytics.Routers.ReportsRouter extends Backbone.Router
     @do_show(null, id)
 
   new: () ->
-    report = new Analytics.Models.Report({
-      project_id: @project.id,
-      report_tabs_attributes: [new Analytics.Models.ReportTab({project_id: @project.id}).attributes]
-    })
-    report.collection = @reports
-    new Analytics.Views.Reports.FormView({id : "new_report", model: report}).render()
-
-  template_new: () ->
-    report = new Analytics.Models.Report({
-      project_id: null,
-      report_tabs_attributes: [new Analytics.Models.ReportTab({project_id: null}).attributes]
-    })
+    if @project?
+      report = new Analytics.Models.Report({project_id: @project.id})
+    else
+      report = new Analytics.Models.Report({project_id: null})
     report.collection = @reports
     new Analytics.Views.Reports.FormView({id : "new_report", model: report}).render()
 
   edit: (id) ->
     report = @reports.get(id)
-    new Analytics.Views.Reports.FormView({id : "edit_report_"+report.id, model: report}).render()
+    if report?
+      new Analytics.Views.Reports.FormView({id : "edit_report_"+report.id, model: report}).render()
+    else if window.history.length > 0
+      window.history.back()
+    else
+      window.location.href = "#/reports"
+
+  delete: (id) ->
+    report = @reports.get(id)
+    if report? and confirm("确认删除报告"+report.get("title"))
+      collection = @reports
+      category = report.collection.categories.get(report.get("report_category_id"))
+      report.destroy({wait: true, success: (model, resp) ->
+        if model.get("report_category_id")?
+          report_in_category = _.find(category.reports, (item) -> item.id == model.id)
+          index = category.reports.indexOf(report_in_category)
+          category.reports.splice(index, 1)
+        collection.trigger "change"
+        window.location.href = "#/reports"
+      })
+    else
+      window.location.href = "#/reports"
+
+  set_category: (id, category_id) ->
+    report = @reports.get(id)
+    if report?
+      report.set_category(category_id, {success: (resp, status, xhr) ->
+        window.location.href = "#/reports"
+      })
+    else
+      window.location.href = "#/reports"
 
   do_show: (project_id, id) ->
     report = @reports.get(id)

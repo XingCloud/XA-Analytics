@@ -1,5 +1,4 @@
 :javascript
-  PROJECT_IDENTIFIER = "#{@project.nil? ? nil : @project.identifier}";
   window.project = new Analytics.Models.Project(#{@project.js_attributes.to_json});
   window.projects_router = new Analytics.Routers.ProjectsRouter(project);
   window.reports_router = new Analytics.Routers.ReportsRouter(project, #{@project.reports.map(&:js_attributes).to_json}, #{@project.report_categories.map(&:js_attributes).to_json});
