@@ -41,21 +41,8 @@ class Analytics.Models.Report extends Backbone.Model
     success = options.success
     options.url = @urlRoot()+'/'+@id+'/set_category?report_category_id='+category_id
     model = this
-    old_category = @collection.categories.get(@get("report_category_id"))
     collection = @collection
     options.success =  (resp, status, xhr) ->
-
-      if old_category?
-        report_in_category = _.find(old_category.get("reports"), (item) -> item.id == resp.id)
-        old_category.get("reports").splice(old_category.get("reports").indexOf(report_in_category), 1)
-      if resp.report_category_id?
-        category = collection.categories.get(resp.report_category_id)
-        category.get("reports").push({
-          "id": resp.id,
-          "title": resp.title,
-          "created_at": resp.created_at,
-          "report_category_id": resp.report_category_id
-        })
       model.set(resp)
       collection.trigger "change"
       success(resp, status, xhr)

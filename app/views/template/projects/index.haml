@@ -12,9 +12,20 @@
 = will_paginate @projects
 
 :javascript
-  window.reports_router = new Analytics.Routers.ReportsRouter({project: null, reports: #{Report.template.map(&:js_attributes).to_json}, categories: #{ReportCategory.template.map(&:js_attributes).to_json}});
-  window.report_categories_router = new Analytics.Routers.ReportCategoriesRouter({});
-  window.metrics_router = new Analytics.Routers.MetricsRouter({metrics: #{Metric.template.map(&:short_attributes).to_json}});
-  window.report_tabs_router = new Analytics.Routers.ReportTabsRouter({});
   window.segments_router = new Analytics.Routers.SegmentsRouter({});
+
+  window.report_categories_router = new Analytics.Routers.ReportCategoriesRouter({
+    categories: #{ReportCategory.template.map(&:js_attributes).to_json}
+  });
+
+  window.reports_router = new Analytics.Routers.ReportsRouter({
+    reports: #{Report.template.map(&:js_attributes).to_json}
+  });
+
+  window.metrics_router = new Analytics.Routers.MetricsRouter({
+    metrics: #{Metric.template.map(&:short_attributes).to_json}
+  });
+
+  window.report_tabs_router = new Analytics.Routers.ReportTabsRouter({});
+
   Backbone.history.start();

@@ -10,8 +10,21 @@ class Analytics.Views.Projects.ShowView extends Backbone.View
 
   render: () ->
     $(@el).html(@template(@model.attributes))
+
+    new Analytics.Views.Reports.NavView({
+      reports : reports_router.templates,
+      categories: report_categories_router.templates,
+      el: "#templates-nav-list"
+    }).render()
+
+    new Analytics.Views.Reports.NavView({
+      reports : reports_router.reports,
+      categories: report_categories_router.categories,
+      el: "#reports-nav-list"
+    }).render()
+
     @render_datepicker()
-    new Analytics.Views.Reports.NavView({collection : reports_router.reports}).render()
+
     if @model.first_report()?
       reports_router.show(@model.first_report().id)
     else

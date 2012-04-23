@@ -8,8 +8,7 @@
         </div>
         <div class="according-body in" id="collapse-template">
             <div class="accordion-inner">
-                <ul class="nav nav-list" id="template-reports-nav-list">
-                    <%- JST['backbone/templates/projects/left-menu']({categories : @template_report_categories, reports : @template_reports, project : null}) %>
+                <ul class="nav nav-list" id="templates-nav-list">
                 </ul>
             </div>
         </div>
@@ -23,7 +22,7 @@
         </div>
         <div class="according-body in" id="collapse-custom">
             <div class="accordion-inner">
-                <ul class="nav nav-list" id="report-nav-list">
+                <ul class="nav nav-list" id="reports-nav-list">
                 </ul>
             </div>
         </div>

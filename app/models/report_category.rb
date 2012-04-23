@@ -11,7 +11,7 @@ class ReportCategory < ActiveRecord::Base
   end
 
   def js_attributes
-    attributes.merge({:reports => reports.map(&:short_attributes)})
+    attributes
   end
 
 end
