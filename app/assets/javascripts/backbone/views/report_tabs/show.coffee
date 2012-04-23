@@ -14,11 +14,19 @@ class Analytics.Views.ReportTabs.ShowView extends Backbone.View
 
   render: () ->
     $(@el).html(@template(@model.attributes))
+    @render_datepicker()
     $(@report_view.el).find('#tab-container').html($(@el))
 
   redraw: () ->
     @render()
     @delegateEvents(this.events)
+
+  render_datepicker: () ->
+    el = @el
+    $(@el).find('.datepicker-input').datepicker({format: 'yyyy/mm/dd'}).on('changeDate', (ev) ->
+      $(el).find('.datepicker-input').datepicker('hide')
+      $(el).find('.datepicker-input').blur()
+    )
 
   change_interval: (ev) ->
     if @model.get("project_id")?

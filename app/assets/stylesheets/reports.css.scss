@@ -137,106 +137,11 @@
 	
 }
 
-#report-datepicker {
-  position: relative;
-  float: right;
-  padding-top: 5px;
+.datepicker-input{
+  font-size: 16px;
+  mouseover: cursor;
 }
 
-#date-range-field {
-  width: 250px;
-  height: 26px;
-  overflow: hidden;
-  position: relative;
-  cursor: pointer;
-  border: 1px solid #CCCCCC;
-  border-radius: 5px 5px 5px 5px;
-}
-
-#date-range-field a {
-  color: #B2B2B2;
-  background-color: #F7F7F7;
-  text-align: center;
-  display: block;
-  position: absolute;
-  width: 26px;
-  height: 23px;
-  top: 0;
-  right: 0;
-  text-decoration: none;
-  padding-top: 6px;
-  border-radius: 0 5px 5px 0;
-}
-
-#date-range-field span {
-  font-size: 18px;
-  color: #404040;
-  position: relative;
-  top: 0;
-  height: 26px;
-  line-height: 26px;
-  left: 5px;
-  width: 250px;
-  text-align: center;
-}
-
-#datepicker-container {
-  position: absolute;
-  right: 0;
-  z-index: 1000;
-  width: 700px;
-  height: 160px;
-  background-color: #F7F7F7;
-  border: 1px solid #CCCCCC;
-  border-radius: 0 5px 5px 5px;
-  display: none;
-}
-
-#datepicker-calendar{
-  position: absolute;
-  padding: 10px 0 0 10px;
-}
-
-#datepicker-calendar div.datepicker {
-  background-color: transparent;
-  border: none;
-  border-radius: 0;
-  padding: 0;
-}
-
-#datepicker-controls{
-  padding: 10px 0 0 0px;
-  float: right;
-  width: 180px;
-  text-align: center;
-}
-
-#datepicker-controls .datepicker-control{
-  float: left;
-}
-
-#datepicker-controls select{
-  width: 100px;
-  height: 26px;
-}
-
-#datepicker-controls input.date{
-  width: 150px;
-  height: 12px;
-  cursor: pointer;
-}
-
-#datepicker-controls .date-input.active input.date{
-  border: #07C solid 3px;
-}
-
-#datepicker-controls .datepicker-control.checkbox{
-  padding-bottom: 4px;
-}
-
-#datepicker-controls #compare-control{
-  display: none;
-}
 
 #chart {
   height: 240px;

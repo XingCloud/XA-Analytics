@@ -8,9 +8,9 @@ class ReportTabsController < ProjectBaseController
 
   def update
     @report_tab.attributes = {
-        :interval => params[:interval],
-        :compare => params[:compare],
-        :length => params[:length]
+        :interval => params[:report_tab][:interval],
+        :compare => params[:report_tab][:compare],
+        :length => params[:report_tab][:length]
     }
 
     if @report_tab.save

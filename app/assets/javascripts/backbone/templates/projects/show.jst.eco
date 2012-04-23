@@ -22,6 +22,10 @@
                             </li>
                         </ul>
                     </div>
+                    <div class="right" style="padding-top: 8px;">
+                        <label style="float: left; padding-top: 6px;">报告截止日期:&nbsp;</label>
+                        <input class="datepicker-input" type="text" value="<%= $.format.date(new Date(), 'yyyy/MM/dd') %>">
+                    </div>
                 </div>
             </div>
         </div>

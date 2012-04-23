@@ -24,7 +24,7 @@
 //= require haml
 //= require backbone
 //= require highcharts
-//= require datepicker
+//= require bootstrap-datepicker
 //= require_directory ./backbone
 //= require_tree ./backbone/models
 //= require_tree ./backbone/collections
