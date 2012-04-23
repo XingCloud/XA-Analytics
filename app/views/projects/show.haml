@@ -3,7 +3,7 @@
   window.projects_router = new Analytics.Routers.ProjectsRouter(project);
   window.reports_router = new Analytics.Routers.ReportsRouter(project, #{@project.reports.map(&:js_attributes).to_json}, #{@project.report_categories.map(&:js_attributes).to_json});
   window.report_categories_router = new Analytics.Routers.ReportCategoriesRouter(project);
-  window.metrics_router = new Analytics.Routers.MetricsRouter(project);
+  window.metrics_router = new Analytics.Routers.MetricsRouter(project, #{(@project.metrics.map(&:short_attributes)+Metric.template.map(&:short_attributes)).to_json});
   window.report_tabs_router = new Analytics.Routers.ReportTabsRouter(project);
   window.segments_router = new Analytics.Routers.SegmentsRouter(project);
   new Analytics.Views.Projects.ShowView({model: project}).render();

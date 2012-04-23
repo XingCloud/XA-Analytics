@@ -12,14 +12,16 @@ class Analytics.Views.Metrics.FormListView extends Backbone.View
     _.bindAll(this, "render")
 
   render: () ->
-    $(@el).html(@template(@model.attributes))
+    attr = _.clone(@model.attributes)
+    attr.index = @model.index
+    $(@el).html(@template(attr))
     this
 
   delete: () ->
     $(@el).remove()
-    @model.collection.remove(@model)
 
   show: () ->
+    @model.list_view = this
     @model.fetch({success: (model, resp) ->
       new Analytics.Views.Metrics.FormView({
         model: model,

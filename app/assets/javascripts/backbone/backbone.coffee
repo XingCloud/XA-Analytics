@@ -1,3 +1,11 @@
+window.Analytics = {
+  Models: {},
+  Views: {},
+  Routers: {},
+  Collections: {},
+  Utils: {}
+}
+
 Backbone.default_sync = Backbone.sync
 Backbone.sync = (method, model, options) ->
   $('#loading-message').fadeIn(200)

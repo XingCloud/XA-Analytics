@@ -21,6 +21,8 @@ class Metric < ActiveRecord::Base
   before_validation :correct_event_key
   
   has_paper_trail
+
+  scope :template, where(:project_id => nil)
   
   6.times do |i|
     define_method "event_key_#{i}" do

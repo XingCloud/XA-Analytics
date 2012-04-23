@@ -6,7 +6,7 @@ class Analytics.Models.ReportTab extends Backbone.Model
     compare: 0
     start_time: $.format.date(new Date(), "yyyy/MM/dd")
     compare_start_time: $.format.date(new Date(new Date().getTime() - 7 * 86400000), "yyyy/MM/dd")
-    metrics: []
+    metric_ids: []
 
   initialize: (options) ->
     @set options

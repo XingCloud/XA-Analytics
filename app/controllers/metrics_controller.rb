@@ -1,5 +1,5 @@
 class MetricsController < ProjectBaseController
-  before_filter :find_metric, :only => [:show, :edit, :update, :destroy]
+  before_filter :find_metric, :only => [:show, :edit, :update]
   before_filter :json_header
 
 
@@ -10,9 +10,9 @@ class MetricsController < ProjectBaseController
   def create
     @metric = @project.metrics.build(params[:metric])
     if @metric.save
-      render :json => @metric.js_attributes
+      render :json => @metric.short_attributes
     else
-      render :json => @metric.js_attributes, :status => 500
+      render :json => @metric.short_attributes, :status => 500
     end
   end
   
@@ -20,17 +20,12 @@ class MetricsController < ProjectBaseController
     pp params
     @metric.attributes=(params[:metric])
     if @metric.save
-      render :json => @metric.js_attributes
+      render :json => @metric.short_attributes
     else
-      render :json => @metric.js_attributes, :status => 500
+      render :json => @metric.short_attributes, :status => 500
     end
   end
-  
-  def destroy
-    @metric.destroy
-    render :nothing => true
-  end
-  
+
   private
   
   def find_metric

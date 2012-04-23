@@ -29,24 +29,18 @@ class Analytics.Views.ReportTabs.FormBodyView extends Backbone.View
     "change input#compare-checkbox" : "change_compare"
 
   initialize: () ->
-    _.bindAll this, "render", "render_metrics"
-    @metrics = new Analytics.Collections.Metrics(@model.get("metrics"))
-    @metrics.bind "reset", @render_metrics
+    _.bindAll this, "render"
 
   render: () ->
     attributes = _.clone(@model.attributes)
     attributes.index = @model.index
     $(@el).html(@template(attributes))
-    for metric in @metrics.models
-      @render_metric(metric)
+    for metric_id in @model.get("metric_ids")
+      @render_metric(metric_id)
     this
 
-  render_metrics: () ->
-    $(@el).find('#report_tab_'+@model.index+'_metric_list').empty()
-    for metric in @metrics.models
-      @render_metric(metric)
-
-  render_metric: (metric) ->
+  render_metric: (metric_id) ->
+    metric = metrics_router.metrics.get(metric_id)
     metric.index = @model.index
     metric_view = new Analytics.Views.Metrics.FormListView({model: metric})
     $(@el).find('#report_tab_'+@model.index+'_metric_list').append(metric_view.render().el)
@@ -54,7 +48,8 @@ class Analytics.Views.ReportTabs.FormBodyView extends Backbone.View
 
   new_metric: () ->
     metric = new Analytics.Models.Metric({project_id : @model.get("project_id")})
-    metric.collection = @metrics
+    metric.report_tab_view = this
+    metric.collection = metrics_router.metrics
     new Analytics.Views.Metrics.FormView({
       model: metric,
       id: "new_metric"

@@ -9,7 +9,7 @@ class ReportTab < ActiveRecord::Base
   end
 
   def js_attributes
-    attributes.merge({:metrics => metrics.map(&:short_attributes)})
+    attributes.merge({:metric_ids => metric_ids})
   end
 
   def short_attributes
