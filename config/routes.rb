@@ -1,11 +1,6 @@
 Analytic::Application.routes.draw do
 
-  root :to => "admin/projects#index"
-  match "/sign_out" => "users#sign_out"
-
-  resources :users
-
-
+  root :to => "template/projects#index"
   resources :projects do
 
     member do

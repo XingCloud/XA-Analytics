@@ -1,8 +1,4 @@
 class Analytics.Models.Project extends Backbone.Model
-
-  initialize: (options) ->
-    @set options
-
   first_report: () ->
     report = null
     if @get("template_report_categories").length

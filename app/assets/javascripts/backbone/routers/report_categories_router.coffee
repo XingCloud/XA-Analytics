@@ -6,8 +6,8 @@ class Analytics.Routers.ReportCategoriesRouter extends Backbone.Router
     "/report_categories/:id/shift_up" : "shift_up"
     "/report_categories/:id/shift_down" : "shift_down"
 
-  initialize: (project) ->
-    @project = project
+  initialize: (options) ->
+    @project = options.project
 
   new: () ->
     if @project?

@@ -1,4 +1,4 @@
-class Template::SegmentsController < Admin::BaseController
+class Template::SegmentsController < Template::BaseController
 
   before_filter :find_segment, :only => [:edit, :destroy, :update]
 

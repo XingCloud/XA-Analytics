@@ -7,12 +7,12 @@ class Analytics.Routers.ReportsRouter extends Backbone.Router
     "/reports/:id/delete" : "delete"
     "/reports/:id/set_category/:category_id" : "set_category"
 
-    "/template/reports/:id" : "template_show"
-
-  initialize: (project, options, category_options) ->
-    @project = project
-    @reports = new Analytics.Collections.Reports(options, category_options)
-    @reports.project = project
+  initialize: (options) ->
+    @project = options.project
+    @reports = new Analytics.Collections.Reports(options.reports, {categories: options.categories})
+    if @project?
+      @template_reports = new Analytics.Collections.Reports(options.template_reports, {categories: options.template_categories})
+    @reports.project = options.project
 
 
   index: (project_id) ->
@@ -24,14 +24,11 @@ class Analytics.Routers.ReportsRouter extends Backbone.Router
   show: (id) ->
     @do_show(@project.id, id)
 
-  template_show: (id) ->
-    @do_show(null, id)
-
   new: () ->
     if @project?
       report = new Analytics.Models.Report({project_id: @project.id})
     else
-      report = new Analytics.Models.Report({project_id: null})
+      report = new Analytics.Models.Report({})
     report.collection = @reports
     new Analytics.Views.Reports.FormView({id : "new_report", model: report}).render()
 
@@ -71,16 +68,14 @@ class Analytics.Routers.ReportsRouter extends Backbone.Router
 
   do_show: (project_id, id) ->
     report = @reports.get(id)
+    if not report?
+      report = @template_reports.get(id)
     if report?
       if not report.view?
         new Analytics.Views.Reports.ShowView({model: report, id : "report_"+id})
       report.view.render()
-    else
-      report = new Analytics.Models.Report({project_id : project_id, id : id})
-      new Analytics.Views.Reports.ShowView({model: report, id : "#report_"+id})
-      report.fetch({success: (model, resp) -> reports_router.reports.add(model)})
-    $('#nav-accordion ul li').removeClass('active')
-    $('#report'+id).addClass('active')
+      $('#nav-accordion ul li').removeClass('active')
+      $('#report'+id).addClass('active')
 
 
 

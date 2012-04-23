@@ -1,33 +1,23 @@
-class Template::ReportCategoriesController < ApplicationController
-  before_filter :html_header, :only => [:new, :edit]
+class Template::ReportCategoriesController < Template::BaseController
   before_filter :find_category, :only => [:edit, :update, :destroy, :shift_up, :shift_down]
-  before_filter :json_header, :only => [:create, :update, :destroy, :shift_up, :shift_down]
-
-  def new
-    @category = ReportCategory.new
-    render :partial => "report_categories/form"
-  end
-
-  def edit
-    render :partial => "report_categories/form"
-  end
+  before_filter :json_header
 
   def create
     last_category = ReportCategory.where(:project_id => nil).order("position asc").last
     position = last_category.nil? ? 0 : last_category.position
-    ReportCategory.create(params[:report_category].merge({:position => position+1}))
+    @category = ReportCategory.new(params[:report_category].merge({:position => position+1}))
     if @category.save
-      render :json => @category, :status => 200
+      render :json => @category.js_attributes
     else
-      render :json => @category, :status => 500
+      render :json => @category.js_attributes, :status => 500
     end
   end
 
   def update
     if @category.update_attributes(params[:report_category])
-      render :json => @category, :status => 200
+      render :json => @category.js_attributes
     else
-      render :json => @category, :status => 500
+      render :json => @category.js_attributes, :status => 500
     end
   end
 
@@ -36,9 +26,9 @@ class Template::ReportCategoriesController < ApplicationController
       report.update_attribute(:report_category_id, nil)
     end
     if @category.destroy
-      render :json => @category, :status => 200
+      render :json => @category.js_attributes
     else
-      render :json => @category, :status => 500
+      render :json => @category.js_attributes, :status => 500
     end
   end
 
@@ -48,12 +38,12 @@ class Template::ReportCategoriesController < ApplicationController
       position = last_category.position
       last_category.update_attribute(:position, @category.position)
       if @category.update_attribute(:position, position)
-        render :json => @category, :status => 200
+        render :json => ReportCategory.template.map(&:js_attributes)
       else
-        render :json => @category, :status => 500
+        render :json => ReportCategory.template.map(&:js_attributes), :status => 500
       end
     else
-      render :json => @category, :status => 200
+      render :json => ReportCategory.template.map(&:js_attributes)
     end
   end
 
@@ -63,12 +53,12 @@ class Template::ReportCategoriesController < ApplicationController
       position = first_category.position
       first_category.update_attribute(:position, @category.position)
       if @category.update_attribute(:position, position)
-        render :json => @category, :status => 200
+        render :json => ReportCategory.template.map(&:js_attributes)
       else
-        render :json => @category, :status => 500
+        render :json => ReportCategory.template.map(&:js_attributes), :status => 500
       end
     else
-      render :json => @category, :status => 200
+      render :json => ReportCategory.template.map(&:js_attributes)
     end
   end
 
@@ -76,10 +66,6 @@ class Template::ReportCategoriesController < ApplicationController
 
   def find_category
     @category = ReportCategory.find(params[:id])
-  end
-
-  def html_header
-    response.headers['Content-Type'] = 'text/html; charset=utf-8'
   end
 
   def json_header

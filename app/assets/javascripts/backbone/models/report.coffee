@@ -2,9 +2,8 @@ class Analytics.Models.Report extends Backbone.Model
   active_tab: 0
 
   initialize: (options) ->
-    @set options
     report_tabs = []
-    if options.report_tabs_attributes?
+    if options? and options.report_tabs_attributes?
       _.each(options.report_tabs_attributes, (report_tab_attributes) ->
         report_tabs.push(new Analytics.Models.ReportTab(report_tab_attributes))
       )

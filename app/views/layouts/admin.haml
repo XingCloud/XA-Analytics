@@ -16,18 +16,24 @@
 
     .container-fluid
       #container.row-fluid
-        = yield
-    
-      %footer
-        %p &copy; Company 2012
-    #loading-message{:style => "display: none"} 载入中...
-    /
-      Le javascript
-      \==================================================
-    / Placed at the end of the document so the pages load faster
+        .span2
+          .well.sidebar-nav
+            %h3 菜单
+            %url.nav.nav-list
+              %li
+                %a{:href => template_projects_path()}
+                  %i.icon-home
+                  项目列表
+              %li
+                %a{:href => "#/reports"}
+                  %i.icon-file
+                  通用报告管理
+              %li
+                %a{:href => "#/segments"}
+                  %i.icon-user
+                  通用用户群管理
+        .span10
+          #main-container
+            = yield
 
-:javascript
-  var reports_router = new Analytics.Routers.ReportsRouter([]);
-  var segments_router = new Analytics.Routers.SegmentsRouter([]);
-  var report_categories_router = new Analytics.Routers.ReportCategoriesRouter();
-  Backbone.history.start();
+    #loading-message{:style => "display: none"} 载入中...

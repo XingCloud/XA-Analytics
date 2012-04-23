@@ -1,16 +1,14 @@
 class Analytics.Collections.Reports extends Backbone.Collection
   model : Analytics.Models.Report
 
-  initialize: (options, category_options) ->
-    for option in options
-      @add new Analytics.Models.Report(option)
-    @categories = new Analytics.Collections.ReportCategories(category_options)
+  initialize: (models, options) ->
+    @categories = new Analytics.Collections.ReportCategories(options.categories)
 
   url: () ->
     if @project?
       "/projects/"+@project.id+"/reports"
     else
-      "/templates/reports"
+      "/template/reports"
 
   view_options: () ->
     options = {

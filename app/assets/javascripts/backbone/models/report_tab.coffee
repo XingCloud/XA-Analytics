@@ -6,9 +6,6 @@ class Analytics.Models.ReportTab extends Backbone.Model
     compare: 0
     metric_ids: []
 
-  initialize: (options) ->
-    @set options
-
   urlRoot: () ->
     if @get('project_id')?
       "/projects/"+@get('project_id')+'/reports/'+@get('report_id')+'/report_tabs'
