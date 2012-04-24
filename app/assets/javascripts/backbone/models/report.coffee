@@ -7,7 +7,7 @@ class Analytics.Models.Report extends Backbone.Model
       _.each(options.report_tabs_attributes, (report_tab_attributes) ->
         report_tabs.push(new Analytics.Models.ReportTab(report_tab_attributes))
       )
-    @report_tabs = _.clone(report_tabs)
+    @report_tabs = report_tabs
 
   show_attributes: () ->
     attr = _.clone(@attributes)

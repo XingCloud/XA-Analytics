@@ -70,8 +70,9 @@ class Analytics.Routers.ReportsRouter extends Backbone.Router
     if not report?
       report = @templates.get(id)
     if report?
-      if not report.view?
-        new Analytics.Views.Reports.ShowView({model: report, id : "report_"+id})
+      if report.view?
+        report.view.remove()
+      new Analytics.Views.Reports.ShowView({model: report, id : "report_"+id})
       report.view.render()
       $('#nav-accordion ul li').removeClass('active')
       $('#report'+id).addClass('active')

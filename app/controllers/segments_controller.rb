@@ -1,78 +1,54 @@
-class SegmentsController < ApplicationController
+class SegmentsController < ProjectBaseController
 
-  before_filter :find_project
-  before_filter :html_header, :only => [:new, :edit, :destroy]
-  @@IDX = 0
+  before_filter :find_segment, :only => [:show, :update, :destroy]
+  before_filter :json_header
 
-  def new
-    @segment = Segment.new
-    render :partial => 'common'
+  def show
+    render :json => @segment.js_attributes
   end
 
   def create
-    @segment = Segment.new(params[:segment].merge!(:project_id => @project.id))
-    @report = find_report(@project)
-    @report_tab = @report.report_tabs.first
-    if @segment.create_segment(params[:expression_name], params[:expression_operator], params[:expression_value])
-      render :partial => "reports/show"
+    @segment = @project.segments.build(params[:segment])
+    if @segment.save
+      render :json => @segment.js_attributes
     else
-      render "new"
+      render :json => @segment.js_attributes, :status => 500
     end
   end
 
-  def edit
-    @segment = Segment.find_by_id(params[:id])
-    render :partial => 'common'
-  end
 
   def update
-    @segment = Segment.find_by_id(params[:id])
-    @report = find_report(@project)
-    @report_tab = @report.report_tabs.first
-    if @segment.update_segment(params[:segment], params[:expression_name], params[:expression_operator], params[:expression_value])
-      render :partial => "reports/show"
-    else
-      render :edit
+    @segment.attributes = params[:segment]
+    expression_ids = params[:segment][:expressions_attributes].map{|expression_attributes| expression_attributes[:id]}
+    @segment.expressions.each do |expression|
+      if expression_ids.index(expression.id.to_s).nil?
+        @segment.expressions.destroy(expression.id)
+      end
     end
-
-  end
-
-  def template
-    @idx = @@IDX += 1
-    render :partial => 'shared/template', :locals => {:segment => nil, :idx => @idx}
+    if @segment.save
+      render :json => @segment.js_attributes
+    else
+      render :json => @segment.js_attributes, :status => 500
+    end
   end
 
 
   def destroy
-    @segment = @project.segments.find(params[:id])
     if @segment.destroy
-      render :json => @segment, :status => 200, :notice => t(:'segment.destroy.success')
+      render :json => @segment.js_attributes
     else
-      render :json => @segment, :notice => t(:'segment.destroy.failed')
+      render :json => @segment.js_attributes, :status => 500
     end
-
   end
 
   private
 
-  def find_report(project)
-    if params[:report_id].blank?
-      project.reports.first
-    else
-      if project.reports.find_by_id(params[:report_id]).nil?
-        Report.where({:project_id => nil, :id => params[:report_id]}).first
-      else
-        project.reports.find(params[:report_id])
-      end
-    end
+  def find_segment
+    @segment = @project.segments.find(params[:id])
   end
 
-  def find_project
-    @project = Project.find_by_id(params[:project_id])
-  end
-
-  def html_header
-    response.headers['Content-Type'] = 'text/html; charset=utf-8'
+  def json_header
+    response.headers['Content-Type'] = 'application/json; charset=utf-8'
   end
 
 end

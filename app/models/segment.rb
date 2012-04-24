@@ -3,6 +3,7 @@ class Segment < ActiveRecord::Base
   has_many :expressions, :dependent => :destroy
   belongs_to :project
 
+  accepts_nested_attributes_for :expressions, :allow_destroy => true
 
   validates :name, :presence => true
 
@@ -47,7 +48,7 @@ class Segment < ActiveRecord::Base
   end
 
   def js_attributes
-    attributes.merge({:expressions => expressions.map(&:attributes)})
+    attributes.merge({:expressions_attributes => expressions.map(&:attributes)})
   end
 
 end

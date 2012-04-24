@@ -1,0 +1,26 @@
+<% if @id?: %>
+    <form class="form-horizontal" id="edit_segment_<%= @id %>" action="#" onsubmit="return false;">
+<% else: %>
+    <form class="form-horizontal" id="new_segment" action="#" onsubmit="return false;">
+<% end %>
+    <fieldset>
+        <div class="control-group">
+            <label class="control-label" for="segment_name">用户群名称</label>
+            <div class="controls">
+                <input id="segment_name" name="name" value="<%= @name %>" />
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label">过滤条件</label>
+            <div class="controls" id="expression-list">
+                <div class="expression-add">
+                    <span id="expression-add">添加"AND"语句</span>
+                </div>
+            </div>
+        </div>
+        <div class="form-actions">
+            <a class="btn btn-primary" id="submit-segment">提交</a>
+            <a class="btn" id="submit-segment-cancel">取消</a>
+        </div>
+    </fieldset>
+</form>

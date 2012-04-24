@@ -3,7 +3,9 @@
   window.projects_router = new Analytics.Routers.ProjectsRouter();
 
   window.segments_router = new Analytics.Routers.SegmentsRouter({
-    project: project
+    project: project,
+    segments: #{@project.segments.map(&:js_attributes).to_json},
+    templates: #{Segment.template.map(&:js_attributes).to_json}
   });
 
   window.report_categories_router = new Analytics.Routers.ReportCategoriesRouter({
