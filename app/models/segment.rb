@@ -11,30 +11,6 @@ class Segment < ActiveRecord::Base
 
   scope :template, where(:project_id => nil)
 
-  scope :customs, lambda { |project| where(:project_id => project.id) }
-
-  def create_segment(names, operators, values)
-    self.transaction do
-      self.save
-      names.each_with_index do |item, index|
-        self.expressions.create(:name => names[index], :operator => operators[index], :value => values[index])
-      end
-    end
-    self
-  end
-
-  #
-  def update_segment(segments, names, operators, values)
-    self.transaction do
-      self.update_attributes(segments)
-      self.expressions.destroy_all
-      names.each_with_index do |item, index|
-        self.expressions.create(:name => names[index], :operator => operators[index], :value => values[index])
-      end
-    end
-  end
-
-  #
   def to_hsh
     segments = {}
     self.expressions.each do |expression|

@@ -12,7 +12,9 @@
 = will_paginate @projects
 
 :javascript
-  window.segments_router = new Analytics.Routers.SegmentsRouter({});
+  window.segments_router = new Analytics.Routers.SegmentsRouter({
+    segments: #{Segment.template.map(&:js_attributes).to_json}
+  });
 
   window.report_categories_router = new Analytics.Routers.ReportCategoriesRouter({
     categories: #{ReportCategory.template.map(&:js_attributes).to_json}

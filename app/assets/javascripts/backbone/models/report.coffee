@@ -17,9 +17,12 @@ class Analytics.Models.Report extends Backbone.Model
 
   parse: (resp) ->
     if resp.report_tabs_attributes?
+      delete_report_tab_indexes = []
       for report_tab in @report_tabs
         if not _.find(resp.report_tabs_attributes, (item) -> item.id == report_tab.id)?
-          @report_tabs.splice(@report_tabs.indexOf(report_tab), 1)
+          delete_report_tab_indexes.push(@report_tabs.indexOf(report_tab))
+      for report_tab_index in @report_tabs
+          @report_tabs.splice(report_tab_index, 1)
       for report_tab_attributes in resp.report_tabs_attributes
         report_tab = _.find(@report_tabs, (item) -> item.id == report_tab_attributes.id)
         if report_tab?

@@ -46,8 +46,11 @@ class Analytics.Views.Segments.FormView extends Backbone.View
     update = @model.id?
     @model.save(@form_attributes(), {
       wait: true,
+      slient: true,
       success: (model, resp) ->
-        if not update
+        if update
+          collection.trigger("change")
+        else
           model.selected = true
           collection.add(model)
     })

@@ -1,6 +1,10 @@
 <% if @id?: %>
+    <h3>编辑用户群</h3>
+    <hr/>
     <form class="form-horizontal" id="edit_segment_<%= @id %>" action="#" onsubmit="return false;">
 <% else: %>
+    <h3>新建用户群</h3>
+    <hr/>
     <form class="form-horizontal" id="new_segment" action="#" onsubmit="return false;">
 <% end %>
     <fieldset>

@@ -33,7 +33,7 @@ class Analytics.Views.Segments.ListView extends Backbone.View
     this
 
   redraw: () ->
-    @delegateEvents(this.events)
+    @delegateEvents(@events)
     @render()
 
   new_segment: () ->
@@ -53,8 +53,6 @@ class Analytics.Views.Segments.ListView extends Backbone.View
   edit_segment: (ev) ->
     id = $(ev.currentTarget).attr("value")
     segment = @segments.get(id)
-    if not segment?
-      segment = @templates.get(id)
     $(@el).html(new Analytics.Views.Segments.FormView({
       model: segment
       parent: this,
@@ -64,13 +62,11 @@ class Analytics.Views.Segments.ListView extends Backbone.View
   remove_segment: (ev) ->
     id = $(ev.currentTarget).attr("value")
     segment = @segments.get(id)
-    if not segment?
-      segment = @templates.get(id)
     if confirm("确认删除？")
       segment.destroy({wait: true})
 
 class Analytics.Views.Segments.ListItemView extends Backbone.View
-  template: JST['backbone/templates/segments/item']
+  template: JST['backbone/templates/segments/list-item']
   tagName: 'tr'
   events:
     "change input[type='checkbox']" : "change_select"

@@ -16,9 +16,12 @@ class Analytics.Models.Segment extends Backbone.Model
 
   parse: (resp) ->
     if resp.expressions_attributes?
+      delete_expression_indexes = []
       for expression in @expressions
         if not _.find(resp.expressions_attributes, (item) -> item.id == expression.id)?
-          @expressions.splice(@expressions.indexOf(expression), 1)
+          delete_expression_indexes.push(@expressions.indexOf(expression))
+      for expression_index in delete_expression_indexes
+        @expressions.splice(expression_index, 1)
       for expression_attributes in resp.expressions_attributes
         expression = _.find(@expressions, (item) -> item.id == expression_attributes.id)
         if expression?
