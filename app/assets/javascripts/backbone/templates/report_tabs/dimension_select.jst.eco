@@ -1,0 +1,13 @@
+<div class="dimension_picker">
+    <select data-placeholder="choose your dimension" style="width:206px;height:34px" class="chzn-select dimension_select" id="report_tabs_id_dimension_select" value="dimension"  index="<%= @index %>">
+        <option value></option>
+        <% for select_dimension in @select_array: %>
+            <option value="<%= select_dimension%>" <%= if @dimension==select_dimension then 'selected="selected"' else''%> ><%= select_dimension%></option>
+        <% end %>
+    </select>
+</div>
+
+
+<script>
+    $(".dimension_select").chosen()
+</script>
