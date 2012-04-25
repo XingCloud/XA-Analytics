@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120418085328) do
+ActiveRecord::Schema.define(:version => 20120423115914) do
 
   create_table "expressions", :force => true do |t|
     t.string   "name"
@@ -66,9 +66,10 @@ ActiveRecord::Schema.define(:version => 20120418085328) do
     t.string   "chart_type",  :default => "line"
     t.datetime "created_at",                      :null => false
     t.datetime "updated_at",                      :null => false
-    t.integer  "length"
-    t.string   "interval"
-    t.integer  "compare"
+    t.integer  "length",      :default => 7
+    t.string   "interval",    :default => "day"
+    t.integer  "compare",     :default => 0
+    t.string   "dimension"
   end
 
   add_index "report_tabs", ["report_id"], :name => "index_report_tabs_on_report_id"

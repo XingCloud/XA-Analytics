@@ -25,6 +25,8 @@
 //= require backbone
 //= require highcharts
 //= require bootstrap-datepicker
+//= require jquery.dataTables.min
+//= require DT_bootstarp
 //= require_directory ./backbone
 //= require_tree ./backbone/models
 //= require_tree ./backbone/collections
