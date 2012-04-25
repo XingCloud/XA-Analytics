@@ -17,7 +17,6 @@ class MetricsController < ProjectBaseController
   end
   
   def update
-    pp params
     @metric.attributes=(params[:metric])
     if @metric.save
       render :json => @metric.short_attributes

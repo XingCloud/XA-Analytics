@@ -1,7 +1,7 @@
 class Analytics.Routers.ReportTabsRouter extends Backbone.Router
 
-  initialize: (project) ->
-    @project = project
+  initialize: (options) ->
+    @project = options.project
     @report_tabs = new Analytics.Collections.ReportTabs()
-    @report_tabs.project = project
+    @report_tabs.project = options.project
 

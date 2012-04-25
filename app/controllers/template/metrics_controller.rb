@@ -1,42 +1,29 @@
-class Template::MetricsController < Admin::BaseController
-  before_filter :find_metric, :only => [:edit, :update, :destroy]
-  layout "dialog"
+class Template::MetricsController < Template::BaseController
+  before_filter :find_metric, :only => [:show, :edit, :update]
+  before_filter :json_header
 
-  def new
-    @metric = Metric.new
-    @metric.build_combine
-    @tab_index = params[:tab_index]
+  def show
+    render :json => @metric.js_attributes
   end
+
 
   def create
     @metric = Metric.new(params[:metric])
     if @metric.save
-      @tab_index = params[:tab_index]
+      render :json => @metric.short_attributes
     else
-      @metric.combine || @metric.build_combine
-      render :new
+      render :json => @metric.short_attributes, :status => 500
     end
   end
 
-  def edit
-    @tab_index = params[:tab_index]
-    unless @metric.combine
-      @metric.build_combine
-    end
-  end
 
   def update
     @metric.attributes=(params[:metric])
     if @metric.save
-      @tab_index = params[:tab_index]
+      render :json => @metric.short_attributes
     else
-      render :edit
+      render :json => @metric.short_attributes, :status => 500
     end
-  end
-
-  def destroy
-    @metric.destroy
-    render :nothing => true
   end
 
   private
@@ -44,4 +31,9 @@ class Template::MetricsController < Admin::BaseController
   def find_metric
     @metric = Metric.find(params[:id])
   end
+
+  def json_header
+    response.headers['Content-Type'] = 'application/json; charset=utf-8'
+  end
+
 end

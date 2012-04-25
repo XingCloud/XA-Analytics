@@ -1,7 +1,4 @@
 class Analytics.Models.ReportCategory extends Backbone.Model
-  initialize: (options) ->
-    @set options
-
   urlRoot: () ->
     if @get('project_id')?
       "/projects/"+@get("project_id")+"/report_categories"

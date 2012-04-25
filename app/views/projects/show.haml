@@ -1,10 +1,32 @@
 :javascript
   window.project = new Analytics.Models.Project(#{@project.js_attributes.to_json});
-  window.projects_router = new Analytics.Routers.ProjectsRouter(project);
-  window.reports_router = new Analytics.Routers.ReportsRouter(project, #{@project.reports.map(&:js_attributes).to_json}, #{@project.report_categories.map(&:js_attributes).to_json});
-  window.report_categories_router = new Analytics.Routers.ReportCategoriesRouter(project);
-  window.metrics_router = new Analytics.Routers.MetricsRouter(project, #{(@project.metrics.map(&:short_attributes)+Metric.template.map(&:short_attributes)).to_json});
-  window.report_tabs_router = new Analytics.Routers.ReportTabsRouter(project);
-  window.segments_router = new Analytics.Routers.SegmentsRouter(project);
+  window.projects_router = new Analytics.Routers.ProjectsRouter();
+
+  window.segments_router = new Analytics.Routers.SegmentsRouter({
+    project: project,
+    segments: #{@project.segments.map(&:js_attributes).to_json},
+    templates: #{Segment.template.map(&:js_attributes).to_json}
+  });
+
+  window.report_categories_router = new Analytics.Routers.ReportCategoriesRouter({
+    project: project,
+    categories: #{@project.report_categories.map(&:js_attributes).to_json},
+    templates: #{ReportCategory.template.map(&:js_attributes).to_json}
+  });
+
+  window.reports_router = new Analytics.Routers.ReportsRouter({
+    project: project,
+    reports: #{@project.reports.map(&:js_attributes).to_json},
+    templates: #{Report.template.map(&:js_attributes).to_json}
+  });
+
+  window.metrics_router = new Analytics.Routers.MetricsRouter({
+    project: project,
+    metrics: #{@project.metrics.map(&:short_attributes).to_json},
+    templates: #{Metric.template.map(&:short_attributes).to_json}
+   });
+
+  window.report_tabs_router = new Analytics.Routers.ReportTabsRouter({project: project});
+
   new Analytics.Views.Projects.ShowView({model: project}).render();
   Backbone.history.start();

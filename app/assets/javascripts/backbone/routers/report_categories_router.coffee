@@ -6,8 +6,11 @@ class Analytics.Routers.ReportCategoriesRouter extends Backbone.Router
     "/report_categories/:id/shift_up" : "shift_up"
     "/report_categories/:id/shift_down" : "shift_down"
 
-  initialize: (project) ->
-    @project = project
+  initialize: (options) ->
+    @project = options.project
+    @categories = new Analytics.Collections.ReportCategories(options.categories)
+    if @project?
+      @templates = new Analytics.Collections.ReportCategories(options.templates)
 
   new: () ->
     if @project?
@@ -17,16 +20,16 @@ class Analytics.Routers.ReportCategoriesRouter extends Backbone.Router
     new Analytics.Views.ReportCategories.FormView({model: report_category, id : "new_report_category"}).render()
 
   edit: (id) ->
-    report_category = reports_router.reports.categories.get(id)
-    if report_category?
-      new Analytics.Views.ReportCategories.FormView({model: report_category, id : "edit_report_category"+id}).render()
+    category = @categories.get(id)
+    if category?
+      new Analytics.Views.ReportCategories.FormView({model: category, id : "edit_report_category"+id}).render()
     else
       window.location.href = "#/reports"
 
   delete: (id) ->
-    report_category = reports_router.reports.categories.get(id)
-    if report_category? and confirm("确认删除分类"+report_category.get("name"))
-      report_category.destroy({wait: true, success : (model, resp) ->
+    category = @categories.get(id)
+    if category? and confirm("确认删除分类"+category.get("name"))
+      category.destroy({wait: true, success : (model, resp) ->
           reports_router.reports.each((report) ->
             if report.get("report_category_id") == model.id
               report.set({report_category_id : null}, {silent: true})
@@ -39,18 +42,18 @@ class Analytics.Routers.ReportCategoriesRouter extends Backbone.Router
       window.location.href = "#/reports"
 
   shift_up: (id) ->
-    report_category = reports_router.reports.categories.get(id)
-    if report_category?
-      report_category.shift("up", {success: (resp, status, xhr) ->
+    category = @categories.get(id)
+    if category?
+      category.shift("up", {success: (resp, status, xhr) ->
         window.location.href = "#/reports"
       })
     else
       window.location.href = "#/reports"
 
   shift_down: (id) ->
-    report_category = reports_router.reports.categories.get(id)
-    if report_category?
-      report_category.shift("down", {success: (resp, status, xhr) ->
+    category = @categories.get(id)
+    if category?
+      category.shift("down", {success: (resp, status, xhr) ->
         window.location.href = "#/reports"
       })
     else

@@ -1,0 +1,12 @@
+<td width="10%">
+    <input type="checkbox" id="segment_<%= @id %>" value="<%= @id %>" <%= if @selected then 'checked="checked"' %> />
+</td>
+<td width="<%= if @project_id? then '75%' else '90%' %>">
+    <label for="segment_<%= @id %>"><%= @name %></label>
+</td>
+<% if @project_id?: %>
+    <td width="15%">
+        <a class="left btn btn-mini edit-segment" value="<%= @id %>"><i class="icon-edit"></i></a>
+        <a class="left btn btn-mini remove-segment" value="<%= @id %>"><i class="icon-remove"></i></a>
+    </td>
+<% end %>

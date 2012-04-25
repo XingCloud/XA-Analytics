@@ -14,20 +14,6 @@
     = javascript_include_tag "application"
     = yield :head
 
-    .container-fluid
-      #container.row-fluid
-        = yield
-    
-      %footer
-        %p &copy; Company 2012
-    #loading-message{:style => "display: none"} 载入中...
-    /
-      Le javascript
-      \==================================================
-    / Placed at the end of the document so the pages load faster
+    = yield
 
-:javascript
-  var reports_router = new Analytics.Routers.ReportsRouter([]);
-  var segments_router = new Analytics.Routers.SegmentsRouter([]);
-  var report_categories_router = new Analytics.Routers.ReportCategoriesRouter();
-  Backbone.history.start();
+    #loading-message{:style => "display: none"} 载入中...

@@ -16,6 +16,7 @@ gem 'thin'
 gem 'dalli'
 gem 'simple_form'
 gem 'eco'
+gem 'uuid'
 
 group :development, :test do
   gem "pry"

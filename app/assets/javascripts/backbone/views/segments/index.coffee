@@ -1,29 +1,48 @@
 Analytics.Views.Segments ||= {}
 
 class Analytics.Views.Segments.IndexView extends Backbone.View
-  el: "#segment_list"
+  template: JST['backbone/templates/segments/index']
   events:
-    "click span#segment_apply":"segment_query"
-    "click span#segment_cancel":"segment_cancel"
-    "click .H5 ul li":"select_segment"
+    "click a#new-segment" : "new_segment"
+    "click a.edit-segment" : "edit_segment"
+    "click a.remove-segment" : "remove_segment"
+
 
   initialize: () ->
-    _.bindAll(this, "segment_query","segment_cancel","select_segment")
+    _.bindAll(this, "render", "redraw")
+    @collection.bind "add", @redraw
+    @collection.bind "destroy", @redraw
+    @collection.bind "change", @redraw
 
-  segment_query: () ->
-    segment_list =  $(".H5").find("input:checked")
-    segments =  (@new_segment(segment) for segment in segment_list)
-    project.set("segments",segments);
-    $("#segment_list").hide();
+  render: () ->
+    $(@el).html(@template(@collection))
+    this
 
-  new_segment: (segment) ->
-    {"id": $(segment).attr("value"),"name":$(segment).next().text()}
+  redraw: () ->
+    @delegateEvents(@events)
+    @render()
 
-  segment_cancel: () ->
-    $("#segment_list").hide();
+  new_segment: () ->
+    $(@el).html(new Analytics.Views.Segments.FormView({
+      model: new Analytics.Models.Segment()
+      parent: this,
+      collection: @collection
+    }).render().el)
 
-  select_segment: (event) ->
-#    if $(".H5").find("input:checked").length >= 2
+  edit_segment: (ev) ->
+    id = $(ev.currentTarget).attr("value")
+    segment = @collection.get(id)
+    $(@el).html(new Analytics.Views.Segments.FormView({
+      model: segment
+      parent: this,
+      collection: @segments
+    }).render().el)
+
+  remove_segment: (ev) ->
+    id = $(ev.currentTarget).attr("value")
+    segment = @collection.get(id)
+    if confirm("确认删除？")
+      segment.destroy({wait: true})
 
 
 

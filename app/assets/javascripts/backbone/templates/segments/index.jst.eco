@@ -1,0 +1,24 @@
+<h3>报告管理</h3>
+<hr/>
+<p>
+    <a class="btn" id="new-segment">添加用户群</a>
+</p>
+
+<table class="table">
+    <tr>
+        <th width="50%">名称</th>
+        <th width="30%">创建时间</th>
+        <th width="15%"></th>
+    </tr>
+    <% for segment in @models: %>
+        <tr>
+            <td><%= segment.get('name') %></td>
+            <td><%= segment.get('created_at') %></td>
+            <td>
+                <a class="btn btn-mini left edit-segment" value="<%= segment.id %>"><i class="icon-edit"/></a>
+                <a class="btn btn-mini left remove-segment" value="<%= segment.id %>"><i class="icon-remove"/></a>
+            </td>
+        </tr>
+    <% end %>
+</table>
+

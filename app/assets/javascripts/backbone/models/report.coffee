@@ -2,13 +2,12 @@ class Analytics.Models.Report extends Backbone.Model
   active_tab: 0
 
   initialize: (options) ->
-    @set options
     report_tabs = []
-    if options.report_tabs_attributes?
+    if options? and options.report_tabs_attributes?
       _.each(options.report_tabs_attributes, (report_tab_attributes) ->
         report_tabs.push(new Analytics.Models.ReportTab(report_tab_attributes))
       )
-    @report_tabs = _.clone(report_tabs)
+    @report_tabs = report_tabs
 
   show_attributes: () ->
     attr = _.clone(@attributes)
@@ -18,9 +17,12 @@ class Analytics.Models.Report extends Backbone.Model
 
   parse: (resp) ->
     if resp.report_tabs_attributes?
+      delete_report_tab_indexes = []
       for report_tab in @report_tabs
         if not _.find(resp.report_tabs_attributes, (item) -> item.id == report_tab.id)?
-          @report_tabs.splice(@report_tabs.indexOf(report_tab), 1)
+          delete_report_tab_indexes.push(@report_tabs.indexOf(report_tab))
+      for report_tab_index in @report_tabs
+          @report_tabs.splice(report_tab_index, 1)
       for report_tab_attributes in resp.report_tabs_attributes
         report_tab = _.find(@report_tabs, (item) -> item.id == report_tab_attributes.id)
         if report_tab?
@@ -42,21 +44,8 @@ class Analytics.Models.Report extends Backbone.Model
     success = options.success
     options.url = @urlRoot()+'/'+@id+'/set_category?report_category_id='+category_id
     model = this
-    old_category = @collection.categories.get(@get("report_category_id"))
     collection = @collection
     options.success =  (resp, status, xhr) ->
-
-      if old_category?
-        report_in_category = _.find(old_category.get("reports"), (item) -> item.id == resp.id)
-        old_category.get("reports").splice(old_category.get("reports").indexOf(report_in_category), 1)
-      if resp.report_category_id?
-        category = collection.categories.get(resp.report_category_id)
-        category.get("reports").push({
-          "id": resp.id,
-          "title": resp.title,
-          "created_at": resp.created_at,
-          "report_category_id": resp.report_category_id
-        })
       model.set(resp)
       collection.trigger "change"
       success(resp, status, xhr)

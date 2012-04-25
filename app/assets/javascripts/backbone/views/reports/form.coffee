@@ -10,6 +10,7 @@ class Analytics.Views.Reports.FormView extends Backbone.View
     _.bindAll(this, "render")
     @model.form = this
     @index = 0
+    @count = 0
 
   render: () ->
     $(@el).html(@template(@model.attributes))
@@ -25,11 +26,12 @@ class Analytics.Views.Reports.FormView extends Backbone.View
     $(@el).find('ul li.tab-header a').last().click()
 
   close_tab: (tab_header_view) ->
-    if @model.get("report_tabs_attributes").length > 1
+    if @count > 1
       tab_header_view.remove()
       tab_header_view.body.remove()
       if $(tab_header_view.el).hasClass('active')
         $(@el).find('ul li.tab-header a').first().click()
+      @count = @count - 1
 
   do_add_tab: (report_tab, active) ->
     report_tab.index = @index
@@ -49,6 +51,7 @@ class Analytics.Views.Reports.FormView extends Backbone.View
     $(@el).find('li#tab-add').before(header.render().el)
     $(@el).find('.tab-content').append(body.render().el)
     @index = @index + 1
+    @count = @count + 1
 
   submit: () ->
     update = @model.id?

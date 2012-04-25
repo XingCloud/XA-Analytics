@@ -23,7 +23,7 @@ class Analytics.Views.ReportCategories.FormView extends Backbone.View
       })
     else
       @model.save($("#new_report_category_form").toJSON(), {wait: true, success: (model, resp) ->
-        reports_router.reports.categories.add(model)
+        report_categories_router.categories.add(model)
         model.form.remove()
         window.location.href = "#/reports"
       })

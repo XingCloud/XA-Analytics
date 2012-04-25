@@ -1,16 +1,53 @@
-.span2
-  = render "admin/projects/left_nav"
+.container-fluid
+  #container.row-fluid
+    .span2
+      .well.sidebar-nav
+        %h3 菜单
+        %url.nav.nav-list
+          %li
+            %a{:href => template_projects_path()}
+              %i.icon-home
+              项目列表
+          %li
+            %a{:href => "#/reports"}
+              %i.icon-file
+              通用报告管理
+          %li
+            %a{:href => "#/segments"}
+              %i.icon-user
+              通用用户群管理
+    .span10
+      #main-container
+        %h3 项目列表
+        %hr
+        %table.table.table-striped.table-bordered.table-condensed
+          %thead
+            %th 项目
+            %th 标示符
+          %tbody
+            - @projects.each do |project|
+              %tr
+                %td= link_to project.name, project_path(project)
+                %td= project.identifier
+        = will_paginate @projects
 
-.span10
-  %h3 项目列表
-  %hr
-  %table.table.table-striped.table-bordered.table-condensed
-    %thead
-      %th 项目
-      %th 标示符
-    %tbody
-      - @projects.each do |project|
-        %tr
-          %td= link_to project.name, project_path(project)
-          %td= project.identifier
-  = will_paginate @projects
+:javascript
+  window.segments_router = new Analytics.Routers.SegmentsRouter({
+    segments: #{Segment.template.map(&:js_attributes).to_json}
+  });
+
+  window.report_categories_router = new Analytics.Routers.ReportCategoriesRouter({
+    categories: #{ReportCategory.template.map(&:js_attributes).to_json}
+  });
+
+  window.reports_router = new Analytics.Routers.ReportsRouter({
+    reports: #{Report.template.map(&:js_attributes).to_json}
+  });
+
+  window.metrics_router = new Analytics.Routers.MetricsRouter({
+    metrics: #{Metric.template.map(&:short_attributes).to_json}
+  });
+
+  window.report_tabs_router = new Analytics.Routers.ReportTabsRouter({});
+
+  Backbone.history.start();

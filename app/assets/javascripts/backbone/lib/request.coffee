@@ -24,5 +24,3 @@ Analytics.Request.ajax = (url, data, type, success) ->
     error: (rtdata) ->
       $('#loading-message').fadeOut(200)
   })
-
-Analytics.Request.counter = 0

@@ -1,6 +1,6 @@
 class Template::BaseController < ApplicationController
   layout "admin"
-  before_filter :admin_required, :only => [:create, :update, :destroy]
+  before_filter :admin_required
   
   protected
   

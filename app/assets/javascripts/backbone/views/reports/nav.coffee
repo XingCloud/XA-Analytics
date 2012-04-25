@@ -3,15 +3,17 @@ Analytics.Views.Reports ||= {}
 class Analytics.Views.Reports.NavView extends Backbone.View
   template: JST['backbone/templates/projects/left-menu']
 
-  initialize: () ->
+  initialize: (options) ->
     _.bindAll(this, "render")
-    @collection.bind "change", @render
-    @collection.bind "add", @render
-    @collection.bind "reset", @render
-    @collection.categories.bind "change", @render
-    @collection.categories.bind "add", @render
-    @collection.categories.bind "reset", @render
+    @reports = options.reports
+    @categories = options.categories
+    @reports.bind "change", @render
+    @reports.bind "add", @render
+    @reports.bind "reset", @render
+    @categories.bind "change", @render
+    @categories.bind "add", @render
+    @categories.bind "reset", @render
 
 
   render: () ->
-    $('#report-nav-list').html(@template(@collection.view_options()))
+    $(@el).html(@template(@reports.view_options(@categories)))
