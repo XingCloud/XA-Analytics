@@ -152,6 +152,7 @@ class Analytics.Collections.ChartSequences extends Backbone.Collection
       sequence.report_tab = report_tab
       console.log(sequence.chart_data())
       chart.get(sequence.id).setData(sequence.chart_data())
+      chart.get(sequence.id).sequence = sequence.chart()
     )
 
   chart_options: () ->

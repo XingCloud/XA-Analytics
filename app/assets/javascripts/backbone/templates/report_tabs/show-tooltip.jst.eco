@@ -1,5 +1,5 @@
 <% if @points[0].series.sequence.interval == "min5" or @points[0].series.sequence.interval == "hour": %>
-    <strong><%= $.format.date(new Date(@x), "yyyy/MM/dd HH:mm") %></strong>
+    <strong><%= $.format.date(new Date(@x), "yyyy/MM/dd%blank%HH:mm") %></strong>
 <% else if @points[0].series.sequence.interval == "month": %>
     <strong><%= $.format.date(new Date(@x), "yyyy/MM") %></strong>
 <% else: %>
@@ -20,7 +20,7 @@
 <br/>
 <% if @points[0].series.sequence.has_compare: %>
     <% if @points[0].series.sequence.interval == "min5" or @points[0].series.sequence.interval == "hour": %>
-        <strong><%= $.format.date(new Date(@x - @points[0].series.sequence.offset), "yyyy/MM/dd HH:mm") %></strong>
+        <strong><%= $.format.date(new Date(@x - @points[0].series.sequence.offset), "yyyy/MM/dd%blank%HH:mm") %></strong>
     <% else if @points[0].series.sequence.interval == "month": %>
         <strong><%= $.format.date(new Date(@x - @points[0].series.sequence.offset), "yyyy/MM") %></strong>
     <% else: %>

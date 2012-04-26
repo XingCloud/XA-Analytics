@@ -54,7 +54,7 @@ class Analytics.Models.ChartSequence extends Backbone.Model
       id: @get("id"),
       color: color,
       name: name,
-      interval: @get("interval")
+      interval: @report_tab.get("interval")
     }
 
   chart_data: () ->
