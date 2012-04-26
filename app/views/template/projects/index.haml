@@ -1,15 +1,35 @@
-%h3 项目列表
-%hr
-%table.table.table-striped.table-bordered.table-condensed
-  %thead
-    %th 项目
-    %th 标示符
-  %tbody
-    - @projects.each do |project|
-      %tr
-        %td= link_to project.name, project_path(project)
-        %td= project.identifier
-= will_paginate @projects
+.container-fluid
+  #container.row-fluid
+    .span2
+      .well.sidebar-nav
+        %h3 菜单
+        %url.nav.nav-list
+          %li
+            %a{:href => template_projects_path()}
+              %i.icon-home
+              项目列表
+          %li
+            %a{:href => "#/reports"}
+              %i.icon-file
+              通用报告管理
+          %li
+            %a{:href => "#/segments"}
+              %i.icon-user
+              通用用户群管理
+    .span10
+      #main-container
+        %h3 项目列表
+        %hr
+        %table.table.table-striped.table-bordered.table-condensed
+          %thead
+            %th 项目
+            %th 标示符
+          %tbody
+            - @projects.each do |project|
+              %tr
+                %td= link_to project.name, project_path(project)
+                %td= project.identifier
+        = will_paginate @projects
 
 :javascript
   window.segments_router = new Analytics.Routers.SegmentsRouter({

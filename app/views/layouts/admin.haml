@@ -14,26 +14,6 @@
     = javascript_include_tag "application"
     = yield :head
 
-    .container-fluid
-      #container.row-fluid
-        .span2
-          .well.sidebar-nav
-            %h3 菜单
-            %url.nav.nav-list
-              %li
-                %a{:href => template_projects_path()}
-                  %i.icon-home
-                  项目列表
-              %li
-                %a{:href => "#/reports"}
-                  %i.icon-file
-                  通用报告管理
-              %li
-                %a{:href => "#/segments"}
-                  %i.icon-user
-                  通用用户群管理
-        .span10
-          #main-container
-            = yield
+    = yield
 
     #loading-message{:style => "display: none"} 载入中...
