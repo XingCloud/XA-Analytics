@@ -3,7 +3,7 @@ Analytics.Views.ReportTabs ||= {}
 class Analytics.Views.ReportTabs.ShowView extends Backbone.View
   template: JST["backbone/templates/report_tabs/show"]
   events:
-    "click #interval .btn-group button" : "change_interval"
+    "click #report-tab-controls .btn-group button" : "change_interval"
     "click #length-control button" : "change_length"
     "click #compare" : "change_compare"
     "click .legend-info-container" : "click_legend_info"

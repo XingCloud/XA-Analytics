@@ -8,11 +8,11 @@
 <br/>
 <% for point in @points: %>
     <% if point.series.sequence.has_compare and not point.series.sequence.for_compare: %>
-        <span style="color: #<%= point.series.sequence.color %>"><%= point.series.name %></span>:%blank%
+        <span style="color: #<%= point.series.sequence.color %>"><%= point.series.name.replace(/[ ]/g, '%blank%') %></span>:%blank%
         <strong><%= point.y %></strong>
         <br/>
     <% else if not point.series.sequence.has_compare: %>
-        <span style="color: #<%= point.series.sequence.color %>"><%= point.series.name %></span>:%blank%
+        <span style="color: #<%= point.series.sequence.color %>"><%= point.series.name.replace(/[ ]/g, '%blank%') %></span>:%blank%
         <strong><%= point.y %></strong>
         <br/>
     <% end %>
@@ -29,7 +29,7 @@
     <br/>
     <% for point in @points: %>
         <% if point.series.sequence.for_compare: %>
-            <span style="color: #<%= point.series.sequence.color %>"><%= point.series.name %></span>:%blank%
+            <span style="color: #<%= point.series.sequence.color %>"><%= point.series.name.replace(/[ ]/g, '%blank%') %></span>:%blank%
             <strong><%= point.y %></strong>
             <br/>
         <% end %>
