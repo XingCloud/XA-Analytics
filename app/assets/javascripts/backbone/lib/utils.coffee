@@ -18,7 +18,7 @@ Analytics.Utils.intervalCount = (end_time, interval, day_count) ->
       when "hour" then period / 3600000
       when "day"  then period / 86400000
       when "week" then (if period < 604800000 then 1 else Math.ceil(period / 604800000))
-      when "month" then Analytics.utils.countMonth(end_time, end_time - period)
+      when "month" then Analytics.Utils.countMonth(end_time, end_time - period)
       else 0
 
 Analytics.Utils.getColor = (index, compare) ->
