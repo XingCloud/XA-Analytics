@@ -9,7 +9,7 @@ class Analytics.Views.Projects.ShowView extends Backbone.View
     @model.view = this
 
   render: () ->
-    $(@el).html(@template(@model.attributes))
+    $(@el).html(@template(@model.show_attributes()))
 
     new Analytics.Views.Reports.NavView({
       reports : reports_router.templates,
@@ -33,7 +33,11 @@ class Analytics.Views.Projects.ShowView extends Backbone.View
 
   render_datepicker: () ->
     el = @el
+    model = @model
     $(@el).find('.datepicker-input').datepicker({format: 'yyyy/mm/dd'}).on('changeDate', (ev) ->
       $(el).find('.datepicker-input').datepicker('hide')
       $(el).find('.datepicker-input').blur()
+      model.report_end_time = ev.date.valueOf()
+      if model.active_tab?
+        model.active_tab.trigger("change")
     )

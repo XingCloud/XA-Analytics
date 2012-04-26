@@ -15,7 +15,7 @@
     </div>
     <div class="right"><label style="padding: 6px 8px 0 0;">报告时长(天):</label></div>
     <div class="right" style="padding: 0 8px 0 0;">
-        <input class="input-small datepicker-input" type="text" id="compare-start-time" value="<%= $.format.date(new Date(new Date().getTime() - @length * 86400000), 'yyyy/MM/dd') %>"/>
+        <input class="input-small datepicker-input" type="text" id="compare-start-time" value="<%= $.format.date(@compare_end_time, 'yyyy/MM/dd') %>"/>
     </div>
     <div class="right" id="compare-control" style="padding: 6px 8px 0 0;">
         <% if @compare: %>
@@ -27,4 +27,6 @@
     <div class="right"><label style="padding: 6px 8px 0 0;">与过去对比:</label></div>
 </div>
 <div id="chart">
+</div>
+<div id="legend">
 </div>

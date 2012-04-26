@@ -49,6 +49,7 @@ class Analytics.Views.Segments.FormView extends Backbone.View
       slient: true,
       success: (model, resp) ->
         if update
+          model.selected = true
           collection.trigger("change")
         else
           model.selected = true

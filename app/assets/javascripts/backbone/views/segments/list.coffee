@@ -45,6 +45,7 @@ class Analytics.Views.Segments.ListView extends Backbone.View
 
   query_segments: () ->
     @report_view.hide_segments()
+    project.active_tab.trigger("change")
 
   query_segments_cancel: () ->
     @report_view.reset_segments_select()

@@ -7,4 +7,4 @@ class Analytics.Collections.Segments extends Backbone.Collection
   reset_selected: (selected_ids) ->
     @each((segment) -> segment.selected = false)
     for id in selected_ids
-      @get('id').selected = true
+      @get(id).selected = true

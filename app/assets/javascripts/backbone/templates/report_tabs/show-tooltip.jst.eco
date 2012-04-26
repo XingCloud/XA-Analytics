@@ -1,0 +1,37 @@
+<% if @points[0].series.sequence.interval == "min5" or @points[0].series.sequence.interval == "hour": %>
+    <strong><%= $.format.date(new Date(@x), "yyyy/MM/dd HH:mm") %></strong>
+<% else if @points[0].series.sequence.interval == "month": %>
+    <strong><%= $.format.date(new Date(@x), "yyyy/MM") %></strong>
+<% else: %>
+    <strong><%= $.format.date(new Date(@x), "yyyy/MM/dd") %></strong>
+<% end %>
+<br/>
+<% for point in @points: %>
+    <% if point.series.sequence.has_compare and not point.series.sequence.for_compare: %>
+        <span style="color: #<%= point.series.sequence.color %>"><%= point.series.name %></span>:%blank%
+        <strong><%= point.y %></strong>
+        <br/>
+    <% else if not point.series.sequence.has_compare: %>
+        <span style="color: #<%= point.series.sequence.color %>"><%= point.series.name %></span>:%blank%
+        <strong><%= point.y %></strong>
+        <br/>
+    <% end %>
+<% end %>
+<br/>
+<% if @points[0].series.sequence.has_compare: %>
+    <% if @points[0].series.sequence.interval == "min5" or @points[0].series.sequence.interval == "hour": %>
+        <strong><%= $.format.date(new Date(@x - @points[0].series.sequence.offset), "yyyy/MM/dd HH:mm") %></strong>
+    <% else if @points[0].series.sequence.interval == "month": %>
+        <strong><%= $.format.date(new Date(@x - @points[0].series.sequence.offset), "yyyy/MM") %></strong>
+    <% else: %>
+        <strong><%= $.format.date(new Date(@x - @points[0].series.sequence.offset), "yyyy/MM/dd") %></strong>
+    <% end %>
+    <br/>
+    <% for point in @points: %>
+        <% if point.series.sequence.for_compare: %>
+            <span style="color: #<%= point.series.sequence.color %>"><%= point.series.name %></span>:%blank%
+            <strong><%= point.y %></strong>
+            <br/>
+        <% end %>
+    <% end %>
+<% end %>

@@ -13,3 +13,9 @@ class Analytics.Routers.SegmentsRouter extends Backbone.Router
       collection: @segments
     }).render().el)
 
+  get: (id) ->
+    segment = @segments.get(id)
+    if not segment?
+      segment = @templates.get(id)
+    segment
+
