@@ -2,7 +2,6 @@ Analytics.Views.ReportTabs ||= {}
 
 class Analytics.Views.ReportTabs.ShowView extends Backbone.View
   template: JST["backbone/templates/report_tabs/show"]
-  dimension_show_template: JST["backbone/templates/report_tabs/dimension_show_table"]
   events:
     "click #report-tab-controls .btn-group button" : "change_interval"
     "click #length-control button" : "change_length"
@@ -18,7 +17,6 @@ class Analytics.Views.ReportTabs.ShowView extends Backbone.View
   render: () ->
     $(@el).html(@template(@model.show_attributes()))
     $(@report_view.el).find('#tab-container').html($(@el))
-    $(@report_view.el).find('#dimension_show').append(@dimension_show_template());
     @render_datepicker()
     @render_chart()
 

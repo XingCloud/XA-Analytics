@@ -66,9 +66,9 @@ ActiveRecord::Schema.define(:version => 20120423115914) do
     t.string   "chart_type",  :default => "line"
     t.datetime "created_at",                      :null => false
     t.datetime "updated_at",                      :null => false
-    t.integer  "length",      :default => 7
-    t.string   "interval",    :default => "day"
-    t.integer  "compare",     :default => 0
+    t.integer  "length"
+    t.string   "interval"
+    t.integer  "compare"
     t.string   "dimension"
   end
 

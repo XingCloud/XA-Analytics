@@ -28,13 +28,7 @@
         </div>
     </div>
 </div>
-<div class="control-group">
-    <label class="control-label" for="report_tabs_attributes_<%= @index %>_dimension">weidu</label>
-    <div class="controls well dimension">
-        <input type="hidden" id="report_tabs_attributes_<%= @index %>_dimension" name="report_tabs_attributes[<%= @index %>][dimension]" />
-        <div id="report_tabs_<%= @index %>_dimension_list"></div>
-    </div>
-</div>
+
 
 <div class="control-group">
     <div class="controls">
