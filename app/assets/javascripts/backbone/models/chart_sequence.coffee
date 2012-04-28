@@ -21,8 +21,8 @@ class Analytics.Models.ChartSequence extends Backbone.Model
       value = @get("total")
       compare_value = (if compare? then compare.get("total") else 0)
     else
-      percent = @get("percent")
       value = @get("natural")
+      percent = (if @get("total") != 0 then value / @get("total") else 0)
       compare_value = (if compare? then compare.get("natural") else 0)
     {
       compare: compare?,
