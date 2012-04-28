@@ -1,6 +1,0 @@
-<div class="dimension_picker">
-    <div class="dimension_display" data-popup="width:800px" index="<%= @index %>">
-        <%= @dimension %>
-    </div>
-    <i class="icon-remove dimension_del" index="<%= @index %>"/>
-</div>

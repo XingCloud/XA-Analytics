@@ -16,7 +16,7 @@
         </div>
         <ul class="nav nav-tabs">
             <li id="tab-add">
-                <a>
+                <a style="cursor: pointer;">
                     <i class="icon-plus"></i>
                     添加标签
                 </a>

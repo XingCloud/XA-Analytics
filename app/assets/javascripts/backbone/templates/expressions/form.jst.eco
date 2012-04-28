@@ -5,23 +5,14 @@
     <div class="expression-form-inner">
         <input type="hidden" name="expressions_attributes[<%= @index %>][id]" value="<%= @id %>" />
         <select class="left" name="expressions_attributes[<%= @index %>][name]">
-            <option value="register_time" <%= if @name == 'register_time' or not @name? then 'selected="selected"' %> >注册时间</option>
-            <option value="last_login_time" <%= if @name == 'last_login_time' then 'selected="selected"'  %> >最后登陆时间</option>
-            <option value="first_pay_time" <%= if @name == 'first_pay_time' then 'selected="selected"'  %> >首次付费时间</option>
-            <option value="last_pay_time" <%= if @name == 'last_pay_time' then 'selected="selected"'  %> >最后付费时间</option>
-            <option value="grade" <%= if @name == 'grade' then 'selected="selected"'  %> >等级</option>
-            <option value="game_time" <%= if @name == 'game_time' then 'selected="selected"'  %> >游戏时间</option>
-            <option value="pay_amount" <%= if @name == 'pay_amount' then 'selected="selected"'  %> >付费量</option>
-            <option value="language" <%= if @name == 'language' then 'selected="selected"'  %> >语言</option>
-            <option value="platform" <%= if @name == 'platform' then 'selected="selected"'  %> >平台</option>
+            <% for attribute in Analytics.Static.UserAttributes: %>
+                <option value="<%= attribute.value %>" <%= if @name == attribute.value then 'selected="selected"' %> ><%= attribute.name %></option>
+            <% end %>
         </select>
         <select class="left" name="expressions_attributes[<%= @index %>][operator]" >
-            <option value="gt" <%= if @operator == 'gt' or not @operator? then 'selected="selected"'  %> >大于</option>
-            <option value="gte" <%= if @operator == 'gte' then 'selected="selected"'  %> >大于等于</option>
-            <option value="lt" <%= if @operator == 'lt' then 'selected="selected"'  %> >小于</option>
-            <option value="lte" <%= if @operator == 'lte' then 'selected="selected"'  %> >小于等于</option>
-            <option value="eq" <%= if @operator == 'eq' then 'selected="selected"'  %> >等于</option>
-            <option value="handler" <%= if @operator == 'handler' then 'selected="selected"'  %> >相对时间</option>
+            <% for operator in Analytics.Static.ExpressionOperator: %>
+                <option value="<%= operator.value %>" <%= if @operator == operator.value then 'selected="selected"'  %> ><%= operator.name %></option>
+            <% end %>
         </select>
         <input type="text" name="expressions_attributes[<%= @index %>][value]" value="<%= @value %>"/>
     </div>

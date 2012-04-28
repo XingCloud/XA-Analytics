@@ -22,6 +22,22 @@ class Analytics.Models.ReportTab extends Backbone.Model
   data_url: () ->
     "/projects/"+project.id+"/reports/"+@get("report_id")+"/report_tabs/"+@id+"/data"
 
+  dimensions_url: (filters) ->
+    params = {
+      end_time: parseInt(project.report_end_time/1000)
+      interval: @get("interval")
+      length: @get('length')
+      level: filters.length
+      filters: JSON.stringify(filters)
+    }
+    "/projects/"+project.id+"/reports/"+@get("report_id")+"/report_tabs/"+@id+"/dimensions?"+ $.param(params)
+
+  metrics_attributes: () ->
+    metrics = []
+    for metric_id in @get("metric_ids")
+      metrics.push(metrics_router.get(metric_id).attributes)
+    metrics
+
   show_attributes: () ->
     attributes = _.clone(@attributes)
     attributes.compare_end_time = @compare_end_time

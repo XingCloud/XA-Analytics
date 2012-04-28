@@ -3,7 +3,7 @@
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
 
-#loading-message{
+@mixin loading{
   background: #FFF1A8 -webkit-gradient(linear,left top,left bottom,from(#FFE090),to(#FFF2B0));
   background-color: #FFF1A8;
   color: black;
@@ -21,6 +21,10 @@
   -moz-box-shadow: rgba(0,0,0,0.246094) 0px -3px 5px,rgba(0,0,0,0.246094) 0px 3px 5px;
   -webkit-box-shadow: rgba(0,0,0,0.246094) 0px -3px 5px,rgba(0,0,0,0.246094) 0px 3px 5px;
 
+}
+
+#loading-message{
+  @include loading;
 }
 
 .action-add {
@@ -348,3 +352,56 @@
   width: 0px;
 }
 
+.dimension-item{
+  margin-bottom: 5px;
+}
+
+.dimension-remove {
+  background: no-repeat url(/assets/sprites.png) -527px -173px;
+  cursor: pointer;
+  height: 12px;
+  width: 12px;
+}
+
+.dimension-add {
+  border-collapse: collapse;
+  border: 1px dashed;
+  border-radius: 3px 3px 3px 3px;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: bold;
+  height: 16px;
+  margin: 3px 10px 3px 0;
+  padding: 5px;
+  text-align: center;
+  width: 196px;
+  -moz-border-radius: 3px 3px 3px 3px;
+  -webkit-border-top-left-radius: 3px;
+  -webkit-border-top-right-radius: 3px;
+  -webkit-border-bottom-left-radius: 3px;
+  -webkit-border-bottom-right-radius: 3px;
+
+  background: #F4FFE6;
+  border-color: #9DB675;
+  color: #93AC6B;
+
+  visibility: visible;
+}
+
+.dimensions-table{
+  margin-top: 10px;
+}
+
+.dimension-table table.table{
+  th, td {
+    text-align: center;
+  }
+}
+
+.dimensions-breadcrumb{
+  margin-top: 40px;
+}
+
+.dataTables_processing{
+  @include loading;
+}

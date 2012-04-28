@@ -1,3 +1,5 @@
+
+<input id="report_tabs_attributes_<%= @index %>__destroy" name="report_tabs_attributes[<%= @index %>][_destroy]" type="hidden" value="0" />
 <div class="control-group">
     <label class="control-label" for="report_tabs_attributes_<%= @index %>_title">标签标题</label>
     <div class="controls">
@@ -17,18 +19,8 @@
     </div>
 </div>
 
-<div class="control-group">
-    <label class="control-label" for="report_tabs_attributes_<%= @index %>_metric_ids">指标组</label>
-    <div class="controls well metrics">
-        <input type="hidden" id="report_tabs_attributes_<%= @index %>_metric_ids" name="report_tabs_attributes[<%= @index %>][metric_ids][]" />
-        <div id="report_tab_<%= @index %>_metric_list"></div>
-        <div class="action-add" style="mouseover: cursor;">
-            <i class="icon-plus" />
-            添加指标
-        </div>
-    </div>
-</div>
-
+<div id="report_tabs_<%= @index %>_metrics"></div>
+<div id="report_tabs_<%= @index %>_dimensions"></div>
 
 <div class="control-group">
     <div class="controls">

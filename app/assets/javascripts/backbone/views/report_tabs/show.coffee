@@ -19,6 +19,7 @@ class Analytics.Views.ReportTabs.ShowView extends Backbone.View
     $(@report_view.el).find('#tab-container').html($(@el))
     @render_datepicker()
     @render_chart()
+    #@render_dimensions()
 
   redraw: () ->
     @remove()
@@ -44,6 +45,15 @@ class Analytics.Views.ReportTabs.ShowView extends Backbone.View
   redraw_chart: () ->
     $(@el).find('#legend').html(JST['backbone/templates/report_tabs/show-legend'](@chart_sequences.legend()))
     @chart_sequences.chart_render()
+
+  render_dimensions: () ->
+    dimensions_sequence = new Analytics.Models.DimensionsSequence({
+      metrics: @model.metrics_attributes()
+      dimensions: @model.get("dimensions_attributes")
+    })
+    $(@el).find('#dimensions').html(new Analytics.Views.Dimensions.ShowView({
+      model: dimensions_sequence
+    }).render().el)
 
   change_interval: (ev) ->
     if @model.get("project_id")?

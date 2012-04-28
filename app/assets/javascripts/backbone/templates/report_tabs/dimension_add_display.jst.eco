@@ -1,6 +1,0 @@
-<div class="dimension_picker">
-    <div class="dimension_add" data-popup="width:800px" index="<%= @index %>">
-        <i class="icon-plus" />
-            添加weidu
-    </div>
-</div

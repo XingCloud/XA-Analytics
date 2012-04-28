@@ -19,9 +19,9 @@
     <ul class="nav nav-tabs">
         <% for report_tab in @report_tabs_attributes: %>
             <% if @project_id?: %>
-                <li class="<%= (if @report_tabs_attributes.indexOf(report_tab) == 0 then 'report-tab active' else 'report-tab')%>" value="<%= @report_tabs_attributes.indexOf(report_tab) %>"><a><%= report_tab.title %></a></li>
+                <li class="<%= (if @report_tabs_attributes.indexOf(report_tab) == 0 then 'report-tab active' else 'report-tab')%>" value="<%= @report_tabs_attributes.indexOf(report_tab) %>"><a style="cursor: pointer;"><%= report_tab.title %></a></li>
             <% else: %>
-                <li class="<%= (if @report_tabs_attributes.indexOf(report_tab) == 0 then 'report-tab active' else 'report-tab')%>" value="<%= @report_tabs_attributes.indexOf(report_tab) %>"><a><%= report_tab.title %></a></li>
+                <li class="<%= (if @report_tabs_attributes.indexOf(report_tab) == 0 then 'report-tab active' else 'report-tab')%>" value="<%= @report_tabs_attributes.indexOf(report_tab) %>"><a style="cursor: pointer;"><%= report_tab.title %></a></li>
             <% end %>
         <% end %>
     </ul>

@@ -41,6 +41,7 @@
                                         <%= metric.value %>
                                         &nbsp;vs&nbsp;
                                         <span class="legend-dot" style="border-color: #<%= metric.compare_color %>"/>
+                                        <%= metric.compare_value %>
                                     </p>
                                 <% else if not metric.compare: %>
                                     <p class="value">

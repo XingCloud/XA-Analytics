@@ -37,6 +37,7 @@ class Analytics.Collections.ChartSequences extends Backbone.Collection
     length: @report_tab.get("length")
     compare: @report_tab.get("compare")
     interval: @report_tab.get("interval")
+    segment_ids: @segment_ids()
 
   fetch_data: () ->
     $.blockUI({message: $('#loader-message')})
@@ -150,7 +151,6 @@ class Analytics.Collections.ChartSequences extends Backbone.Collection
     report_tab = @report_tab
     @each((sequence) ->
       sequence.report_tab = report_tab
-      console.log(sequence.chart_data())
       chart.get(sequence.id).setData(sequence.chart_data())
       chart.get(sequence.id).sequence = sequence.chart()
     )

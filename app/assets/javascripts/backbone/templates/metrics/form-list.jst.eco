@@ -1,9 +1,9 @@
-<div class="metric_picker" style="mouseover: cursor;">
-    <div class="metric_display">
-        <%= @name %>
+<label class="control-label" for="report_tabs_attributes_<%= @index %>_metric_ids">指标组</label>
+<div class="controls well metrics">
+    <input type="hidden" id="report_tabs_attributes_<%= @index %>_metric_ids" name="report_tabs_attributes[<%= @index %>][metric_ids][]" />
+    <div id="report_tab_<%= @index %>_metric_list"></div>
+    <div class="action-add" style="mouseover: cursor;">
+        <i class="icon-plus" />
+        添加指标
     </div>
-    <div class="metric_container">
-        <input type="hidden" id="report_tabs_attributes_<%= @index %>_metrics_<%= @id %>" name="report_tabs_attributes[<%= @index %>][metric_ids][]" value="<%= @id %>" />
-    </div>
-    <img src="/assets/cleardot.gif" class="del ly" /> &nbsp;
 </div>

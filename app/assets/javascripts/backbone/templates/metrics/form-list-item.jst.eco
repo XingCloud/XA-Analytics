@@ -1,0 +1,9 @@
+<div class="metric_picker" style="mouseover: cursor;">
+    <div class="metric_display">
+        <%= @name %>
+    </div>
+    <div class="metric_container">
+        <input type="hidden" id="report_tabs_attributes_<%= @index %>_metrics_<%= @id %>" name="report_tabs_attributes[<%= @index %>][metric_ids][]" value="<%= @id %>" />
+    </div>
+    <img src="/assets/cleardot.gif" class="del ly" /> &nbsp;
+</div>

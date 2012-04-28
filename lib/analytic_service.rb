@@ -34,7 +34,7 @@ class AnalyticService
         request_id = REQUEST_ID.generate()
         request_result[request_id] = {
             :metric_id => metric.id,
-            :segment_id => segment_id.blank? ? 0 : segment_id,
+            :segment_id => segment_id.blank? ? 0 : segment_id.to_i,
             :for_compare => false,
             :data => [],
             :index => index,
@@ -45,7 +45,7 @@ class AnalyticService
           request_id = REQUEST_ID.generate()
           request_result[request_id] = {
               :metric_id => metric.id,
-              :segment_id => segment_id.blank? ? 0 : segment_id,
+              :segment_id => segment_id.blank? ? 0 : segment_id.to_i,
               :for_compare => true,
               :data => [],
               :index => index,
@@ -60,10 +60,8 @@ class AnalyticService
     pp request_params
 
     resp = self.class.commit("/dd/events", {:params => request_params.to_json, :p => 1})
-    if resp["result"]
-      resp["datas"].keys.each do |request_id|
-        request_result[request_id].merge!(resp["datas"][request_id])
-      end
+    resp["datas"].keys.each do |request_id|
+      request_result[request_id].merge!(resp["datas"][request_id])
     end
     request_result.values
   end
@@ -77,6 +75,29 @@ class AnalyticService
   def self.user_attribute(project)
     options = {:project_id => project.identifier}
     commit("/dd/up", {:params => options.to_json})
+  end
+
+
+  def request_dimensions(report_tab, params)
+    dimension = report_tab.dimensions.find_by_level(params[:level])
+    result = {:aaData => [], :iTotalDisplayRecords => 0, :iTotalRecords => 0, :sEcho => params[:sEcho]}
+    if dimension.present?
+      options = []
+      report_tab.metrics.each do |metric|
+        options.push(request_dimension_options(metric, dimension, params))
+      end
+      pp options
+      index = (params[:iDisplayLength].present? and params[:iDisplayLength] != 0) ? params[:iDisplayStart].to_i/params[:iDisplayLength].to_i : 0
+      pagesize = (params[:iDisplayLength].present? and params[:iDisplayLength] != 0) ? params[:iDisplayLength].to_i : 10
+      #resp = fake_dimension_commit(report_tab.metrics, index, pagesize)
+      resp = self.class.commit('/dd/event/groupby', {:params => options.to_json, :index => index, :pagesize => pagesize})
+      if resp["result"]
+        result[:aaData] = reverse_map_to_array(resp["data"])
+        result[:iTotalRecords] = resp["total"]
+        result[:iTotalDisplayRecords] = resp["total"]
+      end
+    end
+    result
   end
 
   private
@@ -108,6 +129,47 @@ class AnalyticService
 
   end
 
+  def request_dimension_options(metric, dimension, params)
+    end_time = params[:end_time].to_i
+    options = {
+        :id => metric.id,
+        :project_id => params[:identifier],
+        :end_time => Time.at(end_time).strftime("%Y-%m-%d"),
+        :start_time => Time.at(end_time - (params[:length].to_i - 1) * 86400).strftime("%Y-%m-%d"),
+        :interval => params[:interval].upcase,
+        :groupby => dimension.value,
+        :groupby_type => dimension.dimension_type.upcase,
+        :segment => request_dimension_filter_user_attributes(params[:filters])
+    }
+    request_dimension_filter_event(metric, params[:filters])
+    options.merge!(metric_options(metric))
+  end
+
+  def request_dimension_filter_user_attributes(filters)
+    user_attributes = {}
+    if filters.present?
+      filters = JSON.parse(filters)
+      filters.each do |filter|
+        if filter["type"].upcase == 'USER_PROPERTIES'
+          user_attributes[filter["key"]] = filter["value"]
+        end
+      end
+    end
+    user_attributes.to_json
+  end
+
+  def request_dimension_filter_event(metric, filters)
+    if filters.present?
+      filters = JSON.parse(filters)
+      filters.each do |filter|
+        if filter["type"].upcase == "EVENT"
+          metric.send("event_key_"+filter["key"]+"=", filter["value"])
+        end
+      end
+    end
+    metric
+  end
+
   def metric_options(metric)
     options = {
         :event_key => metric.event_key,
@@ -135,6 +197,30 @@ class AnalyticService
     options
   end
 
+  def reverse_map_to_array(map)
+    new_map = {}
+    map.keys.sort.each do |key|
+      map[key].keys.sort.each do |key1|
+        if new_map.has_key?(key1)
+          new_map[key1].push(map[key][key1])
+        else
+          new_map[key1] = [map[key][key1]]
+        end
+      end
+    end
+    new_map.map{|item|[item[0]]+item[1]}
+  end
+
+  def fake_dimension_commit(metrics, index, pagesize)
+    data = {}
+    metrics.each do |metric|
+      data[metric.id] = {}
+      for i in index*pagesize..(index*pagesize+pagesize-1)
+        data[metric.id]["apple#{i}"] = Random.rand(10000..100000)
+      end
+    end
+    {"data" => data, "result" => true, "total" => 1000}
+  end
 
   def self.commit(url, options = {}, request_options = {})
     url = URI.parse(File.join(BASE_URL, url))
@@ -147,7 +233,7 @@ class AnalyticService
     logger.info "Response: #{response.code}"
     pp response.body
     if response.is_a?(Net::HTTPSuccess)
-      return ActiveSupport::JSON.decode(response.body)
+      return JSON.parse(response.body)
     else
       return {"result" => false, "error" => "Request: #{response.code}"}
     end

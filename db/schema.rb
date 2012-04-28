@@ -11,7 +11,15 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120423115914) do
+ActiveRecord::Schema.define(:version => 20120428115914) do
+
+  create_table "dimensions", :force => true do |t|
+    t.integer "report_tab_id"
+    t.string  "name"
+    t.string  "value"
+    t.string  "dimension_type"
+    t.integer "level"
+  end
 
   create_table "expressions", :force => true do |t|
     t.string   "name"
@@ -69,7 +77,6 @@ ActiveRecord::Schema.define(:version => 20120423115914) do
     t.integer  "length"
     t.string   "interval"
     t.integer  "compare"
-    t.string   "dimension"
   end
 
   add_index "report_tabs", ["report_id"], :name => "index_report_tabs_on_report_id"

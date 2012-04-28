@@ -41,9 +41,9 @@
                     <input class="input-mini" type="text" id="metric_number_of_day" name="number_of_day" value="<%= @number_of_day %>"/>
                     天内
                     <select id="metric_condition" name="condition" style="width: auto;">
-                        <option value="count" <%= if @condition == 'count' then 'selected="selected"' %> >发生的次数</option>
-                        <option value="sum" <%= if @condition == 'sum' then 'selected="selected"' %> >值的总和</option>
-                        <option value="user_sum" <%= if @condition == 'user_sum' then 'selected="selected"' %> >发生的用户人数</option>
+                        <% for condition in Analytics.Static.MetricCondition: %>
+                            <option value="<%= condition.value %>" <%= if @condition == condition.value then 'selected="selected"' %> ><%= condition.name %></option>
+                        <% end %>
                     </select>
                     <p class="help-block">天数可用于 周活跃用户，月活跃用户等 非必填</p>
                 </div>
@@ -53,12 +53,9 @@
                 <div class="controls">
                     <select id="metric_comparison_operator" name="comparison_operator" style="width: auto">
                         <option value="" <%= if not @comparison_operator? or (@comparison_operator? == '') then 'selected="selected"' %> ></option>
-                        <option value="gt" <%= if @comparison_operator == 'gt' then 'selected="selected"' %> >&gt;</option>
-                        <option value="lt" <%= if @comparison_operator == 'lt' then 'selected="selected"' %> >&lt;</option>
-                        <option value="ge" <%= if @comparison_operator == 'ge' then 'selected="selected"' %> >&gt;=</option>
-                        <option value="le" <%= if @comparison_operator == 'le' then 'selected="selected"' %> >&lt;=</option>
-                        <option value="eq" <%= if @comparison_operator == 'eq' then 'selected="selected"' %> >==</option>
-                        <option value="ne" <%= if @comparison_operator == 'ne' then 'selected="selected"' %> >!=</option>
+                        <% for operator in Analytics.Static.MetricComparisonOperator: %>
+                            <option value="<%= operator.value %>" <%= if @comparison_operator == operator.value then 'selected="selected"' %> ><%= operator.name %></option>
+                        <% end %>
                     </select>
                     <input class="input-mini" id="metric_comparison" name="comparison" type="text" value="<%= @comparison %>">
                     <p class="help-block">用来过滤条件，非必填</p>
@@ -70,10 +67,9 @@
                 <div class="controls">
                     <select id="metric_combine_action" name="combine_action">
                         <option value="" <%= if not @combine_action? or (@combine_action? == '') then 'selected="selected"' %> ></option>
-                        <option value="addition" <%= if @combine_action == 'addition' then 'selected="selected"' %> >加法</option>
-                        <option value="division" <%= if @combine_action == 'division' then 'selected="selected"' %> >除法(算百分比)</option>
-                        <option value="multiplication" <%= if @combine_action == 'multiplication' then 'selected="selected"' %> >乘法</option>
-                        <option value="subduction" <%= if @combine_action == 'subduction' then 'selected="selected"' %> >减法</option>
+                        <% for combine_action in Analytics.Static.MetricCombineAction: %>
+                            <option value="<%= combine_action.value %>" <%= if @combine_action == combine_action.value then 'selected="selected"' %> ><%= combine_action.name %></option>
+                        <% end %>
                     </select>
                     <input id="metric_combine_attributes__destroy" name="combine_attributes[_destroy]" type="hidden" value="<%= if @combine_attributes? then 0 else 1 %>">
                     <input id="metric_combine_attributes_id" name="combine_attributes[id]" type="hidden" value="<%= if @combine_attributes? then @combine_attributes.id %>"/>
@@ -100,9 +96,9 @@
                         <input class="input-mini" type="text" id="metric_combine_attributes_number_of_day" name="combine_attributes[number_of_day]" value="<%= if @combine_attributes? then @combine_attributes.number_of_day %>"/>
                         天内
                         <select id="metric_combine_attributes_condition" name="combine_attributes[condition]" style="width: auto;">
-                            <option value="count" <%= if @combine_attributes? and @combine_attributes.condition == 'count' then 'selected="selected"' %> >发生的次数</option>
-                            <option value="sum" <%= if @combine_attributes? and @combine_attributes.condition == 'sum' then 'selected="selected"' %> >值的总和</option>
-                            <option value="user_sum" <%= if @combine_attributes? and @combine_attributes.condition == 'user_sum' then 'selected="selected"' %> >发生的用户人数</option>
+                            <% for condition in Analytics.Static.MetricCondition: %>
+                                <option value="<%= condition.value %>" <%= if @combine_attributes? and @combine_attributes.condition  == condition.value then 'selected="selected"' %> ><%= condition.name %></option>
+                            <% end %>
                         </select>
                         <p class="help-block">天数可用于 周活跃用户，月活跃用户等 非必填</p>
                     </div>
@@ -112,12 +108,9 @@
                     <div class="controls">
                         <select id="metric_combine_attributes_comparison_operator" name="combine_attributes[comparison_operator]" style="width: auto">
                             <option value="" <%= if not @combine_attributes? or not @combine_attributes.comparison_operator? or (@combine_attributes.comparison_operator? == '') then 'selected="selected"' %> ></option>
-                            <option value="gt" <%= if @combine_attributes? and @combine_attributes.comparison_operator == 'gt' then 'selected="selected"' %> >&gt;</option>
-                            <option value="lt" <%= if @combine_attributes? and @combine_attributes.comparison_operator == 'lt' then 'selected="selected"' %> >&lt;</option>
-                            <option value="ge" <%= if @combine_attributes? and @combine_attributes.comparison_operator == 'ge' then 'selected="selected"' %> >&gt;=</option>
-                            <option value="le" <%= if @combine_attributes? and @combine_attributes.comparison_operator == 'le' then 'selected="selected"' %> >&lt;=</option>
-                            <option value="eq" <%= if @combine_attributes? and @combine_attributes.comparison_operator == 'eq' then 'selected="selected"' %> >==</option>
-                            <option value="ne" <%= if @combine_attributes? and @combine_attributes.comparison_operator == 'ne' then 'selected="selected"' %> >!=</option>
+                            <% for operator in Analytics.Static.MetricComparisonOperator: %>
+                                <option value="<%= operator.value %>" <%= if @combine_attributes? and @combine_attributes.comparison_operator == operator.value then 'selected="selected"' %> ><%= operator.name %></option>
+                            <% end %>
                         </select>
                         <input class="input-mini" id="metric_combine_attributes_comparison" name="combine_attributes[comparison]" type="text" value="<%= if @combine_attributes? then @combine_attributes.comparison %>">
                         <p class="help-block">用来过滤条件，非必填</p>

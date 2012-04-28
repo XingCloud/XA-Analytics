@@ -1,6 +1,6 @@
 class ReportTabsController < ProjectBaseController
   before_filter :find_report_tab, :only => [:show, :update]
-  before_filter :find_report_tab_with_template, :only => [:data]
+  before_filter :find_report_tab_with_template, :only => [:data, :dimensions]
   before_filter :json_header
 
   def show
@@ -30,6 +30,15 @@ class ReportTabsController < ProjectBaseController
     end
   end
 
+  def dimensions
+    service = AnalyticService.new()
+    if check_dimensions_params
+      render :json => service.request_dimensions(@report_tab, params.merge({:identifier => @project.identifier}))
+    else
+      render :json => {}, :status => 500
+    end
+  end
+
   private
 
   def check_data_params
@@ -37,6 +46,13 @@ class ReportTabsController < ProjectBaseController
             params[:compare_end_time].present? and
             params[:compare].present? and
             params[:length].present? and
+            params[:interval].present?)
+  end
+
+  def check_dimensions_params
+    return (params[:end_time].present? and
+            params[:length].present? and
+            params[:level].present? and
             params[:interval].present?)
   end
 

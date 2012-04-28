@@ -1,0 +1,8 @@
+<label class="control-label" for="report_tabs_attributes_<%= @index %>_dimensions">报告维度</label>
+<div class="controls well dimension">
+    <div class="dimensions"></div>
+    <div class="dimension-add" style="mouseover: cursor;">
+        <i class="icon-plus" />
+        添加维度
+    </div>
+</div>

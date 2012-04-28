@@ -30,9 +30,9 @@ class Analytics.Views.Metrics.FormView extends Backbone.View
       $(el).modal('hide')
       if not update
         model.collection.add(model)
-        model.report_tab_view.render_metric(model.id)
+        model.list_view.render_metric(model.id)
       else
-        model.list_view.render()
+        model.list_item_view.render()
     })
 
   cancel : () ->

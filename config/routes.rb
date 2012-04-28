@@ -17,6 +17,7 @@ Analytic::Application.routes.draw do
       resources :report_tabs do
         member do
           get :data
+          get :dimensions
         end
       end
     end

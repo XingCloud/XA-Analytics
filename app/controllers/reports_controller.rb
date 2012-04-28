@@ -20,19 +20,9 @@ class ReportsController < ProjectBaseController
     render :json => @report.js_attributes
   end
 
-  def render_segment
-    render :partial=>'segments/segments'
-  end
-  
   def update
     @report.attributes = params[:report]
-    report_tab_ids = params[:report][:report_tabs_attributes].map{|report_tab| report_tab[:id]}
-    @report.report_tabs.each do |report_tab|
-      if report_tab_ids.index(report_tab.id.to_s).nil?
-        @report.report_tabs.destroy(report_tab.id)
-      end
-    end
-    if @report.save
+    if @report.save!
       render :json => @report.js_attributes
     else
       render :json => @report.js_attributes, :status => 500

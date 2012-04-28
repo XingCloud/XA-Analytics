@@ -22,16 +22,29 @@ class Analytics.Views.Reports.FormView extends Backbone.View
 
   add_tab: (ev) ->
     report_tab = new Analytics.Models.ReportTab({project_id: @model.get("project_id")})
-    @do_add_tab(report_tab, false)
-    $(@el).find('ul li.tab-header a').last().click()
+    @remove_tab_active_class()
+    @do_add_tab(report_tab, true)
 
-  close_tab: (tab_header_view) ->
+  close_tab: (report_tab, tab_header_view) ->
     if @count > 1
       tab_header_view.remove()
-      tab_header_view.body.remove()
+      if report_tab.id?
+        $(tab_header_view.body.el).hide()
+      else
+        tab_header_view.body.remove()
       if $(tab_header_view.el).hasClass('active')
-        $(@el).find('ul li.tab-header a').first().click()
+        @active_first_tab()
       @count = @count - 1
+
+  remove_tab_active_class: () ->
+    $(@el).find('ul li.tab-header').removeClass('active')
+    $(@el).find('.tab-pane').removeClass('active')
+
+  active_first_tab: () ->
+    @remove_tab_active_class()
+    $(@el).find('ul li.tab-header').first().addClass('active')
+    index = $(@el).find('ul li.tab-header a').first().attr('value')
+    $(@el).find('#report_tab_'+index).addClass('active')
 
   do_add_tab: (report_tab, active) ->
     report_tab.index = @index

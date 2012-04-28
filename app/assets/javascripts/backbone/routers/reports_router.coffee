@@ -23,6 +23,8 @@ class Analytics.Routers.ReportsRouter extends Backbone.Router
         categories: report_categories_router.categories
       })
     @reports.view.render()
+    if @project?
+      $('#nav-accordion ul li').removeClass('active')
 
 
   show: (id) ->
@@ -40,6 +42,9 @@ class Analytics.Routers.ReportsRouter extends Backbone.Router
     report = @reports.get(id)
     if report?
       new Analytics.Views.Reports.FormView({id : "edit_report_"+report.id, model: report}).render()
+      if @project?
+        $('#nav-accordion ul li').removeClass('active')
+        $('#report'+id).addClass('active')
     else if window.history.length > 0
       window.history.back()
     else
