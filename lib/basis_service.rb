@@ -28,5 +28,26 @@ class BasisService
       nil
     end
   end
+
+  def self.auth_project(identifier, user)
+    req = Net::HTTP::Get.new("/projects/#{identifier}/users/#{user}/roles")
+    req.basic_auth BASIC_USERNAME, BASIC_PASSWORD
+    res = Net::HTTP.start(HOST, PORT){|http|
+      http.request(req)
+    }
+    pp res.body
+    if res.is_a?(Net::HTTPSuccess)
+      result = JSON.parse(res.body)
+      if result.length == 0
+        nil
+      else
+        YAML::load(result[0]["role"]["permissions"])
+      end
+    else
+      puts "#{res.code} #{res.message}"
+      nil
+    end
+
+  end
   
 end

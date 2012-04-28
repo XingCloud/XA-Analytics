@@ -9,7 +9,7 @@ class ApplicationController < ActionController::Base
     pp session[:cas_user]
     session[:cas_user]
   end
-  
+
   def cas_filter
     CASClient::Frameworks::Rails::Filter.filter(self)
   end

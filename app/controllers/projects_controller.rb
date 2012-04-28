@@ -1,4 +1,5 @@
 class ProjectsController < ApplicationController
+  before_filter :auth_project
   before_filter :find_project, :only => [:show, :members, :event_item, :dashboard]
   before_filter :html_header, :only => [:dashboard]
 
@@ -56,11 +57,30 @@ class ProjectsController < ApplicationController
     report
   end
 
+  def html_header
+    response.headers['Content-Type'] = 'text/html; charset=utf-8'
+  end
+
   def find_project
     @project = Project.fetch(params[:id])
   end
 
-  def html_header
-    response.headers['Content-Type'] = 'text/html; charset=utf-8'
+  def auth_project
+    if not APP_CONFIG[:admin].include?(session[:cas_user])
+      @project = Project.fetch(params[:id])
+      session[:projects_permissions] ||= {}
+      if session[:projects_permissions][@project.identifier].blank?
+        permissions = BasisService.auth_project(@project.identifier, session[:cas_user])
+        if permissions.nil? or not permissions.include?(:view_statistics)
+          session[:projects_permissions][@project.identifier] = false
+        else
+          session[:projects_permissions][@project.identifier] = true
+        end
+      end
+      if not session[:projects_permissions][@project.identifier]
+        render :file => "public/401.html", :status => :unauthorized
+        return
+      end
+    end
   end
 end
