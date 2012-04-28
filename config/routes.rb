@@ -1,6 +1,8 @@
 Analytic::Application.routes.draw do
 
   root :to => "template/projects#index"
+  match "/logout" => "application#logout"
+
   resources :projects do
 
     member do

@@ -2,7 +2,12 @@ class ApplicationController < ActionController::Base
   helper_method :current_user
   before_filter :cas_filter
   #before_filter :debug_cas
-  
+
+  def logout
+    CASClient::Frameworks::Rails::Filter.logout(self)
+    reset_session
+  end
+
   protected
   
   def current_user
