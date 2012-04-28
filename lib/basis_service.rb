@@ -41,7 +41,12 @@ class BasisService
       if result.length == 0
         nil
       else
-        YAML::load(result[0]["role"]["permissions"])
+        role = result[0]["role"]
+        if role == "admin"
+          [:view_statistics, :set_statistics]
+        else
+          YAML::load(role["permissions"])
+        end
       end
     else
       puts "#{res.code} #{res.message}"
