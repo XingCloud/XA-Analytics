@@ -1,5 +1,6 @@
 class Analytics.Models.ReportTab extends Backbone.Model
   defaults:
+    title: '新建标签'
     chart_type: 'line'
     interval: 'day'
     length: 7

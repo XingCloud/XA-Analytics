@@ -3,6 +3,7 @@ class Analytics.Routers.ReportsRouter extends Backbone.Router
     "/reports" : "index"
     "/reports/new" : "new"
     "/reports/:id" : "show"
+    "/reports/:id/clone" : "clone"
     "/reports/:id/edit" : "edit"
     "/reports/:id/delete" : "delete"
     "/reports/:id/set_category/:category_id" : "set_category"
@@ -50,6 +51,15 @@ class Analytics.Routers.ReportsRouter extends Backbone.Router
     else
       window.location.href = "#/reports"
 
+  clone: (id) ->
+    report = @templates.get(id)
+    if report?
+      report.clone({success: (resp, status, xhr) -> })
+    else if window.history.length > 0
+      window.history.back()
+    else
+      window.location.href = "#/reports"
+
   delete: (id) ->
     report = @reports.get(id)
     if report? and confirm("确认删除报告"+report.get("title"))
@@ -75,10 +85,9 @@ class Analytics.Routers.ReportsRouter extends Backbone.Router
     if not report?
       report = @templates.get(id)
     if report?
-      if report.view?
-        report.view.remove()
-      new Analytics.Views.Reports.ShowView({model: report, id : "report_"+id})
-      report.view.render()
+      if not report.view?
+        new Analytics.Views.Reports.ShowView({model: report, id : "report_"+id})
+      report.view.redraw()
       $('#nav-accordion ul li').removeClass('active')
       $('#report'+id).addClass('active')
 

@@ -12,7 +12,7 @@ class Metric < ActiveRecord::Base
   
   before_validation :correct_combine
   
-  validates_presence_of :name, :if => proc{|m| m.project_id.present? }
+  validates_presence_of :name
   validates_presence_of :comparison_operator, :if => proc{|m| m.comparison.present? }
   validates_presence_of :comparison, :if => proc {|m| m.comparison_operator.present? }
   validates_presence_of :condition
@@ -59,21 +59,29 @@ class Metric < ActiveRecord::Base
   def short_attributes
     {:id => self.id, :name => self.name, :project_id => project_id}
   end
-  
+
   def template_attributes
-    self.attributes.slice("event_key", "condition", "combine_action", "comparision_operator", "comparison", "name")
+    {:number_of_day => number_of_day,
+     :name => name, :event_key => event_key,
+     :condition => condition,
+     :combine_action => combine_action,
+     :comparison_operator => comparison_operator,
+     :comparison => comparison}
   end
-  
+
   def clone_as_template(project_id)
-    attrs = self.template_attributes
-    attrs[:project_id] = project_id
+    new_metric = Metric.new(self.template_attributes)
+    new_metric.project_id = project_id
     if not self.combine.nil?
-      combine_attrs = self.combine.template_attributes
-      attrs[:combine_attributes] = combine_attrs
+      new_metric.combine = self.combine.clone_as_template(project_id)
     end
-    Metric.new(attrs)
+    if new_metric.save
+      new_metric
+    else
+      raise ActiveRecord::Rollback
+    end
   end
-  
+
   protected
 
   def correct_combine

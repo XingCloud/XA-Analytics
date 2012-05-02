@@ -14,6 +14,7 @@ Analytic::Application.routes.draw do
     resources :reports do
       member do
         get :set_category
+        get :clone
       end
       get :render_segment, :as => :collection
       resources :report_tabs do

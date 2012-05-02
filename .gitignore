@@ -10,3 +10,5 @@ db/schema.rb
 db/*.sqlite3
 analytic/.idea/*
 .idea/*
+.DS_Store
+*/.DS_Store

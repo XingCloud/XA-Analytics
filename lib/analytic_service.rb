@@ -124,7 +124,7 @@ class AnalyticService
     segment = Segment.find_by_id(segment_id)
     metric = Metric.find_by_id(metric_id)
 
-    options.merge!({:segment => (segment.to_hsh.to_json unless segment.blank?)})
+    options.merge!({:segment => (segment.to_hsh.to_json unless (segment.blank? or segment.expressions.length == 0))})
     options.merge!(metric_options(metric))
 
   end

@@ -1,5 +1,5 @@
 class ReportsController < ProjectBaseController
-  before_filter :find_report_with_template, :only => [:show]
+  before_filter :find_report_with_template, :only => [:show, :clone]
   before_filter :find_report, :only => [:edit, :update, :destroy, :set_category]
   before_filter :json_header
   
@@ -18,6 +18,19 @@ class ReportsController < ProjectBaseController
 
   def show
     render :json => @report.js_attributes
+  end
+
+  def clone
+    new_report = nil
+    Report.transaction do
+      new_report = @report.clone_as_template(@project.id)
+    end
+    if new_report.blank?
+      render :json => @report.js_attributes, :status => 500
+    else
+      render :json => {:new_report => new_report.js_attributes,
+                       :new_metrics => new_report.metrics.map(&:js_attributes)}
+    end
   end
 
   def update

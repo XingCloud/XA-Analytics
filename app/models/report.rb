@@ -28,8 +28,32 @@ class Report < ActiveRecord::Base
     attributes.merge({:report_tabs_attributes => report_tabs.map(&:js_attributes)})
   end
 
-  def clone_as_template
+  def template_attributes
+    {:title => title}
+  end
 
+  def clone_as_template(project_id)
+    new_report = Report.new(self.template_attributes)
+    new_report.project_id = project_id
+    new_report.report_category_id = nil
+    self.report_tabs.each do |report_tab|
+      new_report.report_tabs.push(report_tab.clone_as_template(project_id))
+    end
+    if new_report.save
+      new_report
+    else
+      raise ActiveRecord::Rollback
+    end
+  end
+
+  def metrics
+    metrics = []
+    self.report_tabs.each do |report_tab|
+      report_tab.metrics.each do |metric|
+        metrics.push(metric)
+      end
+    end
+    metrics
   end
 
 end

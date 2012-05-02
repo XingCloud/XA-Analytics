@@ -6,6 +6,10 @@
             <a class="btn" href="#/reports/<%= @id %>/edit">
                 <i class="icon-edit" title="编辑报告"/>
             </a>
+        <% else: %>
+            <a class="btn" href="#/reports/<%= @id %>/clone">
+                <i class="icon-edit" title="编辑报告"/>
+            </a>
         <% end %>
         <a class="btn" id="refresh-btn">
             <i class="icon-refresh" title="刷新"/>

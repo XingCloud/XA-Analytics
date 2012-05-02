@@ -35,7 +35,7 @@ class Analytics.Views.Segments.FormView extends Backbone.View
     @count = @count + 1
 
   remove_expression: (expression_view) ->
-    if @count > 1
+    if @count > 1 or not @model.get("project_id")?
       expression_view.remove()
 
   add_expression: () ->

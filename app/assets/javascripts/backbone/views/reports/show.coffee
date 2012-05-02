@@ -9,13 +9,18 @@ class Analytics.Views.Reports.ShowView extends Backbone.View
     "click a#refresh-btn" : "refresh"
 
   initialize: () ->
-    _.bindAll(this, "render")
+    _.bindAll(this, "render", "redraw")
     @model.view = this
 
   render: () ->
     $(@el).html(@template(@model.show_attributes()))
     $('#main-container').html($(@el))
     @render_report_tab(0)
+
+  redraw: () ->
+    @remove()
+    @render()
+    @delegateEvents(@events)
 
   render_segments: () ->
     $(@el).find('#segments').html(new Analytics.Views.Segments.ListView({
@@ -29,13 +34,14 @@ class Analytics.Views.Reports.ShowView extends Backbone.View
       report_tab = @model.report_tabs[index]
       project.active_tab = report_tab
       if report_tab.view?
-        report_tab.view.remove()
-      new Analytics.Views.ReportTabs.ShowView({
-        model: report_tab,
-        id : 'report_tab_'+report_tab.id
-      })
-      report_tab.view.report_view = this
-      report_tab.view.render()
+        report_tab.view.redraw()
+      else
+        new Analytics.Views.ReportTabs.ShowView({
+          model: report_tab,
+          id : 'report_tab_'+report_tab.id
+        })
+        report_tab.view.report_view = this
+        report_tab.view.render()
 
   reset_segments_select: () ->
     segments_router.segments.reset_selected(@segments_selected)

@@ -1,6 +1,9 @@
 class Analytics.Models.Report extends Backbone.Model
   active_tab: 0
 
+  defaults:
+    title: "新建报告"
+
   initialize: (options) ->
     report_tabs = []
     if options? and options.report_tabs_attributes?
@@ -48,6 +51,19 @@ class Analytics.Models.Report extends Backbone.Model
     options.success =  (resp, status, xhr) ->
       model.set(resp)
       collection.trigger "change"
+      success(resp, status, xhr)
+
+    Backbone.sync('read', this, options)
+
+  clone: (options) ->
+    success = options.success
+    options.url = "/projects/"+project.id+'/reports'+'/'+@id+'/clone'
+    collection = reports_router.reports
+    options.success = (resp, status, xhr) ->
+      new_report = new Analytics.Models.Report(resp.new_report)
+      metrics_router.metrics.batch_add(resp.new_metrics)
+      collection.add(new_report)
+      reports_router.edit(new_report.id)
       success(resp, status, xhr)
 
     Backbone.sync('read', this, options)

@@ -4,8 +4,8 @@ class ApplicationController < ActionController::Base
   #before_filter :debug_cas
 
   def logout
-    CASClient::Frameworks::Rails::Filter.logout(self)
     reset_session
+    CASClient::Frameworks::Rails::Filter.logout(self)
   end
 
   protected

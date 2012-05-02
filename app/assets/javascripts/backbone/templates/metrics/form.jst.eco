@@ -77,6 +77,8 @@
             </div>
 
             <div id="combine-fields" style="display: <%= if @combine_attributes? then 'block' else 'none' %>">
+                <input type="hidden" id="metric_combine_attributes_project_id" name="combine_attributes[project_id]" value="<%= @project_id %>" />
+                <input type="hidden" id="metric_combine_attributes_name" name="combine_attributes[name]" value="<%= if @combine_attributes?  and @combine_attributes.name? then @combine_attributes.name else 'combine' %>"/>
                 <% for i in [0..5]: %>
                     <div class="control-group">
                         <label class="control-label" for="metric_combine_attributes_event_key_<%= i %>">事件第<%= i+1 %>层</label>
