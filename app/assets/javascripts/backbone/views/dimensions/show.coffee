@@ -53,7 +53,7 @@ class Analytics.Views.Dimensions.ShowView extends Backbone.View
   change_pagesize: (ev) ->
     pagesize = parseInt($(@el).find('select.pagesize :selected').val())
     if pagesize != @model.get("pagesize")
-      @model.set({pagesize: pagesize}, {silent: true})
+      @model.set({index: 0, pagesize: pagesize}, {silent: true})
       @fetch()
 
   filter_dimension: (ev) ->
