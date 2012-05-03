@@ -5,10 +5,12 @@
                 <% if not @all_segment: %>
                     <td class="metric-name"></td>
                 <% end %>
+                <% index = 0 %>
                 <% for metric in @metrics: %>
-                    <td class="metric-name">
+                    <td class="metric-name <%= if index+1 == @metrics.length then 'last' %>">
                         <span><%= metric %></span>
                     </td>
+                    <% index = index + 1 %>
                 <% end %>
             </tr>
             <% for segment in @segments: %>
@@ -16,8 +18,9 @@
                     <% if not @all_segment: %>
                         <td class="legend-name"><%= segment.name %></td>
                     <% end %>
+                    <% index = 0 %>
                     <% for metric in segment.metrics: %>
-                        <td>
+                        <td class="<%= if index+1 == segment.metrics.length then 'last' %>">
                             <div class="legend-info-container" sequence-id="<%= metric.id %>" compare-sequence-id="<%= metric.compare_id %>">
                                 <% if metric.compare and metric.value >= metric.compare_value: %>
                                     <p class="value higher">
@@ -60,6 +63,7 @@
                                 <% end %>
                             </div>
                         </td>
+                        <% index = index + 1 %>
                     <% end %>
                 </tr>
             <% end %>

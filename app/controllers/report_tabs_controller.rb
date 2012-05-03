@@ -33,9 +33,9 @@ class ReportTabsController < ProjectBaseController
   def dimensions
     service = AnalyticService.new()
     if check_dimensions_params
-      render :json => service.request_dimensions(@report_tab, params.merge({:identifier => @project.identifier}))
+      render :json => {:status => 200, :id => @report_tab.id, :data => service.request_dimensions(@report_tab, params.merge({:identifier => @project.identifier}))}
     else
-      render :json => {}, :status => 500
+      render :json => {:status => 500, :id => @report_tab.id, :msg => "params not valid"}, :status => 500
     end
   end
 

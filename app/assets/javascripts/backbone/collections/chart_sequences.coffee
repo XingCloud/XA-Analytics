@@ -40,7 +40,6 @@ class Analytics.Collections.ChartSequences extends Backbone.Collection
     segment_ids: @segment_ids()
 
   fetch_data: () ->
-    $.blockUI({message: $('#loader-message')})
     collection = this
     $.ajax({
       url: @report_tab.data_url()
@@ -55,10 +54,10 @@ class Analytics.Collections.ChartSequences extends Backbone.Collection
     if resp.status == 200 and resp.id == project.active_tab.id
       project.active_tab.view.chart_sequences.reset(resp.data)
       project.active_tab.view.redraw_chart()
-    $.unblockUI()
+      project.active_tab.view.fetch_complete()
 
   fetch_error: (resp) ->
-    $.unblockUI()
+    project.active_tab.view.fetch_complete()
 
   segment_ids: () ->
     segment_ids = segments_router.segments.selected().concat(segments_router.templates.selected())

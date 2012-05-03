@@ -53,10 +53,10 @@ Analytics.Static.Dimensions = [
   {value: 'pay_amount', name: '付费量', dimension_type: "USER_PROPERTIES"},
   {value: 'language', name: '语言', dimension_type: "USER_PROPERTIES"},
   {value: 'lplatforme', name: '平台', dimension_type: "USER_PROPERTIES"},
-  {value: 1, name: '事件字段第一层', dimension_type: 'EVENT'},
-  {value: 2, name: '事件字段第二层', dimension_type: 'EVENT'},
-  {value: 3, name: '事件字段第三层', dimension_type: 'EVENT'},
-  {value: 4, name: '事件字段第四层', dimension_type: 'EVENT'},
-  {value: 5, name: '事件字段第五层', dimension_type: 'EVENT'},
-  {value: 6, name: '事件字段第六层', dimension_type: 'EVENT'}
+  {value: "0", name: '事件字段第一层', dimension_type: 'EVENT'},
+  {value: "1", name: '事件字段第二层', dimension_type: 'EVENT'},
+  {value: "2", name: '事件字段第三层', dimension_type: 'EVENT'},
+  {value: "3", name: '事件字段第四层', dimension_type: 'EVENT'},
+  {value: "4", name: '事件字段第五层', dimension_type: 'EVENT'},
+  {value: "5", name: '事件字段第六层', dimension_type: 'EVENT'}
 ]

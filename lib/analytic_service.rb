@@ -80,21 +80,19 @@ class AnalyticService
 
   def request_dimensions(report_tab, params)
     dimension = report_tab.dimensions.find_by_level(params[:level])
-    result = {:aaData => [], :iTotalDisplayRecords => 0, :iTotalRecords => 0, :sEcho => params[:sEcho]}
+    result = {:data => [], :total => 0, :pagesize => 0, :index => 0, :rate => 0.0, :cost => 0}
     if dimension.present?
       options = []
       report_tab.metrics.each do |metric|
         options.push(request_dimension_options(metric, dimension, params))
       end
       pp options
-      index = (params[:iDisplayLength].present? and params[:iDisplayLength] != 0) ? params[:iDisplayStart].to_i/params[:iDisplayLength].to_i : 0
-      pagesize = (params[:iDisplayLength].present? and params[:iDisplayLength] != 0) ? params[:iDisplayLength].to_i : 10
-      #resp = fake_dimension_commit(report_tab.metrics, index, pagesize)
+      index = params[:index].present? ? params[:index].to_i : 0
+      pagesize = (params[:pagesize].present? and params[:pagesize] != 0) ? params[:pagesize].to_i : 10
       resp = self.class.commit('/dd/event/groupby', {:params => options.to_json, :index => index, :pagesize => pagesize})
       if resp["result"]
-        result[:aaData] = reverse_map_to_array(resp["data"])
-        result[:iTotalRecords] = resp["total"]
-        result[:iTotalDisplayRecords] = resp["total"]
+        result.merge!(resp)
+        result["data"] = reverse_map_to_array(resp["data"])
       end
     end
     result
@@ -139,6 +137,8 @@ class AnalyticService
         :interval => params[:interval].upcase,
         :groupby => dimension.value,
         :groupby_type => dimension.dimension_type.upcase,
+        :orderby => params[:orderby],
+        :order => params[:order].blank? ? 'ASC' : params[:order].upcase,
         :segment => request_dimension_filter_user_attributes(params[:filters])
     }
     request_dimension_filter_event(metric, params[:filters])
@@ -148,19 +148,21 @@ class AnalyticService
   def request_dimension_filter_user_attributes(filters)
     user_attributes = {}
     if filters.present?
-      filters = JSON.parse(filters)
+      filters = filters.map{|item|item[1]}
       filters.each do |filter|
         if filter["type"].upcase == 'USER_PROPERTIES'
           user_attributes[filter["key"]] = filter["value"]
         end
       end
     end
-    user_attributes.to_json
+    if user_attributes.length > 0
+      user_attributes.to_json
+    end
   end
 
   def request_dimension_filter_event(metric, filters)
     if filters.present?
-      filters = JSON.parse(filters)
+      filters = filters.map{|item|item[1]}
       filters.each do |filter|
         if filter["type"].upcase == "EVENT"
           metric.send("event_key_"+filter["key"]+"=", filter["value"])
@@ -199,27 +201,16 @@ class AnalyticService
 
   def reverse_map_to_array(map)
     new_map = {}
-    map.keys.sort.each do |key|
-      map[key].keys.sort.each do |key1|
+    map.keys.each do |key|
+      map[key].keys.each do |key1|
         if new_map.has_key?(key1)
-          new_map[key1].push(map[key][key1])
+          new_map[key1][key] = map[key][key1]
         else
-          new_map[key1] = [map[key][key1]]
+          new_map[key1] = {key => map[key][key1]}
         end
       end
     end
-    new_map.map{|item|[item[0]]+item[1]}
-  end
-
-  def fake_dimension_commit(metrics, index, pagesize)
-    data = {}
-    metrics.each do |metric|
-      data[metric.id] = {}
-      for i in index*pagesize..(index*pagesize+pagesize-1)
-        data[metric.id]["apple#{i}"] = Random.rand(10000..100000)
-      end
-    end
-    {"data" => data, "result" => true, "total" => 1000}
+    new_map.map{|item|{:name => item[0], :value => item[1]}}
   end
 
   def self.commit(url, options = {}, request_options = {})
