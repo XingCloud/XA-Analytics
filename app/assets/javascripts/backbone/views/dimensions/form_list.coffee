@@ -36,6 +36,9 @@ class Analytics.Views.Dimensions.FormListItemView extends Backbone.View
       dimension_type: option.attr('dimension_type')
     })
 
+  set_margin_left: (level) ->
+    $(@el).find(".dimension-item").css("margin-left", (level*20)+"px")
+
 
 class Analytics.Views.Dimensions.FormListView extends Backbone.View
   template: JST['backbone/templates/dimensions/form-list']
@@ -73,9 +76,8 @@ class Analytics.Views.Dimensions.FormListView extends Backbone.View
     @dimensions.splice(@dimensions.indexOf(dimension), 1)
     @level = 0
     for dimension_model in @dimensions
-      dimension_model.view.remove()
-    for dimension_model in _.sortBy(@dimensions, (dimension) -> dimension.get("level"))
-      @render_dimension(dimension_model)
+      dimension_model.view.set_margin_left(@level)
+      @level = @level + 1
 
   add_dimension: () ->
     if @level >= 6
