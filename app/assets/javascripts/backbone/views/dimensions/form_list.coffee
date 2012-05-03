@@ -13,19 +13,18 @@ class Analytics.Views.Dimensions.FormListItemView extends Backbone.View
     @model.view = this
     @report_tab_index = options.report_tab_index
     @list_view = options.list_view
+    @index = options.index
 
   render: () ->
     attributes = _.clone(@model.attributes)
     attributes.report_tab_index = @report_tab_index
+    attributes.index = @index
     $(@el).html(@template(attributes))
     this
 
   remove_dimension: () ->
-    if @model.id?
-      $(@el).hide()
-      $(@el).find('#report_tabs_'+@report_tab_index+'_dimensions_'+@model.get('level')+'__destroy').val(1)
-    else
-      @remove()
+    $(@el).hide()
+    $(@el).find('#report_tabs_'+@report_tab_index+'_dimensions_'+@index+'__destroy').val(1)
     @list_view.remove_dimension(@model)
 
   change_dimension: (ev) ->
@@ -35,10 +34,6 @@ class Analytics.Views.Dimensions.FormListItemView extends Backbone.View
       value: option.attr('value')
       dimension_type: option.attr('dimension_type')
     })
-
-  set_margin_left: (level) ->
-    $(@el).find(".dimension-item").css("margin-left", (level*20)+"px")
-
 
 class Analytics.Views.Dimensions.FormListView extends Backbone.View
   template: JST['backbone/templates/dimensions/form-list']
@@ -50,6 +45,7 @@ class Analytics.Views.Dimensions.FormListView extends Backbone.View
   initialize: () ->
     _.bindAll(this, "render")
     @dimensions = []
+    @index = 0
 
   render: () ->
     $(@el).html(@template(@model))
@@ -67,17 +63,20 @@ class Analytics.Views.Dimensions.FormListView extends Backbone.View
       model: dimension
       report_tab_index: @model.index
       list_view: this
+      index: @index
     }).render().el)
     @level = @level+1
     $(@el).find('.dimension-add').css('margin-left': @level*20+"px")
+    @index = @index + 1
 
 
   remove_dimension: (dimension) ->
     @dimensions.splice(@dimensions.indexOf(dimension), 1)
     @level = 0
     for dimension_model in @dimensions
-      dimension_model.view.set_margin_left(@level)
+      dimension_model.set({level: @level})
       @level = @level + 1
+    $(@el).find('.dimension-add').css('margin-left': @level*20+"px")
 
   add_dimension: () ->
     if @level >= 6
