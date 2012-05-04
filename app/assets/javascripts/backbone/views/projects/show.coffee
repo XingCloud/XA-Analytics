@@ -30,12 +30,9 @@ class Analytics.Views.Projects.ShowView extends Backbone.View
       is_template: false
     }).render()
 
-    ###
-    @render_datepicker()
-    ###
 
-    if @model.first_report()?
-      reports_router.show(@model.first_report().id)
+    if @model.first_report()? and window.location.href.indexOf('#') == -1
+      window.location.href = "#/reports/"+@model.first_report().id
     else
       $(@el).find('#main-container').html(JST['backbone/templates/projects/no-report']())
 
