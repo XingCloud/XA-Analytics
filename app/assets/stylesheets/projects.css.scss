@@ -33,6 +33,11 @@ table.main-table{
     min-width: 200px;
     vertical-align: top;
     .reports-nav{
+      ul li.no-data{
+        text-align: center;
+        height: 30px;
+        padding-top: 10px;
+      }
       ul.templates li.nav-header{
         @include report-category-header;
       }

@@ -1,5 +1,5 @@
 <% if (not @categories.length) and (not @reports.length): %>
-    <li><i>暂无数据</i></li>
+    <li class="no-data"><i>暂无数据</i></li>
 <% end %>
 <% for category in _.sortBy(@categories, (item) -> item.position): %>
     <li class="nav-header">
