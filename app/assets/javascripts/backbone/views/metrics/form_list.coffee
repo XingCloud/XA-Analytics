@@ -21,11 +21,20 @@ class Analytics.Views.Metrics.FormListItemView extends Backbone.View
     $(@el).remove()
 
   show: () ->
-    @model.list_item_view = this
-    @model.fetch({success: (model, resp) ->
+    model = @model
+    model.list_item_view = this
+    model.edit({success: (resp) ->
+      template_model = null
+      if not resp.id?
+        template_model = new Analytics.Models.Metric(model.attributes)
+        metrics_router.templates.remove(model)
+        metrics_router.templates.add(template_model)
+        model.collection = metrics_router.metrics
+      model.set(resp)
       new Analytics.Views.Metrics.FormView({
-        model: model,
-        id: "edit_metric_"+model.id
+        model: model
+        clone: template_model
+        id: (if model.id? then "edit_metric_"+model.id else "clone_metric")
       }).render()
     })
 
@@ -47,7 +56,7 @@ class Analytics.Views.Metrics.FormListView extends Backbone.View
     this
 
   render_metric: (metric_id) ->
-    metric = metrics_router.metrics.get(metric_id)
+    metric = metrics_router.get(metric_id)
     metric.index = @model.index
     metric_view = new Analytics.Views.Metrics.FormListItemView({model: metric})
     $(@el).find('#report_tab_'+@model.index+'_metric_list').append(metric_view.render().el)

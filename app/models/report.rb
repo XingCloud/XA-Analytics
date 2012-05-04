@@ -39,11 +39,7 @@ class Report < ActiveRecord::Base
     self.report_tabs.each do |report_tab|
       new_report.report_tabs.push(report_tab.clone_as_template(project_id))
     end
-    if new_report.save
-      new_report
-    else
-      raise ActiveRecord::Rollback
-    end
+    new_report
   end
 
   def metrics

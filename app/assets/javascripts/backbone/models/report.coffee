@@ -15,6 +15,7 @@ class Analytics.Models.Report extends Backbone.Model
   show_attributes: () ->
     attr = _.clone(@attributes)
     attr.report_tabs_attributes = []
+    attr.report_end_time = project.report_end_time
     _.each(@report_tabs, (report_tab) -> attr.report_tabs_attributes.push(report_tab.attributes))
     attr
 
@@ -58,12 +59,9 @@ class Analytics.Models.Report extends Backbone.Model
   clone: (options) ->
     success = options.success
     options.url = "/projects/"+project.id+'/reports'+'/'+@id+'/clone'
-    collection = reports_router.reports
     options.success = (resp, status, xhr) ->
-      new_report = new Analytics.Models.Report(resp.new_report)
-      metrics_router.metrics.batch_add(resp.new_metrics)
-      collection.add(new_report)
-      reports_router.edit(new_report.id)
+      report = new Analytics.Models.Report(resp)
+      reports_router.do_new(report)
       success(resp, status, xhr)
 
     Backbone.sync('read', this, options)

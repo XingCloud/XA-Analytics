@@ -4,6 +4,9 @@ class Analytics.Views.Projects.ShowView extends Backbone.View
   template: JST['backbone/templates/projects/show']
   el: "#container"
 
+  events:
+    "click td.nav-toggle" : "toggle_left_nav"
+
   initialize: () ->
     _.bindAll(this, "render")
     @model.view = this
@@ -11,19 +14,25 @@ class Analytics.Views.Projects.ShowView extends Backbone.View
   render: () ->
     $(@el).html(@template(@model.show_attributes()))
 
+
     new Analytics.Views.Reports.NavView({
       reports : reports_router.templates,
       categories: report_categories_router.templates,
-      el: "#templates-nav-list"
+      el: "#template-reports"
+      is_template: true
     }).render()
+
 
     new Analytics.Views.Reports.NavView({
       reports : reports_router.reports,
       categories: report_categories_router.categories,
-      el: "#reports-nav-list"
+      el: "#custom-reports"
+      is_template: false
     }).render()
 
+    ###
     @render_datepicker()
+    ###
 
     if @model.first_report()?
       reports_router.show(@model.first_report().id)
@@ -31,13 +40,11 @@ class Analytics.Views.Projects.ShowView extends Backbone.View
       $(@el).find('#main-container').html(JST['backbone/templates/projects/no-report']())
 
 
-  render_datepicker: () ->
-    el = @el
-    model = @model
-    $(@el).find('.datepicker-input').datepicker({format: 'yyyy/mm/dd'}).on('changeDate', (ev) ->
-      $(el).find('.datepicker-input').datepicker('hide')
-      $(el).find('.datepicker-input').blur()
-      model.report_end_time = ev.date.valueOf()
-      if model.active_tab?
-        model.active_tab.trigger("change")
-    )
+  toggle_left_nav: (ev) ->
+    $(@el).find('td.left-nav').toggle()
+    if $(ev.currentTarget).hasClass("left-nav-hide")
+      @model.active_tab.view.resize_chart(false)
+      $(ev.currentTarget).removeClass("left-nav-hide")
+    else
+      @model.active_tab.view.resize_chart(true)
+      $(ev.currentTarget).addClass("left-nav-hide")

@@ -42,12 +42,6 @@ class Analytics.Models.DimensionsSequence extends Backbone.Model
       index: @get("index")
       pagesize: @get("pagesize")
       filters: @get("filters")
+      order: @get("order")
+      orderby: @get("orderby")
     }
-
-  reset_params: () ->
-    @set({
-      index: 0
-      orderby: null
-      order: 'ASC'
-      pagesize: 10
-    }, {slient: true})

@@ -25,7 +25,7 @@ class Analytics.Routers.ReportsRouter extends Backbone.Router
       })
     @reports.view.render()
     if @project?
-      $('#nav-accordion ul li').removeClass('active')
+      $('.reports-nav ul li').removeClass('active')
 
 
   show: (id) ->
@@ -36,16 +36,15 @@ class Analytics.Routers.ReportsRouter extends Backbone.Router
       report = new Analytics.Models.Report({project_id: @project.id})
     else
       report = new Analytics.Models.Report({})
-    report.collection = @reports
-    new Analytics.Views.Reports.FormView({id : "new_report", model: report}).render()
+    @do_new(report)
 
   edit: (id) ->
     report = @reports.get(id)
     if report?
       new Analytics.Views.Reports.FormView({id : "edit_report_"+report.id, model: report}).render()
       if @project?
-        $('#nav-accordion ul li').removeClass('active')
-        $('#report'+id).addClass('active')
+        $('.reports-nav ul li').removeClass('active')
+        $('#nav-report'+id).addClass('active')
     else if window.history.length > 0
       window.history.back()
     else
@@ -88,8 +87,12 @@ class Analytics.Routers.ReportsRouter extends Backbone.Router
       if not report.view?
         new Analytics.Views.Reports.ShowView({model: report, id : "report_"+id})
       report.view.redraw()
-      $('#nav-accordion ul li').removeClass('active')
-      $('#report'+id).addClass('active')
+      $('.reports-nav ul li').removeClass('active')
+      $('#nav-report'+id).addClass('active')
+
+  do_new: (report) ->
+    report.collection = @reports
+    new Analytics.Views.Reports.FormView({id : "new_report", model: report}).render()
 
 
 

@@ -15,12 +15,23 @@ class Analytics.Views.Reports.ShowView extends Backbone.View
   render: () ->
     $(@el).html(@template(@model.show_attributes()))
     $('#main-container').html($(@el))
+    @render_datepicker()
     @render_report_tab(0)
 
   redraw: () ->
     @remove()
     @render()
     @delegateEvents(@events)
+
+  render_datepicker: () ->
+    el = @el
+    $(@el).find('.datepicker-input').datepicker({format: 'yyyy/mm/dd'}).on('changeDate', (ev) ->
+      $(el).find('.datepicker-input').datepicker('hide')
+      $(el).find('.datepicker-input').blur()
+      project.report_end_time = ev.date.valueOf()
+      if project.active_tab?
+        project.active_tab.trigger("change")
+    )
 
   render_segments: () ->
     $(@el).find('#segments').html(new Analytics.Views.Segments.ListView({

@@ -2,9 +2,14 @@
     <li><i>暂无数据</i></li>
 <% end %>
 <% for category in _.sortBy(@categories, (item) -> item.position): %>
-    <li class="nav-header"><%= category.name %></li>
+    <li class="nav-header">
+        <% if @is_template: %>
+            <i class="icon-list-alt icon"/>
+        <% end %>
+        <%= category.name %>
+    </li>
     <% for report in category.reports: %>
-        <li id="report<%= report.id %>">
+        <li class="<%= if not @is_template then 'custom-report' %>" id="nav-report<%= report.id %>">
             <a href="#/reports/<%= report.id %>">
                 <i class="icon-file"></i>
                 <%= report.title %>
@@ -12,14 +17,23 @@
         </li>
     <% end %>
 <% end %>
+
+
+
 <% if @reports.length: %>
-    <li class="nav-header">未知分类</li>
+    <li class="nav-header">
+        <% if @is_template: %>
+            <i class="icon-list-alt icon"/>
+        <% end %>
+        未知分类
+    </li>
 <% end %>
 <% for report in @reports: %>
-    <li id="report<%= report.id %>">
+    <li class="<%= if not @is_template then 'custom-report' %>" id="nav-report<%= report.id %>">
         <a href="#/reports/<%= report.id %>">
             <i class="icon-file"></i>
             <%= report.title %>
         </a>
     </li>
 <% end %>
+

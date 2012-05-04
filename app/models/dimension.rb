@@ -10,11 +10,6 @@ class Dimension < ActiveRecord::Base
   end
 
   def clone_as_template
-    new_dimension = Dimension.new(self.template_attributes)
-    if new_dimension.save
-      new_dimension
-    else
-      raise ActiveRecord::Rollback
-    end
+    Dimension.new(self.template_attributes)
   end
 end

@@ -21,16 +21,7 @@ class ReportsController < ProjectBaseController
   end
 
   def clone
-    new_report = nil
-    Report.transaction do
-      new_report = @report.clone_as_template(@project.id)
-    end
-    if new_report.blank?
-      render :json => @report.js_attributes, :status => 500
-    else
-      render :json => {:new_report => new_report.js_attributes,
-                       :new_metrics => new_report.metrics.map(&:js_attributes)}
-    end
+    render :json => @report.clone_as_template(@project.id).js_attributes
   end
 
   def update

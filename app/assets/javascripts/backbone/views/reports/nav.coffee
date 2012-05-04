@@ -7,6 +7,7 @@ class Analytics.Views.Reports.NavView extends Backbone.View
     _.bindAll(this, "render")
     @reports = options.reports
     @categories = options.categories
+    @is_template = options.is_template
     @reports.bind "change", @render
     @reports.bind "add", @render
     @reports.bind "reset", @render
@@ -16,4 +17,4 @@ class Analytics.Views.Reports.NavView extends Backbone.View
 
 
   render: () ->
-    $(@el).html(@template(@reports.view_options(@categories)))
+    $(@el).html(@template(@reports.view_options(@categories, @is_template)))

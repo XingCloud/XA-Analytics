@@ -9,28 +9,44 @@ class Analytics.Views.Metrics.FormView extends Backbone.View
     "change input.event-input" : "event_input_change"
     "change select#metric_combine_action" : "toggle_combine"
 
-  initialize: () ->
+  initialize: (options) ->
     _.bindAll(this, "render")
-    $(@el).on('hidden', () ->
-      $(this).remove()
-    )
+    @clone = options.clone
     @event_list_sync = [false, false, false, false, false, false]
     @combine_event_list_sync = [false, false, false, false, false, false]
+    @init_bind()
+
+  init_bind: () ->
+    clone = @clone
+    model = @model
+    $(@el).on('hidden', () ->
+      $(this).remove()
+      if clone? and not model.id?
+        model.set(clone.attributes)
+        metrics_router.templates.remove(clone)
+        metrics_router.templates.add(model)
+    )
 
   render: () ->
-    $(@el).html(@template(@model.attributes))
+    attributes = _.clone(@model.attributes)
+    attributes.is_clone = @clone?
+    $(@el).html(@template(attributes))
     $(@el).modal()
     $(@el).find('.event-key-select').chosen()
 
   submit: () ->
     update = @model.id?
+    is_clone = @clone?
     form = $(@el).find('form').toJSON()
     el = @el
     @model.save(form, {wait: true, success: (model, resp) ->
       $(el).modal('hide')
       if not update
         model.collection.add(model)
-        model.list_view.render_metric(model.id)
+        if is_clone
+          model.list_item_view.render()
+        else
+          model.list_view.render_metric(model.id)
       else
         model.list_item_view.render()
     })

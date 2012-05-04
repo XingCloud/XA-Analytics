@@ -75,11 +75,7 @@ class Metric < ActiveRecord::Base
     if not self.combine.nil?
       new_metric.combine = self.combine.clone_as_template(project_id)
     end
-    if new_metric.save
-      new_metric
-    else
-      raise ActiveRecord::Rollback
-    end
+    new_metric
   end
 
   protected

@@ -15,7 +15,10 @@
             <i class="icon-refresh" title="刷新"/>
         </a>
     </div>
-    <div class="right" id="report-datepicker"></div>
+    <div class="right">
+        <label style="float: left; padding-top: 6px;">报告截止日期:&nbsp;</label>
+        <input class="datepicker-input" type="text" value="<%= $.format.date(new Date(@report_end_time), 'yyyy/MM/dd') %>">
+    </div>
 </div>
 <div class="row-fluid" id="segments">
 </div>

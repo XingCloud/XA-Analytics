@@ -1,0 +1,95 @@
+body {
+  padding-top: 56px; /* 60px to make the container go all the way to the bottom of the topbar */
+}
+
+.left{
+  float: left;
+}
+.right{
+  float: right;
+}
+
+.main{
+  border-bottom: 1px solid #CCC;
+  outline-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+@mixin report-category-header{
+  height: 30px;
+  line-height: 30px;
+  padding-left: 10px;
+  border-top: 1px solid #CCC;
+  border-bottom: 1px solid #CCC;
+}
+
+table.main-table{
+  width: 100%;
+  height: 100%;
+  border-collapse: collapse;
+  border: none;
+  td.left-nav{
+    min-width: 200px;
+    vertical-align: top;
+    .reports-nav{
+      ul.templates li.nav-header{
+        @include report-category-header;
+      }
+      ul.templates li{
+        padding: 5px;
+      }
+      .custom-reports{
+        margin-top: 10px;
+        .custom-reports-header{
+          @include report-category-header;
+        }
+        ul li.custom-report{
+          padding-left: 5px;
+        }
+      }
+    }
+
+    .reports-controls{
+      margin-top: 5px;
+      text-align: center;
+      border-top: 1px solid #CCC;
+      .report-control{
+        margin-top: 10px;
+      }
+    }
+  }
+  td.nav-toggle{
+    background: whiteSmoke;
+    border-right: 1px solid #DDD;
+    border-left: 1px solid #C8C8C8;
+    -webkit-box-shadow: -1px 0 3px rgba(0,0,0,.2);
+    -moz-box-shadow: -1px 0 3px rgba(0,0,0,.2);
+    box-shadow: -1px 0 3px rgba(0,0,0,.2);
+    cursor: w-resize;
+    height: 100%;
+    -moz-transition: all 130ms ease-in-out;
+    -webkit-transition: all 130ms ease-in-out;
+    transition: all 130ms ease-in-out;
+    min-width: 5px;
+    width: 5px;
+  }
+  td.nav-toggle:hover{
+    background-color: #777;
+    -moz-transition: background-color .20s linear;
+    -webkit-transition: background-color .20s linear;
+    transition: background-color .20s linear;
+  }
+  td.nav-toggle.left-nav-hide{
+    cursor: e-resize;
+    padding-left: 5px;
+  }
+  td.main-container{
+    vertical-align: top;
+    width: 100%;
+  }
+  td.main-container #main-container{
+    min-height: 800px;
+    padding: 10px 20px 0px 20px;
+  }
+}

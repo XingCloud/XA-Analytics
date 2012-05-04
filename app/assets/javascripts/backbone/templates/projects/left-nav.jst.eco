@@ -1,36 +1,22 @@
-<div id="nav-accordion" class="accordion">
-    <div class="accordion-group">
-        <div class="accordion-heading">
-            <a class="accordion-toggle" data-toggle="collapse" data-parent="#nav-accordion" href="#collapse-template">
-                <i class="icon-list-alt"></i>
-                默认报告
-            </a>
+<div class="reports-nav">
+    <ul class="nav nav-list templates" id="template-reports"></ul>
+    <div class="custom-reports">
+        <div class="custom-reports-header">
+            <i class="icon icon-list-alt"/>
+            自定义报告
         </div>
-        <div class="according-body in" id="collapse-template">
-            <div class="accordion-inner">
-                <ul class="nav nav-list" id="templates-nav-list">
-                </ul>
-            </div>
-        </div>
-    </div>
-    <div class="accordion-group">
-        <div class="accordion-heading">
-            <a class="accordion-toggle" data-toggle="collapse" data-parent="#nav-accordion" href="#collapse-custom">
-                <i class="icon-list-alt"></i>
-                自定义报告
-            </a>
-        </div>
-        <div class="according-body in" id="collapse-custom">
-            <div class="accordion-inner">
-                <ul class="nav nav-list" id="reports-nav-list">
-                </ul>
-            </div>
-        </div>
+        <ul class="nav nav-list" id="custom-reports"></ul>
     </div>
 </div>
-<div id="nav-create-report" style="text-align: center;">
-    <a class="btn btn-primary btn-large" href="#/reports/new">
-        <i class="icon-plus icon-white"></i>
+
+<div class="reports-controls">
+    <a class="report-control btn btn-primary" href="#/reports/new">
+        <i class="icon icon-white icon-plus"/>
         新建报告
     </a>
+    <a class="report-control btn" href="#/reports">
+        <i class="icon icon-cog"/>
+        管理报告
+    </a>
 </div>
+

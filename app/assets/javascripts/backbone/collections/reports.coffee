@@ -17,11 +17,12 @@ class Analytics.Collections.Reports extends Backbone.Collection
     else
       return 0
 
-  view_options: (categories) ->
+  view_options: (categories, is_template) ->
     options = {
       categories: [],
       reports: [],
       project: @project
+      is_template: is_template
     }
 
     for category in categories.models

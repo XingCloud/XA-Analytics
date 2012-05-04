@@ -27,19 +27,12 @@ class ReportTab < ActiveRecord::Base
   def clone_as_template(project_id)
     new_report_tab = ReportTab.new(self.template_attributes)
     new_report_tab.project_id = project_id
-    self.metrics.each do |metric|
-      new_metric = metric.clone_as_template(project_id)
-      new_report_tab.metrics.push(new_metric)
-    end
+    new_report_tab.metrics = self.metrics
     self.dimensions.each do |dimension|
       new_dimension = dimension.clone_as_template()
       new_report_tab.dimensions.push(new_dimension)
     end
-    if new_report_tab.save
-      new_report_tab
-    else
-      raise ActiveRecord::Rollback
-    end
+    new_report_tab
   end
 
 end

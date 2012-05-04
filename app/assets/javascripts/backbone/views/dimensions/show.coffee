@@ -4,6 +4,7 @@ class Analytics.Views.Dimensions.ShowView extends Backbone.View
   template: JST['backbone/templates/dimensions/show']
   className: 'dimensions'
   events:
+    #"click .dimensions-table th" : "sort_dimensions"
     "click .next-page.active" : "next_page"
     "click .previous-page.active" : "previous_page"
     "click button.jump-page" : "jump_page"
@@ -47,7 +48,7 @@ class Analytics.Views.Dimensions.ShowView extends Backbone.View
     index = parseInt($(@el).find("#page-index").val())
     page_num = Math.ceil(@model.get("total") / @model.get("pagesize"))
     if index > 0 and index <= page_num
-      @model.set({index: index - 1})
+      @model.set({index: index - 1}, {silent: true})
       @fetch()
 
   change_pagesize: (ev) ->
@@ -66,11 +67,25 @@ class Analytics.Views.Dimensions.ShowView extends Backbone.View
       key: dimension.value
       value: value
     })
-    @model.reset_params()
+    @model.set({index: 0}, {silent: true})
     @fetch()
 
   choose_dimension: (ev) ->
     index = parseInt($(ev.currentTarget).attr("value"))
     level = @model.get("filters").length
     @model.get("filters").splice(index, level - index)
+    @fetch()
+
+  sort_dimensions: (ev) ->
+    orderby = $(ev.currentTarget).attr("value")
+    orderby = (if not orderby? then null else orderby)
+    if orderby == @model.get("orderby")
+      order = (if @model.get("order").toUpperCase() == 'DESC' then 'ASC' else 'DESC')
+    else
+      order = 'DESC'
+    @model.set({
+      orderby: orderby
+      order: order
+      index: 0
+    }, {silent: true})
     @fetch()

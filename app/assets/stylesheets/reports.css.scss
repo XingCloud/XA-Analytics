@@ -3,6 +3,15 @@
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
 
+
+#report-header{
+  padding-bottom: 5px
+}
+
+#report-tabs{
+  padding-top: 5px;
+}
+
 @mixin loading{
   background: #FFF1A8 -webkit-gradient(linear,left top,left bottom,from(#FFE090),to(#FFF2B0));
   background-color: #FFF1A8;
@@ -32,7 +41,6 @@
   border: 1px dashed;
   border-radius: 3px 3px 3px 3px;
   cursor: pointer;
-  float: left;
   font-size: 13px;
   font-weight: bold;
   height: 16px;
@@ -69,10 +77,10 @@
 }
 
 .metric_box {
-  float: left;
   margin-right: 10px;
+  height: 35px;
 
-	@include div_form;
+  @include div_form;
   @include google;
 }
 
@@ -89,7 +97,6 @@
 }
 
 .metric_picker {
-	float: left;
 	@include div_form;
 }
 
@@ -411,11 +418,36 @@
 
 .dimensions-table{
   margin-top: 10px;
+  td{
+
+  }
   td.no-data{
     text-align: center;
   }
   td a.dimension-value{
     cursor: pointer;
+  }
+  th{
+    text-align: center !important;
+    cursor: pointer;
+  }
+  th.DESC{
+    background: transparent url(/assets/sort_desc.gif) no-repeat scroll right center;
+  }
+  th.ASC{
+    background: transparent url(/assets/sort_asc.gif) no-repeat scroll right center;
+  }
+  th:hover {
+    background-color: #F3F3F3;
+    background-image: -webkit-linear-gradient(top,#FAFAFA,#E9E9E9);
+    background-image: -moz-linear-gradient(top,#FAFAFA,#E9E9E9);
+    box-shadow: inset 0px 1px 5px rgba(0,0,0,.2);
+  }
+  tr:nth-child(odd) td.orderby{
+    background-color: #EAEAEA;
+  }
+  tr:nth-child(even) td.orderby{
+    background-color: #F3F3F3;
   }
 }
 
