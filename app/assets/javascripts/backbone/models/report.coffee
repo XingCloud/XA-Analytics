@@ -61,6 +61,7 @@ class Analytics.Models.Report extends Backbone.Model
     options.url = "/projects/"+project.id+'/reports'+'/'+@id+'/clone'
     options.success = (resp, status, xhr) ->
       report = new Analytics.Models.Report(resp)
+      report.set({title: resp.title+"-自定义"})
       reports_router.do_new(report)
       success(resp, status, xhr)
 

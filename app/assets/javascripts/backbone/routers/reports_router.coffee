@@ -91,8 +91,11 @@ class Analytics.Routers.ReportsRouter extends Backbone.Router
       $('#nav-report'+id).addClass('active')
 
   do_new: (report) ->
+    if @project?
+      $('.reports-nav ul li').removeClass('active')
     report.collection = @reports
     new Analytics.Views.Reports.FormView({id : "new_report", model: report}).render()
+
 
 
 
