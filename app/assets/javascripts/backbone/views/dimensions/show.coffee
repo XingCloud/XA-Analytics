@@ -4,7 +4,7 @@ class Analytics.Views.Dimensions.ShowView extends Backbone.View
   template: JST['backbone/templates/dimensions/show']
   className: 'dimensions'
   events:
-    #"click .dimensions-table th" : "sort_dimensions"
+    "click .dimensions-table th" : "sort_dimensions"
     "click .next-page.active" : "next_page"
     "click .previous-page.active" : "previous_page"
     "click button.jump-page" : "jump_page"

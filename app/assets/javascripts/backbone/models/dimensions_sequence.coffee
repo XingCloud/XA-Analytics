@@ -4,7 +4,7 @@ class Analytics.Models.DimensionsSequence extends Backbone.Model
     pagesize: 10
     index: 0
     orderby: null
-    order: "ASC"
+    order: "DESC"
 
   initialize: (options) ->
     @set({

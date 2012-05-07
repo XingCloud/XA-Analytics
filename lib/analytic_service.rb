@@ -89,10 +89,13 @@ class AnalyticService
       pp options
       index = params[:index].present? ? params[:index].to_i : 0
       pagesize = (params[:pagesize].present? and params[:pagesize] != 0) ? params[:pagesize].to_i : 10
-      resp = self.class.commit('/dd/event/groupby', {:params => options.to_json, :index => index, :pagesize => pagesize})
+      resp = self.class.commit('/dd/event/groupby', {:params => options.to_json,
+                                                     :index => index,
+                                                     :pagesize => pagesize,
+                                                     :orderby => params[:orderby],
+                                                     :order => params[:order].blank? ? 'ASC' : params[:order].upcase})
       if resp["result"]
         result.merge!(resp)
-        result["data"] = reverse_map_to_array(resp["data"])
       end
     end
     result
@@ -130,15 +133,13 @@ class AnalyticService
   def request_dimension_options(metric, dimension, params)
     end_time = params[:end_time].to_i
     options = {
-        :id => metric.id,
+        :id => metric.id.to_s,
         :project_id => params[:identifier],
         :end_time => Time.at(end_time).strftime("%Y-%m-%d"),
         :start_time => Time.at(end_time - (params[:length].to_i - 1) * 86400).strftime("%Y-%m-%d"),
         :interval => params[:interval].upcase,
         :groupby => dimension.value,
         :groupby_type => dimension.dimension_type.upcase,
-        :orderby => params[:orderby],
-        :order => params[:order].blank? ? 'ASC' : params[:order].upcase,
         :segment => request_dimension_filter_user_attributes(params[:filters])
     }
     request_dimension_filter_event(metric, params[:filters])
@@ -197,20 +198,6 @@ class AnalyticService
     end
 
     options
-  end
-
-  def reverse_map_to_array(map)
-    new_map = {}
-    map.keys.each do |key|
-      map[key].keys.each do |key1|
-        if new_map.has_key?(key1)
-          new_map[key1][key] = map[key][key1]
-        else
-          new_map[key1] = {key => map[key][key1]}
-        end
-      end
-    end
-    new_map.map{|item|{:name => item[0], :value => item[1]}}
   end
 
   def self.commit(url, options = {}, request_options = {})

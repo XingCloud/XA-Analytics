@@ -32,12 +32,12 @@
             <% for item in @data: %>
                 <tr>
                     <% if @filters.length < @dimensions.length - 1: %>
-                        <td class="<%= if not @orderby? then 'orderby' %>"><a class="dimension-value" value="<%= item.name %>"><%= item.name %></a></td>
+                        <td class="<%= if not @orderby? then 'orderby' %>"><a class="dimension-value" value="<%= item[0] %>"><%= item[0] %></a></td>
                     <% else: %>
-                        <td class="<%= if not @orderby? then 'orderby' %>"><%= item.name %></td>
+                        <td class="<%= if not @orderby? then 'orderby' %>"><%= item[0] %></td>
                     <% end %>
                     <% for metric in @metrics: %>
-                        <td class="<%= if parseInt(@orderby) == metric.id then 'orderby' %>"><%= item.value[metric.id] %></td>
+                        <td class="<%= if parseInt(@orderby) == metric.id then 'orderby' %>"><%= item[1][metric.id] %></td>
                     <% end %>
                 </tr>
             <% end %>
