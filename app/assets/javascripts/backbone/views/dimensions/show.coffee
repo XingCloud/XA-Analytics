@@ -9,7 +9,7 @@ class Analytics.Views.Dimensions.ShowView extends Backbone.View
     "click .previous-page.active" : "previous_page"
     "click button.jump-page" : "jump_page"
     "click a.dimension-value" : "filter_dimension"
-    "click a.choose-dimension" : "choose_dimension"
+    "click a.choose-primary-dimension" : "choose_dimension"
     "click a.add-dimension" : "add_dimension"
     "change select.pagesize" : "change_pagesize"
 

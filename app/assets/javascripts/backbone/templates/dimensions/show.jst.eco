@@ -7,7 +7,7 @@
                     <% if @dimension? and dimension.dimension_type == @dimension.dimension_type and dimension.value == @dimension.value: %>
                         <td class="current"><%= dimension.name %></td>
                     <% else: %>
-                        <td><a class="choose-dimension" value="<%= dimension.value %>" dimension_type="<%= dimension.dimension_type %>"><%= dimension.name %></a></td>
+                        <td><a class="choose-primary-dimension" value="<%= dimension.value %>" dimension_type="<%= dimension.dimension_type %>"><%= dimension.name %></a></td>
                     <% end %>
                 <% end %>
             </tr>
