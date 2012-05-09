@@ -200,7 +200,7 @@ class AnalyticService
       options.merge!({:combine => {
           :action => metric.combine_action.to_s.upcase
       }})
-      options[:combine].merge!(metric_options(combine))
+      options[:combine].merge!(request_metric_options(combine.id, params))
     end
 
     options
