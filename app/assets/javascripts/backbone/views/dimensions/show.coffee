@@ -69,7 +69,11 @@ class Analytics.Views.Dimensions.ShowView extends Backbone.View
       key: dimension.value
       value: value
     }
-    @model.get("filters").push(filter)
+    oldfilter =  _.find(@model.get("filters"), (item) ->
+      item.type == filter.type and item.key == filter.key
+    )
+    if not oldfilter?
+      @model.get("filters").push(filter)
     level = @model.get("dimension").level
     @model.set({
       dimension: _.find(@model.get("dimensions"), (item) -> item.level == level+1)
