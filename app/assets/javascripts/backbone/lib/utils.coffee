@@ -1,15 +1,24 @@
 Analytics.Utils ||= {}
-Analytics.Utils.parseDate = (date_str) ->
-  Date.parse(date_str.replace(/-/g, '/'))
-
 Analytics.Utils.parseUTCDate = (date_str, offset) ->
   date = new Date(Date.parse(date_str.replace(/-/g, '/'))+offset)
   Date.UTC(date.getFullYear(), date.getMonth(), date.getDate(), date.getHours(), date.getMinutes())
+
+Analytics.Utils.UTCDate = (timestamp) ->
+  date = new Date(timestamp + new Date().getTimezoneOffset()*60000)
 
 Analytics.Utils.countMonth = (end, start) ->
   start_date = new Date(start)
   end_date = new Date(end)
   (end_date.getFullYear() - start_date.getFullYear()) * 12 + end_date.getMonth() - start_date.getMonth() + 1
+
+Analytics.Utils.intervalName = (interval) ->
+  item = _.find(Analytics.Static.ReportTabIntervals, (item) -> item.value == interval)
+  if item? and interval == "min5"
+    "5"+item.name
+  else if item?
+    item.name
+  else
+    ""
 
 Analytics.Utils.intervalCount = (end_time, interval, day_count) ->
     period = day_count * 86400000
@@ -27,3 +36,13 @@ Analytics.Utils.getColor = (index, compare) ->
     Math.floor(Math.random()*16777215).toString(16).toUpperCase()
   else
     (if compare then colors[index][1] else colors[index][0])
+
+Analytics.Utils.checkReportTabRange = (length, interval) ->
+  same_lengths = _.filter(Analytics.Static.ReportTabRanges, (item) -> item.length == length)
+  if same_lengths.length == 0
+    null
+  else if same_lengths.length == 1
+    same_lengths[0]
+  else if same_lengths.length > 1
+    same_interval = _.find(same_lengths, (item) -> item.interval == interval)
+    (if same_interval? then same_interval else same_lengths[1])

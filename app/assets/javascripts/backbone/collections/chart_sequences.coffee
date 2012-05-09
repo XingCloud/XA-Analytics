@@ -37,6 +37,7 @@ class Analytics.Collections.ChartSequences extends Backbone.Collection
     length: @report_tab.get("length")
     compare: @report_tab.get("compare")
     interval: @report_tab.get("interval")
+    filters: @report_tab.dimensions_filters
     segment_ids: @segment_ids()
 
   fetch_data: () ->

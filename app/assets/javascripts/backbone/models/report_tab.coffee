@@ -8,8 +8,9 @@ class Analytics.Models.ReportTab extends Backbone.Model
     metric_ids: []
 
   initialize: (options) ->
-    compare = new Date(new Date().getTime() - @get("length")*86400000)
-    @compare_end_time = new Date(compare.getFullYear(), compare.getMonth(), compare.getDate())
+    compare = Analytics.Utils.UTCDate(new Date().getTime() - @get("length")*86400000)
+    @compare_end_time = new Date(compare.getFullYear(), compare.getMonth(), compare.getDate()).getTime()
+    @dimensions_filters = []
 
   urlRoot: () ->
     if @get('project_id')?
@@ -23,16 +24,6 @@ class Analytics.Models.ReportTab extends Backbone.Model
   data_url: () ->
     "/projects/"+project.id+"/reports/"+@get("report_id")+"/report_tabs/"+@id+"/data"
 
-  dimensions_url: (filters) ->
-    params = {
-      end_time: parseInt(project.report_end_time/1000)
-      interval: @get("interval")
-      length: @get('length')
-      level: filters.length
-      filters: JSON.stringify(filters)
-    }
-    "/projects/"+project.id+"/reports/"+@get("report_id")+"/report_tabs/"+@id+"/dimensions?"+ $.param(params)
-
   metrics_attributes: () ->
     metrics = []
     for metric_id in @get("metric_ids")
@@ -42,4 +33,5 @@ class Analytics.Models.ReportTab extends Backbone.Model
   show_attributes: () ->
     attributes = _.clone(@attributes)
     attributes.compare_end_time = @compare_end_time
+    attributes.dimensions_filters = @dimensions_filters
     attributes

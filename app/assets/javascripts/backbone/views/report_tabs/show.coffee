@@ -3,9 +3,9 @@ Analytics.Views.ReportTabs ||= {}
 class Analytics.Views.ReportTabs.ShowView extends Backbone.View
   template: JST["backbone/templates/report_tabs/show"]
   events:
-    "click #report-tab-controls .btn-group button" : "change_interval"
-    "click #length-control button" : "change_length"
-    "click #compare" : "change_compare"
+    "change .compare-checkbox" : "change_compare"
+    "click .choose-dimension" : "choose_dimension"
+    "click .range-control-dropdown-menu li a" : "change_range"
     "click .legend-info-container" : "click_legend_info"
 
   initialize: () ->
@@ -13,10 +13,16 @@ class Analytics.Views.ReportTabs.ShowView extends Backbone.View
     @model.bind "change", @redraw
     @model.view = this
     @chart_sequences = new Analytics.Collections.ChartSequences([], {report_tab: @model})
+    @dimensions_sequence = new Analytics.Models.DimensionsSequence({
+      metrics: @model.metrics_attributes()
+      dimensions: @model.get("dimensions_attributes")
+      filters: @model.dimensions_filters
+    })
+    @dimensions_sequence.report_tab = @model
 
   render: () ->
     $(@el).html(@template(@model.show_attributes()))
-    $(@report_view.el).find('#tab-container').html($(@el))
+    $(@report_view.el).find('.tab-container').html($(@el))
     @render_datepicker()
     @render_chart()
     @render_dimensions()
@@ -30,12 +36,16 @@ class Analytics.Views.ReportTabs.ShowView extends Backbone.View
   render_datepicker: () ->
     el = @el
     model = @model
-    $(@el).find('.datepicker-input').datepicker({format: 'yyyy/mm/dd'}).on('changeDate', (ev) ->
-      $(el).find('.datepicker-input').datepicker('hide')
-      $(el).find('.datepicker-input').blur()
+    $(@el).find('.datepicker-toggle').datepicker({format: 'yyyy/mm/dd'}).on('changeDate', (ev) ->
+      $(el).find('.datepicker-toggle').datepicker('hide')
       if model.compare_end_time != ev.date.valueOf()
         model.compare_end_time = ev.date.valueOf()
-        model.trigger("change")
+        if model.get("compare") == 0 and model.get("project_id")?
+          model.save({compare: 1},{wait: true})
+        else if model.get("compare") == 0
+          model.set({compare: 1})
+        else
+          model.trigger("change")
     )
 
   render_chart: () ->
@@ -45,13 +55,10 @@ class Analytics.Views.ReportTabs.ShowView extends Backbone.View
 
 
   render_dimensions: () ->
-    @dimensions_sequence = new Analytics.Models.DimensionsSequence({
-      metrics: @model.metrics_attributes()
-      dimensions: @model.get("dimensions_attributes")
-    })
-    @dimensions_sequence.report_tab = @model
+    @dimensions_sequence.init()
     $(@el).find('#dimensions').html(new Analytics.Views.Dimensions.ShowView({
       model: @dimensions_sequence
+      report_tab_view: this
     }).render().el)
 
   redraw_chart: () ->
@@ -60,9 +67,10 @@ class Analytics.Views.ReportTabs.ShowView extends Backbone.View
 
   fetch_data: () ->
     $.blockUI({message: $('#loader-message')})
-    @fetch_request_count = 2
+    @fetch_request_count = (if @dimensions_sequence.get("dimension")? then 2 else 1)
     @chart_sequences.fetch_data()
-    @dimensions_sequence.fetch_data()
+    if @dimensions_sequence.get("dimension")?
+      @dimensions_sequence.fetch_data()
 
   fetch_complete: () ->
     if @fetch_request_count > 0
@@ -76,17 +84,22 @@ class Analytics.Views.ReportTabs.ShowView extends Backbone.View
     else
       @model.set({interval: $(ev.currentTarget).attr("value")})
 
-  change_length: (ev) ->
+  change_range: (ev) ->
+    range = {
+      length: parseInt($(ev.currentTarget).attr("length"))
+      interval: $(ev.currentTarget).attr("interval")
+    }
+    @model.compare_end_time = project.report_end_time - range.length*86400000
     if @model.get("project_id")?
-      @model.save({length: $('#length').val()}, {wait: true})
+      @model.save(range, {wait: true})
     else
-      @model.set({length: $('#length').val()})
+      @model.set(range)
 
   change_compare: (ev) ->
     if @model.get("project_id")?
-      @model.save({compare: ( if $('#compare')[0].checked then 1 else 0)}, {wait: true})
+      @model.save({compare: ( if $(ev.currentTarget)[0].checked then 1 else 0)}, {wait: true})
     else
-      @model.set({compare: ( if $('#compare')[0].checked then 1 else 0)})
+      @model.set({compare: ( if $(ev.currentTarget)[0].checked then 1 else 0)})
 
   click_legend_info: (ev) ->
     if($(ev.currentTarget).hasClass('deactive'))
@@ -105,4 +118,23 @@ class Analytics.Views.ReportTabs.ShowView extends Backbone.View
       @chart_sequences.chart.setSize($(@el).find('#chart').width())
     else
       @chart_sequences.chart.setSize(@chart_original_width)
+
+  choose_dimension: (ev) ->
+    value = $(ev.currentTarget).attr("value")
+    type = $(ev.currentTarget).attr("type")
+    if type.toUpperCase() == 'ALL'
+      dimension = @model.get("dimensions_attributes")[0]
+      @model.dimensions_filters.splice(0, @model.dimensions_filters.length)
+    else
+      dimension = _.find(@model.get("dimensions_attributes"), (item) ->
+        item.value == value and item.dimension_type == type
+      )
+      dimension_filter = _.find(@model.dimensions_filters, (item) ->
+        item.key == value and item.type == type
+      )
+      dimension_filter_index = @model.dimensions_filters.indexOf(dimension_filter)
+      @model.dimensions_filters.splice(dimension_filter_index, @model.dimensions_filters.length - dimension_filter_index)
+
+    @dimensions_sequence.set({dimension: dimension}, {silent: true})
+    @redraw()
 

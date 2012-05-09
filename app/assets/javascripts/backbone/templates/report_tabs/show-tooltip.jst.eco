@@ -1,9 +1,9 @@
 <% if @points[0].series.sequence.interval == "min5" or @points[0].series.sequence.interval == "hour": %>
-    <strong><%= $.format.date(new Date(@x), "yyyy/MM/dd%blank%HH:mm") %></strong>
+    <strong><%= $.format.date(Analytics.Utils.UTCDate(@x), "yyyy/MM/dd%blank%HH:mm") %></strong>
 <% else if @points[0].series.sequence.interval == "month": %>
-    <strong><%= $.format.date(new Date(@x), "yyyy/MM") %></strong>
+    <strong><%= $.format.date(Analytics.Utils.UTCDate(@x), "yyyy/MM") %></strong>
 <% else: %>
-    <strong><%= $.format.date(new Date(@x), "yyyy/MM/dd") %></strong>
+    <strong><%= $.format.date(Analytics.Utils.UTCDate(@x), "yyyy/MM/dd") %></strong>
 <% end %>
 <br/>
 <% for point in @points: %>
@@ -20,11 +20,11 @@
 <br/>
 <% if @points[0].series.sequence.has_compare: %>
     <% if @points[0].series.sequence.interval == "min5" or @points[0].series.sequence.interval == "hour": %>
-        <strong><%= $.format.date(new Date(@x - @points[0].series.sequence.offset), "yyyy/MM/dd%blank%HH:mm") %></strong>
+        <strong><%= $.format.date(Analytics.Utils.UTCDate(@x - @points[0].series.sequence.offset), "yyyy/MM/dd%blank%HH:mm") %></strong>
     <% else if @points[0].series.sequence.interval == "month": %>
-        <strong><%= $.format.date(new Date(@x - @points[0].series.sequence.offset), "yyyy/MM") %></strong>
+        <strong><%= $.format.date(Analytics.Utils.UTCDate(@x - @points[0].series.sequence.offset), "yyyy/MM") %></strong>
     <% else: %>
-        <strong><%= $.format.date(new Date(@x - @points[0].series.sequence.offset), "yyyy/MM/dd") %></strong>
+        <strong><%= $.format.date(Analytics.Utils.UTCDate(@x - @points[0].series.sequence.offset), "yyyy/MM/dd") %></strong>
     <% end %>
     <br/>
     <% for point in @points: %>

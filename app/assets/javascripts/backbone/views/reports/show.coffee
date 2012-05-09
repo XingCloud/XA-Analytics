@@ -4,9 +4,9 @@ class Analytics.Views.Reports.ShowView extends Backbone.View
   template: JST['backbone/templates/reports/show']
 
   events:
-    "click a#segment-btn" : "toggle_segments"
+    "click a.segment-btn" : "toggle_segments"
     "click li.report-tab" : "change_tab"
-    "click a#refresh-btn" : "refresh"
+    "click a.refresh-btn" : "refresh"
 
   initialize: () ->
     _.bindAll(this, "render", "redraw")
@@ -34,7 +34,7 @@ class Analytics.Views.Reports.ShowView extends Backbone.View
     )
 
   render_segments: () ->
-    $(@el).find('#segments').html(new Analytics.Views.Segments.ListView({
+    $(@el).find('.segments').html(new Analytics.Views.Segments.ListView({
       segments: segments_router.segments,
       templates: segments_router.templates,
       parent: this
@@ -59,25 +59,25 @@ class Analytics.Views.Reports.ShowView extends Backbone.View
     segments_router.templates.reset_selected(@template_segments_selected)
 
   hide_segments: () ->
-    $(@el).find('#segment-btn').removeClass('active')
-    $(@el).find('#segments').empty()
+    $(@el).find('.segment-btn').removeClass('active')
+    $(@el).find('.segments').empty()
 
   toggle_segments: () ->
-    if $(@el).find('#segment-btn').hasClass('active')
+    if $(@el).find('.segment-btn').hasClass('active')
       @hide_segments()
       @reset_segments_select()
     else
       @segments_selected = segments_router.segments.selected()
       @template_segments_selected = segments_router.templates.selected()
       @render_segments()
-      $(@el).find('#segment-btn').addClass('active')
+      $(@el).find('.segment-btn').addClass('active')
 
   change_tab: (ev) ->
-    $(@el).find('#report-tabs ul li').removeClass('active')
+    $(@el).find('.report-tabs ul li').removeClass('active')
     $(ev.currentTarget).addClass('active')
     @render_report_tab($(ev.currentTarget).attr("value"))
 
   refresh: (ev) ->
-    report_tab_index = $(@el).find('#report-tabs ul li.active').attr('value')
+    report_tab_index = $(@el).find('.report-tabs ul li.active').attr('value')
     report_tab = @model.report_tabs[report_tab_index]
     report_tab.trigger("change")

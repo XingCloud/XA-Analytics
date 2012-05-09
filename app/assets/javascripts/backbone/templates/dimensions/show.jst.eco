@@ -1,46 +1,61 @@
-<div class="dimensions-breadcrumb row-fluid">
-    <ul class="breadcrumb">
-        <% index = 0 %>
-        <% for filter in @filters: %>
-            <li>
-                <a class="dimension-choose" value="<%= index %>"><%= filter.name %></a>
-                (<%= filter.value %>)
-                <span class="divider">/</span>
-            </li>
-            <% index = index + 1 %>
-        <% end %>
-        <li class="active"><%= @dimensions[@filters.length].name %></li>
-    </ul>
-
+<div class="dimensions-list row-fluid">
+    <table>
+        <tbody>
+            <tr>
+                <td>细分属性:&nbsp;</td>
+                <% for dimension in @dimensions: %>
+                    <% if @dimension? and dimension.dimension_type == @dimension.dimension_type and dimension.value == @dimension.value: %>
+                        <td class="current"><%= dimension.name %></td>
+                    <% else: %>
+                        <td><a class="choose-dimension" value="<%= dimension.value %>" dimension_type="<%= dimension.dimension_type %>"><%= dimension.name %></a></td>
+                    <% end %>
+                <% end %>
+            </tr>
+        </tbody>
+    </table>
 </div>
+
 <div class="dimensions-table row-fluid">
     <table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered">
         <thead>
             <tr>
-                <th width="15%" class="<%= if not @orderby? then @order %>"><%= @dimensions[@filters.length].name %></th>
+                <th width="15%" class="<%= if not @orderby? then @order %>"><%= (if @dimension? then @dimension.name) %></th>
                 <% for metric in @metrics: %>
                     <th class="<%= if parseInt(@orderby) == metric.id then @order %>" value="<%= metric.id %>"><%= metric.name %></th>
                 <% end %>
             </tr>
         </thead>
         <tbody>
-            <% if @data.length == 0: %>
+            <% if (@total == 0 and @dimension?) or (not @dimension? and @dimensions.length == 6 ): %>
                 <tr>
                     <td class="no-data" colspan="<%= @metrics.length + 1 %>"><i>没有数据</i></td>
                 </tr>
-            <% end %>
-            <% for item in @data: %>
+            <% else if not @dimension?: %>
                 <tr>
-                    <% if @filters.length < @dimensions.length - 1: %>
-                        <td class="<%= if not @orderby? then 'orderby' %>"><a class="dimension-value" value="<%= item[0] %>"><%= item[0] %></a></td>
-                    <% else: %>
-                        <td class="<%= if not @orderby? then 'orderby' %>"><%= item[0] %></td>
-                    <% end %>
-                    <% for metric in @metrics: %>
-                        <td class="<%= if parseInt(@orderby) == metric.id then 'orderby' %>"><%= item[1][metric.id] %></td>
-                    <% end %>
+                    <td class="no-dimension" colspan="<%= @metrics.length + 1 %>">
+                        <i>暂无细分, 请添加(最多支持6层细分)</i>
+                        <br/>
+                        <div class="add-dimension-controls">
+                            <select class="new-dimension">
+                                <% for dimension in Analytics.Static.Dimensions: %>
+                                    <option value="<%= dimension.value %>" name="<%= dimension.name %>" dimension_type="<%= dimension.dimension_type %>" <%= if @value == dimension.value then 'selected="selected"' %> ><%= dimension.name %></option>
+                                <% end %>
+                            </select>
+                            <a class="btn btn-primary add-dimension">添加</a>
+                        </div>
+                    </td>
                 </tr>
+            <% else: %>
+                <% for item in @data: %>
+                    <tr>
+                        <td class="<%= if not @orderby? then 'orderby' %>"><a class="dimension-value" value="<%= item[0] %>"><%= item[0] %></a></td>
+                        <% for metric in @metrics: %>
+                            <td class="<%= if parseInt(@orderby) == metric.id then 'orderby' %>"><%= item[1][metric.id] %></td>
+                        <% end %>
+                    </tr>
+                <% end %>
             <% end %>
+
         </tbody>
     </table>
 </div>

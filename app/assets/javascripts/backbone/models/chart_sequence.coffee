@@ -2,12 +2,13 @@ class Analytics.Models.ChartSequence extends Backbone.Model
 
   defaults:
     for_compare: false
-    data: []
     index: 0
     natural: 0
     total: 0
     rate: 0.0
     percent: 0.0
+    data: []
+    filters: []
 
   initialize: (options) ->
     if @get("for_compare")
@@ -16,7 +17,7 @@ class Analytics.Models.ChartSequence extends Backbone.Model
       @set({color: Analytics.Utils.getColor(@get("index"), false)})
 
   legend: (compare) ->
-    if @get("segment_id") == 0
+    if @get("segment_id") == 0 and @get("filters").length == 0
       percent = 1
       value = @get("total")
       compare_value = (if compare? then compare.get("total") else 0)

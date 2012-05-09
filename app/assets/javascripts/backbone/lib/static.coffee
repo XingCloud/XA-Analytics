@@ -9,7 +9,7 @@ Analytics.Static.UserAttributes = [
   {value: 'game_time', name: '游戏时间'},
   {value: 'pay_amount', name: '付费量'},
   {value: 'language', name: '语言'},
-  {value: 'lplatforme', name: '平台'}
+  {value: 'platform', name: '平台'}
 ]
 
 Analytics.Static.ExpressionOperator = [
@@ -59,4 +59,22 @@ Analytics.Static.Dimensions = [
   {value: "3", name: '事件字段第四层', dimension_type: 'EVENT'},
   {value: "4", name: '事件字段第五层', dimension_type: 'EVENT'},
   {value: "5", name: '事件字段第六层', dimension_type: 'EVENT'}
+]
+
+Analytics.Static.ReportTabIntervals = [
+  {name: "分钟", value: "min5"},
+  {name: "小时", value: "hour"},
+  {name: "天", value: "day"},
+  {name: "周", value: "week"},
+  {name: "月", value: "month"}
+]
+
+Analytics.Static.ReportTabRanges = [
+  {name: "实时", length: 1, interval: "min5"},
+  {name: "今天", length: 1, interval: "hour"},
+  {name: "最近两天", length: 2, interval: "hour"},
+  {name: "最近一周", length: 7, interval: "day"},
+  {name: "最近二周", length: 14, interval: "day"},
+  {name: "最近一个月", length: 28, interval: "day"},
+  {name: "最近二个月", length: 56, interval: "week"}
 ]

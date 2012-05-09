@@ -1,8 +1,8 @@
 class Analytics.Models.Project extends Backbone.Model
 
   initialize: (options) ->
-    now = new Date()
-    @report_end_time = new Date(now.getFullYear(), now.getMonth(), now.getDate())
+    now = Analytics.Utils.UTCDate(new Date().getTime())
+    @report_end_time = new Date(now.getFullYear(), now.getMonth(), now.getDate()).getTime()
 
   first_report: () ->
     if reports_router.templates.length > 0

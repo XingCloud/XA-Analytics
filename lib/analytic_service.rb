@@ -38,6 +38,7 @@ class AnalyticService
             :for_compare => false,
             :data => [],
             :index => index,
+            :filters => (params[:filters].present? ? params[:filters].map{|item|item[1]} : []),
             :id => "metric_#{metric.id}_segment_#{segment_id.blank? ? '0' : segment_id}_0"
         }
         request_params.push(request_options(request_id, metric.id, segment_id, false, params))
@@ -49,6 +50,7 @@ class AnalyticService
               :for_compare => true,
               :data => [],
               :index => index,
+              :filters => (params[:filters].present? ? params[:filters].map{|item|item[1]} : []),
               :id => "metric_#{metric.id}_segment_#{segment_id.blank? ? '0' : segment_id}_1"
           }
           request_params.push(request_options(request_id, metric.id, segment_id, true, params))
@@ -79,24 +81,21 @@ class AnalyticService
 
 
   def request_dimensions(report_tab, params)
-    dimension = report_tab.dimensions.find_by_level(params[:level])
     result = {:data => [], :total => 0, :pagesize => 0, :index => 0, :rate => 0.0, :cost => 0}
-    if dimension.present?
-      options = []
-      report_tab.metrics.each do |metric|
-        options.push(request_dimension_options(metric, dimension, params))
-      end
-      pp options
-      index = params[:index].present? ? params[:index].to_i : 0
-      pagesize = (params[:pagesize].present? and params[:pagesize] != 0) ? params[:pagesize].to_i : 10
-      resp = self.class.commit('/dd/event/groupby', {:params => options.to_json,
-                                                     :index => index,
-                                                     :pagesize => pagesize,
-                                                     :orderby => params[:orderby],
-                                                     :order => params[:order].blank? ? 'ASC' : params[:order].upcase})
-      if resp["result"]
-        result.merge!(resp)
-      end
+    options = []
+    report_tab.metrics.each do |metric|
+      options.push(request_dimension_options(metric, params))
+    end
+    pp options
+    index = params[:index].present? ? params[:index].to_i : 0
+    pagesize = (params[:pagesize].present? and params[:pagesize] != 0) ? params[:pagesize].to_i : 10
+    resp = self.class.commit('/dd/event/groupby', {:params => options.to_json,
+                                                   :index => index,
+                                                   :pagesize => pagesize,
+                                                   :orderby => params[:orderby],
+                                                   :order => params[:order].blank? ? 'ASC' : params[:order].upcase})
+    if resp["result"]
+      result.merge!(resp)
     end
     result
   end
@@ -122,15 +121,23 @@ class AnalyticService
         :interval => params[:interval].upcase
     }
 
-    segment = Segment.find_by_id(segment_id)
-    metric = Metric.find_by_id(metric_id)
-
-    options.merge!({:segment => (segment.to_hsh.to_json unless (segment.blank? or segment.expressions.length == 0))})
-    options.merge!(metric_options(metric))
+    options.merge!({:segment => request_segment_options(segment_id, params)})
+    options.merge!(request_metric_options(metric_id, params))
 
   end
 
-  def request_dimension_options(metric, dimension, params)
+  def request_segment_options(segment_id, params)
+    segment = Segment.find_by_id(segment_id)
+    blank = (segment.blank? or segment.expressions.length == 0)
+    user_attributes_filters = request_filter_user_attributes(params[:filters])
+    if not blank
+      segment.to_hsh.merge!(user_attributes_filters).to_json
+    elsif blank and user_attributes_filters.length > 0
+      user_attributes_filters.to_json
+    end
+  end
+
+  def request_dimension_options(metric, params)
     end_time = params[:end_time].to_i
     options = {
         :id => metric.id.to_s,
@@ -138,15 +145,14 @@ class AnalyticService
         :end_time => Time.at(end_time).strftime("%Y-%m-%d"),
         :start_time => Time.at(end_time - (params[:length].to_i - 1) * 86400).strftime("%Y-%m-%d"),
         :interval => params[:interval].upcase,
-        :groupby => dimension.value,
-        :groupby_type => dimension.dimension_type.upcase,
-        :segment => request_dimension_filter_user_attributes(params[:filters])
+        :groupby => params[:dimension][:value],
+        :groupby_type => params[:dimension][:dimension_type].upcase,
+        :segment => request_filter_user_attributes(params[:filters]).to_json
     }
-    request_dimension_filter_event(metric, params[:filters])
-    options.merge!(metric_options(metric))
+    options.merge!(request_metric_options(metric.id, params))
   end
 
-  def request_dimension_filter_user_attributes(filters)
+  def request_filter_user_attributes(filters)
     user_attributes = {}
     if filters.present?
       filters = filters.map{|item|item[1]}
@@ -156,12 +162,10 @@ class AnalyticService
         end
       end
     end
-    if user_attributes.length > 0
-      user_attributes.to_json
-    end
+    user_attributes
   end
 
-  def request_dimension_filter_event(metric, filters)
+  def request_filter_event(metric, filters)
     if filters.present?
       filters = filters.map{|item|item[1]}
       filters.each do |filter|
@@ -173,7 +177,9 @@ class AnalyticService
     metric
   end
 
-  def metric_options(metric)
+  def request_metric_options(metric_id, params)
+    metric = Metric.find_by_id(metric_id)
+    request_filter_event(metric, params[:filters])
     options = {
         :event_key => metric.event_key,
         :count_method => metric.condition.upcase

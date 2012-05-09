@@ -5,12 +5,20 @@ class Analytics.Models.DimensionsSequence extends Backbone.Model
     index: 0
     orderby: null
     order: "DESC"
+    dimension: null
 
   initialize: (options) ->
     @set({
-      filters: []
       data: []
+      dimension: (if options.dimensions? and options.dimensions.length > 0 then options.dimensions[0])
     })
+
+  init: () ->
+    @set({
+      data: []
+      total: 0
+      index: 0
+    }, {silent: true})
 
   fetch_data: (options) ->
     $.ajax({
@@ -38,7 +46,7 @@ class Analytics.Models.DimensionsSequence extends Backbone.Model
       end_time: parseInt(project.report_end_time/1000)
       length: @report_tab.get("length")
       interval: @report_tab.get("interval").toUpperCase()
-      level: @get("filters").length
+      dimension: @get("dimension")
       index: @get("index")
       pagesize: @get("pagesize")
       filters: @get("filters")

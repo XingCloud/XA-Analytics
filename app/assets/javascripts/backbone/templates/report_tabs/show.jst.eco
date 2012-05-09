@@ -1,30 +1,96 @@
-<div id="report-tab-controls" style="height: 30px;">
-    <div class="btn-group right">
-        <button class="<%= ( if @interval == 'min5' then 'btn rate active' else 'btn rate') %>" value="min5">分钟</button>
-        <button class="<%= ( if @interval == 'hour' then 'btn rate active' else 'btn rate') %>" value="hour">小时</button>
-        <button class="<%= ( if @interval == 'day' then 'btn rate active' else 'btn rate') %>" value="day">天</button>
-        <button class="<%= ( if @interval == 'week' then 'btn rate active' else 'btn rate') %>" value="week">周</button>
-        <button class="<%= ( if @interval == 'month' then 'btn rate active' else 'btn rate') %>" value="month">月</button>
-    </div>
-    <div class="right"><label style="padding: 6px 8px 0 0;">报告频率:</label></div>
-    <div class="right" id="length-control" style="padding-right: 8px;">
-        <div class="controls">
-            <input class="input-mini left" type="text" value="<%= @length %>" id="length" style="width: 30px;" />
-            <button type="button" class="btn">OK</button>
-        </div>
-    </div>
-    <div class="right"><label style="padding: 5px 8px 0 0;">报告时长(天):</label></div>
-    <div class="right" style="padding: 0 8px 0 0;">
-        <input class="input-small datepicker-input" type="text" id="compare-start-time" value="<%= $.format.date(@compare_end_time, 'yyyy/MM/dd') %>"/>
-    </div>
-    <div class="right" id="compare-control" style="padding: 6px 8px 0 0;">
-        <% if @compare: %>
-            <input type="checkbox" id="compare" checked="checked" />
-        <% else: %>
-            <input type="checkbox" id="compare" />
+<div class="report-tab-controls" style="height: 40px;">
+    <div class="left dimensions-filters">
+        <% if @dimensions_filters.length > 0: %>
+            <% last_filter = @dimensions_filters[@dimensions_filters.length - 1] %>
+            <table>
+                <tbody>
+                    <tr>
+                        <td>
+                            <a class="choose-dimension" type="ALL">所有</a>
+                        </td>
+                        <td>&#187;</td>
+                        <% for filter in @dimensions_filters: %>
+                            <% if filter == last_filter: %>
+                                <td><%= filter.name %>:&nbsp;<%= filter.value %></td>
+                            <% else: %>
+                                <td>
+                                    <a class="choose-dimension" value="<%= filter.key %>" type="<%= filter.type %>">
+                                        <%= filter.name %>:
+                                    </a>
+                                    <%= filter.value %>
+                                </td>
+                                <td>&#187;</td>
+                            <% end %>
+                        <% end %>
+                    </tr>
+                </tbody>
+            </table>
         <% end %>
     </div>
-    <div class="right"><label style="padding: 6px 8px 0 0;">与过去对比:</label></div>
+    <div class="right btn-group">
+        <div class="range-control dropdown-toggle" data-toggle="dropdown">
+            <table>
+                <tbody>
+                    <tr>
+                        <td>
+                            <% range = Analytics.Utils.checkReportTabRange(@length, @interval) %>
+                            <%= (if range? then range.name else '自定义') %>
+                        </td>
+                        <td>
+                            <div class="info">
+                                <%= $.format.date(project.report_end_time - (@length-1)*86400000, 'yyyy/MM/dd') %>
+                                -
+                                <%= $.format.date(project.report_end_time, 'yyyy/MM/dd') %>
+
+                            </div>
+                            <% if @compare != 0: %>
+                                <div class="info">
+                                    <strong>vs</strong>
+                                </div>
+                                <div class="info">
+                                    <%= $.format.date(@compare_end_time - (@length-1)*86400000, 'yyyy/MM/dd') %>
+                                    -
+                                    <%= $.format.date(@compare_end_time, 'yyyy/MM/dd') %>
+                                </div>
+                            <% end %>
+                        </td>
+                        <td>
+                            每<%= Analytics.Utils.intervalName(@interval) %>数据
+                        </td>
+                        <td>
+                            <a>&#9660;</a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+        </div>
+
+        <ul class="dropdown-menu range-control-dropdown-menu">
+            <% for range in Analytics.Static.ReportTabRanges: %>
+            <li>
+                <a length="<%= range.length %>" interval="<%= range.interval %>" style="cursor: pointer;">
+                    <%= range.name %>
+                </a>
+            </li>
+            <% end %>
+            <li class="divider"></li>
+            <li class="compare">
+                <input type="checkbox" class="compare-checkbox" id="report_tab_compare_<%= @id %>" <%= if @compare != 0 then 'checked="checked"' %> />
+                <label for="report_tab_compare_<%= @id %>">
+                    与
+                    <span class="range datepicker-toggle" data-date-format="yyyy/mm/dd" data-date="<%= $.format.date(@compare_end_time, 'yyyy/MM/dd') %>">
+                        <%= $.format.date(@compare_end_time - (@length-1)*86400000, 'yyyy/MM/dd') %>
+                        -
+                        <%= $.format.date(@compare_end_time, 'yyyy/MM/dd') %>
+                        <span>&#9660;</span>
+                    </span>
+                    对比
+                </label>
+            </li>
+        </ul>
+    </div>
+
 </div>
 <div id="chart">
 </div>

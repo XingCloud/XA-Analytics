@@ -52,7 +52,7 @@ class ReportTabsController < ProjectBaseController
   def check_dimensions_params
     return (params[:end_time].present? and
             params[:length].present? and
-            params[:level].present? and
+            params[:dimension].present? and
             params[:interval].present?)
   end
 
