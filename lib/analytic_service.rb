@@ -74,9 +74,9 @@ class AnalyticService
     commit("/dd/evlist", {:params => options.to_json})
   end
 
-  def self.user_attribute(project)
+  def self.user_attributes(project)
     options = {:project_id => project.identifier}
-    commit("/dd/up", {:params => options.to_json})
+    commit("/dd/up", options)
   end
 
 
@@ -157,8 +157,9 @@ class AnalyticService
     if filters.present?
       filters = filters.map{|item|item[1]}
       filters.each do |filter|
-        if filter["type"].upcase == 'USER_PROPERTIES'
-          user_attributes[filter["key"]] = filter["value"]
+        dimension = Dimension.new(filter["dimension"])
+        if dimension.dimension_type.upcase == 'USER_PROPERTIES'
+          user_attributes.merge!(dimension.to_hsh(filter["value"]))
         end
       end
     end
@@ -169,8 +170,9 @@ class AnalyticService
     if filters.present?
       filters = filters.map{|item|item[1]}
       filters.each do |filter|
-        if filter["type"].upcase == "EVENT"
-          metric.send("event_key_"+filter["key"]+"=", filter["value"])
+        dimension = Dimension.new(filter["dimension"])
+        if dimension.dimension_type.upcase == "EVENT"
+          metric.send("event_key_"+dimension.value+"=", filter["value"])
         end
       end
     end
@@ -207,15 +209,15 @@ class AnalyticService
   end
 
   def self.commit(url, options = {}, request_options = {})
-    url = URI.parse(File.join(BASE_URL, url))
-    pp url
+    logger.info "Request: #{url} \n #{options.pretty_inspect}"
     pp options
 
-    logger.info "Request: #{url} \n #{options.pretty_inspect}"
-
+    url = URI.parse(File.join(BASE_URL, url))
     response = Net::HTTP.post_form(url, options)
-    logger.info "Response: #{response.code}"
+
+    logger.info "Response Code: #{response.code}"
     pp response.body
+
     if response.is_a?(Net::HTTPSuccess)
       return JSON.parse(response.body)
     else

@@ -12,4 +12,12 @@ class Dimension < ActiveRecord::Base
   def clone_as_template
     Dimension.new(self.template_attributes)
   end
+
+  def to_hsh(filter_value)
+    if value_type == 'int'
+      {value => filter_value.to_i}
+    else
+      {value => filter_value}
+    end
+  end
 end

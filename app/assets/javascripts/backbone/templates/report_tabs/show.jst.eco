@@ -11,11 +11,11 @@
                         <td>&#187;</td>
                         <% for filter in @dimensions_filters: %>
                             <% if filter == last_filter: %>
-                                <td><%= filter.name %>:&nbsp;<%= filter.value %></td>
+                                <td><%= filter.dimension.name %>:&nbsp;<%= filter.value %></td>
                             <% else: %>
                                 <td>
-                                    <a class="choose-dimension" value="<%= filter.key %>" type="<%= filter.type %>">
-                                        <%= filter.name %>:
+                                    <a class="choose-dimension" value="<%= filter.dimension.value %>" type="<%= filter.dimension.dimension_type %>">
+                                        <%= filter.dimension.name %>:
                                     </a>
                                     <%= filter.value %>
                                 </td>

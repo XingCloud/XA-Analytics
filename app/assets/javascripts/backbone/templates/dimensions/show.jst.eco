@@ -38,7 +38,7 @@
                         <div class="add-dimension-controls">
                             <select class="new-dimension">
                                 <% for dimension in Analytics.Static.Dimensions: %>
-                                    <option value="<%= dimension.value %>" name="<%= dimension.name %>" dimension_type="<%= dimension.dimension_type %>" <%= if @value == dimension.value then 'selected="selected"' %> ><%= dimension.name %></option>
+                                    <option value="<%= dimension.value %>" name="<%= dimension.name %>" dimension_type="<%= dimension.dimension_type %>" value_type="<%= dimension.value_type %>" <%= if @value == dimension.value then 'selected="selected"' %> ><%= dimension.name %></option>
                                 <% end %>
                             </select>
                             <a class="btn btn-primary add-dimension">添加</a>

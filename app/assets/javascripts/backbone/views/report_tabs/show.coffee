@@ -142,7 +142,7 @@ class Analytics.Views.ReportTabs.ShowView extends Backbone.View
         item.value == value and item.dimension_type == type
       )
       dimension_filter = _.find(@model.dimensions_filters, (item) ->
-        item.key == value and item.type == type
+        item.dimension.value == value and item.dimension.dimension_type == type
       )
       dimension_filter_index = @model.dimensions_filters.indexOf(dimension_filter)
       @model.dimensions_filters.splice(dimension_filter_index, @model.dimensions_filters.length - dimension_filter_index)

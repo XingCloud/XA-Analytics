@@ -5,9 +5,10 @@
     <input type="hidden" id="report_tabs_<%= @report_tab_index %>_dimensions_<%= @index %>_value" name="report_tabs_attributes[<%= @report_tab_index %>][dimensions_attributes][<%= @index %>][value]" value="<%= @value %>"/>
     <input type="hidden" id="report_tabs_<%= @report_tab_index %>_dimensions_<%= @index %>_dimension_type" name="report_tabs_attributes[<%= @report_tab_index %>][dimensions_attributes][<%= @index %>][dimension_type]" value="<%= @dimension_type %>"/>
     <input type="hidden" id="report_tabs_<%= @report_tab_index %>_dimensions_<%= @index %>_level" name="report_tabs_attributes[<%= @report_tab_index %>][dimensions_attributes][<%= @index %>][level]" value="<%= @level %>"/>
+    <input type="hidden" id="report_tabs_<%= @report_tab_index %>_dimensions_<%= @index %>_value_type" name="report_tabs_attributes[<%= @report_tab_index %>][dimensions_attributes][<%= @index %>][value_type]" value="<%= @value_type %>"/>
     <select>
         <% for dimension in Analytics.Static.Dimensions: %>
-            <option value="<%= dimension.value %>" name="<%= dimension.name %>" dimension_type="<%= dimension.dimension_type %>" <%= if @value == dimension.value then 'selected="selected"' %> ><%= dimension.name %></option>
+            <option value="<%= dimension.value %>" name="<%= dimension.name %>" dimension_type="<%= dimension.dimension_type %>" value_type="<%= dimension.value_type %>" <%= if @value == dimension.value then 'selected="selected"' %> ><%= dimension.name %></option>
         <% end %>
     </select>
     <img src="/assets/cleardot.gif" class="dimension-remove" />

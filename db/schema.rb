@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120428115914) do
+ActiveRecord::Schema.define(:version => 20120510063246) do
 
   create_table "dimensions", :force => true do |t|
     t.integer "report_tab_id"
@@ -19,6 +19,7 @@ ActiveRecord::Schema.define(:version => 20120428115914) do
     t.string  "value"
     t.string  "dimension_type"
     t.integer "level"
+    t.string  "value_type",     :default => "String"
   end
 
   create_table "expressions", :force => true do |t|
@@ -26,8 +27,9 @@ ActiveRecord::Schema.define(:version => 20120428115914) do
     t.string   "operator"
     t.string   "value"
     t.integer  "segment_id"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.datetime "created_at",                       :null => false
+    t.datetime "updated_at",                       :null => false
+    t.string   "value_type", :default => "String"
   end
 
   create_table "metrics", :force => true do |t|

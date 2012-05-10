@@ -64,13 +64,16 @@ class Analytics.Views.Dimensions.ShowView extends Backbone.View
     value = $(ev.currentTarget).attr("value")
     dimension = @model.get("dimension")
     filter = {
-      type: dimension.dimension_type
-      name: dimension.name
-      key: dimension.value
+      dimension: {
+        dimension_type: dimension.dimension_type
+        name: dimension.name
+        value: dimension.value
+        value_type: dimension.value_type
+      }
       value: value
     }
     oldfilter =  _.find(@model.get("filters"), (item) ->
-      item.type == filter.type and item.key == filter.key
+      item.dimension.dimension_type == filter.dimension.dimension_type and item.dimension.value == filter.dimension.value
     )
     if not oldfilter?
       @model.get("filters").push(filter)
@@ -96,10 +99,12 @@ class Analytics.Views.Dimensions.ShowView extends Backbone.View
       @fetch()
 
   add_dimension: (ev) ->
+    option = $(@el).find('select.new-dimension option:selected')
     new_dimension = {
-      name: $(@el).find('select.new-dimension option:selected').attr("name")
-      value: $(@el).find('select.new-dimension option:selected').attr("value")
-      dimension_type: $(@el).find('select.new-dimension option:selected').attr("dimension_type")
+      name: option.attr("name")
+      value: option.attr("value")
+      dimension_type: option.attr("dimension_type")
+      value_type: option.attr("value_type")
       level: @model.get("dimensions").length
       report_tab_id: @report_tab_view.model.id
     }
@@ -114,7 +119,7 @@ class Analytics.Views.Dimensions.ShowView extends Backbone.View
       item.value == value and item.dimension_type == dimension_type
     )
     dimension_filter = _.find(@model.get("filters"), (item) ->
-      item.key == value and item.type == dimension_type
+      item.dimension.value == value and item.dimension.dimension_type == dimension_type
     )
     if dimension_filter?
       dimension_filter_index = @model.get("filters").indexOf(dimension_filter)

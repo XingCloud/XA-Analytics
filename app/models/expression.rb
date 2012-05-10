@@ -10,13 +10,13 @@ class Expression < ActiveRecord::Base
       {self.name => {"$handler" => "DateSplittor"}}
     else
       if self.operator.match('eq')
-        if ["grade","game_time","pay_amount"].include? self.name
+        if self.value_type == 'int'
           {self.name => self.value.to_i}
         else
           {self.name => self.value}
         end
       else
-        if ["grade","game_time","pay_amount"].include? self.name
+        if self.value_type == 'int'
           {self.name => {"$#{self.operator}" => self.value.to_i}}
         else
           {self.name => {"$#{self.operator}" => self.value}}

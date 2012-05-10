@@ -33,6 +33,7 @@ class Analytics.Views.Dimensions.FormListItemView extends Backbone.View
       name: option.attr('name')
       value: option.attr('value')
       dimension_type: option.attr('dimension_type')
+      value_type: option.attr('value_type')
     })
 
 class Analytics.Views.Dimensions.FormListView extends Backbone.View

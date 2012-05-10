@@ -6,6 +6,7 @@ class Analytics.Views.Expressions.FormView extends Backbone.View
 
   events:
     "click span#expression-remove" : "remove_expression"
+    "change select.attributes-select" : "select_attribute"
 
   initialize: (options) ->
     _.bindAll(this, "render")
@@ -20,3 +21,7 @@ class Analytics.Views.Expressions.FormView extends Backbone.View
 
   remove_expression: () ->
     @segment_form.remove_expression(this)
+
+  select_attribute: (ev) ->
+    value_type = $(ev.currentTarget).find('option:selected').attr('value_type')
+    $(@el).find('.value-type').val(value_type)
