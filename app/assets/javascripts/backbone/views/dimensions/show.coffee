@@ -128,10 +128,18 @@ class Analytics.Views.Dimensions.ShowView extends Backbone.View
     if dimension_filter?
       dimension_filter_index = @model.get("filters").indexOf(dimension_filter)
       @model.get("filters").splice(dimension_filter_index, @model.get("filters").length - dimension_filter_index)
-      @model.set({dimension: dimension, query: null},{silent: true})
+      @model.set({
+        dimension: dimension,
+        query: null
+        index: 0
+      },{silent: true})
       @report_tab_view.redraw()
     else
-      @model.set({dimension: dimension, query: null},{silent: true})
+      @model.set({
+        dimension: dimension,
+        query: null
+        index: 0
+      },{silent: true})
       @fetch()
 
   search_dimension: (ev) ->
