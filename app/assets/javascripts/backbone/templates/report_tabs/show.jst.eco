@@ -68,12 +68,15 @@
 
         <ul class="dropdown-menu range-control-dropdown-menu">
             <% for range in Analytics.Static.ReportTabRanges: %>
-            <li>
-                <a length="<%= range.length %>" interval="<%= range.interval %>" style="cursor: pointer;">
-                    <%= range.name %>
-                </a>
-            </li>
+                <li>
+                    <a class="default-range" length="<%= range.length %>" interval="<%= range.interval %>" style="cursor: pointer;">
+                        <%= range.name %>
+                    </a>
+                </li>
             <% end %>
+            <li>
+                <a href="#custom-range-<%= @id %>" data-toggle="modal" style="cursor: pointer">自定义</a>
+            </li>
             <li class="divider"></li>
             <li class="compare">
                 <input type="checkbox" class="compare-checkbox" id="report_tab_compare_<%= @id %>" <%= if @compare != 0 then 'checked="checked"' %> />
@@ -90,8 +93,8 @@
             </li>
         </ul>
     </div>
-
 </div>
+<%- JST['backbone/templates/report_tabs/show-custom-range'](@) %>
 <div id="chart">
 </div>
 <div id="legend">

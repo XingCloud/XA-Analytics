@@ -1,0 +1,30 @@
+<div class="modal" id="custom-range-<%= @id %>" style="display: none;">
+    <div class="modal-header">
+        <b class="close" data-dismiss="modal">×</b>
+        <h3>自定义</h3>
+    </div>
+    <div class="modal-body">
+        <div class="form-horizontal">
+            <div class="control-group">
+                <label class="control-label">报告时长</label>
+                <div class="controls">
+                    <input type="text" class="input-mini length-input" value="<%= @length %>"/>
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label">报告频率</label>
+                <div class="controls">
+                    <select class="interval-select">
+                        <% for interval in Analytics.Static.ReportTabIntervals: %>
+                            <option value="<%= interval.value %>" <%= if @interval == interval.value then 'selected="selected"' %> ><%= interval.name %></option>
+                        <% end %>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <a data-dismiss="modal" class="btn">取消</a>
+        <a class="btn btn-primary submit-custom-range">确定</a>
+    </div>
+</div>

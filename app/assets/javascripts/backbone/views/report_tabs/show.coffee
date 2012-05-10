@@ -5,7 +5,8 @@ class Analytics.Views.ReportTabs.ShowView extends Backbone.View
   events:
     "change .compare-checkbox" : "change_compare"
     "click .choose-dimension" : "choose_dimension"
-    "click .range-control-dropdown-menu li a" : "change_range"
+    "click .range-control-dropdown-menu li a.default-range" : "change_default_range"
+    "click a.submit-custom-range" : "change_custom_range"
     "click .legend-info-container" : "click_legend_info"
 
   initialize: () ->
@@ -84,12 +85,23 @@ class Analytics.Views.ReportTabs.ShowView extends Backbone.View
     else
       @model.set({interval: $(ev.currentTarget).attr("value")})
 
-  change_range: (ev) ->
+  change_default_range: (ev) ->
     range = {
       length: parseInt($(ev.currentTarget).attr("length"))
       interval: $(ev.currentTarget).attr("interval")
     }
     @model.compare_end_time = project.report_end_time - range.length*86400000
+    if @model.get("project_id")?
+      @model.save(range, {wait: true})
+    else
+      @model.set(range)
+
+  change_custom_range: (ev) ->
+    range = {
+      length: parseInt($(@el).find('.length-input').val())
+      interval: $(@el).find('.interval-select option:selected').attr("value")
+    }
+    $(@el).find('#custom-range-'+@model.id).modal('hide')
     if @model.get("project_id")?
       @model.save(range, {wait: true})
     else

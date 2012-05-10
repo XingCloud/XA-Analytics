@@ -92,6 +92,13 @@
       }
     }
   }
+  .modal{
+    .modal-footer{
+      a{
+        cursor: pointer;
+      }
+    }
+  }
 }
 
 .action-add {
