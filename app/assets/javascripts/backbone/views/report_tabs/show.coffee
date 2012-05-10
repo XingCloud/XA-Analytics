@@ -51,7 +51,6 @@ class Analytics.Views.ReportTabs.ShowView extends Backbone.View
 
   render_chart: () ->
     @chart_sequences.init()
-    @chart_original_width = $(@el).find('#chart').width()
     $(@el).find('#legend').html(JST['backbone/templates/report_tabs/show-legend'](@chart_sequences.legend()))
 
 
@@ -125,11 +124,11 @@ class Analytics.Views.ReportTabs.ShowView extends Backbone.View
         @chart_sequences.chart.get($(ev.currentTarget).attr('compare-sequence-id')).hide()
       $(ev.currentTarget).addClass('deactive')
 
-  resize_chart: (expand) ->
+  resize_chart: (expand, size) ->
     if expand
       @chart_sequences.chart.setSize($(@el).find('#chart').width())
     else
-      @chart_sequences.chart.setSize(@chart_original_width)
+      @chart_sequences.chart.setSize(size)
 
   choose_dimension: (ev) ->
     value = $(ev.currentTarget).attr("value")
