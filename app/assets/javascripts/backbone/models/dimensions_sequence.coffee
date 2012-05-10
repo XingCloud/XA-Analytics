@@ -35,8 +35,9 @@ class Analytics.Models.DimensionsSequence extends Backbone.Model
       project.active_tab.view.dimensions_sequence.set(resp.data)
       project.active_tab.view.fetch_complete()
 
-  fetch_error: (resp) ->
+  fetch_error: (xhr, options, error) ->
     project.active_tab.view.fetch_complete()
+    Analytics.Request.error(xhr, options, error)
 
   fetch_url: () ->
     "/projects/"+project.id+"/reports/"+@report_tab.get("report_id")+"/report_tabs/"+@report_tab.id+"/dimensions"

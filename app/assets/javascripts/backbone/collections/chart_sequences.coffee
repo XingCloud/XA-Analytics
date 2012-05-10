@@ -57,8 +57,9 @@ class Analytics.Collections.ChartSequences extends Backbone.Collection
       project.active_tab.view.redraw_chart()
       project.active_tab.view.fetch_complete()
 
-  fetch_error: (resp) ->
+  fetch_error: (xhr, options, error) ->
     project.active_tab.view.fetch_complete()
+    Analytics.Request.error(xhr, options, error)
 
   segment_ids: () ->
     segment_ids = segments_router.segments.selected().concat(segments_router.templates.selected())

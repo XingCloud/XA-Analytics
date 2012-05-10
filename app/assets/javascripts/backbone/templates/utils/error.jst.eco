@@ -1,0 +1,4 @@
+<div id="error-message" class="alert alert-error" style="display: none;">
+    <b class="close" data-dismiss="alert">×</b>
+    抱歉, 出错了
+</div>

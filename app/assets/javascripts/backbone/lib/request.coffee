@@ -1,5 +1,7 @@
 Analytics.Request ||= {}
 
+Analytics.Request.error_message = false
+
 Analytics.Request.get = (url, params, callback) ->
   Analytics.Request.ajax(url, params, "GET", callback)
 
@@ -21,6 +23,17 @@ Analytics.Request.ajax = (url, data, type, success) ->
     success : (rtdata) ->
       $('#loading-message').fadeOut(200)
       success(rtdata)
-    error: (rtdata) ->
+    error: (xhr, options, error) ->
       $('#loading-message').fadeOut(200)
+      Analytics.Request.error(xhr, options, error)
   })
+
+Analytics.Request.error = (xhr, options, error) ->
+  if xhr.status == 401
+    window.location.reload(true)
+  else
+    if Analytics.Request.error_message
+      $('#error-message').remove()
+    $('body').prepend(JST['backbone/templates/utils/error']())
+    $('#error-message').fadeIn(500)
+    Analytics.Request.error_message = true

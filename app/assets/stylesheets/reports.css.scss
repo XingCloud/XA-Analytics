@@ -94,30 +94,6 @@
   }
 }
 
-@mixin loading{
-  background: #FFF1A8 -webkit-gradient(linear,left top,left bottom,from(#FFE090),to(#FFF2B0));
-  background-color: #FFF1A8;
-  color: black;
-  left: 50%;
-  padding: 3px 6px;
-  position: fixed;
-  top: 0;
-  z-index: 10000;
-  padding: 3px 16px;
-  font-weight: bold;
-  border-radius: 0 0 5px 5px;
-  -moz-border-radius: 0 0 5px 5px;
-  -webkit-border-radius: 0 0 5px 5px;
-  box-shadow: rgba(0,0,0,0.246094) 0px -3px 5px,rgba(0,0,0,0.246094) 0px 3px 5px;
-  -moz-box-shadow: rgba(0,0,0,0.246094) 0px -3px 5px,rgba(0,0,0,0.246094) 0px 3px 5px;
-  -webkit-box-shadow: rgba(0,0,0,0.246094) 0px -3px 5px,rgba(0,0,0,0.246094) 0px 3px 5px;
-
-}
-
-#loading-message{
-  @include loading;
-}
-
 .action-add {
   border-collapse: collapse;
   border: 1px dashed;
