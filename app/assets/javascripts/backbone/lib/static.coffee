@@ -85,16 +85,17 @@ Analytics.Static.ReportTabRanges = [
 Analytics.Static.initUserAttributes = (user_attributes) ->
   if user_attributes? and user_attributes.length > 0
     Analytics.Static.UserAttributes = []
-    Analytics.Static.Dimensions = [].concat(Analytics.Static.DimensionsEvents)
+    dimensions = []
     for user_attribute in user_attributes
       Analytics.Static.UserAttributes.push({
         value: user_attribute.key
         name: user_attribute.name
         value_type: user_attribute.type
       })
-      Analytics.Static.Dimensions.push({
+      dimensions.push({
         value: user_attribute.key
         name: user_attribute.name
         value_type: user_attribute.type
         dimension_type: 'USER_PROPERTIES'
       })
+    Analytics.Static.Dimensions = dimensions.concat(Analytics.Static.DimensionsEvents)
