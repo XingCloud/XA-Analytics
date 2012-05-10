@@ -6,6 +6,7 @@ class Analytics.Models.DimensionsSequence extends Backbone.Model
     orderby: null
     order: "DESC"
     dimension: null
+    query: null
 
   initialize: (options) ->
     @set({
@@ -18,6 +19,7 @@ class Analytics.Models.DimensionsSequence extends Backbone.Model
       data: []
       total: 0
       index: 0
+      query: null
     }, {silent: true})
 
   fetch_data: (options) ->
@@ -43,7 +45,7 @@ class Analytics.Models.DimensionsSequence extends Backbone.Model
     "/projects/"+project.id+"/reports/"+@report_tab.get("report_id")+"/report_tabs/"+@report_tab.id+"/dimensions"
 
   fetch_params: () ->
-    {
+    params = {
       end_time: parseInt(project.report_end_time/1000)
       length: @report_tab.get("length")
       interval: @report_tab.get("interval").toUpperCase()
@@ -52,5 +54,9 @@ class Analytics.Models.DimensionsSequence extends Backbone.Model
       pagesize: @get("pagesize")
       filters: @get("filters")
       order: @get("order")
-      orderby: @get("orderby")
     }
+    if @get("orderby")?
+      params["orderby"] = @get("orderby")
+    if @get("query")? and @get("query").length > 0
+      params["query"] = @get("query")
+    params

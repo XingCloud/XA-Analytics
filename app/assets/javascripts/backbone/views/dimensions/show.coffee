@@ -10,7 +10,8 @@ class Analytics.Views.Dimensions.ShowView extends Backbone.View
     "click button.jump-page" : "jump_page"
     "click a.dimension-value" : "filter_dimension"
     "click a.choose-primary-dimension" : "choose_dimension"
-    "click a.add-dimension" : "add_dimension"
+    "click td.add-dimension ul li a" : "add_dimension"
+    "click button.search" : "search_dimension"
     "change select.pagesize" : "change_pagesize"
 
   initialize: (options) ->
@@ -99,18 +100,21 @@ class Analytics.Views.Dimensions.ShowView extends Backbone.View
       @fetch()
 
   add_dimension: (ev) ->
-    option = $(@el).find('select.new-dimension option:selected')
-    new_dimension = {
-      name: option.attr("name")
-      value: option.attr("value")
-      dimension_type: option.attr("dimension_type")
-      value_type: option.attr("value_type")
-      level: @model.get("dimensions").length
-      report_tab_id: @report_tab_view.model.id
-    }
-    @model.get("dimensions").push(new_dimension)
-    @model.set({dimension: new_dimension}, {silent: true})
-    @fetch()
+    if @model.get("dimensions").length < 6
+      option = $(ev.currentTarget)
+      new_dimension = {
+        name: option.attr("name")
+        value: option.attr("value")
+        dimension_type: option.attr("dimension_type")
+        value_type: option.attr("value_type")
+        level: @model.get("dimensions").length
+        report_tab_id: @report_tab_view.model.id
+      }
+      @model.get("dimensions").push(new_dimension)
+      @model.set({dimension: new_dimension}, {silent: true})
+      @fetch()
+    else
+      alert("最多支持六层细分")
 
   choose_dimension: (ev) ->
     value = $(ev.currentTarget).attr("value")
@@ -124,8 +128,16 @@ class Analytics.Views.Dimensions.ShowView extends Backbone.View
     if dimension_filter?
       dimension_filter_index = @model.get("filters").indexOf(dimension_filter)
       @model.get("filters").splice(dimension_filter_index, @model.get("filters").length - dimension_filter_index)
-      @model.set({dimension: dimension},{silent: true})
+      @model.set({dimension: dimension, query: null},{silent: true})
       @report_tab_view.redraw()
     else
-      @model.set({dimension: dimension},{silent: true})
+      @model.set({dimension: dimension, query: null},{silent: true})
       @fetch()
+
+  search_dimension: (ev) ->
+    query = $(@el).find('.form-search input.search-query').val()
+    @model.set({
+      index: 0
+      query: query
+    },{silent: true})
+    @fetch()

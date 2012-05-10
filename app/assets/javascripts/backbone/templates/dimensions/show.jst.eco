@@ -1,5 +1,5 @@
 <div class="dimensions-list row-fluid">
-    <table>
+    <table class="left">
         <tbody>
             <tr>
                 <td>细分属性:&nbsp;</td>
@@ -10,9 +10,31 @@
                         <td><a class="choose-primary-dimension" value="<%= dimension.value %>" dimension_type="<%= dimension.dimension_type %>"><%= dimension.name %></a></td>
                     <% end %>
                 <% end %>
+                <td class="add-dimension">
+                    <div class="btn-group">
+                        <a class="btn dropdown-toggle" data-toggle="dropdown">
+                            <i class="icon icon-plus"/>
+                            添加细分
+                            <span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <% for dimension in Analytics.Static.Dimensions: %>
+                                <li>
+                                    <a value="<%= dimension.value %>" name="<%= dimension.name %>" dimension_type="<%= dimension.dimension_type %>" value_type="<%= dimension.value_type %>">
+                                        <%= dimension.name %>
+                                    </a>
+                                </li>
+                            <% end %>
+                        </ul>
+                    </div>
+                </td>
             </tr>
         </tbody>
     </table>
+    <div class="right form-search">
+        <input type="text" class="input-medium search-query" value="<%= @query %>" />
+        <button class="btn search">搜索</button>
+    </div>
 </div>
 
 <div class="dimensions-table row-fluid">
@@ -26,36 +48,31 @@
             </tr>
         </thead>
         <tbody>
-            <% if (@total == 0 and @dimension?) or (not @dimension? and @dimensions.length == 6 ): %>
-                <tr>
-                    <td class="no-data" colspan="<%= @metrics.length + 1 %>"><i>没有数据</i></td>
-                </tr>
-            <% else if not @dimension?: %>
+            <% if not @dimension?: %>
                 <tr>
                     <td class="no-dimension" colspan="<%= @metrics.length + 1 %>">
                         <i>暂无细分, 请添加(最多支持6层细分)</i>
-                        <br/>
-                        <div class="add-dimension-controls">
-                            <select class="new-dimension">
-                                <% for dimension in Analytics.Static.Dimensions: %>
-                                    <option value="<%= dimension.value %>" name="<%= dimension.name %>" dimension_type="<%= dimension.dimension_type %>" value_type="<%= dimension.value_type %>" <%= if @value == dimension.value then 'selected="selected"' %> ><%= dimension.name %></option>
-                                <% end %>
-                            </select>
-                            <a class="btn btn-primary add-dimension">添加</a>
-                        </div>
                     </td>
                 </tr>
             <% else: %>
+                <% no-data = true %>
                 <% for item in @data: %>
-                    <tr>
-                        <td class="<%= if not @orderby? then 'orderby' %>"><a class="dimension-value" value="<%= item[0] %>"><%= item[0] %></a></td>
-                        <% for metric in @metrics: %>
-                            <td class="<%= if parseInt(@orderby) == metric.id then 'orderby' %>"><%= item[1][metric.id] %></td>
-                        <% end %>
-                    </tr>
+                    <% if item[0]? and item[1]?: %>
+                        <% no-data = false %>
+                        <tr>
+                            <td class="<%= if not @orderby? then 'orderby' %>"><a class="dimension-value" value="<%= item[0] %>"><%= item[0] %></a></td>
+                            <% for metric in @metrics: %>
+                                <td class="<%= if parseInt(@orderby) == metric.id then 'orderby' %>"><%= item[1][metric.id] %></td>
+                            <% end %>
+                        </tr>
+                    <% end %>
                 <% end %>
             <% end %>
-
+            <% if no-data: %>
+                <tr>
+                    <td class="no-data" colspan="<%= @metrics.length + 1 %>"><i>没有数据</i></td>
+                </tr>
+            <% end %>
         </tbody>
     </table>
 </div>

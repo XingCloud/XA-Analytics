@@ -93,7 +93,8 @@ class AnalyticService
                                                    :index => index,
                                                    :pagesize => pagesize,
                                                    :orderby => params[:orderby],
-                                                   :order => params[:order].blank? ? 'ASC' : params[:order].upcase})
+                                                   :order => params[:order].blank? ? 'ASC' : params[:order].upcase,
+                                                   :filter => params[:query]})
     if resp["result"]
       result.merge!(resp)
     end
@@ -213,6 +214,8 @@ class AnalyticService
     pp options
 
     url = URI.parse(File.join(BASE_URL, url))
+    pp url
+
     response = Net::HTTP.post_form(url, options)
 
     logger.info "Response Code: #{response.code}"
