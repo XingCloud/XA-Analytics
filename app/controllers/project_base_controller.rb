@@ -12,12 +12,7 @@ class ProjectBaseController < ApplicationController
     if not APP_CONFIG[:admin].include?(session[:cas_user])
       session[:projects_permissions] ||= {}
       if session[:projects_permissions][@project.identifier].blank?
-        permissions = BasisService.auth_project(@project.identifier, session[:cas_user])
-        if permissions.nil? or not permissions.include?(:view_statistics)
-          session[:projects_permissions][@project.identifier] = false
-        else
-          session[:projects_permissions][@project.identifier] = true
-        end
+        session[:projects_permissions][@project.identifier] = BasisService.auth_project(@project.identifier, session[:cas_user])
       end
       if not session[:projects_permissions][@project.identifier]
         render :file => "public/401.html", :status => :unauthorized

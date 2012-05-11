@@ -487,6 +487,10 @@
     }
     td.add-dimension{
       padding-left: 10px;
+      ul{
+        max-height: 200px;
+        overflow: auto;
+      }
     }
   }
 }

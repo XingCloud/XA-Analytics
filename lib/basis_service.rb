@@ -37,22 +37,23 @@ class BasisService
     }
     pp res.body
     if res.is_a?(Net::HTTPSuccess)
-      result = JSON.parse(res.body)
-      if result.length == 0
-        nil
+      results = JSON.parse(res.body)
+      if results.length == 0
+        false
       else
-        role = result[0]["role"]
-        if role == "admin"
-          [:view_statistics, :set_statistics]
-        else
-          YAML::load(role["permissions"])
+        results.each do |result|
+          role = result["role"]
+          if role == "admin"
+            return true
+          else
+            permissions = YAML::load(role["permissions"])
+            if not permissions.nil? and permissions.include?(:view_statistics)
+              return true
+            end
+          end
         end
       end
-    else
-      puts "#{res.code} #{res.message}"
-      nil
     end
-
+    false
   end
-  
 end

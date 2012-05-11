@@ -14,7 +14,6 @@
                     <div class="btn-group">
                         <a class="btn dropdown-toggle" data-toggle="dropdown">
                             <i class="icon icon-plus"/>
-                            添加细分
                             <span class="caret"></span>
                         </a>
                         <ul class="dropdown-menu">
