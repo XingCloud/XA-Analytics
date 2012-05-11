@@ -3,10 +3,7 @@ Analytics.Views.ReportTabs ||= {}
 class Analytics.Views.ReportTabs.ShowView extends Backbone.View
   template: JST["backbone/templates/report_tabs/show"]
   events:
-    "change .compare-checkbox" : "change_compare"
     "click .choose-dimension" : "choose_dimension"
-    "click .range-control-dropdown-menu li a.default-range" : "change_default_range"
-    "click a.submit-custom-range" : "change_custom_range"
     "click .legend-info-container" : "click_legend_info"
 
   initialize: () ->
@@ -24,7 +21,7 @@ class Analytics.Views.ReportTabs.ShowView extends Backbone.View
   render: () ->
     $(@el).html(@template(@model.show_attributes()))
     $(@report_view.el).find('.tab-container').html($(@el))
-    @render_datepicker()
+    @render_range_picker()
     @render_chart()
     @render_dimensions()
     @fetch_data()
@@ -32,22 +29,16 @@ class Analytics.Views.ReportTabs.ShowView extends Backbone.View
   redraw: () ->
     @remove()
     @render()
-    @delegateEvents(this.events)
+    @delegateEvents(@events)
 
-  render_datepicker: () ->
-    el = @el
-    model = @model
-    $(@el).find('.datepicker-toggle').datepicker({format: 'yyyy/mm/dd'}).on('changeDate', (ev) ->
-      $(el).find('.datepicker-toggle').datepicker('hide')
-      if model.compare_end_time != ev.date.valueOf()
-        model.compare_end_time = ev.date.valueOf()
-        if model.get("compare") == 0 and model.get("project_id")?
-          model.save({compare: 1},{wait: true})
-        else if model.get("compare") == 0
-          model.set({compare: 1})
-        else
-          model.trigger("change")
-    )
+  render_range_picker: () ->
+    if not @model.range_picker_view?
+      new Analytics.Views.ReportTabs.ShowRangePickerView({
+        model: @model
+      })
+      $(@report_view.el).find('.report-tab-range-picker').html(@model.range_picker_view.render().el)
+    else
+      $(@report_view.el).find('.report-tab-range-picker').html(@model.range_picker_view.redraw().el)
 
   render_chart: () ->
     @chart_sequences.init()
@@ -77,40 +68,6 @@ class Analytics.Views.ReportTabs.ShowView extends Backbone.View
       @fetch_request_count = @fetch_request_count - 1
       if @fetch_request_count == 0
         $.unblockUI()
-
-  change_interval: (ev) ->
-    if @model.get("project_id")?
-      @model.save({interval: $(ev.currentTarget).attr("value")}, {wait: true})
-    else
-      @model.set({interval: $(ev.currentTarget).attr("value")})
-
-  change_default_range: (ev) ->
-    range = {
-      length: parseInt($(ev.currentTarget).attr("length"))
-      interval: $(ev.currentTarget).attr("interval")
-    }
-    @model.compare_end_time = project.report_end_time - range.length*86400000
-    if @model.get("project_id")?
-      @model.save(range, {wait: true})
-    else
-      @model.set(range)
-
-  change_custom_range: (ev) ->
-    range = {
-      length: parseInt($(@el).find('.length-input').val())
-      interval: $(@el).find('.interval-select option:selected').attr("value")
-    }
-    $(@el).find('#custom-range-'+@model.id).modal('hide')
-    if @model.get("project_id")?
-      @model.save(range, {wait: true})
-    else
-      @model.set(range)
-
-  change_compare: (ev) ->
-    if @model.get("project_id")?
-      @model.save({compare: ( if $(ev.currentTarget)[0].checked then 1 else 0)}, {wait: true})
-    else
-      @model.set({compare: ( if $(ev.currentTarget)[0].checked then 1 else 0)})
 
   click_legend_info: (ev) ->
     if($(ev.currentTarget).hasClass('deactive'))
@@ -148,4 +105,90 @@ class Analytics.Views.ReportTabs.ShowView extends Backbone.View
 
     @dimensions_sequence.set({dimension: dimension}, {silent: true})
     @redraw()
+
+
+class Analytics.Views.ReportTabs.ShowRangePickerView extends Backbone.View
+  template: JST['backbone/templates/report_tabs/show-range-picker']
+  events:
+    "click .range-control-dropdown-menu li a.default-range" : "change_default_range"
+    "change .compare-checkbox" : "change_compare"
+    "click a.submit-custom-range" : "change_custom_range"
+
+  initialize: () ->
+    _.bindAll this, "render", "redraw"
+    @model.range_picker_view = this
+
+  render: () ->
+    $(@el).html(@template(@model.show_attributes()))
+    @render_datepicker()
+    @render_compare_datepicker()
+    this
+
+  redraw: () ->
+    @remove()
+    @render()
+    @delegateEvents(@events)
+    this
+
+  render_datepicker: () ->
+    el = @el
+    $(el).find('.custom-datepicker').datepicker({format: 'yyyy/mm/dd'}).on('changeDate', (ev) ->
+      $(el).find('.custom-datepicker').datepicker('hide')
+      $(el).find('.end-time').val(ev.date.valueOf())
+    )
+
+  render_compare_datepicker: () ->
+    el = @el
+    model = @model
+    $(@el).find('.compare-datepicker').datepicker({format: 'yyyy/mm/dd'}).on('changeDate', (ev) ->
+      $(el).find('.compare-datepicker').datepicker('hide')
+      if model.compare_end_time != ev.date.valueOf()
+        model.compare_end_time = ev.date.valueOf()
+        if model.get("compare") == 0 and model.get("project_id")?
+          model.save({compare: 1},{wait: true})
+        else if model.get("compare") == 0
+          model.set({compare: 1})
+        else
+          model.trigger("change")
+    )
+
+  change_default_range: (ev) ->
+    range = {
+      length: parseInt($(ev.currentTarget).attr("length"))
+      interval: $(ev.currentTarget).attr("interval")
+    }
+    @model.compare_end_time = @model.end_time - range.length*86400000
+    if @model.get("project_id")?
+      @model.save(range, {wait: true})
+    else
+      @model.set(range)
+
+  change_compare: (ev) ->
+    if @model.get("project_id")?
+      @model.save({compare: ( if $(ev.currentTarget)[0].checked then 1 else 0)}, {wait: true})
+    else
+      @model.set({compare: ( if $(ev.currentTarget)[0].checked then 1 else 0)})
+
+  change_custom_range: (ev) ->
+    range = {
+      length: parseInt($(@el).find('.length-input').val())
+      interval: $(@el).find('.interval-select option:selected').attr("value")
+    }
+    end_time = parseInt($(@el).find('.end-time').val())
+    change = (@model.end_time != end_time or @model.get("length") != range.length or @model.get("interval") != range.interval)
+    $(@el).find('#custom-range-'+@model.id).modal('hide')
+    @model.end_time = end_time
+    if @model.get("project_id")?
+      @model.save(range, {
+        wait: true
+        silent: true
+        success: (model, resp) ->
+          if change
+            model.trigger("change")
+      })
+    else
+      @model.set(range, {silent: true})
+      if change
+        @model.trigger("change")
+
 

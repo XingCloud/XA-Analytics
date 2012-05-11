@@ -1,0 +1,63 @@
+<div class="btn-group">
+    <div class="range-control dropdown-toggle" data-toggle="dropdown">
+        <table>
+            <tbody>
+            <tr>
+                <td>
+                    截止到
+                </td>
+                <td>
+                    <div class="<%= if @compare != 0 then 'compare-info' %>">
+                        <%= $.format.date(@end_time, 'yyyy/MM/dd') %>
+                    </div>
+                    <% if @compare != 0: %>
+                        <div class="<%= if @compare != 0 then 'compare-info' %>">
+                            <strong>vs</strong>
+                        </div>
+                        <div class="<%= if @compare != 0 then 'compare-info' %>">
+                            <%= $.format.date(@compare_end_time, 'yyyy/MM/dd') %>
+                        </div>
+                    <% end %>
+                </td>
+                <td>
+                    <% range = Analytics.Utils.checkReportTabRange(@length, @interval) %>
+                    <%= (if range? then range.name else '自定义'+ @length +'天') %>
+                </td>
+                <td>
+                    每<%= Analytics.Utils.intervalName(@interval) %>数据
+                </td>
+                <td>
+                    <a>&#9660;</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+
+    </div>
+
+    <ul class="dropdown-menu range-control-dropdown-menu">
+        <% for range in Analytics.Static.ReportTabRanges: %>
+            <li>
+                <a class="default-range" length="<%= range.length %>" interval="<%= range.interval %>" style="cursor: pointer;">
+                    <%= range.name %>
+                </a>
+            </li>
+        <% end %>
+        <li>
+            <a href="#custom-range-<%= @id %>" data-toggle="modal" style="cursor: pointer">自定义</a>
+        </li>
+        <li class="divider"></li>
+        <li class="compare">
+            <input type="checkbox" class="compare-checkbox" id="report_tab_compare_<%= @id %>" <%= if @compare != 0 then 'checked="checked"' %> />
+            <label for="report_tab_compare_<%= @id %>">
+                与
+                    <span class="range compare-datepicker" data-date-format="yyyy/mm/dd" data-date="<%= $.format.date(@compare_end_time, 'yyyy/MM/dd') %>">
+                        <%= $.format.date(@compare_end_time, 'yyyy/MM/dd') %>
+                        <span>&#9660;</span>
+                    </span>
+                对比
+            </label>
+        </li>
+    </ul>
+</div>
+<%- JST['backbone/templates/report_tabs/show-custom-range'](@) %>

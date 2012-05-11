@@ -8,7 +8,9 @@ class Analytics.Models.ReportTab extends Backbone.Model
     metric_ids: []
 
   initialize: (options) ->
+    now = Analytics.Utils.UTCDate(new Date().getTime())
     compare = Analytics.Utils.UTCDate(new Date().getTime() - @get("length")*86400000)
+    @end_time = new Date(now.getFullYear(), now.getMonth(), now.getDate()).getTime()
     @compare_end_time = new Date(compare.getFullYear(), compare.getMonth(), compare.getDate()).getTime()
     @dimensions_filters = []
 
@@ -32,6 +34,7 @@ class Analytics.Models.ReportTab extends Backbone.Model
 
   show_attributes: () ->
     attributes = _.clone(@attributes)
+    attributes.end_time = @end_time
     attributes.compare_end_time = @compare_end_time
     attributes.dimensions_filters = @dimensions_filters
     attributes

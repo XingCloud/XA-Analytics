@@ -12,7 +12,7 @@ class Analytics.Views.Projects.ShowView extends Backbone.View
     @model.view = this
 
   render: () ->
-    $(@el).html(@template(@model.show_attributes()))
+    $(@el).html(@template(@model.attributes))
 
 
     new Analytics.Views.Reports.NavView({
@@ -40,7 +40,7 @@ class Analytics.Views.Projects.ShowView extends Backbone.View
   toggle_left_nav: (ev) ->
     $(@el).find('td.left-nav').toggle()
     if $(ev.currentTarget).hasClass("left-nav-hide")
-      @model.active_tab.view.resize_chart(false, @main_container_width() - 1)
+      @model.active_tab.view.resize_chart(false, @main_container_width())
       $(ev.currentTarget).removeClass("left-nav-hide")
     else
       @model.active_tab.view.resize_chart(true)
@@ -52,4 +52,4 @@ class Analytics.Views.Projects.ShowView extends Backbone.View
     body_width = $('body').width()
     left_nav_width = $('.left-nav').outerWidth()
     nav_toggle_width = $('.nav-toggle').outerWidth()
-    body_width - left_nav_width - nav_toggle_width - padding_left - padding_right
+    body_width - left_nav_width - nav_toggle_width - padding_left - padding_right - 1

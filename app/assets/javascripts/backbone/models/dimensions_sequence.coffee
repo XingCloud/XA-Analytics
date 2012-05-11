@@ -46,7 +46,7 @@ class Analytics.Models.DimensionsSequence extends Backbone.Model
 
   fetch_params: () ->
     params = {
-      end_time: parseInt(project.report_end_time/1000)
+      end_time: parseInt(@report_tab.end_time/1000)
       length: @report_tab.get("length")
       interval: @report_tab.get("interval").toUpperCase()
       dimension: @get("dimension")

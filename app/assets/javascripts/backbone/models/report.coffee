@@ -15,7 +15,6 @@ class Analytics.Models.Report extends Backbone.Model
   show_attributes: () ->
     attr = _.clone(@attributes)
     attr.report_tabs_attributes = []
-    attr.report_end_time = project.report_end_time
     _.each(@report_tabs, (report_tab) -> attr.report_tabs_attributes.push(report_tab.attributes))
     attr
 

@@ -18,9 +18,7 @@
     <div class="left report-info">
         <span><i>报告时区为UTC+0</i></span>
     </div>
-    <div class="right">
-        <label style="float: left; padding-top: 6px;">报告截止日期:&nbsp;</label>
-        <input class="datepicker-input" type="text" value="<%= $.format.date(@report_end_time, 'yyyy/MM/dd') %>">
+    <div class="right report-tab-range-picker">
     </div>
 
 </div>

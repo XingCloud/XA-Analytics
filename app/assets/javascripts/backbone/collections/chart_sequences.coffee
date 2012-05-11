@@ -32,7 +32,7 @@ class Analytics.Collections.ChartSequences extends Backbone.Collection
     @add(sequence)
 
   fetch_params: () ->
-    end_time: parseInt(project.report_end_time/1000)
+    end_time: parseInt(@report_tab.end_time/1000)
     compare_end_time: parseInt(@report_tab.compare_end_time/1000)
     length: @report_tab.get("length")
     compare: @report_tab.get("compare")
@@ -157,7 +157,7 @@ class Analytics.Collections.ChartSequences extends Backbone.Collection
     )
 
   chart_options: () ->
-    interval_count = Analytics.Utils.intervalCount(project.report_end_time, @report_tab.get("interval"), @report_tab.get("length"))
+    interval_count = Analytics.Utils.intervalCount(@report_tab.end_time, @report_tab.get("interval"), @report_tab.get("length"))
     options = {
       credits:
         enabled: false

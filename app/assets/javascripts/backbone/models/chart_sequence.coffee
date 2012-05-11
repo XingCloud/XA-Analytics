@@ -39,7 +39,7 @@ class Analytics.Models.ChartSequence extends Backbone.Model
     }
 
   chart: () ->
-    offset = project.report_end_time - @report_tab.compare_end_time
+    offset = @report_tab.end_time - @report_tab.compare_end_time
     if @get("segment_id") != 0
       name = metrics_router.get(@get("metric_id")).get("name") + "(" + segments_router.get(@get("segment_id")).get("name") + ")"
     else
@@ -59,7 +59,7 @@ class Analytics.Models.ChartSequence extends Backbone.Model
     }
 
   chart_data: () ->
-    offset = project.report_end_time - @report_tab.compare_end_time
+    offset = @report_tab.end_time - @report_tab.compare_end_time
     if @get("for_compare")
       data = ([Analytics.Utils.parseUTCDate(item[0], offset), item[1]] for item in @get("data"))
     else
