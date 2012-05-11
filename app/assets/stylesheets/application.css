@@ -10,8 +10,6 @@
  *
  *= require_self
  *= require bootstrap_and_overrides
- *= require jquery.ui
- *= require jquery.chosen
  *= require datepicker
  *= require projects
  *= require segments

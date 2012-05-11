@@ -76,9 +76,9 @@ ActiveRecord::Schema.define(:version => 20120510063246) do
     t.string   "chart_type",  :default => "line"
     t.datetime "created_at",                      :null => false
     t.datetime "updated_at",                      :null => false
-    t.integer  "length"
-    t.string   "interval"
-    t.integer  "compare"
+    t.integer  "length",      :default => 7
+    t.string   "interval",    :default => "day"
+    t.integer  "compare",     :default => 0
   end
 
   add_index "report_tabs", ["report_id"], :name => "index_report_tabs_on_report_id"

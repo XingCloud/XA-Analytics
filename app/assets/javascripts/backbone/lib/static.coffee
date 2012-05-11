@@ -74,7 +74,7 @@ Analytics.Static.ReportTabIntervals = [
 
 Analytics.Static.ReportTabRanges = [
   {name: "实时", length: 1, interval: "min5"},
-  {name: "今天", length: 1, interval: "hour"},
+  {name: "当天", length: 1, interval: "hour"},
   {name: "最近两天", length: 2, interval: "hour"},
   {name: "最近一周", length: 7, interval: "day"},
   {name: "最近二周", length: 14, interval: "day"},

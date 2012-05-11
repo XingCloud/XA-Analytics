@@ -12,16 +12,11 @@
 //
 
 //= require jquery
-//= require jquery_ujs
 //= require twitter/bootstrap
-//= require jquery.chosen
 //= require jquery.dateFormat
-//= require jquery-ui
 //= require jquery.blockUI
 //= require jquery.form_to_json
-//= require moment
 //= require underscore
-//= require haml
 //= require backbone
 //= require highcharts
 //= require bootstrap-datepicker
