@@ -56,6 +56,8 @@ class Analytics.Collections.ChartSequences extends Backbone.Collection
       project.active_tab.view.chart_sequences.reset(resp.data)
       project.active_tab.view.redraw_chart()
       project.active_tab.view.fetch_complete()
+    else if resp.id == project.active_tab.id
+      project.active_tab.view.fetch_complete()
 
   fetch_error: (xhr, options, error) ->
     project.active_tab.view.fetch_complete()

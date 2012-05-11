@@ -26,11 +26,14 @@ class Analytics.Views.Dimensions.ShowView extends Backbone.View
   fetch: () ->
     el = @el
     model = @model
+    report_tab = @model.report_tab
     $(el).block({message: "<img src='/assets/dimensions-loading.gif'/>"})
     @model.fetch_data({
       success: (resp) ->
-        model.set(resp.data)
-        $(el).unblock()
+        if resp.id == report_tab.id
+          $(el).unblock()
+          if resp.status == 200
+            model.set(resp.data)
       error: (resp) ->
         $(el).unblock()
     })

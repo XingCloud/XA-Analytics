@@ -57,11 +57,12 @@ class Analytics.Views.ReportTabs.ShowView extends Backbone.View
     @chart_sequences.chart_render()
 
   fetch_data: () ->
-    $.blockUI({message: $('#loader-message')})
-    @fetch_request_count = (if @dimensions_sequence.get("dimension")? then 2 else 1)
-    @chart_sequences.fetch_data()
-    if @dimensions_sequence.get("dimension")?
-      @dimensions_sequence.fetch_data()
+    if @model.get("metric_ids").length > 0
+      $.blockUI({message: $('#loader-message')})
+      @fetch_request_count = (if @dimensions_sequence.get("dimension")? then 2 else 1)
+      @chart_sequences.fetch_data()
+      if @dimensions_sequence.get("dimension")?
+        @dimensions_sequence.fetch_data()
 
   fetch_complete: () ->
     if @fetch_request_count > 0

@@ -23,19 +23,28 @@ class ReportTabsController < ProjectBaseController
 
   def data
     service = AnalyticService.new()
-    if check_data_params
-      render :json => {:status => 200, :id => @report_tab.id, :data => service.request_data(@report_tab, params.merge({:identifier => @project.identifier}))}
+    if @report_tab.metrics.length > 0
+      if check_data_params
+        render :json => {:status => 200, :id => @report_tab.id, :data => service.request_data(@report_tab, params.merge({:identifier => @project.identifier}))}
+      else
+        render :json => {:status => 400, :id => @report_tab.id, :msg => "params not valid"}
+      end
     else
-      render :json => {:status => 500, :id => @report_tab.id, :msg => "params not valid"}
+      render :json => {:status => 400, :id => @report_tab.id, :msg => "no metrics"}
     end
+
   end
 
   def dimensions
     service = AnalyticService.new()
-    if check_dimensions_params
-      render :json => {:status => 200, :id => @report_tab.id, :data => service.request_dimensions(@report_tab, params.merge({:identifier => @project.identifier}))}
+    if @report_tab.metrics.length > 0
+      if check_dimensions_params
+        render :json => {:status => 200, :id => @report_tab.id, :data => service.request_dimensions(@report_tab, params.merge({:identifier => @project.identifier}))}
+      else
+        render :json => {:status => 400, :id => @report_tab.id, :msg => "params not valid"}, :status => 500
+      end
     else
-      render :json => {:status => 500, :id => @report_tab.id, :msg => "params not valid"}, :status => 500
+      render :json => {:status => 400, :id => @report_tab.id, :msg => "no metrics"}
     end
   end
 
