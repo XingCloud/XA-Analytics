@@ -86,7 +86,9 @@ class Analytics.Routers.ReportsRouter extends Backbone.Router
     if report?
       if not report.view?
         new Analytics.Views.Reports.ShowView({model: report, id : "report_"+id})
-      report.view.redraw()
+        report.view.render()
+      else
+        report.view.redraw()
       $('.reports-nav ul li').removeClass('active')
       $('#nav-report'+id).addClass('active')
 

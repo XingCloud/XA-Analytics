@@ -5,17 +5,17 @@ class Analytics.Views.Reports.ShowView extends Backbone.View
 
   events:
     "click a.segment-btn" : "toggle_segments"
-    "click li.report-tab" : "change_tab"
     "click a.refresh-btn" : "refresh"
+    "click li.report-tab" : "change_tab"
 
-  initialize: () ->
+  initialize: (options) ->
     _.bindAll(this, "render", "redraw")
     @model.view = this
 
   render: () ->
     $(@el).html(@template(@model.show_attributes()))
     $('#main-container').html($(@el))
-    @render_report_tab(0)
+    @render_report_tab()
 
   redraw: () ->
     @remove()
@@ -29,9 +29,9 @@ class Analytics.Views.Reports.ShowView extends Backbone.View
       parent: this
     }).render().el)
 
-  render_report_tab: (index) ->
+  render_report_tab: () ->
     if @model.report_tabs.length
-      report_tab = @model.report_tabs[index]
+      report_tab = @model.report_tabs[@model.report_tab_index]
       project.active_tab = report_tab
       if report_tab.view?
         report_tab.view.redraw()
@@ -64,7 +64,8 @@ class Analytics.Views.Reports.ShowView extends Backbone.View
   change_tab: (ev) ->
     $(@el).find('.report-tabs ul li').removeClass('active')
     $(ev.currentTarget).addClass('active')
-    @render_report_tab($(ev.currentTarget).attr("value"))
+    @model.report_tab_index = parseInt($(ev.currentTarget).attr("value"))
+    @render_report_tab()
 
   refresh: (ev) ->
     report_tab_index = $(@el).find('.report-tabs ul li.active').attr('value')

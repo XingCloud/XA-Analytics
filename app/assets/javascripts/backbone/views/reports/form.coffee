@@ -6,7 +6,7 @@ class Analytics.Views.Reports.FormView extends Backbone.View
     "click a#submit" : "submit"
     "click a#cancel" : "cancel"
 
-  initialize: () ->
+  initialize: (options) ->
     _.bindAll(this, "render")
     @model.form = this
     @index = 0
@@ -15,7 +15,7 @@ class Analytics.Views.Reports.FormView extends Backbone.View
   render: () ->
     $(@el).html(@template(@model.attributes))
     for report_tab in @model.report_tabs
-      @do_add_tab(report_tab, @index == 0)
+      @do_add_tab(report_tab, @index == @model.report_tab_index)
     if @model.report_tabs.length == 0
       @do_add_tab(new Analytics.Models.ReportTab({project_id: @model.get("project_id")}), true)
     $('#main-container').html(@el)
@@ -68,7 +68,7 @@ class Analytics.Views.Reports.FormView extends Backbone.View
 
   submit: () ->
     update = @model.id?
-
+    @model.report_tab_index = parseInt($(@el).find('ul li.tab-header.active a').attr("value"))
     @model.save(@form_attributes(), {wait: true, success: (model ,resp) ->
       if not update
         model.collection.add(model)

@@ -6,6 +6,7 @@ class Analytics.Models.Report extends Backbone.Model
 
   initialize: (options) ->
     report_tabs = []
+    @report_tab_index = 0
     if options? and options.report_tabs_attributes?
       _.each(options.report_tabs_attributes, (report_tab_attributes) ->
         report_tabs.push(new Analytics.Models.ReportTab(report_tab_attributes))
@@ -14,6 +15,7 @@ class Analytics.Models.Report extends Backbone.Model
 
   show_attributes: () ->
     attr = _.clone(@attributes)
+    attr.report_tab_index = @report_tab_index
     attr.report_tabs_attributes = []
     _.each(@report_tabs, (report_tab) -> attr.report_tabs_attributes.push(report_tab.attributes))
     attr
@@ -58,9 +60,11 @@ class Analytics.Models.Report extends Backbone.Model
   clone: (options) ->
     success = options.success
     options.url = "/projects/"+project.id+'/reports'+'/'+@id+'/clone'
+    report_tab_index = @report_tab_index
     options.success = (resp, status, xhr) ->
       report = new Analytics.Models.Report(resp)
       report.set({title: resp.title+"-自定义"})
+      report.report_tab_index = report_tab_index
       reports_router.do_new(report)
       success(resp, status, xhr)
 
