@@ -18,8 +18,8 @@ class Template::MetricsController < Template::BaseController
 
 
   def update
-    @metric.attributes=(params[:metric])
-    if @metric.save
+    pp params[:metric]
+    if @metric.update_attributes(params[:metric])
       render :json => @metric.short_attributes
     else
       render :json => @metric.short_attributes, :status => 500
