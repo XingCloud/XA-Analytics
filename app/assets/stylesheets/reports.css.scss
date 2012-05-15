@@ -33,15 +33,15 @@
   .range-control{
     border-bottom-left-radius: 5px;
     border-bottom-right-radius: 5px;
-    width: 250px;
-    min-height: 38px;
+    min-width: 250px;
     overflow: hidden;
     position: relative;
     cursor: pointer;
     border: 1px solid #CCC;
     border-radius: 5px 5px 5px 5px;
+    padding: 0 !important;
     table{
-      width: 230px;
+      width: 100%;
       td{
         height: 38px;
         text-align: center;
@@ -51,26 +51,23 @@
         div.compare-info{
           line-height: 12px;
         }
+        padding: 0px 2px 0px 2px;
       }
+      td.toggle{
+        background-color:#F7F7F7;
+        width: 25px;
+        span{
+          color:#B2B2B2;
+          text-align:center;
+          padding-top: 10px;
+          border-radius: 0 5px 5px 0;
+        }
+      }
+    }
 
-    }
-    a{
-      color:#B2B2B2;
-      background-color:#F7F7F7;
-      text-align:center;
-      display: block;
-      position: absolute;
-      width: 25px;
-      min-height: 36px;
-      top: 0;
-      right: 0;
-      text-decoration: none;
-      padding-top: 10px;
-      border-radius: 0 5px 5px 0;
-    }
   }
   .range-control-dropdown-menu{
-    width: 265px;
+    min-width: 250px;
     li.compare{
       padding: 3px 15px;
       input{
