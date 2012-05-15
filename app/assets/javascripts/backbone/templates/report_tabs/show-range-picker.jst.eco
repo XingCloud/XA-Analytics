@@ -21,7 +21,7 @@
                 </td>
                 <td>
                     <% range = Analytics.Utils.checkReportTabRange(@length, @interval) %>
-                    <%= (if range? then range.name else '自定义'+ @length +'天') %>
+                    <%= (if range? then range.name else '自定义' + @length + '天') %>
                 </td>
                 <td>
                     每<%= Analytics.Utils.intervalName(@interval) %>数据
