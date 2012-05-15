@@ -15,7 +15,11 @@
                 <option value="<%= operator.value %>" <%= if @operator == operator.value then 'selected="selected"'  %> ><%= operator.name %></option>
             <% end %>
         </select>
-        <input type="text" name="expressions_attributes[<%= @index %>][value]" value="<%= @value %>"/>
+        <% if @value_type == 'Date': %>
+            <input class="datepicker" type="text" name="expressions_attributes[<%= @index %>][value]" value="<%= if @value? then @value else $.format.date(Analytics.Utils.UTCDate(new Date().getTime()), 'yyyy-MM-dd') %>"/>
+        <% else: %>
+            <input type="text" name="expressions_attributes[<%= @index %>][value]" value="<%= @value %>"/>
+        <% end %>
     </div>
 </div>
 <div class="expression-form-and">及</div>
