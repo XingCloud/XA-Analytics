@@ -37,9 +37,6 @@
                     计算方法
                 </label>
                 <div class="controls">
-                    在
-                    <input class="input-mini" type="text" id="metric_number_of_day" name="number_of_day" value="<%= @number_of_day %>"/>
-                    天内
                     <select id="metric_condition" name="condition" style="width: auto;">
                         <% for condition in Analytics.Static.MetricCondition: %>
                             <option value="<%= condition.value %>" <%= if @condition == condition.value then 'selected="selected"' %> ><%= condition.name %></option>
@@ -58,7 +55,17 @@
                         <% end %>
                     </select>
                     <input class="input-mini" id="metric_comparison" name="comparison" type="text" value="<%= @comparison %>">
-                    <p class="help-block">用来过滤条件，非必填</p>
+                </div>
+            </div>
+
+            <div class="control-group">
+                <label class="control-label">报告偏移</label>
+                <div class="controls">
+                    从距当前
+                    <input class="input-mini" type="text" id="metric_number_of_day_origin" name="number_of_day_origin" value="<%= @number_of_day_origin %>"/>
+                    天到距当前
+                    <input class="input-mini" type="text" id="metric_number_of_day" name="number_of_day" value="<%= @number_of_day %>"/>
+                    天
                 </div>
             </div>
 
@@ -94,15 +101,11 @@
                         计算方法
                     </label>
                     <div class="controls">
-                        在
-                        <input class="input-mini" type="text" id="metric_combine_attributes_number_of_day" name="combine_attributes[number_of_day]" value="<%= if @combine_attributes? then @combine_attributes.number_of_day %>"/>
-                        天内
                         <select id="metric_combine_attributes_condition" name="combine_attributes[condition]" style="width: auto;">
                             <% for condition in Analytics.Static.MetricCondition: %>
                                 <option value="<%= condition.value %>" <%= if @combine_attributes? and @combine_attributes.condition  == condition.value then 'selected="selected"' %> ><%= condition.name %></option>
                             <% end %>
                         </select>
-                        <p class="help-block">天数可用于 周活跃用户，月活跃用户等 非必填</p>
                     </div>
                 </div>
                 <div class="control-group">
@@ -118,6 +121,18 @@
                         <p class="help-block">用来过滤条件，非必填</p>
                     </div>
                 </div>
+
+                <div class="control-group">
+                    <label class="control-label">报告偏移</label>
+                    <div class="controls">
+                        从距当前
+                        <input class="input-mini" type="text" id="metric_combine_attributes_number_of_day_origin" name="combine_attributes[number_of_day_origin]" value="<%= if @combine_attributes? then @combine_attributes.number_of_day_origin %>"/>
+                        天到
+                        <input class="input-mini" type="text" id="metric_combine_attributes_number_of_day" name="combine_attributes[number_of_day]" value="<%= if @combine_attributes? then @combine_attributes.number_of_day %>"/>
+                        天
+                    </div>
+                </div>
+
             </div>
         </fieldset>
     </form>
