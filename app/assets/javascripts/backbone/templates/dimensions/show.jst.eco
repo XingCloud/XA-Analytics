@@ -82,7 +82,7 @@
 <div class="dimensions-controls row-fluid">
     <% if @dimension? and @segment_ids.length > 0: %>
         <label class="left">选择用户群:&nbsp;</label>
-        <div class="left btn-group">
+        <div class="left btn-group dropup">
             <a class="btn dropdown-toggle" data-toggle="dropdown">
                 <%= segments_router.get(@segment_id).get("name") %>
                 <span class="caret"></span>

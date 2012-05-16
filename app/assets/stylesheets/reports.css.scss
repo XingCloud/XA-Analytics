@@ -540,6 +540,9 @@
   select.pagesize{
     width: 60px;
   }
+  a.choose-segment{
+    cursor: pointer;
+  }
   ul.pager{
     a.disabled{
       color: #999;

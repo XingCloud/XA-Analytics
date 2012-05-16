@@ -88,7 +88,7 @@ class AnalyticService
     end
     pp options
     index = params[:index].present? ? params[:index].to_i : 0
-    pagesize = (params[:pagesize].present? and params[:pagesize] != 0) ? params[:pagesize].to_i : 10
+    pagesize = (params[:pagesize].present? and params[:pagesize].to_i != 0) ? params[:pagesize].to_i : 10
     resp = self.class.commit('/dd/event/groupby', {:params => options.to_json,
                                                    :index => index,
                                                    :pagesize => pagesize,
