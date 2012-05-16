@@ -7,10 +7,10 @@ class Analytics.Views.Expressions.FormView extends Backbone.View
   events:
     "click span#expression-remove" : "remove_expression"
     "change select.attributes-select" : "select_attribute"
+    "change select.operator-select" : "select_operator"
 
   initialize: (options) ->
-    _.bindAll(this, "render")
-    @model.bind "change", @render
+    _.bindAll(this, "render", "redraw")
     @index = options.index
     @segment_form = options.parent
 
@@ -20,6 +20,11 @@ class Analytics.Views.Expressions.FormView extends Backbone.View
     $(@el).html(@template(attributes))
     @render_datepicker()
     this
+
+  redraw: (attributes) ->
+    attributes.index = @index
+    $(@el).html(@template(attributes))
+    @render_datepicker()
 
   render_datepicker: () ->
     el = @el
@@ -32,6 +37,12 @@ class Analytics.Views.Expressions.FormView extends Backbone.View
     @segment_form.remove_expression(this)
 
   select_attribute: (ev) ->
-    value_type = $(ev.currentTarget).find('option:selected').attr('value_type')
-    value = $(ev.currentTarget).find('option:selected').attr('value')
-    @model.set({value_type: value_type, name: value})
+    attributes = _.clone(@model.attributes)
+    attributes.value_type = $(ev.currentTarget).find('option:selected').attr('value_type')
+    attributes.name = $(ev.currentTarget).find('option:selected').attr('value')
+    @redraw(attributes)
+
+  select_operator: (ev) ->
+    attributes = _.clone(@model.attributes)
+    attributes.operator = $(ev.currentTarget).find('option:selected').attr('value')
+    @redraw(attributes)

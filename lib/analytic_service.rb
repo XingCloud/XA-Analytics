@@ -192,6 +192,10 @@ class AnalyticService
       options.merge!({:number_of_day => metric.number_of_day})
     end
 
+    if metric.number_of_day_origin.present?
+      options.merge!({:number_of_day_origin => metric.number_of_day_origin})
+    end
+
     if metric.comparison_operator.present?
       options.merge!({:filter => {
           :comparison_operator => metric.comparison_operator.upcase,

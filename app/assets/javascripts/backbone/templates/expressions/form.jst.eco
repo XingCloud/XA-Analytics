@@ -10,14 +10,14 @@
                 <option value="<%= attribute.value %>" value_type="<%= attribute.value_type %>" <%= if @name == attribute.value then 'selected="selected"' %> ><%= attribute.name %></option>
             <% end %>
         </select>
-        <select class="left" name="expressions_attributes[<%= @index %>][operator]" >
+        <select class="left operator-select" name="expressions_attributes[<%= @index %>][operator]" >
             <% for operator in Analytics.Static.ExpressionOperator: %>
                 <option value="<%= operator.value %>" <%= if @operator == operator.value then 'selected="selected"'  %> ><%= operator.name %></option>
             <% end %>
         </select>
-        <% if @value_type == 'Date': %>
+        <% if @value_type == 'Date' and @operator != 'handler': %>
             <input class="datepicker" type="text" name="expressions_attributes[<%= @index %>][value]" value="<%= if @value? then @value else $.format.date(Analytics.Utils.UTCDate(new Date().getTime()), 'yyyy-MM-dd') %>"/>
-        <% else: %>
+        <% else if @operator != 'handler': %>
             <input type="text" name="expressions_attributes[<%= @index %>][value]" value="<%= @value %>"/>
         <% end %>
     </div>

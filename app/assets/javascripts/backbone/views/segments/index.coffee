@@ -23,10 +23,11 @@ class Analytics.Views.Segments.IndexView extends Backbone.View
     @render()
 
   new_segment: () ->
+    segment = new Analytics.Models.Segment()
+    segment.collection = @collection
     $(@el).html(new Analytics.Views.Segments.FormView({
-      model: new Analytics.Models.Segment()
-      parent: this,
-      collection: @collection
+      model: segment
+      parent: this
     }).render().el)
 
   edit_segment: (ev) ->
@@ -34,8 +35,7 @@ class Analytics.Views.Segments.IndexView extends Backbone.View
     segment = @collection.get(id)
     $(@el).html(new Analytics.Views.Segments.FormView({
       model: segment
-      parent: this,
-      collection: @segments
+      parent: this
     }).render().el)
 
   remove_segment: (ev) ->

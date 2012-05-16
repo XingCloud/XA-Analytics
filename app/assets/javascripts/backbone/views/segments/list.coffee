@@ -23,12 +23,10 @@ class Analytics.Views.Segments.ListView extends Backbone.View
     for segment in @segments.models
       $(@el).find('#custom-segments').append(new Analytics.Views.Segments.ListItemView({
         model: segment
-        collection: @segments
       }).render().el)
     for segment in @templates.models
       $(@el).find('#template-segments').append(new Analytics.Views.Segments.ListItemView({
         model: segment
-        collection: @templates
       }).render().el)
     this
 
@@ -37,10 +35,11 @@ class Analytics.Views.Segments.ListView extends Backbone.View
     @render()
 
   new_segment: () ->
+    segment = new Analytics.Models.Segment({project_id: project.id})
+    segment.collection = @segments
     $(@el).html(new Analytics.Views.Segments.FormView({
-      model: new Analytics.Models.Segment({project_id: project.id})
+      model: segment
       parent: this,
-      collection: @segments
     }).render().el)
 
   query_segments: () ->
@@ -56,8 +55,7 @@ class Analytics.Views.Segments.ListView extends Backbone.View
     segment = @segments.get(id)
     $(@el).html(new Analytics.Views.Segments.FormView({
       model: segment
-      parent: this,
-      collection: @segments
+      parent: this
     }).render().el)
 
   remove_segment: (ev) ->

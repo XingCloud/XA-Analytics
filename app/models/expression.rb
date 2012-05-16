@@ -12,6 +12,8 @@ class Expression < ActiveRecord::Base
       else
         {self.name => self.value}
       end
+    elsif self.operator.match("handler")
+      {self.name => {"$handler" => "DateSplittor"}}
     else
       if self.value_type == 'int'
         {self.name => {"$#{self.operator}" => self.value.to_i}}

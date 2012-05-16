@@ -1,6 +1,7 @@
 class Metric < ActiveRecord::Base
   belongs_to :project
   has_and_belongs_to_many :report_tabs
+  #has_and_belongs_to_many :widgets
   
   has_one :combine, :class_name => "Metric", :foreign_key => "combine_id"
   
@@ -16,7 +17,8 @@ class Metric < ActiveRecord::Base
   validates_presence_of :comparison_operator, :if => proc{|m| m.comparison.present? }
   validates_presence_of :comparison, :if => proc {|m| m.comparison_operator.present? }
   validates_presence_of :condition
-  validates_numericality_of :number_of_day, :only_integer => true, :greater_than => 0, :if => proc{|m| m.number_of_day.present? }
+  validates_numericality_of :number_of_day, :only_integer => true, :if => proc{|m| m.number_of_day.present? }
+  validates_numericality_of :number_of_day_origin, :only_integer => true, :if => proc{|m| m.number_of_day_origin.present?}
   
   before_validation :correct_event_key
   

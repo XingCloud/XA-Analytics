@@ -42,7 +42,7 @@ class Analytics.Views.Segments.FormView extends Backbone.View
     @render_expression(new Analytics.Models.Expression())
 
   submit_segment: () ->
-    collection = @collection
+    collection = @model.collection
     update = @model.id?
     @model.save(@form_attributes(), {
       wait: true,
