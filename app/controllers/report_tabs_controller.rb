@@ -26,7 +26,7 @@ class ReportTabsController < ProjectBaseController
   def data
     if @report_tab.metrics.length > 0 and check_data_params
       data = SERVICE.request_data(@report_tab, params.merge({:identifier => @project.identifier}))
-      render :json => {:id => @report_tab.id, :data => data}, :status => (data.present? ? 500 : 200)
+      render :json => {:id => @report_tab.id, :data => data}, :status => (data.present? ? 200 : 500)
     else
       render :json => {:id => @report_tab.id}, :status => 400
     end
@@ -35,7 +35,7 @@ class ReportTabsController < ProjectBaseController
   def dimensions
     if @report_tab.metrics.length > 0 and check_dimensions_params
       data = SERVICE.request_dimensions(@report_tab, params.merge({:identifier => @project.identifier}))
-      render :json => {:id => @report_tab.id, :data => data}, :status => (data.present? ? 500 : 200)
+      render :json => {:id => @report_tab.id, :data => data}, :status => (data.present? ? 200 : 500)
     else
       render :json => {:id => @report_tab.id}, :status => 400
     end
