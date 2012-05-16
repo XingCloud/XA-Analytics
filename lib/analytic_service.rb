@@ -148,7 +148,7 @@ class AnalyticService
         :interval => params[:interval].upcase,
         :groupby => params[:dimension][:value],
         :groupby_type => params[:dimension][:dimension_type].upcase,
-        :segment => request_filter_user_attributes(params[:filters]).to_json
+        :segment => request_segment_options(params[:segment_id], params)
     }
     options.merge!(request_metric_options(metric.id, params))
   end

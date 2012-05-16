@@ -40,7 +40,11 @@
     <table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered">
         <thead>
             <tr>
-                <th width="15%" class="<%= if not @orderby? then @order %>"><%= (if @dimension? then @dimension.name) %></th>
+                <th width="15%" class="<%= if not @orderby? then @order %>">
+                    <% if @dimension?: %>
+                        <%= @dimension.name %>
+                    <% end %>
+                </th>
                 <% for metric in @metrics: %>
                     <th class="<%= if parseInt(@orderby) == metric.id then @order %>" value="<%= metric.id %>"><%= metric.name %></th>
                 <% end %>
@@ -76,7 +80,26 @@
     </table>
 </div>
 <div class="dimensions-controls row-fluid">
-    <div class="right">
+    <% if @dimension? and @segment_ids.length > 0: %>
+        <label class="left">选择用户群:&nbsp;</label>
+        <div class="left btn-group">
+            <a class="btn dropdown-toggle" data-toggle="dropdown">
+                <%= segments_router.get(@segment_id).get("name") %>
+                <span class="caret"></span>
+            </a>
+            </a>
+            <ul class="dropdown-menu">
+                <% for segment_id in @segment_ids: %>
+                    <li>
+                        <a value="<%= segment_id %>" class="choose-segment">
+                            <%= segments_router.get(segment_id).get("name") %>
+                        </a>
+                    </li>
+                <% end %>
+            </ul>
+        </div>
+    <% end %>
+    <div class="right dimensions-control">
         <ul class="pager">
             <% page_num = Math.ceil(@total / @pagesize) %>
             <li><a class="previous-page <%= if @index ==0 then 'disabled' else 'active' %>">上一页</a></li>
@@ -85,25 +108,23 @@
         </ul>
     </div>
 
-    <div class="right" style="margin-right: 5px;">
-        <label class="left control-label" style="line-height: 33px;">跳到第&nbsp;</label>
+    <div class="right dimensions-control">
+        <label class="left control-label">跳到第&nbsp;</label>
         <div class="controls left">
             <input class="input-mini left" type="text" value="<%= if @total != 0 then @index+1 else 0 %>" id="page-index" style="width: 30px;">
             <button type="button" class="btn jump-page">OK</button>
         </div>
     </div>
 
-    <div class="right" style="margin-right: 5px;">
-        <span>
-            总共&nbsp;<%= @total %>&nbsp;项细分&nbsp;显示&nbsp;
-        </span>
-        <select class="pagesize">
+    <div class="right dimensions-control">
+        <label class="left">总共&nbsp;<%= @total %>&nbsp;项细分&nbsp;显示&nbsp;</label>
+        <select class="left pagesize">
             <option value="10" <%= if @pagesize == 10 then 'selected = "selected"' %> >10</option>
             <option value="20" <%= if @pagesize == 20 then 'selected = "selected"' %> >20</option>
             <option value="50" <%= if @pagesize == 50 then 'selected = "selected"' %> >50</option>
             <option value="100" <%= if @pagesize == 100 then 'selected = "selected"' %> >100</option>
         </select>
-        <span>&nbsp;项</span>
+        <label class="left">&nbsp;项</label>
     </div>
 
 

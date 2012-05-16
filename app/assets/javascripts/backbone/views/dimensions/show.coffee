@@ -12,6 +12,7 @@ class Analytics.Views.Dimensions.ShowView extends Backbone.View
     "click a.choose-primary-dimension" : "choose_dimension"
     "click td.add-dimension ul li a" : "add_dimension"
     "click button.search" : "search_dimension"
+    "click a.choose-segment" : "choose_segment"
     "change select.pagesize" : "change_pagesize"
 
   initialize: (options) ->
@@ -37,6 +38,7 @@ class Analytics.Views.Dimensions.ShowView extends Backbone.View
       error: (xhr, options, error) ->
         $(el).unblock()
         Analytics.Request.error(xhr, options, error)
+        model.trigger("change")
     })
 
   next_page: (ev) ->
@@ -151,5 +153,12 @@ class Analytics.Views.Dimensions.ShowView extends Backbone.View
     @model.set({
       index: 0
       query: query
+    },{silent: true})
+    @fetch()
+
+  choose_segment: (ev) ->
+    segment_id = parseInt($(ev.currentTarget).attr("value"))
+    @model.set({
+      segment_id: segment_id
     },{silent: true})
     @fetch()

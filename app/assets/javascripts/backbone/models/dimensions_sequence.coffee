@@ -7,19 +7,24 @@ class Analytics.Models.DimensionsSequence extends Backbone.Model
     order: "DESC"
     dimension: null
     query: null
+    segment_id: null
 
   initialize: (options) ->
     @set({
       data: []
       dimension: (if options.dimensions? and options.dimensions.length > 0 then options.dimensions[0])
+      segment_ids: []
     })
 
   init: () ->
+    segment_ids = segments_router.segments.selected().concat(segments_router.templates.selected())
     @set({
       data: []
       total: 0
       index: 0
       query: null
+      segment_ids: segment_ids
+      segment_id: (if segment_ids.length > 0 then segment_ids[0] else null)
     }, {silent: true})
 
   fetch_data: (options) ->
@@ -61,4 +66,6 @@ class Analytics.Models.DimensionsSequence extends Backbone.Model
       params["orderby"] = @get("orderby")
     if @get("query")? and @get("query").length > 0
       params["query"] = @get("query")
+    if @get("segment_id")?
+      params["segment_id"] = @get("segment_id")
     params
