@@ -51,15 +51,17 @@
                                         <span class="legend-dot" style="border-color: #<%= metric.color %>"/>
                                         <span><%= metric.value %></span>
                                     </p>
-                                    <p class="percent-label">
-                                        <span>占总用户%:&nbsp;</span>
-                                    </p>
-                                    <p class="percent">
-                                        <span><%= (metric.percent*100).toFixed(2) %>%</span>
-                                    </p>
-                                    <p class="total">
-                                        <span>(<%= metric.total %>)</span>
-                                    </p>
+                                    <% if metric.percent?: %>
+                                        <p class="percent-label">
+                                            <span>占总用户%:&nbsp;</span>
+                                        </p>
+                                        <p class="percent">
+                                            <span><%= if metric.percent == 1 then 100 else (metric.percent*100).toFixed(2) %>%</span>
+                                        </p>
+                                        <p class="total">
+                                            <span>(<%= metric.total %>)</span>
+                                        </p>
+                                    <% end %>
                                 <% end %>
                             </div>
                         </td>

@@ -18,12 +18,12 @@ class Analytics.Models.ChartSequence extends Backbone.Model
 
   legend: (compare) ->
     if @get("segment_id") == 0 and @get("filters").length == 0
-      percent = 1
+      percent = null
       value = @get("total")
       compare_value = (if compare? then compare.get("total") else 0)
     else
       value = @get("natural")
-      percent = (if @get("total") != 0 then value / @get("total") else 1)
+      percent = (if @get("total") != 0 then value / @get("total") else 0)
       compare_value = (if compare? then compare.get("natural") else 0)
     {
       compare: compare?,
