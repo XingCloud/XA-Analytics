@@ -3,6 +3,8 @@ class ReportTabsController < ProjectBaseController
   before_filter :find_report_tab_with_template, :only => [:data, :dimensions]
   before_filter :json_header
 
+  SERVICE = AnalyticService.new()
+
   def show
     render :json => @report_tab.js_attributes
   end
@@ -22,29 +24,20 @@ class ReportTabsController < ProjectBaseController
   end
 
   def data
-    service = AnalyticService.new()
-    if @report_tab.metrics.length > 0
-      if check_data_params
-        render :json => {:status => 200, :id => @report_tab.id, :data => service.request_data(@report_tab, params.merge({:identifier => @project.identifier}))}
-      else
-        render :json => {:status => 400, :id => @report_tab.id, :msg => "params not valid"}
-      end
+    if @report_tab.metrics.length > 0 and check_data_params
+      data = SERVICE.request_data(@report_tab, params.merge({:identifier => @project.identifier}))
+      render :json => {:id => @report_tab.id, :data => data}, :status => (data.present? ? 500 : 200)
     else
-      render :json => {:status => 400, :id => @report_tab.id, :msg => "no metrics"}
+      render :json => {:id => @report_tab.id}, :status => 400
     end
-
   end
 
   def dimensions
-    service = AnalyticService.new()
-    if @report_tab.metrics.length > 0
-      if check_dimensions_params
-        render :json => {:status => 200, :id => @report_tab.id, :data => service.request_dimensions(@report_tab, params.merge({:identifier => @project.identifier}))}
-      else
-        render :json => {:status => 400, :id => @report_tab.id, :msg => "params not valid"}, :status => 500
-      end
+    if @report_tab.metrics.length > 0 and check_dimensions_params
+      data = SERVICE.request_dimensions(@report_tab, params.merge({:identifier => @project.identifier}))
+      render :json => {:id => @report_tab.id, :data => data}, :status => (data.present? ? 500 : 200)
     else
-      render :json => {:status => 400, :id => @report_tab.id, :msg => "no metrics"}
+      render :json => {:id => @report_tab.id}, :status => 400
     end
   end
 

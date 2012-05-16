@@ -62,10 +62,12 @@ class AnalyticService
     pp request_params
 
     resp = self.class.commit("/dd/events", {:params => request_params.to_json, :p => 1})
-    resp["datas"].keys.each do |request_id|
-      request_result[request_id].merge!(resp["datas"][request_id])
+    if resp["result"]
+      resp["datas"].keys.each do |request_id|
+        request_result[request_id].merge!(resp["datas"][request_id])
+      end
+      request_result.values
     end
-    request_result.values
   end
 
   def self.check_event_key(project, target_row, condition)
@@ -98,7 +100,6 @@ class AnalyticService
     if resp["result"]
       result.merge!(resp)
     end
-    result
   end
 
   private

@@ -38,10 +38,8 @@ class Analytics.Models.DimensionsSequence extends Backbone.Model
     })
 
   fetch_success: (resp) ->
-    if resp.status == 200 and resp.id == project.active_tab.id
+    if resp.id == project.active_tab.id
       project.active_tab.view.dimensions_sequence.set(resp.data)
-      project.active_tab.view.fetch_complete()
-    else if resp.id == project.active_tab.id
       project.active_tab.view.fetch_complete()
 
   fetch_error: (xhr, options, error) ->

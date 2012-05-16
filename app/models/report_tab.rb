@@ -6,6 +6,8 @@ class ReportTab < ActiveRecord::Base
   accepts_nested_attributes_for :dimensions, :allow_destroy => true
 
   validates_presence_of :title, :chart_type, :interval, :length, :compare
+  validates_numericality_of :length, :only_integer => true, :greater_than => 0
+  validates_numericality_of :compare, :only_integer => true, :greater_than_or_equal_to => 0
 
 
   def metrics_attributes

@@ -33,8 +33,7 @@ class Analytics.Views.Dimensions.ShowView extends Backbone.View
       success: (resp) ->
         if resp.id == report_tab.id
           $(el).unblock()
-          if resp.status == 200
-            model.set(resp.data)
+          model.set(resp.data)
       error: (xhr, options, error) ->
         $(el).unblock()
         Analytics.Request.error(xhr, options, error)
