@@ -178,6 +178,7 @@ class Analytics.Views.ReportTabs.ShowRangePickerView extends Backbone.View
     end_time = parseInt($(@el).find('.end-time').val())
     change = (@model.end_time != end_time or @model.get("length") != range.length or @model.get("interval") != range.interval)
     $(@el).find('#custom-range-'+@model.id).modal('hide')
+    @model.compare_end_time = @model.compare_end_time + end_time - @model.end_time
     @model.end_time = end_time
     if @model.get("project_id")?
       @model.save(range, {
