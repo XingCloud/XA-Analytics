@@ -47,16 +47,13 @@
             <a href="#custom-range-<%= @id %>" data-toggle="modal" style="cursor: pointer">自定义</a>
         </li>
         <li class="divider"></li>
-        <li class="compare">
+        <li class="range-datepicker">
             <input type="checkbox" class="compare-checkbox" id="report_tab_compare_<%= @id %>" <%= if @compare != 0 then 'checked="checked"' %> />
-            <label for="report_tab_compare_<%= @id %>">
-                与
-                    <span class="range compare-datepicker" data-date-format="yyyy/mm/dd" data-date="<%= $.format.date(@compare_end_time, 'yyyy/MM/dd') %>">
-                        <%= $.format.date(@compare_end_time, 'yyyy/MM/dd') %>
-                        <span>&#9660;</span>
-                    </span>
-                对比
-            </label>
+            <label for="report_tab_compare_<%= @id %>">对比截止到</label>
+            <span class="range compare-datepicker" data-date-format="yyyy/mm/dd" data-date="<%= $.format.date(@compare_end_time, 'yyyy/MM/dd') %>">
+                <%= $.format.date(@compare_end_time, 'yyyy/MM/dd') %>
+                <span>&#9660;</span>
+            </span>
         </li>
     </ul>
 </div>
