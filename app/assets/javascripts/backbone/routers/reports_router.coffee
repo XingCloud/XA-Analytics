@@ -45,30 +45,27 @@ class Analytics.Routers.ReportsRouter extends Backbone.Router
       if @project?
         $('.reports-nav ul li').removeClass('active')
         $('#nav-report'+id).addClass('active')
-    else if window.history.length > 0
-      window.history.back()
     else
-      window.location.href = "#/reports"
+      window.location.href = "#/404"
 
   clone: (id) ->
     report = @templates.get(id)
     if report?
       report.clone({success: (resp, status, xhr) -> })
-    else if window.history.length > 0
-      window.history.back()
     else
-      window.location.href = "#/reports"
+      window.location.href = "#/404"
 
   delete: (id) ->
     report = @reports.get(id)
-    if report? and confirm("确认删除报告"+report.get("title"))
-      collection = @reports
-      report.destroy({wait: true, success: (model, resp) ->
-        collection.trigger "change"
-        window.location.href = "#/reports"
-      })
+    if report?
+     if confirm("确认删除报告"+report.get("title"))
+        collection = @reports
+        report.destroy({wait: true, success: (model, resp) ->
+          collection.trigger "change"
+          window.location.href = "#/reports"
+        })
     else
-      window.location.href = "#/reports"
+      window.location.href = "#/404"
 
   set_category: (id, category_id) ->
     report = @reports.get(id)
@@ -77,7 +74,7 @@ class Analytics.Routers.ReportsRouter extends Backbone.Router
         window.location.href = "#/reports"
       })
     else
-      window.location.href = "#/reports"
+      window.location.href = "#/404"
 
   do_show: (project_id, id) ->
     report = @reports.get(id)
@@ -91,6 +88,8 @@ class Analytics.Routers.ReportsRouter extends Backbone.Router
         report.view.redraw()
       $('.reports-nav ul li').removeClass('active')
       $('#nav-report'+id).addClass('active')
+    else
+      window.location.href = "#/404"
 
   do_new: (report) ->
     if @project?

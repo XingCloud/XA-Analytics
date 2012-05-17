@@ -133,4 +133,8 @@ table.main-table{
 #error-message{
   margin-bottom: 0px !important;
   text-align: center;
+  position: fixed;
+  left: 0;
+  right: 0;
+  z-index: 1000;
 }

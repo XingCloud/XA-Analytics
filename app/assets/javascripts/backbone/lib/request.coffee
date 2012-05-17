@@ -29,11 +29,8 @@ Analytics.Request.ajax = (url, data, type, success) ->
   })
 
 Analytics.Request.error = (xhr, options, error) ->
-  if xhr.status == 401
-    window.location.reload(true)
-  else
-    if Analytics.Request.error_message
-      $('#error-message').remove()
-    $('body').prepend(JST['backbone/templates/utils/error']())
-    $('#error-message').fadeIn(500)
-    Analytics.Request.error_message = true
+  if Analytics.Request.error_message
+    $('#error-message').remove()
+  $('body').prepend(JST['backbone/templates/utils/error']({status: xhr.status}))
+  $('#error-message').fadeIn(500)
+  Analytics.Request.error_message = true

@@ -1,0 +1,9 @@
+<div class="hero-unit">
+    <h1>404 Not Found</h1>
+    <p>您访问的资源不存在或者已删除，请访问其他资源</p>
+    <p>
+        <a class="btn btn-primary btn-large" href="<%= window.location.href.split('#')[0] %>">
+            >>回首页
+        </a>
+    </p>
+</div>

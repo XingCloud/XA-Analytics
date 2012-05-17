@@ -24,7 +24,7 @@ class Analytics.Routers.ReportCategoriesRouter extends Backbone.Router
     if category?
       new Analytics.Views.ReportCategories.FormView({model: category, id : "edit_report_category"+id}).render()
     else
-      window.location.href = "#/reports"
+      window.location.href = "#/404"
 
   delete: (id) ->
     category = @categories.get(id)
@@ -39,7 +39,7 @@ class Analytics.Routers.ReportCategoriesRouter extends Backbone.Router
         }
       )
     else
-      window.location.href = "#/reports"
+      window.location.href = "#/404"
 
   shift_up: (id) ->
     category = @categories.get(id)
@@ -48,7 +48,7 @@ class Analytics.Routers.ReportCategoriesRouter extends Backbone.Router
         window.location.href = "#/reports"
       })
     else
-      window.location.href = "#/reports"
+      window.location.href = "#/404"
 
   shift_down: (id) ->
     category = @categories.get(id)
@@ -57,4 +57,4 @@ class Analytics.Routers.ReportCategoriesRouter extends Backbone.Router
         window.location.href = "#/reports"
       })
     else
-      window.location.href = "#/reports"
+      window.location.href = "#/404"
