@@ -40,9 +40,12 @@ class Analytics.Views.Expressions.FormView extends Backbone.View
     attributes = _.clone(@model.attributes)
     attributes.value_type = $(ev.currentTarget).find('option:selected').attr('value_type')
     attributes.name = $(ev.currentTarget).find('option:selected').attr('value')
+    attributes.operator = $(@el).find('.operator-select option:selected').attr('value')
     @redraw(attributes)
 
   select_operator: (ev) ->
     attributes = _.clone(@model.attributes)
     attributes.operator = $(ev.currentTarget).find('option:selected').attr('value')
+    attributes.value_type = $(@el).find('.attributes-select option:selected').attr('value_type')
+    attributes.name = $(@el).find('.attributes-select option:selected').attr('value')
     @redraw(attributes)
