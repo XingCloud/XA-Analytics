@@ -8,13 +8,13 @@
     <form class="form-horizontal" action="#" id="new_report_category_form" onsubmit="return false;">
 <% end %>
     <fieldset>
-        <div class="control-group">
+        <div class="control-group should-check">
             <label class="control-label" for="report_category_name">
                 <abbr title="必填">*</abbr>
                 分类名称
             </label>
             <div class="controls">
-                <input type="text" id="report_category_name" name="name" value="<%= if @name? then @name else '新建分类' %>"/>
+                <input class="should-check-empty" type="text" id="report_category_name" name="name" value="<%= if @name? then @name else '新建分类' %>"/>
             </div>
         </div>
         <div class="form-actions">

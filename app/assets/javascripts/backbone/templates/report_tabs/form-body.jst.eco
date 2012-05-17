@@ -1,12 +1,12 @@
 <input id="report_tabs_attributes_<%= @index %>_project_id" name="report_tabs_attributes[<%= @index %>][project_id]" type="hidden" value="<%= @project_id %>" />
 <input id="report_tabs_attributes_<%= @index %>__destroy" name="report_tabs_attributes[<%= @index %>][_destroy]" type="hidden" value="0" />
-<div class="control-group">
+<div class="control-group should-check">
     <label class="control-label" for="report_tabs_attributes_<%= @index %>_title">
         <abbr title="必填">*</abbr>
         标签标题
     </label>
     <div class="controls">
-        <input id="report_tabs_attributes_<%= @index %>_title" name="report_tabs_attributes[<%= @index %>][title]" type="text" value="<%= if @title? then @title else '新建标签' %>" />
+        <input class="should-check-empty" id="report_tabs_attributes_<%= @index %>_title" name="report_tabs_attributes[<%= @index %>][title]" type="text" value="<%= if @title? then @title else '新建标签' %>" />
     </div>
 </div>
 
@@ -32,18 +32,17 @@
 </div>
 
 <div id="advanced-options" style="display: none;">
-    <div class="control-group">
+    <div class="control-group should-check">
         <label class="control-label" for="report_tabs_attributes_<%= @index %>_length">
             <abbr title="必填">*</abbr>
             报告时长(天)
         </label>
         <div class="controls">
-            <input type="text" id="report_tabs_attributes_<%= @index %>_length" name="report_tabs_attributes[<%= @index %>][length]" value="<%= @length %>"/>
+            <input class="should-check-empty should-check-natural-number" type="text" id="report_tabs_attributes_<%= @index %>_length" name="report_tabs_attributes[<%= @index %>][length]" value="<%= @length %>"/>
         </div>
     </div>
     <div class="control-group">
         <label class="control-label" for="report_tabs_attributes_<%= @index %>_interval">
-            <abbr title="必填">*</abbr>
             报告频率
         </label>
         <div class="controls">

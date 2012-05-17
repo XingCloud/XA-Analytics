@@ -13,13 +13,13 @@
         <form class="form-horizontal" action="#" id="new_metric_form" onsubmit="return false;">
     <% end %>
         <fieldset>
-            <div class="control-group">
+            <div class="control-group should-check">
                 <label class="control-label" for="metric_name">
                     <abbr title="必填">*</abbr>
                     指标名称
                 </label>
                 <div class="controls">
-                    <input type="text" id="metric_name" name="name" value="<%= if @name? then @name else '新建指标'  %>"/>
+                    <input class="should-check-empty" type="text" id="metric_name" name="name" value="<%= if @name? then @name else '新建指标'  %>"/>
                 </div>
             </div>
             <% for i in [0..5]: %>
@@ -42,7 +42,6 @@
                             <option value="<%= condition.value %>" <%= if @condition == condition.value then 'selected="selected"' %> ><%= condition.name %></option>
                         <% end %>
                     </select>
-                    <p class="help-block">天数可用于 周活跃用户，月活跃用户等 非必填</p>
                 </div>
             </div>
             <div class="control-group">
@@ -58,13 +57,13 @@
                 </div>
             </div>
 
-            <div class="control-group">
+            <div class="control-group should-check">
                 <label class="control-label">报告偏移</label>
                 <div class="controls">
                     从距当前
-                    <input class="input-mini" type="text" id="metric_number_of_day_origin" name="number_of_day_origin" value="<%= @number_of_day_origin %>"/>
+                    <input class="input-mini should-check-integer" type="text" id="metric_number_of_day_origin" name="number_of_day_origin" value="<%= @number_of_day_origin %>"/>
                     天到距当前
-                    <input class="input-mini" type="text" id="metric_number_of_day" name="number_of_day" value="<%= @number_of_day %>"/>
+                    <input class="input-mini should-check-integer" type="text" id="metric_number_of_day" name="number_of_day" value="<%= @number_of_day %>"/>
                     天
                 </div>
             </div>
@@ -122,13 +121,13 @@
                     </div>
                 </div>
 
-                <div class="control-group">
+                <div class="control-group should-check">
                     <label class="control-label">报告偏移</label>
                     <div class="controls">
                         从距当前
-                        <input class="input-mini" type="text" id="metric_combine_attributes_number_of_day_origin" name="combine_attributes[number_of_day_origin]" value="<%= if @combine_attributes? then @combine_attributes.number_of_day_origin %>"/>
+                        <input class="input-mini should-check-integer" type="text" id="metric_combine_attributes_number_of_day_origin" name="combine_attributes[number_of_day_origin]" value="<%= if @combine_attributes? then @combine_attributes.number_of_day_origin %>"/>
                         天到
-                        <input class="input-mini" type="text" id="metric_combine_attributes_number_of_day" name="combine_attributes[number_of_day]" value="<%= if @combine_attributes? then @combine_attributes.number_of_day %>"/>
+                        <input class="input-mini should-check-integer" type="text" id="metric_combine_attributes_number_of_day" name="combine_attributes[number_of_day]" value="<%= if @combine_attributes? then @combine_attributes.number_of_day %>"/>
                         天
                     </div>
                 </div>

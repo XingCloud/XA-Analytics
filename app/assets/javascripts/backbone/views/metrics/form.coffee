@@ -35,21 +35,22 @@ class Analytics.Views.Metrics.FormView extends Backbone.View
     $(@el).find('.event-key-select').chosen()
 
   submit: () ->
-    update = @model.id?
-    is_clone = @clone?
-    form = $(@el).find('form').toJSON()
-    el = @el
-    @model.save(form, {wait: true, success: (model, resp) ->
-      $(el).modal('hide')
-      if not update
-        model.collection.add(model)
-        if is_clone
-          model.list_item_view.render()
+    if Analytics.Utils.checkFormFields($(@el).find('form'))
+      form = $(@el).find('form').toJSON()
+      update = @model.id?
+      is_clone = @clone?
+      el = @el
+      @model.save(form, {wait: true, success: (model, resp) ->
+        $(el).modal('hide')
+        if not update
+          model.collection.add(model)
+          if is_clone
+            model.list_item_view.render()
+          else
+            model.list_view.render_metric(model.id)
         else
-          model.list_view.render_metric(model.id)
-      else
-        model.list_item_view.render()
-    })
+          model.list_item_view.render()
+      })
 
   cancel : () ->
     $(@el).modal('hide')
@@ -74,6 +75,9 @@ class Analytics.Views.Metrics.FormView extends Backbone.View
             $(ev.currentTarget).data('typeahead').source = data
           else
             $(ev.currentTarget).typeahead({source: data})
+          $(ev.currentTarget).next().hide()
+          event_list_sync[level] = true
+        ).error((xhr,options,error) ->
           $(ev.currentTarget).next().hide()
           event_list_sync[level] = true
         )

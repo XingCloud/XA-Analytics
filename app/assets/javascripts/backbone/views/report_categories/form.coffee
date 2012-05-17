@@ -16,17 +16,18 @@ class Analytics.Views.ReportCategories.FormView extends Backbone.View
     $('#main-container').html($(@el))
 
   submit: () ->
-    if @model.id?
-      @model.save($("#edit_report_category_form_"+@model.id).toJSON(), {wait: true, success: (model, resp) ->
-        model.form.remove()
-        window.location.href = "#/reports"
-      })
-    else
-      @model.save($("#new_report_category_form").toJSON(), {wait: true, success: (model, resp) ->
-        report_categories_router.categories.add(model)
-        model.form.remove()
-        window.location.href = "#/reports"
-      })
+    if Analytics.Utils.checkFormFields($(@el).find('form'))
+      if @model.id?
+        @model.save($("#edit_report_category_form_"+@model.id).toJSON(), {wait: true, success: (model, resp) ->
+          model.form.remove()
+          window.location.href = "#/reports"
+        })
+      else
+        @model.save($("#new_report_category_form").toJSON(), {wait: true, success: (model, resp) ->
+          report_categories_router.categories.add(model)
+          model.form.remove()
+          window.location.href = "#/reports"
+        })
 
 
   cancel: () ->

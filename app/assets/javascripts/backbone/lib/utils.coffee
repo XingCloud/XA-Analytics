@@ -46,3 +46,36 @@ Analytics.Utils.checkReportTabRange = (length, interval) ->
   else if same_lengths.length > 1
     same_interval = _.find(same_lengths, (item) -> item.interval == interval)
     (if same_interval? then same_interval else same_lengths[1])
+
+Analytics.Utils.checkFormFields = (form) ->
+  valid = true
+  for group in $(form).find('.control-group.should-check')
+    $(group).removeClass('error')
+    $(group).find('.controls .help-inline').remove()
+    input = $(group).find('.controls input[type="text"]')
+    if (input.hasClass('should-check-empty') and
+        (not input.val()? or input.val() == ""))
+      valid = false
+      $(group).addClass('error')
+      $(group).find('.controls').append('<span class="help-inline">不能为空</span>')
+      continue
+
+    if (input.val()? and
+        input.val() != "" and
+        input.hasClass('should-check-integer') and
+        isNaN(parseInt(input.val())))
+      valid = false
+      $(group).addClass('error')
+      $(group).find('.controls').append('<span class="help-inline">必须为整数</span>')
+      continue
+
+    if (input.val()? and
+        input.val() != "" and
+        input.hasClass('should-check-natural-number') and
+        (isNaN(parseInt(input.val())) or parseInt(input.val()) < 0))
+      valid = false
+      $(group).addClass('error')
+      $(group).find('.controls').append('<span class="help-inline">必须为大于或等于0的整数</span>')
+      continue
+
+  valid

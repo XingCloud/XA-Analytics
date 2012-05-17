@@ -42,19 +42,20 @@ class Analytics.Views.Segments.FormView extends Backbone.View
     @render_expression(new Analytics.Models.Expression())
 
   submit_segment: () ->
-    collection = @model.collection
-    update = @model.id?
-    @model.save(@form_attributes(), {
-      wait: true,
-      slient: true,
-      success: (model, resp) ->
-        if update
-          model.selected = true
-          collection.trigger("change")
-        else
-          model.selected = true
-          collection.add(model)
-    })
+    if Analytics.Utils.checkFormFields($(@el).find('form'))
+      collection = @model.collection
+      update = @model.id?
+      @model.save(@form_attributes(), {
+        wait: true,
+        slient: true,
+        success: (model, resp) ->
+          if update
+            model.selected = true
+            collection.trigger("change")
+          else
+            model.selected = true
+            collection.add(model)
+      })
 
   submit_segment_cancel: () ->
     @remove()

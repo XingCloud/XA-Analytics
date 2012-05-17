@@ -67,20 +67,21 @@ class Analytics.Views.Reports.FormView extends Backbone.View
     @count = @count + 1
 
   submit: () ->
-    update = @model.id?
-    @model.report_tab_index = parseInt($(@el).find('ul li.tab-header.active a').attr("value"))
-    @model.save(@form_attributes(), {wait: true, success: (model ,resp) ->
-      if not update
-        model.collection.add(model)
-      else
-        model.collection.trigger("change")
+    if Analytics.Utils.checkFormFields($(@el).find('form'))
+      update = @model.id?
+      @model.report_tab_index = parseInt($(@el).find('ul li.tab-header.active a').attr("value"))
+      @model.save(@form_attributes(), {wait: true, success: (model ,resp) ->
+        if not update
+          model.collection.add(model)
+        else
+          model.collection.trigger("change")
 
-      model.form.remove()
-      if model.get("project_id")?
-        window.location.href = "#/reports/"+model.id
-      else
-        window.location.href = "#/reports"
-    })
+        model.form.remove()
+        if model.get("project_id")?
+          window.location.href = "#/reports/"+model.id
+        else
+          window.location.href = "#/reports"
+      })
 
   cancel: () ->
     @remove()
