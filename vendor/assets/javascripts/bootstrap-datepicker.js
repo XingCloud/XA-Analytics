@@ -107,10 +107,14 @@
 		place: function(){
 			var offset = this.component ? this.component.offset() : this.element.offset();
             var width = this.component ? this.component.outerWidth() : this.element.outerWidth();
-			this.picker.css({
-				top: offset.top + this.height,
-				left: offset.left - this.picker.outerWidth() + width
-			});
+            var exceed = (offset.left + this.picker.outerWidth() > window.innerWidth)
+            this.picker.css({
+                top: offset.top + this.height,
+                left: (exceed ? offset.left - this.picker.outerWidth() + width : offset.left)
+            });
+            this.picker.removeClass('align-left');
+            this.picker.removeClass('align-right');
+            this.picker.addClass(exceed ? 'align-right' : 'align-left');
 		},
 		
 		update: function(){
