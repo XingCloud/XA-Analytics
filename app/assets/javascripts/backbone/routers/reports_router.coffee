@@ -39,12 +39,12 @@ class Analytics.Routers.ReportsRouter extends Backbone.Router
     @do_new(report)
 
   edit: (id) ->
+    if @project?
+      $('.reports-nav ul li').removeClass('active')
+      $('#nav-report'+id).addClass('active')
     report = @reports.get(id)
     if report?
       new Analytics.Views.Reports.FormView({id : "edit_report_"+report.id, model: report}).render()
-      if @project?
-        $('.reports-nav ul li').removeClass('active')
-        $('#nav-report'+id).addClass('active')
     else
       window.location.href = "#/404"
 
@@ -77,6 +77,9 @@ class Analytics.Routers.ReportsRouter extends Backbone.Router
       window.location.href = "#/404"
 
   do_show: (project_id, id) ->
+    if @project?
+      $('.reports-nav ul li').removeClass('active')
+      $('#nav-report'+id).addClass('active')
     report = @reports.get(id)
     if not report?
       report = @templates.get(id)
@@ -86,8 +89,6 @@ class Analytics.Routers.ReportsRouter extends Backbone.Router
         report.view.render()
       else
         report.view.redraw()
-      $('.reports-nav ul li').removeClass('active')
-      $('#nav-report'+id).addClass('active')
     else
       window.location.href = "#/404"
 
