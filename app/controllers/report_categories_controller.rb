@@ -9,7 +9,7 @@ class ReportCategoriesController < ProjectBaseController
     if @category.save
       render :json => @category.js_attributes
     else
-      render :json => @category.js_attributes, :status => 500
+      render :json => @category.js_attributes, :status => 400
     end
   end
 
@@ -17,7 +17,7 @@ class ReportCategoriesController < ProjectBaseController
     if @category.update_attributes(params[:report_category])
       render :json => @category.js_attributes
     else
-      render :json => @category.js_attributes, :status => 500
+      render :json => @category.js_attributes, :status => 400
     end
   end
 
@@ -28,7 +28,7 @@ class ReportCategoriesController < ProjectBaseController
     if @category.destroy
       render :json => @category.js_attributes
     else
-      render :json => @category.js_attributes, :status => 500
+      render :json => @category.js_attributes, :status => 400
     end
   end
 
@@ -40,7 +40,7 @@ class ReportCategoriesController < ProjectBaseController
       if @category.update_attribute(:position, position)
         render :json => @project.report_categories.map(&:js_attributes)
       else
-        render :json => @project.report_categories.map(&:js_attributes), :status => 500
+        render :json => @project.report_categories.map(&:js_attributes), :status => 400
       end
     else
       render :json => @project.report_categories.map(&:js_attributes)
@@ -56,7 +56,7 @@ class ReportCategoriesController < ProjectBaseController
       if @category.update_attribute(:position, position)
         render :json => @project.report_categories.map(&:js_attributes)
       else
-        render :json => @project.report_categories.map(&:js_attributes), :status => 500
+        render :json => @project.report_categories.map(&:js_attributes), :status => 400
       end
     else
       render :json => @project.report_categories.map(&:js_attributes)

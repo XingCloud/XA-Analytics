@@ -1,9 +1,6 @@
 class Analytics.Models.Report extends Backbone.Model
   active_tab: 0
 
-  defaults:
-    title: "新建报告"
-
   initialize: (options) ->
     report_tabs = []
     @report_tab_index = 0

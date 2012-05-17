@@ -12,7 +12,7 @@ class ReportsController < ProjectBaseController
     if @report.save
       render :json => @report.js_attributes
     else
-      render :json => @report.js_attributes, :status => 500
+      render :json => @report.js_attributes, :status => 400
     end
   end
 
@@ -29,7 +29,7 @@ class ReportsController < ProjectBaseController
     if @report.save!
       render :json => @report.js_attributes
     else
-      render :json => @report.js_attributes, :status => 500
+      render :json => @report.js_attributes, :status => 400
     end
   end
   
@@ -37,7 +37,7 @@ class ReportsController < ProjectBaseController
     if @report.destroy
       render :json => @report.js_attributes
     else
-      render :json => @report.js_attributes, :status => 500
+      render :json => @report.js_attributes, :status => 400
     end
   end
 
@@ -46,11 +46,12 @@ class ReportsController < ProjectBaseController
         params[:report_category_id].present? and
         not @project.report_categories.find_all_by_id(params[:report_category_id]).empty?)
       @report.report_category_id = params[:report_category_id]
-      @report.save
+      if @report.save
+        render :json => @report.js_attributes, :status => 200
+      else
+        render :json => @report.js_attributes, :status => 400
+      end
     end
-
-    render :json => @report.js_attributes, :status => 200
-
   end
 
   private

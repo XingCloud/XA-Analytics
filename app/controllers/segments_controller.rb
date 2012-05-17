@@ -12,7 +12,7 @@ class SegmentsController < ProjectBaseController
     if @segment.save
       render :json => @segment.js_attributes
     else
-      render :json => @segment.js_attributes, :status => 500
+      render :json => @segment.js_attributes, :status => 400
     end
   end
 
@@ -28,7 +28,7 @@ class SegmentsController < ProjectBaseController
     if @segment.save
       render :json => @segment.js_attributes
     else
-      render :json => @segment.js_attributes, :status => 500
+      render :json => @segment.js_attributes, :status => 400
     end
   end
 
@@ -37,7 +37,7 @@ class SegmentsController < ProjectBaseController
     if @segment.destroy
       render :json => @segment.js_attributes
     else
-      render :json => @segment.js_attributes, :status => 500
+      render :json => @segment.js_attributes, :status => 400
     end
   end
 

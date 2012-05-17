@@ -19,7 +19,7 @@ class ReportTabsController < ProjectBaseController
     if @report_tab.save
       render :json => @report_tab.js_attributes
     else
-      render :json => @report_tab.js_attributes, :status => 500
+      render :json => @report_tab.js_attributes, :status => 400
     end
   end
 

@@ -18,7 +18,7 @@ class MetricsController < ProjectBaseController
     if @metric.save
       render :json => @metric.short_attributes
     else
-      render :json => @metric.short_attributes, :status => 500
+      render :json => @metric.short_attributes, :status => 400
     end
   end
   
@@ -27,7 +27,7 @@ class MetricsController < ProjectBaseController
     if @metric.save
       render :json => @metric.short_attributes
     else
-      render :json => @metric.short_attributes, :status => 500
+      render :json => @metric.short_attributes, :status => 400
     end
   end
 

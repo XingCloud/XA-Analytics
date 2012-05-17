@@ -9,9 +9,12 @@
 <% end %>
     <fieldset>
         <div class="control-group">
-            <label class="control-label" for="report_title">标题</label>
+            <label class="control-label" for="report_title">
+                <abbr title="必填">*</abbr>
+                标题
+            </label>
             <div class="controls">
-                <input type="text" id="report_title" name="title" value="<%= @title %>"/>
+                <input type="text" id="report_title" name="title" value="<%= if @title? then @title else '新建报告' %>"/>
             </div>
         </div>
         <ul class="nav nav-tabs">

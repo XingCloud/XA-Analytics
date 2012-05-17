@@ -1,6 +1,8 @@
 <div id="error-message" class="alert alert-error" style="display: none;">
     <b class="close" data-dismiss="alert">×</b>
-    <% if @status == 404: %>
+    <% if @status == 400: %>
+        资源操作失败，请检查参数是否正确
+    <% else if @status == 404: %>
         您访问的资源不存在或已删除，请&nbsp;<a href="<%= window.location.href.split('#')[0] %>">刷新页面</a>
     <% else if @status == 401: %>
         您会话已过期，请&nbsp;<a href="<%= window.location.href.split('#')[0] %>">重新登陆</a>

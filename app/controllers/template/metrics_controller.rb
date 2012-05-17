@@ -12,7 +12,7 @@ class Template::MetricsController < Template::BaseController
     if @metric.save
       render :json => @metric.short_attributes
     else
-      render :json => @metric.short_attributes, :status => 500
+      render :json => @metric.short_attributes, :status => 400
     end
   end
 
@@ -22,7 +22,7 @@ class Template::MetricsController < Template::BaseController
     if @metric.update_attributes(params[:metric])
       render :json => @metric.short_attributes
     else
-      render :json => @metric.short_attributes, :status => 500
+      render :json => @metric.short_attributes, :status => 400
     end
   end
 

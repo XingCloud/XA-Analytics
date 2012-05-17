@@ -9,7 +9,10 @@
 <% end %>
     <fieldset>
         <div class="control-group">
-            <label class="control-label" for="segment_name">用户群名称</label>
+            <label class="control-label" for="segment_name">
+                <abbr title="必填">*</abbr>
+                用户群名称
+            </label>
             <div class="controls">
                 <input id="segment_name" name="name" value="<%= if @name? then @name else '新建用户群' %>" />
             </div>

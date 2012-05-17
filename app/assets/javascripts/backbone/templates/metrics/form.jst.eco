@@ -19,7 +19,7 @@
                     指标名称
                 </label>
                 <div class="controls">
-                    <input type="text" id="metric_name" name="name" value="<%= @name  %>"/>
+                    <input type="text" id="metric_name" name="name" value="<%= if @name? then @name else '新建指标'  %>"/>
                 </div>
             </div>
             <% for i in [0..5]: %>
