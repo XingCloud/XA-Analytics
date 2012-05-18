@@ -27,6 +27,7 @@ group :development, :test do
   gem "guard-spork"
   gem 'guard-livereload'
   gem 'capistrano'
+  gem 'rvm-capistrano'
   gem 'sqlite3'
 end
 

@@ -171,6 +171,8 @@ GEM
       rspec (~> 2.10.0)
     rubycas-client (2.3.9.rc1)
       activesupport
+    rvm-capistrano (1.1.0)
+      capistrano (>= 2.0.0)
     sass (3.1.18)
     sass-rails (3.2.5)
       railties (~> 3.2.0)
@@ -235,6 +237,7 @@ DEPENDENCIES
   rspec-cells
   rspec-rails
   rubycas-client (>= 2.3.9.rc1)
+  rvm-capistrano
   sass-rails
   simple_form
   spork
