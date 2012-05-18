@@ -9,7 +9,7 @@ gem 'twitter-bootstrap-rails'
 gem 'rails-i18n'
 gem 'cells'
 gem 'will_paginate'
-gem "rubycas-client"
+gem "rubycas-client", ">=2.3.9.rc1"
 gem "paper_trail"
 gem "ejs"
 gem 'thin'
