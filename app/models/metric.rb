@@ -4,6 +4,7 @@ class Metric < ActiveRecord::Base
   #has_and_belongs_to_many :widgets
   
   has_one :combine, :class_name => "Metric", :foreign_key => "combine_id"
+  has_one :segment
   
   OPERATIONS = ["count", "sum", "user_num"]
   COMPARISION_OPERATORS = ["gt", "lt", "ge", "le", "eq", "ne"]
@@ -14,8 +15,6 @@ class Metric < ActiveRecord::Base
   before_validation :correct_combine
   
   validates_presence_of :name
-  validates_presence_of :comparison_operator, :if => proc{|m| m.comparison.present? }
-  validates_presence_of :comparison, :if => proc {|m| m.comparison_operator.present? }
   validates_presence_of :condition
   validates_numericality_of :number_of_day, :only_integer => true, :if => proc{|m| m.number_of_day.present? }
   validates_numericality_of :number_of_day_origin, :only_integer => true, :if => proc{|m| m.number_of_day_origin.present?}
@@ -68,9 +67,7 @@ class Metric < ActiveRecord::Base
     {:number_of_day => number_of_day,
      :name => name, :event_key => event_key,
      :condition => condition,
-     :combine_action => combine_action,
-     :comparison_operator => comparison_operator,
-     :comparison => comparison}
+     :combine_action => combine_action}
   end
 
   def clone_as_template(project_id)

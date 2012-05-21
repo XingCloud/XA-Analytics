@@ -12,11 +12,13 @@ class Segment < ActiveRecord::Base
   scope :template, where(:project_id => nil)
 
   def to_hsh
-    segments = {}
-    self.expressions.each do |expression|
-      segments.merge!(expression.to_hsh)
+    if expressions.length > 0
+      segments = {}
+      self.expressions.each do |expression|
+        segments.merge!(expression.to_hsh)
+      end
+      segments
     end
-    segments
   end
 
   def short_attributes

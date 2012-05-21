@@ -69,7 +69,11 @@ class Analytics.Views.ReportTabs.FormBodyView extends Backbone.View
     $(ev.currentTarget).addClass('active')
     $('#report_tabs_attributes_'+@model.index+'_chart_type').val($(ev.currentTarget).attr("value"))
 
-  toggle_advanced_options: () ->
+  toggle_advanced_options: (ev) ->
+    if $(ev.currentTarget).hasClass('active')
+      $(ev.currentTarget).removeClass('active')
+    else
+      $(ev.currentTarget).addClass('active')
     $(@el).find('#advanced-options').toggle()
 
   change_interval: (ev) ->

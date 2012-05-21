@@ -22,19 +22,25 @@
                     <input class="should-check-empty" type="text" id="metric_name" name="name" value="<%= if @name? then @name else '新建指标'  %>"/>
                 </div>
             </div>
-            <% for i in [0..5]: %>
-                <div class="control-group">
-                    <label class="control-label" for="metric_event_key_<%= i %>">事件第<%= i+1 %>层</label>
-                    <div class="controls">
-                        <input class="event-input" level="<%= i %>" combine="0" type="text" id="metric_event_key_<%= i %>" name="event_key_<%= i %>" value="<%= @['event_key_'+i] %>"/>
-                        <img src="/assets/sync.gif" style="display: none;"/>
-                    </div>
+            <div class="control-group">
+                <label class="control-label">
+                    <abbr title="必填">*</abbr>
+                    事件名称
+                </label>
+                <div class="controls">
+                    <% for i in [0..5]: %>
+                        <input class="event-input input-mini" level="<%= i %>" combine="0" type="text" id="metric_event_key_<%= i %>" name="event_key_<%= i %>" value="<%= @['event_key_'+i] %>"/>
+                        <% if i < 5: %>
+                            <em>.</em>
+                        <% end %>
+                    <% end %>
+                    <img class="event-list-sync" src="/assets/sync.gif" style="display: none;"/>
                 </div>
-            <% end %>
+            </div>
             <div class="control-group">
                 <label class="control-label" for="metric_condition">
                     <abbr title="必填">*</abbr>
-                    计算方法
+                    事件计算方法
                 </label>
                 <div class="controls">
                     <select id="metric_condition" name="condition" style="width: auto;">
@@ -42,18 +48,6 @@
                             <option value="<%= condition.value %>" <%= if @condition == condition.value then 'selected="selected"' %> ><%= condition.name %></option>
                         <% end %>
                     </select>
-                </div>
-            </div>
-            <div class="control-group">
-                <label class="control-label" for="metric_comparison">事件的值</label>
-                <div class="controls">
-                    <select id="metric_comparison_operator" name="comparison_operator" style="width: auto">
-                        <option value="" <%= if not @comparison_operator? or (@comparison_operator? == '') then 'selected="selected"' %> ></option>
-                        <% for operator in Analytics.Static.MetricComparisonOperator: %>
-                            <option value="<%= operator.value %>" <%= if @comparison_operator == operator.value then 'selected="selected"' %> ><%= operator.name %></option>
-                        <% end %>
-                    </select>
-                    <input class="input-mini" id="metric_comparison" name="comparison" type="text" value="<%= @comparison %>">
                 </div>
             </div>
 
@@ -65,6 +59,18 @@
                     天到距当前
                     <input class="input-mini should-check-integer" type="text" id="metric_number_of_day" name="number_of_day" value="<%= @number_of_day %>"/>
                     天
+                </div>
+            </div>
+
+            <div class="control-group">
+                <label class="control-label">用户群</label>
+                <div class="controls">
+                    <select name="segment_id">
+                        <option value=""></option>
+                        <% for segment in segments_router.all(): %>
+                            <option value="<%= segment.id %>" <%= if @segment_id == segment.id then 'selected="selected"' %> ><%= segment.get("name") %></option>
+                        <% end %>
+                    </select>
                 </div>
             </div>
 
@@ -82,18 +88,24 @@
                 </div>
             </div>
 
-            <div id="combine-fields" style="display: <%= if @combine_attributes? then 'block' else 'none' %>">
+            <div class="well" id="combine-fields" style="display: <%= if @combine_attributes? then 'block' else 'none' %>">
                 <input type="hidden" id="metric_combine_attributes_project_id" name="combine_attributes[project_id]" value="<%= @project_id %>" />
                 <input type="hidden" id="metric_combine_attributes_name" name="combine_attributes[name]" value="<%= if @combine_attributes?  and @combine_attributes.name? then @combine_attributes.name else 'combine' %>"/>
-                <% for i in [0..5]: %>
-                    <div class="control-group">
-                        <label class="control-label" for="metric_combine_attributes_event_key_<%= i %>">事件第<%= i+1 %>层</label>
-                        <div class="controls">
-                            <input class="event-input" level="<%= i %>" combine="1" type="text" id="metric_combine_attributes_event_key_<%= i %>" name="combine_attributes[event_key_<%= i %>]" value="<%= if @combine_attributes? then @combine_attributes['event_key_'+i] %>"/>
-                            <img src="/assets/sync.gif" style="display: none;"/>
-                        </div>
+                <div class="control-group">
+                    <label class="control-label" for="metric_combine_attributes_event_key_<%= i %>">
+                        <abbr title="必填">*</abbr>
+                        事件名称
+                    </label>
+                    <div class="controls">
+                        <% for i in [0..5]: %>
+                            <input class="event-input input-mini" level="<%= i %>" combine="1" type="text" id="metric_combine_attributes_event_key_<%= i %>" name="combine_attributes[event_key_<%= i %>]" value="<%= if @combine_attributes? then @combine_attributes['event_key_'+i] %>"/>
+                            <% if i < 5: %>
+                                <em>.</em>
+                            <% end %>
+                        <% end %>
+                        <img class="event-list-sync combine" src="/assets/sync.gif" style="display: none;"/>
                     </div>
-                <% end %>
+                </div>
                 <div class="control-group">
                     <label class="control-label" for="metric_combine_attributes_condition">
                         <abbr title="必填">*</abbr>
@@ -107,19 +119,6 @@
                         </select>
                     </div>
                 </div>
-                <div class="control-group">
-                    <label class="control-label" for="metric_combine_attributes_comparison">事件的值</label>
-                    <div class="controls">
-                        <select id="metric_combine_attributes_comparison_operator" name="combine_attributes[comparison_operator]" style="width: auto">
-                            <option value="" <%= if not @combine_attributes? or not @combine_attributes.comparison_operator? or (@combine_attributes.comparison_operator? == '') then 'selected="selected"' %> ></option>
-                            <% for operator in Analytics.Static.MetricComparisonOperator: %>
-                                <option value="<%= operator.value %>" <%= if @combine_attributes? and @combine_attributes.comparison_operator == operator.value then 'selected="selected"' %> ><%= operator.name %></option>
-                            <% end %>
-                        </select>
-                        <input class="input-mini" id="metric_combine_attributes_comparison" name="combine_attributes[comparison]" type="text" value="<%= if @combine_attributes? then @combine_attributes.comparison %>">
-                        <p class="help-block">用来过滤条件，非必填</p>
-                    </div>
-                </div>
 
                 <div class="control-group should-check">
                     <label class="control-label">报告偏移</label>
@@ -129,6 +128,18 @@
                         天到
                         <input class="input-mini should-check-integer" type="text" id="metric_combine_attributes_number_of_day" name="combine_attributes[number_of_day]" value="<%= if @combine_attributes? then @combine_attributes.number_of_day %>"/>
                         天
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <label class="control-label">用户群</label>
+                    <div class="controls">
+                        <select name="combine_attributes[segment_id]">
+                            <option value=""></option>
+                            <% for segment in segments_router.all(): %>
+                                <option value="<%= segment.id %>" <%= if @combine_attributes? and @combine_attributes.segment_id == segment.id then 'selected="selected"' %> ><%= segment.get("name") %></option>
+                            <% end %>
+                        </select>
                     </div>
                 </div>
 

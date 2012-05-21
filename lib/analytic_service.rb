@@ -122,21 +122,8 @@ class AnalyticService
         :start_time => Time.at(end_time - (params[:length].to_i - 1) * 86400).strftime("%Y-%m-%d"),
         :interval => params[:interval].upcase
     }
-
-    options.merge!({:segment => request_segment_options(segment_id, params)})
-    options.merge!(request_metric_options(metric_id, params))
-
-  end
-
-  def request_segment_options(segment_id, params)
-    segment = Segment.find_by_id(segment_id)
-    blank = (segment.blank? or segment.expressions.length == 0)
-    user_attributes_filters = request_filter_user_attributes(params[:filters])
-    if not blank
-      segment.to_hsh.merge!(user_attributes_filters).to_json
-    elsif blank and user_attributes_filters.length > 0
-      user_attributes_filters.to_json
-    end
+    request_metric_options(metric_id, params, options)
+    request_segment_options(segment_id, params, options)
   end
 
   def request_dimension_options(metric, params)
@@ -148,24 +135,38 @@ class AnalyticService
         :start_time => Time.at(end_time - (params[:length].to_i - 1) * 86400).strftime("%Y-%m-%d"),
         :interval => params[:interval].upcase,
         :groupby => params[:dimension][:value],
-        :groupby_type => params[:dimension][:dimension_type].upcase,
-        :segment => request_segment_options(params[:segment_id], params)
+        :groupby_type => params[:dimension][:dimension_type].upcase
     }
-    options.merge!(request_metric_options(metric.id, params))
+    request_metric_options(metric.id, params, options)
+    request_segment_options(params[:segment_id], params, options)
   end
 
-  def request_filter_user_attributes(filters)
-    user_attributes = {}
+  def request_segment_options(segment_id, params, options)
+    segment = Segment.find_by_id(segment_id)
+    if segment.present? and options[:segment].present?
+      options[:segment].merge!(segment.to_hsh)
+    elsif segment.present? and options[:segment].blank?
+      options[:segment] = segment.to_hsh
+    end
+    request_filter_user_attributes(params[:filters], options)
+    if options[:segment].present?
+      options[:segment] = options[:segment].to_json
+    end
+    options
+  end
+
+  def request_filter_user_attributes(filters, options)
     if filters.present?
       filters = filters.map{|item|item[1]}
       filters.each do |filter|
         dimension = Dimension.new(filter["dimension"])
-        if dimension.dimension_type.upcase == 'USER_PROPERTIES'
-          user_attributes.merge!(dimension.to_hsh(filter["value"]))
+        if dimension.dimension_type.upcase == 'USER_PROPERTIES' and options[:segment].present?
+          options[:segment].merge!(dimension.to_hsh(filter["value"]))
+        elsif dimension.dimension_type.upcase == 'USER_PROPERTIES' and options[:segment].blank?
+          options[:segment] = dimension.to_hsh(filter["value"])
         end
       end
     end
-    user_attributes
   end
 
   def request_filter_event(metric, filters)
@@ -181,13 +182,11 @@ class AnalyticService
     metric
   end
 
-  def request_metric_options(metric_id, params)
+  def request_metric_options(metric_id, params, options)
     metric = Metric.find_by_id(metric_id)
     request_filter_event(metric, params[:filters])
-    options = {
-        :event_key => metric.event_key,
-        :count_method => metric.condition.upcase
-    }
+    options.merge!({:event_key => metric.event_key,
+                    :count_method => metric.condition.upcase})
 
     if metric.number_of_day.present?
       options.merge!({:number_of_day => metric.number_of_day})
@@ -197,21 +196,21 @@ class AnalyticService
       options.merge!({:number_of_day_origin => metric.number_of_day_origin})
     end
 
-    if metric.comparison_operator.present?
-      options.merge!({:filter => {
-          :comparison_operator => metric.comparison_operator.upcase,
-          :comparison_value => metric.comparison
-      }})
+    if metric.segment_id.present?
+      segment = Segment.find_by_id(metric.segment_id)
+      if segment.present? and options[:segment].present?
+        options[:segment].merge!(segment.to_hsh)
+      elsif segment.present? and options[:segment].blank?
+        options.merge!({:segment => segment.to_hsh})
+      end
     end
 
     if combine = metric.combine
       options.merge!({:combine => {
           :action => metric.combine_action.to_s.upcase
       }})
-      options[:combine].merge!(request_metric_options(combine.id, params))
+      options[:combine].merge!(request_metric_options(combine.id, params, options))
     end
-
-    options
   end
 
   def self.commit(url, options = {}, request_options = {})

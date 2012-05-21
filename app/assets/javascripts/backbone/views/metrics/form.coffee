@@ -31,7 +31,11 @@ class Analytics.Views.Metrics.FormView extends Backbone.View
     attributes = _.clone(@model.attributes)
     attributes.is_clone = @clone?
     $(@el).html(@template(attributes))
-    $(@el).modal()
+    $(@el).modal().css({
+      'width': 'auto'
+      'min-width': '750px'
+      'margin-left': () -> -($(this).width() / 2)
+    })
     $(@el).find('.event-key-select').chosen()
 
   submit: () ->
@@ -61,13 +65,15 @@ class Analytics.Views.Metrics.FormView extends Backbone.View
       combine = $(ev.currentTarget).attr("combine")
       if combine == "0"
         event_list_sync = @event_list_sync
+        event_list_sync_el = ".event-list-sync"
         params = @event_list_params("l"+level, false)
       else
         event_list_sync = @combine_event_list_sync
+        event_list_sync_el = ".event-list-sync.combine"
         params = @event_list_params("l"+level, true)
 
       if not event_list_sync[level]
-        $(ev.currentTarget).next().show()
+        $(event_list_sync_el).show()
         if $(ev.currentTarget).data('typeahead')?
           $(ev.currentTarget).data('typeahead').source = []
         jQuery.post("/projects/"+@model.get("project_id")+"/event_item", params, (data) ->
@@ -75,10 +81,10 @@ class Analytics.Views.Metrics.FormView extends Backbone.View
             $(ev.currentTarget).data('typeahead').source = data
           else
             $(ev.currentTarget).typeahead({source: data})
-          $(ev.currentTarget).next().hide()
+          $(event_list_sync_el).hide()
           event_list_sync[level] = true
         ).error((xhr,options,error) ->
-          $(ev.currentTarget).next().hide()
+          $(event_list_sync_el).hide()
           event_list_sync[level] = true
         )
 
