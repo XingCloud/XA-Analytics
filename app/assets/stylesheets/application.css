@@ -14,4 +14,7 @@
  *= require projects
  *= require segments
  *= require reports
+ *= require metrics
+ *= require report_tabs
+ *= require dimensions
 */

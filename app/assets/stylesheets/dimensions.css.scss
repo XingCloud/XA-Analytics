@@ -1,0 +1,213 @@
+.dimension_add {
+  border-collapse: collapse;
+  border: 1px dashed;
+  border-radius: 3px 3px 3px 3px;
+  cursor: pointer;
+  float: left;
+  font-size: 13px;
+  font-weight: bold;
+  height: 16px;
+  margin: 3px 10px 3px 0;
+  padding: 5px;
+  text-align: center;
+  width: 196px;
+  -moz-border-radius: 3px 3px 3px 3px;
+  -webkit-border-top-left-radius: 3px;
+  -webkit-border-top-right-radius: 3px;
+  -webkit-border-bottom-left-radius: 3px;
+  -webkit-border-bottom-right-radius: 3px;
+
+  background: #F2F6FF;
+  border-color: #7B98E8;
+  color: #7B98E8;
+
+  visibility: visible;
+}
+
+.dimension_display {
+
+  background: transparent url(/assets/menu_down_light.gif) no-repeat scroll 95% 50%;
+  border-radius: 3px 3px 3px 3px;
+  border-style: solid;
+  border-width: 1px;
+  color: white;
+  cursor: pointer;
+  font-weight: bold;
+  float: left;
+  height: 26px;
+  margin: 3px 10px 3px 0;
+  padding: 0;
+  -moz-border-radius: 3px 3px 3px 3px;
+  -webkit-border-top-left-radius: 3px;
+  -webkit-border-top-right-radius: 3px;
+  -webkit-border-bottom-left-radius: 3px;
+  -webkit-border-bottom-right-radius: 3px;
+  white-space: nowrap;
+  width: 206px;
+
+  background-color: RGB(157,182,117);
+  border-color: #51649E;
+  text-align: center;
+}
+
+.dimension_del {
+  background: no-repeat url(/assets/sprites.png) -527px -173px;
+  cursor: pointer;
+  float: left;
+  height: 12px;
+  margin: 3px 1px;
+  margin-left: -7px;
+  margin-top: 11px;
+  width: 12px;
+}
+.dimension_picker {
+  float: left;
+  width: 224px;
+}
+
+.dimension_select{
+
+  float: left;
+  height: 26px;
+
+  width: 206px;
+
+  background-color: RGB(157,182,117);
+  border-color: #51649E;
+  text-align: center;
+}
+
+
+.dimension-item{
+  margin-bottom: 5px;
+}
+
+.dimension-remove {
+  background: no-repeat url(/assets/sprites.png) -527px -173px;
+  cursor: pointer;
+  height: 12px;
+  width: 12px;
+}
+
+.dimension-add {
+  border-collapse: collapse;
+  border: 1px dashed;
+  border-radius: 3px 3px 3px 3px;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: bold;
+  height: 16px;
+  margin: 3px 10px 3px 0;
+  padding: 5px;
+  text-align: center;
+  width: 196px;
+  -moz-border-radius: 3px 3px 3px 3px;
+  -webkit-border-top-left-radius: 3px;
+  -webkit-border-top-right-radius: 3px;
+  -webkit-border-bottom-left-radius: 3px;
+  -webkit-border-bottom-right-radius: 3px;
+
+  background: #F4FFE6;
+  border-color: #9DB675;
+  color: #93AC6B;
+
+  visibility: visible;
+}
+
+.dimensions{
+  padding: 10px 10px 0px 10px;
+  .blockOverlay{
+    background-color: #fff !important;
+    filter:alpha(opacity=60) !important;
+    -moz-opacity:0.6 !important;
+    -khtml-opacity: 0.6 !important;
+    opacity: 0.6 !important;
+  }
+}
+
+.dimensions-list{
+  table{
+    td{
+      padding-right: 5px;
+      a{
+        cursor: pointer;
+      }
+    }
+    td.add-dimension{
+      padding-left: 10px;
+      ul{
+        max-height: 200px;
+        overflow: auto;
+      }
+    }
+  }
+}
+
+.dimensions-table{
+  margin-top: 10px;
+  td{
+
+  }
+  td.no-data{
+    text-align: center;
+  }
+  td.no-dimension{
+    text-align: center;
+    div.add-dimension-controls{
+      margin-top: 10px;
+      select{
+        margin-bottom: 0px !important;
+      }
+    }
+  }
+  td a.dimension-value{
+    cursor: pointer;
+  }
+  th{
+    text-align: center !important;
+    cursor: pointer;
+  }
+  th.DESC{
+    background: transparent url(/assets/sort_desc.gif) no-repeat scroll right center;
+  }
+  th.ASC{
+    background: transparent url(/assets/sort_asc.gif) no-repeat scroll right center;
+  }
+  th:hover {
+    background-color: #F3F3F3;
+    background-image: -webkit-linear-gradient(top,#FAFAFA,#E9E9E9);
+    background-image: -moz-linear-gradient(top,#FAFAFA,#E9E9E9);
+    box-shadow: inset 0px 1px 5px rgba(0,0,0,.2);
+  }
+  tr:nth-child(odd) td.orderby{
+    background-color: #EAEAEA;
+  }
+  tr:nth-child(even) td.orderby{
+    background-color: #F3F3F3;
+  }
+}
+
+.dimensions-controls{
+  select.pagesize{
+    width: 60px;
+  }
+  a.choose-segment{
+    cursor: pointer;
+  }
+  ul.pager{
+    a.disabled{
+      color: #999;
+      cursor: default;
+      background-color: transparent;
+    }
+    a{
+      cursor: pointer;
+    }
+  }
+  label{
+    line-height: 30px;
+  }
+  .dimensions-control{
+    margin-left: 5px;
+  }
+}
