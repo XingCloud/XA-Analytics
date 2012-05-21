@@ -182,11 +182,10 @@ class Analytics.Collections.ChartSequences extends Backbone.Collection
         labels:
           align: "center"
       tooltip:
+        useHTML: true
         enabled: true
         shared: true
-        formatter: () ->
-          tip = JST['backbone/templates/report_tabs/show-tooltip'](@)
-          tip.replace(/[\t\n ]/g, '').replace(/%blank%/g, '  ')
+        formatter: () -> JST['backbone/templates/report_tabs/show-tooltip'](@)
       legend:
         enabled: false
       plotOptions:

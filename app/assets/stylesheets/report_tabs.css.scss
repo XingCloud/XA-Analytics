@@ -195,3 +195,23 @@
   font-size: 16px;
   mouseover: cursor;
 }
+
+table.chart-tooltip{
+  th{
+    text-align: center;
+    padding-right: 4px;
+  }
+  span.tooltip-dot{
+    height: 0px;
+    display: inline-block;
+    width: 0px;
+    border: 4px solid;
+  }
+  span.lower{
+    color: #932D22;
+  }
+
+  span.higher{
+    color: #4B9525;
+  }
+}

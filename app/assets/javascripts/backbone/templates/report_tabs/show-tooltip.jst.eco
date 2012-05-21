@@ -1,37 +1,59 @@
-<% if @points[0].series.sequence.interval == "min5" or @points[0].series.sequence.interval == "hour": %>
-    <strong><%= $.format.date(Analytics.Utils.UTCDate(@x), "yyyy/MM/dd%blank%HH:mm") %></strong>
-<% else if @points[0].series.sequence.interval == "month": %>
-    <strong><%= $.format.date(Analytics.Utils.UTCDate(@x), "yyyy/MM") %></strong>
-<% else: %>
-    <strong><%= $.format.date(Analytics.Utils.UTCDate(@x), "yyyy/MM/dd") %></strong>
-<% end %>
-<br/>
-<% for point in @points: %>
-    <% if point.series.sequence.has_compare and not point.series.sequence.for_compare: %>
-        <span style="color: #<%= point.series.sequence.color %>"><%= point.series.name.replace(/[ ]/g, '%blank%') %></span>:%blank%
-        <strong><%= point.y %></strong>
-        <br/>
-    <% else if not point.series.sequence.has_compare: %>
-        <span style="color: #<%= point.series.sequence.color %>"><%= point.series.name.replace(/[ ]/g, '%blank%') %></span>:%blank%
-        <strong><%= point.y %></strong>
-        <br/>
-    <% end %>
-<% end %>
-<br/>
-<% if @points[0].series.sequence.has_compare: %>
-    <% if @points[0].series.sequence.interval == "min5" or @points[0].series.sequence.interval == "hour": %>
-        <strong><%= $.format.date(Analytics.Utils.UTCDate(@x - @points[0].series.sequence.offset), "yyyy/MM/dd%blank%HH:mm") %></strong>
-    <% else if @points[0].series.sequence.interval == "month": %>
-        <strong><%= $.format.date(Analytics.Utils.UTCDate(@x - @points[0].series.sequence.offset), "yyyy/MM") %></strong>
-    <% else: %>
-        <strong><%= $.format.date(Analytics.Utils.UTCDate(@x - @points[0].series.sequence.offset), "yyyy/MM/dd") %></strong>
-    <% end %>
-    <br/>
-    <% for point in @points: %>
-        <% if point.series.sequence.for_compare: %>
-            <span style="color: #<%= point.series.sequence.color %>"><%= point.series.name.replace(/[ ]/g, '%blank%') %></span>:%blank%
-            <strong><%= point.y %></strong>
-            <br/>
+<% points = _.filter(@points, (item) -> not item.series.sequence.for_compare) %>
+<% compare_points = _.filter(@points, (item) -> item.series.sequence.for_compare) %>
+<table class="chart-tooltip">
+    <thead>
+        <% if compare_points.length > 0: %>
+            <th></th>
         <% end %>
-    <% end %>
-<% end %>
+        <th colspan="<%= if compare_points.length > 0 then 1 else 2 %>">
+            <% if points[0].series.sequence.interval == "min5" or points[0].series.sequence.interval == "hour": %>
+                <%= $.format.date(Analytics.Utils.UTCDate(@x), "yyyy/MM/dd HH:mm") %>
+            <% else if points[0].series.sequence.interval == "month": %>
+                <%= $.format.date(Analytics.Utils.UTCDate(@x), "yyyy/MM") %>
+            <% else: %>
+                <%= $.format.date(Analytics.Utils.UTCDate(@x), "yyyy/MM/dd") %>
+            <% end %>
+        </th>
+        <% if compare_points.length > 0: %>
+            <th>
+                <% if compare_points[0].series.sequence.interval == "min5" or compare_points[0].series.sequence.interval == "hour": %>
+                    <%= $.format.date(Analytics.Utils.UTCDate(@x - compare_points[0].series.sequence.offset), "yyyy/MM/dd HH:mm") %>
+                <% else if compare_points[0].series.sequence.interval == "month": %>
+                    <%= $.format.date(Analytics.Utils.UTCDate(@x - compare_points[0].series.sequence.offset), "yyyy/MM") %>
+                <% else: %>
+                    <%= $.format.date(Analytics.Utils.UTCDate(@x - compare_points[0].series.sequence.offset), "yyyy/MM/dd") %>
+                <% end %>
+            </th>
+            <th></th>
+        <% end %>
+    </thead>
+    <tbody>
+        <% for point in points: %>
+            <tr>
+                <td><strong><%= point.series.name %></strong>&nbsp;</td>
+                <td class="y">
+                    <span class="tooltip-dot" style="border-color: #<%= point.series.sequence.color %>"></span>
+                    <%= point.y %>&nbsp;
+                </td>
+                <% if compare_points.length > 0: %>
+                    <td class="y">
+                        <% compare_point = _.find(compare_points, (item) -> item.series.sequence.metric_id == point.series.sequence.metric_id and item.series.sequence.segment_id == point.series.sequence.segment_id) %>
+                        <span class="tooltip-dot" style="border-color: #<%= compare_point.series.sequence.color %>"></span>
+                        <%= compare_point.y %>
+                    </td>
+                    <td>
+                        <% if point.y >= compare_point.y: %>
+                            <span class="higher">
+                                &uarr;<%- if compare_point.y != 0 then ((point.y-compare_point.y)/compare_point.y*100).toFixed(2)+'%' else '&infin;' %>
+                            </span>
+                        <% else: %>
+                            <span class="lower">
+                                &darr;<%- if compare_point.y != 0 then ((compare_point.y-point.y)/compare_point.y*100).toFixed(2)+'%' else '&infin;' %>
+                            </span>
+                        <% end %>
+                    </td>
+                <% end %>
+            </tr>
+        <% end %>
+    </tbody>
+</table>

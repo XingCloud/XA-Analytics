@@ -26,15 +26,15 @@ class Analytics.Models.ChartSequence extends Backbone.Model
       percent = (if @get("total") != 0 then value / @get("total") else 0)
       compare_value = (if compare? then compare.get("natural") else 0)
     {
-      compare: compare?,
-      percent: percent,
-      id: @id,
-      compare_id: (if compare? then compare.id else null),
-      value: value,
-      compare_value: compare_value,
-      total: @get("total"),
-      compare_total: (if compare? then compare.get("total") else 0),
-      color: Analytics.Utils.getColor(@get("index"), false),
+      compare: compare?
+      percent: percent
+      id: @id
+      compare_id: (if compare? then compare.id else null)
+      value: value
+      compare_value: compare_value
+      total: @get("total")
+      compare_total: (if compare? then compare.get("total") else 0)
+      color: Analytics.Utils.getColor(@get("index"), false)
       compare_color: Analytics.Utils.getColor(@get("index"), true)
     }
 
@@ -51,10 +51,12 @@ class Analytics.Models.ChartSequence extends Backbone.Model
     {
       has_compare: @report_tab.get("compare") != 0
       for_compare: @get("for_compare"),
-      offset: offset,
-      id: @get("id"),
-      color: color,
-      name: name,
+      offset: offset
+      id: @get("id")
+      metric_id: @get("metric_id")
+      segment_id: @get("segment_id")
+      color: color
+      name: name
       interval: @report_tab.get("interval")
     }
 
