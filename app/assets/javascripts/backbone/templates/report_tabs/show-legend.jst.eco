@@ -22,10 +22,20 @@
                     <% for metric in segment.metrics: %>
                         <td class="<%= if index+1 == segment.metrics.length then 'last' %>">
                             <div class="legend-info-container" sequence-id="<%= metric.id %>" compare-sequence-id="<%= metric.compare_id %>">
-                                <% if metric.compare and metric.value >= metric.compare_value: %>
-                                    <p class="value higher">
-                                        <span><%= (if metric.compare_value != 0 then (metric.value-metric.compare_value)*100 / metric.compare_value else 0).toFixed(2) %>%</span>
-                                    </p>
+                                <% if metric.compare: %>
+                                    <% if metric.value == metric.compare_value: %>
+                                        <p class="value">
+                                            <span>0%</span>
+                                        </p>
+                                    <% else if metric.value > metric.compare_value: %>
+                                        <p class="value higher">
+                                            <span>+<%- (if metric.compare_value != 0 then ((metric.value-metric.compare_value)*100 / metric.compare_value).toFixed(2)+'%' else '&infin;') %></span>
+                                        </p>
+                                    <% else: %>
+                                        <p class="value lower">
+                                            <span>-<%- (if metric.compare_value != 0 then ((metric.compare_value-metric.value)*100 / metric.compare_value).toFixed(2)+'%' else '&infin;') %></span>
+                                        </p>
+                                    <% end %>
                                     <p class="vs">
                                         <span>
                                             <span class="legend-dot" style="border-color: #<%= metric.color %>"/>
@@ -35,18 +45,7 @@
                                             <%= metric.compare_value %>
                                         </span>
                                     </p>
-                                <% else if metric.compare and metric.value < metric.compare_value: %>
-                                    <p class="value lower">
-                                        <span><%= (if metric.compare_value != 0 then (metric.value-metric.compare_value)*100 / metric.compare_value else 0).toFixed(2) %>%</span>
-                                    </p>
-                                    <p class="vs">
-                                        <span class="legend-dot" style="border-color: #<%= metric.color %>"/>
-                                        <%= metric.value %>
-                                        &nbsp;vs&nbsp;
-                                        <span class="legend-dot" style="border-color: #<%= metric.compare_color %>"/>
-                                        <%= metric.compare_value %>
-                                    </p>
-                                <% else if not metric.compare: %>
+                                <% else: %>
                                     <p class="value">
                                         <span class="legend-dot" style="border-color: #<%= metric.color %>"/>
                                         <span><%= metric.value %></span>

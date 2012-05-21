@@ -42,13 +42,15 @@
                         <%= compare_point.y %>
                     </td>
                     <td>
-                        <% if point.y >= compare_point.y: %>
+                        <% if point.y == compare_point.y: %>
+                            <span>0%</span>
+                        <% else if point.y > compare_point.y: %>
                             <span class="higher">
-                                &uarr;<%- if compare_point.y != 0 then ((point.y-compare_point.y)/compare_point.y*100).toFixed(2)+'%' else '&infin;' %>
+                                +<%- if compare_point.y != 0 then ((point.y-compare_point.y)/compare_point.y*100).toFixed(2)+'%' else '&infin;' %>
                             </span>
                         <% else: %>
                             <span class="lower">
-                                &darr;<%- if compare_point.y != 0 then ((compare_point.y-point.y)/compare_point.y*100).toFixed(2)+'%' else '&infin;' %>
+                                -<%- if compare_point.y != 0 then ((compare_point.y-point.y)/compare_point.y*100).toFixed(2)+'%' else '&infin;' %>
                             </span>
                         <% end %>
                     </td>
