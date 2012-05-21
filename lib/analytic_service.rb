@@ -143,7 +143,7 @@ class AnalyticService
 
   def request_segment_options(segment_id, params, options)
     segment = Segment.find_by_id(segment_id)
-    if segment.present?
+    if segment.present? and segment.to_hsh.present?
       if options[:segment].present?
         options[:segment].merge!(segment.to_hsh)
       else
