@@ -67,7 +67,8 @@ class Metric < ActiveRecord::Base
     {:number_of_day => number_of_day,
      :name => name, :event_key => event_key,
      :condition => condition,
-     :combine_action => combine_action}
+     :combine_action => combine_action,
+     :segment_id => segment_id}
   end
 
   def clone_as_template(project_id)
