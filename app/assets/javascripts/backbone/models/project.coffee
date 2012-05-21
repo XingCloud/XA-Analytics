@@ -4,6 +4,6 @@ class Analytics.Models.Project extends Backbone.Model
 
   first_report: () ->
     if reports_router.templates.length > 0
-      return reports_router.templates.last()
+      return reports_router.templates.first()
     else
-      return reports_router.reports.last()
+      return reports_router.reports.first()
