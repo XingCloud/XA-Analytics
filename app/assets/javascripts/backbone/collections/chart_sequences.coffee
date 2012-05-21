@@ -165,7 +165,7 @@ class Analytics.Collections.ChartSequences extends Backbone.Collection
         text: ""
       chart:
         renderTo: "chart"
-        height: 200
+        height: 200 + 20 * (if @models.length > 9 then @models.length - 9 else 0)
         type: @report_tab.get("chart_type")
       yAxis:
         min: 0
