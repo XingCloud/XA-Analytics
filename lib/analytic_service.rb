@@ -143,14 +143,24 @@ class AnalyticService
 
   def request_segment_options(segment_id, params, options)
     segment = Segment.find_by_id(segment_id)
-    if segment.present? and options[:segment].present?
-      options[:segment].merge!(segment.to_hsh)
-    elsif segment.present? and options[:segment].blank?
-      options[:segment] = segment.to_hsh
+    if segment.present?
+      if options[:segment].present?
+        options[:segment].merge!(segment.to_hsh)
+      else
+        options[:segment] = segment.to_hsh
+      end
+      if options[:combine].present? and options[:combine][:segment].present?
+        options[:combine][:segment].merge!(segment.to_hsh)
+      elsif options[:combine].present? and options[:combine][:segment].blank?
+        options[:combine][:segment] = segment.to_hsh
+      end
     end
     request_filter_user_attributes(params[:filters], options)
     if options[:segment].present?
       options[:segment] = options[:segment].to_json
+    end
+    if options[:combine].present? and options[:combine][:segment].present?
+      options[:combine][:segment] = options[:combine][:segment].to_json
     end
     options
   end
@@ -160,10 +170,17 @@ class AnalyticService
       filters = filters.map{|item|item[1]}
       filters.each do |filter|
         dimension = Dimension.new(filter["dimension"])
-        if dimension.dimension_type.upcase == 'USER_PROPERTIES' and options[:segment].present?
-          options[:segment].merge!(dimension.to_hsh(filter["value"]))
-        elsif dimension.dimension_type.upcase == 'USER_PROPERTIES' and options[:segment].blank?
-          options[:segment] = dimension.to_hsh(filter["value"])
+        if dimension.dimension_type.upcase == 'USER_PROPERTIES'
+          if options[:segment].present?
+            options[:segment].merge!(dimension.to_hsh(filter["value"]))
+          else
+            options[:segment] = dimension.to_hsh(filter["value"])
+          end
+          if options[:combine].present? and options[:combine][:segment].present?
+            options[:combine][:segment].merge!(dimension.to_hsh(filter["value"]))
+          elsif options[:combine].present? and options[:combine][:segment].blank?
+            options[:combine][:segment] = dimension.to_hsh(filter["value"])
+          end
         end
       end
     end
@@ -209,7 +226,7 @@ class AnalyticService
       options.merge!({:combine => {
           :action => metric.combine_action.to_s.upcase
       }})
-      options[:combine].merge!(request_metric_options(combine.id, params, options))
+      request_metric_options(combine.id, params, options[:combine])
     end
   end
 
