@@ -1,3 +1,11 @@
+require "rvm/capistrano"
+set :rvm_ruby_string, "1.9.3"
+set :rvm_type, :user
+set :rvm_install_type, :head
+
+before 'deploy:setup', 'rvm:install_rvm'
+before 'deploy:setup', 'rvm:install_ruby'
+
 set :application, "XingCloud-Analytic-2.0"
 set :repository,  "git@github.com:fangjian601/XingCloud-Analytics.git"
 
@@ -26,7 +34,6 @@ set :git_shallow_clone, 1
 set :scm_verbose, true
 set :deploy_via, :remote_cache
 
-default_environment["PATH"] = "/sbin:/bin:/usr/kerberos/bin:/usr/local/bin:/bin:/usr/bin:/home/app/bin:/usr/local/sbin:/usr/sbin:"
 
 task :custom_symlink do
   
