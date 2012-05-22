@@ -103,7 +103,7 @@
                                 <em>.</em>
                             <% end %>
                         <% end %>
-                        <img class="event-list-sync combine" src="/assets/sync.gif" style="display: none;"/>
+                        <img class="event-list-sync-combine" src="/assets/sync.gif" style="display: none;"/>
                     </div>
                 </div>
                 <div class="control-group">

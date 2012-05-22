@@ -69,7 +69,7 @@ class Analytics.Views.Metrics.FormView extends Backbone.View
         params = @event_list_params("l"+level, false)
       else
         event_list_sync = @combine_event_list_sync
-        event_list_sync_el = ".event-list-sync.combine"
+        event_list_sync_el = ".event-list-sync-combine"
         params = @event_list_params("l"+level, true)
 
       if not event_list_sync[level]
