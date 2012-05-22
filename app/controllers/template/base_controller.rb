@@ -1,5 +1,5 @@
 class Template::BaseController < ApplicationController
-  layout "admin"
+  layout "template"
   before_filter :admin_required
   
   protected
