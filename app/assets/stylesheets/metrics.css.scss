@@ -22,8 +22,8 @@
 
 .metric-add {
   border: 1px dashed #7B98E8;
-  background: #F2F6FF;
-  color: #7B98E8;
+  background: #F2F6FF !important;
+  color: #7B98E8 !important;
   @include metric-common;
 }
 
