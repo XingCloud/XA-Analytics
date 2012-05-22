@@ -24,8 +24,8 @@
 
   window.metrics_router = new Analytics.Routers.MetricsRouter({
     project: project,
-    metrics: #{@project.metrics.map(&:short_attributes).to_json},
-    templates: #{Metric.template.map(&:short_attributes).to_json}
+    metrics: #{@project.metrics.where(:combine_id => nil).map(&:short_attributes).to_json},
+    templates: #{Metric.template.where(:combine_id => nil).map(&:short_attributes).to_json}
    });
 
   window.report_tabs_router = new Analytics.Routers.ReportTabsRouter({project: project});

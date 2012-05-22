@@ -3,10 +3,10 @@ Analytics.Views.Metrics ||= {}
 class Analytics.Views.Metrics.FormListItemView extends Backbone.View
   template: JST['backbone/templates/metrics/form-list-item']
   tagName: 'div'
-  className: 'metric_box'
+  className: 'metric-box'
   events:
-    "click img.del" : "delete"
-    "click .metric_display" : "show"
+    "click .metric-remove" : "delete"
+    "click .metric-display" : "show"
 
   initialize: () ->
     _.bindAll(this, "render")
@@ -43,9 +43,6 @@ class Analytics.Views.Metrics.FormListView extends Backbone.View
   template: JST['backbone/templates/metrics/form-list']
   className: 'control-group'
 
-  events:
-    "click .metrics .action-add" : "new_metric"
-
   initialize: () ->
     _.bindAll(this, "render")
 
@@ -53,6 +50,7 @@ class Analytics.Views.Metrics.FormListView extends Backbone.View
     $(@el).html(@template(@model))
     for metric_id in @model.metric_ids
       @render_metric(metric_id)
+    @render_metrics_dropdown()
     this
 
   render_metric: (metric_id) ->
@@ -61,11 +59,10 @@ class Analytics.Views.Metrics.FormListView extends Backbone.View
     metric_view = new Analytics.Views.Metrics.FormListItemView({model: metric})
     $(@el).find('#report_tab_'+@model.index+'_metric_list').append(metric_view.render().el)
 
-  new_metric: (ev) ->
-    metric = new Analytics.Models.Metric({project_id : @model.project_id})
-    metric.list_view = this
-    metric.collection = metrics_router.metrics
-    new Analytics.Views.Metrics.FormView({
-      model: metric,
-      id: "new_metric"
-    }).render()
+  render_metrics_dropdown: () ->
+    @metrics_dropdown_view = new Analytics.Views.Metrics.IndexDropdownView({
+      model: @model
+      list_view: this
+    })
+    @metrics_dropdown_view.render()
+    $(@el).find(".metric-add-dropdown").append(@metrics_dropdown_view.el)

@@ -2,8 +2,10 @@
 <div class="controls well metrics">
     <input type="hidden" id="report_tabs_attributes_<%= @index %>_metric_ids" name="report_tabs_attributes[<%= @index %>][metric_ids][]" />
     <div id="report_tab_<%= @index %>_metric_list"></div>
-    <div class="metric-add" style="mouseover: cursor;">
-        <i class="icon-plus" />
-        添加指标
+    <div class="metric-add-dropdown dropdown">
+        <div class="metric-add dropdown-toggle" data-toggle="dropdown">
+            添加指标
+            <b class="caret"></b>
+        </div>
     </div>
 </div>

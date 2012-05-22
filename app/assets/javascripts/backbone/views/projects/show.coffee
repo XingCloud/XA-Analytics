@@ -13,8 +13,10 @@ class Analytics.Views.Projects.ShowView extends Backbone.View
 
   render: () ->
     $(@el).html(@template(@model.attributes))
+    @render_leftnav()
+    @render_default_report()
 
-
+  render_leftnav: () ->
     new Analytics.Views.Reports.NavView({
       reports : reports_router.templates,
       categories: report_categories_router.templates,
@@ -30,7 +32,7 @@ class Analytics.Views.Projects.ShowView extends Backbone.View
       is_template: false
     }).render()
 
-
+  render_default_report: () ->
     if @model.first_report()?
       if window.location.href.indexOf('#') == -1
         window.location.href = "#/reports/"+@model.first_report().id
