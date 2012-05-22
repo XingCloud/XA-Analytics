@@ -80,6 +80,20 @@ class Metric < ActiveRecord::Base
     new_metric
   end
 
+  def is_duplicate(metric)
+    (project_id == metric.project_id and
+     combine_id == metric.combine_id and
+     number_of_day == metric.number_of_day and
+     name == metric.name and
+     event_key == metric.event_key and
+     condition == metric.condition and
+     combine_action == metric.combine_action and
+     number_of_day_origin == metric.number_of_day_origin and
+     segment_id == metric.segment_id and
+     ((combine == nil and metric.combine == nil) or
+      (combine != nil and metric.combine != nil and combine.is_duplicate(metric.combine))))
+  end
+
   protected
 
   def correct_combine
