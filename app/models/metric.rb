@@ -82,7 +82,8 @@ class Metric < ActiveRecord::Base
 
   def is_duplicate(metric)
     (project_id == metric.project_id and
-     combine_id == metric.combine_id and
+     ((combine_id == nil and metric.combine_id == nil) or
+      (combine_id != nil and metric.combine_id != nil)) and
      number_of_day == metric.number_of_day and
      name == metric.name and
      event_key == metric.event_key and
