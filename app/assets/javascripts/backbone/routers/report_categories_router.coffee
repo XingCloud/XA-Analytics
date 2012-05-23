@@ -13,10 +13,15 @@ class Analytics.Routers.ReportCategoriesRouter extends Backbone.Router
       @templates = new Analytics.Collections.ReportCategories(options.templates)
 
   new: () ->
+    last_category = report_categories_router.categories.last()
+    position = (if last_category? then last_category.get("position") + 1 else 0)
     if @project?
-      report_category = new Analytics.Models.ReportCategory({project_id : @project.id})
+      report_category = new Analytics.Models.ReportCategory({
+        project_id : @project.id
+        position: position
+      })
     else
-      report_category = new Analytics.Models.ReportCategory()
+      report_category = new Analytics.Models.ReportCategory({position: position})
     new Analytics.Views.ReportCategories.FormView({model: report_category, id : "new_report_category"}).render()
 
   edit: (id) ->
@@ -44,7 +49,7 @@ class Analytics.Routers.ReportCategoriesRouter extends Backbone.Router
   shift_up: (id) ->
     category = @categories.get(id)
     if category?
-      category.shift("up", {success: (resp, status, xhr) ->
+      category.shift_up({success: (resp, status, xhr) ->
         window.location.href = "#/reports"
       })
     else
@@ -53,7 +58,7 @@ class Analytics.Routers.ReportCategoriesRouter extends Backbone.Router
   shift_down: (id) ->
     category = @categories.get(id)
     if category?
-      category.shift("down", {success: (resp, status, xhr) ->
+      category.shift_down({success: (resp, status, xhr) ->
         window.location.href = "#/reports"
       })
     else
