@@ -69,7 +69,7 @@ class Analytics.Models.DimensionsSequence extends Backbone.Model
         id: metric_attributes.id
         project_id: project.get("identifier")
         end_time: $.format.date(@report_tab.end_time, "yyyy-MM-dd")
-        start_time: $.format.date(@report_tab.end_time - @report_tab.get("length")*86400000, "yyyy-MM-dd")
+        start_time: $.format.date(@report_tab.end_time -( @report_tab.get("length") - 1)*86400000, "yyyy-MM-dd")
         interval: @report_tab.get("interval").toUpperCase()
         groupby: @get("dimension").value
         groupby_type: @get("dimension").dimension_type.toUpperCase()
