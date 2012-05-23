@@ -10,9 +10,9 @@ class Template::MetricsController < Template::BaseController
   def create
     @metric = Metric.new(params[:metric])
     if @metric.save
-      render :json => @metric.short_attributes
+      render :json => @metric.js_attributes
     else
-      render :json => @metric.short_attributes, :status => 400
+      render :json => @metric.js_attributes, :status => 400
     end
   end
 
@@ -20,9 +20,9 @@ class Template::MetricsController < Template::BaseController
   def update
     pp params[:metric]
     if @metric.update_attributes(params[:metric])
-      render :json => @metric.short_attributes
+      render :json => @metric.js_attributes
     else
-      render :json => @metric.short_attributes, :status => 400
+      render :json => @metric.js_attributes, :status => 400
     end
   end
 

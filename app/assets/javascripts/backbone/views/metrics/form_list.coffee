@@ -21,22 +21,21 @@ class Analytics.Views.Metrics.FormListItemView extends Backbone.View
     $(@el).remove()
 
   show: () ->
-    model = @model
-    model.list_item_view = this
-    model.edit({success: (resp) ->
-      template_model = null
-      if not resp.id?
-        template_model = new Analytics.Models.Metric(model.attributes)
-        metrics_router.templates.remove(model)
-        metrics_router.templates.add(template_model)
-        model.collection = metrics_router.metrics
-      model.set(resp)
-      new Analytics.Views.Metrics.FormView({
-        model: model
-        clone: template_model
-        id: (if model.id? then "edit_metric_"+model.id else "clone_metric")
-      }).render()
-    })
+    @model.list_item_view = this
+    if project? and not @model.get("project_id")?
+      template_model = new Analytics.Models.Metric(@model.attributes)
+      metrics_router.templates.remove(@model)
+      metrics_router.templates.add(template_model)
+      @model.collection = metrics_router.metrics
+      @model.set({id: null, project_id: project.id}, {silent: true})
+      if @model.get("combine_attributes")?
+        @model.get("combine_attributes")["id"] = null
+        @model.get("combine_attributes")["project_id"] = project.id
+    new Analytics.Views.Metrics.FormView({
+      model: @model
+      clone: template_model
+      id: (if @model.id? then "edit_metric_"+@model.id else "clone_metric")
+    }).render()
 
 
 class Analytics.Views.Metrics.FormListView extends Backbone.View

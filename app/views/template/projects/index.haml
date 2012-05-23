@@ -45,7 +45,7 @@
   });
 
   window.metrics_router = new Analytics.Routers.MetricsRouter({
-    metrics: #{Metric.template.where(:combine_id => nil).map(&:short_attributes).to_json}
+    metrics: #{Metric.template.where(:combine_id => nil).map(&:js_attributes).to_json}
   });
 
   window.report_tabs_router = new Analytics.Routers.ReportTabsRouter({});

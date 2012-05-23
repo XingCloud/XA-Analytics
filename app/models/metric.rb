@@ -3,7 +3,7 @@ class Metric < ActiveRecord::Base
   has_and_belongs_to_many :report_tabs
   #has_and_belongs_to_many :widgets
   
-  has_one :combine, :class_name => "Metric", :foreign_key => "combine_id"
+  has_one :combine, :class_name => "Metric", :foreign_key => "combine_id", :dependent => :destroy
   has_one :segment
   
   OPERATIONS = ["count", "sum", "user_num"]
