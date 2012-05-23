@@ -22,9 +22,6 @@ class Analytics.Models.ReportTab extends Backbone.Model
   toJSON: () ->
     {report_tab: @attributes}
 
-  data_url: () ->
-    "/projects/"+project.id+"/reports/"+@get("report_id")+"/report_tabs/"+@id+"/data"
-
   metrics_attributes: () ->
     metrics = []
     for metric_id in @get("metric_ids")

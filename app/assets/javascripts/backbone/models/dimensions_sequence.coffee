@@ -38,7 +38,7 @@ class Analytics.Models.DimensionsSequence extends Backbone.Model
     })
 
   fetch_success: (resp) ->
-    if resp.id == project.active_tab.id
+    if resp.id.toString() == project.active_tab.id.toString()
       project.active_tab.view.dimensions_sequence.set(resp.data)
       project.active_tab.view.fetch_complete()
 
@@ -47,7 +47,7 @@ class Analytics.Models.DimensionsSequence extends Backbone.Model
     Analytics.Request.error(xhr, options, error)
 
   fetch_url: () ->
-    "/projects/"+project.id+"/reports/"+@report_tab.get("report_id")+"/report_tabs/"+@report_tab.id+"/dimensions"
+    "/projects/"+project.id+"/dimensions"
 
   fetch_params: () ->
     options = {
@@ -55,6 +55,7 @@ class Analytics.Models.DimensionsSequence extends Backbone.Model
       index: @get("index")
       pagesize: @get("pagesize")
       order: @get("order")
+      report_tab_id: @report_tab.id
     }
     if @get("orderby")?
       options["orderby"] = @get("orderby")

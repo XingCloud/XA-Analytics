@@ -1,10 +1,7 @@
 class ReportTabsController < ProjectBaseController
   before_filter :find_report_tab, :only => [:show, :update]
   before_filter :find_report_tab_with_template, :only => [:data, :dimensions]
-  before_filter :build_params, :only => [:data, :dimensions]
   before_filter :json_header
-
-  SERVICE = AnalyticService.new()
 
   def show
     render :json => @report_tab.js_attributes
@@ -24,23 +21,7 @@ class ReportTabsController < ProjectBaseController
     end
   end
 
-  def data
-    render :json => {:id => @report_tab.id, :data => SERVICE.request_data(params)}
-  end
-
-  def dimensions
-    render :json => {:id => @report_tab.id, :data => SERVICE.request_dimensions(params)}
-  end
-
   private
-
-  def build_params
-    requests = JSON.parse(params[:params])
-    requests.each do |request|
-      request["project_id"] = @project.identifier
-    end
-    params[:params] = requests.to_json
-  end
 
   def find_report_tab
     @report = @project.reports.find(params[:report_id])

@@ -38,12 +38,15 @@ class Analytics.Collections.ChartSequences extends Backbone.Collection
       sequence.set({filters: filters}, {silent: true})
       options.push(sequence.options())
     )
-    {params: JSON.stringify(options)}
+    {params: JSON.stringify(options), report_tab_id: @report_tab.id}
+
+  fetch_url: () ->
+    "/projects/"+project.id+"/chart"
 
   fetch_data: () ->
     collection = this
     $.ajax({
-      url: @report_tab.data_url()
+      url: @fetch_url()
       dataType: "json"
       type: "post"
       data: @fetch_params()
@@ -52,7 +55,7 @@ class Analytics.Collections.ChartSequences extends Backbone.Collection
     })
 
   fetch_success: (resp) ->
-    if resp.id == project.active_tab.id
+    if resp.id.toString() == project.active_tab.id.toString()
       project.active_tab.view.chart_sequences.set_datas(resp.data)
       project.active_tab.view.redraw_chart()
       project.active_tab.view.fetch_complete()
