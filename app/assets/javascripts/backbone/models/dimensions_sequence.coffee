@@ -31,7 +31,7 @@ class Analytics.Models.DimensionsSequence extends Backbone.Model
     $.ajax({
       url: @fetch_url()
       dataType: "json"
-      type: "get"
+      type: "post"
       data: @fetch_params()
       success: (if options? then options.success else @fetch_success)
       error: (if options then options.error else @fetch_error)
@@ -50,20 +50,31 @@ class Analytics.Models.DimensionsSequence extends Backbone.Model
     "/projects/"+project.id+"/reports/"+@report_tab.get("report_id")+"/report_tabs/"+@report_tab.id+"/dimensions"
 
   fetch_params: () ->
-    params = {
-      end_time: parseInt(@report_tab.end_time/1000)
-      length: @report_tab.get("length")
-      interval: @report_tab.get("interval").toUpperCase()
-      dimension: @get("dimension")
+    options = {
+      params: @options()
       index: @get("index")
       pagesize: @get("pagesize")
-      filters: @get("filters")
       order: @get("order")
     }
     if @get("orderby")?
-      params["orderby"] = @get("orderby")
-    if @get("query")? and @get("query").length > 0
-      params["query"] = @get("query")
-    if @get("segment_id")?
-      params["segment_id"] = @get("segment_id")
-    params
+      options["orderby"] = @get("orderby")
+    if @get("query")?
+      options["filter"] = @get("query")
+    options
+
+  options: () ->
+    options = []
+    for metric_attributes in @get("metrics")
+      metric_options = {
+        id: metric_attributes.id
+        project_id: project.get("identifier")
+        end_time: $.format.date(@report_tab.end_time, "yyyy-MM-dd")
+        start_time: $.format.date(@report_tab.end_time - @report_tab.get("length")*86400000, "yyyy-MM-dd")
+        interval: @report_tab.get("interval").toUpperCase()
+        groupby: @get("dimension").value
+        groupby_type: @get("dimension").dimension_type.toUpperCase()
+      }
+      metric = metrics_router.get(metric_attributes.id)
+      _.extend(metric_options, metric.sequence_options(@get("segment_id"), @get("filters")))
+      options.push(metric_options)
+    JSON.stringify(options)

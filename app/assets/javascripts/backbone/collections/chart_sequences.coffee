@@ -32,20 +32,20 @@ class Analytics.Collections.ChartSequences extends Backbone.Collection
     @add(sequence)
 
   fetch_params: () ->
-    end_time: parseInt(@report_tab.end_time/1000)
-    compare_end_time: parseInt(@report_tab.compare_end_time/1000)
-    length: @report_tab.get("length")
-    compare: @report_tab.get("compare")
-    interval: @report_tab.get("interval")
-    filters: @report_tab.dimensions_filters
-    segment_ids: @segment_ids()
+    options = []
+    filters = @report_tab.dimensions_filters
+    @each((sequence) ->
+      sequence.set({filters: filters}, {silent: true})
+      options.push(sequence.options())
+    )
+    {params: JSON.stringify(options)}
 
   fetch_data: () ->
     collection = this
     $.ajax({
       url: @report_tab.data_url()
       dataType: "json"
-      type: "get"
+      type: "post"
       data: @fetch_params()
       success: @fetch_success
       error: @fetch_error
@@ -53,7 +53,7 @@ class Analytics.Collections.ChartSequences extends Backbone.Collection
 
   fetch_success: (resp) ->
     if resp.id == project.active_tab.id
-      project.active_tab.view.chart_sequences.reset(resp.data)
+      project.active_tab.view.chart_sequences.set_datas(resp.data)
       project.active_tab.view.redraw_chart()
       project.active_tab.view.fetch_complete()
 
@@ -211,3 +211,9 @@ class Analytics.Collections.ChartSequences extends Backbone.Collection
     )
 
     options
+
+  set_datas: (datas) ->
+    for data in datas
+      sequence = @get(data.id)
+      if sequence?
+        sequence.set(data, {silent: true})

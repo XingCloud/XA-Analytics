@@ -38,3 +38,10 @@ class Analytics.Models.Segment extends Backbone.Model
 
   toJSON: () ->
     {segment: @attributes}
+
+  serialize: () ->
+    if @expressions.length > 0
+      results = {}
+      for expression in @expressions
+        _.extend(results, expression.serialize())
+      results
