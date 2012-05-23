@@ -67,7 +67,6 @@ class Analytics.Models.DimensionsSequence extends Backbone.Model
     for metric_attributes in @get("metrics")
       metric_options = {
         id: metric_attributes.id
-        project_id: project.get("identifier")
         end_time: $.format.date(@report_tab.end_time, "yyyy-MM-dd")
         start_time: $.format.date(@report_tab.end_time - (@report_tab.get("length") - 1)*86400000, "yyyy-MM-dd")
         interval: @report_tab.get("interval").toUpperCase()

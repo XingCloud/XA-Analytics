@@ -72,7 +72,6 @@ class Analytics.Models.ChartSequence extends Backbone.Model
     end_time = (if @get("for_compare") then @report_tab.compare_end_time else @report_tab.end_time)
     options = {
       id: @get("id")
-      project_id: project.get("identifier")
       end_time: $.format.date(end_time, "yyyy-MM-dd")
       start_time: $.format.date(end_time - (@report_tab.get("length") - 1)*86400000, "yyyy-MM-dd")
       interval: @report_tab.get("interval").toUpperCase()
