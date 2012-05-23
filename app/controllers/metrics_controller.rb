@@ -1,5 +1,5 @@
 class MetricsController < ProjectBaseController
-  before_filter :find_metric, :only => [:edit, :update]
+  before_filter :find_metric, :only => [:update]
   before_filter :json_header
 
 
@@ -17,8 +17,7 @@ class MetricsController < ProjectBaseController
   end
   
   def update
-    @metric.attributes=(params[:metric])
-    if @metric.save
+    if @metric.update_attributes(params[:metric])
       render :json => @metric.js_attributes
     else
       render :json => @metric.js_attributes, :status => 400
@@ -34,5 +33,5 @@ class MetricsController < ProjectBaseController
   def json_header
     response.headers['Content-Type'] = 'application/json; charset=utf-8'
   end
-  
+
 end

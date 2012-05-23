@@ -31,7 +31,7 @@ class Analytics.Views.Dimensions.ShowView extends Backbone.View
     $(el).block({message: "<img src='/assets/dimensions-loading.gif'/>"})
     @model.fetch_data({
       success: (resp) ->
-        if resp.id == report_tab.id
+        if resp.id.toString() == report_tab.id.toString()
           $(el).unblock()
           model.set(resp.data)
       error: (xhr, options, error) ->
