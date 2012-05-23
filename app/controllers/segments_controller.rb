@@ -18,20 +18,12 @@ class SegmentsController < ProjectBaseController
 
 
   def update
-    @segment.attributes = params[:segment]
-    expression_ids = params[:segment][:expressions_attributes].map{|expression_attributes| expression_attributes[:id]}
-    @segment.expressions.each do |expression|
-      if expression_ids.index(expression.id.to_s).nil?
-        @segment.expressions.destroy(expression.id)
-      end
-    end
-    if @segment.save
+    if @segment.update_attributes(params[:segment])
       render :json => @segment.js_attributes
     else
       render :json => @segment.js_attributes, :status => 400
     end
   end
-
 
   def destroy
     if @segment.destroy
