@@ -5,6 +5,7 @@
     <div class="expression-form-inner">
         <input type="hidden" name="expressions_attributes[<%= @index %>][id]" value="<%= @id %>" />
         <input type="hidden" name="expressions_attributes[<%= @index %>][value_type]" value="<%= @value_type %>" class="value-type" />
+        <input type="hidden" name="expressions_attributes[<%= @index %>][_destroy]" value="0" class="_destroy" />
         <select class="left attributes-select" name="expressions_attributes[<%= @index %>][name]">
             <% for attribute in Analytics.Static.UserAttributes: %>
                 <option value="<%= attribute.value %>" value_type="<%= attribute.value_type %>" <%= if @name == attribute.value then 'selected="selected"' %> ><%= attribute.name %></option>

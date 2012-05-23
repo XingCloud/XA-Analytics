@@ -34,6 +34,7 @@ class Analytics.Views.Expressions.FormView extends Backbone.View
     )
 
   remove_expression: () ->
+    $(@el).find("._destroy").val(1)
     @segment_form.remove_expression(this)
 
   select_attribute: (ev) ->
