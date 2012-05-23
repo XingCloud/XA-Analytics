@@ -2,9 +2,7 @@ require "uri"
 require "net/http"
 
 class AnalyticService
-
   BASE_URL = APP_CONFIG[:analytics_base_url]
-  REQUEST_ID = UUID.new()
 
   def self.logger
     unless @logger
@@ -17,10 +15,9 @@ class AnalyticService
     @logger
   end
 
-  def request_data(params)
-    pp params
+  def self.request_data(project, params)
     results = []
-    resp = self.class.commit("/dd/events", params)
+    resp = commit("/dd/events", build_params(project, params))
     if resp["result"]
       resp["datas"].keys.each do |id|
         results.append(resp["datas"][id].merge({"id" => id}))
@@ -29,9 +26,8 @@ class AnalyticService
     results
   end
 
-  def request_dimensions(params)
-    pp params
-    resp = self.class.commit('/dd/event/groupby', params)
+  def self.request_dimensions(project, params)
+    resp = commit('/dd/event/groupby', build_params(project, params))
     if resp["result"]
       resp
     else
@@ -40,13 +36,12 @@ class AnalyticService
   end
 
   def self.check_event_key(project, target_row, condition)
-    options = {:project_id => project.identifier, :target_row => target_row, :condition => filter_condition(condition, target_row)}
-
+    options = {:project_id => filter_project_id(project), :target_row => target_row, :condition => filter_condition(condition, target_row)}
     commit("/dd/evlist", {:params => options.to_json})
   end
 
   def self.user_attributes(project)
-    options = {:project_id => project.identifier}
+    options = {:project_id => filter_project_id(project)}
     commit("/dd/up", options)
   end
 
@@ -61,7 +56,24 @@ class AnalyticService
     end
   end
 
-  def self.commit(url, options = {}, request_options = {})
+  def self.filter_project_id(project)
+    if APP_CONFIG[:demo].present? and APP_CONFIG[:demo].keys.index(project.identifier).present?
+      APP_CONFIG[:demo][project.identifier]
+    else
+      project.identifier
+    end
+  end
+
+  def self.build_params(project, params)
+    requests = JSON.parse(params[:params])
+    requests.each do |request|
+      request["project_id"] = filter_project_id(project)
+    end
+    params[:params] = requests.to_json
+    params
+  end
+
+  def self.commit(url, options = {})
     logger.info "Request: #{url} \n #{options.pretty_inspect}"
     pp options
 
