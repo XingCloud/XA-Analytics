@@ -3,9 +3,7 @@ class Template::ReportCategoriesController < Template::BaseController
   before_filter :json_header
 
   def create
-    last_category = ReportCategory.where(:project_id => nil).order("position asc").last
-    position = last_category.nil? ? 0 : last_category.position
-    @category = ReportCategory.new(params[:report_category].merge({:position => position+1}))
+    @category = ReportCategory.new(params[:report_category])
     if @category.save
       render :json => @category.js_attributes
     else
@@ -29,36 +27,6 @@ class Template::ReportCategoriesController < Template::BaseController
       render :json => @category.js_attributes
     else
       render :json => @category.js_attributes, :status => 400
-    end
-  end
-
-  def shift_up
-    last_category = ReportCategory.where({:project_id => nil}).where("position < ?", @category.position).order("position asc").last
-    if not last_category.nil?
-      position = last_category.position
-      last_category.update_attribute(:position, @category.position)
-      if @category.update_attribute(:position, position)
-        render :json => ReportCategory.template.map(&:js_attributes)
-      else
-        render :json => ReportCategory.template.map(&:js_attributes), :status => 400
-      end
-    else
-      render :json => ReportCategory.template.map(&:js_attributes)
-    end
-  end
-
-  def shift_down
-    first_category = ReportCategory.where({:project_id => nil}).where("position > ?", @category.position).order("position asc").first
-    if not first_category.nil?
-      position = first_category.position
-      first_category.update_attribute(:position, @category.position)
-      if @category.update_attribute(:position, position)
-        render :json => ReportCategory.template.map(&:js_attributes)
-      else
-        render :json => ReportCategory.template.map(&:js_attributes), :status => 400
-      end
-    else
-      render :json => ReportCategory.template.map(&:js_attributes)
     end
   end
 

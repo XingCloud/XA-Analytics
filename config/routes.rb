@@ -7,6 +7,8 @@ Analytic::Application.routes.draw do
 
     member do
       post :event_item
+      post :chart
+      post :dimensions
     end
 
     resources :metrics
@@ -15,19 +17,9 @@ Analytic::Application.routes.draw do
         get :set_category
         get :clone
       end
-      resources :report_tabs do
-        member do
-          post :data
-          post :dimensions
-        end
-      end
+      resources :report_tabs
     end
-    resources :report_categories do
-      member do
-        get :shift_up
-        get :shift_down
-      end
-    end
+    resources :report_categories
     resources :segments
     #resources :widgets
   end
@@ -39,12 +31,7 @@ Analytic::Application.routes.draw do
       end
       resources :report_tabs
     end
-    resources :report_categories do
-      member do
-        get :shift_up
-        get :shift_down
-      end
-    end
+    resources :report_categories
     resources :metrics
     resources :projects
     resources :segments
