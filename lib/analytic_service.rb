@@ -42,7 +42,12 @@ class AnalyticService
 
   def self.user_attributes(project)
     options = {:project_id => filter_project_id(project)}
-    commit("/dd/up", options)
+    resp = commit("/dd/up", options)
+    if resp["result"]
+      resp["data"]
+    else
+      []
+    end
   end
 
   private
