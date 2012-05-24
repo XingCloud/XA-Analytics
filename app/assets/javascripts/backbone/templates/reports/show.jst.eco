@@ -1,5 +1,5 @@
-<div class="row-fluid report-header">
-    <div class="left report-title"><h3><%= @title %>&nbsp;&nbsp;</h3></div>
+<div class="row-fluid container-header">
+    <div class="left container-title"><h3><%= @title %></h3></div>
     <div class="left btn-group">
         <a class="btn segment-btn"><i class="icon-user" title="用户群"/></a>
         <% if @project_id?: %>
@@ -15,7 +15,7 @@
             <i class="icon-refresh" title="刷新"/>
         </a>
     </div>
-    <div class="left report-info">
+    <div class="left container-info">
         <span><i>报告时区为UTC+0</i></span>
     </div>
     <div class="right report-tab-range-picker">
