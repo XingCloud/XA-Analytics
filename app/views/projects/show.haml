@@ -1,5 +1,5 @@
 :javascript
-  Analytics.Static.initUserAttributes(#{@user_attributes.to_json});
+  Analytics.Static.fetchUserAttributes("#{@project.id}");
 
   window.project = new Analytics.Models.Project(#{@project.js_attributes.to_json});
   window.projects_router = new Analytics.Routers.ProjectsRouter();

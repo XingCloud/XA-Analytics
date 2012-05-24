@@ -84,6 +84,16 @@ Analytics.Static.ReportTabRanges = [
   {name: "最近二个月", length: 56, interval: "week"}
 ]
 
+Analytics.Static.fetchUserAttributes = (project_id) ->
+  $.ajax({
+    url: "/projects/"+project_id+"/user_attributes"
+    dataType: "json"
+    type: "post"
+    data: {}
+    success: (resp) ->
+      Analytics.Static.initUserAttributes(resp)
+  })
+
 Analytics.Static.initUserAttributes = (user_attributes) ->
   if user_attributes? and user_attributes.length > 0
     Analytics.Static.UserAttributes = []

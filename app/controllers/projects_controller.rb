@@ -1,10 +1,9 @@
 class ProjectsController < ApplicationController
   before_filter :auth_project
-  before_filter :find_project, :only => [:show, :members, :event_item, :chart, :dimensions]
+  before_filter :find_project, :only => [:show, :members, :event_item, :chart, :dimensions, :user_attributes]
   before_filter :html_header, :only => [:dashboard]
 
   def show
-    @user_attributes = user_attributes(@project)
   end
 
   def event_item
@@ -23,18 +22,11 @@ class ProjectsController < ApplicationController
     render :json => {:id => params[:report_tab_id].to_i, :data => AnalyticService.request_dimensions(@project, params)}
   end
 
-  private
-
-  def user_attributes(project)
-    resp = AnalyticService.user_attributes(project)
-    if resp["result"]
-      resp["data"]
-    else
-      []
-    end
-  rescue
-    []
+  def user_attributes
+    render :json => AnalyticService.user_attributes(@project)
   end
+
+  private
 
   def html_header
     response.headers['Content-Type'] = 'text/html; charset=utf-8'

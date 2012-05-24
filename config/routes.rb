@@ -9,6 +9,7 @@ Analytic::Application.routes.draw do
       post :event_item
       post :chart
       post :dimensions
+      post :user_attributes
     end
 
     resources :metrics
