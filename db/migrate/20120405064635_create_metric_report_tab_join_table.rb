@@ -4,5 +4,7 @@ class CreateMetricReportTabJoinTable < ActiveRecord::Migration
       t.integer :report_tab_id
       t.integer :metric_id
     end
+    add_index :metrics_report_tabs, :report_tab_id
+    add_index :metrics_report_tabs, :metric_id
   end
 end
