@@ -1,7 +1,5 @@
 class MetricsController < ProjectBaseController
   before_filter :find_metric, :only => [:update]
-  before_filter :json_header
-
 
   def show
     render :json => @metric.js_attributes
@@ -29,9 +27,4 @@ class MetricsController < ProjectBaseController
   def find_metric
     @metric = @project.metrics.find(params[:id])
   end
-
-  def json_header
-    response.headers['Content-Type'] = 'application/json; charset=utf-8'
-  end
-
 end

@@ -1,6 +1,5 @@
 class Template::ReportCategoriesController < Template::BaseController
   before_filter :find_category, :only => [:edit, :update, :destroy, :shift_up, :shift_down]
-  before_filter :json_header
 
   def create
     @category = ReportCategory.new(params[:report_category])
@@ -35,9 +34,4 @@ class Template::ReportCategoriesController < Template::BaseController
   def find_category
     @category = ReportCategory.find(params[:id])
   end
-
-  def json_header
-    response.headers['Content-Type'] = 'application/json; charset=utf-8'
-  end
-
 end

@@ -1,7 +1,6 @@
 class ReportTabsController < ProjectBaseController
   before_filter :find_report_tab, :only => [:show, :update]
   before_filter :find_report_tab_with_template, :only => [:data, :dimensions]
-  before_filter :json_header
 
   def show
     render :json => @report_tab.js_attributes
@@ -34,9 +33,5 @@ class ReportTabsController < ProjectBaseController
       @report = Report.template.find(params[:report_id])
     end
     @report_tab = @report.report_tabs.find(params[:id])
-  end
-
-  def json_header
-    response.headers['Content-Type'] = 'application/json; charset=utf-8'
   end
 end

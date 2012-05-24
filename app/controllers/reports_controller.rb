@@ -1,7 +1,6 @@
 class ReportsController < ProjectBaseController
   before_filter :find_report_with_template, :only => [:show, :clone]
   before_filter :find_report, :only => [:edit, :update, :destroy, :set_category]
-  before_filter :json_header
 
   def create
     @report = @project.reports.build(params[:report])
@@ -57,9 +56,4 @@ class ReportsController < ProjectBaseController
       @report = Report.template.find(params[:id])
     end
   end
-
-  def json_header
-    response.headers['Content-Type'] = 'application/json; charset=utf-8'
-  end
-
 end

@@ -1,9 +1,6 @@
-require 'set'
-
 class Template::ReportsController < Template::BaseController
   before_filter :find_report, :only => [:edit, :update, :destroy, :set_category]
-  before_filter :json_header
-  
+
   def index
     render :json => Report.template.all.map(&:js_attributes)
   end
@@ -51,9 +48,4 @@ class Template::ReportsController < Template::BaseController
   def find_report
     @report = Report.find(params[:id])
   end
-
-  def json_header
-    response.headers['Content-Type'] = 'application/json; charset=utf-8'
-  end
-
 end

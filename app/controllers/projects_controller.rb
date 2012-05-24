@@ -1,7 +1,6 @@
 class ProjectsController < ApplicationController
   before_filter :auth_project
   before_filter :find_project, :only => [:show, :members, :event_item, :chart, :dimensions, :user_attributes]
-  before_filter :html_header, :only => [:dashboard]
 
   def show
   end
@@ -27,10 +26,6 @@ class ProjectsController < ApplicationController
   end
 
   private
-
-  def html_header
-    response.headers['Content-Type'] = 'text/html; charset=utf-8'
-  end
 
   def find_project
     @project = Project.fetch(params[:id])

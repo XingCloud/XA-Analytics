@@ -1,6 +1,5 @@
 class Template::MetricsController < Template::BaseController
   before_filter :find_metric, :only => [:show, :edit, :update]
-  before_filter :json_header
 
   def show
     render :json => @metric.js_attributes
@@ -31,9 +30,4 @@ class Template::MetricsController < Template::BaseController
   def find_metric
     @metric = Metric.find(params[:id])
   end
-
-  def json_header
-    response.headers['Content-Type'] = 'application/json; charset=utf-8'
-  end
-
 end

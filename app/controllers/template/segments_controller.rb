@@ -1,7 +1,5 @@
 class Template::SegmentsController < Template::BaseController
-
   before_filter :find_segment, :only => [:show, :update, :destroy]
-  before_filter :json_header
 
   def show
     render :json => @segment.js_attributes
@@ -38,9 +36,5 @@ class Template::SegmentsController < Template::BaseController
 
   def find_segment
     @segment = Segment.find(params[:id])
-  end
-
-  def json_header
-    response.headers['Content-Type'] = 'application/json; charset=utf-8'
   end
 end

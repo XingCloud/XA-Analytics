@@ -1,7 +1,5 @@
 class SegmentsController < ProjectBaseController
-
   before_filter :find_segment, :only => [:show, :update, :destroy]
-  before_filter :json_header
 
   def show
     render :json => @segment.js_attributes
@@ -38,9 +36,4 @@ class SegmentsController < ProjectBaseController
   def find_segment
     @segment = @project.segments.find(params[:id])
   end
-
-  def json_header
-    response.headers['Content-Type'] = 'application/json; charset=utf-8'
-  end
-
 end
