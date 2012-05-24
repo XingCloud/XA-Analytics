@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120510063246) do
+ActiveRecord::Schema.define(:version => 20120524024822) do
 
   create_table "dimensions", :force => true do |t|
     t.integer "report_tab_id"
@@ -40,10 +40,10 @@ ActiveRecord::Schema.define(:version => 20120510063246) do
     t.string   "event_key"
     t.string   "condition"
     t.string   "combine_action"
-    t.string   "comparison_operator"
-    t.string   "comparison"
-    t.datetime "created_at",          :null => false
-    t.datetime "updated_at",          :null => false
+    t.datetime "created_at",           :null => false
+    t.datetime "updated_at",           :null => false
+    t.integer  "number_of_day_origin"
+    t.integer  "segment_id"
   end
 
   add_index "metrics", ["combine_id"], :name => "index_metrics_on_combine_id"
@@ -76,9 +76,9 @@ ActiveRecord::Schema.define(:version => 20120510063246) do
     t.string   "chart_type",  :default => "line"
     t.datetime "created_at",                      :null => false
     t.datetime "updated_at",                      :null => false
-    t.integer  "length",      :default => 7
-    t.string   "interval",    :default => "day"
-    t.integer  "compare",     :default => 0
+    t.integer  "length"
+    t.string   "interval"
+    t.integer  "compare"
   end
 
   add_index "report_tabs", ["report_id"], :name => "index_report_tabs_on_report_id"
@@ -122,5 +122,28 @@ ActiveRecord::Schema.define(:version => 20120510063246) do
   end
 
   add_index "versions", ["item_type", "item_id"], :name => "index_versions_on_item_type_and_item_id"
+
+  create_table "widget_connectors", :force => true do |t|
+    t.integer "widget_id"
+    t.integer "project_id"
+    t.integer "display",    :default => 1
+    t.integer "position",   :default => 0
+  end
+
+  add_index "widget_connectors", ["project_id"], :name => "index_widget_connectors_on_project_id"
+  add_index "widget_connectors", ["widget_id"], :name => "index_widget_connectors_on_widget_id"
+
+  create_table "widgets", :force => true do |t|
+    t.integer  "project_id"
+    t.integer  "metric_id"
+    t.integer  "report_tab_id"
+    t.integer  "length",        :default => 7
+    t.string   "title"
+    t.string   "widget_type"
+    t.string   "dimension"
+    t.string   "interval",      :default => "day"
+    t.datetime "created_at",                       :null => false
+    t.datetime "updated_at",                       :null => false
+  end
 
 end

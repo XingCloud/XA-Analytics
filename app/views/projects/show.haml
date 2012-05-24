@@ -30,5 +30,7 @@
 
   window.report_tabs_router = new Analytics.Routers.ReportTabsRouter({project: project});
 
+  window.widgets_router = new Analytics.Routers.WidgetsRouter({project: project})
+
   new Analytics.Views.Projects.ShowView({model: project}).render();
   Backbone.history.start();

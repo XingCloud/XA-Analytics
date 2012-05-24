@@ -5,7 +5,7 @@
     </div>
 </li>
 <li>
-    <div class="metric-list">
+    <div class="metric-list" style="height: <%= @height %>px;">
         <% if metrics_router.templates?: %>
             <% for metric in metrics_router.templates.models: %>
                 <div class="metric" value="<%= metric.id %>" name="<%= metric.get('name') %>">
@@ -20,10 +20,12 @@
         <% end %>
     </div>
 </li>
-<li class="divider"></li>
-<li>
-    <a class="metric-new">
-        <i class="icon icon-plus"/>
-        新建指标
-    </a>
-</li>
+<% if not @disable_add_metric: %>
+    <li class="divider"></li>
+    <li>
+        <a class="metric-new">
+            <i class="icon icon-plus"/>
+            新建指标
+        </a>
+    </li>
+<% end %>

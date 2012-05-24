@@ -44,16 +44,20 @@ class Analytics.Views.Metrics.FormView extends Backbone.View
       update = @model.id?
       is_clone = @clone?
       el = @el
-      @model.save(form, {wait: true, success: (model, resp) ->
-        $(el).modal('hide')
-        if not update
-          model.collection.add(model)
-          if is_clone
-            model.list_item_view.render()
+      @model.save(form, {
+        wait: true,
+        success: (model, resp) ->
+          $(el).modal('hide')
+          if not update
+            model.collection.add(model)
+            if is_clone
+              model.list_item_view.render()
+            else
+              model.list_view.render_metric(model.id)
           else
-            model.list_view.render_metric(model.id)
-        else
-          model.list_item_view.render()
+            model.list_item_view.render()
+        error: (xhr, options, error) ->
+          $(el).modal('hide')
       })
 
   cancel : () ->

@@ -3,11 +3,11 @@ class Project < ActiveRecord::Base
   has_many :reports, :dependent => :destroy
   has_many :report_tabs, :dependent => :destroy
   has_many :metrics, :dependent => :destroy
-  has_many :segments,:dependent => :destroy
-  
+  has_many :segments, :dependent => :destroy
+  has_many :widget_connectors, :dependent => :destroy
+  has_many :widgets, :through => :widget_connectors
+
   validate :identifier, :presence => true, :uniqueness => true
-
-
 
   def self.fetch(identifier)
     project = Project.find_by_identifier(identifier) || Project.find_by_id(identifier) || Project.find_remote(identifier)

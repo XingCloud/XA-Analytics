@@ -1,0 +1,23 @@
+.widget-form{
+  .modal-body{
+    min-height: 250px;
+  }
+  .widget-types{
+    .widget-type{
+      padding: 0 !important;
+      margin-bottom: 20px;
+      width: 33%;
+      height: 56px;
+      label{
+        font-size: 14px;
+        font-weight: bold;
+        text-shadow: white 0 1px;
+        cursor: pointer;
+        margin-top: 2px;
+      }
+      img{
+        margin-top: 4px;
+      }
+    }
+  }
+}

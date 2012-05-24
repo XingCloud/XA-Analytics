@@ -16,6 +16,10 @@
             %a{:href => "#/segments"}
               %i.icon-user
               通用用户群管理
+          %li
+            %a{:href => "#/dashboard"}
+              %i.icon-user
+              通用数据面板管理
     .span10
       #main-container
         %h3 项目列表
@@ -49,5 +53,7 @@
   });
 
   window.report_tabs_router = new Analytics.Routers.ReportTabsRouter({});
+
+  window.widgets_router = new Analytics.Routers.WidgetsRouter({});
 
   Backbone.history.start();

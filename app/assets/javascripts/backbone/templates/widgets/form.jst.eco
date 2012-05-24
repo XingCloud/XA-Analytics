@@ -1,0 +1,101 @@
+<div class="modal-header">
+    <b class="close" data-dismiss="modal">×</b>
+    <% if @id?: %>
+        <h3>编辑小窗口</h3>
+    <% else: %>
+        <h3>新建小窗口</h3>
+    <% end %>
+</div>
+<div class="modal-body">
+    <div class="btn-group widget-types">
+        <div class="btn widget-type <%= if @widget_type == 'kpi' then 'active' %>" value="kpi">
+            <img src="/assets/widgets/kpi.png"/>
+            <label>指标</label>
+        </div>
+        <div class="btn widget-type <%= if @widget_type == 'time' then 'active' %>" value="time">
+            <img src="/assets/widgets/time.png"/>
+            <label>时间线</label>
+        </div>
+        <div class="btn widget-type <%= if @widget_type == 'table' then 'active' %>" value="table">
+            <img src="/assets/widgets/table.png"/>
+            <label>细分</label>
+        </div>
+    </div>
+    <form class="form-horizontal">
+        <fieldset>
+            <div class="widget-metric">
+                <%- JST["backbone/templates/widgets/form-metric"](@) %>
+            </div>
+            <div class="control-group widget-dimension" style="display: <%= (if @widget_type == 'table' then 'block' else 'none') %>;" >
+                <label class="control-label">
+                    <abbr title="必填">*</abbr>
+                    细分项
+                </label>
+                <div class="controls">
+                    <select name="dimension">
+                        <% for dimension in Analytics.Static.Dimensions: %>
+                            <option value="<%= dimension.value %>" <%= if @dimension == dimension.value then 'selected="selected"' %> >
+                                <%= dimension.name %>
+                            </option>
+                        <% end %>
+                    </select>
+                </div>
+            </div>
+            <div class="control-group widget-interval" style="display: <%= (if @widget_type == 'time' then 'block' else 'none') %>;" >
+                <label class="control-label">
+                    <abbr title="必填">*</abbr>
+                    频率
+                </label>
+                <div class="controls">
+                    <select name="interval">
+                        <% for interval in Analytics.Static.ReportTabIntervals: %>
+                            <option value="<%= interval.value %>" <%= if @interval == interval.value then 'selected="selected"' %> ><%= interval.name %></option>
+                        <% end %>
+                    </select>
+                </div>
+            </div>
+            <div class="control-group should-check">
+                <label class="control-label">
+                    <abbr title="必填">*</abbr>
+                    时长(天)
+                </label>
+                <div class="controls">
+                    <input class="input-mini should-check-empty should-check-natural-number" type="text" name="length" value="<%= @length %>"/>
+                </div>
+            </div>
+            <div class="control-group should-check">
+                <label class="control-label">
+                    <abbr title="必填">*</abbr>
+                    标题
+                </label>
+                <div class="controls">
+                    <input class="widget_type" type="hidden" name="widget_type" value="<%= @widget_type %>"/>
+                    <input class="title should-check-empty " type="text" name="title" value="<%= @title %>" />
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label">指向报告标签</label>
+                <div class="controls">
+                    <select class="report-tab" name="report_tab_id">
+                        <option value=""></option>
+                        <% if reports_router.templates?: %>
+                            <% for report_tab in reports_router.templates.report_tabs(): %>
+                                <option value="<%= report_tab.id %>"><%= report_tab.title %></option>
+                            <% end %>
+                        <% end %>
+                        <% for report_tab in reports_router.reports.report_tabs(): %>
+                            <option value="<%= report_tab.id %>"><%= report_tab.title %></option>
+                        <% end %>
+                    </select>
+                </div>
+            </div>
+        </fieldset>
+    </form>
+</div>
+<div class="modal-footer">
+    <% if @id?: %>
+        <a class="right btn btn-danger widget-remove">删除</a>
+    <% end %>
+    <a class="left btn btn-primary widget-submit">提交</a>
+    <a class="left btn widget-cancel">取消</a>
+</div>

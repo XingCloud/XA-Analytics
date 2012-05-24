@@ -1,4 +1,4 @@
-<div class="metric-picker" style="mouseover: cursor;">
+<div class="metric-picker">
     <div class="metric-display">
         <%= @name %>
     </div>

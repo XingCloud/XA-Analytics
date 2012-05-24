@@ -6,7 +6,7 @@ class Analytics.Models.Metric extends Backbone.Model
       "/template/metrics"
 
   toJSON: () ->
-    json = {
+    {
       metric: @attributes
     }
 

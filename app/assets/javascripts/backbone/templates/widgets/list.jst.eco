@@ -1,0 +1,22 @@
+<h3>数据面板管理</h3>
+<hr/>
+<p>
+    <a class="btn add-widget">添加小窗口</a>
+</p>
+
+<table class="table">
+    <tr>
+        <th width="50%">名称</th>
+        <th width="30%">创建时间</th>
+        <th width="15%"></th>
+    </tr>
+    <% for widget in @models: %>
+    <tr>
+        <td><%= widget.get('title') %></td>
+        <td><%= widget.get('created_at') %></td>
+        <td>
+            <a class="btn btn-mini left edit-widget" value="<%= widget.id %>"><i class="icon-edit"/></a>
+        </td>
+    </tr>
+    <% end %>
+</table>

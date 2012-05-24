@@ -39,3 +39,18 @@ class Analytics.Collections.Reports extends Backbone.Collection
     )
     options
 
+  report_tabs: () ->
+    report_tabs = []
+    @each((report) ->
+      category = ""
+      if report.get("report_category_id")?
+        if report.get("project_id")? or not report_categories_router.templates?
+          category = report_categories_router.categories.get(report.get("report_category_id")).get("name")+"/"
+        else
+          category = report_categories_router.templates.get(report.get("report_category_id")).get("name")+"/"
+      for report_tab in report.report_tabs
+        title = category + report.get("title") + "/" + report_tab.get("title")
+        report_tabs.push({title: title, id: report_tab.id})
+    )
+    report_tabs
+

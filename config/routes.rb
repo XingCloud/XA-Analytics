@@ -22,7 +22,7 @@ Analytic::Application.routes.draw do
     end
     resources :report_categories
     resources :segments
-    #resources :widgets
+    resources :widgets
   end
 
   namespace :template do
@@ -36,6 +36,6 @@ Analytic::Application.routes.draw do
     resources :metrics
     resources :projects
     resources :segments
-    #resources :widgets
+    resources :widgets
   end
 end
