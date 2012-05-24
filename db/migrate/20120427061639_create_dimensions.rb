@@ -4,6 +4,7 @@ class CreateDimensions < ActiveRecord::Migration
       t.integer :report_tab_id
       t.string :name
       t.string :value
+      t.string :value_tupe, :default => 'String'
       t.string :dimension_type
       t.integer :level
     end

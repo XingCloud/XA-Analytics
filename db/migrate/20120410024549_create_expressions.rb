@@ -4,6 +4,7 @@ class CreateExpressions < ActiveRecord::Migration
       t.string :name
       t.string :operator
       t.string :value
+      t.string :value_type, :default => 'String'
       t.integer :segment_id
 
       t.timestamps
