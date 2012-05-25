@@ -7,10 +7,10 @@ class Analytics.Models.ReportTab extends Backbone.Model
     metric_ids: []
 
   initialize: (options) ->
-    now = Analytics.Utils.UTCDate(new Date().getTime())
-    compare = Analytics.Utils.UTCDate(new Date().getTime() - @get("length")*86400000)
-    @end_time = new Date(now.getFullYear(), now.getMonth(), now.getDate()).getTime()
-    @compare_end_time = new Date(compare.getFullYear(), compare.getMonth(), compare.getDate()).getTime()
+    now = new Date().getTime()
+    compare = new Date().getTime() - @get("length")*86400000
+    @end_time = now - now % 86400000
+    @compare_end_time = compare - compare % 86400000
     @dimensions_filters = []
 
   urlRoot: () ->

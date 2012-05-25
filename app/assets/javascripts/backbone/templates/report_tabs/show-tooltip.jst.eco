@@ -7,21 +7,21 @@
         <% end %>
         <th colspan="<%= if compare_points.length > 0 then 1 else 2 %>">
             <% if points[0].series.sequence.interval == "min5" or points[0].series.sequence.interval == "hour": %>
-                <%= $.format.date(Analytics.Utils.UTCDate(@x), "yyyy/MM/dd HH:mm") %>
+                <%= Analytics.Utils.formatUTCDate(@x, "yyyy/MM/dd HH:mm") %>
             <% else if points[0].series.sequence.interval == "month": %>
-                <%= $.format.date(Analytics.Utils.UTCDate(@x), "yyyy/MM") %>
+                <%= Analytics.Utils.formatUTCDate(@x, "yyyy/MM") %>
             <% else: %>
-                <%= $.format.date(Analytics.Utils.UTCDate(@x), "yyyy/MM/dd") %>
+                <%= Analytics.Utils.formatUTCDate(@x) %>
             <% end %>
         </th>
         <% if compare_points.length > 0: %>
             <th>
                 <% if compare_points[0].series.sequence.interval == "min5" or compare_points[0].series.sequence.interval == "hour": %>
-                    <%= $.format.date(Analytics.Utils.UTCDate(@x - compare_points[0].series.sequence.offset), "yyyy/MM/dd HH:mm") %>
+                    <%= Analytics.Utils.formatUTCDate(@x - compare_points[0].series.sequence.offset, "yyyy/MM/dd HH:mm") %>
                 <% else if compare_points[0].series.sequence.interval == "month": %>
-                    <%= $.format.date(Analytics.Utils.UTCDate(@x - compare_points[0].series.sequence.offset), "yyyy/MM") %>
+                    <%= Analytics.Utils.formatUTCDate(@x - compare_points[0].series.sequence.offset, "yyyy/MM") %>
                 <% else: %>
-                    <%= $.format.date(Analytics.Utils.UTCDate(@x - compare_points[0].series.sequence.offset), "yyyy/MM/dd") %>
+                    <%= Analytics.Utils.formatUTCDate(@x - compare_points[0].series.sequence.offset) %>
                 <% end %>
             </th>
             <th></th>

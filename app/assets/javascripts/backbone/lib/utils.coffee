@@ -3,8 +3,12 @@ Analytics.Utils.parseUTCDate = (date_str, offset) ->
   date = new Date(Date.parse(date_str.replace(/-/g, '/'))+offset)
   Date.UTC(date.getFullYear(), date.getMonth(), date.getDate(), date.getHours(), date.getMinutes())
 
-Analytics.Utils.UTCDate = (timestamp) ->
-  date = new Date(timestamp + new Date().getTimezoneOffset()*60000)
+Analytics.Utils.formatUTCDate = (timestamp, format) ->
+  timezone_offset = new Date().getTimezoneOffset()*60000
+  $.format.date(timestamp+timezone_offset, (if format? then format else "yyyy/MM/dd"))
+
+Analytics.Utils.pickUTCDate = (timestamp) ->
+  timestamp - new Date().getTimezoneOffset()*60000
 
 Analytics.Utils.countMonth = (end, start) ->
   start_date = new Date(start)

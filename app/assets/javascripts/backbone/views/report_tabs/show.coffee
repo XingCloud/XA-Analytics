@@ -135,7 +135,7 @@ class Analytics.Views.ReportTabs.ShowRangePickerView extends Backbone.View
     el = @el
     $(el).find('.custom-datepicker').datepicker({format: 'yyyy/mm/dd'}).on('changeDate', (ev) ->
       $(el).find('.custom-datepicker').datepicker('hide')
-      $(el).find('.end-time').val(ev.date.valueOf())
+      $(el).find('.end-time').val(Analytics.Utils.pickUTCDate(ev.date.valueOf()))
     )
 
   render_compare_datepicker: () ->
@@ -143,8 +143,9 @@ class Analytics.Views.ReportTabs.ShowRangePickerView extends Backbone.View
     model = @model
     $(@el).find('.compare-datepicker').datepicker({format: 'yyyy/mm/dd'}).on('changeDate', (ev) ->
       $(el).find('.compare-datepicker').datepicker('hide')
-      if model.compare_end_time != ev.date.valueOf()
-        model.compare_end_time = ev.date.valueOf()
+      compare_end_time = Analytics.Utils.pickUTCDate(ev.date.valueOf())
+      if model.compare_end_time != compare_end_time
+        model.compare_end_time = compare_end_time
         if model.get("compare") == 0 and model.get("project_id")?
           model.save({compare: 1},{wait: true})
         else if model.get("compare") == 0

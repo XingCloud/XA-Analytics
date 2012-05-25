@@ -17,7 +17,7 @@
             <% end %>
         </select>
         <% if @value_type == 'Date' and @operator != 'handler': %>
-            <input class="datepicker" type="text" name="expressions_attributes[<%= @index %>][value]" value="<%= if @value? then @value else $.format.date(Analytics.Utils.UTCDate(new Date().getTime()), 'yyyy-MM-dd') %>"/>
+            <input class="datepicker" type="text" name="expressions_attributes[<%= @index %>][value]" value="<%= if @value? then @value else Analytics.Utils.formatUTCDate(new Date().getTime(), 'yyyy-MM-dd') %>"/>
         <% else if @operator != 'handler': %>
             <input type="text" name="expressions_attributes[<%= @index %>][value]" value="<%= @value %>"/>
         <% end %>

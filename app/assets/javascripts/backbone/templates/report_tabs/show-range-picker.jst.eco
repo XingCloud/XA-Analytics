@@ -8,14 +8,14 @@
                 </td>
                 <td>
                     <div class="<%= if @compare != 0 then 'compare-info' %>">
-                        <%= $.format.date(@end_time, 'yyyy/MM/dd') %>
+                        <%= Analytics.Utils.formatUTCDate(@end_time) %>
                     </div>
                     <% if @compare != 0: %>
                         <div class="<%= if @compare != 0 then 'compare-info' %>">
                             <strong>vs</strong>
                         </div>
                         <div class="<%= if @compare != 0 then 'compare-info' %>">
-                            <%= $.format.date(@compare_end_time, 'yyyy/MM/dd') %>
+                            <%= Analytics.Utils.formatUTCDate(@compare_end_time) %>
                         </div>
                     <% end %>
                 </td>
@@ -35,7 +35,7 @@
 
     </div>
 
-    <ul class="dropdown-menu range-control-dropdown-menu">
+    <ul class="dropdown-menu">
         <% for range in Analytics.Static.ReportTabRanges: %>
             <li>
                 <a class="default-range" length="<%= range.length %>" interval="<%= range.interval %>" style="cursor: pointer;">
@@ -50,8 +50,8 @@
         <li class="range-datepicker">
             <input type="checkbox" class="compare-checkbox" id="report_tab_compare_<%= @id %>" <%= if @compare != 0 then 'checked="checked"' %> />
             <label for="report_tab_compare_<%= @id %>">对比截止到</label>
-            <span class="range compare-datepicker" data-date-format="yyyy/mm/dd" data-date="<%= $.format.date(@compare_end_time, 'yyyy/MM/dd') %>">
-                <%= $.format.date(@compare_end_time, 'yyyy/MM/dd') %>
+            <span class="range compare-datepicker" data-date="<%= Analytics.Utils.formatUTCDate(@compare_end_time) %>" data-date-format="yyyy/mm/dd">
+                <%= Analytics.Utils.formatUTCDate(@compare_end_time) %>
                 <span>&#9660;</span>
             </span>
         </li>
