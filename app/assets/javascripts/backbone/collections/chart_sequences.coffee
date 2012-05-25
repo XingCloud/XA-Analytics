@@ -91,17 +91,8 @@ class Analytics.Collections.ChartSequences extends Backbone.Collection
        item.get("for_compare"))
     )
 
-  props: (prop) ->
-    propset = {}
-    @each((sequence) ->
-      if not propset.hasOwnProperty(sequence.get(prop))
-        propset[sequence.get(prop)] = true
-    )
-    for key of propset
-      parseInt(key)
-
   legend: () ->
-    metric_ids = @props("metric_id")
+    metric_ids = @report_tab.get("metric_ids")
     legend = {
       segments: []
       metrics: (metrics_router.get(id).get("name") for id in metric_ids)
@@ -109,7 +100,7 @@ class Analytics.Collections.ChartSequences extends Backbone.Collection
       all_segment: @all_segment
       display_metric: @display_metric
     }
-    for segment_id in @props("segment_id")
+    for segment_id in @segment_ids()
       legend.segments.push(@legend_segment(segment_id, metric_ids))
     legend
 
