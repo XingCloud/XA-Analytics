@@ -55,7 +55,7 @@ class Analytics.Models.DimensionsSequence extends Backbone.Model
       index: @get("index")
       pagesize: @get("pagesize")
       order: @get("order")
-      report_tab_id: @report_tab.id
+      id: @report_tab.id
     }
     if @get("orderby")?
       options["orderby"] = @get("orderby")

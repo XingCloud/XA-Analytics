@@ -14,11 +14,11 @@ class ProjectsController < ApplicationController
   end
 
   def chart
-    render :json => {:id => params[:report_tab_id].to_i, :data => AnalyticService.request_data(@project, params)}
+    render :json => {:id => params[:id].to_i, :data => AnalyticService.request_data(@project, params)}
   end
 
   def dimensions
-    render :json => {:id => params[:report_tab_id].to_i, :data => AnalyticService.request_dimensions(@project, params)}
+    render :json => {:id => params[:id].to_i, :data => AnalyticService.request_dimensions(@project, params)}
   end
 
   def user_attributes
