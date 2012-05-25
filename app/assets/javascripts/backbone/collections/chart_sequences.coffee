@@ -95,7 +95,7 @@ class Analytics.Collections.ChartSequences extends Backbone.Collection
     metric_ids = @report_tab.get("metric_ids")
     legend = {
       segments: []
-      metrics: (metrics_router.get(id).get("name") for id in metric_ids)
+      metrics: (metrics_router.get(id) for id in metric_ids)
       has_compare: @has_compare
       all_segment: @all_segment
       display_metric: @display_metric

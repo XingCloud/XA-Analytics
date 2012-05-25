@@ -5,6 +5,8 @@ class Analytics.Views.ReportTabs.ShowView extends Backbone.View
   events:
     "click .choose-dimension" : "choose_dimension"
     "click .legend-info-container" : "click_legend_info"
+    "click .metric-name" : "click_metric_name"
+    "click .segment-name" : "click_segment_name"
 
   initialize: () ->
     _.bindAll this, "render", "redraw"
@@ -70,17 +72,30 @@ class Analytics.Views.ReportTabs.ShowView extends Backbone.View
       if @fetch_request_count == 0
         $.unblockUI()
 
+  click_metric_name: (ev) ->
+    metric_id = $(ev.currentTarget).attr("value")
+    for element in $(@el).find(".legend-info-container[metric-id='"+metric_id+"']")
+      @toggle_sequence(element)
+
+  click_segment_name: (ev) ->
+    segment_id = $(ev.currentTarget).attr("value")
+    for element in $(@el).find(".legend-info-container[segment-id='"+segment_id+"']")
+      @toggle_sequence(element)
+
   click_legend_info: (ev) ->
-    if($(ev.currentTarget).hasClass('deactive'))
-      @chart_sequences.chart.get($(ev.currentTarget).attr('sequence-id')).show()
+    @toggle_sequence(ev.currentTarget)
+
+  toggle_sequence: (element) ->
+    if($(element).hasClass('deactive'))
+      @chart_sequences.chart.get($(element).attr('sequence-id')).show()
       if @model.get("compare") != 0
-        @chart_sequences.chart.get($(ev.currentTarget).attr('compare-sequence-id')).show()
-      $(ev.currentTarget).removeClass('deactive')
+        @chart_sequences.chart.get($(element).attr('compare-sequence-id')).show()
+      $(element).removeClass('deactive')
     else
-      @chart_sequences.chart.get($(ev.currentTarget).attr('sequence-id')).hide()
+      @chart_sequences.chart.get($(element).attr('sequence-id')).hide()
       if @model.get("compare") != 0
-        @chart_sequences.chart.get($(ev.currentTarget).attr('compare-sequence-id')).hide()
-      $(ev.currentTarget).addClass('deactive')
+        @chart_sequences.chart.get($(element).attr('compare-sequence-id')).hide()
+      $(element).addClass('deactive')
 
   resize_chart: (expand, size) ->
     if expand
