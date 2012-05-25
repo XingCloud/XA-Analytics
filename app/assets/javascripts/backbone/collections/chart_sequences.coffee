@@ -6,9 +6,11 @@ class Analytics.Collections.ChartSequences extends Backbone.Collection
 
   init: () ->
     @reset_sequences()
+    metric_ids = @report_tab.get("metric_ids")
+    @display_metric = (if metric_ids.length > 0 then metric_ids[0])
     index = 0
     for segment_id in @segment_ids()
-      for metric_id in @report_tab.get("metric_ids")
+      for metric_id in metric_ids
         @add_sequence(metric_id, segment_id, index, false)
         if @has_compare
           @add_sequence(metric_id, segment_id, index, true)
@@ -105,6 +107,7 @@ class Analytics.Collections.ChartSequences extends Backbone.Collection
       metrics: (metrics_router.get(id).get("name") for id in metric_ids)
       has_compare: @has_compare
       all_segment: @all_segment
+      display_metric: @display_metric
     }
     for segment_id in @props("segment_id")
       legend.segments.push(@legend_segment(segment_id, metric_ids))
@@ -203,6 +206,8 @@ class Analytics.Collections.ChartSequences extends Backbone.Collection
     else
       options.xAxis.labels.formatter = () -> Highcharts.dateFormat('%b %d', this.value)
 
+    display_metric = @display_metric
+
     @each((sequence) ->
       chart_sequence = sequence.chart()
       options.series.push({
@@ -210,6 +215,7 @@ class Analytics.Collections.ChartSequences extends Backbone.Collection
         data: sequence.chart_data()
         color: "#"+chart_sequence.color
         id: chart_sequence.id
+        visible: (chart_sequence.metric_id == display_metric)
       })
     )
 

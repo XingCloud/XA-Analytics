@@ -21,7 +21,7 @@
                     <% index = 0 %>
                     <% for metric in segment.metrics: %>
                         <td class="<%= if index+1 == segment.metrics.length then 'last' %>">
-                            <div class="legend-info-container" sequence-id="<%= metric.id %>" compare-sequence-id="<%= metric.compare_id %>">
+                            <div class="legend-info-container <%= if metric.metric_id != @display_metric then 'deactive' %>" sequence-id="<%= metric.id %>" compare-sequence-id="<%= metric.compare_id %>">
                                 <% if metric.compare: %>
                                     <% if metric.value == metric.compare_value: %>
                                         <p class="value">

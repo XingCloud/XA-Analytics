@@ -36,6 +36,8 @@ class Analytics.Models.ChartSequence extends Backbone.Model
       compare_total: (if compare? then compare.get("total") else 0)
       color: Analytics.Utils.getColor(@get("index"), false)
       compare_color: Analytics.Utils.getColor(@get("index"), true)
+      metric_id: @get("metric_id")
+      segment_id: @get("segment_id")
     }
 
   chart: () ->
