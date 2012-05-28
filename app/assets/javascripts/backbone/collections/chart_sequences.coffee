@@ -40,7 +40,10 @@ class Analytics.Collections.ChartSequences extends Backbone.Collection
       sequence.set({filters: filters}, {silent: true})
       options.push(sequence.options())
     )
-    {params: JSON.stringify(options), id: @report_tab.id}
+    {
+     request: {params: JSON.stringify(options)},
+     request_id: @report_tab.id
+    }
 
   fetch_url: () ->
     "/projects/"+project.id+"/chart"

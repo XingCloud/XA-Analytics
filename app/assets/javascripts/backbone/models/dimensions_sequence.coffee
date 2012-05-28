@@ -51,11 +51,13 @@ class Analytics.Models.DimensionsSequence extends Backbone.Model
 
   fetch_params: () ->
     options = {
-      params: @options()
-      index: @get("index")
-      pagesize: @get("pagesize")
-      order: @get("order")
-      id: @report_tab.id
+      request: {
+        params: @options()
+        index: @get("index")
+        pagesize: @get("pagesize")
+        order: @get("order")
+      }
+      request_id: @report_tab.id
     }
     if @get("orderby")?
       options["orderby"] = @get("orderby")
