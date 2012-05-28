@@ -11,6 +11,7 @@
  *= require_self
  *= require bootstrap_and_overrides
  *= require datepicker
+ *= require common
  *= require projects
  *= require segments
  *= require reports
