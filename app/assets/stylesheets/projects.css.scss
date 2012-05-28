@@ -2,13 +2,6 @@ body {
   padding-top: 56px; /* 60px to make the container go all the way to the bottom of the topbar */
 }
 
-.left{
-  float: left;
-}
-.right{
-  float: right;
-}
-
 .main{
   border-bottom: 1px solid #CCC;
   outline-style: none;
@@ -22,17 +15,6 @@ body {
   padding-left: 10px;
   border-top: 1px solid #CCC;
   border-bottom: 1px solid #CCC;
-}
-
-.container-header{
-  margin-bottom: 5px;
-  .container-info{
-    padding: 10px 0 0 10px;
-    min-height: 18px;
-  }
-  .container-title{
-    margin-right: 5px;
-  }
 }
 
 table.main-table{

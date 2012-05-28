@@ -1,0 +1,41 @@
+.left{
+  float: left;
+}
+.right{
+  float: right;
+}
+
+.container-header{
+  margin-bottom: 5px;
+  .container-info{
+    padding: 10px 0 0 10px;
+    min-height: 18px;
+  }
+  .container-title{
+    margin-right: 5px;
+  }
+}
+
+.range-control{
+  cursor: pointer;
+  border: 1px solid #CCC;
+  border-radius: 5px 5px 5px 5px;
+  padding: 0 !important;
+  table{
+    width: 100%;
+    td{
+      text-align: center;
+      padding: 0px 2px 0px 2px;
+    }
+    td.toggle{
+      background-color:#F7F7F7;
+      width: 25px;
+      span{
+        color:#B2B2B2;
+        text-align:center;
+        padding-top: 10px;
+        border-radius: 0 5px 5px 0;
+      }
+    }
+  }
+}
