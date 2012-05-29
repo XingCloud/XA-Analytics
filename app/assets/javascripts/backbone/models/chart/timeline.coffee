@@ -1,8 +1,5 @@
 class Analytics.Models.TimelineChart extends Backbone.Model
   initialize: (options) ->
-    @init_sequence()
-
-  init_sequence: () ->
     @set({sequence: {
       total: 0
       natural: 0

@@ -1,5 +1,4 @@
 <div class="row-fluid container-header">
-    <div class="left container-title"><h3><%= @title %></h3></div>
     <div class="left btn-group">
         <a class="btn segment-btn"><i class="icon-user" title="用户群"/></a>
         <% if @project_id?: %>

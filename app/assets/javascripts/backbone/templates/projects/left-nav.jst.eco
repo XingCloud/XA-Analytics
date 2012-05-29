@@ -1,3 +1,9 @@
+<div class="dashboard-toggle">
+    <div class="btn">
+        <i class="icon icon-home"></i>
+        数据面板
+    </div>
+</div>
 <div class="reports-controls">
     <a class="report-control btn btn-primary" href="#/reports/new">
         <i class="icon icon-white icon-plus"/>

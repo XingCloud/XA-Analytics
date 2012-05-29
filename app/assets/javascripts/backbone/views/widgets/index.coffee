@@ -4,6 +4,7 @@ class Analytics.Views.Widgets.IndexView extends Backbone.View
   template: JST['backbone/templates/widgets/index']
   events:
     "click .add-widget" : "new_widget"
+    "click .refresh-widgets" : "refresh_widgets"
 
   initialize: () ->
     _.bindAll this, "render", "redraw", "add_widget"
@@ -55,6 +56,11 @@ class Analytics.Views.Widgets.IndexView extends Backbone.View
       new Analytics.Views.Widgets.ShowView({model: widget, parent_el: widgets_column}).render()
     else
       widget.view.redraw({parent_el: widgets_column})
+
+  refresh_widgets: () ->
+    @collection.each((widget) ->
+      widget.view.fetch_chart()
+    )
 
 class Analytics.Views.Widgets.ListView extends Backbone.View
   template: JST['backbone/templates/widgets/list']

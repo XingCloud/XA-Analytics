@@ -3,7 +3,7 @@ Analytics.Views.ReportTabs ||= {}
 class Analytics.Views.ReportTabs.ShowView extends Backbone.View
   template: JST["backbone/templates/report_tabs/show"]
   events:
-    "click .choose-dimension" : "choose_dimension"
+    "click .select-filter" : "select_filter"
 
   initialize: () ->
     _.bindAll this, "render", "redraw"
@@ -13,12 +13,6 @@ class Analytics.Views.ReportTabs.ShowView extends Backbone.View
       selector: @model
       filters: @model.dimensions_filters
     })
-    @dimensions_sequence = new Analytics.Models.DimensionsSequence({
-      metrics: @model.metrics_attributes()
-      dimensions: @model.get("dimensions_attributes")
-      filters: @model.dimensions_filters
-    })
-    @dimensions_sequence.report_tab = @model
 
   render: () ->
     $(@el).html(@template(@model.show_attributes()))
@@ -69,51 +63,64 @@ class Analytics.Views.ReportTabs.ShowView extends Backbone.View
       @kpis_view.redraw({render_to: render_to})
 
   render_dimensions: () ->
-    @dimensions_sequence.init()
-    $(@el).find('#dimensions').html(new Analytics.Views.Dimensions.ShowView({
-      model: @dimensions_sequence
-      report_tab_view: this
-    }).render().el)
+    render_to = $(@el).find("#report_tab_" + @model.id + "_dimensions")[0]
+    if not @dimensions_view?
+      @dimensions_view = new Analytics.Views.Dimensions.ListView({
+        model: @model
+        render_to: render_to
+        parent_view: this
+      })
+      @dimensions_view.render(false)
+    else
+      @dimensions_view.redraw({render_to: render_to, should_fetch: false})
 
   fetch_data: () ->
     if @model.get("metric_ids").length > 0
+      request_count = (if @model.dimension? then 2 else 1)
       $.blockUI({message: $('#loader-message')})
       timelines_view = @timelines_view
       kpis_view = @kpis_view
+      dimensions_view = @dimensions_view
       @timelines.fetch_charts({
         success: (resp) ->
           timelines_view.redraw()
           kpis_view.redraw()
-          $.unblockUI()
+          request_count = request_count - 1
+          if request_count == 0
+            $.unblockUI()
         error: (xhr, options, err) ->
-          $.unblockUI()
+          request_count = request_count - 1
+          if request_count == 0
+            $.unblockUI()
+      })
+      @dimensions_view.dimensions.fetch_charts({
+        success: (resp) ->
+          dimensions_view.dimensions_chart_view.redraw()
+          request_count = request_count - 1
+          if request_count == 0
+            $.unblockUI()
+        error: (xhr, options, err) ->
+          request_count = request_count - 1
+          if request_count == 0
+            $.unblockUI()
       })
 
-  resize_chart: (expand, size) ->
-    if expand
-      @chart_sequences.chart.setSize($(@el).find('#chart').width())
-    else
-      @chart_sequences.chart.setSize(size)
-
-  choose_dimension: (ev) ->
+  select_filter: (ev) ->
     value = $(ev.currentTarget).attr("value")
     type = $(ev.currentTarget).attr("type")
     if type.toUpperCase() == 'ALL'
-      dimension = @model.get("dimensions_attributes")[0]
+      @model.dimension = @model.dimensions[0]
       @model.dimensions_filters.splice(0, @model.dimensions_filters.length)
     else
-      dimension = _.find(@model.get("dimensions_attributes"), (item) ->
+      @model.dimension = _.find(@model.dimensions, (item) ->
         item.value == value and item.dimension_type == type
       )
       dimension_filter = _.find(@model.dimensions_filters, (item) ->
         item.dimension.value == value and item.dimension.dimension_type == type
       )
       dimension_filter_index = @model.dimensions_filters.indexOf(dimension_filter)
-      @model.dimensions_filters.splice(dimension_filter_index, @model.dimensions_filters.length - dimension_filter_index)
-
-    @dimensions_sequence.set({dimension: dimension}, {silent: true})
+      @model.dimensions_filters.splice(dimension_filter_index + 1, @model.dimensions_filters.length - dimension_filter_index - 1)
     @redraw()
-
 
 class Analytics.Views.ReportTabs.ShowRangePickerView extends Backbone.View
   template: JST['backbone/templates/report_tabs/show-range-picker']

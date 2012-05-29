@@ -52,14 +52,21 @@ class Analytics.Collections.TimelineCharts extends Backbone.Collection
   fetch_url: () ->
     "/projects/" + project.id + "/timelines"
 
-  fetch_charts: (options) ->
+  fetch_charts: (options = {}) ->
     collection = this
-    fetch_success = (resp) ->
-      for sequence in resp["data"]
-        chart = collection.get(sequence.id)
-        _.extend(chart.get("sequence"), sequence)
-      options.success(resp)
-    Analytics.Request.post(@fetch_url(), @fetch_params(), fetch_success, options.error, true)
+    success = (resp) ->
+      collection.fetch_success(resp)
+      if options.success?
+        options.success(resp)
+    error = (xhr, opts, err) ->
+      if options.error?
+        options.error(xhr, opts, err)
+    Analytics.Request.post(@fetch_url(), @fetch_params(), success, error, true)
+
+  fetch_success: (resp) ->
+    for sequence in resp["data"]
+      chart = @get(sequence.id)
+      _.extend(chart.get("sequence"), sequence)
 
   charts_options: (render_to) ->
     interval_count = Analytics.Utils.intervalCount(@selector.get_end_time(), @selector.get("interval"), @selector.get("length"))

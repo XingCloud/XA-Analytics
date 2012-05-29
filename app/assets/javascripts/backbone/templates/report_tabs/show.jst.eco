@@ -6,7 +6,7 @@
                 <tbody>
                     <tr>
                         <td>
-                            <a class="choose-dimension" type="ALL">所有</a>
+                            <a class="select-filter" type="ALL">所有</a>
                         </td>
                         <td>&#187;</td>
                         <% for filter in @dimensions_filters: %>
@@ -14,7 +14,7 @@
                                 <td><%= filter.dimension.name %>:&nbsp;<%= filter.value %></td>
                             <% else: %>
                                 <td>
-                                    <a class="choose-dimension" value="<%= filter.dimension.value %>" type="<%= filter.dimension.dimension_type %>">
+                                    <a class="select-filter" value="<%= filter.dimension.value %>" type="<%= filter.dimension.dimension_type %>">
                                         <%= filter.dimension.name %>:
                                     </a>
                                     <%= filter.value %>
@@ -32,5 +32,5 @@
 </div>
 <div class="kpis" id="report_tab_<%= @id %>_kpis">
 </div>
-<div id="dimensions">
+<div class="dimensions" id="report_tab_<%= @id %>_dimensions">
 </div>

@@ -12,6 +12,8 @@ class Analytics.Models.ReportTab extends Backbone.Model
     @end_time = now - now % 86400000
     @compare_end_time = compare - compare % 86400000
     @dimensions_filters = []
+    @dimensions = _.clone(@get("dimensions_attributes"))
+    @dimension = (if @dimensions? and @dimensions.length > 0 then @dimensions[0])
 
   urlRoot: () ->
     if @get('project_id')?
@@ -29,14 +31,19 @@ class Analytics.Models.ReportTab extends Backbone.Model
     metrics
 
   show_attributes: () ->
-    attributes = _.clone(@attributes)
-    attributes.end_time = @end_time
-    attributes.compare_end_time = @compare_end_time
-    attributes.dimensions_filters = @dimensions_filters
-    attributes
+    _.extend({
+      end_time: @end_time
+      compare_end_time: @compare_end_time
+      dimensions_filters: @dimensions_filters
+      dimensions: @dimensions
+      dimension: @dimension
+    }, @attributes)
 
   get_end_time: () ->
     @end_time
 
   get_compare_end_time: () ->
     @compare_end_time
+
+  get_dimension: () ->
+    @dimension

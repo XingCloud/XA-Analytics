@@ -6,6 +6,7 @@ class Analytics.Views.Projects.ShowView extends Backbone.View
 
   events:
     "click td.nav-toggle" : "toggle_left_nav"
+    "click .dashboard-toggle .btn" : "toggle_dashboard"
 
   initialize: () ->
     _.bindAll(this, "render")
@@ -48,10 +49,5 @@ class Analytics.Views.Projects.ShowView extends Backbone.View
       $(ev.currentTarget).addClass("left-nav-hide")
     $('#main-container').trigger("resize")
 
-  main_container_width: () ->
-    padding_left = parseInt($('#main-container').css('padding-left'))
-    padding_right = parseInt($('#main-container').css('padding-right'))
-    body_width = $('body').width()
-    left_nav_width = $('.left-nav').outerWidth()
-    nav_toggle_width = $('.nav-toggle').outerWidth()
-    body_width - left_nav_width - nav_toggle_width - padding_left - padding_right - 1
+  toggle_dashboard: (ev) ->
+    window.location.href = "#/dashboard"

@@ -6,6 +6,9 @@ class Analytics.Views.Widgets.ShowView extends Backbone.View
   events:
     "click .widget-edit" : "edit"
     "click a.widget-report-tab" : "jump_to_report_tab"
+    "click .next-page.active" : "next_table_page"
+    "click .previous-page.active" : "previous_table_page"
+    "click .dimensions-table th" : "sort_table"
 
   initialize: (options) ->
     _.bindAll this, "render", "remove", "redraw"
@@ -21,6 +24,9 @@ class Analytics.Views.Widgets.ShowView extends Backbone.View
         @chart = new Analytics.Collections.TimelineCharts([], {selector: @model, for_widget: true})
       when "table"
         @chart = new Analytics.Collections.DimensionCharts([], {selector: @model, for_widget: true})
+    if @chart_view?
+      @chart_view.remove()
+      @chart_view = null
 
   render: () ->
     $(@el).html(@template(@model.attributes))
@@ -32,6 +38,7 @@ class Analytics.Views.Widgets.ShowView extends Backbone.View
       @remove()
       @parent_el = options.parent_el
       $(@parent_el).append(@el)
+    @initialize_chart()
     $(@el).html(@template(@model.attributes))
     @render_chart()
     @delegateEvents(@events)
@@ -79,3 +86,26 @@ class Analytics.Views.Widgets.ShowView extends Backbone.View
     report = reports_router.get(report_tab.get("report_id"))
     report.report_tab_index = report.report_tabs.indexOf(report_tab)
     window.location.href = '#/reports/' + report.id
+
+  next_table_page: (ev) ->
+    page_num = Math.ceil(@chart.total / @chart.pagesize)
+    if @chart.index + 1 < page_num
+      @chart.index = @chart.index + 1
+      @fetch_chart()
+
+  previous_table_page: (ev) ->
+    if @chart.index > 0
+      @chart.index = @chart.index - 1
+      @fetch_chart()
+
+  sort_table: (ev) ->
+    orderby = $(ev.currentTarget).attr("value")
+    orderby = (if not orderby? then null else orderby)
+    if orderby == @chart.orderby
+      order = (if @chart.order.toUpperCase() == 'DESC' then 'ASC' else 'DESC')
+    else
+      order = 'DESC'
+    @chart.order = order
+    @chart.orderby = orderby
+    @chart.index = 0
+    @fetch_chart()

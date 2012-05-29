@@ -9,7 +9,7 @@ body {
   padding: 0;
 }
 
-@mixin report-category-header{
+@mixin highlight-header{
   height: 30px;
   line-height: 30px;
   padding-left: 10px;
@@ -25,6 +25,14 @@ table.main-table{
   td.left-nav{
     min-width: 200px;
     vertical-align: top;
+    .dashboard-toggle{
+      padding: 5px 8px 5px 5px;
+      .btn{
+        width: 100%;
+        padding-left: 0px;
+        padding-right: 0px;
+      }
+    }
     .reports-nav{
       ul li.no-data{
         text-align: center;
@@ -32,7 +40,7 @@ table.main-table{
         padding-top: 10px;
       }
       ul.templates li.nav-header{
-        @include report-category-header;
+        @include highlight-header;
       }
       ul.templates li{
         padding: 5px;
@@ -40,7 +48,7 @@ table.main-table{
       .custom-reports{
         margin-top: 10px;
         .custom-reports-header{
-          @include report-category-header;
+          @include highlight-header;
           font-size: 11px;
           font-weight: bold;
           color: #999;

@@ -1,5 +1,4 @@
 <div class="row-fluid container-header">
-    <div class="left container-title"><h3>数据面板</h3></div>
     <div class="left btn-group">
         <a class="btn add-widget">
             <i class="icon icon-plus"></i>

@@ -22,3 +22,7 @@ class Analytics.Models.Widget extends Backbone.Model
 
   get_compare_end_time: () ->
     @collection.end_time
+
+  get_dimension: () ->
+    dimension = @get("dimension")
+    _.find(Analytics.Static.Dimensions, (item) -> item.value == dimension)
