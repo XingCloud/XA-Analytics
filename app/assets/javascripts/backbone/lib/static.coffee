@@ -11,7 +11,8 @@ Analytics.Static.UserAttributes = [
   {value: 'language', name: '语言', value_type: 'String'},
   {value: 'platform', name: '平台', value_type: 'String'},
   {value: 'identifier', name: '标识符', value_type: 'String'},
-  {value: 'ref', name: '来源', value_type: 'String'}
+  {value: 'ref', name: '来源', value_type: 'String'},
+  {value: 'version', name: '版本', value_type: 'String'}
 ]
 
 Analytics.Static.ExpressionOperator = [
@@ -65,7 +66,8 @@ Analytics.Static.Dimensions = [
   {value: 'language', name: '语言', dimension_type: "USER_PROPERTIES", value_type: 'String'},
   {value: 'platform', name: '平台', dimension_type: "USER_PROPERTIES", value_type: 'String'},
   {value: 'identifier', name: '标识符', dimension_type: "USER_PROPERTIES", value_type: 'String'},
-  {value: 'ref', name: '来源', dimension_type: "USER_PROPERTIES", value_type: 'String'}
+  {value: 'ref', name: '来源', dimension_type: "USER_PROPERTIES", value_type: 'String'},
+  {value: 'version', name: '版本', dimension_type: "USER_PROPERTIES", value_type: 'String'}
 ].concat(Analytics.Static.DimensionsEvents)
 
 Analytics.Static.ReportTabIntervals = [
