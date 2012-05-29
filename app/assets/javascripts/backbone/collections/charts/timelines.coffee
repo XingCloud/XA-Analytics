@@ -68,7 +68,7 @@ class Analytics.Collections.TimelineCharts extends Backbone.Collection
       chart = @get(sequence.id)
       _.extend(chart.get("sequence"), sequence)
 
-  charts_options: (render_to) ->
+  charts_options: (render_to, visibles) ->
     interval_count = Analytics.Utils.intervalCount(@selector.get_end_time(), @selector.get("interval"), @selector.get("length"))
     options = {
       credits:
@@ -117,7 +117,7 @@ class Analytics.Collections.TimelineCharts extends Backbone.Collection
         data: chart.data()
         color: "#" + chart.get("color")
         id: chart.id
-        visible: (chart.get("metric_id") == display_metric)
+        visible: (if visibles[chart.id]? then visibles[chart.id] else (chart.get("metric_id") == display_metric))
       })
     )
     options

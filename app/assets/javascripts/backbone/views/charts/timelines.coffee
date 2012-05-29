@@ -10,17 +10,18 @@ class Analytics.Views.Charts.TimelinesView extends Backbone.View
 
   bind_nav_toggle: () ->
     timelines_view = this
+    small_width = @small_width
     $('#main-container').on("resize", () ->
-      original_width = $(timelines_view.render_to).attr("small-width")
-      if $('#container td.nav-toggle').hasClass('left-nav-hide')
-        timelines_view.highcharts.setSize($(timelines_view.render_to).width())
-      else
-        timelines_view.highcharts.setSize(original_width)
+      visibles = {}
+      _.each(timelines_view.highcharts.series, (serie) ->
+        visibles[serie.options.id] = serie.visible
+      )
+      timelines_view.redraw({visibles: visibles})
     )
 
-  render: () ->
+  render: (visibles = {}) ->
     @set_small_width()
-    @highcharts = new Highcharts.Chart(@collection.charts_options(@render_to))
+    @highcharts = new Highcharts.Chart(@collection.charts_options(@render_to, visibles))
     @render_data()
 
   redraw: (options = {}) ->
@@ -28,7 +29,7 @@ class Analytics.Views.Charts.TimelinesView extends Backbone.View
       @highcharts.destroy()
     if options.render_to?
       @render_to = options.render_to
-    @render()
+    @render(options.visibles)
     @delegateEvents(@events)
 
   render_data: () ->
@@ -39,5 +40,5 @@ class Analytics.Views.Charts.TimelinesView extends Backbone.View
     )
 
   set_small_width: () ->
-    if not $(@render_to).attr("small-width")? or $(@render_to).attr("small-width").length == 0
-      $(@render_to).attr("small-width", $(@render_to).width())
+    if not @small_width? or $(@render_to).width() < @small_width
+      @small_width = $(@render_to).width()
