@@ -38,11 +38,11 @@
                         </tr>
                     <% end %>
                 <% end %>
-            <% end %>
-            <% if no_data: %>
-                <tr>
-                    <td class="no-data" colspan="<%= @metric_ids.length + 1 %>"><i>没有数据</i></td>
-                </tr>
+                <% if no_data: %>
+                    <tr>
+                        <td class="no-data" colspan="<%= @metric_ids.length + 1 %>"><i>没有数据</i></td>
+                    </tr>
+                <% end %>
             <% end %>
         </tbody>
     </table>
