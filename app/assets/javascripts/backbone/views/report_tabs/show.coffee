@@ -93,17 +93,18 @@ class Analytics.Views.ReportTabs.ShowView extends Backbone.View
           if request_count == 0
             $.unblockUI()
       })
-      @dimensions_view.dimensions.fetch_charts({
-        success: (resp) ->
-          dimensions_view.dimensions_chart_view.redraw()
-          request_count = request_count - 1
-          if request_count == 0
-            $.unblockUI()
-        error: (xhr, options, err) ->
-          request_count = request_count - 1
-          if request_count == 0
-            $.unblockUI()
-      })
+      if @model.dimension?
+        @dimensions_view.dimensions.fetch_charts({
+          success: (resp) ->
+            dimensions_view.dimensions_chart_view.redraw()
+            request_count = request_count - 1
+            if request_count == 0
+              $.unblockUI()
+          error: (xhr, options, err) ->
+            request_count = request_count - 1
+            if request_count == 0
+              $.unblockUI()
+        })
 
   select_filter: (ev) ->
     value = $(ev.currentTarget).attr("value")
