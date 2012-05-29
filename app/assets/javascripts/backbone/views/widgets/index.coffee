@@ -3,21 +3,42 @@ Analytics.Views.Widgets ||= {}
 class Analytics.Views.Widgets.IndexView extends Backbone.View
   template: JST['backbone/templates/widgets/index']
   events:
-    "click .add-widget" : "add_widget"
+    "click .add-widget" : "new_widget"
 
   initialize: () ->
-    _.bindAll this, "render", "redraw"
+    _.bindAll this, "render", "redraw", "add_widget"
+    @collection.bind "add", @add_widget
 
   render: () ->
     $(@el).html(@template(@collection))
     $("#main-container").html($(@el))
+    @render_datepicker()
+    @render_widgets()
+
+  render_datepicker: () ->
+    el = @el
+    collection = @collection
+    view = this
+    $(el).find(".widget-range").datepicker().on('changeDate', (ev) ->
+      $(el).find('.widget-range').datepicker('hide')
+      collection.end_time = Analytics.Utils.pickUTCDate(ev.date.valueOf())
+      view.redraw()
+    )
+
+  render_widgets: () ->
+    index = 0
+    add_widget = @add_widget
+    @collection.each((widget) ->
+      add_widget(widget, this, {index: index})
+      index = index + 1
+    )
 
   redraw: () ->
     @remove()
     @render()
     @delegateEvents(@events)
 
-  add_widget: () ->
+  new_widget: () ->
     model = new Analytics.Models.Widget({
       project_id: (if @collection.project? then @collection.project.id)
     })
@@ -26,16 +47,26 @@ class Analytics.Views.Widgets.IndexView extends Backbone.View
       model: model
     }).render()
 
+
+  add_widget: (widget, collection, options) ->
+    widgets_columns = $(@el).find(".widgets")
+    widgets_column = widgets_columns[options.index % widgets_columns.length]
+    if not widget.view?
+      new Analytics.Views.Widgets.ShowView({model: widget, parent_el: widgets_column}).render()
+    else
+      widget.view.redraw({parent_el: widgets_column})
+
 class Analytics.Views.Widgets.ListView extends Backbone.View
   template: JST['backbone/templates/widgets/list']
   events:
-    "click .add-widget" : "add_widget"
+    "click .add-widget" : "new_widget"
     "click .edit-widget" : "edit_widget"
 
   initialize: () ->
     _.bindAll this, "render", "redraw"
     @collection.bind "change", @redraw
     @collection.bind "add", @redraw
+    @collection.bind "destroy", @redraw
 
   render: () ->
     $(@el).html(@template(@collection))
@@ -46,7 +77,7 @@ class Analytics.Views.Widgets.ListView extends Backbone.View
     @render()
     @delegateEvents(@events)
 
-  add_widget: () ->
+  new_widget: () ->
     model = new Analytics.Models.Widget()
     model.collection = @collection
     new Analytics.Views.Widgets.FormView({

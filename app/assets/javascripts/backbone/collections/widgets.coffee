@@ -4,6 +4,8 @@ class Analytics.Collections.Widgets extends Backbone.Collection
   initialize: (options) ->
     @synced = false
     @project = options.project
+    now = new Date().getTime()
+    @end_time = now - now % 86400000
 
   url: () ->
     if @project?

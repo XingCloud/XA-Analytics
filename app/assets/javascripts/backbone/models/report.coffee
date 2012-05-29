@@ -6,7 +6,9 @@ class Analytics.Models.Report extends Backbone.Model
     @report_tab_index = 0
     if options? and options.report_tabs_attributes?
       _.each(options.report_tabs_attributes, (report_tab_attributes) ->
-        report_tabs.push(new Analytics.Models.ReportTab(report_tab_attributes))
+        report_tab = new Analytics.Models.ReportTab(report_tab_attributes)
+        report_tabs_router.report_tabs.add(report_tab)
+        report_tabs.push(report_tab)
       )
     @report_tabs = report_tabs
 

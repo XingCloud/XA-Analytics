@@ -16,3 +16,9 @@ class Analytics.Models.Widget extends Backbone.Model
     delete attributes["display"]
     delete attributes["position"]
     {widget: attributes}
+
+  get_end_time: () ->
+    @collection.end_time
+
+  get_compare_end_time: () ->
+    @collection.end_time

@@ -4,5 +4,24 @@
         <a class="btn add-widget">
             <i class="icon icon-plus"></i>
         </a>
+        <a class="btn refresh-widgets">
+            <i class="icon icon-refresh"></i>
+        </a>
     </div>
+    <div class="right range-control widget-range" data-date="<%= Analytics.Utils.formatUTCDate(@end_time) %>" data-date-format="yyyy/mm/dd">
+        <table>
+            <tr>
+                <td>
+                    截止到
+                    <%= Analytics.Utils.formatUTCDate(@end_time) %>
+                </td>
+                <td class="toggle"><span>&#9660;</span></td>
+            </tr>
+        </table>
+    </div>
+</div>
+<div class="row-fluid widgets-container">
+    <div class="widgets"></div>
+    <div class="widgets"></div>
+    <div class="widgets"></div>
 </div>

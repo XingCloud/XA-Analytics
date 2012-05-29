@@ -34,3 +34,9 @@ class Analytics.Models.ReportTab extends Backbone.Model
     attributes.compare_end_time = @compare_end_time
     attributes.dimensions_filters = @dimensions_filters
     attributes
+
+  get_end_time: () ->
+    @end_time
+
+  get_compare_end_time: () ->
+    @compare_end_time

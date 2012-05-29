@@ -1,14 +1,15 @@
-<% points = _.filter(@points, (item) -> not item.series.sequence.for_compare) %>
-<% compare_points = _.filter(@points, (item) -> item.series.sequence.for_compare) %>
+<% points = _.filter(@points, (item) -> not item.series.timeline.get("compare_for")?) %>
+<% compare_points = _.filter(@points, (item) -> item.series.timeline.get("compare_for")?) %>
 <table class="chart-tooltip">
     <thead>
         <% if compare_points.length > 0: %>
             <th></th>
         <% end %>
         <th colspan="<%= if compare_points.length > 0 then 1 else 2 %>">
-            <% if points[0].series.sequence.interval == "min5" or points[0].series.sequence.interval == "hour": %>
+            <% timeline = points[0].series.timeline %>
+            <% if timeline.selector.get("interval") == "min5" or timeline.selector.get("interval") == "hour": %>
                 <%= Analytics.Utils.formatUTCDate(@x, "yyyy/MM/dd HH:mm") %>
-            <% else if points[0].series.sequence.interval == "month": %>
+            <% else if timeline.selector.get("interval") == "month": %>
                 <%= Analytics.Utils.formatUTCDate(@x, "yyyy/MM") %>
             <% else: %>
                 <%= Analytics.Utils.formatUTCDate(@x) %>
@@ -16,12 +17,14 @@
         </th>
         <% if compare_points.length > 0: %>
             <th>
-                <% if compare_points[0].series.sequence.interval == "min5" or compare_points[0].series.sequence.interval == "hour": %>
-                    <%= Analytics.Utils.formatUTCDate(@x - compare_points[0].series.sequence.offset, "yyyy/MM/dd HH:mm") %>
-                <% else if compare_points[0].series.sequence.interval == "month": %>
-                    <%= Analytics.Utils.formatUTCDate(@x - compare_points[0].series.sequence.offset, "yyyy/MM") %>
+                <% timeline = compare_points[0].series.timeline %>
+                <% offset = timeline.selector.get_end_time() - timeline.selector.get_compare_end_time() %>
+                <% if timeline.selector.get("interval") == "min5" or timeline.selector.get("interval") == "hour": %>
+                    <%= Analytics.Utils.formatUTCDate(@x - offset, "yyyy/MM/dd HH:mm") %>
+                <% else if timeline.selector.get("interval") == "month": %>
+                    <%= Analytics.Utils.formatUTCDate(@x - offset, "yyyy/MM") %>
                 <% else: %>
-                    <%= Analytics.Utils.formatUTCDate(@x - compare_points[0].series.sequence.offset) %>
+                    <%= Analytics.Utils.formatUTCDate(@x - offset) %>
                 <% end %>
             </th>
             <th></th>
@@ -30,20 +33,21 @@
     <tbody>
         <% for point in points: %>
             <tr>
+                <% timeline = point.series.timeline %>
                 <td><strong><%= point.series.name %></strong>&nbsp;</td>
                 <td class="y">
-                    <span class="tooltip-dot" style="border-color: #<%= point.series.sequence.color %>"></span>
+                    <span class="tooltip-dot" style="border-color: #<%= timeline.get('color') %>"></span>
                     <%= point.y %>&nbsp;
                 </td>
                 <% if compare_points.length > 0: %>
                     <td class="y">
-                        <% compare_point = _.find(compare_points, (item) -> item.series.sequence.metric_id == point.series.sequence.metric_id and item.series.sequence.segment_id == point.series.sequence.segment_id) %>
-                        <span class="tooltip-dot" style="border-color: #<%= compare_point.series.sequence.color %>"></span>
+                        <% compare_point = _.find(compare_points, (item) -> item.series.timeline.get("metric_id") == timeline.get("metric_id") and item.series.timeline.get("segment_id") == timeline.get("segment_id")) %>
+                        <span class="tooltip-dot" style="border-color: #<%= compare_point.series.timeline.get('color') %>"></span>
                         <%= compare_point.y %>
                     </td>
                     <td>
                         <% if point.y == compare_point.y: %>
-                            <span>0%</span>
+                        <span>0%</span>
                         <% else if point.y > compare_point.y: %>
                             <span class="higher">
                                 +<%- if compare_point.y != 0 then ((point.y-compare_point.y)/compare_point.y*100).toFixed(2)+'%' else '&infin;' %>

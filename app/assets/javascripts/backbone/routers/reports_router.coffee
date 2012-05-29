@@ -98,6 +98,12 @@ class Analytics.Routers.ReportsRouter extends Backbone.Router
     report.collection = @reports
     new Analytics.Views.Reports.FormView({id : "new_report", model: report}).render()
 
+  get: (id) ->
+    report = @reports.get(id)
+    if not report?
+      report = @templates.get(id)
+    report
+
 
 
 

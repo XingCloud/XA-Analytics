@@ -16,6 +16,8 @@
     templates: #{ReportCategory.template.map(&:js_attributes).to_json}
   });
 
+  window.report_tabs_router = new Analytics.Routers.ReportTabsRouter({project: project});
+
   window.reports_router = new Analytics.Routers.ReportsRouter({
     project: project,
     reports: #{@project.reports.map(&:js_attributes).to_json},
@@ -27,8 +29,6 @@
     metrics: #{@project.metrics.where(:combine_id => nil).map(&:js_attributes).to_json},
     templates: #{Metric.template.where(:combine_id => nil).map(&:js_attributes).to_json}
    });
-
-  window.report_tabs_router = new Analytics.Routers.ReportTabsRouter({project: project});
 
   window.widgets_router = new Analytics.Routers.WidgetsRouter({project: project})
 

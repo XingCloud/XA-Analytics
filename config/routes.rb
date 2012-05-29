@@ -7,7 +7,7 @@ Analytic::Application.routes.draw do
 
     member do
       post :event_item
-      post :chart
+      post :timelines
       post :dimensions
       post :user_attributes
     end

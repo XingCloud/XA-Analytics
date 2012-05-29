@@ -39,3 +39,111 @@
     }
   }
 }
+
+.kpis{
+  margin-bottom: 10px;
+  padding-top: 5px;
+  background: white;
+  clear: both;
+  padding: 0 5px 0 5px;
+  position: relative;
+
+  table {
+    border-collapse: collapse;
+    position: relative;
+    width: 100%;
+
+    td {
+      border-bottom: 1px solid #DDD;
+      border-right: 1px solid #DDD;
+      cursor: pointer;
+      text-align: center;
+      vertical-align: middle;
+      .kpi-info{
+        margin-bottom: -2px;
+        padding: 10px;
+        p.value{
+          color: black;
+          margin: 0px 0 5px 0;
+          padding: 0;
+          font-size: 130%;
+          font-weight: bold;
+        }
+
+        p.vs{
+          color: #666;
+          display: inline;
+          font-size: 80%;
+          font-weight: bold;
+        }
+
+        p.lower{
+          color: #932D22;
+        }
+
+        p.higher{
+          color: #4B9525;
+        }
+
+        p.percent-label{
+          color: #999;
+          font-size: 80%;
+          display: inline;
+        }
+        p.percent{
+          color: #666;
+          display: inline;
+          font-size: 80%;
+          font-weight: bold;
+        }
+        p.total{
+          color: #999;
+          display: inline;
+          font-size: 80%;
+          font-weight: bold;
+        }
+      }
+      .kpi-info.deactive{
+        filter:alpha(opacity=50);
+        -moz-opacity:0.5;
+        -khtml-opacity: 0.5;
+        opacity: 0.5;
+      }
+    }
+
+    td.metric-name{
+      border-bottom: 0;
+      span{
+        font: normal 18px Arial;
+      }
+    }
+
+    td.length{
+      border: 0px;
+      padding: 5px;
+      span{
+        font: normal 14px Arial;
+      }
+    }
+
+    td.segment-name{
+      padding-right: 15px;
+      text-align: left;
+      width: 1px;
+      white-space: nowrap;
+    }
+
+    td.last{
+      border-right: 0px;
+    }
+
+  }
+}
+
+.kpi-dot{
+  border: 5px solid white;
+  border-radius: 5px;
+  height: 0px;
+  display: inline-block;
+  width: 0px;
+}

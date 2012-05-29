@@ -44,6 +44,8 @@
     categories: #{ReportCategory.template.map(&:js_attributes).to_json}
   });
 
+  window.report_tabs_router = new Analytics.Routers.ReportTabsRouter({});
+
   window.reports_router = new Analytics.Routers.ReportsRouter({
     reports: #{Report.template.map(&:js_attributes).to_json}
   });
@@ -51,8 +53,6 @@
   window.metrics_router = new Analytics.Routers.MetricsRouter({
     metrics: #{Metric.template.where(:combine_id => nil).map(&:js_attributes).to_json}
   });
-
-  window.report_tabs_router = new Analytics.Routers.ReportTabsRouter({});
 
   window.widgets_router = new Analytics.Routers.WidgetsRouter({});
 

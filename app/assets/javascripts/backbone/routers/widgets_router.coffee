@@ -7,6 +7,8 @@ class Analytics.Routers.WidgetsRouter extends Backbone.Router
     @widgets = new Analytics.Collections.Widgets({project: @project})
 
   index: () ->
+    if @project?
+      $('.reports-nav ul li').removeClass('active')
     collection = @widgets
     collection.sync_server({
       success: (resp) ->

@@ -1,6 +1,6 @@
 class ProjectsController < ApplicationController
   before_filter :auth_project
-  before_filter :find_project, :only => [:show, :members, :event_item, :chart, :dimensions, :user_attributes]
+  before_filter :find_project, :only => [:show, :members, :event_item, :timelines, :dimensions, :user_attributes]
 
   def show
   end
@@ -13,7 +13,7 @@ class ProjectsController < ApplicationController
     render :json => @items
   end
 
-  def chart
+  def timelines
     render :json => {:id => params[:request_id].to_i, :data => AnalyticService.request_data(@project, params[:request])}
   end
 

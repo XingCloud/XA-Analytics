@@ -35,7 +35,7 @@ class Analytics.Views.Projects.ShowView extends Backbone.View
   render_default_report: () ->
     if @model.first_report()?
       if window.location.href.indexOf('#') == -1
-        window.location.href = "#/reports/"+@model.first_report().id
+        window.location.href = "#/dashboard"
     else
       $(@el).find('#main-container').html(JST['backbone/templates/projects/no-report']())
 
@@ -43,11 +43,10 @@ class Analytics.Views.Projects.ShowView extends Backbone.View
   toggle_left_nav: (ev) ->
     $(@el).find('td.left-nav').toggle()
     if $(ev.currentTarget).hasClass("left-nav-hide")
-      @model.active_tab.view.resize_chart(false, @main_container_width())
       $(ev.currentTarget).removeClass("left-nav-hide")
     else
-      @model.active_tab.view.resize_chart(true)
       $(ev.currentTarget).addClass("left-nav-hide")
+    $('#main-container').trigger("resize")
 
   main_container_width: () ->
     padding_left = parseInt($('#main-container').css('padding-left'))

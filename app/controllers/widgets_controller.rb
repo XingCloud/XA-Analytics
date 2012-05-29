@@ -3,12 +3,16 @@ class WidgetsController < ProjectBaseController
 
   def index
     check_templates
-    render :json => @project.widgets.map{|widget| widget.js_attributes(@project.id)}
+    widgets = []
+    @project.widget_connectors.visible.each do |widget_connector|
+      widgets.append(Widget.find(widget_connector.widget_id).js_attributes(@project.id))
+    end
+    render :json => widgets
   end
 
   def create
-    @widget = @project.widgets.build(params[:widget])
-    if @widget.save and @project.widget_connectors.create({:widget_id => @widget.id})
+    @widget = @project.widgets.build(params[:widget].merge({:project_id => @project.id}))
+    if @widget.save and @project.widget_connectors.create({:widget_id => @widget.id, :position => 1})
       render :json => @widget.js_attributes
     else
       @widget.destroy unless @widget.id.blank?
@@ -16,8 +20,36 @@ class WidgetsController < ProjectBaseController
     end
   end
 
-  def destroy
+  def update
+    error = false
+    if @widget.project_id.blank?
+      widget_connector = @widget.widget_connectors.find_by_project_id(@project.id)
+      @widget = @project.widgets.build(params[:widget].merge({:project_id => @project.id}))
+      Widget.transaction do
+        begin
+          widget_connector.update_attributes!(:display => 0)
+          @widget.save!
+          @project.widget_connectors.create!({:widget_id => @widget.id, :position => 1})
+        rescue
+          error = true
+          raise ActiveRecord::Rollback
+        end
+      end
+    else
+      error = (not @widget.update_attributes(params[:widget]))
+    end
+    render :json => @widget.js_attributes, :status => (error ? 400 : 200)
+  end
 
+  def destroy
+    error = false
+    if @widget.project_id.blank?
+      widget_connector = @widget.widget_connectors.find_by_project_id(@project.id)
+      error = (not widget_connector.update_attributes({:display => 0}))
+    else
+      error = (not @widget.destroy)
+    end
+    render :json => @widget.js_attributes, :status => (error ? 400 : 200)
   end
 
   private

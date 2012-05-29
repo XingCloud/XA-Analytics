@@ -2,29 +2,33 @@ Analytics.Request ||= {}
 
 Analytics.Request.error_message = false
 
-Analytics.Request.get = (url, params, callback) ->
-  Analytics.Request.ajax(url, params, "GET", callback)
+Analytics.Request.get = (url, params, success, error, hide_loading = false) ->
+  Analytics.Request.ajax(url, params, "GET", success, error, hide_loading)
 
-Analytics.Request.post = (url, data, callback) ->
-  Analytics.Request.ajax(url, data, "POST", callback)
+Analytics.Request.post = (url, data, success, error, hide_loading = false) ->
+  Analytics.Request.ajax(url, data, "POST", success, error, hide_loading)
 
-Analytics.Request.put = (url, data, callback) ->
-  Analytics.Request.ajax(url, data, "PUT", callback)
+Analytics.Request.put = (url, data, success, error, hide_loading = false) ->
+  Analytics.Request.ajax(url, data, "PUT", success, error, hide_loading)
 
-Analytics.Request.delete = (url, data, callback) ->
-  Analytics.Request.ajax(url, data, "DELETE", callback)
+Analytics.Request.delete = (url, data, success, error, hide_loading = false) ->
+  Analytics.Request.ajax(url, data, "DELETE", success, error, hide_loading)
 
-Analytics.Request.ajax = (url, data, type, success) ->
-  $('#loading-message').fadeIn(200)
+Analytics.Request.ajax = (url, data, type, success, error, hide_loading = false) ->
+  if not hide_loading
+    $('#loading-message').fadeIn(200)
   $.ajax({
     type : type
     url : url
     data : data
     success : (rtdata) ->
-      $('#loading-message').fadeOut(200)
+      if not hide_loading
+        $('#loading-message').fadeOut(200)
       success(rtdata)
-    error: (xhr, options, error) ->
-      $('#loading-message').fadeOut(200)
+    error: (xhr, options, err) ->
+      if not hide_loading
+        $('#loading-message').fadeOut(200)
+      error(xhr, options, err)
       Analytics.Request.error(xhr, options, error)
   })
 

@@ -4,15 +4,15 @@ class Analytics.Views.ReportTabs.ShowView extends Backbone.View
   template: JST["backbone/templates/report_tabs/show"]
   events:
     "click .choose-dimension" : "choose_dimension"
-    "click .legend-info-container" : "click_legend_info"
-    "click .metric-name" : "click_metric_name"
-    "click .segment-name" : "click_segment_name"
 
   initialize: () ->
     _.bindAll this, "render", "redraw"
     @model.bind "change", @redraw
     @model.view = this
-    @chart_sequences = new Analytics.Collections.ChartSequences([], {report_tab: @model})
+    @timelines = new Analytics.Collections.TimelineCharts([], {
+      selector: @model
+      filters: @model.dimensions_filters
+    })
     @dimensions_sequence = new Analytics.Models.DimensionsSequence({
       metrics: @model.metrics_attributes()
       dimensions: @model.get("dimensions_attributes")
@@ -24,7 +24,8 @@ class Analytics.Views.ReportTabs.ShowView extends Backbone.View
     $(@el).html(@template(@model.show_attributes()))
     $(@report_view.el).find('.tab-container').html($(@el))
     @render_range_picker()
-    @render_chart()
+    @render_timelines()
+    @render_kpis()
     @render_dimensions()
     @fetch_data()
 
@@ -42,10 +43,30 @@ class Analytics.Views.ReportTabs.ShowView extends Backbone.View
     else
       $(@report_view.el).find('.report-tab-range-picker').html(@model.range_picker_view.redraw().el)
 
-  render_chart: () ->
-    @chart_sequences.init()
-    $(@el).find('#legend').html(JST['backbone/templates/report_tabs/show-legend'](@chart_sequences.legend()))
+  render_timelines: () ->
+    segment_ids = segments_router.segments.selected().concat(segments_router.templates.selected())
+    @timelines.initialize_charts(@model.get("metric_ids"), segment_ids, @model.get("compare") != 0)
+    render_to = $(@el).find("#report_tab_" + @model.id + "_timelines")[0]
+    if not @timelines_view?
+      @timelines_view = new Analytics.Views.Charts.TimelinesView({
+        collection: @timelines
+        render_to: render_to
+      })
+      @timelines_view.render()
+    else
+      @timelines_view.redraw({render_to: render_to})
 
+  render_kpis: () ->
+    render_to = $(@el).find("#report_tab_" + @model.id + "_kpis")[0]
+    if not @kpis_view?
+      @kpis_view = new Analytics.Views.Charts.KpisView({
+        collection: @timelines
+        render_to: render_to
+        timelines_view: @timelines_view
+      })
+      @kpis_view.render()
+    else
+      @kpis_view.redraw({render_to: render_to})
 
   render_dimensions: () ->
     @dimensions_sequence.init()
@@ -54,48 +75,19 @@ class Analytics.Views.ReportTabs.ShowView extends Backbone.View
       report_tab_view: this
     }).render().el)
 
-  redraw_chart: () ->
-    $(@el).find('#legend').html(JST['backbone/templates/report_tabs/show-legend'](@chart_sequences.legend()))
-    @chart_sequences.chart_render()
-
   fetch_data: () ->
     if @model.get("metric_ids").length > 0
       $.blockUI({message: $('#loader-message')})
-      @fetch_request_count = (if @dimensions_sequence.get("dimension")? then 2 else 1)
-      @chart_sequences.fetch_data()
-      if @dimensions_sequence.get("dimension")?
-        @dimensions_sequence.fetch_data()
-
-  fetch_complete: () ->
-    if @fetch_request_count > 0
-      @fetch_request_count = @fetch_request_count - 1
-      if @fetch_request_count == 0
-        $.unblockUI()
-
-  click_metric_name: (ev) ->
-    metric_id = $(ev.currentTarget).attr("value")
-    for element in $(@el).find(".legend-info-container[metric-id='"+metric_id+"']")
-      @toggle_sequence(element)
-
-  click_segment_name: (ev) ->
-    segment_id = $(ev.currentTarget).attr("value")
-    for element in $(@el).find(".legend-info-container[segment-id='"+segment_id+"']")
-      @toggle_sequence(element)
-
-  click_legend_info: (ev) ->
-    @toggle_sequence(ev.currentTarget)
-
-  toggle_sequence: (element) ->
-    if($(element).hasClass('deactive'))
-      @chart_sequences.chart.get($(element).attr('sequence-id')).show()
-      if @model.get("compare") != 0
-        @chart_sequences.chart.get($(element).attr('compare-sequence-id')).show()
-      $(element).removeClass('deactive')
-    else
-      @chart_sequences.chart.get($(element).attr('sequence-id')).hide()
-      if @model.get("compare") != 0
-        @chart_sequences.chart.get($(element).attr('compare-sequence-id')).hide()
-      $(element).addClass('deactive')
+      timelines_view = @timelines_view
+      kpis_view = @kpis_view
+      @timelines.fetch_charts({
+        success: (resp) ->
+          timelines_view.redraw()
+          kpis_view.redraw()
+          $.unblockUI()
+        error: (xhr, options, err) ->
+          $.unblockUI()
+      })
 
   resize_chart: (expand, size) ->
     if expand
@@ -126,7 +118,7 @@ class Analytics.Views.ReportTabs.ShowView extends Backbone.View
 class Analytics.Views.ReportTabs.ShowRangePickerView extends Backbone.View
   template: JST['backbone/templates/report_tabs/show-range-picker']
   events:
-    "click .range-control-dropdown-menu li a.default-range" : "change_default_range"
+    "click li a.default-range" : "change_default_range"
     "change .compare-checkbox" : "change_compare"
     "click a.submit-custom-range" : "change_custom_range"
 

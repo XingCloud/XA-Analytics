@@ -1,0 +1,92 @@
+<table>
+    <tbody>
+    <% if @for_widget: %>
+        <tr>
+            <td class="length">
+                <span>近<%= @selector.get("length") %>天</span>
+            </td>
+        </tr>
+    <% end %>
+    <tr>
+        <% has_segments = (@segment_ids.length != 1 or @segment_ids[0] != 0) %>
+        <% if has_segments: %>
+            <td class="metric-name"></td>
+        <% end %>
+        <% index = 0 %>
+        <% for metric_id in @metric_ids: %>
+            <% metric = metrics_router.get(metric_id) %>
+            <td class="metric-name <%= if index+1 == @metric_ids.length then 'last' %>" value="<%= metric_id %>">
+                <span><%= metric.get("name") %></span>
+            </td>
+            <% index = index + 1 %>
+        <% end %>
+    </tr>
+    <% for segment_id in @segment_ids: %>
+        <tr>
+            <% if has_segments: %>
+                <td class="segment-name" value="<%= segment_id %>"><%= segments_router.get(segment_id).get("name") %></td>
+            <% end %>
+            <% index = 0 %>
+            <% for metric_id in @metric_ids: %>
+                <td class="<%= if index+1 == @metric_ids.length then 'last' %>">
+                    <% chart = _.find(@models, (chart) -> chart.get("metric_id") == metric_id and chart.get("segment_id") == segment_id and not chart.get("compare_for")?) %>
+                    <% use_natural = (chart.get("sequence").total != chart.get("sequence").natural or has_segments or (chart.get("filters")? and chart.get("filters").length > 0)) %>
+                    <% chart_value = (if use_natural then chart.get("sequence").natural else chart.get("sequence").total) %>
+                    <div class="kpi-info <%= if metric_id != @display_metric then 'deactive' %>" kpi-id="<%= chart.id %>" compare-kpi-id="<%= chart.get('compare_to') %>" metric-id="<%= metric_id %>" segment-id="<%= segment_id %>">
+                        <% if @has_compare: %>
+                            <% compare_chart = _.find(@models, (chart) -> chart.get("metric_id") == metric_id and chart.get("segment_id") == segment_id and chart.get("compare_for")?) %>
+                            <% compare_chart_value = (if use_natural then compare_chart.get("sequence").natural else compare_chart.get("sequence").total) %>
+                            <% if chart_value == compare_chart_value: %>
+                                <p class="value">
+                                    <span>0%</span>
+                                </p>
+                            <% else if chart_value > compare_chart_value: %>
+                                <p class="value higher">
+                                    <span>+<%- (if compare_chart_value != 0 then ((chart_value - compare_chart_value) * 100 / compare_chart_value).toFixed(2)+'%' else '&infin;') %></span>
+                                </p>
+                            <% else: %>
+                                <p class="value lower">
+                                    <span>-<%- (if compare_chart_value != 0 then ((compare_chart_value - chart_value) * 100 / compare_chart_value).toFixed(2)+'%' else '&infin;') %></span>
+                                </p>
+                            <% end %>
+                            <p class="vs">
+                                <span>
+                                    <% if not @for_widget: %>
+                                        <span class="kpi-dot" style="border-color: #<%= chart.get('color') %>"></span>
+                                    <% end %>
+                                    <%= chart_value %>
+                                    &nbsp;vs&nbsp;
+                                    <% if not @for_widget: %>
+                                        <span class="kpi-dot" style="border-color: #<%= compare_chart.get('color') %>"></span>
+                                    <% end %>
+                                    <%= compare_chart_value %>
+                                </span>
+                            </p>
+                        <% else: %>
+                            <p class="value">
+                                <% if not @for_widget: %>
+                                    <span class="kpi-dot" style="border-color: #<%= chart.get('color') %>"></span>
+                                <% end %>
+                                <span><%= chart_value %></span>
+                            </p>
+                            <% if use_natural: %>
+                                <p class="percent-label">
+                                    <span>占总用户%:&nbsp;</span>
+                                </p>
+                                <p class="percent">
+                                    <% percent = (if chart.get("sequence").total == 0 then 0 else chart.get("sequence").natural / chart.get("sequence").total) %>
+                                    <span><%= if chart.get("sequence").natural == chart.get("sequence").total then 100 else (percent * 100).toFixed(2) %>%</span>
+                                </p>
+                                <p class="total">
+                                    <span>(<%= chart.get("sequence").total %>)</span>
+                                </p>
+                            <% end %>
+                        <% end %>
+                    </div>
+                </td>
+                <% index = index + 1 %>
+            <% end %>
+        </tr>
+    <% end %>
+    </tbody>
+</table>

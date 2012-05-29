@@ -39,7 +39,9 @@ class Analytics.Models.Metric extends Backbone.Model
       options["number_of_day_origin"] = @get("number_of_day_origin")
 
     if @get("segment_id")?
-      options["segment"] = segments_router.get(@get("segment_id")).serialize()
+      segment = segments_router.get(@get("segment_id"))
+      if segment?
+        options["segment"] = segment.serialize()
 
     if options["segment"]?
       _.extend(options["segment"], @segment_options(segment_id, filters))

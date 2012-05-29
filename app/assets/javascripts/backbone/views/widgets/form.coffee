@@ -66,7 +66,6 @@ class Analytics.Views.Widgets.FormView extends Backbone.View
       wait: true
       success: (model, resp) ->
         $(el).modal("hide")
-        collection.trigger("change")
       error: (xhr, options, error) ->
         $(el).modal("hide")
     })
