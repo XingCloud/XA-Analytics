@@ -30,7 +30,7 @@
     templates: #{Metric.template.where(:combine_id => nil).map(&:js_attributes).to_json}
    });
 
-  window.widgets_router = new Analytics.Routers.WidgetsRouter({project: project})
+  window.widgets_router = new Analytics.Routers.WidgetsRouter({project: project});
 
   new Analytics.Views.Projects.ShowView({model: project}).render();
   Backbone.history.start();

@@ -2,20 +2,13 @@ source 'https://rubygems.org'
 
 gem 'rails'
 gem 'mysql2'
-gem 'jquery-rails'
-gem 'haml'
 gem 'haml-rails'
-gem 'twitter-bootstrap-rails', '2.0.6'
 gem 'rails-i18n'
-gem 'cells'
 gem 'will_paginate'
 gem "rubycas-client", ">=2.3.9.rc1"
 gem "paper_trail"
-gem "ejs"
 gem 'thin'
 gem 'dalli'
-gem 'simple_form'
-gem 'eco'
 
 group :development, :test do
   gem "pry"
@@ -35,4 +28,8 @@ group :assets do
   gem 'coffee-rails'
   gem 'therubyracer'
   gem 'uglifier'
+  gem 'eco'
+  gem 'jquery-rails'
+  gem 'twitter-bootstrap-rails', '2.0.6'
+  gem 'jquery-ui-rails'
 end

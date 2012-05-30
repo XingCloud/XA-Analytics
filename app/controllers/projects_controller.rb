@@ -1,6 +1,6 @@
 class ProjectsController < ApplicationController
   before_filter :auth_project
-  before_filter :find_project, :only => [:show, :members, :event_item, :timelines, :dimensions, :user_attributes]
+  before_filter :find_project
 
   def show
   end
@@ -25,6 +25,22 @@ class ProjectsController < ApplicationController
 
   def user_attributes
     render :json => AnalyticService.user_attributes(@project)
+  end
+
+  def update_widget_connectors
+    error = false
+    WidgetConnector.transaction do
+      begin
+        JSON.parse(params[:widget_connectors]).each do |widget_connector_attributes|
+          widget_connector = @project.widget_connectors.find(widget_connector_attributes["id"])
+          widget_connector.update_attributes!(widget_connector_attributes)
+        end
+      rescue
+        error = true
+        raise ActiveRecord::Rollback
+      end
+    end
+    render :json => {}, :status => (error ? 400 : 200)
   end
 
   private

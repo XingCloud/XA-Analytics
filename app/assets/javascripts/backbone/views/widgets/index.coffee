@@ -15,6 +15,7 @@ class Analytics.Views.Widgets.IndexView extends Backbone.View
     $("#main-container").html($(@el))
     @render_datepicker()
     @render_widgets()
+    @render_sortable()
 
   render_datepicker: () ->
     el = @el
@@ -29,10 +30,33 @@ class Analytics.Views.Widgets.IndexView extends Backbone.View
   render_widgets: () ->
     index = 0
     add_widget = @add_widget
+    @collection.check_position(@collection.columns)
     @collection.each((widget) ->
-      add_widget(widget, this, {index: index})
+      add_widget(widget, this)
       index = index + 1
     )
+
+  render_sortable: () ->
+    collection = @collection
+    $(@el).find(".widgets").sortable({
+      connectWith: ".widgets"
+      handle: ".widget-title"
+      placeholder: "widget-placeholder"
+      forcePlaceholderSize: true
+      revert: 300
+      delay: 100
+      opacity: 0.8
+      containment: $(@el)
+      stop: (event, ui) ->
+        parent = $(ui.item).parent()
+        widgets = parent.find(".widget")
+        widget_id = $(ui.item).find(".widget-title").attr("widget-id")
+        px = parseInt(parent.attr("column"))
+        prev_widgets = $(ui.item).prevUntil()
+        prev_widget_ids = ($(prev_widget).find(".widget-title").attr("widget-id") for prev_widget in prev_widgets)
+        next_widget_id = $(ui.item).next().find(".widget-title").attr("widget-id")
+        collection.update_position(widget_id, px, next_widget_id, prev_widget_ids)
+    })
 
   redraw: () ->
     @remove()
@@ -42,6 +66,9 @@ class Analytics.Views.Widgets.IndexView extends Backbone.View
   new_widget: () ->
     model = new Analytics.Models.Widget({
       project_id: (if @collection.project? then @collection.project.id)
+      widget_connector:
+        px: 0
+        py: @collection.position_y(0)
     })
     model.collection = @collection
     new Analytics.Views.Widgets.FormView({
@@ -49,9 +76,8 @@ class Analytics.Views.Widgets.IndexView extends Backbone.View
     }).render()
 
 
-  add_widget: (widget, collection, options) ->
-    widgets_columns = $(@el).find(".widgets")
-    widgets_column = widgets_columns[options.index % widgets_columns.length]
+  add_widget: (widget, collection) ->
+    widgets_column = $(@el).find(".widgets")[widget.get("widget_connector").px % @collection.columns]
     if not widget.view?
       new Analytics.Views.Widgets.ShowView({model: widget, parent_el: widgets_column}).render()
     else

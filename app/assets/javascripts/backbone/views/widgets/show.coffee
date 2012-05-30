@@ -2,6 +2,7 @@ Analytics.Views.Widgets ||= {}
 
 class Analytics.Views.Widgets.ShowView extends Backbone.View
   template: JST["backbone/templates/widgets/show"]
+  tagName: "li"
   className: "widget"
   events:
     "click .widget-edit" : "edit"
@@ -30,14 +31,14 @@ class Analytics.Views.Widgets.ShowView extends Backbone.View
 
   render: () ->
     $(@el).html(@template(@model.attributes))
-    $(@parent_el).append(@el)
+    $(@parent_el).prepend(@el)
     @render_chart()
 
   redraw: (options = {}) ->
     if options.parent_el? and (@parent_el != options.parent_el)
       @remove()
       @parent_el = options.parent_el
-      $(@parent_el).append(@el)
+      $(@parent_el).prepend(@el)
     @initialize_chart()
     $(@el).html(@template(@model.attributes))
     @render_chart()

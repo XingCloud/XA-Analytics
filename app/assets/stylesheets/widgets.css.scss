@@ -39,12 +39,22 @@
 .widgets{
   float: left;
   min-width: 200px;
-  width: 33%;
+  min-height: 400px;
+  height: auto !important;
+  height: 400px;
+  list-style: none;
+  margin: 0;
+}
+
+.widget-placeholder{
+  border: 2px dashed #CCC;
+  margin: 0 7px 14px 7px;
 }
 
 .widget{
   margin: 0 7px 14px 7px;
   .widget-title{
+    cursor: move;
     border-left: 1px solid #DDD;
     border-top: 1px solid #DDD;
     background-color: #F0F0F0;

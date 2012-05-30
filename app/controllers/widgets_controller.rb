@@ -12,7 +12,9 @@ class WidgetsController < ProjectBaseController
 
   def create
     @widget = @project.widgets.build(params[:widget].merge({:project_id => @project.id}))
-    if @widget.save and @project.widget_connectors.create({:widget_id => @widget.id, :position => 1})
+    if @widget.save and @project.widget_connectors.create({:widget_id => @widget.id,
+                                                           :px => params[:widget_connector][:px],
+                                                           :py => params[:widget_connector][:py]})
       render :json => @widget.js_attributes
     else
       @widget.destroy unless @widget.id.blank?

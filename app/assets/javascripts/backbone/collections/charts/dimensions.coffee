@@ -54,14 +54,17 @@ class Analytics.Collections.DimensionCharts extends Backbone.Collection
 
   fetch_charts: (options = {}) ->
     collection = this
-    success = (resp) ->
-      collection.fetch_success(resp)
-      if options.success?
-        options.success(resp)
-    error = (xhr, opts, err) ->
-      if options.error?
-        options.error(xhr, opts, err)
-    Analytics.Request.post(@fetch_url(), @fetch_params(), success, error, true)
+    Analytics.Request.post({
+      url: @fetch_url()
+      data: @fetch_params()
+      success: (resp) ->
+        collection.fetch_success(resp)
+        if options.success?
+          options.success(resp)
+      error: (xhr, opts, err) ->
+        if options.error?
+          options.error(xhr, opts, err)
+    }, true)
 
   fetch_success: (resp) ->
     if resp["data"]? and resp["data"]["data"]?

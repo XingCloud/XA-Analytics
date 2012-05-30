@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120524024822) do
+ActiveRecord::Schema.define(:version => 20120530072034) do
 
   create_table "dimensions", :force => true do |t|
     t.integer "report_tab_id"
@@ -127,7 +127,8 @@ ActiveRecord::Schema.define(:version => 20120524024822) do
     t.integer "widget_id"
     t.integer "project_id"
     t.integer "display",    :default => 1
-    t.integer "position",   :default => 0
+    t.integer "px"
+    t.integer "py"
   end
 
   add_index "widget_connectors", ["project_id"], :name => "index_widget_connectors_on_project_id"

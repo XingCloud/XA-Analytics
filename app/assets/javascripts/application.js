@@ -12,10 +12,11 @@
 //
 
 //= require jquery
-//= require twitter/bootstrap
+//= require jquery.ui.sortable
 //= require jquery.dateFormat
 //= require jquery.blockUI
 //= require jquery.form_to_json
+//= require twitter/bootstrap
 //= require underscore
 //= require backbone
 //= require highcharts

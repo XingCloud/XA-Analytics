@@ -1,7 +1,7 @@
 <div class="widget-edit">
     <i class="icon icon-cog"></i>
 </div>
-<div class="widget-title">
+<div class="widget-title" widget-id="<%= @id %>">
     <% if @report_tab_id?: %>
         <a class="widget-report-tab"><%= @title %></a>
     <% else: %>

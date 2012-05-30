@@ -15,7 +15,7 @@ class Widget < ActiveRecord::Base
     if project_id.present?
       connector = widget_connectors.find_by_project_id(project_id)
       if connector.present?
-        js_attributes.merge!(connector.js_attributes)
+        js_attributes[:widget_connector] = connector.attributes
       end
     end
     js_attributes

@@ -20,7 +20,7 @@
     </div>
 </div>
 <div class="row-fluid widgets-container">
-    <div class="widgets"></div>
-    <div class="widgets"></div>
-    <div class="widgets"></div>
+    <% for i in [0..@columns - 1]: %>
+        <ul class="widgets" column="<%= i %>" style="width: <%= (100/@columns).toFixed(2) %>%"></ul>
+    <% end %>
 </div>
