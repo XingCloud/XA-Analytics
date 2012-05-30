@@ -23,16 +23,13 @@ class AnalyticService
         results.append(resp["datas"][id].merge({"id" => id}))
       end
     end
-    results
+    {:results => results, :status => resp["status"].blank? ? 200 : resp["status"]}
   end
 
   def self.request_dimensions(project, params)
     resp = commit('/dd/event/groupby', build_params(project, params))
-    if resp["result"]
-      resp
-    else
-      {}
-    end
+    results = resp["result"] ? resp : {}
+    {:results => results, :status => resp["status"].blank? ? 200 : resp["status"]}
   end
 
   def self.check_event_key(project, target_row, condition)
@@ -93,7 +90,7 @@ class AnalyticService
     if response.is_a?(Net::HTTPSuccess)
       return JSON.parse(response.body)
     else
-      return {"result" => false, "error" => "Request: #{response.code}"}
+      return {"result" => false, "status" => 500}
     end
   end
 

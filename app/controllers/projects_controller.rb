@@ -14,11 +14,13 @@ class ProjectsController < ApplicationController
   end
 
   def timelines
-    render :json => {:id => params[:request_id].to_i, :data => AnalyticService.request_data(@project, params[:request])}
+    resp = AnalyticService.request_data(@project, params[:request])
+    render :json => {:id => params[:request_id].to_i, :data => resp[:results]}, :status => resp[:status]
   end
 
   def dimensions
-    render :json => {:id => params[:request_id].to_i, :data => AnalyticService.request_dimensions(@project, params[:request])}
+    resp = AnalyticService.request_dimensions(@project, params[:request])
+    render :json => {:id => params[:request_id].to_i, :data => resp[:results]}, :status => resp[:status]
   end
 
   def user_attributes
