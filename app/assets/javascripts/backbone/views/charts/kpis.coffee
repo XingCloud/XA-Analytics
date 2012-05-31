@@ -51,5 +51,5 @@ class Analytics.Views.Charts.KpisView extends Backbone.View
     else
       @timelines_view.highcharts.get(kpi_id).hide()
       if compare_kpi_id? and compare_kpi_id.length > 0
-        @highcharts.get(compare_kpi_id).hide()
+        @timelines_view.highcharts.get(compare_kpi_id).hide()
       $(element).addClass('deactive')
