@@ -85,7 +85,7 @@ class Analytics.Collections.TimelineCharts extends Backbone.Collection
       yAxis:
         min: 0
         gridLineWidth: 0.5
-        showFirstLabel: true
+        showFirstLabel: false
         title:
           text: ""
       xAxis:
