@@ -18,7 +18,7 @@ class WidgetsController < ProjectBaseController
       render :json => @widget.js_attributes
     else
       @widget.destroy unless @widget.id.blank?
-      render :json => @widget.js_attributes, :status => 400
+      render :json => @widget.js_attributes(@project.id), :status => 400
     end
   end
 
@@ -40,7 +40,7 @@ class WidgetsController < ProjectBaseController
     else
       error = (not @widget.update_attributes(params[:widget]))
     end
-    render :json => @widget.js_attributes, :status => (error ? 400 : 200)
+    render :json => @widget.js_attributes(@project.id), :status => (error ? 400 : 200)
   end
 
   def destroy
@@ -51,7 +51,7 @@ class WidgetsController < ProjectBaseController
     else
       error = (not @widget.destroy)
     end
-    render :json => @widget.js_attributes, :status => (error ? 400 : 200)
+    render :json => @widget.js_attributes(@project.id), :status => (error ? 400 : 200)
   end
 
   private
