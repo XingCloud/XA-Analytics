@@ -15,7 +15,7 @@ class WidgetsController < ProjectBaseController
     if @widget.save and @project.widget_connectors.create({:widget_id => @widget.id,
                                                            :px => params[:widget_connector][:px],
                                                            :py => params[:widget_connector][:py]})
-      render :json => @widget.js_attributes
+      render :json => @widget.js_attributes(@project.id)
     else
       @widget.destroy unless @widget.id.blank?
       render :json => @widget.js_attributes(@project.id), :status => 400
