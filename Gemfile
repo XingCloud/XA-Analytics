@@ -29,7 +29,5 @@ group :assets do
   gem 'therubyracer'
   gem 'uglifier'
   gem 'eco'
-  gem 'jquery-rails'
   gem 'twitter-bootstrap-rails', '2.0.6'
-  gem 'jquery-ui-rails'
 end

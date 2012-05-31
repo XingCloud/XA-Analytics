@@ -11,15 +11,13 @@
 // GO AFTER THE REQUIRES BELOW.
 //
 
-//= require jquery
-//= require jquery.ui.sortable
-//= require jquery.dateFormat
-//= require jquery.blockUI
-//= require jquery.form_to_json
 //= require twitter/bootstrap
 //= require underscore
 //= require backbone
 //= require highcharts
+//= require jquery.dateFormat
+//= require jquery.blockUI
+//= require jquery.form_to_json
 //= require bootstrap-datepicker
 //= require_directory ./backbone
 //= require_directory ./backbone/lib
