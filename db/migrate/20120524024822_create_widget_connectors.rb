@@ -4,7 +4,8 @@ class CreateWidgetConnectors < ActiveRecord::Migration
       t.integer :widget_id
       t.integer :project_id
       t.integer :display, :default => 1
-      t.integer :position, :default => 0
+      t.integer :px
+      t.integer :py
     end
     add_index :widget_connectors, :widget_id
     add_index :widget_connectors, :project_id
