@@ -13,10 +13,10 @@
     / Le styles
     = javascript_include_tag "https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"
     = javascript_include_tag "https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.18/jquery-ui.min.js"
-    = javascript_include_tag "#{BasisService.base_url}/xingcloud.js?project_id=#{@project.identifier}&select=analytic"
     = javascript_include_tag "application"
     = stylesheet_link_tag    "application"
 
   %body
     #container
       = yield
+    = javascript_include_tag "#{BasisService.base_url}/xingcloud.js?project_id=#{@project.identifier}&select=analytic"
