@@ -9,7 +9,9 @@ class Analytics.Collections.Widgets extends Backbone.Collection
     @columns = 3
 
   comparator: (lwidget, rwidget) ->
-    if lwidget.get("widget_connector").px == rwidget.get("widget_connector").px
+    if not lwidget.get("widget_connector")? or not rwidget.get("widget_connector")?
+      true
+    else if lwidget.get("widget_connector").px == rwidget.get("widget_connector").px
       lwidget.get("widget_connector").py >= rwidget.get("widget_connector").py
     else
       lwidget.get("widget_connector").px >= rwidget.get("widget_connector").px
