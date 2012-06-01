@@ -10,7 +10,7 @@ Analytic::Application.routes.draw do
       post :timelines
       post :dimensions
       post :user_attributes
-      post :update_widget_connectors
+      post :update_project_widgets
     end
 
     resources :metrics

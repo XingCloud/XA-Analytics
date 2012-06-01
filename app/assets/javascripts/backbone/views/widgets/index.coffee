@@ -66,7 +66,7 @@ class Analytics.Views.Widgets.IndexView extends Backbone.View
   new_widget: () ->
     model = new Analytics.Models.Widget({
       project_id: (if @collection.project? then @collection.project.id)
-      widget_connector:
+      project_widget:
         px: 0
         py: @collection.position_y(0)
     })
@@ -77,7 +77,7 @@ class Analytics.Views.Widgets.IndexView extends Backbone.View
 
 
   add_widget: (widget, collection) ->
-    widgets_column = $(@el).find(".widgets")[widget.get("widget_connector").px % @collection.columns]
+    widgets_column = $(@el).find(".widgets")[widget.get("project_widget").px % @collection.columns]
     if not widget.view?
       new Analytics.Views.Widgets.ShowView({model: widget, parent_el: widgets_column}).render()
     else

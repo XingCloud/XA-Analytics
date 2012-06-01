@@ -4,17 +4,17 @@ class WidgetsController < ProjectBaseController
   def index
     check_templates
     widgets = []
-    @project.widget_connectors.visible.each do |widget_connector|
-      widgets.append(Widget.find(widget_connector.widget_id).js_attributes(@project.id))
+    @project.project_widgets.visible.each do |project_widget|
+      widgets.append(Widget.find(project_widget.widget_id).js_attributes(@project.id))
     end
     render :json => widgets
   end
 
   def create
     @widget = @project.widgets.build(params[:widget].merge({:project_id => @project.id}))
-    if @widget.save and @project.widget_connectors.create({:widget_id => @widget.id,
-                                                           :px => params[:widget_connector][:px],
-                                                           :py => params[:widget_connector][:py]})
+    if @widget.save and @project.project_widgets.create({:widget_id => @widget.id,
+                                                           :px => params[:project_widget][:px],
+                                                           :py => params[:project_widget][:py]})
       render :json => @widget.js_attributes(@project.id)
     else
       @widget.destroy unless @widget.id.blank?
@@ -25,13 +25,13 @@ class WidgetsController < ProjectBaseController
   def update
     error = false
     if @widget.project_id.blank?
-      widget_connector = @widget.widget_connectors.find_by_project_id(@project.id)
+      project_widget = @widget.project_widgets.find_by_project_id(@project.id)
       @widget = @project.widgets.build(params[:widget].merge({:project_id => @project.id}))
       Widget.transaction do
         begin
-          widget_connector.update_attributes!(:display => 0)
+          project_widget.update_attributes!(:display => 0)
           @widget.save!
-          @project.widget_connectors.create!({:widget_id => @widget.id, :position => 1})
+          @project.project_widgets.create!({:widget_id => @widget.id, :position => 1})
         rescue
           error = true
           raise ActiveRecord::Rollback
@@ -46,8 +46,8 @@ class WidgetsController < ProjectBaseController
   def destroy
     error = false
     if @widget.project_id.blank?
-      widget_connector = @widget.widget_connectors.find_by_project_id(@project.id)
-      error = (not widget_connector.update_attributes({:display => 0}))
+      project_widget = @widget.project_widgets.find_by_project_id(@project.id)
+      error = (not project_widget.update_attributes({:display => 0}))
     else
       error = (not @widget.destroy)
     end

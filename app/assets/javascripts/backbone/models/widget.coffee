@@ -13,9 +13,9 @@ class Analytics.Models.Widget extends Backbone.Model
 
   toJSON: () ->
     attributes = _.clone(@attributes)
-    widget_connector = attributes.widget_connector
-    delete attributes["widget_connector"]
-    {widget: attributes, widget_connector: widget_connector}
+    project_widget = attributes.project_widget
+    delete attributes["project_widget"]
+    {widget: attributes, project_widget: project_widget}
 
   get_end_time: () ->
     @collection.end_time

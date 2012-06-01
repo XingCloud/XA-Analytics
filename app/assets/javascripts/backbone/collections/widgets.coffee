@@ -9,12 +9,12 @@ class Analytics.Collections.Widgets extends Backbone.Collection
     @columns = 3
 
   comparator: (lwidget, rwidget) ->
-    if not lwidget.get("widget_connector")? or not rwidget.get("widget_connector")?
+    if not lwidget.get("project_widget")? or not rwidget.get("project_widget")?
       true
-    else if lwidget.get("widget_connector").px == rwidget.get("widget_connector").px
-      lwidget.get("widget_connector").py >= rwidget.get("widget_connector").py
+    else if lwidget.get("project_widget").px == rwidget.get("project_widget").px
+      lwidget.get("project_widget").py >= rwidget.get("project_widget").py
     else
-      lwidget.get("widget_connector").px >= rwidget.get("widget_connector").px
+      lwidget.get("project_widget").px >= rwidget.get("project_widget").px
 
   url: () ->
     if @project?
@@ -42,53 +42,53 @@ class Analytics.Collections.Widgets extends Backbone.Collection
   position_y: (x) ->
     columns = @columns
     widgets = @filter((widget) ->
-      (widget.get("widget_connector").px % columns == x and
-      widget.get("widget_connector").py?)
+      (widget.get("project_widget").px % columns == x and
+      widget.get("project_widget").py?)
     )
     last_widget = _.last(widgets)
-    (if last_widget? then last_widget.get("widget_connector").py + 1 else 0)
+    (if last_widget? then last_widget.get("project_widget").py + 1 else 0)
 
   check_position: () ->
-    widget_connectors = []
+    project_widgets = []
     xcounter = 0
     ycounter = @positions()
     columns = @columns
     @each((widget) ->
       need_update = false
-      widget_connector = widget.get("widget_connector")
-      if not widget_connector.px?
-        widget_connector.px = (xcounter % columns)
+      project_widget = widget.get("project_widget")
+      if not project_widget.px?
+        project_widget.px = (xcounter % columns)
         xcounter = xcounter + 1
         need_update = true
-      if not widget_connector.py?
-        widget_connector.py = ycounter[widget_connector.px]
-        ycounter[widget_connector.px] = ycounter[widget_connector.px] + 1
+      if not project_widget.py?
+        project_widget.py = ycounter[project_widget.px]
+        ycounter[project_widget.px] = ycounter[project_widget.px] + 1
         need_update = true
-      if widget_connector.px >= columns
-        widget_connector.px = (widget_connector.px % columns)
+      if project_widget.px >= columns
+        project_widget.px = (project_widget.px % columns)
         need_update = true
       if need_update
-        widget_connectors.push(widget_connector)
+        project_widgets.push(project_widget)
     )
-    if widget_connectors.length > 0
-      @update_widget_connectors(widget_connectors)
+    if project_widgets.length > 0
+      @update_project_widgets(project_widgets)
 
-  update_widget_connectors: (widget_connectors) ->
+  update_project_widgets: (project_widgets) ->
     Analytics.Request.post({
-      url: "/projects/" + @project.id + "/update_widget_connectors"
-      data: {widget_connectors: JSON.stringify(widget_connectors)}
+      url: "/projects/" + @project.id + "/update_project_widgets"
+      data: {project_widgets: JSON.stringify(project_widgets)}
     }, true)
 
   update_position: (widget_id, px, next_widget_id, prev_widget_ids) ->
     widget = @get(widget_id)
-    py = (if next_widget_id? then @get(next_widget_id).get("widget_connector").py + 1 else 0)
-    if (widget.get("widget_connector").px != px or
-        widget.get("widget_connector").py != py)
-      widget.get("widget_connector").px = px
-      widget.get("widget_connector").py = py
-      widget_connectors = [widget.get("widget_connector")]
+    py = (if next_widget_id? then @get(next_widget_id).get("project_widget").py + 1 else 0)
+    if (widget.get("project_widget").px != px or
+        widget.get("project_widget").py != py)
+      widget.get("project_widget").px = px
+      widget.get("project_widget").py = py
+      project_widgets = [widget.get("project_widget")]
       for prev_widget_id in prev_widget_ids
         prev_widget = @get(prev_widget_id)
-        prev_widget.get("widget_connector").py = prev_widget.get("widget_connector").py + 1
-        widget_connectors.push(prev_widget.get("widget_connector"))
-      @update_widget_connectors(widget_connectors)
+        prev_widget.get("project_widget").py = prev_widget.get("project_widget").py + 1
+        project_widgets.push(prev_widget.get("project_widget"))
+      @update_project_widgets(project_widgets)

@@ -2,7 +2,8 @@ class ReportTab < ActiveRecord::Base
   belongs_to :report
   has_many :dimensions, :dependent => :destroy
   has_many :widgets, :dependent => :destroy
-  has_and_belongs_to_many :metrics
+  has_many :report_tab_metrics, :dependent => :destroy
+  has_many :metrics, :through => :report_tab_metrics
 
   accepts_nested_attributes_for :dimensions, :allow_destroy => true
 

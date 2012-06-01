@@ -4,8 +4,8 @@ class Project < ActiveRecord::Base
   has_many :report_tabs, :dependent => :destroy
   has_many :metrics, :dependent => :destroy
   has_many :segments, :dependent => :destroy
-  has_many :widget_connectors, :dependent => :destroy
-  has_many :widgets, :through => :widget_connectors
+  has_many :project_widgets, :dependent => :destroy
+  has_many :widgets, :through => :project_widgets
 
   validate :identifier, :presence => true, :uniqueness => true
 

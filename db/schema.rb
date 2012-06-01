@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120530072034) do
+ActiveRecord::Schema.define(:version => 20120601080614) do
 
   create_table "dimensions", :force => true do |t|
     t.integer "report_tab_id"
@@ -48,10 +48,16 @@ ActiveRecord::Schema.define(:version => 20120530072034) do
 
   add_index "metrics", ["combine_id"], :name => "index_metrics_on_combine_id"
 
-  create_table "metrics_report_tabs", :id => false, :force => true do |t|
-    t.integer "report_tab_id"
-    t.integer "metric_id"
+  create_table "project_widgets", :force => true do |t|
+    t.integer "widget_id"
+    t.integer "project_id"
+    t.integer "display",    :default => 1
+    t.integer "px"
+    t.integer "py"
   end
+
+  add_index "project_widgets", ["project_id"], :name => "index_widget_connectors_on_project_id"
+  add_index "project_widgets", ["widget_id"], :name => "index_widget_connectors_on_widget_id"
 
   create_table "projects", :force => true do |t|
     t.string   "identifier"
@@ -66,6 +72,12 @@ ActiveRecord::Schema.define(:version => 20120530072034) do
     t.integer  "project_id"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
+  end
+
+  create_table "report_tab_metrics", :force => true do |t|
+    t.integer "report_tab_id"
+    t.integer "metric_id"
+    t.integer "position",      :default => 0
   end
 
   create_table "report_tabs", :force => true do |t|
@@ -122,17 +134,6 @@ ActiveRecord::Schema.define(:version => 20120530072034) do
   end
 
   add_index "versions", ["item_type", "item_id"], :name => "index_versions_on_item_type_and_item_id"
-
-  create_table "widget_connectors", :force => true do |t|
-    t.integer "widget_id"
-    t.integer "project_id"
-    t.integer "display",    :default => 1
-    t.integer "px"
-    t.integer "py"
-  end
-
-  add_index "widget_connectors", ["project_id"], :name => "index_widget_connectors_on_project_id"
-  add_index "widget_connectors", ["widget_id"], :name => "index_widget_connectors_on_widget_id"
 
   create_table "widgets", :force => true do |t|
     t.integer  "project_id"

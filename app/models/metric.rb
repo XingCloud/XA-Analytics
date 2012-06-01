@@ -1,7 +1,8 @@
 class Metric < ActiveRecord::Base
   belongs_to :project
   has_many :widgets, :dependent => :destroy
-  has_and_belongs_to_many :report_tabs
+  has_many :report_tab_metrics, :dependent => :destroy
+  has_many :report_tabs, :through => :report_tab_metrics
   
   has_one :combine, :class_name => "Metric", :foreign_key => "combine_id", :dependent => :destroy
   belongs_to :segment

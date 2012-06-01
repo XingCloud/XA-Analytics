@@ -27,13 +27,13 @@ class ProjectsController < ApplicationController
     render :json => AnalyticService.user_attributes(@project)
   end
 
-  def update_widget_connectors
+  def update_project_widgets
     error = false
-    WidgetConnector.transaction do
+    ProjectWidget.transaction do
       begin
-        JSON.parse(params[:widget_connectors]).each do |widget_connector_attributes|
-          widget_connector = @project.widget_connectors.find(widget_connector_attributes["id"])
-          widget_connector.update_attributes!(widget_connector_attributes)
+        JSON.parse(params[:project_widgets]).each do |project_widget_attributes|
+          project_widget = @project.project_widgets.find(project_widget_attributes["id"])
+          project_widget.update_attributes!(project_widget_attributes)
         end
       rescue
         error = true
