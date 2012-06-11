@@ -1,5 +1,5 @@
 <div class="report-tab-controls">
-    <div class="left dimensions-filters">
+    <div class="dimensions-filters">
         <% if @dimensions_filters.length > 0: %>
             <% last_filter = @dimensions_filters[@dimensions_filters.length - 1] %>
             <table>
