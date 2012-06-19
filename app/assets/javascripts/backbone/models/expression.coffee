@@ -18,6 +18,6 @@ class Analytics.Models.Expression extends Backbone.Model
       result[@get("name")] = {"$handler": "DateSplittor"}
     else
       result[@get("name")] = {}
-      result[@get("name")][operator] = @value()
+      result[@get("name")]["$"+operator] = @value()
     result
 
