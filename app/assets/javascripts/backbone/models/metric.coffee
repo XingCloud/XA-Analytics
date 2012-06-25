@@ -28,6 +28,23 @@ class Analytics.Models.Metric extends Backbone.Model
 
   sequence_options: (segment_id, filters) ->
     options = {
+      items: [@item_options("x", segment_id, filters)]
+      formula: "x"
+    }
+    if @get("combine_attributes")?
+      combine = new Analytics.Models.Metric(@get("combine_attributes"))
+      options.items.push(combine.item_options("y", segment_id, filters))
+      switch @get("combine_action").toUpperCase()
+        when "ADDITION" then options.formula = "x+y"
+        when "DIVISION" then options.formula = "x/y"
+        when "MULTIPLICATION" then options.formula = "x*y"
+        when "SUBDUCTION" then options.formula = "x-y"
+    options
+
+
+  item_options: (name, segment_id, filters) ->
+    options = {
+      name: name
       event_key: @event_key(filters)
       count_method: @get("condition").toUpperCase()
       avg: (@get("number_of_day")? or @get("number_of_day_origin")?)
@@ -48,13 +65,8 @@ class Analytics.Models.Metric extends Backbone.Model
     else
       options["segment"] = @segment_options(segment_id, filters)
 
-    if @get("combine_attributes")?
-      combine = new Analytics.Models.Metric(@get("combine_attributes"))
-      options["combine"] = {action: @get("combine_action").toUpperCase()}
-      _.extend(options["combine"], combine.sequence_options(segment_id, filters))
-
     if options["segment"]?
-      options["segment"] = JSON.stringify(options["segment"])
+      options["segment"] = JSON.stringify(options["segment"]).replace(/"/g, "'")
 
     options
 

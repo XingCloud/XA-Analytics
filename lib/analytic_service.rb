@@ -17,7 +17,7 @@ class AnalyticService
 
   def self.request_data(project, params)
     results = []
-    resp = commit("/dd/events", build_params(project, params))
+    resp = commit("/dd/query", build_params(project, params))
     if resp["result"]
       resp["datas"].keys.each do |id|
         results.append(resp["datas"][id].merge({"id" => id}))
@@ -27,7 +27,7 @@ class AnalyticService
   end
 
   def self.request_dimensions(project, params)
-    resp = commit('/dd/event/groupby', build_params(project, params))
+    resp = commit('/dd/query', build_params(project, params))
     results = resp["result"] ? resp : {}
     {:results => results, :status => resp["status"].blank? ? 200 : resp["status"]}
   end

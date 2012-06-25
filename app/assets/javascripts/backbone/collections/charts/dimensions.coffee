@@ -67,7 +67,7 @@ class Analytics.Collections.DimensionCharts extends Backbone.Collection
     }, true)
 
   fetch_success: (resp) ->
-    if resp["data"]? and resp["data"]["data"]?
-      @data = resp["data"]["data"]
+    if resp["data"]? and resp["data"]["datas"]?
+      @data = resp["data"]["datas"]
     if resp["data"]? and resp["data"]["total"]?
       @total = resp["data"]["total"]
