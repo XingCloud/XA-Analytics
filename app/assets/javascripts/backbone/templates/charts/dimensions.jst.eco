@@ -33,7 +33,7 @@
                                 <% end %>
                             </td>
                             <% for metric_id in @metric_ids: %>
-                                <td class="<%= if parseInt(@orderby) == metric_id then 'orderby' %>"><%= item[1][metric_id] %></td>
+                                <td class="<%= if parseInt(@orderby) == metric_id then 'orderby' %>"><%= if item[1][metric_id]? then item[1][metric_id] else '-' %></td>
                             <% end %>
                         </tr>
                     <% end %>
