@@ -118,6 +118,7 @@ class Metric < ActiveRecord::Base
       options[:items] = [item_sequence("x", groupby, groupby_type),
                          combine.item_sequence("y", groupby, groupby_type)]
     else
+      options[:formula] = "x"
       options[:items] = [item_sequence("x", groupby, groupby_type)]
     end
     options
