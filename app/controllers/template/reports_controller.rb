@@ -7,24 +7,34 @@ class Template::ReportsController < Template::BaseController
 
   def create
     @report = Report.new(params[:report])
-    if @report.save
-      render :json => @report.js_attributes
-    else
-      render :json => @report.js_attributes, :status => 500
+    status = 200
+    Report.transaction do
+      if @report.save
+        status = @report.sync ? 200 : 500
+      else
+        status = 400
+      end
+      raise ActiveRecord::Rollback unless status == 200
     end
+    render :json => @report.js_attributes, :status => status
   end
 
   def update
     @report.attributes = params[:report]
-    if @report.save
-      render :json => @report.js_attributes
-    else
-      render :json => @report.js_attributes, :status => 500
+    status = 200
+    Report.transaction do
+      if @report.save
+        status = @report.sync ? 200 : 500
+      else
+        status = 400
+      end
+      raise ActiveRecord::Rollback unless status == 200
     end
+    render :json => @report.js_attributes, :status => status
   end
 
   def destroy
-    if @report.destroy
+    if @report.sync("REMOVE") and @report.destroy
       render :json => @report.js_attributes
     else
       render :json => @report.js_attributes, :status => 500

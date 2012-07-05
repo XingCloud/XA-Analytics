@@ -47,6 +47,22 @@ class AnalyticService
     end
   end
 
+  def self.sync_metric(action, metrics)
+    request = {
+      :type => action,
+      :params => metrics.to_json
+    }
+    resp = commit("/dd/sync", request)
+    if resp["result"]
+      resp["cnt"]
+    else
+      nil
+    end
+  rescue Exception => e
+    logger.error "sync metrics #{metrics.to_json} error: #{e.message}"
+    nil
+  end
+
   private
 
 

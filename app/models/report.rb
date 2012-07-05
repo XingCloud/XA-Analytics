@@ -52,4 +52,29 @@ class Report < ActiveRecord::Base
     metrics
   end
 
+  def sync(action = "SAVE_OR_UPDATE")
+    if APP_CONFIG[:sync_metric] == 1
+      metrics = []
+      report_tabs.each do |report_tab|
+        if report_tab.dimensions.length > 0
+          groupby = report_tab.dimensions[0].value
+          groupby_type = report_tab.dimensions[0].dimension_type
+          if groupby_type == "EVENT"
+            groupby = groupby.to_i
+          end
+          report_tab.metrics.each do |metric|
+            metrics.append(metric.sequence("GROUP", groupby, groupby_type))
+          end
+        end
+      end
+      if metrics.length > 0
+        AnalyticService.sync_metric(action, metrics).present?
+      else
+        true
+      end
+    else
+      true
+    end
+  end
+
 end

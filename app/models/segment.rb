@@ -29,4 +29,16 @@ class Segment < ActiveRecord::Base
     attributes.merge({:expressions_attributes => expressions.map(&:attributes)})
   end
 
+  def sequence
+    if expressions.length > 0
+      results = {}
+      expressions.each do |expression|
+        results.merge!(expression.sequence)
+      end
+      results
+    else
+      nil
+    end
+  end
+
 end

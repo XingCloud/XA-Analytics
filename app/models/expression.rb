@@ -4,22 +4,23 @@ class Expression < ActiveRecord::Base
   #
   EXPRESSION_OPERATORS = ["gt","gte", "lt", "lte", "eq","handler"]
 
-  # 组装给后端的数据
-  def to_hsh
-    if self.operator.match('eq')
-      if self.value_type == 'int'
-        {self.name => self.value.to_i}
-      else
-        {self.name => self.value}
-      end
-    elsif self.operator.match("handler")
-      {self.name => {"$handler" => "DateSplittor"}}
+  def sequence
+    if operator == "eq"
+      {name => value_wrapper}
+    elsif operator == "handler"
+      {name => {"$handler" => "DateSplittor"}}
     else
-      if self.value_type == 'int'
-        {self.name => {"$#{self.operator}" => self.value.to_i}}
-      else
-        {self.name => {"$#{self.operator}" => self.value}}
-      end
+      {name => {"$#{operator}" => value_wrapper}}
+    end
+  end
+
+  private
+
+  def value_wrapper
+    if value_type == "int"
+      value.to_i
+    else
+      value
     end
   end
 

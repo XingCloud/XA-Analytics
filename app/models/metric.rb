@@ -96,12 +96,74 @@ class Metric < ActiveRecord::Base
       (combine != nil and metric.combine != nil and combine.is_duplicate(metric.combine))))
   end
 
+  def sequence(type = nil, groupby = nil, groupby_type = nil)
+    options = {
+        :interval => "DAY",
+        :type => (type.present? ? type : "COMMON"),
+    }
+    if Project.find_by_id(project_id).present?
+      options[:project_id] = Project.find_by_id(project_id).identifier
+    end
+    if combine.present?
+      case combine_action.upcase
+        when "ADDITION"
+          options[:formula] = "x+y"
+        when "DIVISION"
+          options[:formula] = "x/y"
+        when "MULTIPLICATION"
+          options[:formula] = "x*y"
+        when "SUBDUCTION"
+          options[:formula] = "x-y"
+      end
+      options[:items] = [item_sequence("x", groupby, groupby_type),
+                         combine.item_sequence("y", groupby, groupby_type)]
+    else
+      options[:items] = [item_sequence("x", groupby, groupby_type)]
+    end
+    options
+  end
+
+  def sync(action = "SAVE_OR_UPDATE")
+    if APP_CONFIG[:sync_metric] == 1
+      AnalyticService.sync_metric(action, [sequence]).present?
+    else
+      true
+    end
+  end
+
   protected
 
   def correct_combine
     if self.combine_action.blank?
       self.combine = nil
     end
+  end
+
+  def item_sequence(name, groupby = nil, groupby_type = nil)
+    item = {
+        :mongo_id => id.to_s,
+        :event_key => event_key,
+        :name => name,
+        :count_method => condition.upcase,
+        :avg => number_of_day.present?
+    }
+    if number_of_day.present?
+      item[:number_of_day] = number_of_day
+    end
+    if number_of_day_origin.present?
+      item[:number_of_day_origin] = number_of_day_origin
+    end
+    if segment_id.present?
+      segment = Segment.find_by_id(segment_id)
+      if segment.present?
+        item[:segment] = segment.sequence.to_json.gsub(/"/, "'")
+      end
+    end
+    if groupby.present? and groupby_type.present?
+      item[:groupby] = groupby
+      item[:groupby_type] = groupby_type
+    end
+    item
   end
 
 end

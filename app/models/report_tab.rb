@@ -41,4 +41,19 @@ class ReportTab < ActiveRecord::Base
     new_report_tab
   end
 
+  def dimensions_sequence
+    if dimensions.length > 0
+      results = {}
+      if dimensions.where(:dimension_type => "USER_PROPERTIES").length > 0
+        results[:USER_PROPERTIES] = dimensions.where(:dimension_type => "USER_PROPERTIES").map(&:value)
+      end
+      if dimensions.where(:dimension_type => "EVENT").length > 0
+        results[:EVENT] = dimensions.where(:dimension_type => "EVENT").map{|dimension| dimension.value.to_i}
+      end
+      results
+    else
+      nil
+    end
+  end
+
 end
