@@ -59,9 +59,6 @@ class Report < ActiveRecord::Base
         if report_tab.dimensions.length > 0
           groupby = report_tab.dimensions[0].value
           groupby_type = report_tab.dimensions[0].dimension_type
-          if groupby_type == "EVENT"
-            groupby = groupby.to_i
-          end
           report_tab.metrics.each do |metric|
             metrics.append(metric.sequence("GROUP", groupby, groupby_type))
           end
