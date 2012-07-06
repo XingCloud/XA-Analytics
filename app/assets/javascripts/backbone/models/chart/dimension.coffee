@@ -7,6 +7,7 @@ class Analytics.Models.DimensionChart extends Backbone.Model
       start_time: Analytics.Utils.formatUTCDate(@selector.get_end_time() - (@selector.get("length") - 1) * 86400000, "yyyy-MM-dd")
       interval: @selector.get("interval").toUpperCase()
       type: "GROUP"
+      project_id: project.get("identifier")
     }
     sequence_options = metric.sequence_options(@collection.segment_id, @collection.filters)
     for item in sequence_options.items

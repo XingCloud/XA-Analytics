@@ -21,6 +21,7 @@ class Analytics.Models.TimelineChart extends Backbone.Model
       start_time: Analytics.Utils.formatUTCDate(start_time, "yyyy-MM-dd")
       interval: @selector.get("interval").toUpperCase()
       type: "COMMON"
+      project_id: project.get("identifier")
     })
 
   name: () ->
