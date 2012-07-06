@@ -96,7 +96,7 @@ class Metric < ActiveRecord::Base
       (combine != nil and metric.combine != nil and combine.is_duplicate(metric.combine))))
   end
 
-  def sequence(type = nil, groupby = nil, groupby_type = nil)
+  def sequence(type = nil, groupby_json = nil)
     options = {
         :interval => "DAY",
         :type => (type.present? ? type : "COMMON"),
@@ -115,11 +115,11 @@ class Metric < ActiveRecord::Base
         when "SUBDUCTION"
           options[:formula] = "x-y"
       end
-      options[:items] = [item_sequence("x", groupby, groupby_type),
-                         combine.item_sequence("y", groupby, groupby_type)]
+      options[:items] = [item_sequence("x", groupby_json),
+                         combine.item_sequence("y", groupby_json)]
     else
       options[:formula] = "x"
-      options[:items] = [item_sequence("x", groupby, groupby_type)]
+      options[:items] = [item_sequence("x", groupby_json)]
     end
     options
   end
@@ -140,9 +140,8 @@ class Metric < ActiveRecord::Base
     end
   end
 
-  def item_sequence(name, groupby = nil, groupby_type = nil)
+  def item_sequence(name, groupby_json)
     item = {
-        :mongo_id => id.to_s,
         :event_key => event_key,
         :name => name,
         :count_method => condition.upcase,
@@ -160,9 +159,8 @@ class Metric < ActiveRecord::Base
         item[:segment] = segment.sequence.to_json.gsub(/"/, "'")
       end
     end
-    if groupby.present? and groupby_type.present?
-      item[:groupby] = groupby
-      item[:groupby_type] = groupby_type
+    if groupby_json.present?
+      item[:groupby_json] = groupby_json
     end
     item
   end

@@ -57,10 +57,9 @@ class Report < ActiveRecord::Base
       metrics = []
       report_tabs.each do |report_tab|
         if report_tab.dimensions.length > 0
-          groupby = report_tab.dimensions[0].value
-          groupby_type = report_tab.dimensions[0].dimension_type
+          groupby_json = report_tab.dimensions_sequence
           report_tab.metrics.each do |metric|
-            metrics.append(metric.sequence("GROUP", groupby, groupby_type))
+            metrics.append(metric.sequence("GROUP", groupby_json))
           end
         end
       end
