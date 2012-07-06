@@ -59,7 +59,7 @@ class Report < ActiveRecord::Base
         if report_tab.dimensions.length > 0
           groupby_json = report_tab.dimensions_sequence
           report_tab.metrics.each do |metric|
-            metrics.append(metric.sequence("GROUP", groupby_json.to_json))
+            metrics.append(metric.sequence("GROUP", groupby_json.to_json.gsub(/"/, "'")))
           end
         end
       end
