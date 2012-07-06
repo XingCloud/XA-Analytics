@@ -34,7 +34,7 @@ class Template::ReportsController < Template::BaseController
   end
 
   def destroy
-    if @report.sync("REMOVE") and @report.destroy
+    if @report.destroy
       render :json => @report.js_attributes
     else
       render :json => @report.js_attributes, :status => 500
