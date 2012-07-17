@@ -47,7 +47,6 @@ class Analytics.Models.Metric extends Backbone.Model
       name: name
       event_key: @event_key(filters)
       count_method: @get("condition").toUpperCase()
-      avg: (@get("number_of_day")? or @get("number_of_day_origin")?)
     }
     if @get("number_of_day")?
       options["number_of_day"] = @get("number_of_day")
