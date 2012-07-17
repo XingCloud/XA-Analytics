@@ -144,8 +144,7 @@ class Metric < ActiveRecord::Base
     item = {
         :event_key => event_key,
         :name => name,
-        :count_method => condition.upcase,
-        :avg => number_of_day.present?
+        :count_method => condition.upcase
     }
     if number_of_day.present?
       item[:number_of_day] = number_of_day
