@@ -108,7 +108,7 @@ class AnalyticService
       request_monitor
       return JSON.parse(response.body)
     else
-      request_monitor(:error, options.to_json)
+      request_monitor(:error, options)
       return {"result" => false, "status" => 500}
     end
   end
@@ -116,7 +116,7 @@ class AnalyticService
   def self.request_monitor(label = :success, params = "")
     EM.run do
       url = "http://#{APP_CONFIG[:monitor][:host]}#{APP_CONFIG[:monitor][label]}"
-      http = EM::HttpRequest.new(url).post :query => {"params" => params}
+      http = EM::HttpRequest.new(url).post :body => {:params => params}
       http.callback do
         logger.info "#{url} - #{http.response_header.status} - #{http.response.length} bytes - #{http.response}"
       end
