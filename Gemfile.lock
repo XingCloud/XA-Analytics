@@ -91,8 +91,6 @@ GEM
     highline (1.6.12)
     hike (1.2.1)
     i18n (0.6.0)
-    i18n-js (2.1.2)
-      i18n
     journey (1.0.3)
     jruby-pageant (1.0.2)
     json (1.7.3)
@@ -220,7 +218,6 @@ DEPENDENCIES
   guard-rspec
   guard-spork
   haml-rails
-  i18n-js
   mysql2
   paper_trail
   pry
