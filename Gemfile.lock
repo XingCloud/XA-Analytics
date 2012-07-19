@@ -57,10 +57,15 @@ GEM
       eco-source
       execjs
     eco-source (1.1.0.rc.1)
+    em-http-request (0.3.0)
+      addressable (>= 2.0.0)
+      escape_utils
+      eventmachine (>= 0.12.9)
     em-websocket (0.3.6)
       addressable (>= 2.1.1)
       eventmachine (>= 0.12.9)
     erubis (2.7.0)
+    escape_utils (0.2.4)
     eventmachine (0.12.10)
     execjs (1.4.0)
       multi_json (~> 1.0)
@@ -86,6 +91,8 @@ GEM
     highline (1.6.12)
     hike (1.2.1)
     i18n (0.6.0)
+    i18n-js (2.1.2)
+      i18n
     journey (1.0.3)
     jruby-pageant (1.0.2)
     json (1.7.3)
@@ -208,10 +215,12 @@ DEPENDENCIES
   coffee-rails
   dalli
   eco
+  em-http-request
   guard-livereload
   guard-rspec
   guard-spork
   haml-rails
+  i18n-js
   mysql2
   paper_trail
   pry

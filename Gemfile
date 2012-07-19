@@ -9,6 +9,8 @@ gem "rubycas-client", ">=2.3.9.rc1"
 gem "paper_trail"
 gem 'thin'
 gem 'dalli'
+gem 'i18n-js'
+gem 'em-http-request'
 
 group :development, :test do
   gem "pry"
