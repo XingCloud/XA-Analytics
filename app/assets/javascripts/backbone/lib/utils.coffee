@@ -83,3 +83,25 @@ Analytics.Utils.checkFormFields = (form) ->
       continue
 
   valid
+
+Analytics.Utils.timeShard = (time) ->
+  if time < 100
+    "<0.1s"
+  else if time >= 100 and time < 200
+    "0.1s-0.2s"
+  else if time >= 200 and time < 500
+    "0.2s-0.5s"
+  else if time >= 500 and time < 1000
+    "0.5s-1s"
+  else if time >= 1000 and time < 2000
+    "1s-2s"
+  else if time >= 2000 and time < 5000
+    "2s-5s"
+  else if time >= 5000 and time < 10000
+    "5s-10s"
+  else if time >= 10000 and time < 30000
+    "10s-30s"
+  else if time >= 30000 and time < 60000
+    "30s-60s"
+  else
+    ">=1min"

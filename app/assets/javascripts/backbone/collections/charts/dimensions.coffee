@@ -54,20 +54,37 @@ class Analytics.Collections.DimensionCharts extends Backbone.Collection
 
   fetch_charts: (options = {}) ->
     collection = this
+    start_time = (new Date()).getTime()
     Analytics.Request.post({
       url: @fetch_url()
       data: @fetch_params()
       success: (resp) ->
-        collection.fetch_success(resp)
+        collection.fetch_success(resp, start_time)
         if options.success?
           options.success(resp)
       error: (xhr, opts, err) ->
+        collection.fetch_error(xhr, opts, err, start_time)
         if options.error?
           options.error(xhr, opts, err)
     }, true)
 
-  fetch_success: (resp) ->
+  fetch_success: (resp, start_time) ->
     if resp["data"]? and resp["data"]["datas"]?
       @data = resp["data"]["datas"]
     if resp["data"]? and resp["data"]["total"]?
       @total = resp["data"]["total"]
+    @xa_action(start_time, "success")
+
+  fetch_error: (xhr, opts, err, start_time) ->
+    @xa_action(start_time, "error")
+
+  xa_action: (start_time, tag) ->
+    xa_action = "response." + project.get("identifier") + "." + @xa_id()
+    xa_interval = (new Date()).getTime() - start_time
+    XA.action(xa_action + ".responsetime." + Analytics.Utils.timeShard(xa_interval) + "," + xa_interval, xa_action+"."+tag+",0")
+
+  xa_id: () ->
+    if @for_widget
+      "widget." + @selector.id
+    else
+      "report." + @selector.get("report_id") + "_tab_" + @selector.id + "_dimensions"
