@@ -87,4 +87,4 @@ class Analytics.Collections.DimensionCharts extends Backbone.Collection
     if @for_widget
       "widget." + @selector.id
     else
-      "report." + @selector.get("report_id") + "_tab_" + @selector.id + "_dimensions"
+      "report." + @selector.get("report_id") + "/" + @selector.id + "/t"
