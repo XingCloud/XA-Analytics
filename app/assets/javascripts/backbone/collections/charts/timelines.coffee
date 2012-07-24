@@ -69,10 +69,13 @@ class Analytics.Collections.TimelineCharts extends Backbone.Collection
     }, true)
 
   fetch_success: (resp, start_time) ->
+    contains_error = false
     for sequence in resp["data"]
+      if not sequence.data? or sequence.data.length == 0
+        contains_error = true
       chart = @get(sequence.id)
       _.extend(chart.get("sequence"), sequence)
-    @xa_action(start_time, "success")
+    @xa_action(start_time, (if contains_error then "error" else "success"))
 
   fetch_error: (xhr, opts, err, start_time) ->
     @xa_action(start_time, "error")
