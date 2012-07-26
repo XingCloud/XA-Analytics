@@ -65,7 +65,7 @@ class Analytics.Models.Metric extends Backbone.Model
       options["segment"] = @segment_options(segment_id, filters)
 
     if options["segment"]?
-      options["segment"] = JSON.stringify(options["segment"]).replace(/"/g, "'")
+      options["segment"] = JSON.stringify(options["segment"])
 
     options
 
