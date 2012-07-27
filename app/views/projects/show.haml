@@ -1,6 +1,8 @@
 :javascript
   Analytics.Static.fetchUserAttributes("#{@project.id}");
 
+  window.XAUSER = "#{session[:cas_user]}";
+  window.XA.init({app: "xaa", uid: XAUSER});
   window.project = new Analytics.Models.Project(#{@project.js_attributes.to_json});
   window.projects_router = new Analytics.Routers.ProjectsRouter();
 

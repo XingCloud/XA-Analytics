@@ -48,4 +48,3 @@ class XA
       @asyncSend()
     @sending = false
 window.XA = new XA()
-window.XA.init({app: "xaa"})
