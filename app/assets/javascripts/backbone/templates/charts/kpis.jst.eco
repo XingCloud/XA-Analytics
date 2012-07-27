@@ -31,7 +31,8 @@
                 <td class="<%= if index+1 == @metric_ids.length then 'last' %>">
                     <% metric = metrics_router.get(metric_id) %>
                     <% chart = _.find(@models, (chart) -> chart.get("metric_id") == metric_id and chart.get("segment_id") == segment_id and not chart.get("compare_for")?) %>
-                    <% use_natural = (metric.get("segment_id")? or chart.get("sequence").total != chart.get("sequence").natural or has_segments or (chart.get("filters")? and chart.get("filters").length > 0)) %>
+                    <% up_filters = _.filter(chart.get("filters"), (item) -> item['dimension']['dimension_type'] == 'USER_PROPERTIES') %>
+                    <% use_natural = (chart.get("sequence").total != chart.get("sequence").natural or has_segments or up_filters.length > 0) %>
                     <% chart_value = (if use_natural then chart.get("sequence").natural else chart.get("sequence").total) %>
                     <div class="kpi-info <%= if metric_id != @display_metric then 'deactive' %>" kpi-id="<%= chart.id %>" compare-kpi-id="<%= chart.get('compare_to') %>" metric-id="<%= metric_id %>" segment-id="<%= segment_id %>">
                         <% if @has_compare: %>
