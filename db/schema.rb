@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120601080614) do
+ActiveRecord::Schema.define(:version => 20120730014759) do
 
   create_table "dimensions", :force => true do |t|
     t.integer "report_tab_id"
@@ -33,15 +33,15 @@ ActiveRecord::Schema.define(:version => 20120601080614) do
   end
 
   create_table "metrics", :force => true do |t|
-    t.integer  "project_id"
-    t.integer  "combine_id"
-    t.integer  "number_of_day"
-    t.string   "name"
     t.string   "event_key"
     t.string   "condition"
-    t.string   "combine_action"
     t.datetime "created_at",           :null => false
     t.datetime "updated_at",           :null => false
+    t.integer  "combine_id"
+    t.string   "combine_action"
+    t.string   "name"
+    t.integer  "project_id"
+    t.integer  "number_of_day"
     t.integer  "number_of_day_origin"
     t.integer  "segment_id"
   end
@@ -88,9 +88,10 @@ ActiveRecord::Schema.define(:version => 20120601080614) do
     t.string   "chart_type",  :default => "line"
     t.datetime "created_at",                      :null => false
     t.datetime "updated_at",                      :null => false
-    t.integer  "length"
-    t.string   "interval"
-    t.integer  "compare"
+    t.integer  "length",      :default => 7
+    t.string   "interval",    :default => "day"
+    t.integer  "compare",     :default => 0
+    t.boolean  "show_table",  :default => false
   end
 
   add_index "report_tabs", ["report_id"], :name => "index_report_tabs_on_report_id"

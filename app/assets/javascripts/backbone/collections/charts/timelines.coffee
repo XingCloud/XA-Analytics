@@ -144,6 +144,19 @@ class Analytics.Collections.TimelineCharts extends Backbone.Collection
     else
       2419200000
 
+  charts_map: () ->
+    cmap = {}
+    @each((chart) ->
+      sequence = chart.get("sequence")["data"]
+      for item in sequence
+        if not cmap[chart.get("segment_id")]?
+          cmap[chart.get("segment_id")] = {}
+        if not cmap[chart.get("segment_id")][item[0]]?
+          cmap[chart.get("segment_id")][item[0]] = {}
+        cmap[chart.get("segment_id")][item[0]][chart.get("metric_id")] = item[1]
+    )
+    cmap
+
   xa_action: (start_time, tag) ->
     xa_action = "response." + project.get("identifier") + "." + @xa_id()
     xa_interval = (new Date()).getTime() - start_time

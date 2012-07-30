@@ -35,6 +35,7 @@ class Analytics.Views.ReportTabs.FormBodyView extends Backbone.View
     "click a#toggle-advanced-options" : "toggle_advanced_options"
     "click button.interval" : "change_interval"
     "change input#compare-checkbox" : "change_compare"
+    "change input#show-table-checkbox": "change_show_table"
 
   initialize: () ->
     _.bindAll this, "render"
@@ -86,3 +87,9 @@ class Analytics.Views.ReportTabs.FormBodyView extends Backbone.View
       $('#report_tabs_attributes_'+@model.index+'_compare').val(1)
     else
       $('#report_tabs_attributes_'+@model.index+'_compare').val(0)
+
+  change_show_table: (ev) ->
+    if $(ev.currentTarget)[0].checked
+      $('#report_tabs_attributes_'+@model.index+'_show_table').val(1)
+    else
+      $('#report_tabs_attributes_'+@model.index+'_show_table').val(0)

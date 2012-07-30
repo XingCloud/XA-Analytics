@@ -140,6 +140,27 @@
       border-right: 0px;
     }
 
+    td.data-header{
+      font-weight: bold;
+      font-size: 130%;
+    }
+
+    td.name-header{
+      font: normal 18px Arial;
+    }
+
+    tr.time td{
+      line-height: 30px;
+    }
+
+    tr.time:nth-child(odd) td{
+      background-color: #F9F9F9;
+    }
+
+    tr.time td:last-child{
+      border-right: 0;
+    }
+
   }
 }
 

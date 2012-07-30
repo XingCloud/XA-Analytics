@@ -12,6 +12,9 @@
         <% if has_segments: %>
             <td class="metric-name"></td>
         <% end %>
+        <% if not has_segments and not @for_widget and @selector.get("show_table"): %>
+            <td class="name-header">指标名称</td>
+        <% end %>
         <% index = 0 %>
         <% for metric_id in @metric_ids: %>
             <% metric = metrics_router.get(metric_id) %>
@@ -25,6 +28,9 @@
         <tr>
             <% if has_segments: %>
                 <td class="segment-name" value="<%= segment_id %>"><%= segments_router.get(segment_id).get("name") %></td>
+            <% end %>
+            <% if not has_segments and not @for_widget and @selector.get("show_table"): %>
+                <td class="data-header">数据汇总</td>
             <% end %>
             <% index = 0 %>
             <% for metric_id in @metric_ids: %>
@@ -89,6 +95,19 @@
                 <% index = index + 1 %>
             <% end %>
         </tr>
+        <% cmap = @charts_map() %>
+        <% if cmap[segment_id]? and not @for_widget and not has_segments and @selector.get("show_table"): %>
+            <% dates = [] %>
+            <% _.each(cmap[segment_id], (value, key) -> dates.push(key)) %>
+            <% for date in _.sortBy(dates, (date) -> 0 - Date.parse(date.replace(/-/g, '/'))): %>
+                <tr class="time">
+                    <td class="time"><%= date %></td>
+                    <% for metric_id in @metric_ids: %>
+                        <td class="data"><%= cmap[segment_id][date][metric_id] %></td>
+                    <% end %>
+                </tr>
+            <% end %>
+        <% end %>
     <% end %>
     </tbody>
 </table>

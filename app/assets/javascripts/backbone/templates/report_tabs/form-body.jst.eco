@@ -63,4 +63,11 @@
             <input type="checkbox" id="compare-checkbox" <%= if @compare != 0 then 'checked="checked"' else ' ' %> />
         </div>
     </div>
+    <div class="control-group">
+        <label class="control-label" for="report_tabs_attributes_<%= @index %>_compare">显示数据表格</label>
+        <div class="controls">
+            <input type="hidden" id="report_tabs_attributes_<%= @index %>_show_table" name="report_tabs_attributes[<%= @index %>][show_table]" value="<%= if @show_table then '1' else '0' %>" />
+            <input type="checkbox" id="show-table-checkbox" <%= if @show_table then 'checked="checked"' else ' ' %> />
+        </div>
+    </div>
 </div>

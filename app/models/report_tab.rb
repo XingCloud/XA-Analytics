@@ -27,7 +27,7 @@ class ReportTab < ActiveRecord::Base
   end
 
   def template_attributes
-    {:title => title, :chart_type => chart_type, :interval => interval, :length => length, :compare => compare}
+    {:title => title, :chart_type => chart_type, :interval => interval, :length => length, :compare => compare, :show_table => show_table}
   end
 
   def clone_as_template(project_id)
