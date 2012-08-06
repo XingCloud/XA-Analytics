@@ -1,18 +1,18 @@
 Analytics.Static ||= {}
 
 Analytics.Static.UserAttributes = [
-  {value: 'register_time', name: '注册时间', value_type: 'Date'},
-  {value: 'last_login_time', name: '最后登陆时间', value_type: 'Date'},
-  {value: 'first_pay_time', name: '首次付费时间', value_type: 'Date'},
-  {value: 'last_pay_time', name: '最后付费时间', value_type: 'Date'},
-  {value: 'grade', name: '等级', value_type: 'int'},
-  {value: 'game_time', name: '游戏时间', value_type: 'int'},
-  {value: 'pay_amount', name: '付费量', value_type: 'int'},
-  {value: 'language', name: '语言', value_type: 'String'},
-  {value: 'platform', name: '平台', value_type: 'String'},
-  {value: 'identifier', name: '标识符', value_type: 'String'},
-  {value: 'ref', name: '来源', value_type: 'String'},
-  {value: 'version', name: '版本', value_type: 'String'}
+  {name: 'register_time', nickname: '注册时间', atype: 'sql_datetime'},
+  {name: 'last_login_time', nickname: '最后登陆时间', atype: 'sql_datetime'},
+  {name: 'first_pay_time', nickname: '首次付费时间', atype: 'sql_datetime'},
+  {name: 'last_pay_time', nickname: '最后付费时间', atype: 'sql_datetime'},
+  {name: 'grade', nickname: '等级', atype: 'sql_bigint'},
+  {name: 'game_time', nickname: '游戏时间', atype: 'sql_bigint'},
+  {name: 'pay_amount', nickname: '付费量', atype: 'sql_bigint'},
+  {name: 'language', nickname: '语言', atype: 'sql_string'},
+  {name: 'platform', nickname: '平台', atype: 'sql_string'},
+  {name: 'identifier', nickname: '标识符', atype: 'sql_string'},
+  {name: 'ref', nickname: '来源', atype: 'sql_string'},
+  {name: 'version', nickname: '版本', atype: 'sql_string'}
 ]
 
 Analytics.Static.ExpressionOperator = [
@@ -47,28 +47,13 @@ Analytics.Static.MetricComparisonOperator = [
 ]
 
 Analytics.Static.DimensionsEvents = [
-  {value: "0", name: '事件字段第一层', dimension_type: 'EVENT', value_type: 'String'},
-  {value: "1", name: '事件字段第二层', dimension_type: 'EVENT', value_type: 'String'},
-  {value: "2", name: '事件字段第三层', dimension_type: 'EVENT', value_type: 'String'},
-  {value: "3", name: '事件字段第四层', dimension_type: 'EVENT', value_type: 'String'},
-  {value: "4", name: '事件字段第五层', dimension_type: 'EVENT', value_type: 'String'},
-  {value: "5", name: '事件字段第六层', dimension_type: 'EVENT', value_type: 'String'}
+  {value: "0", name: '事件字段第一层', dimension_type: 'EVENT', value_type: 'sql_string'},
+  {value: "1", name: '事件字段第二层', dimension_type: 'EVENT', value_type: 'sql_string'},
+  {value: "2", name: '事件字段第三层', dimension_type: 'EVENT', value_type: 'sql_string'},
+  {value: "3", name: '事件字段第四层', dimension_type: 'EVENT', value_type: 'sql_string'},
+  {value: "4", name: '事件字段第五层', dimension_type: 'EVENT', value_type: 'sql_string'},
+  {value: "5", name: '事件字段第六层', dimension_type: 'EVENT', value_type: 'sql_string'}
 ]
-
-Analytics.Static.Dimensions = [
-  {value: 'register_time', name: '注册时间', dimension_type: "USER_PROPERTIES", value_type: 'Date'},
-  {value: 'last_login_time', name: '最后登陆时间', dimension_type: "USER_PROPERTIES", value_type: 'Date'},
-  {value: 'first_pay_time', name: '首次付费时间', dimension_type: "USER_PROPERTIES", value_type: 'Date'},
-  {value: 'last_pay_time', name: '最后付费时间', dimension_type: "USER_PROPERTIES", value_type: 'Date'},
-  {value: 'grade', name: '等级', dimension_type: "USER_PROPERTIES", value_type: 'int'},
-  {value: 'game_time', name: '游戏时间', dimension_type: "USER_PROPERTIES", value_type: 'int'},
-  {value: 'pay_amount', name: '付费量', dimension_type: "USER_PROPERTIES", value_type: 'int'},
-  {value: 'language', name: '语言', dimension_type: "USER_PROPERTIES", value_type: 'String'},
-  {value: 'platform', name: '平台', dimension_type: "USER_PROPERTIES", value_type: 'String'},
-  {value: 'identifier', name: '标识符', dimension_type: "USER_PROPERTIES", value_type: 'String'},
-  {value: 'ref', name: '来源', dimension_type: "USER_PROPERTIES", value_type: 'String'},
-  {value: 'version', name: '版本', dimension_type: "USER_PROPERTIES", value_type: 'String'}
-].concat(Analytics.Static.DimensionsEvents)
 
 Analytics.Static.ReportTabIntervals = [
   {name: "分钟", value: "min5"},
@@ -94,30 +79,23 @@ Analytics.Static.ReportTabRanges = [
   {name: "最近二个月", length: 56, interval: "week"}
 ]
 
-Analytics.Static.fetchUserAttributes = (project_id) ->
-  $.ajax({
-    url: "/projects/"+project_id+"/ups"
-    dataType: "json"
-    type: "post"
-    data: {}
-    success: (resp) ->
-      Analytics.Static.initUserAttributes(resp)
-  })
+Analytics.Static.getUserAttributes = () ->
+  if user_attributes_router.user_attributes.length == 0
+    Analytics.Static.UserAttributes
+  else
+    results = []
+    for user_attribute in _.sortBy(user_attributes_router.user_attributes.models, (item) -> 0 - Date.parse(item.get("created_at")))
+      attrs = _.clone(user_attribute.attributes)
+      if not attrs.nickname?
+        item = _.find(Analytics.Static.UserAttributes, (item) -> item.name == attrs.name)
+        if item?
+          attrs.nickname = item.nickname
+      results.push(attrs)
+    results
 
-Analytics.Static.initUserAttributes = (user_attributes) ->
-  if user_attributes? and user_attributes.length > 0
-    Analytics.Static.UserAttributes = []
-    dimensions = []
-    for user_attribute in user_attributes
-      Analytics.Static.UserAttributes.push({
-        value: user_attribute.key
-        name: user_attribute.name
-        value_type: user_attribute.type
-      })
-      dimensions.push({
-        value: user_attribute.key
-        name: user_attribute.name
-        value_type: user_attribute.type
-        dimension_type: 'USER_PROPERTIES'
-      })
-    Analytics.Static.Dimensions = dimensions.concat(Analytics.Static.DimensionsEvents)
+Analytics.Static.getDimensions = () ->
+  user_attributes = Analytics.Static.getUserAttributes()
+  results = []
+  for user_attribute in user_attributes
+    results.push({value: user_attribute.name, name: user_attribute.nickname, dimension_type: 'USER_PROPERTIES', value_type: user_attribute.atype})
+  results.concat(Analytics.Static.DimensionsEvents)

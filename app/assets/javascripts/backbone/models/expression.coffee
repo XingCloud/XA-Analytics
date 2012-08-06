@@ -4,7 +4,7 @@ class Analytics.Models.Expression extends Backbone.Model
     name: Analytics.Static.UserAttributes[0].value
 
   value: () ->
-    if @get("value_type") == "int"
+    if @get("value_type") == "int" or @get("value_type") == "sql_bigint"
       parseInt(@get("value"))
     else
       @get("value")

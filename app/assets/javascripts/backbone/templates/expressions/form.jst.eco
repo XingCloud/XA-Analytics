@@ -7,8 +7,8 @@
         <input type="hidden" name="expressions_attributes[<%= @index %>][value_type]" value="<%= @value_type %>" class="value-type" />
         <input type="hidden" name="expressions_attributes[<%= @index %>][_destroy]" value="0" class="_destroy" />
         <select class="left attributes-select" name="expressions_attributes[<%= @index %>][name]">
-            <% for attribute in Analytics.Static.UserAttributes: %>
-                <option value="<%= attribute.value %>" value_type="<%= attribute.value_type %>" <%= if @name == attribute.value then 'selected="selected"' %> ><%= attribute.name %></option>
+            <% for attribute in Analytics.Static.getUserAttributes(): %>
+                <option value="<%= attribute.name %>" value_type="<%= attribute.atype %>" <%= if @name == attribute.name then 'selected="selected"' %> ><%= attribute.nickname %></option>
             <% end %>
         </select>
         <select class="left operator-select" name="expressions_attributes[<%= @index %>][operator]" >
@@ -16,7 +16,7 @@
                 <option value="<%= operator.value %>" <%= if @operator == operator.value then 'selected="selected"'  %> ><%= operator.name %></option>
             <% end %>
         </select>
-        <% if @value_type == 'Date' and @operator != 'handler': %>
+        <% if (@value_type == 'Date' or @value_type == 'sql_datetime') and @operator != 'handler': %>
             <input class="datepicker" type="text" name="expressions_attributes[<%= @index %>][value]" value="<%= if @value? then @value else Analytics.Utils.formatUTCDate(new Date().getTime(), 'YYYY-MM-DD') %>"/>
         <% else if @operator != 'handler': %>
             <input type="text" name="expressions_attributes[<%= @index %>][value]" value="<%= @value %>"/>

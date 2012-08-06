@@ -12,10 +12,10 @@
             <label class="control-label"><abbr title="必填">*</abbr>名称</label>
             <div class="controls">
                 <% name = @name %>
-                <% name_item = _.find(Analytics.Static.UserAttributes, (item) -> item.value == name) %>
+                <% name_item = _.find(Analytics.Static.UserAttributes, (item) -> item.name == name) %>
                 <% nickname = @nickname %>
                 <% if not @nickname? and name_item?: %>
-                    <% nickname = name_item.name %>
+                    <% nickname = name_item.nickname %>
                 <% end %>
                 <input class="should-check-empty" name="nickname" type="text" value="<%= if nickname? then nickname else '新建属性' %>"/>
             </div>

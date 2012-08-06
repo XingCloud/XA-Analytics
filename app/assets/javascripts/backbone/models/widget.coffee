@@ -25,4 +25,4 @@ class Analytics.Models.Widget extends Backbone.Model
 
   get_dimension: () ->
     dimension = @get("dimension")
-    _.find(Analytics.Static.Dimensions, (item) -> item.value == dimension)
+    _.find(Analytics.Static.getDimensions(), (item) -> item.value == dimension)
