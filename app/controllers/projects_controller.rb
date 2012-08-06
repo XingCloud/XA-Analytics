@@ -23,8 +23,8 @@ class ProjectsController < ApplicationController
     render :json => {:id => params[:request_id].to_i, :data => resp[:results]}, :status => resp[:status]
   end
 
-  def user_attributes
-    render :json => AnalyticService.user_attributes(@project)
+  def ups
+    render :json => AnalyticService.ups(@project)
   end
 
   def update_project_widgets

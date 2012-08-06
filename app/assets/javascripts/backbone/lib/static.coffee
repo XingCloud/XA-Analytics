@@ -78,6 +78,12 @@ Analytics.Static.ReportTabIntervals = [
   {name: "月", value: "month"}
 ]
 
+Analytics.Static.UserAttributeTypes = [
+  {key: "sql_string", value: "字符串"},
+  {key: "sql_bigint", value: "数值"},
+  {key: "sql_datetime", value: "日期"}
+]
+
 Analytics.Static.ReportTabRanges = [
   {name: "实时", length: 1, interval: "min5"},
   {name: "当天", length: 1, interval: "hour"},
@@ -90,7 +96,7 @@ Analytics.Static.ReportTabRanges = [
 
 Analytics.Static.fetchUserAttributes = (project_id) ->
   $.ajax({
-    url: "/projects/"+project_id+"/user_attributes"
+    url: "/projects/"+project_id+"/ups"
     dataType: "json"
     type: "post"
     data: {}

@@ -1,0 +1,13 @@
+<h3>项目设置</h3>
+<hr/>
+<div class="row-fluid">
+    <ul class="nav nav-tabs">
+        <li class="active">
+            <a data-toggle="tab" href="#user_attributes">自定义属性</a>
+        </li>
+    </ul>
+</div>
+<div class="row-fluid tab-content">
+    <div class="tab-pane active"  id="user_attributes">
+    </div>
+</div>

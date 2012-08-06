@@ -38,13 +38,26 @@ class AnalyticService
     commit("/dd/evlist", {:params => options.to_json})
   end
 
-  def self.user_attributes(project)
+  def self.ups(project)
     options = {:project_id => filter_project_id(project)}
     resp = commit("/dd/up", options)
     if resp["result"]
       resp["data"]
     else
       []
+    end
+  end
+
+  def self.sync_user_attribute(project, params)
+    {:status => commit('/dd/cup', build_params(project, params))["result"] ?  200 : 500}
+  end
+
+  def self.sync_user_attributes(project)
+    resp = commit('/dd/cup', {:type => "LIST", :project_id => filter_project_id(project)})
+    if resp["result"].kind_of?(Array)
+      {:status => 200, :results => resp["result"]}
+    else
+      {:status => 500}
     end
   end
 

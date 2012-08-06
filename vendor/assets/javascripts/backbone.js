@@ -164,7 +164,7 @@
   // Backbone.Model
   // --------------
 
-  // Create a new model, with defined attributes. A client id (`cid`)
+  // Create a new model, with defined user_attributes. A client id (`cid`)
   // is automatically generated and assigned for you.
   Backbone.Model = function(attributes, options) {
     var defaults;
@@ -196,7 +196,7 @@
     // initialization logic.
     initialize: function(){},
 
-    // Return a copy of the model's `attributes` object.
+    // Return a copy of the model's `user_attributes` object.
     toJSON: function() {
       return _.clone(this.attributes);
     },
@@ -220,7 +220,7 @@
       return this.attributes[attr] != null;
     },
 
-    // Set a hash of model attributes on the object, firing `"change"` unless
+    // Set a hash of model user_attributes on the object, firing `"change"` unless
     // you choose to silence it.
     set: function(key, value, options) {
       var attrs, attr, val;
@@ -232,7 +232,7 @@
         attrs[key] = value;
       }
 
-      // Extract attributes and options.
+      // Extract user_attributes and options.
       options || (options = {});
       if (!attrs) return this;
       if (attrs instanceof Backbone.Model) attrs = attrs.attributes;
@@ -251,7 +251,7 @@
       this._changed || (this._changed = {});
       this._setting = true;
 
-      // Update attributes.
+      // Update user_attributes.
       for (attr in attrs) {
         val = attrs[attr];
         if (!_.isEqual(now[attr], val)) delete escaped[attr];
@@ -281,7 +281,7 @@
       return this.set(attr, null, options);
     },
 
-    // Clear all attributes on the model, firing `"change"` unless you choose
+    // Clear all user_attributes on the model, firing `"change"` unless you choose
     // to silence it.
     clear: function(options) {
       (options || (options = {})).unset = true;
@@ -289,7 +289,7 @@
     },
 
     // Fetch the model from the server. If the server's representation of the
-    // model differs from its current attributes, they will be overriden,
+    // model differs from its current user_attributes, they will be overriden,
     // triggering a `"change"` event.
     fetch: function(options) {
       options = options ? _.clone(options) : {};
@@ -303,8 +303,8 @@
       return (this.sync || Backbone.sync).call(this, 'read', this, options);
     },
 
-    // Set a hash of model attributes, and sync the model to the server.
-    // If the server returns an attributes hash that differs, the model's
+    // Set a hash of model user_attributes, and sync the model to the server.
+    // If the server returns an user_attributes hash that differs, the model's
     // state will be `set` again.
     save: function(key, value, options) {
       var attrs, current;
@@ -377,13 +377,13 @@
       return base + (base.charAt(base.length - 1) == '/' ? '' : '/') + encodeURIComponent(this.id);
     },
 
-    // **parse** converts a response into the hash of attributes to be `set` on
+    // **parse** converts a response into the hash of user_attributes to be `set` on
     // the model. The default implementation is just to pass the response along.
     parse: function(resp, xhr) {
       return resp;
     },
 
-    // Create a new model with identical attributes to this one.
+    // Create a new model with identical user_attributes to this one.
     clone: function() {
       return new this.constructor(this.attributes);
     },
@@ -420,11 +420,11 @@
       return this._changed && _.has(this._changed, attr);
     },
 
-    // Return an object containing all the attributes that have changed, or
-    // false if there are no changed attributes. Useful for determining what
-    // parts of a view need to be updated and/or what attributes need to be
-    // persisted to the server. Unset attributes will be set to undefined.
-    // You can also pass an attributes object to diff against the model,
+    // Return an object containing all the user_attributes that have changed, or
+    // false if there are no changed user_attributes. Useful for determining what
+    // parts of a view need to be updated and/or what user_attributes need to be
+    // persisted to the server. Unset user_attributes will be set to undefined.
+    // You can also pass an user_attributes object to diff against the model,
     // determining if there *would be* a change.
     changedAttributes: function(diff) {
       if (!diff) return this.hasChanged() ? _.clone(this._changed) : false;
@@ -443,7 +443,7 @@
       return this._previousAttributes[attr];
     },
 
-    // Get all of the attributes of the model at the time of the previous
+    // Get all of the user_attributes of the model at the time of the previous
     // `"change"` event.
     previousAttributes: function() {
       return _.clone(this._previousAttributes);
@@ -455,7 +455,7 @@
       return !this.validate(this.attributes);
     },
 
-    // Run validation against a set of incoming attributes, returning `true`
+    // Run validation against a set of incoming user_attributes, returning `true`
     // if all is well. If a specific `error` callback has been passed,
     // call that instead of firing the general `"error"` event.
     _validate: function(attrs, options) {
@@ -499,7 +499,7 @@
     initialize: function(){},
 
     // The JSON representation of a Collection is an array of the
-    // models' attributes.
+    // models' user_attributes.
     toJSON: function() {
       return this.map(function(model){ return model.toJSON(); });
     },
@@ -681,7 +681,7 @@
       this._byCid = {};
     },
 
-    // Prepare a model or hash of attributes to be added to this collection.
+    // Prepare a model or hash of user_attributes to be added to this collection.
     _prepareModel: function(model, options) {
       if (!(model instanceof Backbone.Model)) {
         var attrs = model;
@@ -1018,7 +1018,7 @@
   var eventSplitter = /^(\S+)\s*(.*)$/;
 
   // List of view options to be merged as properties.
-  var viewOptions = ['model', 'collection', 'el', 'id', 'attributes', 'className', 'tagName'];
+  var viewOptions = ['model', 'collection', 'el', 'id', 'user_attributes', 'className', 'tagName'];
 
   // Set up all inheritable **Backbone.View** properties and methods.
   _.extend(Backbone.View.prototype, Backbone.Events, {
@@ -1130,7 +1130,7 @@
     // an element from the `id`, `className` and `tagName` properties.
     _ensureElement: function() {
       if (!this.el) {
-        var attrs = getValue(this, 'attributes') || {};
+        var attrs = getValue(this, 'user_attributes') || {};
         if (this.id) attrs.id = this.id;
         if (this.className) attrs['class'] = this.className;
         this.setElement(this.make(this.tagName, attrs), false);

@@ -1,0 +1,51 @@
+<div class="row-fluid">
+    <a class="btn btn-primary add-user-attribute">
+        <i class="icon icon-plus icon-white"/>
+        添加属性
+    </a>
+</div>
+<br>
+<div class="row-fluid">
+    <table class="table table-striped user_attributes">
+        <tr>
+            <th width="20%">名称</th>
+            <th width="20%">字段</th>
+            <th width="20%">类型</th>
+            <th width="30%">分段规则</th>
+            <th width="10%"></th>
+        </tr>
+        <% if @user_attributes.length == 0: %>
+            <tr>
+                <td colspan="4" style="text-align: center;"><i>没有数据</i></td>
+            </tr>
+        <% end %>
+        <% for user_attribute in _.sortBy(@user_attributes, (item) -> (0 - Date.parse(item.get("created_at")))): %>
+            <tr>
+                <td>
+                    <% name_item = _.find(Analytics.Static.UserAttributes, (item) -> item.value == user_attribute.get("name")) %>
+                    <% nickname = user_attribute.get("nickname") %>
+                    <% if not nickname? and name_item?: %>
+                        <% nickname = name_item.name %>
+                    <% end %>
+                    <%= nickname %>
+                </td>
+                <td><%= user_attribute.get("name") %></td>
+                <td>
+                    <% atype = _.find(Analytics.Static.UserAttributeTypes, (item) -> item.key == user_attribute.get("atype")) %>
+                    <%= atype.value %>
+                </td>
+                <td>
+                    <% if user_attribute.get("atype") == "sql_bigint" and user_attribute.get("gpattern")?: %>
+                        <%= user_attribute.get("gpattern") %>
+                    <% else: %>
+                        ---
+                    <% end %>
+                </td>
+                <td>
+                    <a class="btn btn-mini left edit-user-attribute" value="<%= user_attribute.id %>"><i class="icon-edit"/></a>
+                    <a class="btn btn-mini left remove-user-attribute" value="<%= user_attribute.id %>"><i class="icon-remove"/></a>
+                </td>
+            </tr>
+        <% end %>
+    </table>
+</div>

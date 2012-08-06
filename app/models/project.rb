@@ -6,6 +6,7 @@ class Project < ActiveRecord::Base
   has_many :segments, :dependent => :destroy
   has_many :project_widgets, :dependent => :destroy
   has_many :widgets, :through => :project_widgets
+  has_many :user_attributes, :dependent => :destroy
 
   validate :identifier, :presence => true, :uniqueness => true
 
@@ -31,5 +32,30 @@ class Project < ActiveRecord::Base
 
   def js_attributes
     attributes.merge({:segments => []})
+  end
+
+  def sync_user_attributes
+    resp = AnalyticService.sync_user_attributes(self)
+    if resp[:status] == 200
+      UserAttribute.transaction do
+        resp[:results].each do |result|
+          if user_attributes.find_by_name(result["name"]).blank?
+            user_attribute = user_attributes.build({:name => result["name"],
+                                                    :nickname => result["nickname"].blank? ? nil: result["nickname"],
+                                                    :atype => result["type"],
+                                                    :project_id => id})
+            if result["groupby_type"].present?
+              user_attribute = result["groupby_type"]
+            end
+            raise ActiveRecord::Rollback unless user_attribute.save
+          end
+        end
+        user_attributes.each do |user_attribute|
+          if resp[:results].select{|result| result["name"] == user_attribute.name}.empty?
+            raise ActiveRecord::Rollback unless user_attribute.destroy
+          end
+        end
+      end
+    end
   end
 end

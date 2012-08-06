@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120730014759) do
+ActiveRecord::Schema.define(:version => 20120806030446) do
 
   create_table "dimensions", :force => true do |t|
     t.integer "report_tab_id"
@@ -33,15 +33,15 @@ ActiveRecord::Schema.define(:version => 20120730014759) do
   end
 
   create_table "metrics", :force => true do |t|
+    t.integer  "project_id"
+    t.integer  "combine_id"
+    t.integer  "number_of_day"
+    t.string   "name"
     t.string   "event_key"
     t.string   "condition"
+    t.string   "combine_action"
     t.datetime "created_at",           :null => false
     t.datetime "updated_at",           :null => false
-    t.integer  "combine_id"
-    t.string   "combine_action"
-    t.string   "name"
-    t.integer  "project_id"
-    t.integer  "number_of_day"
     t.integer  "number_of_day_origin"
     t.integer  "segment_id"
   end
@@ -88,9 +88,9 @@ ActiveRecord::Schema.define(:version => 20120730014759) do
     t.string   "chart_type",  :default => "line"
     t.datetime "created_at",                      :null => false
     t.datetime "updated_at",                      :null => false
-    t.integer  "length",      :default => 7
-    t.string   "interval",    :default => "day"
-    t.integer  "compare",     :default => 0
+    t.integer  "length"
+    t.string   "interval"
+    t.integer  "compare"
     t.boolean  "show_table",  :default => false
   end
 
@@ -124,6 +124,16 @@ ActiveRecord::Schema.define(:version => 20120730014759) do
 
   add_index "sessions", ["session_id"], :name => "index_sessions_on_session_id"
   add_index "sessions", ["updated_at"], :name => "index_sessions_on_updated_at"
+
+  create_table "user_attributes", :force => true do |t|
+    t.string   "name"
+    t.string   "nickname"
+    t.string   "atype"
+    t.string   "gpattern",   :default => "0-10,10-50,50-100,100+"
+    t.integer  "project_id"
+    t.datetime "created_at",                                       :null => false
+    t.datetime "updated_at",                                       :null => false
+  end
 
   create_table "versions", :force => true do |t|
     t.string   "item_type",  :null => false

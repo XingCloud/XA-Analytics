@@ -9,7 +9,7 @@ Analytic::Application.routes.draw do
       post :event_item
       post :timelines
       post :dimensions
-      post :user_attributes
+      post :ups
       post :update_project_widgets
     end
 
@@ -24,6 +24,7 @@ Analytic::Application.routes.draw do
     resources :report_categories
     resources :segments
     resources :widgets
+    resources :user_attributes
   end
 
   namespace :template do

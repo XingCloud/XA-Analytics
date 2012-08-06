@@ -1,0 +1,52 @@
+<div class="modal-header">
+    <b class="close" data-dismiss="modal">×</b>
+    <% if @id?: %>
+        <h3>编辑属性</h3>
+    <% else: %>
+        <h3>新建属性</h3>
+    <% end %>
+</div>
+<div class="modal-body">
+    <form class="form-horizontal">
+        <div class="control-group should-check">
+            <label class="control-label"><abbr title="必填">*</abbr>名称</label>
+            <div class="controls">
+                <% name = @name %>
+                <% name_item = _.find(Analytics.Static.UserAttributes, (item) -> item.value == name) %>
+                <% nickname = @nickname %>
+                <% if not @nickname? and name_item?: %>
+                    <% nickname = name_item.name %>
+                <% end %>
+                <input class="should-check-empty" name="nickname" type="text" value="<%= if nickname? then nickname else '新建属性' %>"/>
+            </div>
+        </div>
+        <div class="control-group should-check">
+            <label class="control-label"><abbr title="必填">*</abbr>字段</label>
+            <div class="controls">
+                <input class="should-check-empty" name="name" type="text" value="<%= @name %>" <%= if @id? then 'disabled="disabled"' %>/>
+                <p class="help-block">字段必须为数字、字母和下划线组合</p>
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label"><abbr title="必填">*</abbr>类型</label>
+            <div class="controls">
+                <select class="atype" name="atype" <%= if @id? then 'disabled="disabled"' %> >
+                    <% for type in Analytics.Static.UserAttributeTypes: %>
+                        <option value="<%= type.key %>" <%= if type.key == @atype then 'selected="selected"' %>><%= type.value %></option>
+                    <% end %>
+                </select>
+            </div>
+        </div>
+        <div class="control-group gpattern" <%= if @atype != 'sql_bigint'%> >
+            <label class="control-label">分段规则</label>
+            <div class="controls">
+                <input class="should-check-empty" name="gpattern" type="text" value="<%= @gpattern %>" />
+                <p class="help-block">每段用-制定起始，段与段以逗号隔开</p>
+            </div>
+        </div>
+    </form>
+</div>
+<div class="modal-footer">
+    <a class="btn cancel" data-dismiss="modal">取消</a>
+    <a class="btn btn-primary submit">确定</a>
+</div>
