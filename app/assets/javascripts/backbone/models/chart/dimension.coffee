@@ -3,8 +3,8 @@ class Analytics.Models.DimensionChart extends Backbone.Model
     metric = metrics_router.get(@get("metric_id"))
     metric_options = {
       id: metric.id.toString()
-      end_time: Analytics.Utils.formatUTCDate(@selector.get_end_time(), "yyyy-MM-dd")
-      start_time: Analytics.Utils.formatUTCDate(@selector.get_end_time() - (@selector.get("length") - 1) * 86400000, "yyyy-MM-dd")
+      end_time: Analytics.Utils.formatUTCDate(@selector.get_end_time(), "YYYY-MM-DD")
+      start_time: Analytics.Utils.formatUTCDate(@selector.get_end_time() - (@selector.get("length") - 1) * 86400000, "YYYY-MM-DD")
       interval: @selector.get("interval").toUpperCase()
       type: "GROUP"
       project_id: project.get("identifier")

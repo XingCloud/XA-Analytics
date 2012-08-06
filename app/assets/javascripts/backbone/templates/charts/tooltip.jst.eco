@@ -8,9 +8,9 @@
         <th colspan="<%= if compare_points.length > 0 then 1 else 2 %>">
             <% timeline = points[0].series.timeline %>
             <% if timeline.selector.get("interval") == "min5" or timeline.selector.get("interval") == "hour": %>
-                <%= Analytics.Utils.formatUTCDate(@x, "yyyy/MM/dd HH:mm") %>
+                <%= Analytics.Utils.formatUTCDate(@x, "YYYY/MM/DD HH:mm") %>
             <% else if timeline.selector.get("interval") == "month": %>
-                <%= Analytics.Utils.formatUTCDate(@x, "yyyy/MM") %>
+                <%= Analytics.Utils.formatUTCDate(@x, "YYYY/MM") %>
             <% else: %>
                 <%= Analytics.Utils.formatUTCDate(@x) %>
             <% end %>
@@ -20,9 +20,9 @@
                 <% timeline = compare_points[0].series.timeline %>
                 <% offset = timeline.selector.get_end_time() - timeline.selector.get_compare_end_time() %>
                 <% if timeline.selector.get("interval") == "min5" or timeline.selector.get("interval") == "hour": %>
-                    <%= Analytics.Utils.formatUTCDate(@x - offset, "yyyy/MM/dd HH:mm") %>
+                    <%= Analytics.Utils.formatUTCDate(@x - offset, "YYYY/MM/DD HH:mm") %>
                 <% else if timeline.selector.get("interval") == "month": %>
-                    <%= Analytics.Utils.formatUTCDate(@x - offset, "yyyy/MM") %>
+                    <%= Analytics.Utils.formatUTCDate(@x - offset, "YYYY/MM") %>
                 <% else: %>
                     <%= Analytics.Utils.formatUTCDate(@x - offset) %>
                 <% end %>

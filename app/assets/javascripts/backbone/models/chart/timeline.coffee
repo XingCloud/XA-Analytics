@@ -17,8 +17,8 @@ class Analytics.Models.TimelineChart extends Backbone.Model
     metric_options = metric.sequence_options(@get("segment_id"), @get("filters"))
     _.extend(metric_options, {
       id: @id
-      end_time: Analytics.Utils.formatUTCDate(end_time, "yyyy-MM-dd")
-      start_time: Analytics.Utils.formatUTCDate(start_time, "yyyy-MM-dd")
+      end_time: Analytics.Utils.formatUTCDate(end_time, "YYYY-MM-DD")
+      start_time: Analytics.Utils.formatUTCDate(start_time, "YYYY-MM-DD")
       interval: @selector.get("interval").toUpperCase()
       type: "COMMON"
       project_id: project.get("identifier")

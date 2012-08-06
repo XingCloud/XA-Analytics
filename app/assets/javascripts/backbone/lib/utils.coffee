@@ -1,11 +1,11 @@
 Analytics.Utils ||= {}
 Analytics.Utils.parseUTCDate = (date_str, offset) ->
-  date = new Date(Date.parse(date_str.replace(/-/g, '/'))+offset)
+  date = new Date(moment(date_str, "YYYY-MM-DD").unix()*1000 + offset)
   Date.UTC(date.getFullYear(), date.getMonth(), date.getDate(), date.getHours(), date.getMinutes())
 
 Analytics.Utils.formatUTCDate = (timestamp, format) ->
   timezone_offset = new Date().getTimezoneOffset()*60000
-  $.format.date(timestamp+timezone_offset, (if format? then format else "yyyy/MM/dd"))
+  moment(timestamp+timezone_offset).format(if format? then format else "YYYY/MM/DD")
 
 Analytics.Utils.pickUTCDate = (timestamp) ->
   timestamp - new Date().getTimezoneOffset()*60000

@@ -15,7 +15,7 @@
 //= require underscore
 //= require backbone
 //= require highcharts
-//= require jquery.dateFormat
+//= require moment
 //= require jquery.blockUI
 //= require jquery.form_to_json
 //= require bootstrap-datepicker
