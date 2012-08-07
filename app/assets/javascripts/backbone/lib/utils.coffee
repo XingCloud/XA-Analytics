@@ -1,6 +1,6 @@
 Analytics.Utils ||= {}
 Analytics.Utils.parseUTCDate = (date_str, offset) ->
-  date = new Date(moment(date_str, "YYYY-MM-DD").unix()*1000 + offset)
+  date = new Date(moment(date_str, "YYYY-MM-DD HH:mm").unix()*1000 + offset)
   Date.UTC(date.getFullYear(), date.getMonth(), date.getDate(), date.getHours(), date.getMinutes())
 
 Analytics.Utils.formatUTCDate = (timestamp, format) ->
