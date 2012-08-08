@@ -40,7 +40,7 @@
         <div class="control-group gpattern" <%= if @atype != 'sql_bigint'%> >
             <label class="control-label">分段规则</label>
             <div class="controls">
-                <input class="should-check-empty" name="gpattern" type="text" value="<%= @gpattern %>" />
+                <input class="should-check-empty" name="gpattern" type="text" value="<%= @gpattern %>" placeholder="0-10,10-50,50-100,100+"/>
                 <p class="help-block">每段用-制定起始，段与段以逗号隔开</p>
             </div>
         </div>
