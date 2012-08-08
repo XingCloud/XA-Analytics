@@ -61,7 +61,8 @@ class Analytics.Views.Metrics.IndexDropdownView extends Backbone.View
   highlight_first_metric: () ->
     $(@el).find(".metric-list .metric").removeClass("selected")
     new_selected_metric = $(@el).find(".metric-list .metric").not(".hide").first()
-    @highligh_metric_with_scroll(new_selected_metric)
+    if new_selected_metric.length > 0
+      @highligh_metric_with_scroll(new_selected_metric)
 
   highlight_next_metric: () ->
     all_display_metrics = $(@el).find(".metric-list .metric").not(".hide")
