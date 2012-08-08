@@ -33,7 +33,7 @@
                 </label>
                 <div class="controls">
                     <select name="dimension">
-                        <% for dimension in Analytics.Static.Dimensions: %>
+                        <% for dimension in Analytics.Static.getDimensions(): %>
                             <option value="<%= dimension.value %>" <%= if @dimension == dimension.value then 'selected="selected"' %> >
                                 <%= dimension.name %>
                             </option>
