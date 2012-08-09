@@ -9,7 +9,6 @@ gem "rubycas-client", ">=2.3.9.rc1"
 gem "paper_trail"
 gem 'thin'
 gem 'dalli'
-gem 'em-http-request'
 
 group :development, :test do
   gem "pry"
@@ -30,5 +29,6 @@ group :assets do
   gem 'therubyracer'
   gem 'uglifier'
   gem 'eco'
-  gem 'twitter-bootstrap-rails', '2.0.6'
+  gem 'twitter-bootstrap-rails'
+  gem 'jquery-cookie-rails'
 end
