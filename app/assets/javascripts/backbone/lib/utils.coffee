@@ -57,26 +57,35 @@ Analytics.Utils.checkFormFields = (form) ->
     $(group).removeClass('error')
     $(group).find('.controls .help-inline').remove()
     input = $(group).find('.controls input[type="text"]')
+    value = input.val()
     if (input.hasClass('should-check-empty') and
-        (not input.val()? or input.val() == ""))
+        (not value? or value == ""))
       valid = false
       $(group).addClass('error')
       $(group).find('.controls').append('<span class="help-inline">不能为空</span>')
       continue
 
-    if (input.val()? and
-        input.val() != "" and
+    if (value? and
+        value != "" and
+        input.hasClass('should-check-pattern') and
+        not new RegExp(input.attr("pattern")).test(value))
+      valid = false
+      $(group).addClass('error')
+      continue
+
+    if (value? and
+        value != "" and
         input.hasClass('should-check-integer') and
-        isNaN(parseInt(input.val())))
+        isNaN(parseInt(value)))
       valid = false
       $(group).addClass('error')
       $(group).find('.controls').append('<span class="help-inline">必须为整数</span>')
       continue
 
-    if (input.val()? and
-        input.val() != "" and
+    if (value? and
+        value != "" and
         input.hasClass('should-check-natural-number') and
-        (isNaN(parseInt(input.val())) or parseInt(input.val()) < 0))
+        (isNaN(parseInt(value)) or parseInt(value) < 0))
       valid = false
       $(group).addClass('error')
       $(group).find('.controls').append('<span class="help-inline">必须为大于或等于0的整数</span>')

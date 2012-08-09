@@ -23,7 +23,7 @@
         <div class="control-group should-check">
             <label class="control-label"><abbr title="必填">*</abbr>字段</label>
             <div class="controls">
-                <input class="should-check-empty" name="name" type="text" value="<%= @name %>" <%= if @id? then 'disabled="disabled"' %>/>
+                <input class="should-check-empty should-check-pattern" name="name" type="text" value="<%= @name %>" pattern="^[a-zA-Z0-9_]+$" <%= if @id? then 'disabled="disabled"' %>/>
                 <p class="help-block">字段必须为数字、字母和下划线组合</p>
             </div>
         </div>
@@ -37,11 +37,11 @@
                 </select>
             </div>
         </div>
-        <div class="control-group gpattern" <%= if @atype != 'sql_bigint'%> >
+        <div class="control-group should-check gpattern" <%= if @atype != 'sql_bigint'%> >
             <label class="control-label">分段规则</label>
             <div class="controls">
-                <input class="should-check-empty" name="gpattern" type="text" value="<%= @gpattern %>" placeholder="0-10,10-50,50-100,100+"/>
-                <p class="help-block">每段用-制定起始，段与段以逗号隔开</p>
+                <input class="should-check-pattern" name="gpattern" type="text" value="<%= @gpattern %>" placeholder="0,5,10,20,50,100" pattern="^\d+(,\d+)*$"/>
+                <p class="help-block">分段规则用数字表示，数字与数字之间用逗号隔开</p>
             </div>
         </div>
     </form>
