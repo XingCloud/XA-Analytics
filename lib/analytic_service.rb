@@ -1,6 +1,5 @@
 require "uri"
 require "net/http"
-require 'eventmachine'
 
 class AnalyticService
   BASE_URL = APP_CONFIG[:analytics_base_url]
@@ -123,19 +122,4 @@ class AnalyticService
       return {"result" => false, "status" => 500}
     end
   end
-
-  def self.request_monitor(label = :success, params = "")
-    EM.run do
-      url = "http://#{APP_CONFIG[:monitor][:host]}#{APP_CONFIG[:monitor][label]}"
-      http = EM::HttpRequest.new(url).post :body => {:params => params}
-      http.callback do
-        pp "#{url} - #{http.response_header.status} - #{http.response.length} bytes - #{http.response}"
-      end
-
-      http.errback do
-        pp "#{url}\n#{http.error}"
-      end
-    end
-  end
-
 end
