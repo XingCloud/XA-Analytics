@@ -13,6 +13,8 @@ class Analytics.Views.Dimensions.ListView extends Backbone.View
     "click a.dimension-value" : "filter_dimension"
     "click a.choose-segment" : "choose_segment"
     "change select.pagesize" : "change_pagesize"
+    "click a.change-gpattern" : "change_gpattern"
+    "click a.submit-gpattern" : "submit_gpattern"
 
   initialize: (options) ->
     _.bindAll this, "render", "redraw"
@@ -160,3 +162,25 @@ class Analytics.Views.Dimensions.ListView extends Backbone.View
     level = @model.dimension.level
     @model.dimension =  _.find(@model.dimensions, (item) -> item.level == level + 1)
     @parent_view.redraw()
+
+  change_gpattern: (ev) ->
+    $(@el).find(".gpattern.modal").modal()
+
+  submit_gpattern: () ->
+    if Analytics.Utils.checkFormFields($(@el).find('form'))
+      form = $(@el).find('form').toJSON()
+      name = @model.dimension.value
+      user_attribute = _.find(Analytics.Static.getUserAttributes(), (item) -> item.name == name)
+      if user_attribute.id?
+        user_attribute = user_attributes_router.user_attributes.get(user_attribute.id)
+      else
+        user_attribute = new Analytics.Models.UserAttribute(user_attribute)
+        user_attribute.set({project_id: project.id})
+      isnew = not user_attribute.id?
+      view = this
+      user_attribute.save(form, {wait:true, success: (model ,resp) ->
+        $(view.el).find(".gpattern.modal").modal("hide")
+        if isnew
+          user_attributes_router.user_attributes.add(model, {silent: true})
+        view.fetch_dimensions()
+      })

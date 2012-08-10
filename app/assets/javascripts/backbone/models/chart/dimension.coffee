@@ -9,6 +9,11 @@ class Analytics.Models.DimensionChart extends Backbone.Model
       type: "GROUP"
       project_id: project.get("identifier")
     }
+    if @selector.get_dimension().dimension_type == "USER_PROPERTIES"
+      name = @selector.get_dimension().value
+      user_attribute = _.find(Analytics.Static.getUserAttributes(), (item) -> item.name == name)
+      if user_attribute? and user_attribute.atype == "sql_bigint"
+        metric_options["slice_pattern"] = user_attribute["gpattern"]
     sequence_options = metric.sequence_options(@collection.segment_id, @collection.filters)
     for item in sequence_options.items
       item["groupby"] = @selector.get_dimension().value

@@ -37,11 +37,11 @@
                 </select>
             </div>
         </div>
-        <div class="control-group should-check gpattern" <%= if @atype != 'sql_bigint'%> >
+        <div class="control-group should-check gpattern" >
             <label class="control-label">分段规则</label>
             <div class="controls">
                 <input class="should-check-pattern" name="gpattern" type="text" value="<%= @gpattern %>" placeholder="0,5,10,20,50,100" pattern="^\d+(,\d+)*$"/>
-                <p class="help-block">分段规则用数字表示，数字与数字之间用逗号隔开</p>
+                <p class="help-block">用数字表示，数字与数字之间用逗号隔开</p>
             </div>
         </div>
     </form>

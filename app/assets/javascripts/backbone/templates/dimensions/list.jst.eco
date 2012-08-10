@@ -4,7 +4,12 @@
         <tr>
             <% for dimension in @dimensions: %>
                 <% if @dimension? and dimension.dimension_type == @dimension.dimension_type and dimension.value == @dimension.value: %>
-                    <td class="current"><%= dimension.name %></td>
+                    <td class="current">
+                        <%= dimension.name %>
+                        <% if @dimension.dimension_type == "USER_PROPERTIES" and (@dimension.value_type == "sql_bigint" or @dimension.value_type == "int"): %>
+                            (<a class="change-gpattern">修改分段规则</a>)
+                        <% end %>
+                    </td>
                 <% else: %>
                     <td><a class="select-dimension" value="<%= dimension.value %>" dimension_type="<%= dimension.dimension_type %>"><%= dimension.name %></a></td>
                 <% end %>
@@ -35,3 +40,28 @@
     </div>
 </div>
 <div class="dimensions-chart"></div>
+<% if @dimension? and @dimension.dimension_type == "USER_PROPERTIES" and (@dimension.value_type == "sql_bigint" or @dimension.value_type == "int"): %>
+    <div class="modal gpattern" style="display: none;">
+        <div class="modal-header">
+            <b class="close" data-dismiss="modal">×</b>
+            <h3>修改<%= @dimension.name %></h3>
+        </div>
+        <div class="modal-body">
+            <form class="form-horizontal">
+                <div class="control-group should-check">
+                    <label class="control-label">分段规则</label>
+                    <div class="controls">
+                        <% name = @dimension.value %>
+                        <% user_attribute = _.find(Analytics.Static.getUserAttributes(), (item) -> item.name == name) %>
+                        <input class="should-check-pattern" name="gpattern" type="text" value="<%= user_attribute.gpattern %>" placeholder="0,5,10,20,50,100" pattern="^\d+(,\d+)*$"/>
+                        <p class="help-block">用数字表示，数字与数字之间用逗号隔开</p>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="modal-footer">
+            <a class="btn" data-dismiss="modal">取消</a>
+            <a class="btn btn-primary submit-gpattern">确定</a>
+        </div>
+    </div>
+<% end %>

@@ -7,7 +7,15 @@ class Analytics.Models.Dimension extends Backbone.Model
   serialize: (value) ->
     result = {}
     if @get("value_type") == "int" or @get("value_type") == "sql_bigint"
-      result[@get("value")] = parseInt(value)
+      if value.indexOf("≥") != -1
+        result[@get("value")] = {"$gte": parseInt(value.replace("≥", ""))}
+      else if value.indexOf("≤") != -1
+        result[@get("value")] = {"$lte": parseInt(value.replace("≤", ""))}
+      else if value.indexOf("-") != -1
+        splits = value.split("-")
+        result[@get("value")] = {"$gte": parseInt(splits[0]), "$lte": parseInt(splits[1])}
+      else
+        result[@get("value")] = parseInt(value)
     else
       result[@get("value")] = value
     result
