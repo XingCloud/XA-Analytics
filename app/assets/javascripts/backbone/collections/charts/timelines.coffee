@@ -36,7 +36,8 @@ class Analytics.Collections.TimelineCharts extends Backbone.Collection
       filters: @filters
     })
     chart.selector = @selector
-    @add(chart)
+    if not @get(chart.id)?
+      @add(chart)
 
   generate_chart_id: (metric_id, segment_id, for_compare) ->
     "m" + metric_id + "s" + segment_id + (if for_compare then 'c' else '')
