@@ -4,11 +4,16 @@ class ReportsController < ProjectBaseController
 
   def create
     @report = @project.reports.build(params[:report])
-    if @report.save
-      render :json => @report.js_attributes
-    else
-      render :json => @report.js_attributes, :status => 400
+    status = 200
+    Report.transaction do
+      if @report.save
+        status = @report.sync ? 200 : 500
+      else
+        status = 400
+      end
+      raise ActiveRecord::Rollback unless status == 200
     end
+    render :json => @report.js_attributes, :status => status
   end
 
   def clone
@@ -16,15 +21,21 @@ class ReportsController < ProjectBaseController
   end
 
   def update
-    if @report.update_attributes(params[:report])
-      render :json => @report.js_attributes
-    else
-      render :json => @report.js_attributes, :status => 400
+    @report.attributes = params[:report]
+    status = 200
+    Report.transaction do
+      if @report.save
+        status = @report.sync ? 200 : 500
+      else
+        status = 400
+      end
+      raise ActiveRecord::Rollback unless status == 200
     end
+    render :json => @report.js_attributes, :status => status
   end
   
   def destroy
-    if @report.destroy
+    if @report.sync("REMOVE") and @report.destroy
       render :json => @report.js_attributes
     else
       render :json => @report.js_attributes, :status => 400
