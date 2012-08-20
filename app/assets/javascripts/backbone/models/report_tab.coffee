@@ -9,8 +9,8 @@ class Analytics.Models.ReportTab extends Backbone.Model
 
   initialize: (options) ->
     now = new Date().getTime()
-    compare = new Date().getTime() - @get("length")*86400000
-    @end_time = now - now % 86400000
+    compare = new Date().getTime() - @get("length")*86400000 - @get("day_offset")*86400000
+    @end_time = now - now % 86400000 - @get("day_offset")*86400000
     @compare_end_time = compare - compare % 86400000
     @dimensions_filters = []
     @dimensions = _.clone(@get("dimensions_attributes"))

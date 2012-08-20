@@ -11,6 +11,7 @@ class CreateReportTabs < ActiveRecord::Migration
       t.string :interval, :default => "day"
       t.integer :compare, :default => 0
       t.boolean :show_table, :default => 0
+      t.integer :day_offset, :default => 0
     end
 
     add_index :report_tabs, :report_id

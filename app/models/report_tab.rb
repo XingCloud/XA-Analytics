@@ -10,6 +10,7 @@ class ReportTab < ActiveRecord::Base
   validates_presence_of :title, :chart_type, :interval, :length, :compare
   validates_numericality_of :length, :only_integer => true, :greater_than => 0
   validates_numericality_of :compare, :only_integer => true, :greater_than_or_equal_to => 0
+  validates_numericality_of :day_offset, :only_integer => true, :greater_than_or_equal_to => 0
 
   scope :template, where(:project_id => nil)
 

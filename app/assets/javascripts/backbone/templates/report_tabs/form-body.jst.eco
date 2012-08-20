@@ -35,10 +35,21 @@
     <div class="control-group should-check">
         <label class="control-label" for="report_tabs_attributes_<%= @index %>_length">
             <abbr title="必填">*</abbr>
-            报告时长(天)
+            报告时长
         </label>
         <div class="controls">
             <input class="should-check-empty should-check-natural-number" type="text" id="report_tabs_attributes_<%= @index %>_length" name="report_tabs_attributes[<%= @index %>][length]" value="<%= @length %>"/>
+            天
+        </div>
+    </div>
+    <div class="control-group should-check">
+        <label class="control-label" for="report_tabs_attributes_<%= @index %>_day_offset">
+            <abbr title="必填">*</abbr>
+            默认截止到距今
+        </label>
+        <div class="controls">
+            <input class="should-check-empty should-check-natural-number" type="text" id="report_tabs_attributes_<%= @index %>_day_offset" name="report_tabs_attributes[<%= @index %>][day_offset]" value="<%= @day_offset %>"/>
+            天
         </div>
     </div>
     <div class="control-group">
