@@ -76,6 +76,17 @@ class AnalyticService
     nil
   end
 
+  def self.sync_segments(action, segments, project)
+    segments_map = {}
+    segments.each do |segment|
+      segments_map[segment.id] = segment.sequence.to_json
+    end
+    commit('/dd/seg', {:type => action, :params => {
+        :project_id => (filter_project_id(project) unless project.blank?),
+        :segments => segments_map
+    }.to_json})
+  end
+
   private
 
 

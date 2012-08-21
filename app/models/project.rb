@@ -58,4 +58,8 @@ class Project < ActiveRecord::Base
       end
     end
   end
+
+  def sync_segments
+    AnalyticService.sync_segments("SAVE_OR_UPDATE", segments, self)
+  end
 end
