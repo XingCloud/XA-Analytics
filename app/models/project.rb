@@ -60,6 +60,10 @@ class Project < ActiveRecord::Base
   end
 
   def sync_segments
-    AnalyticService.sync_segments("SAVE_OR_UPDATE", segments, self)
+    filtered_segments = []
+    segments.each do |segment|
+      filtered_segments.append(segment) unless segment.sequence.blank?
+    end
+    AnalyticService.sync_segments("APPEND_OR_UPDATE", segments, self) unless filtered_segments.empty?
   end
 end
