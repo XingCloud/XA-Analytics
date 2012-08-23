@@ -14,9 +14,10 @@ class Analytics.Views.Reports.FormView extends Backbone.View
 
   render: () ->
     $(@el).html(@template(@model.attributes))
-    for report_tab in @model.report_tabs
+    for report_tab_attributes in @model.get("report_tabs_attributes")
+      report_tab = Instances.Collections.report_tabs.get(report_tab_attributes.id)
       @do_add_tab(report_tab, @index == @model.report_tab_index)
-    if @model.report_tabs.length == 0
+    if @model.get("report_tabs_attributes").length == 0
       @do_add_tab(new Analytics.Models.ReportTab({project_id: @model.get("project_id")}), true)
     $('#main-container').html(@el)
 
@@ -80,15 +81,12 @@ class Analytics.Views.Reports.FormView extends Backbone.View
         if model.get("project_id")?
           window.location.href = "#/reports/"+model.id
         else
-          window.location.href = "#/reports"
+          Analytics.Utils.actionFinished()
       })
 
   cancel: () ->
     @remove()
-    if window.history.length > 0
-      window.history.back()
-    else
-      window.location.href = "#/reports"
+    Analytics.Utils.actionFinished()
 
   form_attributes: () ->
     form = $(@el).find('form').toJSON()

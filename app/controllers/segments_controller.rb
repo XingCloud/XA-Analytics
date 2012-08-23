@@ -11,28 +11,28 @@ class SegmentsController < ProjectBaseController
 
   def create
     @segment = @project.segments.build(params[:segment])
-    if @segment.sync
-      if @segment.save
+    if @segment.save
+      if @segment.sync
         render :json => @segment.js_attributes
       else
-        render :json => @segment.js_attributes, :status => 400
+        render :json => @segment.js_attributes, :status => 500
       end
     else
-      render :json => @segment.js_attributes, :status => 500
+      render :json => @segment.js_attributes, :status => 400
     end
   end
 
 
   def update
     @segment.attributes = params[:segment]
-    if @segment.sync
-      if @segment.save
+    if @segment.save
+      if @segment.sync
         render :json => @segment.js_attributes
       else
-        render :json => @segment.js_attributes, :status => 400
+        render :json => @segment.js_attributes, :status => 500
       end
     else
-      render :json => @segment.js_attributes, :status => 500
+      render :json => @segment.js_attributes, :status => 400
     end
   end
 

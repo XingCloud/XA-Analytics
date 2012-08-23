@@ -6,6 +6,12 @@ window.Analytics = {
   Utils: {}
 }
 
+window.Instances = {
+  Models: {},
+  Collections: {},
+  Routers: {}
+}
+
 Backbone.default_sync = Backbone.sync
 Backbone.sync = (method, model, options) ->
   $('#loading-message').fadeIn(200)

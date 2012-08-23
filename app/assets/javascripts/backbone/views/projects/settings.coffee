@@ -5,7 +5,7 @@ class Analytics.Views.Projects.SettingsView extends Backbone.View
 
   initialize: (options) ->
     _.bindAll this, "render"
-    @user_attributes_view = new Analytics.Views.UserAttributes.IndexView({collection: user_attributes_router.user_attributes})
+    @user_attributes_view = new Analytics.Views.UserAttributes.IndexView({collection: Instances.Collections.user_attributes})
 
   render: () ->
     $(@el).html(@template(@model))

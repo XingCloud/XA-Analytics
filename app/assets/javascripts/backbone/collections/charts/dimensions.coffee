@@ -50,7 +50,7 @@ class Analytics.Collections.DimensionCharts extends Backbone.Collection
     }
 
   fetch_url: () ->
-    "/projects/" + project.id + "/dimensions"
+    "/projects/" + Instances.Models.project.id + "/dimensions"
 
   fetch_charts: (options = {}) ->
     collection = this
@@ -79,7 +79,7 @@ class Analytics.Collections.DimensionCharts extends Backbone.Collection
     @xa_action(start_time, "error")
 
   xa_action: (start_time, tag) ->
-    xa_action = "response." + project.get("identifier") + "." + @xa_id()
+    xa_action = "response." + Instances.Models.project.get("identifier") + "." + @xa_id()
     xa_interval = (new Date()).getTime() - start_time
     XA.action(xa_action + ".responsetime." + Analytics.Utils.timeShard(xa_interval) + "," + xa_interval, xa_action+"."+tag+",0")
 

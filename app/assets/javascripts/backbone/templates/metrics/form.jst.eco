@@ -67,7 +67,7 @@
                 <div class="controls">
                     <select name="segment_id">
                         <option value=""></option>
-                        <% for segment in segments_router.all(): %>
+                        <% for segment in Instances.Collections.segments.models: %>
                             <option value="<%= segment.id %>" <%= if @segment_id == segment.id then 'selected="selected"' %> ><%= segment.get("name") %></option>
                         <% end %>
                     </select>
@@ -136,7 +136,7 @@
                     <div class="controls">
                         <select name="combine_attributes[segment_id]">
                             <option value=""></option>
-                            <% for segment in segments_router.all(): %>
+                            <% for segment in Instances.Collections.segments.models: %>
                                 <option value="<%= segment.id %>" <%= if @combine_attributes? and @combine_attributes.segment_id == segment.id then 'selected="selected"' %> ><%= segment.get("name") %></option>
                             <% end %>
                         </select>

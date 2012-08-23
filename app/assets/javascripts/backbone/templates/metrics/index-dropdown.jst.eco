@@ -6,14 +6,7 @@
 </li>
 <li>
     <div class="metric-list" style="height: <%= @height %>px;">
-        <% if metrics_router.templates?: %>
-            <% for metric in metrics_router.templates.models: %>
-                <div class="metric" value="<%= metric.id %>" name="<%= metric.get('name') %>">
-                    <%= metric.get("name") %>
-                </div>
-            <% end %>
-        <% end %>
-        <% for metric in metrics_router.metrics.models: %>
+        <% for metric in Instances.Collections.metrics.models: %>
             <div class="metric" value="<%= metric.id %>" name="<%= metric.get('name') %>">
                 <%= metric.get("name") %>
             </div>

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120820033516) do
+ActiveRecord::Schema.define(:version => 20120823072008) do
 
   create_table "dimensions", :force => true do |t|
     t.integer "report_tab_id"
@@ -47,6 +47,27 @@ ActiveRecord::Schema.define(:version => 20120820033516) do
   end
 
   add_index "metrics", ["combine_id"], :name => "index_metrics_on_combine_id"
+
+  create_table "project_report_categories", :force => true do |t|
+    t.integer "report_category_id"
+    t.integer "project_id"
+    t.integer "position"
+    t.string  "name"
+    t.boolean "display",            :default => true
+  end
+
+  add_index "project_report_categories", ["project_id"], :name => "index_project_report_categories_on_project_id"
+  add_index "project_report_categories", ["report_category_id"], :name => "index_project_report_categories_on_report_category_id"
+
+  create_table "project_reports", :force => true do |t|
+    t.integer "project_id"
+    t.integer "report_id"
+    t.integer "report_category_id"
+    t.boolean "display",            :default => true
+  end
+
+  add_index "project_reports", ["project_id"], :name => "index_project_reports_on_project_id"
+  add_index "project_reports", ["report_id"], :name => "index_project_reports_on_report_id"
 
   create_table "project_widgets", :force => true do |t|
     t.integer "widget_id"
@@ -104,6 +125,7 @@ ActiveRecord::Schema.define(:version => 20120820033516) do
     t.string   "title"
     t.datetime "created_at",         :null => false
     t.datetime "updated_at",         :null => false
+    t.integer  "original_report_id"
   end
 
   add_index "reports", ["project_id"], :name => "index_reports_on_project_id"

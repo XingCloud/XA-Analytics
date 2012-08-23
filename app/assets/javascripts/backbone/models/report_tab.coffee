@@ -29,7 +29,7 @@ class Analytics.Models.ReportTab extends Backbone.Model
   metrics_attributes: () ->
     metrics = []
     for metric_id in @get("metric_ids")
-      metrics.push(metrics_router.get(metric_id).attributes)
+      metrics.push(Instances.Collections.metrics.get(metric_id).attributes)
     metrics
 
   show_attributes: () ->

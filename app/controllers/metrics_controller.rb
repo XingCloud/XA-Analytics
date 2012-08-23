@@ -2,6 +2,10 @@ class MetricsController < ProjectBaseController
   before_filter :find_metric, :only => [:update]
   before_filter :filter_number_of_day, :only => [:create, :update]
 
+  def index
+    render :json => (Metric.template.where(:combine_id => nil) | @project.metrics.where(:combine_id => nil)).map(&:js_attributes)
+  end
+
   def show
     render :json => @metric.js_attributes
   end

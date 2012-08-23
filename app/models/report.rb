@@ -1,8 +1,10 @@
 class Report < ActiveRecord::Base
-
-  belongs_to :project
+  has_many :project_reports, :dependent => :destroy
+  has_many :projects, :through => :project_reports
   belongs_to :report_category
   has_many :report_tabs, :dependent => :destroy
+  belongs_to :original, :class_name => "Report", :foreign_key => "original_report_id"
+  has_many :clones, :class_name => "Report", :foreign_key => "original_report_id"
 
 
   accepts_nested_attributes_for :report_tabs, :allow_destroy => true
@@ -71,6 +73,12 @@ class Report < ActiveRecord::Base
     else
       true
     end
+  end
+
+  def merge_join_attributes(project_report)
+    (self.report_category_id = project_report.report_category_id) unless project_report.report_category_id.blank?
+    (self.report_category_id = nil) unless (report_category_id != -1)
+    self
   end
 
 end

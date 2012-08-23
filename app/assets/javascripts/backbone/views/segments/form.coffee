@@ -17,10 +17,11 @@ class Analytics.Views.Segments.FormView extends Backbone.View
   render: () ->
     $(@el).html(@template(@model.form_attributes()))
 
-    for expression in @model.expressions
+    for expression_attributes in @model.get("expressions_attributes")
+      expression = Instances.Collections.expressions.get(expression_attributes.id)
       @render_expression(expression)
 
-    if @model.expressions.length == 0
+    if @model.get("expressions_attributes").length == 0 and Instances.Models.project?
       @render_expression(new Analytics.Models.Expression())
 
     this

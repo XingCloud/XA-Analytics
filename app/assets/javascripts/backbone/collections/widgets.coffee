@@ -1,9 +1,11 @@
 class Analytics.Collections.Widgets extends Backbone.Collection
   model: Analytics.Models.Widget
 
-  initialize: (options) ->
+  initialize: (models, options) ->
+    @resource_name = "小窗口"
     @synced = false
-    @project = options.project
+    if options?
+      @project = options.project
     now = new Date().getTime()
     @end_time = now - now % 86400000
     @columns = 3

@@ -24,15 +24,15 @@ class Analytics.Views.Metrics.FormListItemView extends Backbone.View
 
   show: () ->
     @model.list_item_view = this
-    if project? and not @model.get("project_id")?
+    if Instances.Models.project? and not @model.get("project_id")?
       template_model = new Analytics.Models.Metric(@model.attributes)
-      metrics_router.templates.remove(@model)
-      metrics_router.templates.add(template_model)
-      @model.collection = metrics_router.metrics
-      @model.set({id: null, project_id: project.id}, {silent: true})
+      Instances.Collections.metrics.remove(@model)
+      Instances.Collections.metrics.add(template_model)
+      @model.collection = Instances.Collections.metrics
+      @model.set({id: null, project_id: Instances.Models.project.id}, {silent: true})
       if @model.get("combine_attributes")?
         @model.get("combine_attributes")["id"] = null
-        @model.get("combine_attributes")["project_id"] = project.id
+        @model.get("combine_attributes")["project_id"] = Instances.Models.project.id
     new Analytics.Views.Metrics.FormView({
       model: @model
       clone: template_model
@@ -60,7 +60,7 @@ class Analytics.Views.Metrics.FormListView extends Backbone.View
       alert("不能重复添加相同指标")
     else
       @metric_ids[metric_id] = true
-      metric = metrics_router.get(metric_id)
+      metric = Instances.Collections.metrics.get(metric_id)
       metric.index = @model.index
       metric_view = new Analytics.Views.Metrics.FormListItemView({model: metric, parent_view: this})
       $(@el).find('#report_tab_'+@model.index+'_metric_list').append(metric_view.render().el)

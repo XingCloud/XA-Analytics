@@ -9,7 +9,7 @@
                     <% end %>
                 </th>
                 <% for metric_id in @metric_ids: %>
-                    <th class="<%= if parseInt(@orderby) == metric_id then @order %>" value="<%= metric_id %>"><%= metrics_router.get(metric_id).get("name") %></th>
+                    <th class="<%= if parseInt(@orderby) == metric_id then @order %>" value="<%= metric_id %>"><%= Instances.Collections.metrics.get(metric_id).get("name") %></th>
                 <% end %>
             </tr>
         </thead>
@@ -52,7 +52,7 @@
         <label class="left">选择用户群:&nbsp;</label>
         <div class="left btn-group dropup">
             <a class="btn dropdown-toggle" data-toggle="dropdown">
-                <%= segments_router.get(@segment_id).get("name") %>
+                <%= Instances.Collections.segments.get(@segment_id).get("name") %>
                 <span class="caret"></span>
             </a>
             </a>
@@ -60,7 +60,7 @@
                 <% for segment_id in @segment_ids: %>
                     <li>
                         <a value="<%= segment_id %>" class="choose-segment">
-                            <%= segments_router.get(segment_id).get("name") %>
+                            <%= Instances.Collections.segments.get(segment_id).get("name") %>
                         </a>
                     </li>
                 <% end %>

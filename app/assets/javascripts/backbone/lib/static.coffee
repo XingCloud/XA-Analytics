@@ -81,7 +81,7 @@ Analytics.Static.ReportTabRanges = [
 
 Analytics.Static.getUserAttributes = () ->
   results = []
-  for user_attribute in _.sortBy(user_attributes_router.user_attributes.models, (item) -> 0 - Date.parse(item.get("created_at")))
+  for user_attribute in _.sortBy(Instances.Collections.user_attributes.models, (item) -> 0 - Date.parse(item.get("created_at")))
     attrs = _.clone(user_attribute.attributes)
     if not attrs.nickname?
       item = _.find(Analytics.Static.UserAttributes, (item) -> item.name == attrs.name)
@@ -89,7 +89,7 @@ Analytics.Static.getUserAttributes = () ->
         attrs.nickname = item.nickname
     results.push(attrs)
   for user_attribute in Analytics.Static.UserAttributes
-    item = user_attributes_router.user_attributes.find((item) -> item.get("name") == user_attribute.name)
+    item = Instances.Collections.user_attributes.find((item) -> item.get("name") == user_attribute.name)
     if not item?
       results.push(user_attribute)
   results

@@ -38,7 +38,7 @@ class Analytics.Views.ReportTabs.ShowView extends Backbone.View
       $(@report_view.el).find('.report-tab-range-picker').html(@model.range_picker_view.redraw().el)
 
   render_timelines: () ->
-    segment_ids = segments_router.segments.selected().concat(segments_router.templates.selected())
+    segment_ids = Instances.Collections.segments.selected()
     @timelines.initialize_charts(@model.get("metric_ids"), segment_ids, @model.get("compare") != 0)
     render_to = $(@el).find("#report_tab_" + @model.id + "_timelines")[0]
     if not @timelines_view?
@@ -161,9 +161,7 @@ class Analytics.Views.ReportTabs.ShowRangePickerView extends Backbone.View
       compare_end_time = Analytics.Utils.pickUTCDate(ev.date.valueOf())
       if model.compare_end_time != compare_end_time
         model.compare_end_time = compare_end_time
-        if model.get("compare") == 0 and model.get("project_id")?
-          model.save({compare: 1},{wait: true})
-        else if model.get("compare") == 0
+        if model.get("compare") == 0
           model.set({compare: 1})
         else
           model.trigger("change")
@@ -175,16 +173,10 @@ class Analytics.Views.ReportTabs.ShowRangePickerView extends Backbone.View
       interval: $(ev.currentTarget).attr("interval")
     }
     @model.compare_end_time = @model.end_time - range.length*86400000
-    if @model.get("project_id")?
-      @model.save(range, {wait: true})
-    else
-      @model.set(range)
+    @model.set(range)
 
   change_compare: (ev) ->
-    if @model.get("project_id")?
-      @model.save({compare: ( if $(ev.currentTarget)[0].checked then 1 else 0)}, {wait: true})
-    else
-      @model.set({compare: ( if $(ev.currentTarget)[0].checked then 1 else 0)})
+    @model.set({compare: ( if $(ev.currentTarget)[0].checked then 1 else 0)})
 
   change_custom_range: (ev) ->
     range = {
@@ -196,17 +188,9 @@ class Analytics.Views.ReportTabs.ShowRangePickerView extends Backbone.View
     $(@el).find('#custom-range-'+@model.id).modal('hide')
     @model.compare_end_time = @model.compare_end_time + end_time - @model.end_time
     @model.end_time = end_time
-    if @model.get("project_id")?
-      @model.save(range, {
-        wait: true
-        silent: true
-        success: (model, resp) ->
-          if change
-            model.trigger("change")
-      })
-    else
-      @model.set(range, {silent: true})
-      if change
-        @model.trigger("change")
+    @model.set(range, {silent: true})
+    if change
+      @model.trigger("change")
+
 
 

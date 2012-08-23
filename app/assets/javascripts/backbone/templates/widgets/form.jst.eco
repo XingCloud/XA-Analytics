@@ -78,12 +78,7 @@
                 <div class="controls">
                     <select class="report-tab" name="report_tab_id">
                         <option value=""></option>
-                        <% if reports_router.templates?: %>
-                            <% for report_tab in reports_router.templates.report_tabs(): %>
-                                <option value="<%= report_tab.id %>" <%= if @report_tab_id == report_tab.id then 'selected="selected"' %> ><%= report_tab.title %></option>
-                            <% end %>
-                        <% end %>
-                        <% for report_tab in reports_router.reports.report_tabs(): %>
+                        <% for report_tab in Instances.Collections.reports.report_tabs(): %>
                             <option value="<%= report_tab.id %>" <%= if @report_tab_id == report_tab.id then 'selected="selected"' %> ><%= report_tab.title %></option>
                         <% end %>
                     </select>

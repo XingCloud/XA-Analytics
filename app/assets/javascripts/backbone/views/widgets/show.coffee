@@ -83,9 +83,13 @@ class Analytics.Views.Widgets.ShowView extends Backbone.View
     }).render()
 
   jump_to_report_tab: () ->
-    report_tab = report_tabs_router.report_tabs.get(@model.get("report_tab_id"))
-    report = reports_router.get(report_tab.get("report_id"))
-    report.report_tab_index = report.report_tabs.indexOf(report_tab)
+    report_tab = Instances.Collections.report_tabs.get(@model.get("report_tab_id"))
+    report = Instances.Collections.reports.get(report_tab.get("report_id"))
+    report.report_tab_index = 0
+    for report_tab_attributes in report.get("report_tabs_attributes")
+      if parseInt(report_tab_attributes.id) == report_tab.id
+        break
+      report.report_tab_index = report.report_tab_index + 1
     window.location.href = '#/reports/' + report.id
 
   next_table_page: (ev) ->

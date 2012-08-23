@@ -13,8 +13,8 @@ class WidgetsController < ProjectBaseController
   def create
     @widget = @project.widgets.build(params[:widget].merge({:project_id => @project.id}))
     if @widget.save and @project.project_widgets.create({:widget_id => @widget.id,
-                                                           :px => params[:project_widget][:px],
-                                                           :py => params[:project_widget][:py]})
+                                                        :px => params[:project_widget][:px],
+                                                        :py => params[:project_widget][:py]})
       render :json => @widget.js_attributes(@project.id)
     else
       @widget.destroy unless @widget.id.blank?
@@ -31,8 +31,9 @@ class WidgetsController < ProjectBaseController
         begin
           project_widget.update_attributes!(:display => 0)
           @widget.save!
-          @project.project_widgets.create!({:widget_id => @widget.id, :position => 1})
-        rescue
+          @project.project_widgets.create!({:widget_id => @widget.id})
+        rescue Exception => ex
+          pp ex.message
           error = true
           raise ActiveRecord::Rollback
         end

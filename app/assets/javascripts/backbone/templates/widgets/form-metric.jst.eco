@@ -8,7 +8,7 @@
         <% if @metric_id?: %>
             <div class="metric-picker">
                 <div class="metric-display">
-                    <%= metrics_router.get(@metric_id).get("name") %>
+                    <%= Instances.Collections.metrics.get(@metric_id).get("name") %>
                 </div>
                 <img src="/assets/cleardot.gif" class="metric-remove" /> &nbsp;
             </div>

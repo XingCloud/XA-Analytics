@@ -2,26 +2,19 @@ class Analytics.Routers.WidgetsRouter extends Backbone.Router
   routes:
     "/dashboard" : "index"
 
-  initialize: (options) ->
-    @project = options.project
-    @widgets = new Analytics.Collections.Widgets({project: @project})
+  initialize: () ->
 
   index: () ->
-    if @project?
-      $('.reports-nav ul li').removeClass('active')
-    collection = @widgets
-    collection.sync_server({
-      success: (resp) ->
-        if not collection.view?
-          if collection.project?
-            collection.view = new Analytics.Views.Widgets.IndexView({
-              collection: collection
-            })
-          else
-            collection.view = new Analytics.Views.Widgets.ListView({
-              collection: collection
-            })
-          collection.view.render()
-        else
-          collection.view.redraw()
-    })
+    collection = Instances.Collections.widgets
+    if not collection.view?
+      if Instances.Models.project?
+        collection.view = new Analytics.Views.Widgets.IndexView({
+          collection: collection
+        })
+      else
+        collection.view = new Analytics.Views.Widgets.ListView({
+          collection: collection
+        })
+      collection.view.render()
+    else
+      collection.view.redraw()

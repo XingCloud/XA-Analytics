@@ -114,3 +114,12 @@ Analytics.Utils.timeShard = (time) ->
     "30s-60s"
   else
     "gte_1min"
+
+Analytics.Utils.actionFinished = () ->
+  if window.history.length > 0
+    window.history.back()
+  else
+    if Analytics.Models.project?
+      window.location.href = "#/dashboard"
+    else
+      window.location.href = "#/reports"

@@ -34,7 +34,7 @@ class Analytics.Views.Dimensions.ListView extends Backbone.View
 
   render_dimensions_chart: () ->
     render_to = $(@el).find(".dimensions-chart")[0]
-    segment_ids = segments_router.segments.selected().concat(segments_router.templates.selected())
+    segment_ids = Instances.Collections.segments.selected()
     @dimensions.initialize_charts(@model.get("metric_ids"), segment_ids)
     if not @dimensions_chart_view?
       @dimensions_chart_view = new Analytics.Views.Charts.DimensionsView({
@@ -172,15 +172,15 @@ class Analytics.Views.Dimensions.ListView extends Backbone.View
       name = @model.dimension.value
       user_attribute = _.find(Analytics.Static.getUserAttributes(), (item) -> item.name == name)
       if user_attribute.id?
-        user_attribute = user_attributes_router.user_attributes.get(user_attribute.id)
+        user_attribute = Instances.Collections.user_attributes.get(user_attribute.id)
       else
         user_attribute = new Analytics.Models.UserAttribute(user_attribute)
-        user_attribute.set({project_id: project.id})
+        user_attribute.set({project_id: Instances.Models.project.id})
       isnew = not user_attribute.id?
       view = this
       user_attribute.save(form, {wait:true, success: (model ,resp) ->
         $(view.el).find(".gpattern.modal").modal("hide")
         if isnew
-          user_attributes_router.user_attributes.add(model, {silent: true})
+          Instances.Collections.user_attributes.add(model, {silent: true})
         view.fetch_dimensions()
       })

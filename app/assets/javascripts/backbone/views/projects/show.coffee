@@ -19,18 +19,7 @@ class Analytics.Views.Projects.ShowView extends Backbone.View
 
   render_leftnav: () ->
     new Analytics.Views.Reports.NavView({
-      reports : reports_router.templates,
-      categories: report_categories_router.templates,
-      el: "#template-reports"
-      is_template: true
-    }).render()
-
-
-    new Analytics.Views.Reports.NavView({
-      reports : reports_router.reports,
-      categories: report_categories_router.categories,
-      el: "#custom-reports"
-      is_template: false
+      el: "#left-nav"
     }).render()
 
   render_default_report: () ->

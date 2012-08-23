@@ -13,7 +13,7 @@ class Analytics.Models.TimelineChart extends Backbone.Model
     else
       end_time = @selector.get_end_time()
     start_time = end_time - (@selector.get("length") - 1) * 86400000
-    metric = metrics_router.get(@get("metric_id"))
+    metric = Instances.Collections.metrics.get(@get("metric_id"))
     metric_options = metric.sequence_options(@get("segment_id"), @get("filters"))
     _.extend(metric_options, {
       id: @id
@@ -21,14 +21,14 @@ class Analytics.Models.TimelineChart extends Backbone.Model
       start_time: Analytics.Utils.formatUTCDate(start_time, "YYYY-MM-DD")
       interval: @selector.get("interval").toUpperCase()
       type: "COMMON"
-      project_id: project.get("identifier")
+      project_id: Instances.Models.project.get("identifier")
     })
 
   name: () ->
     if @get("segment_id") != 0
-      metrics_router.get(@get("metric_id")).get("name") + "(" + segments_router.get(@get("segment_id")).get("name") + ")"
+      Instances.Collections.metrics.get(@get("metric_id")).get("name") + "(" + Instances.Collections.segments.get(@get("segment_id")).get("name") + ")"
     else
-      metrics_router.get(@get("metric_id")).get("name")
+      Instances.Collections.metrics.get(@get("metric_id")).get("name")
 
   data: () ->
     if @get("sequence")? and @get("sequence")["data"]?

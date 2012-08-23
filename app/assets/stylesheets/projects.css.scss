@@ -27,55 +27,48 @@ table.main-table{
     vertical-align: top;
     .dashboard-toggle{
       padding: 5px 8px 5px 5px;
-      .btn{
-        width: 100%;
-        padding-left: 0px;
-        padding-right: 0px;
-      }
     }
     .reports-nav{
+      .accordion-group{
+        .accordion-heading{
+          .accordion-toggle{
+            cursor: pointer;
+          }
+          .dropdown{
+            margin: 8px 10px 0 0;
+          }
+        }
+        .accordion-body{
+          .accordion-inner {
+            padding: 0px;
+            .nav.nav-list{
+              overflow: auto;
+              max-height: 300px;
+              li{
+                .dropdown{
+                  margin-top: 2px;
+                }
+              }
+            }
+          }
+        }
+        .dropdown{
+          float: right;
+          .dropdown-toggle{
+            display: none;
+            width: 18px;
+            text-align: center;
+            cursor: pointer;
+            .caret{
+              margin-left: 0px;
+            }
+          }
+        }
+      }
       ul li.no-data{
         text-align: center;
         height: 30px;
         padding-top: 10px;
-      }
-      ul.templates li.nav-header{
-        @include highlight-header;
-      }
-      ul.templates li{
-        padding: 5px;
-      }
-      .custom-reports{
-        margin-top: 10px;
-        .custom-reports-header{
-          @include highlight-header;
-          font-size: 11px;
-          font-weight: bold;
-          color: #999;
-          padding: 5px 5px 5px 10px;
-        }
-        .reports-manage{
-          cursor: pointer;
-          width: 32px;
-          i{
-            margin-left: 9px;
-          }
-        }
-        .reports-manage:hover{
-          background-color: whiteSmoke;
-          border-radius: 5px;
-        }
-        ul li.nav-header{
-          margin-top: 0;
-        }
-        ul li.custom-report{
-          padding-left: 5px;
-        }
-        ul{
-          border-bottom: 1px solid #CCC;
-          overflow: auto;
-          max-height: 300px;
-        }
       }
     }
 

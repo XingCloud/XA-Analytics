@@ -4,12 +4,11 @@ class Analytics.Routers.ProjectsRouter extends Backbone.Router
     "/settings" : "settings"
 
   initialize: () ->
-    @projects = new Analytics.Collections.Projects()
 
   error_404: () ->
     $('#main-container').html(JST['backbone/templates/utils/404']())
 
   settings: () ->
-    view = new Analytics.Views.Projects.SettingsView({model: project})
+    view = new Analytics.Views.Projects.SettingsView({model: Instances.Models.project})
     $('#main-container').html(view.render().el)
-    $('.reports-nav ul li').removeClass('active')
+    $('.nav-report').removeClass('active')

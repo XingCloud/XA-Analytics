@@ -23,8 +23,8 @@ class Analytics.Views.Metrics.FormView extends Backbone.View
       $(this).remove()
       if clone? and not model.id?
         model.set(clone.attributes)
-        metrics_router.templates.remove(clone)
-        metrics_router.templates.add(model)
+        Instances.Collections.metrics.remove(clone)
+        Instances.Collections.metrics.add(model)
     )
 
   render: () ->
@@ -80,11 +80,12 @@ class Analytics.Views.Metrics.FormView extends Backbone.View
         $(event_list_sync_el).show()
         if $(ev.currentTarget).data('typeahead')?
           $(ev.currentTarget).data('typeahead').source = []
+        element = ev.currentTarget
         jQuery.post("/projects/"+@model.get("project_id")+"/event_item", params, (data) ->
-          if $(ev.currentTarget).data('typeahead')?
-            $(ev.currentTarget).data('typeahead').source = data
+          if $(element).data('typeahead')?
+            $(element).data('typeahead').source = data
           else
-            $(ev.currentTarget).typeahead({source: data})
+            $(element).typeahead({source: data})
           $(event_list_sync_el).hide()
           event_list_sync[level] = true
         ).error((xhr,options,error) ->

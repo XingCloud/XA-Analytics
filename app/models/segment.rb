@@ -49,6 +49,8 @@ class Segment < ActiveRecord::Base
       else
         false
       end
+    else
+      true
     end
   end
 

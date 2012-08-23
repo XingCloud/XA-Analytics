@@ -36,28 +36,22 @@
         = will_paginate @projects
 
 :javascript
-  window.user_attributes_router = new Analytics.Routers.UserAttributesRouter({
-    user_attributes: []
-  });
-
-  window.segments_router = new Analytics.Routers.SegmentsRouter({
-    segments: #{Segment.template.map(&:js_attributes).to_json}
-  });
-
-  window.report_categories_router = new Analytics.Routers.ReportCategoriesRouter({
-    categories: #{ReportCategory.template.map(&:js_attributes).to_json}
-  });
-
-  window.report_tabs_router = new Analytics.Routers.ReportTabsRouter({});
-
-  window.reports_router = new Analytics.Routers.ReportsRouter({
-    reports: #{Report.template.map(&:js_attributes).to_json}
-  });
-
-  window.metrics_router = new Analytics.Routers.MetricsRouter({
-    metrics: #{Metric.template.where(:combine_id => nil).map(&:js_attributes).to_json}
-  });
-
-  window.widgets_router = new Analytics.Routers.WidgetsRouter({});
-
+  Instances.Collections = {
+    user_attributes: new Analytics.Collections.UserAttributes([]),
+    segments: new Analytics.Collections.Segments(#{Segment.template.map(&:js_attributes).to_json}),
+    expressions: new Analytics.Collections.Expressions([]),
+    report_categories: new Analytics.Collections.ReportCategories(#{ReportCategory.template.map(&:js_attributes).to_json}),
+    reports: new Analytics.Collections.Reports(#{Report.template.map(&:js_attributes).to_json}),
+    report_tabs: new Analytics.Collections.ReportTabs([]),
+    widgets: new Analytics.Collections.Widgets(#{Widget.template.map(&:js_attributes).to_json}),
+    metrics: new Analytics.Collections.Metrics(#{Metric.template.where(:combine_id => nil).map(&:js_attributes).to_json})
+  };
+  Instances.Collections.reports.init_report_tabs();
+  Instances.Collections.segments.init_expressions();
+  Instances.Routers = {
+    report_categories_router: new Analytics.Routers.ReportCategoriesRouter(),
+    reports_router: new Analytics.Routers.ReportsRouter(),
+    segments_router: new Analytics.Routers.SegmentsRouter(),
+    widgets_router: new Analytics.Routers.WidgetsRouter()
+  };
   Backbone.history.start();

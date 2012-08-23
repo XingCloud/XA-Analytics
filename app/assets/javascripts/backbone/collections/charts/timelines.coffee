@@ -15,7 +15,7 @@ class Analytics.Collections.TimelineCharts extends Backbone.Collection
     @has_compare = has_compare
     index = 0
     for metric_id in metric_ids
-      metric = metrics_router.get(metric_id)
+      metric = Instances.Collections.metrics.get(metric_id)
       for segment_id in segment_ids
         chart_id = @generate_chart_id(metric_id, segment_id, false)
         if has_compare? and has_compare
@@ -51,7 +51,7 @@ class Analytics.Collections.TimelineCharts extends Backbone.Collection
     }
 
   fetch_url: () ->
-    "/projects/" + project.id + "/timelines"
+    "/projects/" + Instances.Models.project.id + "/timelines"
 
   fetch_charts: (options = {}) ->
     collection = this
@@ -159,7 +159,7 @@ class Analytics.Collections.TimelineCharts extends Backbone.Collection
     cmap
 
   xa_action: (start_time, tag) ->
-    xa_action = "response." + project.get("identifier") + "." + @xa_id()
+    xa_action = "response." + Instances.Models.project.get("identifier") + "." + @xa_id()
     xa_interval = (new Date()).getTime() - start_time
     XA.action(xa_action + ".responsetime." + Analytics.Utils.timeShard(xa_interval) + "," + xa_interval, xa_action+"."+tag+",0")
 

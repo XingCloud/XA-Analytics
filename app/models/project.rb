@@ -1,6 +1,8 @@
 class Project < ActiveRecord::Base
-  has_many :report_categories, :dependent => :destroy
-  has_many :reports, :dependent => :destroy
+  has_many :project_report_categories, :dependent => :destroy
+  has_many :report_categories, :through => :project_report_categories
+  has_many :project_reports, :dependent => :destroy
+  has_many :reports, :through => :project_reports
   has_many :report_tabs, :dependent => :destroy
   has_many :metrics, :dependent => :destroy
   has_many :segments, :dependent => :destroy

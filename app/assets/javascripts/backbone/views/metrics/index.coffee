@@ -16,8 +16,8 @@ class Analytics.Views.Metrics.IndexDropdownView extends Backbone.View
     @list_view = options.list_view
     @disable_add_metric = (if options.disable_add_metric? then options.disable_add_metric else false)
     @height = (if options.height? then options.height else 200)
-    metrics_router.metrics.bind "change", @render
-    metrics_router.metrics.bind "add", @render
+    Instances.Collections.metrics.bind "change", @render
+    Instances.Collections.metrics.bind "add", @render
 
   render: () ->
     $(@el).html(@template({
@@ -26,9 +26,12 @@ class Analytics.Views.Metrics.IndexDropdownView extends Backbone.View
     }))
 
   new_metric: (ev) ->
-    metric = new Analytics.Models.Metric({project_id : @model.project_id})
+    if Instances.Models.project?
+      metric = new Analytics.Models.Metric({project_id : Instances.Models.project.id})
+    else
+      metric = new Analytics.Models.Metric()
     metric.list_view = @list_view
-    metric.collection = metrics_router.metrics
+    metric.collection = Instances.Collections.metrics
     new Analytics.Views.Metrics.FormView({
       model: metric,
       id: "new_metric"

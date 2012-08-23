@@ -17,7 +17,7 @@
         <% end %>
         <% index = 0 %>
         <% for metric_id in @metric_ids: %>
-            <% metric = metrics_router.get(metric_id) %>
+            <% metric = Instances.Collections.metrics.get(metric_id) %>
             <td class="metric-name <%= if index+1 == @metric_ids.length then 'last' %>" value="<%= metric_id %>">
                 <span><%= metric.get("name") %></span>
             </td>
@@ -27,7 +27,7 @@
     <% for segment_id in @segment_ids: %>
         <tr>
             <% if has_segments: %>
-                <td class="segment-name" value="<%= segment_id %>"><%= segments_router.get(segment_id).get("name") %></td>
+                <td class="segment-name" value="<%= segment_id %>"><%= Instances.Collections.segments.get(segment_id).get("name") %></td>
             <% end %>
             <% if not has_segments and not @for_widget and @selector.get("show_table"): %>
                 <td class="data-header">数据汇总</td>
@@ -35,7 +35,7 @@
             <% index = 0 %>
             <% for metric_id in @metric_ids: %>
                 <td class="<%= if index+1 == @metric_ids.length then 'last' %>">
-                    <% metric = metrics_router.get(metric_id) %>
+                    <% metric = Instances.Collections.metrics.get(metric_id) %>
                     <% chart = _.find(@models, (chart) -> chart.get("metric_id") == metric_id and chart.get("segment_id") == segment_id and not chart.get("compare_for")?) %>
                     <% up_filters = _.filter(chart.get("filters"), (item) -> item['dimension']['dimension_type'] == 'USER_PROPERTIES') %>
                     <% use_natural = (chart.get("sequence").total != chart.get("sequence").natural or has_segments or up_filters.length > 0) %>

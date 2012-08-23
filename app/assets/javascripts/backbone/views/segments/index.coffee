@@ -10,9 +10,7 @@ class Analytics.Views.Segments.IndexView extends Backbone.View
 
   initialize: () ->
     _.bindAll(this, "render", "redraw")
-    @collection.bind "add", @redraw
-    @collection.bind "destroy", @redraw
-    @collection.bind "change", @redraw
+    @collection.bind "all", @redraw
 
   render: () ->
     $(@el).html(@template(@collection))

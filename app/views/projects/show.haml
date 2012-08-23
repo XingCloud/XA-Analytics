@@ -1,41 +1,5 @@
 :javascript
   window.XAUSER = "#{session[:cas_user]}";
   window.XA.init({app: "xaa", uid: XAUSER});
-  window.project = new Analytics.Models.Project(#{@project.js_attributes.to_json});
-  window.projects_router = new Analytics.Routers.ProjectsRouter();
-
-  window.user_attributes_router = new Analytics.Routers.UserAttributesRouter({
-    project: project,
-    user_attributes: #{@project.user_attributes.map(&:attributes).to_json}
-  });
-
-  window.segments_router = new Analytics.Routers.SegmentsRouter({
-    project: project,
-    segments: #{@project.segments.map(&:js_attributes).to_json},
-    templates: #{Segment.template.map(&:js_attributes).to_json}
-  });
-
-  window.report_categories_router = new Analytics.Routers.ReportCategoriesRouter({
-    project: project,
-    categories: #{@project.report_categories.map(&:js_attributes).to_json},
-    templates: #{ReportCategory.template.map(&:js_attributes).to_json}
-  });
-
-  window.report_tabs_router = new Analytics.Routers.ReportTabsRouter({project: project});
-
-  window.reports_router = new Analytics.Routers.ReportsRouter({
-    project: project,
-    reports: #{@project.reports.map(&:js_attributes).to_json},
-    templates: #{Report.template.map(&:js_attributes).to_json}
-  });
-
-  window.metrics_router = new Analytics.Routers.MetricsRouter({
-    project: project,
-    metrics: #{@project.metrics.where(:combine_id => nil).map(&:js_attributes).to_json},
-    templates: #{Metric.template.where(:combine_id => nil).map(&:js_attributes).to_json}
-   });
-
-  window.widgets_router = new Analytics.Routers.WidgetsRouter({project: project});
-
-  new Analytics.Views.Projects.ShowView({model: project}).render();
-  Backbone.history.start();
+  Instances.Models.project = new Analytics.Models.Project(#{@project.js_attributes.to_json});
+  Instances.Models.project.loading();

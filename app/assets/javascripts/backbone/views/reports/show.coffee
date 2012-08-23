@@ -24,15 +24,14 @@ class Analytics.Views.Reports.ShowView extends Backbone.View
 
   render_segments: () ->
     $(@el).find('.segments').html(new Analytics.Views.Segments.ListView({
-      segments: segments_router.segments,
-      templates: segments_router.templates,
       parent: this
     }).render().el)
 
   render_report_tab: () ->
-    if @model.report_tabs.length
-      report_tab = @model.report_tabs[@model.report_tab_index]
-      project.active_tab = report_tab
+    if @model.get("report_tabs_attributes").length
+      report_tab_attributes = @model.get("report_tabs_attributes")[@model.report_tab_index]
+      report_tab = Instances.Collections.report_tabs.get(report_tab_attributes.id)
+      Instances.Models.project.active_tab = report_tab
       if report_tab.view?
         report_tab.view.redraw()
       else
@@ -44,8 +43,7 @@ class Analytics.Views.Reports.ShowView extends Backbone.View
         report_tab.view.render()
 
   reset_segments_select: () ->
-    segments_router.segments.reset_selected(@segments_selected)
-    segments_router.templates.reset_selected(@template_segments_selected)
+    Instances.Collections.segments.reset_selected(@segments_selected)
 
   hide_segments: () ->
     $(@el).find('.segment-btn').removeClass('active')
@@ -56,8 +54,7 @@ class Analytics.Views.Reports.ShowView extends Backbone.View
       @hide_segments()
       @reset_segments_select()
     else
-      @segments_selected = segments_router.segments.selected()
-      @template_segments_selected = segments_router.templates.selected()
+      @segments_selected = Instances.Collections.segments.selected()
       @render_segments()
       $(@el).find('.segment-btn').addClass('active')
 
@@ -69,5 +66,6 @@ class Analytics.Views.Reports.ShowView extends Backbone.View
 
   refresh: (ev) ->
     report_tab_index = $(@el).find('.report-tabs ul li.active').attr('value')
-    report_tab = @model.report_tabs[report_tab_index]
+    report_tab_attributes = @model.get("report_tabs_attributes")[report_tab_index]
+    report_tab = Instances.Collections.report_tabs.get(report_tab_attributes.id)
     report_tab.trigger("change")
