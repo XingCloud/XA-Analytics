@@ -55,10 +55,19 @@ class ReportsController < ProjectBaseController
   end
   
   def destroy
-    if @report.sync("REMOVE") and @report.destroy
-      render :json => @report.js_attributes
+    if @report.project_id.blank?
+      project_report = @project.project_reports.find_by_report_id(@report.id)
+      if project_report.update_attributes(:display => false)
+        render :json => @report.js_attributes
+      else
+        render :json => @report.js_attributes, :status => 500
+      end
     else
-      render :json => @report.js_attributes, :status => 400
+      if @report.sync("REMOVE") and @report.destroy
+        render :json => @report.js_attributes
+      else
+        render :json => @report.js_attributes, :status => 400
+      end
     end
   end
 
