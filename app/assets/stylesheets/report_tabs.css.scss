@@ -66,6 +66,13 @@
   .timelines{
     margin-bottom: 40px;
   }
+  .blockOverlay{
+    background-color: #fff !important;
+    filter:alpha(opacity=70) !important;
+    -moz-opacity:0.7 !important;
+    -khtml-opacity: 0.7 !important;
+    opacity: 0.7 !important;
+  }
 }
 
 .datepicker-input{

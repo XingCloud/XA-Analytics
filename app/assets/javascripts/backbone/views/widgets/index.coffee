@@ -85,7 +85,7 @@ class Analytics.Views.Widgets.IndexView extends Backbone.View
 
   refresh_widgets: () ->
     @collection.each((widget) ->
-      widget.view.fetch_chart()
+      widget.view.fetch_chart(true)
     )
 
 class Analytics.Views.Widgets.ListView extends Backbone.View

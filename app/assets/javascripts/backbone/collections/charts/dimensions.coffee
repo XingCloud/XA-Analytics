@@ -10,6 +10,7 @@ class Analytics.Collections.DimensionCharts extends Backbone.Collection
     @index = 0
     @order = 'DESC'
     @data = []
+    @last_request = {params: "", resp: "", success: true, time: 0}
 
   initialize_charts: (metric_ids, segment_ids = []) ->
     @reset()
@@ -52,12 +53,18 @@ class Analytics.Collections.DimensionCharts extends Backbone.Collection
   fetch_url: () ->
     "/projects/" + Instances.Models.project.id + "/dimensions"
 
-  fetch_charts: (options = {}) ->
+  fetch_charts: (options = {}, force = false) ->
     collection = this
     start_time = (new Date()).getTime()
-    Analytics.Request.post({
+    params = @fetch_params()
+    if (force or @last_request.params != JSON.stringify(params) or
+        not @last_request.success or new Date().getTime() - @last_request.time > 300000)
+      @last_request.params = JSON.stringify(params)
+      @last_request.success = false
+      @last_request.time = new Date().getTime()
+      Analytics.Request.post({
       url: @fetch_url()
-      data: @fetch_params()
+      data: params
       success: (resp) ->
         collection.fetch_success(resp, start_time)
         if options.success?
@@ -66,17 +73,25 @@ class Analytics.Collections.DimensionCharts extends Backbone.Collection
         collection.fetch_error(xhr, opts, err, start_time)
         if options.error?
           options.error(xhr, opts, err)
-    }, true)
+      }, true)
+    else
+      if options.success?
+        collection.fetch_success(@last_request.resp, 0, false)
+        options.success(@last_request.resp)
 
-  fetch_success: (resp, start_time) ->
+  fetch_success: (resp, start_time, send_xa = true) ->
+    @last_request.resp = resp
+    @last_request.success = true
     if resp["data"]? and resp["data"]["datas"]?
       @data = resp["data"]["datas"]
     if resp["data"]? and resp["data"]["total"]?
       @total = resp["data"]["total"]
-    @xa_action(start_time, "success")
+    if send_xa
+      @xa_action(start_time, "success")
 
-  fetch_error: (xhr, opts, err, start_time) ->
-    @xa_action(start_time, "error")
+  fetch_error: (xhr, opts, err, start_time, send_xa = true) ->
+    if send_xa
+      @xa_action(start_time, "error")
 
   xa_action: (start_time, tag) ->
     xa_action = "response." + Instances.Models.project.get("identifier") + "." + @xa_id()

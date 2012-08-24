@@ -20,11 +20,16 @@ class Analytics.Views.Widgets.ShowView extends Backbone.View
     @initialize_chart()
 
   initialize_chart: () ->
+    if @chart?
+      last_request = @chart.last_request
+      last_url = @chart.fetch_url()
     switch @model.get("widget_type")
       when "kpi","time"
         @chart = new Analytics.Collections.TimelineCharts([], {selector: @model, for_widget: true})
       when "table"
         @chart = new Analytics.Collections.DimensionCharts([], {selector: @model, for_widget: true})
+    if last_request? and last_url == @chart.fetch_url()
+      @chart.last_request = last_request
     if @chart_view?
       @chart_view.remove()
       @chart_view = null
@@ -65,7 +70,7 @@ class Analytics.Views.Widgets.ShowView extends Backbone.View
       @chart_view.redraw({render_to: render_to})
     @fetch_chart()
 
-  fetch_chart: () ->
+  fetch_chart: (force = false) ->
     el = $(@el).find(".widget-data")[0]
     chart_view = @chart_view
     $(el).block({message: "<strong>载入中...</strong>"})
@@ -75,7 +80,7 @@ class Analytics.Views.Widgets.ShowView extends Backbone.View
         $(el).unblock()
       error: (xhr, options, err) ->
         $(el).unblock()
-    })
+    }, force)
 
   edit: () ->
     new Analytics.Views.Widgets.FormView({

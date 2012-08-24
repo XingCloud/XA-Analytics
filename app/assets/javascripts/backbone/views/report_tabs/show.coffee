@@ -77,7 +77,8 @@ class Analytics.Views.ReportTabs.ShowView extends Backbone.View
   fetch_data: () ->
     if @model.get("metric_ids").length > 0
       request_count = (if @model.dimension? then 2 else 1)
-      $.blockUI({message: $('#loader-message')})
+      $(@el).block({message: "<strong>载入中...</strong>"})
+      el = @el
       timelines_view = @timelines_view
       kpis_view = @kpis_view
       dimensions_view = @dimensions_view
@@ -87,24 +88,25 @@ class Analytics.Views.ReportTabs.ShowView extends Backbone.View
           kpis_view.redraw()
           request_count = request_count - 1
           if request_count == 0
-            $.unblockUI()
+            $(el).unblock()
         error: (xhr, options, err) ->
           request_count = request_count - 1
           if request_count == 0
-            $.unblockUI()
-      })
+            $(el).unblock()
+      }, @model.force_fetch)
       if @model.dimension?
         @dimensions_view.dimensions.fetch_charts({
           success: (resp) ->
             dimensions_view.dimensions_chart_view.redraw()
             request_count = request_count - 1
             if request_count == 0
-              $.unblockUI()
+              $(el).unblock()
           error: (xhr, options, err) ->
             request_count = request_count - 1
             if request_count == 0
-              $.unblockUI()
-        })
+              $(el).unblock()
+        }, @model.force_fetch)
+      @model.force_fetch = false
 
   select_filter: (ev) ->
     value = $(ev.currentTarget).attr("value")

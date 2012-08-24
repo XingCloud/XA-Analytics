@@ -16,6 +16,7 @@ class Analytics.Models.ReportTab extends Backbone.Model
     @dimensions_filters = []
     @dimensions = _.clone(@get("dimensions_attributes"))
     @dimension = (if @dimensions? and @dimensions.length > 0 then @dimensions[0])
+    @force_fetch = false
 
   urlRoot: () ->
     if @get('project_id')?

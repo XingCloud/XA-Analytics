@@ -5,6 +5,7 @@ class Analytics.Collections.TimelineCharts extends Backbone.Collection
     @selector = options.selector
     @filters = options.filters
     @for_widget = (if options.for_widget? then options.for_widget else false)
+    @last_request = {params: "", resp: "", success: true, time: 0}
 
   initialize_charts: (metric_ids, segment_ids = [0], has_compare = false) ->
     @reset()
@@ -53,33 +54,48 @@ class Analytics.Collections.TimelineCharts extends Backbone.Collection
   fetch_url: () ->
     "/projects/" + Instances.Models.project.id + "/timelines"
 
-  fetch_charts: (options = {}) ->
+  fetch_charts: (options = {}, force = false) ->
     collection = this
     start_time = (new Date()).getTime()
-    Analytics.Request.post({
-      url: @fetch_url()
-      data: @fetch_params()
-      success: (resp) ->
-        collection.fetch_success(resp, start_time)
-        if options.success?
-          options.success(resp)
-      error: (xhr, opts, err) ->
-        collection.fetch_error(xhr, opts, err, start_time)
-        if options.error?
-          options.error(xhr, opts, err)
-    }, true)
+    params = @fetch_params()
+    if (force or @last_request.params != JSON.stringify(params) or
+        not @last_request.success or new Date().getTime() - @last_request.time > 300000)
+      @last_request.params = JSON.stringify(params)
+      @last_request.success = false
+      @last_request.time = new Date().getTime()
+      Analytics.Request.post({
+        url: @fetch_url()
+        data: params
+        success: (resp) ->
+          collection.fetch_success(resp, start_time)
+          if options.success?
+            options.success(resp)
+        error: (xhr, opts, err) ->
+          collection.fetch_error(xhr, opts, err, start_time)
+          if options.error?
+            options.error(xhr, opts, err)
+      }, true)
+    else
+      if options.success?
+        collection.fetch_success(@last_request.resp, 0, false)
+        options.success(@last_request.resp)
 
-  fetch_success: (resp, start_time) ->
+  fetch_success: (resp, start_time, send_xa = true) ->
+    @last_request.resp = resp
+    @last_request.success = true
     contains_error = false
     for sequence in resp["data"]
       if not sequence.data? or sequence.data.length == 0
         contains_error = true
       chart = @get(sequence.id)
       _.extend(chart.get("sequence"), sequence)
-    @xa_action(start_time, (if contains_error then "error" else "success"))
+    if send_xa
+      @xa_action(start_time, (if contains_error then "error" else "success"))
 
-  fetch_error: (xhr, opts, err, start_time) ->
-    @xa_action(start_time, "error")
+  fetch_error: (xhr, opts, err, start_time, send_xa = true) ->
+    @last_request.success = false
+    if send_xa
+      @xa_action(start_time, "error")
 
   charts_options: (render_to, visibles) ->
     interval_count = Analytics.Utils.intervalCount(@selector.get_end_time(), @selector.get("interval"), @selector.get("length"))

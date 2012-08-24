@@ -8,6 +8,7 @@ class Analytics.Routers.WidgetsRouter extends Backbone.Router
     collection = Instances.Collections.widgets
     if not collection.view?
       if Instances.Models.project?
+        $('.nav-report').removeClass("active")
         collection.view = new Analytics.Views.Widgets.IndexView({
           collection: collection
         })
@@ -17,4 +18,6 @@ class Analytics.Routers.WidgetsRouter extends Backbone.Router
         })
       collection.view.render()
     else
+      if Instances.Models.project?
+        $('.nav-report').removeClass("active")
       collection.view.redraw()
