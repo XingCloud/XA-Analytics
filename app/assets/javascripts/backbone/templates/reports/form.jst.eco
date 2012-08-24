@@ -25,7 +25,7 @@
                 </a>
             </li>
         </ul>
-        <div class="tab-content">
+        <div class="tab-content" style="overflow: visible;">
         </div>
         <div class="form-actions">
             <a class="btn btn-primary" id="submit">保存</a>
