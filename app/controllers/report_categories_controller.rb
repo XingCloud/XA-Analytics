@@ -43,9 +43,11 @@ class ReportCategoriesController < ProjectBaseController
 
   def destroy
     if @category.project_id.blank?
-      @category.reports.each do |report|
-        project_report = @project.project_reports.find_by_report_id(report.id)
-        project_report.update_attributes({:report_category_id => -1})
+      @project.project_reports.each do |project_report|
+        if ((project_report.report_category_id.present? and project_report.report_category_id == @category.id) or
+            (project_report.report_category_id.blank? and project_report.report.report_category_id == @category.id))
+          project_report.update_attributes({:report_category_id => -1})
+        end
       end
       project_report_category = @project.project_report_categories.find_by_report_category_id(@category.id)
       if project_report_category.update_attributes({:display => false})
