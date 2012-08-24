@@ -5,7 +5,7 @@
             <% reports = @reports.select((report) -> report.get("report_category_id") == report_category.id) %>
             <%- JST["backbone/templates/reports/left-menu"]({reports: reports, report_category: report_category, is_in: is_in}) %>
         <% end %>
-        <% is_in = false %>
+        <% is_in = (@report_categories.models.length == 0) %>
         <% reports = @reports.select((report) -> not report.get("report_category_id")?) %>
         <% if reports.length > 0: %>
             <%- JST["backbone/templates/reports/left-menu"]({reports: reports, is_in: is_in}) %>

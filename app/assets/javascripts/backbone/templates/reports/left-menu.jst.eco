@@ -27,6 +27,20 @@
                     </li>
                 </ul>
             </div>
+        <% else: %>
+            <div class="dropdown">
+                <div class="dropdown-toggle" value="category-unknown">
+                    <span class="caret"></span>
+                </div>
+                <ul class="dropdown-menu" id="dropdown-category-unknown">
+                    <li>
+                        <a href="#/report_categories/new">
+                            <i class="icon icon-plus"></i>
+                            &nbsp;新增
+                        </a>
+                    </li>
+                </ul>
+            </div>
         <% end %>
         <div class="accordion-toggle collapsed" id="nav-category-<%= id %>" data-toggle="collapse" data-parent="#reports-accordion" href="#nav-category-<%= id %>-body">
             <i class="icon-list-alt icon"/>
