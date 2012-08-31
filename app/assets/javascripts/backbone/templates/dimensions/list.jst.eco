@@ -15,7 +15,7 @@
                 <% end %>
             <% end %>
             <td class="add-dimension">
-                <div class="btn-group">
+                <div class="dropdown">
                     <a class="btn dropdown-toggle" data-toggle="dropdown">
                         <i class="icon icon-plus"/>
                         <span class="caret"></span>

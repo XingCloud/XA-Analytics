@@ -1,0 +1,3 @@
+<div id="success-message" class="alert alert-success message" style="display: none;">
+    <strong>操作成功</strong>
+</div>

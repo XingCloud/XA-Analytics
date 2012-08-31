@@ -2,6 +2,9 @@ class UserAttributesController < ProjectBaseController
   before_filter :find_user_attribute, :only => [:destroy, :update]
 
   def index
+    if @project.user_attributes.length == 0
+      @project.sync_user_attributes
+    end
     render :json => @project.user_attributes.map(&:attributes)
   end
 

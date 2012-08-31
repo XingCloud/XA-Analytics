@@ -79,6 +79,14 @@ Analytics.Static.ReportTabRanges = [
   {name: "最近二个月", length: 56, interval: "week"}
 ]
 
+Analytics.Static.getDimensionsEvents = () ->
+  events = Analytics.Static.DimensionsEvents
+  for event in events
+    event_level = Instances.Models.setting.get("event_level")
+    if event_level? and event_level.split(".")[parseInt(event.value)]? and event_level.split(".")[parseInt(event.value)] != ""
+      event.name = event_level.split(".")[parseInt(event.value)]
+  events
+
 Analytics.Static.getUserAttributes = () ->
   results = []
   for user_attribute in _.sortBy(Instances.Collections.user_attributes.models, (item) -> 0 - Date.parse(item.get("created_at")))
@@ -99,4 +107,4 @@ Analytics.Static.getDimensions = () ->
   results = []
   for user_attribute in user_attributes
     results.push({value: user_attribute.name, name: user_attribute.nickname, dimension_type: 'USER_PROPERTIES', value_type: user_attribute.atype})
-  results.concat(Analytics.Static.DimensionsEvents)
+  results.concat(Analytics.Static.getDimensionsEvents())

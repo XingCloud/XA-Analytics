@@ -1,4 +1,4 @@
-<div id="error-message" class="alert alert-error" style="display: none;">
+<div id="error-message" class="alert alert-error message" style="display: none;">
     <b class="close" data-dismiss="alert">×</b>
     <% if @status == 400: %>
         资源操作失败，请检查参数是否正确

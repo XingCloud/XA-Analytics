@@ -13,6 +13,7 @@ Analytic::Application.routes.draw do
       post :update_project_widgets
     end
 
+    resource :settings
     resources :metrics
     resources :reports do
       member do
