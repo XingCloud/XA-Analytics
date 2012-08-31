@@ -44,7 +44,7 @@
             </li>
         <% end %>
         <li>
-            <a href="#custom-range-<%= @id %>" data-toggle="modal" style="cursor: pointer">自定义</a>
+            <a class="custom-range" data-toggle="modal" style="cursor: pointer">自定义</a>
         </li>
         <li class="divider"></li>
         <li class="range-datepicker">

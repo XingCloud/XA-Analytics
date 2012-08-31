@@ -130,6 +130,7 @@ class Analytics.Views.ReportTabs.ShowRangePickerView extends Backbone.View
   events:
     "click li a.default-range" : "change_default_range"
     "change .compare-checkbox" : "change_compare"
+    "click li a.custom-range" : "show_custom_range"
     "click a.submit-custom-range" : "change_custom_range"
 
   initialize: () ->
@@ -179,6 +180,10 @@ class Analytics.Views.ReportTabs.ShowRangePickerView extends Backbone.View
 
   change_compare: (ev) ->
     @model.set({compare: ( if $(ev.currentTarget)[0].checked then 1 else 0)})
+
+  show_custom_range: (ev) ->
+    $(@el).find(".dropdown").removeClass("open")
+    $(@el).find('#custom-range-'+@model.id).modal()
 
   change_custom_range: (ev) ->
     range = {
