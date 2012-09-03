@@ -10,6 +10,7 @@ class CreateMetrics < ActiveRecord::Migration
       t.string :event_key
       t.string :condition
       t.string :combine_action
+      t.text :description
       t.timestamps
     end
 

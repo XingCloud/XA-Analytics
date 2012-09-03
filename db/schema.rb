@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120831102649) do
+ActiveRecord::Schema.define(:version => 20120903094112) do
 
   create_table "dimensions", :force => true do |t|
     t.integer "report_tab_id"
@@ -44,6 +44,7 @@ ActiveRecord::Schema.define(:version => 20120831102649) do
     t.integer  "number_of_day"
     t.integer  "number_of_day_origin"
     t.integer  "segment_id"
+    t.text     "description"
   end
 
   add_index "metrics", ["combine_id"], :name => "index_metrics_on_combine_id"

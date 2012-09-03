@@ -5,7 +5,6 @@ class Analytics.Views.Charts.KpisView extends Backbone.View
   className: "kpis"
   events:
     "click .kpi-info" : "click_kpi_info"
-    "click .metric-name" : "click_metric_name"
     "click .segment-name" : "click_segment_name"
 
   initialize: (options) ->
@@ -16,6 +15,12 @@ class Analytics.Views.Charts.KpisView extends Backbone.View
   render: () ->
     $(@el).html(@template(@collection))
     $(@render_to).html(@el)
+    $(@el).find(".metric-name").popover({
+      html: false
+      trigger: "hover"
+      placement: "inside top"
+    })
+
 
   redraw: (options = {}) ->
     @remove()

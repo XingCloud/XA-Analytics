@@ -81,10 +81,11 @@ Analytics.Static.ReportTabRanges = [
 
 Analytics.Static.getDimensionsEvents = () ->
   events = Analytics.Static.DimensionsEvents
-  for event in events
-    event_level = Instances.Models.setting.get("event_level")
-    if event_level? and event_level.split(".")[parseInt(event.value)]? and event_level.split(".")[parseInt(event.value)] != ""
-      event.name = event_level.split(".")[parseInt(event.value)]
+  if Instances.Models.setting?
+    for event in events
+      event_level = Instances.Models.setting.get("event_level")
+      if event_level? and event_level.split(".")[parseInt(event.value)]? and event_level.split(".")[parseInt(event.value)] != ""
+        event.name = event_level.split(".")[parseInt(event.value)]
   events
 
 Analytics.Static.getUserAttributes = () ->

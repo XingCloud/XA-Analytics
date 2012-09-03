@@ -24,6 +24,14 @@
             </div>
             <div class="control-group">
                 <label class="control-label">
+                    指标描述
+                </label>
+                <div class="controls">
+                    <textarea class="span4" name="description" rows="3"><%= @description %></textarea>
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label">
                     <abbr title="必填">*</abbr>
                     事件名称
                 </label>

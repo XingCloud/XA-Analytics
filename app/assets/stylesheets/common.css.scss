@@ -116,7 +116,10 @@
 
     td.metric-name{
       border-bottom: 0;
+      position: relative;
+      cursor: default;
       span{
+        cursor: help;
         font: normal 18px Arial;
       }
     }
