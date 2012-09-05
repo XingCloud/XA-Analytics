@@ -36,6 +36,7 @@ class Analytics.Views.Metrics.IndexDropdownView extends Backbone.View
       model: metric,
       id: "new_metric"
     }).render()
+    $(@el).parent().removeClass('open')
 
   click_search : (ev) ->
     ev.stopPropagation()
@@ -44,6 +45,7 @@ class Analytics.Views.Metrics.IndexDropdownView extends Backbone.View
     id = parseInt($(ev.currentTarget).attr("value"))
     @list_view.render_metric(id)
     @selected_metric_clear()
+    $(@el).parent().removeClass('open')
 
   highlight_metric: (ev) ->
     $(@el).find(".metric-list .metric").removeClass("selected")
