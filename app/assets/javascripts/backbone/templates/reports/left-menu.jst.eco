@@ -42,7 +42,7 @@
                 </ul>
             </div>
         <% end %>
-        <div class="accordion-toggle collapsed" id="nav-category-<%= id %>" data-toggle="collapse" data-parent="#reports-accordion" href="#nav-category-<%= id %>-body">
+        <div class="accordion-toggle collapsed" id="nav-category-<%= id %>" data-toggle="collapse" href="#nav-category-<%= id %>-body">
             <i class="icon-list-alt icon"/>
             <% if @report_category?: %>
                 <%= @report_category.get("name") %>

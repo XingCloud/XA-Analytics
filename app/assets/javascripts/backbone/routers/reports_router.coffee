@@ -72,11 +72,19 @@ class Analytics.Routers.ReportsRouter extends Backbone.Router
       window.location.href = "#/404"
 
   highlight_report_nav: (report) ->
-    category_id = (if report.get("report_category_id")? then report.get("report_category_id") else 'unkown')
+    category_id = (if report.get("report_category_id")? then report.get("report_category_id") else 'unknown')
     if not $('#nav-category-'+category_id+"-body").hasClass("in")
       $('#nav-category-'+category_id).click()
     $('.nav-report').removeClass("active")
     $('#nav-report-'+report.id).addClass("active")
+    console.log 'nav-category-'+category_id+"-body"
+    for category in $('#reports-accordion .accordion-group')
+      category = $(category)
+      cb = $(".accordion-body",category)
+      console.log("id:"+cb.attr('id')+",class:"+cb.attr('class'))
+      if cb.hasClass("in") and cb.attr('id') != 'nav-category-'+category_id+"-body"
+        $(".accordion-toggle", category).click()
+
 
 
 
