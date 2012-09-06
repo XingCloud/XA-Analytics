@@ -122,9 +122,12 @@ class AnalyticService
     url = URI.parse(File.join(BASE_URL, url))
     pp url
 
+    start_time = Time.now
     response = Net::HTTP.post_form(url, options)
+    end_time = Time.now
 
     logger.info "Response Code: #{response.code}"
+    logger.info "Response Time: #{(end_time - start_time)*1000}ms"
     pp response.body
 
     if response.is_a?(Net::HTTPSuccess)
