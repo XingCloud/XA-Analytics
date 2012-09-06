@@ -18,7 +18,15 @@
         <% index = 0 %>
         <% for metric_id in @metric_ids: %>
             <% metric = Instances.Collections.metrics.get(metric_id) %>
-            <td class="metric-name <%= if index+1 == @metric_ids.length then 'last' %>" value="<%= metric_id %>" title="指标描述" data-content="<%= if metric.get('description')? then metric.get('description') else '暂无描述' %>">
+            <% if metric.get('description')?: %>
+            <td class="metric-name <%= if index+1 == @metric_ids.length then 'last' %>" value="<%= metric_id %>"
+                data-content="<%= metric.get('description') %>"
+                data-title="<%= metric.get("name") %>"
+                >
+                <i class="icon icon-question-sign" ></i>
+            <% else: %>
+            <td class="metric-name <%= if index+1 == @metric_ids.length then 'last' %>" value="<%= metric_id %>">
+            <% end %>
                 <span><%= metric.get("name") %></span>
             </td>
             <% index = index + 1 %>

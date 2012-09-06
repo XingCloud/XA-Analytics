@@ -6,6 +6,8 @@ class Analytics.Views.Charts.KpisView extends Backbone.View
   events:
     "click .kpi-info" : "click_kpi_info"
     "click .segment-name" : "click_segment_name"
+    "mouseenter .metric-name" : "tryshow_desc_icon"
+    "mouseleave .metric-name" : "tryhide_desc_icon"
 
   initialize: (options) ->
     _.bindAll this, "render"
@@ -58,3 +60,9 @@ class Analytics.Views.Charts.KpisView extends Backbone.View
       if compare_kpi_id? and compare_kpi_id.length > 0
         @timelines_view.highcharts.get(compare_kpi_id).hide()
       $(element).addClass('deactive')
+
+  tryshow_desc_icon: (event) ->
+    $("i", event.currentTarget).fadeTo('fast', 1)
+
+  tryhide_desc_icon: (event) ->
+    $("i", event.currentTarget).fadeTo('fast', 0.4)

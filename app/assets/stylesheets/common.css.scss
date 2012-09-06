@@ -119,8 +119,11 @@
       position: relative;
       cursor: default;
       span{
-        cursor: help;
         font: normal 18px Arial;
+      }
+      i{
+        cursor: help;
+        opacity: 0.4;
       }
     }
 
