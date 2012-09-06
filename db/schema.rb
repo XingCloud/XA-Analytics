@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120903094112) do
+ActiveRecord::Schema.define(:version => 20120906064236) do
 
   create_table "dimensions", :force => true do |t|
     t.integer "report_tab_id"
@@ -35,8 +35,8 @@ ActiveRecord::Schema.define(:version => 20120903094112) do
   create_table "metrics", :force => true do |t|
     t.string   "event_key"
     t.string   "condition"
-    t.datetime "created_at",           :null => false
-    t.datetime "updated_at",           :null => false
+    t.datetime "created_at",                            :null => false
+    t.datetime "updated_at",                            :null => false
     t.integer  "combine_id"
     t.string   "combine_action"
     t.string   "name"
@@ -45,6 +45,7 @@ ActiveRecord::Schema.define(:version => 20120903094112) do
     t.integer  "number_of_day_origin"
     t.integer  "segment_id"
     t.text     "description"
+    t.float    "scale",                :default => 1.0
   end
 
   add_index "metrics", ["combine_id"], :name => "index_metrics_on_combine_id"

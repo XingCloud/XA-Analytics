@@ -19,6 +19,7 @@ class Metric < ActiveRecord::Base
   validates_presence_of :condition
   validates_numericality_of :number_of_day, :only_integer => true, :if => proc{|m| m.number_of_day.present? }
   validates_numericality_of :number_of_day_origin, :only_integer => true, :if => proc{|m| m.number_of_day_origin.present?}
+  validates_numericality_of :scale, :if => proc{|m| m.scale.present?}
   
   before_validation :correct_event_key
   

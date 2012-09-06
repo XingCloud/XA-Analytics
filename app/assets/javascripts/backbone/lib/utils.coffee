@@ -84,6 +84,15 @@ Analytics.Utils.checkFormFields = (form) ->
 
     if (value? and
         value != "" and
+        input.hasClass('should-check-float') and
+        isNaN(parseFloat(value)))
+      valid = false
+      $(group).addClass('error')
+      $(group).find('.controls').append('<span class="help-inline">必须为数字</span>')
+      continue
+
+    if (value? and
+        value != "" and
         input.hasClass('should-check-natural-number') and
         (isNaN(parseInt(value)) or parseInt(value) < 0))
       valid = false
