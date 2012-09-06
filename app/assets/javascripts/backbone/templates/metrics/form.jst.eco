@@ -82,6 +82,16 @@
                 </div>
             </div>
 
+            <div class="control-group should-check">
+                <label class="control-label">
+                    <abbr title="必填">*</abbr>
+                    伸缩系数
+                </label>
+                <div class="controls">
+                    <input class="input-mini should-check-empty should-check-float" type="text" name="scale" value="<%= @scale %>"/>
+                </div>
+            </div>
+
             <div class="control-group">
                 <label class="control-label" for="metric_combine_action"> 与另一事件组合计算</label>
                 <div class="controls">
@@ -148,6 +158,16 @@
                                 <option value="<%= segment.id %>" <%= if @combine_attributes? and @combine_attributes.segment_id == segment.id then 'selected="selected"' %> ><%= segment.get("name") %></option>
                             <% end %>
                         </select>
+                    </div>
+                </div>
+
+                <div class="control-group should-check">
+                    <label class="control-label">
+                        <abbr title="必填">*</abbr>
+                        伸缩系数
+                    </label>
+                    <div class="controls">
+                        <input class="input-mini should-check-empty should-check-float" type="text" name="combine_attributes[scale]" value="<%= if @combine_attributes? then @combine_attributes.scale else '1' %>"/>
                     </div>
                 </div>
 

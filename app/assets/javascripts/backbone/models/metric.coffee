@@ -29,16 +29,16 @@ class Analytics.Models.Metric extends Backbone.Model
   sequence_options: (segment_id, filters) ->
     options = {
       items: [@item_options("x", segment_id, filters)]
-      formula: "x"
+      formula: "x*" + @get("scale")
     }
     if @get("combine_attributes")?
       combine = new Analytics.Models.Metric(@get("combine_attributes"))
       options.items.push(combine.item_options("y", segment_id, filters))
       switch @get("combine_action").toUpperCase()
-        when "ADDITION" then options.formula = "x+y"
-        when "DIVISION" then options.formula = "x/y"
-        when "MULTIPLICATION" then options.formula = "x*y"
-        when "SUBDUCTION" then options.formula = "x-y"
+        when "ADDITION" then options.formula = "x*"+@get("scale")+"+y*"+combine.get("scale")
+        when "DIVISION" then options.formula = "x*"+@get("scale")+"/y*"+combine.get("scale")
+        when "MULTIPLICATION" then options.formula = "x*"+@get("scale")+"*y*"+combine.get("scale")
+        when "SUBDUCTION" then options.formula = "x*"+@get("scale")+"-y*"+combine.get("scale")
     options
 
 
