@@ -3,8 +3,8 @@ set :rvm_ruby_string, "1.9.3"
 set :rvm_type, :user
 set :rvm_install_type, :head
 
-before 'deploy:setup', 'rvm:install_rvm'
-before 'deploy:setup', 'rvm:install_ruby'
+#before 'deploy:setup', 'rvm:install_rvm'
+#before 'deploy:setup', 'rvm:install_ruby'
 
 set :application, "XingCloud-Analytic-2.0"
 set :repository,  "git@github.com:fangjian601/XingCloud-Analytics.git"
@@ -13,9 +13,9 @@ set :scm, :git
 # Or: `accurev`, `bzr`, `cvs`, `darcs`, `git`, `mercurial`, `perforce`, `subversion` or `none`
 
 # task :stage do
-  role :web, "app@119.254.28.37"                          # Your HTTP server, Apache/etc
-  role :app, "app@119.254.28.37"                      # This may be the same as your `Web` server
-  role :db,  "app@119.254.28.37"    , :primary => true # This is where Rails migrations will run
+  role :web, "app@119.254.28.37", "app@10.1.138.170"                          # Your HTTP server, Apache/etc
+  role :app, "app@119.254.28.37", "app@10.1.138.170"                      # This may be the same as your `Web` server
+  role :db,  "app@119.254.28.37" , :primary => true # This is where Rails migrations will run
 # end
 
 # task :production do
