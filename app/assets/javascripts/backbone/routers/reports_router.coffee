@@ -77,11 +77,9 @@ class Analytics.Routers.ReportsRouter extends Backbone.Router
       $('#nav-category-'+category_id).click()
     $('.nav-report').removeClass("active")
     $('#nav-report-'+report.id).addClass("active")
-    console.log 'nav-category-'+category_id+"-body"
     for category in $('#reports-accordion .accordion-group')
       category = $(category)
       cb = $(".accordion-body",category)
-      console.log("id:"+cb.attr('id')+",class:"+cb.attr('class'))
       if cb.hasClass("in") and cb.attr('id') != 'nav-category-'+category_id+"-body"
         $(".accordion-toggle", category).click()
 
