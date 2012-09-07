@@ -18,7 +18,7 @@
         <% index = 0 %>
         <% for metric_id in @metric_ids: %>
             <% metric = Instances.Collections.metrics.get(metric_id) %>
-            <% if metric.get('description')?: %>
+            <% if metric.get('description'): %>
             <td class="metric-name <%= if index+1 == @metric_ids.length then 'last' %>" value="<%= metric_id %>"
                 data-content="<%= metric.get('description') %>"
                 data-title="<%= metric.get("name") %>"
