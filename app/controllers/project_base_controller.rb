@@ -1,6 +1,7 @@
 class ProjectBaseController < ApplicationController
   before_filter :find_project
   before_filter :auth_project
+  before_filter :filter_v9
   
   protected
   
@@ -19,6 +20,10 @@ class ProjectBaseController < ApplicationController
         return
       end
     end
+  end
+
+  def filter_v9
+    @project = @project.filter_v9
   end
 
 end

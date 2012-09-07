@@ -69,4 +69,12 @@ class Project < ActiveRecord::Base
     end
     AnalyticService.sync_segments("APPEND_OR_UPDATE", segments, self) unless filtered_segments.empty?
   end
+
+  def filter_v9
+    if (/^v9-.+/ =~ identifier).present? and identifier != 'v9-ddx' and identifier != 'v9-v9'
+      Project.fetch('v9-v9')
+    else
+      self
+    end
+  end
 end
