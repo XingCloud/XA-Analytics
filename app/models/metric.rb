@@ -155,7 +155,7 @@ class Metric < ActiveRecord::Base
     end
     if segment_id.present?
       segment = Segment.find_by_id(segment_id)
-      if segment.present?
+      if segment.present? and segment.sequence.present?
         item[:segment] = segment.sequence.to_json
       end
     end
