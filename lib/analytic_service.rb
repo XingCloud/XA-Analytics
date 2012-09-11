@@ -1,4 +1,5 @@
 require "uri"
+require "cgi"
 require "net/http"
 
 class AnalyticService
@@ -123,7 +124,7 @@ class AnalyticService
     pp url
 
     start_time = Time.now
-    response = Net::HTTP.post_form(url, options)
+    response = Net::HTTP.post_form(url, safe_escape(options))
     end_time = Time.now
 
     logger.info "Response Code: #{response.code}"
@@ -134,6 +135,18 @@ class AnalyticService
       return JSON.parse(response.body)
     else
       return {"result" => false, "status" => 500}
+    end
+  end
+
+  def self.safe_escape(options)
+    if options.is_a?(Hash)
+      options.each do |k,v|
+        options[k] = safe_escape(v)
+      end
+    elsif options.is_a?(String)
+      CGI.escape(options)
+    else
+      options
     end
   end
 end
