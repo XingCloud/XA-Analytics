@@ -54,27 +54,6 @@ class Report < ActiveRecord::Base
     metrics
   end
 
-  def sync(action = "SAVE_OR_UPDATE")
-    if APP_CONFIG[:sync_metric] == 1
-      metrics = []
-      report_tabs.each do |report_tab|
-        if report_tab.dimensions.length > 0
-          groupby_json = report_tab.dimensions_sequence
-          report_tab.metrics.each do |metric|
-            metrics.append(metric.sequence("GROUP", groupby_json.to_json.gsub(/"/, "'")))
-          end
-        end
-      end
-      if metrics.length > 0
-        AnalyticService.sync_metric(action, metrics).present?
-      else
-        true
-      end
-    else
-      true
-    end
-  end
-
   def merge_join_attributes(project_report)
     (self.report_category_id = project_report.report_category_id) unless project_report.report_category_id.blank?
     (self.report_category_id = nil) unless (report_category_id != -1)

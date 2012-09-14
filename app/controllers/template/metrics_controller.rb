@@ -9,31 +9,23 @@ class Template::MetricsController < Template::BaseController
 
   def create
     @metric = Metric.new(params[:metric])
-    status = 200
-    Metric.transaction do
-      if @metric.save
-        status = @metric.sync ? 200 : 500
-      else
-        status = 400
-      end
-      raise ActiveRecord::Rollback unless status == 200
+    if @metric.save
+      Resque.enqueue(Workers::SyncMetrics, [@metric.id]) unless APP_CONFIG[:sync_metric] != 1
+      render :json => @metric.js_attributes
+    else
+      render :json => @metric.js_attributes, :status => 400
     end
-    render :json => @metric.js_attributes, :status => status
   end
 
 
   def update
     @metric.attributes = params[:metric]
-    status = 200
-    Metric.transaction do
-      if @metric.save
-        status = @metric.sync ? 200 : 500
-      else
-        status = 400
-      end
-      raise ActiveRecord::Rollback unless status == 200
+    if @metric.save
+      Resque.enqueue(Workers::SyncMetrics, [@metric.id]) unless APP_CONFIG[:sync_metric] != 1
+      render :json => @metric.js_attributes
+    else
+      render :json => @metric.js_attributes, :status => 400
     end
-    render :json => @metric.js_attributes, :status => status
   end
 
   private

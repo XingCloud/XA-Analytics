@@ -16,7 +16,7 @@ class ReportsController < ProjectBaseController
       begin
         @report.save!
         @project.project_reports.create!({:report_id => @report.id})
-        raise Exception unless @report.sync
+        Resque.enqueue(Workers::SyncReport, @report.id) unless APP_CONFIG[:sync_metric] != 1
         render :json => @report.js_attributes, :status => 200
       rescue ActiveRecord::RecordInvalid
         render :json => @report.js_attributes, :status => 400
@@ -37,11 +37,11 @@ class ReportsController < ProjectBaseController
           project_report = @project.project_reports.find_by_report_id(@report.id)
           project_report.update_attributes!({:display => false})
           ProjectReport.create!({:project_id => @project.id, :report_id => new_report.id})
-          raise Exception unless new_report.sync
+          Resque.enqueue(Workers::SyncReport, new_report.id) unless APP_CONFIG[:sync_metric] != 1
           render :json => new_report.js_attributes, :status => 200
         else
           @report.update_attributes!(params[:report])
-          raise Exception unless @report.sync
+          Resque.enqueue(Workers::SyncReport, @report.id) unless APP_CONFIG[:sync_metric] != 1
           render :json => @report.js_attributes, :status => 200
         end
       rescue ActiveRecord::RecordInvalid
@@ -63,11 +63,8 @@ class ReportsController < ProjectBaseController
         render :json => @report.js_attributes, :status => 500
       end
     else
-      if @report.sync("REMOVE") and @report.destroy
-        render :json => @report.js_attributes
-      else
-        render :json => @report.js_attributes, :status => 400
-      end
+      Resque.enqueue(Workers::SyncReport, @report.id, "REMOVE") unless APP_CONFIG[:sync_metric] != 1
+      render :json => @report.js_attributes
     end
   end
 

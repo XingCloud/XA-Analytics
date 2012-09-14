@@ -1,4 +1,6 @@
 require "rvm/capistrano"
+require "capistrano-resque"
+
 set :rvm_ruby_string, "1.9.3"
 set :rvm_type, :user
 set :rvm_install_type, :head
@@ -33,7 +35,7 @@ set :branch, "master"
 set :git_shallow_clone, 1
 set :scm_verbose, true
 set :deploy_via, :remote_cache
-
+set :workers, { "sync" => 2 }
 
 task :custom_symlink do
   
@@ -58,3 +60,4 @@ namespace :deploy do
 end
 
 before "deploy:finalize_update", "custom_symlink"
+after "deploy:restart", "resque:restart"

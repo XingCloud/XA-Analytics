@@ -49,15 +49,18 @@ class AnalyticService
   end
 
   def self.sync_user_attribute(project, params)
-    {:status => commit('/dd/cup', build_params(project, params))["result"] ?  200 : 500}
+    resp = commit('/dd/cup', build_params(project, params))
+    if not resp["result"]
+      raise resp.to_json
+    end
   end
 
   def self.sync_user_attributes(project)
     resp = commit('/dd/cup', {:type => "LIST", :project_id => filter_project_id(project)})
     if resp["result"].kind_of?(Array)
-      {:status => 200, :results => resp["result"]}
+      resp["result"]
     else
-      {:status => 500}
+      raise resp.to_json
     end
   end
 
@@ -67,14 +70,9 @@ class AnalyticService
       :params => metrics.to_json
     }
     resp = commit("/dd/sync", request)
-    if resp["result"]
-      resp["cnt"]
-    else
-      nil
+    if not resp["result"]
+      raise resp.to_json
     end
-  rescue Exception => e
-    logger.error "sync metrics #{metrics.to_json} error: #{e.message}"
-    nil
   end
 
   def self.sync_segments(action, segments, project)

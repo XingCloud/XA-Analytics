@@ -3,7 +3,7 @@ class UserAttributesController < ProjectBaseController
 
   def index
     if @project.user_attributes.length == 0
-      @project.sync_user_attributes
+      Resque.enqueue(Workers::SyncUserAttributes, @project.id)
     end
     render :json => @project.user_attributes.map(&:attributes)
   end
@@ -11,20 +11,17 @@ class UserAttributesController < ProjectBaseController
   def create
     params[:user_attribute][:gpattern] = nil unless params[:user_attribute][:gpattern].present?
     @user_attribute = @project.user_attributes.build(params[:user_attribute])
-    if sync(@project, "SAVE", @user_attribute)
-      success = @user_attribute.save
-      render :json => @user_attribute.attributes, :status => success ? 200 : 400
+    if @user_attribute.save
+      Resque.enqueue(Workers::SyncUserAttributes, @project.id, "SAVE", @user_attribute.id)
+      render :json => @user_attribute.attributes
     else
-      render :json => @user_attribute.attributes, :status => 500
+      render :json => @user_attribute.attributes, :status => 400
     end
   end
 
   def destroy
-    error = true
-    if sync(@project, "REMOVE", @user_attribute)
-      error = !@user_attribute.destroy
-    end
-    render :json => @user_attribute.attributes, :status => error ? 500 : 200
+    Resque.enqueue(Workers::SyncUserAttributes, @project.id, "REMOVE", @user_attribute.id)
+    render :json => @user_attribute.attributes
   end
 
   def update
@@ -38,10 +35,5 @@ class UserAttributesController < ProjectBaseController
 
   def find_user_attribute
     @user_attribute = @project.user_attributes.find(params[:id])
-  end
-
-  def sync(project, action, user_attribute)
-    resp = AnalyticService.sync_user_attribute(project, {:type => action, :params => [user_attribute.serialize].to_json})
-    resp[:status] == 200
   end
 end

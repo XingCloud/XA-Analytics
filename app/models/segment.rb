@@ -40,18 +40,4 @@ class Segment < ActiveRecord::Base
       nil
     end
   end
-
-  def sync(action = "APPEND_OR_UPDATE")
-    if sequence.present?
-      resp = AnalyticService.sync_segments(action, [self], project)
-      if resp.present? and resp["result"]
-        true
-      else
-        false
-      end
-    else
-      true
-    end
-  end
-
 end
