@@ -18,6 +18,7 @@ set :scm, :git
   role :web, "app@119.254.28.37", "app@10.1.138.170"                          # Your HTTP server, Apache/etc
   role :app, "app@119.254.28.37", "app@10.1.138.170"                      # This may be the same as your `Web` server
   role :db,  "app@119.254.28.37" , :primary => true # This is where Rails migrations will run
+  role :resque_worker, "app@119.254.28.37", "app@10.1.138.170"
 # end
 
 # task :production do
