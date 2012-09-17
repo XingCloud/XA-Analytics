@@ -52,7 +52,7 @@ class Project < ActiveRecord::Base
         end
       end
       user_attributes.each do |user_attribute|
-        if resp[:results].select{|result| result["name"] == user_attribute.name}.empty?
+        if results.select{|result| result["name"] == user_attribute.name}.empty?
           raise ActiveRecord::Rollback unless user_attribute.destroy
         end
       end
