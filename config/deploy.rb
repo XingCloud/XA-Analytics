@@ -61,4 +61,4 @@ namespace :deploy do
 end
 
 before "deploy:finalize_update", "custom_symlink"
-#after "deploy:restart", "resque:restart"
+after "deploy:restart", "resque:restart"
