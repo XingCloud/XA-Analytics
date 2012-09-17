@@ -1,5 +1,6 @@
 Analytics.Views.ReportTabs ||= {}
 
+#model Analytics.Models.ReportTab
 class Analytics.Views.ReportTabs.FormHeaderView extends Backbone.View
   template: JST["backbone/templates/report_tabs/form-header"]
   tagName: "li"
@@ -26,7 +27,7 @@ class Analytics.Views.ReportTabs.FormHeaderView extends Backbone.View
       $(@body.el).find('#report_tabs_attributes_'+@model.index+'__destroy').val(1)
     @report_form.close_tab(@model, this)
 
-
+#model Analytics.Models.ReportTab
 class Analytics.Views.ReportTabs.FormBodyView extends Backbone.View
   template: JST["backbone/templates/report_tabs/form-body"]
 

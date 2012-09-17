@@ -1,5 +1,6 @@
 Analytics.Views.ReportTabs ||= {}
 
+#model: Analytics.Models.ReportTab
 class Analytics.Views.ReportTabs.ShowView extends Backbone.View
   template: JST["backbone/templates/report_tabs/show"]
   events:

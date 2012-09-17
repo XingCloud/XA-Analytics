@@ -1,4 +1,5 @@
 Analytics.Views.Reports ||= {}
+#Analytics.Models.Report
 class Analytics.Views.Reports.FormView extends Backbone.View
   template: JST['backbone/templates/reports/form']
   events:

@@ -6,4 +6,5 @@
         <input type="hidden" id="report_tabs_attributes_<%= @index %>_metrics_<%= @id %>" name="report_tabs_attributes[<%= @index %>][metric_ids][]" value="<%= @id %>" />
     </div>
     <img src="/assets/cleardot.gif" class="metric-remove" /> &nbsp;
+    <i class="icon-plus-sign metric-copy"></i>
 </div>

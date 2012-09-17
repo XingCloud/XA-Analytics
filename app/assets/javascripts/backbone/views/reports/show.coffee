@@ -1,5 +1,6 @@
 Analytics.Views.Reports ||= {}
 
+#model: Analytics.Models.Report
 class Analytics.Views.Reports.ShowView extends Backbone.View
   template: JST['backbone/templates/reports/show']
 
