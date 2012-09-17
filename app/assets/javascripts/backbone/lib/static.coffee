@@ -12,6 +12,11 @@ Analytics.Static.UserAttributes = [
   {name: 'platform', nickname: '平台', atype: 'sql_string'},
   {name: 'identifier', nickname: '标识符', atype: 'sql_string'},
   {name: 'ref', nickname: '来源', atype: 'sql_string'},
+  {name: 'ref0', nickname: '来源第一层', atype: 'sql_string'},
+  {name: 'ref1', nickname: '来源第二层', atype: 'sql_string'},
+  {name: 'ref2', nickname: '来源第三层', atype: 'sql_string'},
+  {name: 'ref3', nickname: '来源第四层', atype: 'sql_string'},
+  {name: 'ref4', nickname: '来源第五层', atype: 'sql_string'},
   {name: 'version', nickname: '版本', atype: 'sql_string'}
 ]
 
