@@ -2,6 +2,7 @@ Analytic::Application.routes.draw do
 
   root :to => "template/projects#index"
   match "/logout" => "application#logout"
+  mount Resque::Server.new, :at => "/resque"
 
   resources :projects do
 

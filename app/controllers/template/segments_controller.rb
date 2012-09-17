@@ -8,36 +8,26 @@ class Template::SegmentsController < Template::BaseController
   def create
     @segment = Segment.new(params[:segment])
     if @segment.save
-      if @segment.sync
-        render :json => @segment.js_attributes
-      else
-        render :json => @segment.js_attributes, :status => 500
-      end
+      Resque.enqueue(Workers::SyncSegment, @segment.id, nil)
+      render :json => @segment.js_attributes
     else
       render :json => @segment.js_attributes, :status => 400
     end
-
   end
 
   def update
     @segment.attributes = params[:segment]
     if @segment.save
-      if @segment.sync
-        render :json => @segment.js_attributes
-      else
-        render :json => @segment.js_attributes, :status => 500
-      end
+      Resque.enqueue(Workers::SyncSegment, @segment.id, nil)
+      render :json => @segment.js_attributes
     else
       render :json => @segment.js_attributes, :status => 400
     end
   end
 
   def destroy
-    if @segment.sync("REMOVE") and @segment.destroy
-      render :json => @segment.js_attributes
-    else
-      render :json => @segment.js_attributes, :status => 500
-    end
+    Resque.enqueue(Workers::SyncSegment, @segment.id, nil, "REMOVE")
+    render :json => @segment.js_attributes
   end
 
   private

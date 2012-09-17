@@ -1,4 +1,6 @@
 require "rvm/capistrano"
+require "capistrano-resque"
+
 set :rvm_ruby_string, "1.9.3"
 set :rvm_type, :user
 set :rvm_install_type, :head
@@ -16,6 +18,7 @@ set :scm, :git
   role :web, "app@119.254.28.37", "app@10.1.138.170"                          # Your HTTP server, Apache/etc
   role :app, "app@119.254.28.37", "app@10.1.138.170"                      # This may be the same as your `Web` server
   role :db,  "app@119.254.28.37" , :primary => true # This is where Rails migrations will run
+  role :resque_worker, "app@119.254.28.37", "app@10.1.138.170"
 # end
 
 # task :production do
@@ -33,7 +36,7 @@ set :branch, "master"
 set :git_shallow_clone, 1
 set :scm_verbose, true
 set :deploy_via, :remote_cache
-
+set :workers, { "*" => 4 }
 
 task :custom_symlink do
   
@@ -58,3 +61,4 @@ namespace :deploy do
 end
 
 before "deploy:finalize_update", "custom_symlink"
+after "deploy:restart", "resque:restart"

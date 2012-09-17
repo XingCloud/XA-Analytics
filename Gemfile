@@ -10,6 +10,7 @@ gem "paper_trail"
 gem 'thin'
 gem 'dalli'
 gem 'spreadsheet'
+gem 'resque', :require => "resque/server"
 
 group :development, :test do
   gem "pry"
@@ -20,6 +21,7 @@ group :development, :test do
   gem "guard-spork"
   gem 'guard-livereload'
   gem 'capistrano'
+  gem 'capistrano-resque'
   gem 'rvm-capistrano'
   gem 'sqlite3'
 end

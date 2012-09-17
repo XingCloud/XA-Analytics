@@ -37,26 +37,23 @@ class Project < ActiveRecord::Base
     attributes.merge({:segments => []})
   end
 
-  def sync_user_attributes
-    resp = AnalyticService.sync_user_attributes(self)
-    if resp[:status] == 200
-      UserAttribute.transaction do
-        resp[:results].each do |result|
-          if user_attributes.find_by_name(result["name"]).blank?
-            user_attribute = user_attributes.build({:name => result["name"],
-                                                    :nickname => result["nickname"].blank? ? nil: result["nickname"],
-                                                    :atype => result["type"],
-                                                    :project_id => id})
-            if result["groupby_type"].present?
-              user_attribute = result["groupby_type"]
-            end
-            raise ActiveRecord::Rollback unless user_attribute.save
+  def merge_user_attributes(results)
+    UserAttribute.transaction do
+      results.each do |result|
+        if user_attributes.find_by_name(result["name"]).blank?
+          user_attribute = user_attributes.build({:name => result["name"],
+                                                  :nickname => result["nickname"].blank? ? nil: result["nickname"],
+                                                  :atype => result["type"],
+                                                  :project_id => id})
+          if result["groupby_type"].present?
+            user_attribute = result["groupby_type"]
           end
+          raise ActiveRecord::Rollback unless user_attribute.save
         end
-        user_attributes.each do |user_attribute|
-          if resp[:results].select{|result| result["name"] == user_attribute.name}.empty?
-            raise ActiveRecord::Rollback unless user_attribute.destroy
-          end
+      end
+      user_attributes.each do |user_attribute|
+        if results.select{|result| result["name"] == user_attribute.name}.empty?
+          raise ActiveRecord::Rollback unless user_attribute.destroy
         end
       end
     end

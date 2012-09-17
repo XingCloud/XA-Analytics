@@ -1,4 +1,6 @@
 class Analytics.Models.Metric extends Backbone.Model
+  defaults:
+    "scale": 1
   urlRoot: () ->
     if @get("project_id")?
       "/projects/"+@get("project_id")+"/metrics"

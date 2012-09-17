@@ -7,38 +7,27 @@ class Template::ReportsController < Template::BaseController
 
   def create
     @report = Report.new(params[:report])
-    status = 200
-    Report.transaction do
-      if @report.save
-        status = @report.sync ? 200 : 500
-      else
-        status = 400
-      end
-      raise ActiveRecord::Rollback unless status == 200
+    if @report.save
+      Resque.enqueue(Workers::SyncReport, @report.id) unless APP_CONFIG[:sync_metric] != 1
+      render :json => @report.js_attributes
+    else
+      render :json => @report.js_attributes, :status => 400
     end
-    render :json => @report.js_attributes, :status => status
   end
 
   def update
     @report.attributes = params[:report]
-    status = 200
-    Report.transaction do
-      if @report.save
-        status = @report.sync ? 200 : 500
-      else
-        status = 400
-      end
-      raise ActiveRecord::Rollback unless status == 200
+    if @report.save
+      Resque.enqueue(Workers::SyncReport, @report.id) unless APP_CONFIG[:sync_metric] != 1
+      render :json => @report.js_attributes
+    else
+      render :json => @report.js_attributes, :status => 400
     end
-    render :json => @report.js_attributes, :status => status
   end
 
   def destroy
-    if @report.sync("REMOVE") and @report.destroy
-      render :json => @report.js_attributes
-    else
-      render :json => @report.js_attributes, :status => 500
-    end
+    Resque.enqueue(Workers::SyncReport, @report.id, "REMOVE") unless APP_CONFIG[:sync_metric] != 1
+    render :json => @report.js_attributes
   end
 
   def set_category

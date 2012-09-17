@@ -6,7 +6,11 @@
             <th></th>
         <% end %>
         <th colspan="<%= if compare_points.length > 0 then 1 else 2 %>">
-            <% timeline = points[0].series.timeline %>
+            <% if points.length > 0: %>
+                <% timeline = points[0].series.timeline %>
+            <% else: %>
+                <% timeline = compare_points[0].series.timeline %>
+            <% end %>
             <% if timeline.selector.get("interval") == "min5" or timeline.selector.get("interval") == "hour": %>
                 <%= Analytics.Utils.formatUTCDate(@x, "YYYY/MM/DD HH:mm") %>
             <% else if timeline.selector.get("interval") == "month": %>
@@ -60,6 +64,26 @@
                     </td>
                 <% end %>
             </tr>
+        <% end %>
+        <% if points.length == 0 and compare_points.length > 0: %>
+            <% for compare_point in compare_points: %>
+                <tr>
+                    <% compare_timeline = compare_point.series.timeline %>
+                    <% timeline = compare_timeline.collection.get(compare_timeline.get("compare_for")) %>
+                    <td><strong><%= compare_point.series.name %></strong>&nbsp;</td>
+                    <td class="y">
+                        <span class="tooltip-dot" style="border-color: #<%= timeline.get('color') %>"></span>
+                        N/A&nbsp;
+                    </td>
+                    <td class="y">
+                        <span class="tooltip-dot" style="border-color: #<%= compare_point.series.timeline.get('color') %>"></span>
+                        <%= compare_point.y %>
+                    </td>
+                    <td>
+                        <span class="higher">N/A</span>
+                    </td>
+                </tr>
+            <% end %>
         <% end %>
     </tbody>
 </table>

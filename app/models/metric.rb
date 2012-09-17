@@ -125,14 +125,6 @@ class Metric < ActiveRecord::Base
     options
   end
 
-  def sync(action = "SAVE_OR_UPDATE")
-    if APP_CONFIG[:sync_metric] == 1
-      AnalyticService.sync_metric(action, [sequence]).present?
-    else
-      true
-    end
-  end
-
   protected
 
   def correct_combine
@@ -155,7 +147,7 @@ class Metric < ActiveRecord::Base
     end
     if segment_id.present?
       segment = Segment.find_by_id(segment_id)
-      if segment.present?
+      if segment.present? and segment.sequence.present?
         item[:segment] = segment.sequence.to_json
       end
     end
