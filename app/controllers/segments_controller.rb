@@ -1,5 +1,6 @@
 class SegmentsController < ProjectBaseController
   before_filter :find_segment, :only => [:show, :update, :destroy]
+  after_filter :log_action, :only => [:create, :update, :destroy]
 
   def index
     render :json => (Segment.template | @project.segments).map(&:js_attributes)
@@ -39,5 +40,11 @@ class SegmentsController < ProjectBaseController
 
   def find_segment
     @segment = @project.segments.find(params[:id])
+  end
+
+  def log_action
+    Resque.enqueue(Workers::LogAction, @project.id,
+                   "Segment", @segment.name, action_name,
+                   session[:cas_user], Time.now)
   end
 end

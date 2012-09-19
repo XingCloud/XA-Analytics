@@ -1,5 +1,6 @@
 class UserAttributesController < ProjectBaseController
   before_filter :find_user_attribute, :only => [:destroy, :update]
+  after_filter :log_action, :only => [:create, :destroy, :update]
 
   def index
     if @project.user_attributes.length == 0
@@ -35,5 +36,11 @@ class UserAttributesController < ProjectBaseController
 
   def find_user_attribute
     @user_attribute = @project.user_attributes.find(params[:id])
+  end
+
+  def log_action
+    Resque.enqueue(Workers::LogAction, @project.id,
+                   "UserAttribute", @user_attribute.name, action_name,
+                   session[:cas_user], Time.now)
   end
 end

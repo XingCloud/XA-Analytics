@@ -2,11 +2,15 @@ class ProjectBaseController < ApplicationController
   before_filter :find_project
   before_filter :auth_project
   before_filter :filter_v9
-  
+
   protected
   
   def find_project
-    @project = Project.fetch(params[:project_id])
+    if params[:project_id].present?
+      @project = Project.fetch(params[:project_id])
+    else
+      @project = Project.fetch(params[:id])
+    end
   end
 
   def auth_project
@@ -25,5 +29,4 @@ class ProjectBaseController < ApplicationController
   def filter_v9
     @project = @project.filter_v9
   end
-
 end

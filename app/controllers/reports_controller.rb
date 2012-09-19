@@ -1,5 +1,6 @@
 class ReportsController < ProjectBaseController
   before_filter :find_report, :only => [:show, :edit, :update, :destroy, :set_category]
+  after_filter :log_action, :only => [:update, :create, :destroy]
 
   def index
     check_reports
@@ -122,5 +123,11 @@ class ReportsController < ProjectBaseController
     attributes[:original_report_id] = original.id
     attributes[:project_id] = project.id
     Report.new(attributes)
+  end
+
+  def log_action
+    Resque.enqueue(Workers::LogAction, @project.id,
+                   "Report", @report.title, action_name,
+                   session[:cas_user], Time.now)
   end
 end

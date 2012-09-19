@@ -1,6 +1,4 @@
-class ProjectsController < ApplicationController
-  before_filter :auth_project
-  before_filter :find_project
+class ProjectsController < ProjectBaseController
   before_filter :filter_v9, :only => [:update_project_widgets]
 
   def show
@@ -42,29 +40,5 @@ class ProjectsController < ApplicationController
       end
     end
     render :json => {}, :status => (error ? 400 : 200)
-  end
-
-  private
-
-  def find_project
-    @project = Project.fetch(params[:id])
-  end
-
-  def auth_project
-    if not APP_CONFIG[:admin].include?(session[:cas_user])
-      @project = Project.fetch(params[:id])
-      session[:projects_permissions] ||= {}
-      if session[:projects_permissions][@project.identifier].blank?
-        session[:projects_permissions][@project.identifier] = BasisService.auth_project(@project.identifier, session[:cas_user])
-      end
-      if not session[:projects_permissions][@project.identifier]
-        render :file => "public/401.html", :status => :unauthorized
-        return
-      end
-    end
-  end
-
-  def filter_v9
-    @project = @project.filter_v9
   end
 end

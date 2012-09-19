@@ -1,5 +1,6 @@
 class WidgetsController < ProjectBaseController
   before_filter :find_widget, :only => [:update, :destroy]
+  after_filter :log_action, :only => [:create, :update, :destroy]
 
   def index
     check_templates
@@ -71,5 +72,11 @@ class WidgetsController < ProjectBaseController
       end
     end
     @project.update_attributes!({:widget_ids => widget_ids}) unless not has_new_widgets
+  end
+
+  def log_action
+    Resque.enqueue(Workers::LogAction, @project.id,
+                   "Widget", @widget.title, action_name,
+                   session[:cas_user], Time.now)
   end
 end

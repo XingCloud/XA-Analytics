@@ -19,5 +19,7 @@
     <footer class="footer">
         © 2012 XingCloud All Rights Reserved |
         <a href="http://p.xingcloud.com/analytics/overview?project_id=<%= @identifier %>">回旧版</a>
+        |
+        <a href="#/action_logs">操作日志</a>
     </footer>
 </div>

@@ -36,6 +36,7 @@ class Analytics.Models.Project extends Backbone.Model
             load_finished(project)
         })
     )
+    Instances.Collections.action_logs = new Analytics.Collections.ActionLogs([], {project: this})
 
   load_finished: (project) ->
     new Analytics.Views.Projects.ShowView({model: project}).render()
@@ -44,6 +45,6 @@ class Analytics.Models.Project extends Backbone.Model
       reports_router: new Analytics.Routers.ReportsRouter(),
       segments_router: new Analytics.Routers.SegmentsRouter(),
       widgets_router: new Analytics.Routers.WidgetsRouter(),
-      projects_router: new Analytics.Routers.ProjectsRouter()
+      projects_router: new Analytics.Routers.ProjectsRouter(),
     }
     Backbone.history.start()

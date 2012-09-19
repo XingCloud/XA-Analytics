@@ -1,6 +1,7 @@
 class MetricsController < ProjectBaseController
   before_filter :find_metric, :only => [:update]
   before_filter :filter_number_of_day, :only => [:create, :update]
+  after_filter :log_action, :only => [:create, :update]
 
   def index
     render :json => (Metric.template.where(:combine_id => nil) | @project.metrics.where(:combine_id => nil)).map(&:js_attributes)
@@ -42,5 +43,11 @@ class MetricsController < ProjectBaseController
     elsif params[:metric][:number_of_day].blank? and params[:metric][:number_of_day_origin].present?
       params[:metric][:number_of_day] = 0
     end
+  end
+
+  def log_action
+    Resque.enqueue(Workers::LogAction, @project.id,
+                   "Metric", @metric.name, action_name,
+                   session[:cas_user], Time.now)
   end
 end

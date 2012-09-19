@@ -1,0 +1,1 @@
+class Analytics.Models.ActionLog extends Backbone.Model

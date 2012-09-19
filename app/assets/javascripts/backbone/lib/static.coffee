@@ -84,6 +84,24 @@ Analytics.Static.ReportTabRanges = [
   {name: "最近二个月", length: 56, interval: "week"}
 ]
 
+Analytics.Static.ActionNames = {
+  "create": {name: "新增", color: "green"}
+  "update": {name: "修改", color: "blue"}
+  "destroy": {name: "删除", color: "red"}
+}
+
+Analytics.Static.ResourceTypes = {
+  "Report": "报告"
+  "Metric": "指标"
+  "Project": "项目"
+  "ReportCategory": "报告分类"
+  "ReportTab": "报告标签"
+  "Segment": "用户群"
+  "Setting": "设置"
+  "UserAttribute": "用户属性"
+  "Widget": "小窗口"
+}
+
 Analytics.Static.getDimensionsEvents = () ->
   events = Analytics.Static.DimensionsEvents
   if Instances.Models.setting?

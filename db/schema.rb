@@ -11,7 +11,16 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120906064236) do
+ActiveRecord::Schema.define(:version => 20120919053348) do
+
+  create_table "action_logs", :force => true do |t|
+    t.integer  "project_id"
+    t.string   "resource_type"
+    t.string   "resource_name"
+    t.string   "action"
+    t.string   "user"
+    t.datetime "perform_at"
+  end
 
   create_table "dimensions", :force => true do |t|
     t.integer "report_tab_id"

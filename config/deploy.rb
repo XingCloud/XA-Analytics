@@ -36,7 +36,7 @@ set :branch, "master"
 set :git_shallow_clone, 1
 set :scm_verbose, true
 set :deploy_via, :remote_cache
-set :workers, { "*" => 4 }
+set :workers, { "*" => 5 }
 
 task :custom_symlink do
   

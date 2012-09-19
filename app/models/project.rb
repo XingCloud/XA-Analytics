@@ -9,6 +9,7 @@ class Project < ActiveRecord::Base
   has_many :project_widgets, :dependent => :destroy
   has_many :widgets, :through => :project_widgets
   has_many :user_attributes, :dependent => :destroy
+  has_many :action_logs, :dependent => :destroy
   has_one :setting, :dependent => :destroy
 
   validate :identifier, :presence => true, :uniqueness => true

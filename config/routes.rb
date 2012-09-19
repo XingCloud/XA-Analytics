@@ -27,6 +27,7 @@ Analytic::Application.routes.draw do
     resources :segments
     resources :widgets
     resources :user_attributes
+    resources :action_logs
   end
 
   namespace :template do

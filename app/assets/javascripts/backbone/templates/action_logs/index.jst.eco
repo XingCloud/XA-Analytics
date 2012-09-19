@@ -1,0 +1,58 @@
+<h3>操作日志</h3>
+<hr/>
+<div class="row-fluid">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>名称</th>
+                <th>资源类型</th>
+                <th>资源名称</th>
+                <th>用户</th>
+                <th>时间</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% for action_log in @collection.models: %>
+                <tr>
+                    <% action = Analytics.Static.ActionNames[action_log.get("action")] %>
+                    <% if action?: %>
+                        <td style="color: <%= action.color %>"><%= action.name %></td>
+                    <% else: %>
+                        <td><%= action_log.get("action") %></td>
+                    <% end %>
+                    <td>
+                        <% if Analytics.Static.ResourceTypes[action_log.get("resource_type")]?: %>
+                            <%= Analytics.Static.ResourceTypes[action_log.get("resource_type")] %>
+                        <% else: %>
+                            <%= action_log.get("resource_type") %>
+                        <% end %>
+                    </td>
+                    <td>
+                        <%= action_log.get("resource_name") %>
+                    </td>
+                    <td>
+                        <%= action_log.get("user") %>
+                    </td>
+                    <td>
+                        <%= moment(action_log.get("perform_at")).format("YYYY-MM-DD HH:mm:ss") %>
+                    </td>
+                </tr>
+            <% end %>
+        </tbody>
+    </table>
+</div>
+<div class="row-fluid">
+    <ul class="pager right">
+        <% if @collection.page > 1: %>
+            <li class="pre enabled"><a href="#/action_logs/<%= @collection.page - 1 %>">上一页</a></li>
+        <% else: %>
+            <li class="pre disabled"><a>上一页</a></li>
+        <% end %>
+        第<%= @collection.page %>&nbsp;/&nbsp;<%= @collection.max_page %>页
+        <% if @collection.page < @collection.max_page: %>
+            <li class="nex enabled"><a href="#/action_logs/<%= @collection.page + 1 %>">下一页</a></li>
+        <% else: %>
+            <li class="nex disabled"><a>下一页</a></li>
+        <% end %>
+    </ul>
+</div>

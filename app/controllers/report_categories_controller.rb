@@ -1,5 +1,6 @@
 class ReportCategoriesController < ProjectBaseController
-  before_filter :find_category, :only => [:edit, :update, :destroy]
+  before_filter :find_category, :only => [:update, :destroy]
+  after_filter :log_action, :only => [:create, :update, :destroy]
 
   def index
     check_report_categories
@@ -86,5 +87,11 @@ class ReportCategoriesController < ProjectBaseController
       end
     end
     @project.update_attributes!({:report_category_ids => report_category_ids}) unless not has_new_report_category
+  end
+
+  def log_action
+    Resque.enqueue(Workers::LogAction, @project.id,
+                   "ReportCategory", @category.name, action_name,
+                   session[:cas_user], Time.now)
   end
 end
