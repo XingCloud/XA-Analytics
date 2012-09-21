@@ -10,6 +10,7 @@ class Analytics.Views.Metrics.IndexDropdownView extends Backbone.View
     "click .metric-list .metric" : "click_metric"
     "mouseover .metric-list .metric" : "highlight_metric"
     "keyup .metric-search input" : "keyup_toggle"
+    "keydown .metric-search input" : "keydown_toggle"
 
   initialize: (options) ->
     _.bindAll(this, "render")
@@ -53,7 +54,7 @@ class Analytics.Views.Metrics.IndexDropdownView extends Backbone.View
 
   highligh_metric_with_scroll: (metric) ->
     metric.addClass("selected")
-    maxHeight = parseInt($(@el).find(".metric-list").css("maxHeight"), 10)
+    maxHeight = parseInt($(@el).find(".metric-list").css("height"), 10)
     visible_top = $(@el).find(".metric-list").scrollTop()
     visible_bottom = maxHeight + visible_top
     high_top = metric.position().top + visible_top
@@ -95,9 +96,10 @@ class Analytics.Views.Metrics.IndexDropdownView extends Backbone.View
 
   filter_metric: () ->
     filter = $(@el).find(".metric-search input").val()
-    if filter?
+    if filter? and filter.length > 0
+      filter = filter.toLowerCase()
       $(@el).find(".metric-list .metric").each((index, metric) ->
-        name = $(metric).attr("name")
+        name = $(metric).attr("name").toLowerCase()
         if name.indexOf(filter) == -1 and not $(metric).hasClass('hide')
           $(metric).addClass("hide")
         else if name.indexOf(filter) != -1 and $(metric).hasClass('hide')
@@ -121,8 +123,13 @@ class Analytics.Views.Metrics.IndexDropdownView extends Backbone.View
 
   keyup_toggle: (ev) ->
     switch ev.keyCode
+      when 40 then break
+      when 38 then break
+      when 13 then break
+      else @filter_metric()
+
+  keydown_toggle: (ev) ->
+    switch ev.keyCode
       when 40 then @highlight_next_metric()
       when 38 then @highlight_prev_metric()
       when 13 then @select_metric(ev)
-      else @filter_metric()
-
