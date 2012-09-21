@@ -53,7 +53,7 @@ class Analytics.Views.Metrics.FormView extends Backbone.View
             if is_clone
               model.list_item_view.render()
             else
-              model.list_view.render_metric(model.id)
+              model.list_view.add_metric(model.id)
           else
             model.list_item_view.render()
         error: (xhr, options, error) ->

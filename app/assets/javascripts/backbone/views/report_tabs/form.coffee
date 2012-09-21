@@ -53,7 +53,7 @@ class Analytics.Views.ReportTabs.FormBodyView extends Backbone.View
     $(@el).find("#report_tabs_"+@model.index+"_metrics").html(new Analytics.Views.Metrics.FormListView({
       model: {
         index: @model.index
-        metric_ids: @model.get("metric_ids")
+        metric_ids: _.clone(@model.get("metric_ids"))
         project_id: @model.get("project_id")
       }
     }).render().el)

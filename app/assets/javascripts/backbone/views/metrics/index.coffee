@@ -43,7 +43,7 @@ class Analytics.Views.Metrics.IndexDropdownView extends Backbone.View
 
   click_metric: (ev) ->
     id = parseInt($(ev.currentTarget).attr("value"))
-    @list_view.render_metric(id)
+    @list_view.add_metric(id)
     @selected_metric_clear()
     $(@el).parent().removeClass('open')
 
@@ -116,7 +116,7 @@ class Analytics.Views.Metrics.IndexDropdownView extends Backbone.View
     selected_metric = $(@el).find(".metric-list .metric.selected")
     if selected_metric.length > 0
       id = parseInt(selected_metric.attr("value"))
-      @list_view.render_metric(id)
+      @list_view.add_metric(id)
     @selected_metric_clear()
 
   keyup_toggle: (ev) ->

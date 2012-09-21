@@ -24,8 +24,10 @@ class Analytics.Views.Metrics.FormListItemView extends Backbone.View
     this
 
   delete: () ->
+    $(".tooltip").remove()
     $(@el).remove()
-    @parent_view.metric_ids[@model.id] = false
+    metric_ids = @parent_view.model.metric_ids
+    metric_ids.splice(metric_ids.indexOf(@model.id),1)
 
 
   show: () ->
@@ -68,26 +70,24 @@ class Analytics.Views.Metrics.FormListItemView extends Backbone.View
     })
 
   moveup: () ->
-    $(".tooltip").hide()
+    $(".tooltip").remove()
     cur_id = parseInt($(@el).find("input.metric-id").val())
     old_ids = @parent_view.model.metric_ids
     for id, i in old_ids
       if id == cur_id and i != 0
         [old_ids[i-1], old_ids[i]] = [old_ids[i], old_ids[i-1]]
         @parent_view.model.metric_ids = old_ids
-        @parent_view.metric_ids = {}
         @parent_view.render()
         return
 
   movedown: () ->
-    $(".tooltip").hide()
+    $(".tooltip").remove()
     cur_id = parseInt($(@el).find("input.metric-id").val())
     old_ids = @parent_view.model.metric_ids
     for id, i in old_ids
       if id == cur_id and i != old_ids.length - 1
         [old_ids[i+1], old_ids[i]] = [old_ids[i], old_ids[i+1]]
         @parent_view.model.metric_ids = old_ids
-        @parent_view.metric_ids = {}
         @parent_view.render()
         return
 ###
@@ -120,7 +120,6 @@ class Analytics.Views.Metrics.FormListView extends Backbone.View
     _.bindAll(this, "render")
     #已经渲染过的metric的id记录。
     #如果已经添加，随后又删掉，则@metric_ids[id] = false
-    @metric_ids = {}
 
   render: () ->
     $(@el).html(@template(@model))
@@ -133,15 +132,18 @@ class Analytics.Views.Metrics.FormListView extends Backbone.View
     @render_metrics_dropdown()
     this
 
-  render_metric: (metric_id) ->
-    if @metric_ids[metric_id]? and @metric_ids[metric_id]
+  add_metric: (metric_id) ->
+    if @model.metric_ids.indexOf(metric_id)>=0
       alert("不能重复添加相同指标")
     else
-      @metric_ids[metric_id] = true
-      metric = Instances.Collections.metrics.get(metric_id)
-      metric.index = @model.index
-      metric_view = new Analytics.Views.Metrics.FormListItemView({model: metric, parent_view: this})
-      $(@el).find('#report_tab_'+@model.index+'_metric_list').append(metric_view.render().el)
+      @model.metric_ids.push(metric_id)
+      @render_metric(metric_id)
+
+  render_metric: (metric_id) ->
+    metric = Instances.Collections.metrics.get(metric_id)
+    metric.index = @model.index
+    metric_view = new Analytics.Views.Metrics.FormListItemView({model: metric, parent_view: this})
+    $(@el).find('#report_tab_'+@model.index+'_metric_list').append(metric_view.render().el)
 
   render_metrics_dropdown: () ->
     @metrics_dropdown_view = new Analytics.Views.Metrics.IndexDropdownView({

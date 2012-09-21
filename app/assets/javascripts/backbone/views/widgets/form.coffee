@@ -86,7 +86,7 @@ class Analytics.Views.Widgets.FormMetricView extends Backbone.View
       @render_metrics_dropdown()
     this
 
-  render_metric: (metric_id) ->
+  add_metric: (metric_id) ->
     @metric_id = metric_id
     @render()
 
