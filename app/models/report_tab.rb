@@ -2,7 +2,7 @@ class ReportTab < ActiveRecord::Base
   belongs_to :report
   has_many :dimensions, :dependent => :destroy
   has_many :widgets, :dependent => :destroy
-  has_many :report_tab_metrics, :dependent => :destroy
+  has_many :report_tab_metrics, :dependent => :destroy, :order => "position ASC"
   has_many :metrics, :through => :report_tab_metrics
 
   accepts_nested_attributes_for :dimensions, :allow_destroy => true
@@ -21,11 +21,7 @@ class ReportTab < ActiveRecord::Base
   end
 
   def js_attributes
-    metric_positions = {}
-    report_tab_metrics.each {|rtm| metric_positions[rtm.metric_id]=rtm.position}
-    sorted_metric_ids = metric_ids.sort {|a,b| metric_positions[a] <=> metric_positions[b]}
-
-    attributes.merge({:metric_ids => sorted_metric_ids, :dimensions_attributes => dimensions.map(&:attributes)})
+    attributes.merge({:metric_ids => metric_ids, :dimensions_attributes => dimensions.map(&:attributes)})
   end
 
   def short_attributes
@@ -59,6 +55,29 @@ class ReportTab < ActiveRecord::Base
       results
     else
       nil
+    end
+  end
+
+  define_method "metric_ids" do
+    report_tab_metrics.map(&:metric_id)
+  end
+
+  define_method "metric_ids=" do |arg|
+    arg = arg.map{|item| item.to_i}
+
+    arg.length.times do |index|
+      rtm = report_tab_metrics.find_by_metric_id(arg[index])
+      if rtm.present?
+        rtm.update_attributes({:position => index})
+      else
+        ReportTabMetric.create!({:report_tab_id => id, :metric_id => arg[index], :position => index})
+      end
+    end
+
+    report_tab_metrics.each do |rtm|
+      if arg.index(rtm.metric_id).blank?
+        rtm.destroy
+      end
     end
   end
 
