@@ -1,5 +1,10 @@
 Analytics.Views.Dimensions ||= {}
 
+###
+model: Analytics.Models.ReportTab
+render_to: render_to
+parent_view: Analytics.Views.ReportTabs.ShowView
+###
 class Analytics.Views.Dimensions.ListView extends Backbone.View
   template: JST["backbone/templates/dimensions/list"]
   events:
@@ -24,6 +29,7 @@ class Analytics.Views.Dimensions.ListView extends Backbone.View
       selector: @model
       filters: @model.dimensions_filters
     })
+    @dimensions.orderby = @model.get("metric_ids")[0] if @model.get("metric_ids")[0]?
 
   render: (should_fetch = true) ->
     $(@el).html(@template(@model.show_attributes()))
