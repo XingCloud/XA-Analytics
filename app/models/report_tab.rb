@@ -15,6 +15,9 @@ class ReportTab < ActiveRecord::Base
 
   scope :template, where(:project_id => nil)
 
+  alias_method :original_metric_ids=, :metric_ids=
+  alias_method :original_metric_ids, :metric_ids
+
 
   def metrics_attributes
     metrics.map(&:attributes)
@@ -59,25 +62,19 @@ class ReportTab < ActiveRecord::Base
   end
 
   define_method "metric_ids" do
-    report_tab_metrics.map(&:metric_id)
+    if id.present?
+      report_tab_metrics.map(&:metric_id)
+    else
+      send("original_metric_ids")
+    end
+
   end
 
   define_method "metric_ids=" do |arg|
-    arg = arg.map{|item| item.to_i}
-
+    send("original_metric_ids=", arg)
     arg.length.times do |index|
       rtm = report_tab_metrics.find_by_metric_id(arg[index])
-      if rtm.present?
-        rtm.update_attributes({:position => index})
-      else
-        ReportTabMetric.create!({:report_tab_id => id, :metric_id => arg[index], :position => index})
-      end
-    end
-
-    report_tab_metrics.each do |rtm|
-      if arg.index(rtm.metric_id).blank?
-        rtm.destroy
-      end
+      rtm.update_attributes({:position => index}) unless rtm.blank?
     end
   end
 
