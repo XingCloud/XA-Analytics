@@ -1,7 +1,17 @@
+
+###
+from Analytics.Views.Widgets.ShowView:
+  selector: Analytics.Models.Widget
+  for_widget: true
+from Analytics.Views.ReportTabs.ShowView:
+  selector: Analytics.Models.ReportTab
+  filters: Analytics.Models.ReportTab.dimensions_filters
+###
 class Analytics.Collections.TimelineCharts extends Backbone.Collection
   model: Analytics.Models.TimelineChart
 
   initialize: (models, options) ->
+    #todo immars how selector works?
     @selector = options.selector
     @filters = options.filters
     @for_widget = (if options.for_widget? then options.for_widget else false)

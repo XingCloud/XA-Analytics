@@ -10,6 +10,8 @@ class Analytics.Views.Metrics.FormListItemView extends Backbone.View
     "click .metric-remove" : "delete"
     "click .metric-display" : "show"
     "click .metric-copy" : "copy"
+    "click .metric-moveup" : "moveup"
+    "click .metric-movedown" : "movedown"
 
   initialize: (options) ->
     _.bindAll(this, "render")
@@ -65,6 +67,44 @@ class Analytics.Views.Metrics.FormListItemView extends Backbone.View
         $("body").prepend(JST['backbone/templates/utils/error']({status: 500}))
     })
 
+  moveup: () ->
+    $(".tooltip").hide()
+    cur_id = parseInt($(@el).find("input.metric-id").val())
+    old_ids = @parent_view.model.metric_ids
+    for id, i in old_ids
+      if id == cur_id and i != 0
+        [old_ids[i-1], old_ids[i]] = [old_ids[i], old_ids[i-1]]
+        @parent_view.model.metric_ids = old_ids
+        @parent_view.metric_ids = {}
+        @parent_view.render()
+        return
+
+  movedown: () ->
+    $(".tooltip").hide()
+    cur_id = parseInt($(@el).find("input.metric-id").val())
+    old_ids = @parent_view.model.metric_ids
+    for id, i in old_ids
+      if id == cur_id and i != old_ids.length - 1
+        [old_ids[i+1], old_ids[i]] = [old_ids[i], old_ids[i+1]]
+        @parent_view.model.metric_ids = old_ids
+        @parent_view.metric_ids = {}
+        @parent_view.render()
+        return
+###
+
+  movedown: () ->
+    cur_id = $(@el).find("input.metric-id").val()
+    metrics = $(@parent_view.el).find(".metric-box-group .metric-box")
+    for metric, i in metrics
+      metric = $(metric)
+      if metric.find("input.metric-id").val() == cur_id
+        if i != metrics.length-1
+          target = $(metrics[i+1])
+          metric.remove()
+          target.after(metric)
+          return
+###
+
 ###
 model: {
   index: Analytics.Models.ReportTab.index
@@ -88,6 +128,8 @@ class Analytics.Views.Metrics.FormListView extends Backbone.View
       @render_metric(metric_id)
     $(@el).find(".metric-remove").tooltip({title: "删除指标"})
     $(@el).find(".metric-copy").tooltip({title: "复制指标"})
+    $(@el).find(".metric-moveup").tooltip({title: "上移"})
+    $(@el).find(".metric-movedown").tooltip({title: "下移"})
     @render_metrics_dropdown()
     this
 

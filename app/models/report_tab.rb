@@ -6,6 +6,7 @@ class ReportTab < ActiveRecord::Base
   has_many :metrics, :through => :report_tab_metrics
 
   accepts_nested_attributes_for :dimensions, :allow_destroy => true
+  accepts_nested_attributes_for :report_tab_metrics, :allow_destroy => true
 
   validates_presence_of :title, :chart_type, :interval, :length, :compare
   validates_numericality_of :length, :only_integer => true, :greater_than => 0
@@ -20,7 +21,11 @@ class ReportTab < ActiveRecord::Base
   end
 
   def js_attributes
-    attributes.merge({:metric_ids => metric_ids, :dimensions_attributes => dimensions.map(&:attributes)})
+    metric_positions = {}
+    report_tab_metrics.each {|rtm| metric_positions[rtm.metric_id]=rtm.position}
+    sorted_metric_ids = metric_ids.sort {|a,b| metric_positions[a] <=> metric_positions[b]}
+
+    attributes.merge({:metric_ids => sorted_metric_ids, :dimensions_attributes => dimensions.map(&:attributes)})
   end
 
   def short_attributes

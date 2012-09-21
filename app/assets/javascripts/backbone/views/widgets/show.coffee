@@ -1,5 +1,9 @@
 Analytics.Views.Widgets ||= {}
 
+
+###
+model: Instances.Collections.widgets[i]:Analytics.Models.Widget
+###
 class Analytics.Views.Widgets.ShowView extends Backbone.View
   template: JST["backbone/templates/widgets/show"]
   tagName: "li"

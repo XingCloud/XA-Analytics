@@ -1,5 +1,8 @@
 Analytics.Views.Widgets ||= {}
 
+###
+collection: Instances.Collections.widgets
+###
 class Analytics.Views.Widgets.IndexView extends Backbone.View
   template: JST['backbone/templates/widgets/index']
   events:

@@ -1,5 +1,10 @@
 <input id="report_tabs_attributes_<%= @index %>_project_id" name="report_tabs_attributes[<%= @index %>][project_id]" type="hidden" value="<%= @project_id %>" />
 <input id="report_tabs_attributes_<%= @index %>__destroy" name="report_tabs_attributes[<%= @index %>][_destroy]" type="hidden" value="0" />
+
+<!--
+<input id="report_tabs_attributes_<%= @index %>_metricmap" name="report_tabs_attributes[<%= @index %>][report_tab_metrics_attributes]" type="hidden" value="<%= @report_tab_metrics_attributes %>" />
+-->
+
 <div class="control-group should-check">
     <label class="control-label" for="report_tabs_attributes_<%= @index %>_title">
         <abbr title="必填">*</abbr>

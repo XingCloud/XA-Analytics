@@ -41,6 +41,22 @@ class ReportsController < ProjectBaseController
           Resque.enqueue(Workers::SyncReport, new_report.id) unless APP_CONFIG[:sync_metric] != 1
           render :json => new_report.js_attributes, :status => 200
         else
+          #modify report metric order from report.report_tabs_attributes.metric_ids
+          #{tab_id => ReportTab}
+          currentid2tabs = {}
+          @report.report_tabs.each {|tab| currentid2tabs[tab.id] = tab}
+          params[:report][:report_tabs_attributes].each do |tab|
+            metric2position={}
+            (0..tab[:metric_ids].length-1).each {|i| metric2position[tab[:metric_ids][i].to_i]=i}
+            tab[:report_tab_metrics_attributes] = [] if tab[:report_tab_metrics_attributes].blank?
+            currentid2tabs[tab[:id].to_i].report_tab_metrics.each do |rtm|
+              tab[:report_tab_metrics_attributes].append({:id => rtm.id,
+                                                        :metric_id => rtm.metric_id,
+                                                        :report_tab_id => rtm.report_tab_id,
+                                                        :position =>metric2position[rtm.metric_id]})
+            end
+          end
+
           @report.update_attributes!(params[:report])
           Resque.enqueue(Workers::SyncReport, @report.id) unless APP_CONFIG[:sync_metric] != 1
           render :json => @report.js_attributes, :status => 200
@@ -48,7 +64,10 @@ class ReportsController < ProjectBaseController
       rescue ActiveRecord::RecordInvalid
         render :json => @report.js_attributes, :status => 400
         raise ActiveRecord::Rollback
-      rescue Exception
+      rescue Exception => e
+        logger.warn "error!"
+        logger.warn e.message()
+        logger.warn e.backtrace().join("\n")
         render :json => @report.js_attributes, :status => 500
         raise ActiveRecord::Rollback
       end
