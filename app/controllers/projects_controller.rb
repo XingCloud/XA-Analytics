@@ -14,12 +14,20 @@ class ProjectsController < ProjectBaseController
 
   def timelines
     resp = AnalyticService.request_data(@project, params[:request])
-    render :json => {:id => params[:request_id].to_i, :data => resp[:results]}, :status => resp[:status]
+    render :json => {:id => params[:request_id].to_i,
+                     :data => resp[:results],
+                      :err_code => resp[:err_code],
+                      :err_msg => resp[:err_msg]},
+           :status => resp[:status]
   end
 
   def dimensions
     resp = AnalyticService.request_dimensions(@project, params[:request])
-    render :json => {:id => params[:request_id].to_i, :data => resp[:results]}, :status => resp[:status]
+    render :json => {:id => params[:request_id].to_i,
+                     :data => resp[:results],
+                     :err_code => resp[:err_code],
+                     :err_msg => resp[:err_msg]},
+           :status => resp[:status]
   end
 
   def ups

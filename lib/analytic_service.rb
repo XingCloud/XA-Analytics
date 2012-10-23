@@ -17,20 +17,29 @@ class AnalyticService
   end
 
   def self.request_data(project, params)
-    results = []
+    ret = {}
     resp = commit("/dd/query", build_params(project, params))
+    results = []
     if resp["result"]
       resp["datas"].keys.each do |id|
         results.append(resp["datas"][id].merge({"id" => id}))
       end
+    else
+      ret.merge!({:err_code => resp["err_code"], :err_msg => resp["err_msg"]})
     end
-    {:results => results, :status => resp["status"].blank? ? 200 : resp["status"]}
+    ret.merge!({:results => results, :status => resp["status"].blank? ? 200 : resp["status"]})
+    ret
   end
 
   def self.request_dimensions(project, params)
+    ret = {}
     resp = commit('/dd/query', build_params(project, params))
     results = resp["result"] ? resp : {}
-    {:results => results, :status => resp["status"].blank? ? 200 : resp["status"]}
+    if not resp["result"]
+      ret.merge!({:err_code => resp["err_code"], :err_msg => resp["err_msg"]})
+    end
+    ret.merge!({:results => results, :status => resp["status"].blank? ? 200 : resp["status"]})
+    ret
   end
 
   def self.check_event_key(project, target_row, condition)

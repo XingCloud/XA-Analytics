@@ -1,4 +1,4 @@
-<div id="error-message" class="alert alert-error message" style="display: none;">
+<div id="error-message" class="alert <%= @type %> message" style="display: none;">
     <b class="close" data-dismiss="alert">×</b>
     <% if @status == 400: %>
         资源操作失败，请检查参数是否正确
@@ -7,6 +7,6 @@
     <% else if @status == 401: %>
         您会话已过期，请&nbsp;<a href="<%= window.location.href.split('#')[0] %>">重新登陆</a>
     <% else: %>
-        服务器开小差了，请稍后再试
+        <%= @message %>
     <% end %>
 </div>

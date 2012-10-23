@@ -68,6 +68,7 @@ class Analytics.Collections.TimelineCharts extends Backbone.Collection
     collection = this
     start_time = (new Date()).getTime()
     params = @fetch_params()
+    ## @last_request, 对上一次请求的缓存，用来防止同一个页面狂刷的情况
     if (force or @last_request.params != JSON.stringify(params) or
         not @last_request.success or new Date().getTime() - @last_request.time > 300000)
       @last_request.params = JSON.stringify(params)
@@ -92,13 +93,19 @@ class Analytics.Collections.TimelineCharts extends Backbone.Collection
 
   fetch_success: (resp, start_time, send_xa = true) ->
     @last_request.resp = resp
-    @last_request.success = true
-    contains_error = false
-    for sequence in resp["data"]
-      if not sequence.data? or sequence.data.length == 0
-        contains_error = true
-      chart = @get(sequence.id)
-      _.extend(chart.get("sequence"), sequence)
+    ##判断resp的状态信息，是否有错误
+    if not resp["data"]? or resp["err_code"]?
+      @last_request.success = false
+      Analytics.Request.doAlertWithErrcode (resp["err_code"])
+      contains_error = true
+    else
+      @last_request.success = true
+      contains_error = false
+      for sequence in resp["data"]
+        if not sequence.data? or sequence.data.length == 0
+          contains_error = true
+        chart = @get(sequence.id)
+        _.extend(chart.get("sequence"), sequence)
     if send_xa
       @xa_action(start_time, (if contains_error then "error" else "success"))
 
