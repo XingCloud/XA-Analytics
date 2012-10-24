@@ -6,4 +6,4 @@ class Analytics.Collections.Broadcastings extends Backbone.Collection
     @fetched = true
 
   url: () ->
-    "/template/broadcastings"
+    "/broadcastings"

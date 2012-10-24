@@ -1,4 +1,5 @@
-class Template::BroadcastingsController < Template::BaseController
+class BroadcastingsController < ApplicationController
+
   before_filter :find_broadcasting
 
   def index

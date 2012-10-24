@@ -4,6 +4,8 @@ Analytic::Application.routes.draw do
   match "/logout" => "application#logout"
   mount Resque::Server.new, :at => "/resque"
 
+  resources :broadcastings
+
   resources :projects do
 
     member do
@@ -42,6 +44,5 @@ Analytic::Application.routes.draw do
     resources :projects
     resources :segments
     resources :widgets
-    resources :broadcastings
   end
 end
