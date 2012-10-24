@@ -33,6 +33,7 @@ class Template::BroadcastingsController < Template::BaseController
     if @broadcasting.blank?
       @broadcasting = Broadcasting.new()
       @broadcasting.id = 1
+      @broadcasting.message=""
       @broadcasting.save
     end
   end
