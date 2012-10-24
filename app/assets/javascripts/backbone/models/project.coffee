@@ -21,6 +21,7 @@ class Analytics.Models.Project extends Backbone.Model
       report_tabs: new Analytics.Collections.ReportTabs([], {project: project})
       widgets: new Analytics.Collections.Widgets([], {project: project})
       metrics: new Analytics.Collections.Metrics([], {project: project})
+      broadcastings: new Analytics.Collections.Broadcastings([], {project: project})
     }
     total = _.select(Instances.Collections, (instance) -> instance.url?).length
     load_finished = @load_finished
@@ -40,11 +41,16 @@ class Analytics.Models.Project extends Backbone.Model
 
   load_finished: (project) ->
     new Analytics.Views.Projects.ShowView({model: project}).render()
+
+    if (broadcasting = Instances.Collections.broadcastings.first())? and broadcasting.get("message") != ""
+      Analytics.Request.doAlert broadcasting.get("message"), 500, ""
+
     Instances.Routers = {
       report_categories_router: new Analytics.Routers.ReportCategoriesRouter(),
       reports_router: new Analytics.Routers.ReportsRouter(),
       segments_router: new Analytics.Routers.SegmentsRouter(),
       widgets_router: new Analytics.Routers.WidgetsRouter(),
       projects_router: new Analytics.Routers.ProjectsRouter(),
+      broadcasting_router: new Analytics.Routers.BroadcastingRouter()
     }
     Backbone.history.start()

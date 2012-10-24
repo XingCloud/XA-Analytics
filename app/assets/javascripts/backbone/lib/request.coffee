@@ -33,12 +33,14 @@ Analytics.Request.ajax = (options, hide_loading = false) ->
 Analytics.Request.error = (xhr, options, error) ->
   Analytics.Request.doAlert("", xhr.status)
 
-Analytics.Request.doAlert = (message = "服务器开小差了，请稍后再试", status = 500, type = "alert-error") ->
+Analytics.Request.doAlert = (message = "服务器开小差了，请稍候再试", status = 500, type = "alert-error") ->
   if Analytics.Request.error_message
     $('#error-message').remove()
   params = {}
-  if message?
+  if message? and message != ""
     params.message = message
+  else
+    params.message = "服务器开小差了，请稍候再试"
   if status?
     params.status = status
   if type?

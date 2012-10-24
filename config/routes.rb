@@ -42,5 +42,6 @@ Analytic::Application.routes.draw do
     resources :projects
     resources :segments
     resources :widgets
+    resources :broadcastings
   end
 end
