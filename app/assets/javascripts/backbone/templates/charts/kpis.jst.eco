@@ -113,7 +113,8 @@
                 <tr class="time">
                     <td class="time"><%= dateStr %></td>
                     <% for metric_id in @metric_ids: %>
-                        <td class="data"><%= cmap[segment_id][date][metric_id] %></td>
+                        <% data = cmap[segment_id][date][metric_id] %>
+                        <td class="data <%= if data == "PENDING" then "pending" else ""%>"><%= if data == "PENDING" then "pending" else data %></td>
                     <% end %>
                 </tr>
             <% end %>

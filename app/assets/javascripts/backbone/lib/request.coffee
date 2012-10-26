@@ -59,6 +59,7 @@ Analytics.Request.doAlertWithErrcode = (err_code) ->
     "ERR_22":     {type: "alert-error", message: "Segment解析和处理过程中发生异常，请联系管理员"},
     "ERR_37":     {type: "alert-error", message: "查询异常，请联系管理员"},
     "ERR_39":     {type: "alert-error", message: "汇总Total和Natural过程中发生异常，请联系管理员"}
+    "ERR_36":     {type: "", message: "没有此项目的数据。请联系打日志的技术人员或者管理员"}
   }
   option = codeTable[err_code]
   if not option?

@@ -1,5 +1,8 @@
 
 ###
+
+代表报告中的曲线的值
+
 from Analytics.Views.Widgets.ShowView:
   selector: Analytics.Models.Widget
   for_widget: true
@@ -11,6 +14,7 @@ class Analytics.Collections.TimelineCharts extends Backbone.Collection
   model: Analytics.Models.TimelineChart
 
   initialize: (models, options) ->
+    _.bindAll this, "fetch_charts"
     #todo immars how selector works?
     @selector = options.selector
     @filters = options.filters
@@ -65,6 +69,7 @@ class Analytics.Collections.TimelineCharts extends Backbone.Collection
     "/projects/" + Instances.Models.project.id + "/timelines"
 
   fetch_charts: (options = {}, force = false) ->
+    console.log "fetching charts..."
     collection = this
     start_time = (new Date()).getTime()
     params = @fetch_params()
@@ -91,6 +96,30 @@ class Analytics.Collections.TimelineCharts extends Backbone.Collection
         collection.fetch_success(@last_request.resp, 0, false)
         options.success(@last_request.resp)
 
+  ##检查所有timeline，看看有没有还在pending的数据。如果有，则定时reload一次：再次fetch_charts
+  check_pendings: () ->
+    console.log "check_pendings"
+    collection = this
+    if @has_pendings()
+      @last_request?.success = false
+      if collection.timer?
+        console.log "clear last timer"
+        clearTimeout(collection.timer);
+      console.log "set timer"
+      collection.timer = _.delay(collection.fetch_charts, 10000)
+    else if collection.timer?
+      clearTimeout(collection.timer);
+      delete collection.timer
+
+  has_pendings: () ->
+    has = false
+    @each((chart) ->
+      if _.find(chart.data(), (point) -> point[1] == "PENDING")
+        has = true
+    )
+    console.log "has_pendings "+has
+    has
+
   fetch_success: (resp, start_time, send_xa = true) ->
     @last_request.resp = resp
     ##判断resp的状态信息，是否有错误
@@ -106,6 +135,7 @@ class Analytics.Collections.TimelineCharts extends Backbone.Collection
           contains_error = true
         chart = @get(sequence.id)
         _.extend(chart.get("sequence"), sequence)
+      @check_pendings()
     if send_xa
       @xa_action(start_time, (if contains_error then "error" else "success"))
 
@@ -123,7 +153,7 @@ class Analytics.Collections.TimelineCharts extends Backbone.Collection
         text: ""
       chart:
         renderTo: render_to
-        height: 200 + 20 * (if @models.length > 9 then @models.length - 9 else 0)
+        height: 220 + 6 * (if @models.length > 9 then @models.length - 9 else 0)
         type: (if @selector.get("chart_type")? then @selector.get("chart_type") else 'line')
       yAxis:
         min: 0
@@ -160,7 +190,7 @@ class Analytics.Collections.TimelineCharts extends Backbone.Collection
     @each((chart) ->
       options.series.push({
         name: chart.name()
-        data: chart.data()
+        data: chart.plot_data()
         color: "#" + chart.get("color")
         id: chart.id
         visible: (if visibles[chart.id]? then visibles[chart.id] else (chart.get("metric_id") == display_metric))

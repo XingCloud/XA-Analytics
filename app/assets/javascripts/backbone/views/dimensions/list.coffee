@@ -190,3 +190,9 @@ class Analytics.Views.Dimensions.ListView extends Backbone.View
           Instances.Collections.user_attributes.add(model, {silent: true})
         view.fetch_dimensions()
       })
+
+  block: () ->
+    $(@el).block({message: "<strong>载入中...</strong>"})
+
+  unblock: () ->
+    $(@el).unblock()

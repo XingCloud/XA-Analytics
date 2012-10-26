@@ -1,5 +1,9 @@
 Analytics.Views.Charts ||= {}
 
+###
+collection: Analytics.Collections.TimelineCharts
+###
+
 class Analytics.Views.Charts.KpisView extends Backbone.View
   template: JST["backbone/templates/charts/kpis"]
   className: "kpis"

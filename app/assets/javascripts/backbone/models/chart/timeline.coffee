@@ -37,3 +37,7 @@ class Analytics.Models.TimelineChart extends Backbone.Model
         [Analytics.Utils.parseUTCDate(item[0], offset), item[1]] for item in @get("sequence")["data"]
       else
         [Analytics.Utils.parseUTCDate(item[0], 0), item[1]] for item in @get("sequence")["data"]
+
+  ##过滤pending标记，给画图用
+  plot_data: () ->
+    _.map(@data(), (x) -> if x[1] == "PENDING" then [x[0],0] else x)

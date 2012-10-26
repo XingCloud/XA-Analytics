@@ -75,10 +75,14 @@ class Analytics.Views.ReportTabs.ShowView extends Backbone.View
     else
       @dimensions_view.redraw({render_to: render_to, should_fetch: false})
 
-  fetch_data: () ->
+  fetch_data: (blocking = true) ->
     if @model.get("metric_ids").length > 0
       request_count = (if @model.dimension? then 2 else 1)
-      $(@el).block({message: "<strong>载入中...</strong>"})
+      if blocking?
+        ##$(@el).block({message: "<strong>载入中...</strong>"})
+        @timelines_view.block()
+        if @model.dimension?
+          @dimensions_view.block()
       el = @el
       timelines_view = @timelines_view
       kpis_view = @kpis_view
@@ -87,27 +91,34 @@ class Analytics.Views.ReportTabs.ShowView extends Backbone.View
         success: (resp) ->
           timelines_view.redraw()
           kpis_view.redraw()
-          request_count = request_count - 1
-          if request_count == 0
-            $(el).unblock()
+          timelines_view.unblock()
+          #request_count = request_count - 1
+          #if request_count == 0
+          #  $(el).unblock()
         error: (xhr, options, err) ->
-          request_count = request_count - 1
-          if request_count == 0
-            $(el).unblock()
+          timelines_view.unblock()
+          #request_count = request_count - 1
+          #if request_count == 0
+          #  $(el).unblock()
       }, @model.force_fetch)
       if @model.dimension?
         @dimensions_view.dimensions.fetch_charts({
           success: (resp) ->
             dimensions_view.dimensions_chart_view.redraw()
+            dimensions_view.unblock()
+            ###
             request_count = request_count - 1
             if request_count == 0
               $(el).unblock()
+            ###
           error: (xhr, options, err) ->
-            request_count = request_count - 1
+            dimensions_view.unblock()
+            ###request_count = request_count - 1
             if request_count == 0
-              $(el).unblock()
+              $(el).unblock()###
         }, @model.force_fetch)
       @model.force_fetch = false
+
 
   select_filter: (ev) ->
     value = $(ev.currentTarget).attr("value")
