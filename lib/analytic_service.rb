@@ -131,12 +131,30 @@ class AnalyticService
     pp url
 
     start_time = Time.now
-    response = Net::HTTP.post_form(url, safe_escape(options))
-    end_time = Time.now
+    req = Net::HTTP::Post.new(url.request_uri)
+    req.form_data = safe_escape(options)
+    req.basic_auth url.user, url.password if url.user
+    req["Accept-Encoding"] = 'gzip,deflate,sdch'
+    response = Net::HTTP.new(url.hostname, url.port).start {|http|
+      http.request(req)
+    }
 
+    if response[ 'Content-Encoding' ].eql?( 'gzip' ) then
+      sio = StringIO.new( response.body )
+      gz = Zlib::GzipReader.new( sio )
+      page = gz.read()
+      response.body=page
+    end
+
+=begin
+    response = Net::HTTP.post_form(url, safe_escape(options))
+=end
+
+    end_time = Time.now
     logger.info "Response Code: #{response.code}"
     logger.info "Response Time: #{(end_time - start_time)*1000}ms"
-    pp response.body
+
+    pp "response.body: #{response.body}"
 
     if response.is_a?(Net::HTTPSuccess)
       return JSON.parse(response.body)
