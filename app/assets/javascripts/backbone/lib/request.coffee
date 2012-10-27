@@ -26,7 +26,9 @@ Analytics.Request.ajax = (options, hide_loading = false) ->
       $('#loading-message').fadeOut(200)
     if error?
       error(xhr, opts, err)
-    Analytics.Request.error(xhr, opts, err)
+    ## maybe user aborted
+    if not not xhr.getAllResponseHeaders()
+      Analytics.Request.error(xhr, opts, err)
 
   $.ajax(options)
 

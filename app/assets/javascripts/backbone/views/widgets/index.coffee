@@ -1,6 +1,7 @@
 Analytics.Views.Widgets ||= {}
 
 ###
+普通项目的dashboard。
 collection: Instances.Collections.widgets
 ###
 class Analytics.Views.Widgets.IndexView extends Backbone.View
@@ -31,6 +32,7 @@ class Analytics.Views.Widgets.IndexView extends Backbone.View
     )
 
   render_widgets: () ->
+    Instances.Charts.reset()
     index = 0
     add_widget = @add_widget
     @collection.check_position(@collection.columns)
@@ -91,6 +93,10 @@ class Analytics.Views.Widgets.IndexView extends Backbone.View
       widget.view.fetch_chart(true)
     )
 
+###
+管理员视图，dashboard面板管理。
+collection: Instances.Collections.widgets
+###
 class Analytics.Views.Widgets.ListView extends Backbone.View
   template: JST['backbone/templates/widgets/list']
   events:

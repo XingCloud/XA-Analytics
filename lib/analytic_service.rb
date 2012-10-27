@@ -138,20 +138,21 @@ class AnalyticService
     response = Net::HTTP.new(url.hostname, url.port).start {|http|
       http.request(req)
     }
-
+    dllength = response.body.length
     if response[ 'Content-Encoding' ].eql?( 'gzip' ) then
       sio = StringIO.new( response.body )
       gz = Zlib::GzipReader.new( sio )
       page = gz.read()
       response.body=page
     end
-
+    datalength = response.body.length
 =begin
     response = Net::HTTP.post_form(url, safe_escape(options))
 =end
 
     end_time = Time.now
     logger.info "Response Code: #{response.code}"
+    logger.info "Response Body: #{datalength}(#{dllength} downloaded) Bytes"
     logger.info "Response Time: #{(end_time - start_time)*1000}ms"
 
     pp "response.body: #{response.body}"

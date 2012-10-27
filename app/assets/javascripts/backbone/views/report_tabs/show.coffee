@@ -77,45 +77,28 @@ class Analytics.Views.ReportTabs.ShowView extends Backbone.View
 
   fetch_data: (blocking = true) ->
     if @model.get("metric_ids").length > 0
-      request_count = (if @model.dimension? then 2 else 1)
+      @timelines.activate()
       if blocking?
-        ##$(@el).block({message: "<strong>载入中...</strong>"})
         @timelines_view.block()
         if @model.dimension?
           @dimensions_view.block()
-      el = @el
       timelines_view = @timelines_view
       kpis_view = @kpis_view
       dimensions_view = @dimensions_view
       @timelines.fetch_charts({
         success: (resp) ->
-          timelines_view.redraw()
-          kpis_view.redraw()
           timelines_view.unblock()
-          #request_count = request_count - 1
-          #if request_count == 0
-          #  $(el).unblock()
         error: (xhr, options, err) ->
           timelines_view.unblock()
-          #request_count = request_count - 1
-          #if request_count == 0
-          #  $(el).unblock()
       }, @model.force_fetch)
       if @model.dimension?
+        @dimensions_view.dimensions.activate()
         @dimensions_view.dimensions.fetch_charts({
           success: (resp) ->
             dimensions_view.dimensions_chart_view.redraw()
             dimensions_view.unblock()
-            ###
-            request_count = request_count - 1
-            if request_count == 0
-              $(el).unblock()
-            ###
           error: (xhr, options, err) ->
             dimensions_view.unblock()
-            ###request_count = request_count - 1
-            if request_count == 0
-              $(el).unblock()###
         }, @model.force_fetch)
       @model.force_fetch = false
 
