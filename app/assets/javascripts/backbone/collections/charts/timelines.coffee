@@ -84,7 +84,7 @@ class Analytics.Collections.TimelineCharts extends Analytics.Collections.BaseCha
       if _.find(chart.data(), (point) -> point[1] == "PENDING")
         has = true
     )
-    console.log @xa_id() + " has_pendings "+has
+    ## @xa_id() + " has_pendings "+has
     has
 
   charts_options: (render_to, visibles) ->

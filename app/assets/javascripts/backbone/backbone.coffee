@@ -19,11 +19,10 @@ window.Instances = {
     timelines: [],
     dimensions: [],
     reset: () ->
-      console.log "reset charts"
       Instances.Charts.timelines = []
       Instances.Charts.dimensions = []
     activate: (chart) ->
-      console.log "activating "+chart.constructor.name
+      ## "activating "+chart.constructor.name
       if chart instanceof Analytics.Collections.TimelineCharts and not (chart in Instances.Charts.timelines)
         Instances.Charts.timelines.push(chart)
       else if chart instanceof Analytics.Collections.DimensionCharts and not (chart in Instances.Charts.dimensions)

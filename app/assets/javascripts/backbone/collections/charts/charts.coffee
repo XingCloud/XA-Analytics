@@ -14,9 +14,9 @@ class Analytics.Collections.BaseCharts extends Backbone.Collection
 
   fetch_charts: (options = {}, force = false) ->
     if not @is_activated()
-      console.log @xa_id() + " fetching, but no longer needed"
+      ## @xa_id() + " fetching, but no longer needed"
       return
-    console.log @xa_id() + " fetching charts..."
+    ## @xa_id() + " fetching charts..."
     collection = this
     start_time = (new Date()).getTime()
     params = @fetch_params()
@@ -53,24 +53,20 @@ class Analytics.Collections.BaseCharts extends Backbone.Collection
 
   ##检查所有timeline，看看有没有还在pending的数据。如果有，则定时reload一次：再次fetch_charts
   check_pendings: () ->
-    console.log "check_pendings"
     collection = this
     if @has_pendings()
       @last_request?.success = false
       if collection.timer?
-        console.log "clear last timer"
         clearTimeout(collection.timer);
-      console.log "set timer"
       collection.timer = _.delay(collection.fetch_charts, 10000)
     else if collection.timer?
-      console.log "remove timer"
       clearTimeout(collection.timer);
       delete collection.timer
 
   ##chart的数据是否含有pending状态。
   ##由子类实现。
   has_pendings: () ->
-    console.log @xa_id() + " charts has_pendings false"
+    ## @xa_id() + " charts has_pendings false"
     false
 
   fetch_success: (resp, start_time, send_xa = true) ->
