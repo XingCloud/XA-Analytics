@@ -86,6 +86,7 @@ class Analytics.Collections.BaseCharts extends Backbone.Collection
       @xa_action(start_time, (if contains_error then "error" else "success"))
 
   ## for subclasses to override
+  ## 执行数据成功读取后的解析工作
   process_fetched_data: (resp) ->
     true
 

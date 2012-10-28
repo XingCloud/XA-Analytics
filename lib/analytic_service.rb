@@ -135,9 +135,15 @@ class AnalyticService
     req.form_data = safe_escape(options)
     req.basic_auth url.user, url.password if url.user
     req["Accept-Encoding"] = 'gzip,deflate,sdch'
-    response = Net::HTTP.new(url.hostname, url.port).start {|http|
-      http.request(req)
-    }
+    begin
+      response = Net::HTTP.new(url.hostname, url.port).start {|http|
+        http.request(req)
+      }
+    rescue Timeout::Error
+      logger.info "Request #{url} timeout"
+      pp "request timeout error"
+      return {"result" => false, "data" => [], "status" => 200, "err_code" => "ERR_TIMEOUT"}
+    end
     dllength = response.body.length
     if response[ 'Content-Encoding' ].eql?( 'gzip' ) then
       sio = StringIO.new( response.body )

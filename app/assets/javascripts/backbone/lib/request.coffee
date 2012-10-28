@@ -53,7 +53,7 @@ Analytics.Request.doAlert = (message = "服务器开小差了，请稍候再试"
 
 Analytics.Request.doAlertWithErrcode = (err_code) ->
   codeTable = {
-    "ERR_11" : {type: "alert-error", message: "请求参数为空，请联系管理员"},
+    "ERR_11" :    {type: "alert-error", message: "请求参数为空，请联系管理员"},
     "ERR_12751":  {type: "", message: "NumberOfDay和Interval非法。如果指标的定义涉及多天的数据的计算，那么您不能以小于一天（小时或分钟）为间隔来展示这个指标。"},
     "ERR_1275":   {type: "alert-error", message: "参数非法，请联系管理员"},
     "ERR_12":     {type: "alert-error", message: "Json解析错误，请联系管理员"},
@@ -62,6 +62,7 @@ Analytics.Request.doAlertWithErrcode = (err_code) ->
     "ERR_37":     {type: "alert-error", message: "查询异常，请联系管理员"},
     "ERR_39":     {type: "alert-error", message: "汇总Total和Natural过程中发生异常，请联系管理员"}
     "ERR_36":     {type: "", message: "没有此项目的数据。请联系打日志的技术人员或者管理员"}
+    "ERR_TIMEOUT":{type: "alert-error", message: "服务器查询超时，请稍候再试"}
   }
   option = codeTable[err_code]
   if not option?
