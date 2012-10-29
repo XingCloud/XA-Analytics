@@ -81,10 +81,14 @@ class Analytics.Collections.TimelineCharts extends Analytics.Collections.BaseCha
   has_pendings: () ->
     has = false
     @each((chart) ->
-      if _.find(chart.data(), (point) -> point[1] == "PENDING")
+      if chart.get("sequence")?.natural == "pending"
+        has = true
+      if chart.get("sequence")?.total == "pending"
+        has = true
+      if (not has) and _.find(chart.data(), (point) -> point[1] == "pending")
         has = true
     )
-    ## @xa_id() + " has_pendings "+has
+    console.log @xa_id() + " has_pendings "+has
     has
 
   charts_options: (render_to, visibles) ->
