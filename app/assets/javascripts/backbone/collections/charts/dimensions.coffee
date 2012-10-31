@@ -67,6 +67,8 @@ class Analytics.Collections.DimensionCharts extends Analytics.Collections.BaseCh
   process_fetched_data: (resp) ->
     if resp["data"]? and resp["data"]["datas"]?
       @data = resp["data"]["datas"]
+    else
+      @data = []
     if resp["data"]? and resp["data"]["total"]?
       @total = resp["data"]["total"]
     true

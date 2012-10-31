@@ -17,9 +17,7 @@ Analytics.Utils.countMonth = (end, start) ->
 
 Analytics.Utils.intervalName = (interval) ->
   item = _.find(Analytics.Static.ReportTabIntervals, (item) -> item.value == interval)
-  if item? and interval == "min5"
-    "5"+item.name
-  else if item?
+  if item?
     item.name
   else
     ""
