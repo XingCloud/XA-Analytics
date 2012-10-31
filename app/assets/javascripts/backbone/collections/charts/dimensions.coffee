@@ -2,6 +2,7 @@ class Analytics.Collections.DimensionCharts extends Analytics.Collections.BaseCh
   model: Analytics.Models.DimensionChart
 
   initialize: (models, options) ->
+    _.bindAll this, "fetch_charts"
     @selector = options.selector
     @filters = options.filters
     @for_widget = (if options.for_widget? then options.for_widget else false)
@@ -52,6 +53,16 @@ class Analytics.Collections.DimensionCharts extends Analytics.Collections.BaseCh
 
   fetch_url: () ->
     "/projects/" + Instances.Models.project.id + "/dimensions"
+
+  ##todo: why no DimensionChart used?
+  has_pendings: () ->
+    has = false
+    _.each(@data, (data) ->
+      if not has and data[0] == "pending"
+        has = true
+    )
+    console.log @xa_id() + " has_pendings "+has
+    has
 
   process_fetched_data: (resp) ->
     if resp["data"]? and resp["data"]["datas"]?
