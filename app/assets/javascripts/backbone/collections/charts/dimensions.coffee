@@ -54,7 +54,6 @@ class Analytics.Collections.DimensionCharts extends Analytics.Collections.BaseCh
   fetch_url: () ->
     "/projects/" + Instances.Models.project.id + "/dimensions"
 
-  ##todo: why no DimensionChart used?
   has_pendings: () ->
     has = false
     _.each(@data, (data) ->

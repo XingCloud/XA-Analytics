@@ -1,4 +1,7 @@
+=begin
 class CreateMetricReportTabJoinTable < ActiveRecord::Migration
+=end
+class CreateReportTabMetrics < ActiveRecord::Migration
   def change
     create_table :report_tab_metrics do |t|
       t.integer :report_tab_id
