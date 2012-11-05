@@ -48,7 +48,7 @@
             <% end %>
         <% else: %>
             <tr>
-                <td colspan="5" style="text-align: center;"><i>暂无维护计划</i></td>
+                <td colspan="6" style="text-align: center;"><i>暂无维护计划</i></td>
             </tr>
         <% end %>
     </tbody>
