@@ -22,10 +22,10 @@ class Analytics.Views.Charts.KpisView extends Backbone.View
   render: () ->
     $(@el).html(@template(@collection))
     $(@render_to).html(@el)
-    $(@el).find(".metric-name").popover({
+    $(@el).find(".metric-name i").popover({
       html: false
       trigger: "hover"
-      placement: "inside top"
+      placement: "top"
     })
 
 

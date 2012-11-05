@@ -5,8 +5,10 @@
     <div class="metric-container">
         <input type="hidden" id="report_tabs_attributes_<%= @index %>_metrics_<%= @id %>" class="metric-id" name="report_tabs_attributes[<%= @index %>][metric_ids][]" value="<%= @id %>" />
     </div>
-    <img src="/assets/cleardot.gif" class="metric-remove" /> &nbsp;
-    <i class="icon-plus-sign metric-operation metric-copy"></i>
-    <i class="icon-arrow-up metric-operation metric-moveup"></i>
-    <i class="icon-arrow-down metric-operation metric-movedown"></i>
+    <div class="metric-operations">
+        <i class="icon-remove-sign metric-operation metric-remove" />
+        <i class="icon-plus-sign metric-operation metric-copy"></i>
+        <i class="icon-arrow-up metric-operation metric-moveup"></i>
+        <i class="icon-arrow-down metric-operation metric-movedown"></i>
+    </div>
 </div>

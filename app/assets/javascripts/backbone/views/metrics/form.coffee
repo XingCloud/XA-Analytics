@@ -33,7 +33,7 @@ class Analytics.Views.Metrics.FormView extends Backbone.View
     $(@el).html(@template(attributes))
     $(@el).modal().css({
       'width': 'auto'
-      'min-width': '750px'
+      'min-width': '800px'
       'margin-left': () -> -($(this).width() / 2)
     })
     $(@el).find('.event-key-select').chosen()

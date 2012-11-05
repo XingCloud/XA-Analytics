@@ -36,17 +36,11 @@
   @include metric-common;
 }
 
-.metric-remove {
-  background: no-repeat url(/assets/sprites.png) -527px -173px;
-  cursor: pointer;
-  float: left;
-  height: 12px;
-  margin: 11px 0 0 -7px;
-  width: 12px;
+.metric-operations{
+  padding-top: 8px;
 }
 .metric-operation {
   cursor: pointer;
-  margin: 8px 0 0 0px;
   opacity: 0.3;
 }
 
