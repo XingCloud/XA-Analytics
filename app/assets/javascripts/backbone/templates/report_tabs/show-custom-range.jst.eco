@@ -1,31 +1,34 @@
 <div class="modal" id="custom-range-<%= @id %>" style="display: none;">
     <div class="modal-header">
         <b class="close" data-dismiss="modal">×</b>
-        <h3>自定义</h3>
+        <h3>您想看：</h3>
     </div>
     <div class="modal-body">
         <div class="form-horizontal">
             <div class="control-group">
-                <label class="control-label">报告截止日期</label>
+                <label class="control-label">截止到</label>
                 <div class="controls">
                     <input type="hidden" class="end-time" value="<%= @end_time %>" />
                     <input type="text" class="input-small custom-datepicker" value="<%= Analytics.Utils.formatUTCDate(@end_time) %>" data-date="<%= Analytics.Utils.formatUTCDate(@end_time) %>"/>
+                    <span>之前，</span>
                 </div>
             </div>
             <div class="control-group">
-                <label class="control-label">报告时长</label>
+                <label class="control-label">时长为</label>
                 <div class="controls">
                     <input type="text" class="input-mini length-input" value="<%= @length %>"/>
+                    <span>天，</span>
                 </div>
             </div>
             <div class="control-group">
-                <label class="control-label">报告频率</label>
+                <label class="control-label">其中每</label>
                 <div class="controls">
-                    <select class="interval-select">
+                    <select class="interval-select input-small">
                         <% for interval in Analytics.Static.ReportTabIntervals: %>
                             <option value="<%= interval.value %>" <%= if @interval == interval.value then 'selected="selected"' %> ><%= interval.name %></option>
                         <% end %>
                     </select>
+                    <span>一个点的报告。</span>
                 </div>
             </div>
         </div>

@@ -114,7 +114,9 @@
                     <td class="time"><%= dateStr %></td>
                     <% for metric_id in @metric_ids: %>
                         <% data = cmap[segment_id][date][metric_id] %>
-                        <td class="data <%= if data == "PENDING" then "pending" else ""%>"><%= if data == "PENDING" then "pending" else data %></td>
+                        <td class="data <%= if data == "pending" or data == "na" then "pending" else ""%>">
+                        <%= if data == "pending" then "pending" else if data == "na" then "n/a" else data %>
+                        </td>
                     <% end %>
                 </tr>
             <% end %>

@@ -29,6 +29,7 @@ class Analytics.Views.Reports.ShowView extends Backbone.View
     }).render().el)
 
   render_report_tab: () ->
+    Instances.Charts.reset()
     if @model.get("report_tabs_attributes").length
       report_tab_attributes = @model.get("report_tabs_attributes")[@model.report_tab_index]
       report_tab = Instances.Collections.report_tabs.get(report_tab_attributes.id)

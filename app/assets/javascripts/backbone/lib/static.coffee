@@ -61,7 +61,7 @@ Analytics.Static.DimensionsEvents = [
 ]
 
 Analytics.Static.ReportTabIntervals = [
-  {name: "分钟", value: "min5"},
+  {name: "5分钟", value: "min5"},
   {name: "小时", value: "hour"},
   {name: "天", value: "day"},
   {name: "周", value: "week"},

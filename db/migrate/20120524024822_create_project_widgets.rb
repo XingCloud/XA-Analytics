@@ -1,4 +1,7 @@
+=begin
 class CreateWidgetConnectors < ActiveRecord::Migration
+=end
+class CreateProjectWidgets < ActiveRecord::Migration
   def change
     create_table :project_widgets, :id => false do |t|
       t.integer :widget_id

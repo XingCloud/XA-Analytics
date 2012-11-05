@@ -14,9 +14,10 @@ class Analytics.Views.Charts.KpisView extends Backbone.View
     "mouseleave .metric-name" : "tryhide_desc_icon"
 
   initialize: (options) ->
-    _.bindAll this, "render"
+    _.bindAll this, "render", "redraw"
     @timelines_view = options.timelines_view
     @render_to = options.render_to
+    @collection.on("change", @redraw)
 
   render: () ->
     $(@el).html(@template(@collection))

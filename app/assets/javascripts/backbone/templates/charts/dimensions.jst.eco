@@ -29,11 +29,17 @@
                                 <% if @for_widget: %>
                                     <%= item[0] %>
                                 <% else: %>
-                                    <a class="dimension-value" value="<%= item[0] %>"><%= item[0] %></a>
+                                    <% if item[0] == 'pending': %>
+                                        <%= item[0] %>
+                                    <% else: %>
+                                        <a class="dimension-value" value="<%= item[0] %>"><%= item[0] %></a>
+                                    <% end %>
                                 <% end %>
                             </td>
                             <% for metric_id in @metric_ids: %>
-                                <td class="<%= if parseInt(@orderby) == metric_id then 'orderby' %>"><%= if item[1][metric_id]? then item[1][metric_id] else '-' %></td>
+                                <td class="<%= if parseInt(@orderby) == metric_id then 'orderby' %> <%=if item[1][metric_id] == 'pending' then 'pending' else ''%>">
+                                <%= if item[1][metric_id]? then item[1][metric_id] else '-' %>
+                                </td>
                             <% end %>
                         </tr>
                     <% end %>

@@ -41,13 +41,18 @@ class Analytics.Views.Charts.TimelinesView extends Backbone.View
     @render(options.visibles)
     @delegateEvents(@events)
 
-  #todo 绘制highchart之前，检查timeline数据，整理异常情况（不整齐的数据；未计算完成的数据）
   render_data: () ->
     highcharts = @highcharts
     @collection.each((timeline) ->
       highcharts.get(timeline.id).timeline = timeline
       highcharts.get(timeline.id).setData(timeline.plot_data())
     )
+    $(@render_to).append(@template())
+    if @collection.has_pendings()
+      $(@render_to).find(".pending-message").show()
+    else
+      $(@render_to).find(".pending-message").hide()
+
 
   set_small_width: () ->
     if not @small_width? or $(@render_to).width() < @small_width

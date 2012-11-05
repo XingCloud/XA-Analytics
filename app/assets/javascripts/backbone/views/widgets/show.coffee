@@ -75,12 +75,12 @@ class Analytics.Views.Widgets.ShowView extends Backbone.View
     @fetch_chart()
 
   fetch_chart: (force = false) ->
+    @chart.activate()
     el = $(@el).find(".widget-data")[0]
     chart_view = @chart_view
     $(el).block({message: "<strong>载入中...</strong>"})
     @chart.fetch_charts({
       success: (resp) ->
-        chart_view.redraw()
         $(el).unblock()
       error: (xhr, options, err) ->
         $(el).unblock()

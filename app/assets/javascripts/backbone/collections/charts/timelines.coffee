@@ -10,7 +10,7 @@ from Analytics.Views.ReportTabs.ShowView:
   selector: Analytics.Models.ReportTab
   filters: Analytics.Models.ReportTab.dimensions_filters
 ###
-class Analytics.Collections.TimelineCharts extends Backbone.Collection
+class Analytics.Collections.TimelineCharts extends Analytics.Collections.BaseCharts
   model: Analytics.Models.TimelineChart
 
   initialize: (models, options) ->
@@ -20,6 +20,7 @@ class Analytics.Collections.TimelineCharts extends Backbone.Collection
     @filters = options.filters
     @for_widget = (if options.for_widget? then options.for_widget else false)
     @last_request = {params: "", resp: "", success: true, time: 0}
+    @activate()
 
   initialize_charts: (metric_ids, segment_ids = [0], has_compare = false) ->
     @reset()
@@ -68,81 +69,27 @@ class Analytics.Collections.TimelineCharts extends Backbone.Collection
   fetch_url: () ->
     "/projects/" + Instances.Models.project.id + "/timelines"
 
-  fetch_charts: (options = {}, force = false) ->
-    console.log "fetching charts..."
-    collection = this
-    start_time = (new Date()).getTime()
-    params = @fetch_params()
-    ## @last_request, 对上一次请求的缓存，用来防止同一个页面狂刷的情况
-    if (force or @last_request.params != JSON.stringify(params) or
-        not @last_request.success or new Date().getTime() - @last_request.time > 300000)
-      @last_request.params = JSON.stringify(params)
-      @last_request.success = false
-      @last_request.time = new Date().getTime()
-      Analytics.Request.post({
-        url: @fetch_url()
-        data: params
-        success: (resp) ->
-          collection.fetch_success(resp, start_time)
-          if options.success?
-            options.success(resp)
-        error: (xhr, opts, err) ->
-          collection.fetch_error(xhr, opts, err, start_time)
-          if options.error?
-            options.error(xhr, opts, err)
-      }, true)
-    else
-      if options.success?
-        collection.fetch_success(@last_request.resp, 0, false)
-        options.success(@last_request.resp)
-
-  ##检查所有timeline，看看有没有还在pending的数据。如果有，则定时reload一次：再次fetch_charts
-  check_pendings: () ->
-    console.log "check_pendings"
-    collection = this
-    if @has_pendings()
-      @last_request?.success = false
-      if collection.timer?
-        console.log "clear last timer"
-        clearTimeout(collection.timer);
-      console.log "set timer"
-      collection.timer = _.delay(collection.fetch_charts, 10000)
-    else if collection.timer?
-      clearTimeout(collection.timer);
-      delete collection.timer
+  process_fetched_data: (resp) ->
+    contains_error = false
+    for sequence in resp["data"]
+      if not sequence.data? or sequence.data.length == 0
+        contains_error = true
+      chart = @get(sequence.id)
+      _.extend(chart.get("sequence"), sequence)
+    not contains_error
 
   has_pendings: () ->
     has = false
     @each((chart) ->
-      if _.find(chart.data(), (point) -> point[1] == "PENDING")
+      if chart.get("sequence")?.natural == "pending"
+        has = true
+      if chart.get("sequence")?.total == "pending"
+        has = true
+      if (not has) and _.find(chart.data(), (point) -> point[1] == "pending")
         has = true
     )
-    console.log "has_pendings "+has
+    console.log @xa_id() + " has_pendings "+has
     has
-
-  fetch_success: (resp, start_time, send_xa = true) ->
-    @last_request.resp = resp
-    ##判断resp的状态信息，是否有错误
-    if not resp["data"]? or resp["err_code"]?
-      @last_request.success = false
-      Analytics.Request.doAlertWithErrcode (resp["err_code"])
-      contains_error = true
-    else
-      @last_request.success = true
-      contains_error = false
-      for sequence in resp["data"]
-        if not sequence.data? or sequence.data.length == 0
-          contains_error = true
-        chart = @get(sequence.id)
-        _.extend(chart.get("sequence"), sequence)
-      @check_pendings()
-    if send_xa
-      @xa_action(start_time, (if contains_error then "error" else "success"))
-
-  fetch_error: (xhr, opts, err, start_time, send_xa = true) ->
-    @last_request.success = false
-    if send_xa
-      @xa_action(start_time, "error")
 
   charts_options: (render_to, visibles) ->
     interval_count = Analytics.Utils.intervalCount(@selector.get_end_time(), @selector.get("interval"), @selector.get("length"))
@@ -220,14 +167,3 @@ class Analytics.Collections.TimelineCharts extends Backbone.Collection
         cmap[chart.get("segment_id")][item[0]][chart.get("metric_id")] = item[1]
     )
     cmap
-
-  xa_action: (start_time, tag) ->
-    xa_action = "response." + Instances.Models.project.get("identifier") + "." + @xa_id()
-    xa_interval = (new Date()).getTime() - start_time
-    XA.action(xa_action + ".responsetime." + Analytics.Utils.timeShard(xa_interval) + "," + xa_interval, xa_action+"."+tag+",0")
-
-  xa_id: () ->
-    if @for_widget
-      "widget." + @selector.id
-    else
-      "report." + @selector.get("report_id") + "/" + @selector.id + "/t"
