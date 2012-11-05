@@ -95,6 +95,7 @@ class Analytics.Views.Dimensions.ListView extends Backbone.View
       }
       @model.dimensions.push(new_dimension)
       @model.dimension = new_dimension
+      @dimensions.activate()
       @redraw()
     else
       alert("最多支持六层细分")
