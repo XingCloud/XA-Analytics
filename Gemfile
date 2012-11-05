@@ -33,6 +33,6 @@ group :assets do
   gem 'therubyracer'
   gem 'uglifier'
   gem 'eco'
-  gem 'twitter-bootstrap-rails', :git => 'git://github.com/seyhunak/twitter-bootstrap-rails.git'
+  gem 'twitter-bootstrap-rails'
   gem 'jquery-cookie-rails'
 end
