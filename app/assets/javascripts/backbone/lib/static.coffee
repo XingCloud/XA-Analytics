@@ -9,6 +9,7 @@ Analytics.Static.UserAttributes = [
   {name: 'game_time', nickname: '游戏时间', atype: 'sql_bigint', gpattern: '0,5,10,20,50,100'},
   {name: 'pay_amount', nickname: '付费量', atype: 'sql_bigint', gpattern: '0,5,10,20,50,100'},
   {name: 'language', nickname: '语言', atype: 'sql_string'},
+  {name: 'nation', nickname: '国家', atype: 'sql_string'},
   {name: 'platform', nickname: '平台', atype: 'sql_string'},
   {name: 'identifier', nickname: '标识符', atype: 'sql_string'},
   {name: 'ref', nickname: '来源', atype: 'sql_string'},
