@@ -4,17 +4,22 @@
     %img{:src => "/assets/illustration_503.png"}
     %h1.houston
       Houston! We've got a problem here
-    %h3.service-unavailable
-      服务器维护:
-      %span.date
-        = @maintence_plan.begin_at.strftime("%H:%M %D")
-      至
-      %span.date
-        = @maintence_plan.end_at.strftime("%H:%M %D")
-    %p.announcement
-      - if @maintence_plan.announcement.present?
-        因为
-        = @maintence_plan.announcement
+    - if @maintenance_plan.present?
+      %h3.service-unavailable
+        服务器维护:
+        %span.date
+          = @maintence_plan.begin_at.strftime("%H:%M %D")
+        至
+        %span.date
+          = @maintence_plan.end_at.strftime("%H:%M %D")
+      %p.announcement
+        - if @maintence_plan.announcement.present?
+          因为
+          = @maintence_plan.announcement
+        服务暂不可用，请稍后访问，如有问题请洽
+        %a{:href => "mailto:xa@xingcloud.com"}
+          xa@xingcloud.com
+    - else
       服务暂不可用，请稍后访问，如有问题请洽
       %a{:href => "mailto:xa@xingcloud.com"}
         xa@xingcloud.com
