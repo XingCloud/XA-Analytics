@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121023092907) do
+ActiveRecord::Schema.define(:version => 20121105071625) do
 
   create_table "action_logs", :force => true do |t|
     t.integer  "project_id"
@@ -52,8 +52,9 @@ ActiveRecord::Schema.define(:version => 20121023092907) do
     t.datetime "begin_at"
     t.datetime "end_at"
     t.string   "created_by"
-    t.datetime "created_at",   :null => false
-    t.datetime "updated_at",   :null => false
+    t.datetime "created_at",                      :null => false
+    t.datetime "updated_at",                      :null => false
+    t.boolean  "keep_running", :default => false
   end
 
   create_table "metrics", :force => true do |t|

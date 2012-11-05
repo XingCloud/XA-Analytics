@@ -69,6 +69,12 @@
                     <textarea rows="4" name="announcement" ><%= @announcement %></textarea>
                 </div>
             </div>
+            <div class="control-group">
+                <label class="control-label">保持服务运转</label>
+                <div class="controls">
+                    <input type="checkbox" name="keep_running" <%= if @keep_running then 'checked="checked"' %> />
+                </div>
+            </div>
         </fieldset>
     </form>
 </div>

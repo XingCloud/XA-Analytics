@@ -16,6 +16,14 @@
     = javascript_include_tag "application"
     = stylesheet_link_tag    "application"
 
+  - if MaintenancePlan.current_notice.first.present?
+    #error-message.alert{:style => "text-align: center; margin-bottom: 0px;"}
+      <b class="close" data-dismiss="alert">×</b>
+      服务器于
+      = MaintenancePlan.current_notice.first.begin_at.strftime("%H:%M %D")
+      至
+      = MaintenancePlan.current_notice.first.end_at.strftime("%H:%M %D")
+      进行维护，维护期间某些数据可能无法查看或滞后
   %body
     #container
       = yield

@@ -1,7 +1,7 @@
 class ProjectBaseController < ApplicationController
-  before_filter :filter_maintenance_plan
   before_filter :find_project
   before_filter :auth_project
+  before_filter :filter_maintenance_plan
   before_filter :filter_v9
 
   protected
@@ -29,7 +29,9 @@ class ProjectBaseController < ApplicationController
 
   def filter_maintenance_plan
     if MaintenancePlan.current_plan.first.present?
-      redirect_to "/503"
+      @maintenance_plan = MaintenancePlan.current_plan.first
+      render "maintenance_plans/show", :status => 503
+      return
     end
   end
 

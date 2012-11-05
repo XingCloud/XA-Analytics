@@ -13,7 +13,8 @@
             <th>#</th>
             <th>开始</th>
             <th>结束</th>
-            <td>创建人</td>
+            <th>创建人</th>
+            <th>保持服务运转</th>
             <th>内容</th>
             <th></th>
         </tr>
@@ -27,6 +28,9 @@
                     <td><%= moment(model.get("begin_at")).format("YYYY-MM-DD HH:mm:ss") %></td>
                     <td><%= moment(model.get("end_at")).format("YYYY-MM-DD HH:mm:ss") %></td>
                     <td><%= model.get("created_by") %></td>
+                    <td>
+                        <%= if model.get("keep_running") then '是' else '否' %>
+                    </td>
                     <td>
                         <% if model.get("announcement")? and model.get("announcement").length > 20: %>
                             <%= model.get("announcement").substring(0, 20) %>...
