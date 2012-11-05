@@ -1,0 +1,34 @@
+.maintenance-plan-form{
+  .time-select{
+    width: 60px;
+  }
+  textarea{
+    width: 250px;
+  }
+  .maintenance-plan-submit{
+    margin-right: 5px;
+  }
+}
+.maintenance-plan-show{
+  .maintence-plan-container{
+    text-align: center;
+  }
+  .service-unavailable{
+    font-size: 16px;
+    color: #666;
+    line-height: 18px;
+    .date{
+      color: #08C;
+    }
+  }
+  .houston{
+    font-family: Cambria,Georgia,Palatino,"Palatino Linotype",Serif;
+    color: #888;
+    font-size: 24px;
+    line-height: 30px;
+  }
+  .announcement{
+    color: #666;
+    line-height: 20px;
+  }
+}

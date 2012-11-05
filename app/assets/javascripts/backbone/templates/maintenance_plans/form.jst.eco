@@ -1,0 +1,78 @@
+<div class="modal-header">
+    <b class="close" data-dismiss="modal">×</b>
+    <% if @id?: %>
+        <h3>编辑维护计划</h3>
+    <% else: %>
+        <h3>新建维护计划</h3>
+    <% end %>
+</div>
+<div class="modal-body">
+    <form class="form-horizontal">
+        <fieldset>
+            <div class="control-group">
+                <label class="control-label">开始时间</label>
+                <div class="begin controls">
+                    <input class="input-small datepicker" type="text" value="<%= moment(@begin_at).format('YYYY-MM-DD') %>"/>
+                    &nbsp;
+                    <select class="hour time-select">
+                        <% for hour in [0..23]: %>
+                            <% if new Date(Date.parse(@begin_at)).getHours() == hour: %>
+                                <option selected="selected"><%= Analytics.Utils.zeroPad(hour, 2) %></option>
+                            <% else: %>
+                                <option><%= Analytics.Utils.zeroPad(hour, 2) %></option>
+                            <% end %>
+                        <% end %>
+                    </select>
+                    &nbsp;:&nbsp;
+                    <select class="minute time-select">
+                        <% for minute in [0..59]: %>
+                            <% if new Date(Date.parse(@begin_at)).getMinutes() == minute: %>
+                                <option selected="selected"><%= Analytics.Utils.zeroPad(minute, 2) %></option>
+                            <% else: %>
+                                <option><%= Analytics.Utils.zeroPad(minute, 2) %></option>
+                            <% end %>
+                        <% end %>
+                    </select>
+                </div>
+            </div>
+
+            <div class="control-group">
+                <label class="control-label">结束时间</label>
+                <div class="end controls">
+                    <input class="input-small datepicker" type="text" value="<%= moment(@end_at).format('YYYY-MM-DD') %>"/>
+                    &nbsp;
+                    <select class="hour time-select">
+                        <% for hour in [0..23]: %>
+                            <% if new Date(Date.parse(@end_at)).getHours() == hour: %>
+                                <option selected="selected"><%= Analytics.Utils.zeroPad(hour, 2) %></option>
+                            <% else: %>
+                                <option><%= Analytics.Utils.zeroPad(hour, 2) %></option>
+                            <% end %>
+                        <% end %>
+                    </select>
+                    &nbsp;:&nbsp;
+                    <select class="minute time-select">
+                        <% for minute in [0..59]: %>
+                            <% if new Date(Date.parse(@end_at)).getMinutes() == minute: %>
+                                <option selected="selected"><%= Analytics.Utils.zeroPad(minute, 2) %></option>
+                            <% else: %>
+                                <option><%= Analytics.Utils.zeroPad(minute, 2) %></option>
+                            <% end %>
+                        <% end %>
+                    </select>
+                </div>
+            </div>
+
+            <div class="control-group">
+                <label class="control-label">公告内容</label>
+                <div class="controls">
+                    <textarea rows="4" name="announcement" ><%= @announcement %></textarea>
+                </div>
+            </div>
+        </fieldset>
+    </form>
+</div>
+<div class="modal-footer">
+    <a class="right btn maintenance-plan-cancel" data-dismiss="modal">取消</a>
+    <a class="right btn btn-primary maintenance-plan-submit">提交</a>
+</div>

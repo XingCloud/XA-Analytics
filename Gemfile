@@ -28,6 +28,7 @@ end
 
 group :assets do
   gem 'sass-rails'
+  gem 'less-rails'
   gem 'coffee-rails'
   gem 'therubyracer'
   gem 'uglifier'

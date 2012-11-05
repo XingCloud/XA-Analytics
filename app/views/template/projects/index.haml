@@ -21,9 +21,9 @@
               %i.icon-user
               通用数据面板管理
           %li
-            %a{:href => "#/broadcasting"}
+            %a{:href => "#/maintenance_plans"}
               %i.icon-volume-up
-              公告栏管理
+              维护计划管理
     .span10
       #main-container
         %h3 项目列表
@@ -49,7 +49,7 @@
     report_tabs: new Analytics.Collections.ReportTabs([]),
     widgets: new Analytics.Collections.Widgets(#{Widget.template.map(&:js_attributes).to_json}),
     metrics: new Analytics.Collections.Metrics(#{Metric.template.where(:combine_id => nil).map(&:js_attributes).to_json}),
-    broadcastings: new Analytics.Collections.Broadcastings(#{Broadcasting.all.map(&:js_attributes).to_json})
+    maintenance_plans: new Analytics.Collections.MaintenancePlans(#{MaintenancePlan.all.map(&:attributes).to_json})
   };
   Instances.Collections.reports.init_report_tabs();
   Instances.Collections.segments.init_expressions();
@@ -58,6 +58,6 @@
     reports_router: new Analytics.Routers.ReportsRouter(),
     segments_router: new Analytics.Routers.SegmentsRouter(),
     widgets_router: new Analytics.Routers.WidgetsRouter(),
-    broadcasting_router: new Analytics.Routers.BroadcastingRouter()
+    maintenance_plans_router: new Analytics.Routers.MaintenancePlansRouter()
   };
   Backbone.history.start();

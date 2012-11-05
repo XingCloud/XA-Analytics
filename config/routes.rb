@@ -2,9 +2,10 @@ Analytic::Application.routes.draw do
 
   root :to => "template/projects#index"
   match "/logout" => "application#logout"
+  match "/503" => "maintenance_plans#index"
   mount Resque::Server.new, :at => "/resque"
 
-  resources :broadcastings
+  resources :maintenance_plans
 
   resources :projects do
 
@@ -44,5 +45,6 @@ Analytic::Application.routes.draw do
     resources :projects
     resources :segments
     resources :widgets
+    resources :maintenance_plans
   end
 end

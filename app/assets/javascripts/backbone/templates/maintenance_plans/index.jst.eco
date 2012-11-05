@@ -1,0 +1,51 @@
+<h3>维护计划管理</h3>
+<hr/>
+<p>
+    <a class="btn btn-primary" id="new-maintenance-plan">
+        <i class="icon icon-plus icon-white"></i>
+        新增维护计划
+    </a>
+</p>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>开始</th>
+            <th>结束</th>
+            <td>创建人</td>
+            <th>内容</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        <% if @models.length > 0: %>
+            <% for index in [0..@models.length-1]: %>
+                <% model = @models[index] %>
+                <tr>
+                    <td><%= index %></td>
+                    <td><%= moment(model.get("begin_at")).format("YYYY-MM-DD HH:mm:ss") %></td>
+                    <td><%= moment(model.get("end_at")).format("YYYY-MM-DD HH:mm:ss") %></td>
+                    <td><%= model.get("created_by") %></td>
+                    <td>
+                        <% if model.get("announcement")? and model.get("announcement").length > 20: %>
+                            <%= model.get("announcement").substring(0, 20) %>...
+                        <% else if model.get("announcement")? and model.get("announcement").length <= 20: %>
+                            <%= model.get("announcement") %>
+                        <% else: %>
+                            <i>暂无公告</i>
+                        <% end %>
+                    </td>
+                    <td>
+                        <a class="btn btn-mini left edit-maintenance-plan" value="<%= model.id %>"><i class="icon-edit"/></a>
+                        <a class="btn btn-mini left remove-maintenance-plan" value="<%= model.id %>"><i class="icon-remove"/></a>
+                    </td>
+                </tr>
+            <% end %>
+        <% else: %>
+            <tr>
+                <td colspan="5" style="text-align: center;"><i>暂无维护计划</i></td>
+            </tr>
+        <% end %>
+    </tbody>
+</table>

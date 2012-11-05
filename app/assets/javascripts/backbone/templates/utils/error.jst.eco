@@ -6,6 +6,8 @@
         您访问的资源不存在或已删除，请&nbsp;<a href="<%= window.location.href.split('#')[0] %>">刷新页面</a>
     <% else if @status == 401: %>
         您会话已过期，请&nbsp;<a href="<%= window.location.href.split('#')[0] %>">重新登陆</a>
+    <% else if @status == 503: %>
+        服务器维护中，服务暂不可用请稍后再试
     <% else: %>
         <%= @message %>
     <% end %>

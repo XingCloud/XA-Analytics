@@ -1,4 +1,5 @@
 class ProjectBaseController < ApplicationController
+  before_filter :filter_maintenance_plan
   before_filter :find_project
   before_filter :auth_project
   before_filter :filter_v9
@@ -23,6 +24,12 @@ class ProjectBaseController < ApplicationController
         render :file => "public/401.html", :status => :unauthorized
         return
       end
+    end
+  end
+
+  def filter_maintenance_plan
+    if MaintenancePlan.current_plan.first.present?
+      redirect_to "/503"
     end
   end
 
