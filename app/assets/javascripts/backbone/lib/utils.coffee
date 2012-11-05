@@ -132,3 +132,7 @@ Analytics.Utils.actionFinished = () ->
       window.location.href = "#/dashboard"
     else
       window.location.href = "#/reports"
+
+Analytics.Utils.zeroPad = (num, places) ->
+  zero = places - num.toString().length + 1
+  Array(+(zero > 0 && zero)).join("0") + num

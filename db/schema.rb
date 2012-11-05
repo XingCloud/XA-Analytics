@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120919053348) do
+ActiveRecord::Schema.define(:version => 20121023092907) do
 
   create_table "action_logs", :force => true do |t|
     t.integer  "project_id"
@@ -20,6 +20,12 @@ ActiveRecord::Schema.define(:version => 20120919053348) do
     t.string   "action"
     t.string   "user"
     t.datetime "perform_at"
+  end
+
+  create_table "broadcastings", :force => true do |t|
+    t.string   "message"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
   end
 
   create_table "dimensions", :force => true do |t|
@@ -41,20 +47,29 @@ ActiveRecord::Schema.define(:version => 20120919053348) do
     t.string   "value_type", :default => "String"
   end
 
+  create_table "maintenance_plans", :force => true do |t|
+    t.text     "announcement"
+    t.datetime "begin_at"
+    t.datetime "end_at"
+    t.string   "created_by"
+    t.datetime "created_at",   :null => false
+    t.datetime "updated_at",   :null => false
+  end
+
   create_table "metrics", :force => true do |t|
+    t.integer  "project_id"
+    t.integer  "combine_id"
+    t.integer  "number_of_day"
+    t.string   "name"
     t.string   "event_key"
     t.string   "condition"
+    t.string   "combine_action"
     t.datetime "created_at",                            :null => false
     t.datetime "updated_at",                            :null => false
-    t.integer  "combine_id"
-    t.string   "combine_action"
-    t.string   "name"
-    t.integer  "project_id"
-    t.integer  "number_of_day"
     t.integer  "number_of_day_origin"
     t.integer  "segment_id"
-    t.text     "description"
     t.float    "scale",                :default => 1.0
+    t.text     "description"
   end
 
   add_index "metrics", ["combine_id"], :name => "index_metrics_on_combine_id"
@@ -62,9 +77,9 @@ ActiveRecord::Schema.define(:version => 20120919053348) do
   create_table "project_report_categories", :force => true do |t|
     t.integer "report_category_id"
     t.integer "project_id"
-    t.integer "position"
-    t.string  "name"
     t.boolean "display",            :default => true
+    t.string  "name"
+    t.integer "position"
   end
 
   add_index "project_report_categories", ["project_id"], :name => "index_project_report_categories_on_project_id"
@@ -73,8 +88,8 @@ ActiveRecord::Schema.define(:version => 20120919053348) do
   create_table "project_reports", :force => true do |t|
     t.integer "project_id"
     t.integer "report_id"
-    t.integer "report_category_id"
     t.boolean "display",            :default => true
+    t.integer "report_category_id"
   end
 
   add_index "project_reports", ["project_id"], :name => "index_project_reports_on_project_id"
@@ -120,9 +135,9 @@ ActiveRecord::Schema.define(:version => 20120919053348) do
     t.string   "chart_type",  :default => "line"
     t.datetime "created_at",                      :null => false
     t.datetime "updated_at",                      :null => false
-    t.integer  "length",      :default => 7
-    t.string   "interval",    :default => "day"
-    t.integer  "compare",     :default => 0
+    t.integer  "length"
+    t.string   "interval"
+    t.integer  "compare"
     t.boolean  "show_table",  :default => false
     t.integer  "day_offset",  :default => 0
   end
@@ -136,7 +151,6 @@ ActiveRecord::Schema.define(:version => 20120919053348) do
     t.string   "title"
     t.datetime "created_at",         :null => false
     t.datetime "updated_at",         :null => false
-    t.integer  "original_report_id"
   end
 
   add_index "reports", ["project_id"], :name => "index_reports_on_project_id"
