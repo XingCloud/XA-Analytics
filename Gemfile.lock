@@ -1,3 +1,10 @@
+GIT
+  remote: git://github.com/fnando/i18n-js.git
+  revision: eeec14066b50f72876aa789c9b1f226172452798
+  specs:
+    i18n-js (2.1.2)
+      i18n
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -97,8 +104,6 @@ GEM
     highline (1.6.15)
     hike (1.2.1)
     i18n (0.6.1)
-    i18n-js (3.0.0.rc3)
-      i18n
     journey (1.0.4)
     jquery-cookie-rails (0.1.1)
       jquery-rails (~> 2.0)
@@ -259,7 +264,7 @@ DEPENDENCIES
   guard-rspec
   guard-spork
   haml-rails
-  i18n-js (>= 3.0.0.rc3)
+  i18n-js!
   jquery-cookie-rails
   less-rails
   mysql2
