@@ -11,6 +11,7 @@ gem 'thin'
 gem 'dalli'
 gem 'spreadsheet'
 gem 'resque', :require => "resque/server"
+gem 'http_accept_language'
 
 group :development, :test do
   gem "pry"
