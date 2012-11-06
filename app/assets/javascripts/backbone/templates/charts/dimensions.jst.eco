@@ -30,11 +30,17 @@
                                     <%= item[0] %>
                                 <% else: %>
                                     <% if item[0] == 'pending': %>
+                                        <div class="pending-message" style="border: none; margin: 0px; padding: 0px; top: 0px; left: 0px; opacity: 0.7; cursor: wait; float:right;">
+                                            <div class="progress progress-striped active" style="margin-bottom: 0px;">
+                                                <div class="bar" style="width: 100%; padding: 2px 20px;">更新中...</div>
+                                            </div>
+                                        </div>
                                         <%= item[0] %>
                                     <% else: %>
                                         <a class="dimension-value" value="<%= item[0] %>"><%= item[0] %></a>
                                     <% end %>
                                 <% end %>
+
                             </td>
                             <% for metric_id in @metric_ids: %>
                                 <td class="<%= if parseInt(@orderby) == metric_id then 'orderby' %> <%=if item[1][metric_id] == 'pending' then 'pending' else ''%>">
@@ -108,4 +114,5 @@
         </div>
     <% end %>
 </div>
+
 
