@@ -72,7 +72,8 @@
             <div class="control-group">
                 <label class="control-label">保持服务运转</label>
                 <div class="controls">
-                    <input type="checkbox" name="keep_running" <%= if @keep_running then 'checked="checked"' %> />
+                    <input class="keep-running" type="hidden" name="keep_running" value="<%= if @keep_running then 1 else 0 %>" />
+                    <input class="keep-running-checkbox" type="checkbox" <%- if @keep_running then 'checked="checked"' %> />
                 </div>
             </div>
         </fieldset>

@@ -18,12 +18,19 @@
 
   - if MaintenancePlan.current_notice.first.present?
     #error-message.alert{:style => "text-align: center; margin-bottom: 0px;"}
-      <b class="close" data-dismiss="alert">×</b>
-      服务器于
+      %b.close{"data-dismiss" => "close"}
+      %i.icon-bullhorn
+      - if MaintenancePlan.current_notice.first.announcement.present?
+        服务器维护公告:
+        = MaintenancePlan.current_notice.first.announcement
+      - else
+        服务器维护中
+      %br
+      %i.icon-time
+      维护时间：
       = MaintenancePlan.current_notice.first.begin_at.strftime("%H:%M %D")
       至
       = MaintenancePlan.current_notice.first.end_at.strftime("%H:%M %D")
-      进行维护，维护期间某些数据可能无法查看或滞后
   %body
     #container
       = yield

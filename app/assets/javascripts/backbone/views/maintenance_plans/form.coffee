@@ -5,6 +5,7 @@ class Analytics.Views.MaintenancePlans.FormView extends Backbone.View
   className: "modal maintenance-plan-form"
   events:
     "click a.maintenance-plan-submit": "submit"
+    "change input.keep-running-checkbox": "change_keep_running"
 
   initialize: () ->
     _.bindAll this, "render"
@@ -49,3 +50,10 @@ class Analytics.Views.MaintenancePlans.FormView extends Backbone.View
         })
       else
         alert("结束时间不能小于起始时间")
+
+  change_keep_running: (ev) ->
+    is_checked = $(@el).find("input.keep-running-checkbox").is(":checked")
+    if is_checked
+      $(@el).find("input.keep-running").val(1)
+    else
+      $(@el).find("input.keep-running").val(0)

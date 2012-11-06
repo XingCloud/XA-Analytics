@@ -6,6 +6,7 @@
       Houston! We've got a problem here
     - if @maintenance_plan.present?
       %h3.service-unavailable
+        %i.icon-time
         服务器维护:
         %span.date
           = @maintenance_plan.begin_at.strftime("%H:%M %D")
@@ -13,10 +14,16 @@
         %span.date
           = @maintenance_plan.end_at.strftime("%H:%M %D")
       %p.announcement
+        %i.icon-bullhorn
+        %strong
+          维护公告:
         - if @maintenance_plan.announcement.present?
-          因为
           = @maintenance_plan.announcement
-        服务暂不可用，请稍后访问，如有问题请洽
+        - else
+          服务器维护中...
+        %br
+        %i.icon-envelope
+        如有问题请洽
         %a{:href => "mailto:xa@xingcloud.com"}
           xa@xingcloud.com
     - else
