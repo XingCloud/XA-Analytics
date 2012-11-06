@@ -88,7 +88,7 @@
                     </td>
                     <td><%= model.id %></td>
                     <td>
-                        <% if model.get(@field).length > 20: %>
+                        <% if model.get(@field)? and model.get(@field).length > 20: %>
                             <%= model.get(@field).substring(0, 20) + "..." %>
                         <% else: %>
                             <%= model.get(@field) %>
@@ -96,7 +96,7 @@
                     </td>
                     <td>
                         <% if translate?: %>
-                            <% if translate.get("content").length > 20: %>
+                            <% if translate.get("content")? and translate.get("content").length > 20: %>
                                 <%= translate.get("content").substring(0, 20) + "..." %>
                             <% else: %>
                                 <%= translate.get("content") %>
