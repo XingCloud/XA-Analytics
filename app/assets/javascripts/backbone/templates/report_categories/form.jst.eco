@@ -1,25 +1,25 @@
 <% if @id?: %>
-    <h3>编辑分类</h3>
+    <h3><%= I18n.t("templates.report_categories.form.edit") %></h3>
     <hr/>
     <form class="form-horizontal" action="#" id="edit_report_category_form_<%= @id %>" onsubmit="return false;">
 <% else: %>
-    <h3>新建分类</h3>
+    <h3><%= I18n.t("templates.report_categories.form.new") %></h3>
     <hr/>
     <form class="form-horizontal" action="#" id="new_report_category_form" onsubmit="return false;">
 <% end %>
     <fieldset>
         <div class="control-group should-check">
             <label class="control-label" for="report_category_name">
-                <abbr title="必填">*</abbr>
-                分类名称
+                <abbr title="<%= I18n.t('commons.required') %>">*</abbr>
+                <%= I18n.t("templates.report_categories.form.name") %>
             </label>
             <div class="controls">
-                <input class="should-check-empty" type="text" id="report_category_name" name="name" value="<%= if @name? then @name else '新建分类' %>"/>
+                <input class="should-check-empty" type="text" id="report_category_name" name="name" value="<%= if @name? then @name else I18n.t('templates.report_categories.form.default_name') %>"/>
             </div>
         </div>
         <div class="form-actions">
-            <a class="btn btn-primary" id="report_category_submit">保存</a>
-            <a class="btn" id="report_category_cancel">取消</a>
+            <a class="btn btn-primary" id="report_category_submit"><%= I18n.t("commons.save") %></a>
+            <a class="btn" id="report_category_cancel"><%= I18n.t("commons.cancel") %></a>
         </div>
     </fieldset>
 </form>

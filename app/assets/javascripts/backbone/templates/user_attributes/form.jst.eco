@@ -1,15 +1,15 @@
 <div class="modal-header">
     <b class="close" data-dismiss="modal">×</b>
     <% if @id?: %>
-        <h3>编辑属性</h3>
+        <h3><%= I18n.t('templates.user_attributes.form.edit') %></h3>
     <% else: %>
-        <h3>新建属性</h3>
+        <h3><%= I18n.t('templates.user_attributes.form.new') %></h3>
     <% end %>
 </div>
 <div class="modal-body">
     <form class="form-horizontal">
         <div class="control-group should-check">
-            <label class="control-label"><abbr title="必填">*</abbr>名称</label>
+            <label class="control-label"><abbr title="<%= I18n.t('commons.required') %>">*</abbr><%= I18n.t('commons.name') %></label>
             <div class="controls">
                 <% name = @name %>
                 <% name_item = _.find(Analytics.Static.UserAttributes, (item) -> item.name == name) %>
@@ -17,18 +17,18 @@
                 <% if not @nickname? and name_item?: %>
                     <% nickname = name_item.nickname %>
                 <% end %>
-                <input class="should-check-empty" name="nickname" type="text" value="<%= if nickname? then nickname else '新建属性' %>"/>
+                <input class="should-check-empty" name="nickname" type="text" value="<%= if nickname? then nickname else I18n.t('templates.user_attributes.form.default_name') %>"/>
             </div>
         </div>
         <div class="control-group should-check">
-            <label class="control-label"><abbr title="必填">*</abbr>字段</label>
+            <label class="control-label"><abbr title="<%= I18n.t('commons.required') %>">*</abbr><%= I18n.t('templates.user_attributes.form.identifier') %></label>
             <div class="controls">
                 <input class="should-check-empty should-check-pattern" name="name" type="text" value="<%= @name %>" pattern="^[a-zA-Z0-9_]+$" <%= if @id? then 'disabled="disabled"' %>/>
-                <p class="help-block">字段必须为数字、字母和下划线组合</p>
+                <p class="help-block"><%= I18n.t('templates.user_attributes.form.identifier_helper') %></p>
             </div>
         </div>
         <div class="control-group">
-            <label class="control-label"><abbr title="必填">*</abbr>类型</label>
+            <label class="control-label"><abbr title="必填">*</abbr><%= I18n.t('templates.user_attributes.form.type') %></label>
             <div class="controls">
                 <select class="atype" name="atype" <%= if @id? then 'disabled="disabled"' %> >
                     <% for type in Analytics.Static.UserAttributeTypes: %>
@@ -38,15 +38,15 @@
             </div>
         </div>
         <div class="control-group should-check gpattern" >
-            <label class="control-label">分段规则</label>
+            <label class="control-label"><%= I18n.t('templates.user_attributes.form.shard_rule') %></label>
             <div class="controls">
                 <input class="should-check-pattern" name="gpattern" type="text" value="<%= @gpattern %>" placeholder="0,5,10,20,50,100" pattern="^\d+(,\d+)*$"/>
-                <p class="help-block">用数字表示，数字与数字之间用逗号隔开</p>
+                <p class="help-block"><%= I18n.t('templates.user_attributes.form.shard_rule_helper') %></p>
             </div>
         </div>
     </form>
 </div>
 <div class="modal-footer">
-    <a class="btn cancel" data-dismiss="modal">取消</a>
-    <a class="btn btn-primary submit">确定</a>
+    <a class="btn cancel" data-dismiss="modal"><%= I18n.t('commons.cancel') %></a>
+    <a class="btn btn-primary submit"><%= I18n.t('commons.ok') %></a>
 </div>

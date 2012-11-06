@@ -14,7 +14,6 @@ class Analytics.Views.MaintenancePlans.FormView extends Backbone.View
     $(@el).html(@template(@model.attributes))
     @render_datepicker()
     $(@el).modal()
-    console.log(@parse_time(".begin.controls"))
 
   render_datepicker: () ->
     el = @el

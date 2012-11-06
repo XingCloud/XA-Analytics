@@ -125,16 +125,16 @@ class Analytics.Views.Metrics.FormListView extends Backbone.View
     $(@el).html(@template(@model))
     for metric_id in @model.metric_ids
       @render_metric(metric_id)
-    $(@el).find(".metric-remove").tooltip({title: "删除指标"})
-    $(@el).find(".metric-copy").tooltip({title: "复制指标"})
-    $(@el).find(".metric-moveup").tooltip({title: "上移"})
-    $(@el).find(".metric-movedown").tooltip({title: "下移"})
+    $(@el).find(".metric-remove").tooltip({title: I18n.t('commons.delete')})
+    $(@el).find(".metric-copy").tooltip({title: I18n.t('commons.copy')})
+    $(@el).find(".metric-moveup").tooltip({title: I18n.t('commons.up')})
+    $(@el).find(".metric-movedown").tooltip({title: I18n.t('commons.down')})
     @render_metrics_dropdown()
     this
 
   add_metric: (metric_id) ->
     if @model.metric_ids.indexOf(metric_id)>=0
-      alert("不能重复添加相同指标")
+      alert(I18n.t('views.metrics.form_list.alert'))
     else
       @model.metric_ids.push(metric_id)
       @render_metric(metric_id)

@@ -21,6 +21,7 @@ class Analytics.Models.Project extends Backbone.Model
       report_tabs: new Analytics.Collections.ReportTabs([], {project: project})
       widgets: new Analytics.Collections.Widgets([], {project: project})
       metrics: new Analytics.Collections.Metrics([], {project: project})
+      translations: new Analytics.Collections.Translations([], {project: project})
     }
     total = _.select(Instances.Collections, (instance) -> instance.url?).length
     load_finished = @load_finished
@@ -31,7 +32,7 @@ class Analytics.Models.Project extends Backbone.Model
           init_view.render_init_error()
         success: () ->
           count = count + 1
-          init_view.render_init_success("已载入"+instance.resource_name+"...", count / total)
+          init_view.render_init_success(I18n.t("commons.loaded")+instance.resource_name+"...", count / total)
           if count == total
             load_finished(project)
         })
@@ -39,6 +40,7 @@ class Analytics.Models.Project extends Backbone.Model
     Instances.Collections.action_logs = new Analytics.Collections.ActionLogs([], {project: this})
 
   load_finished: (project) ->
+    Instances.Collections.translations.attach_translation()
     new Analytics.Views.Projects.ShowView({model: project}).render()
     Instances.Routers = {
       report_categories_router: new Analytics.Routers.ReportCategoriesRouter(),

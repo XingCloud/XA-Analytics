@@ -1,24 +1,24 @@
 <div class="modal-header">
     <b class="close" data-dismiss="modal">×</b>
     <% if @id?: %>
-        <h3>编辑小窗口</h3>
+        <h3><%= I18n.t('templates.widgets.form.edit') %></h3>
     <% else: %>
-        <h3>新建小窗口</h3>
+        <h3><%= I18n.t('templates.widgets.form.new') %></h3>
     <% end %>
 </div>
 <div class="modal-body">
-    <div class="btn-group widget-types">
+    <div class="btn-group widget-types" style="width: 100%;">
         <div class="btn widget-type <%= if @widget_type == 'kpi' then 'active' %>" value="kpi">
             <img src="/assets/widgets/kpi.png"/>
-            <label>指标</label>
+            <label><%= I18n.t("resources.metric") %></label>
         </div>
         <div class="btn widget-type <%= if @widget_type == 'time' then 'active' %>" value="time">
             <img src="/assets/widgets/time.png"/>
-            <label>时间线</label>
+            <label><%= I18n.t('templates.widgets.form.timeline') %></label>
         </div>
         <div class="btn widget-type <%= if @widget_type == 'table' then 'active' %>" value="table">
             <img src="/assets/widgets/table.png"/>
-            <label>细分</label>
+            <label><%= I18n.t("resources.dimension") %></label>
         </div>
     </div>
     <form class="form-horizontal">
@@ -28,8 +28,8 @@
             </div>
             <div class="control-group widget-dimension" style="display: <%= (if @widget_type == 'table' then 'block' else 'none') %>;" >
                 <label class="control-label">
-                    <abbr title="必填">*</abbr>
-                    细分项
+                    <abbr title="<%= I18n.t('commons.required') %>">*</abbr>
+                    <%= I18n.t('templates.widgets.form.dimension_item') %>
                 </label>
                 <div class="controls">
                     <select name="dimension">
@@ -43,8 +43,8 @@
             </div>
             <div class="control-group widget-interval" style="display: <%= (if @widget_type == 'time' then 'block' else 'none') %>;" >
                 <label class="control-label">
-                    <abbr title="必填">*</abbr>
-                    频率
+                    <abbr title="<%= I18n.t('commons.required') %>">*</abbr>
+                    <%= I18n.t('templates.widgets.form.frequency') %>
                 </label>
                 <div class="controls">
                     <select name="interval">
@@ -56,8 +56,8 @@
             </div>
             <div class="control-group should-check">
                 <label class="control-label">
-                    <abbr title="必填">*</abbr>
-                    时长(天)
+                    <abbr title="<%= I18n.t('commons.required') %>">*</abbr>
+                    <%= I18n.t('templates.widgets.form.length') %>
                 </label>
                 <div class="controls">
                     <input class="input-mini should-check-empty should-check-natural-number" type="text" name="length" value="<%= @length %>"/>
@@ -65,8 +65,8 @@
             </div>
             <div class="control-group should-check">
                 <label class="control-label">
-                    <abbr title="必填">*</abbr>
-                    标题
+                    <abbr title="<%= I18n.t('commons.required') %>">*</abbr>
+                    <%= I18n.t('commons.title') %>
                 </label>
                 <div class="controls">
                     <input class="widget_type" type="hidden" name="widget_type" value="<%= @widget_type %>"/>
@@ -74,7 +74,7 @@
                 </div>
             </div>
             <div class="control-group">
-                <label class="control-label">指向报告标签</label>
+                <label class="control-label"><%= I18n.t('templates.widgets.form.report_tab') %></label>
                 <div class="controls">
                     <select class="report-tab" name="report_tab_id">
                         <option value=""></option>
@@ -89,8 +89,8 @@
 </div>
 <div class="modal-footer">
     <% if @id?: %>
-        <a class="right btn btn-danger widget-remove">删除</a>
+        <a class="right btn btn-danger widget-remove"><%= I18n.t('commons.delete') %></a>
     <% end %>
-    <a class="left btn btn-primary widget-submit">提交</a>
-    <a class="left btn widget-cancel">取消</a>
+    <a class="left btn btn-primary widget-submit"><%= I18n.t('commons.submit') %></a>
+    <a class="left btn widget-cancel"><%= I18n.t('commons.cancel') %></a>
 </div>

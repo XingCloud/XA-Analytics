@@ -29,7 +29,7 @@ class Analytics.Routers.ReportCategoriesRouter extends Backbone.Router
 
   delete: (id) ->
     category = Instances.Collections.report_categories.get(id)
-    if category? and confirm("确认删除分类"+category.get("name"))
+    if category? and confirm(I18n.t("commons.confirm_delete"))
       category.destroy({wait: true, success : (model, resp) ->
           reports = Instances.Collections.reports.select((report) -> report.get("report_category_id") == category.id)
           _.each(reports, (report) -> report.set({report_category_id: null}, {silent: true}))

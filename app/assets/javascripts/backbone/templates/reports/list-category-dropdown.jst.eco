@@ -7,25 +7,25 @@
         <li>
             <a href="#/report_categories/<%= @id %>/edit">
                 <i class="icon-edit"></i>
-                &nbsp;编辑
+                &nbsp;<%= I18n.t("commons.edit") %>
             </a>
         </li>
         <li>
             <a href="#/report_categories/<%= @id %>/shift_up">
                 <i class="icon-arrow-up"></i>
-                &nbsp;向上
+                &nbsp;<%= I18n.t("commons.up") %>
             </a>
         </li>
         <li>
             <a href="#/report_categories/<%= @id %>/shift_down">
                 <i class="icon-arrow-down"></i>
-                &nbsp;向下
+                &nbsp;<%= I18n.t("commons.down") %>
             </a>
         </li>
         <li>
             <a href="#/report_categories/<%= @id %>/delete">
                 <i class="icon-trash"></i>
-                &nbsp;删除
+                &nbsp;<%= I18n.t("commons.delete") %>
             </a>
         </li>
     </ul>

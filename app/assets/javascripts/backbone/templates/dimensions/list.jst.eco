@@ -7,7 +7,7 @@
                     <td class="current">
                         <%= dimension.name %>
                         <% if @dimension.dimension_type == "USER_PROPERTIES" and (@dimension.value_type == "sql_bigint" or @dimension.value_type == "int"): %>
-                            (<a class="change-gpattern">修改分段规则</a>)
+                            (<a class="change-gpattern"><%= I18n.t("templates.dimensions.list.change_shard_rule") %></a>)
                         <% end %>
                     </td>
                 <% else: %>
@@ -36,7 +36,7 @@
     </table>
     <div class="right form-search">
         <input type="text" class="input-medium search-query search-dimension-query" />
-        <button class="btn search search-dimension">搜索</button>
+        <button class="btn search search-dimension"><%= I18n.t("commons.search") %></button>
     </div>
 </div>
 <div class="dimensions-chart"></div>
@@ -44,24 +44,24 @@
     <div class="modal gpattern" style="display: none;">
         <div class="modal-header">
             <b class="close" data-dismiss="modal">×</b>
-            <h3>修改<%= @dimension.name %></h3>
+            <h3><%= I18n.t("commons.modify") %><%= @dimension.name %></h3>
         </div>
         <div class="modal-body">
             <form class="form-horizontal">
                 <div class="control-group should-check">
-                    <label class="control-label">分段规则</label>
+                    <label class="control-label"><%= I18n.t("templates.dimensions.list.shard_rule") %></label>
                     <div class="controls">
                         <% name = @dimension.value %>
                         <% user_attribute = _.find(Analytics.Static.getUserAttributes(), (item) -> item.name == name) %>
                         <input class="should-check-pattern" name="gpattern" type="text" value="<%= user_attribute.gpattern %>" placeholder="0,5,10,20,50,100" pattern="^\d+(,\d+)*$"/>
-                        <p class="help-block">用数字表示，数字与数字之间用逗号隔开</p>
+                        <p class="help-block"><%= I18n.t("templates.dimensions.list.shard_rule_helper") %></p>
                     </div>
                 </div>
             </form>
         </div>
         <div class="modal-footer">
-            <a class="btn" data-dismiss="modal">取消</a>
-            <a class="btn btn-primary submit-gpattern">确定</a>
+            <a class="btn" data-dismiss="modal"><%= I18n.t("commons.cancel") %></a>
+            <a class="btn btn-primary submit-gpattern"><%= I18n.t("commons.ok") %></a>
         </div>
     </div>
 <% end %>

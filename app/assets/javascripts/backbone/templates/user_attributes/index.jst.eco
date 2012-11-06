@@ -1,22 +1,22 @@
 <div class="row-fluid">
     <a class="btn btn-primary add-user-attribute">
         <i class="icon icon-plus icon-white"/>
-        添加属性
+        <%= I18n.t('templates.user_attributes.index.add') %>
     </a>
 </div>
 <br>
 <div class="row-fluid">
     <table class="table table-striped user_attributes">
         <tr>
-            <th width="20%">名称</th>
-            <th width="20%">字段</th>
-            <th width="20%">类型</th>
-            <th width="30%">分段规则</th>
+            <th width="20%"><%= I18n.t('commons.name') %></th>
+            <th width="20%"><%= I18n.t('commons.identifier') %></th>
+            <th width="20%"><%= I18n.t('commons.type') %></th>
+            <th width="30%"><%= I18n.t('templates.user_attributes.index.shard_rule') %></th>
             <th width="10%"></th>
         </tr>
         <% if @user_attributes.length == 0: %>
             <tr>
-                <td colspan="4" style="text-align: center;"><i>没有数据</i></td>
+                <td colspan="4" style="text-align: center;"><i><%= I18n.t('commons.no_data') %></i></td>
             </tr>
         <% end %>
         <% for user_attribute in _.sortBy(@user_attributes, (item) -> (0 - Date.parse(item.get("created_at")))): %>

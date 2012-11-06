@@ -19,6 +19,8 @@
 //= require jquery.blockUI
 //= require jquery.form_to_json
 //= require bootstrap-datepicker
+//= require i18n
+//= require ./locales/en
 //= require_directory ./backbone
 //= require_directory ./backbone/lib
 //= require_tree ./backbone/models

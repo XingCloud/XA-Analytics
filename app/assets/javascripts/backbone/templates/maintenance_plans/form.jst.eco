@@ -1,16 +1,16 @@
 <div class="modal-header">
     <b class="close" data-dismiss="modal">×</b>
     <% if @id?: %>
-        <h3>编辑维护计划</h3>
+        <h3><%= I18n.t("templates.maintenance_plans.form.edit") %></h3>
     <% else: %>
-        <h3>新建维护计划</h3>
+        <h3><%= I18n.t("templates.maintenance_plans.form.new") %></h3>
     <% end %>
 </div>
 <div class="modal-body">
     <form class="form-horizontal">
         <fieldset>
             <div class="control-group">
-                <label class="control-label">开始时间</label>
+                <label class="control-label"><%= I18n.t("templates.maintenance_plans.form.start") %></label>
                 <div class="begin controls">
                     <input class="input-small datepicker" type="text" value="<%= moment(@begin_at).format('YYYY-MM-DD') %>"/>
                     &nbsp;
@@ -37,7 +37,7 @@
             </div>
 
             <div class="control-group">
-                <label class="control-label">结束时间</label>
+                <label class="control-label"><%= I18n.t("templates.maintenance_plans.form.end") %></label>
                 <div class="end controls">
                     <input class="input-small datepicker" type="text" value="<%= moment(@end_at).format('YYYY-MM-DD') %>"/>
                     &nbsp;
@@ -64,13 +64,13 @@
             </div>
 
             <div class="control-group">
-                <label class="control-label">公告内容</label>
+                <label class="control-label"><%= I18n.t("templates.maintenance_plans.form.announcement") %></label>
                 <div class="controls">
                     <textarea rows="4" name="announcement" ><%= @announcement %></textarea>
                 </div>
             </div>
             <div class="control-group">
-                <label class="control-label">保持服务运转</label>
+                <label class="control-label"><%= I18n.t("templates.maintenance_plans.form.keep_running") %></label>
                 <div class="controls">
                     <input class="keep-running" type="hidden" name="keep_running" value="<%= if @keep_running then 1 else 0 %>" />
                     <input class="keep-running-checkbox" type="checkbox" <%- if @keep_running then 'checked="checked"' %> />
@@ -80,6 +80,6 @@
     </form>
 </div>
 <div class="modal-footer">
-    <a class="right btn maintenance-plan-cancel" data-dismiss="modal">取消</a>
-    <a class="right btn btn-primary maintenance-plan-submit">提交</a>
+    <a class="right btn maintenance-plan-cancel" data-dismiss="modal"><%= I18n.t("commons.cancel") %></a>
+    <a class="right btn btn-primary maintenance-plan-submit"><%= I18n.t("commons.submit") %></a>
 </div>

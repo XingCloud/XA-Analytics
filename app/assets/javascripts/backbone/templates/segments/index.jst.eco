@@ -1,13 +1,13 @@
-<h3>用户群管理</h3>
+<h3><%= I18n.t('templates.segments.index.header') %></h3>
 <hr/>
 <p>
-    <a class="btn" id="new-segment">添加用户群</a>
+    <a class="btn" id="new-segment"><%= I18n.t('templates.segments.index.add') %></a>
 </p>
 
 <table class="table">
     <tr>
-        <th width="50%">名称</th>
-        <th width="30%">创建时间</th>
+        <th width="50%"><%= I18n.t('commons.name') %></th>
+        <th width="30%"><%= I18n.t('commons.created_at') %></th>
         <th width="15%"></th>
     </tr>
     <% for segment in @models: %>

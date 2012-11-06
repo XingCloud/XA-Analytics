@@ -1,106 +1,106 @@
 Analytics.Static ||= {}
 
 Analytics.Static.UserAttributes = [
-  {name: 'register_time', nickname: '注册时间', atype: 'sql_datetime'},
-  {name: 'last_login_time', nickname: '最后登陆时间', atype: 'sql_datetime'},
-  {name: 'first_pay_time', nickname: '首次付费时间', atype: 'sql_datetime'},
-  {name: 'last_pay_time', nickname: '最后付费时间', atype: 'sql_datetime'},
-  {name: 'grade', nickname: '等级', atype: 'sql_bigint', gpattern: '0,5,10,20,50,100'},
-  {name: 'game_time', nickname: '游戏时间', atype: 'sql_bigint', gpattern: '0,5,10,20,50,100'},
-  {name: 'pay_amount', nickname: '付费量', atype: 'sql_bigint', gpattern: '0,5,10,20,50,100'},
-  {name: 'language', nickname: '语言', atype: 'sql_string'},
-  {name: 'nation', nickname: '国家', atype: 'sql_string'},
-  {name: 'platform', nickname: '平台', atype: 'sql_string'},
-  {name: 'identifier', nickname: '标识符', atype: 'sql_string'},
-  {name: 'ref', nickname: '来源', atype: 'sql_string'},
-  {name: 'ref0', nickname: '来源第一层', atype: 'sql_string'},
-  {name: 'ref1', nickname: '来源第二层', atype: 'sql_string'},
-  {name: 'ref2', nickname: '来源第三层', atype: 'sql_string'},
-  {name: 'ref3', nickname: '来源第四层', atype: 'sql_string'},
-  {name: 'ref4', nickname: '来源第五层', atype: 'sql_string'},
-  {name: 'version', nickname: '版本', atype: 'sql_string'}
+  {name: 'register_time', nickname: I18n.t("statics.user_attributes.register_time"), atype: 'sql_datetime'},
+  {name: 'last_login_time', nickname: I18n.t("statics.user_attributes.last_login_time"), atype: 'sql_datetime'},
+  {name: 'first_pay_time', nickname: I18n.t("statics.user_attributes.first_pay_time"), atype: 'sql_datetime'},
+  {name: 'last_pay_time', nickname: I18n.t("statics.user_attributes.last_pay_time"), atype: 'sql_datetime'},
+  {name: 'grade', nickname: I18n.t("statics.user_attributes.grade"), atype: 'sql_bigint', gpattern: '0,5,10,20,50,100'},
+  {name: 'game_time', nickname: I18n.t("statics.user_attributes.game_time"), atype: 'sql_bigint', gpattern: '0,5,10,20,50,100'},
+  {name: 'pay_amount', nickname: I18n.t("statics.user_attributes.pay_amount"), atype: 'sql_bigint', gpattern: '0,5,10,20,50,100'},
+  {name: 'language', nickname: I18n.t("statics.user_attributes.language"), atype: 'sql_string'},
+  {name: 'nation', nickname: I18n.t("statics.user_attributes.nation"), atype: 'sql_string'},
+  {name: 'platform', nickname: I18n.t("statics.user_attributes.platform"), atype: 'sql_string'},
+  {name: 'identifier', nickname: I18n.t("statics.user_attributes.identifier"), atype: 'sql_string'},
+  {name: 'ref', nickname: I18n.t("statics.user_attributes.ref"), atype: 'sql_string'},
+  {name: 'ref0', nickname: I18n.t("statics.user_attributes.ref0"), atype: 'sql_string'},
+  {name: 'ref1', nickname: I18n.t("statics.user_attributes.ref1"), atype: 'sql_string'},
+  {name: 'ref2', nickname: I18n.t("statics.user_attributes.ref2"), atype: 'sql_string'},
+  {name: 'ref3', nickname: I18n.t("statics.user_attributes.ref3"), atype: 'sql_string'},
+  {name: 'ref4', nickname: I18n.t("statics.user_attributes.ref4"), atype: 'sql_string'},
+  {name: 'version', nickname: I18n.t("statics.user_attributes.version"), atype: 'sql_string'}
 ]
 
 Analytics.Static.ExpressionOperator = [
-  {value: 'gt', name: '大于'},
-  {value: 'gte', name: '大于等于'},
-  {value: 'lt', name: '小于'},
-  {value: 'lte', name: '小于等于'},
-  {value: 'eq', name: '等于'},
-  {value: 'handler', name: '相对时间'}
+  {value: 'gt', name: I18n.t("statics.expression_operators.gt")},
+  {value: 'gte', name: I18n.t("statics.expression_operators.gte")},
+  {value: 'lt', name: I18n.t("statics.expression_operators.lt")},
+  {value: 'lte', name: I18n.t("statics.expression_operators.lte")},
+  {value: 'eq', name: I18n.t("statics.expression_operators.eq")},
+  {value: 'handler', name: I18n.t("statics.expression_operators.handler")}
 ]
 
 Analytics.Static.MetricCombineAction = [
-  {value: 'addition', name: '加法'},
-  {value: 'division', name: '除法(算百分比)'},
-  {value: 'multiplication', name: '乘法'},
-  {value: 'subduction', name: '减法'}
+  {value: 'addition', name: I18n.t("statics.metric_combine_actions.addition")},
+  {value: 'division', name: I18n.t("statics.metric_combine_actions.division")},
+  {value: 'multiplication', name: I18n.t("statics.metric_combine_actions.multiplication")},
+  {value: 'subduction', name: I18n.t("statics.metric_combine_actions.subduction")}
 ]
 
 Analytics.Static.MetricCondition = [
-  {value: 'count', name: '发生的次数'},
-  {value: 'sum', name: '值的总和'},
-  {value: 'user_num', name: '发生的用户人数'}
+  {value: 'count', name: I18n.t("statics.metric_conditions.count")},
+  {value: 'sum', name: I18n.t("statics.metric_conditions.sum")},
+  {value: 'user_num', name: I18n.t("statics.metric_conditions.user_num")}
 ]
 
 Analytics.Static.MetricComparisonOperator = [
-  {value: 'gt', name: '大于'},
-  {value: 'ge', name: '大于等于'},
-  {value: 'lt', name: '小于'},
-  {value: 'le', name: '小于等于'},
-  {value: 'eq', name: '等于'},
-  {value: 'ne', name: '不等于'}
+  {value: 'gt', name: I18n.t("statics.metric_comparison_operators.gt")},
+  {value: 'ge', name: I18n.t("statics.metric_comparison_operators.ge")},
+  {value: 'lt', name: I18n.t("statics.metric_comparison_operators.lt")},
+  {value: 'le', name: I18n.t("statics.metric_comparison_operators.le")},
+  {value: 'eq', name: I18n.t("statics.metric_comparison_operators.eq")},
+  {value: 'ne', name: I18n.t("statics.metric_comparison_operators.ne")}
 ]
 
 Analytics.Static.DimensionsEvents = [
-  {value: "0", name: '事件字段第一层', dimension_type: 'EVENT', value_type: 'sql_string'},
-  {value: "1", name: '事件字段第二层', dimension_type: 'EVENT', value_type: 'sql_string'},
-  {value: "2", name: '事件字段第三层', dimension_type: 'EVENT', value_type: 'sql_string'},
-  {value: "3", name: '事件字段第四层', dimension_type: 'EVENT', value_type: 'sql_string'},
-  {value: "4", name: '事件字段第五层', dimension_type: 'EVENT', value_type: 'sql_string'},
-  {value: "5", name: '事件字段第六层', dimension_type: 'EVENT', value_type: 'sql_string'}
+  {value: "0", name: I18n.t("statics.events.event0"), dimension_type: 'EVENT', value_type: 'sql_string'},
+  {value: "1", name: I18n.t("statics.events.event1"), dimension_type: 'EVENT', value_type: 'sql_string'},
+  {value: "2", name: I18n.t("statics.events.event2"), dimension_type: 'EVENT', value_type: 'sql_string'},
+  {value: "3", name: I18n.t("statics.events.event3"), dimension_type: 'EVENT', value_type: 'sql_string'},
+  {value: "4", name: I18n.t("statics.events.event4"), dimension_type: 'EVENT', value_type: 'sql_string'},
+  {value: "5", name: I18n.t("statics.events.event5"), dimension_type: 'EVENT', value_type: 'sql_string'}
 ]
 
 Analytics.Static.ReportTabIntervals = [
-  {name: "5分钟", value: "min5"},
-  {name: "小时", value: "hour"},
-  {name: "天", value: "day"},
-  {name: "周", value: "week"},
-  {name: "月", value: "month"}
+  {name: "5" + I18n.t("commons.minute"), value: "min5"},
+  {name: I18n.t("commons.hour"), value: "hour"},
+  {name: I18n.t("commons.day"), value: "day"},
+  {name: I18n.t("commons.week"), value: "week"},
+  {name: I18n.t("commons.month"), value: "month"}
 ]
 
 Analytics.Static.UserAttributeTypes = [
-  {key: "sql_string", value: "字符串"},
-  {key: "sql_bigint", value: "数值"},
-  {key: "sql_datetime", value: "日期"}
+  {key: "sql_string", value: I18n.t("statics.user_attribute_types.sql_string")},
+  {key: "sql_bigint", value: I18n.t("statics.user_attribute_types.sql_bigint")},
+  {key: "sql_datetime", value: I18n.t("statics.user_attribute_types.sql_datetime")}
 ]
 
 Analytics.Static.ReportTabRanges = [
-  {name: "实时", length: 1, interval: "min5"},
-  {name: "当天", length: 1, interval: "hour"},
-  {name: "最近两天", length: 2, interval: "hour"},
-  {name: "最近一周", length: 7, interval: "day"},
-  {name: "最近二周", length: 14, interval: "day"},
-  {name: "最近一个月", length: 28, interval: "day"},
-  {name: "最近二个月", length: 56, interval: "week"}
+  {name: I18n.t("statics.report_tab_ranges.realtime"), length: 1, interval: "min5"},
+  {name: I18n.t("statics.report_tab_ranges.current_day"), length: 1, interval: "hour"},
+  {name: I18n.t("statics.report_tab_ranges.2_days"), length: 2, interval: "hour"},
+  {name: I18n.t("statics.report_tab_ranges.this_week"), length: 7, interval: "day"},
+  {name: I18n.t("statics.report_tab_ranges.2_weeks"), length: 14, interval: "day"},
+  {name: I18n.t("statics.report_tab_ranges.this_month"), length: 28, interval: "day"},
+  {name: I18n.t("statics.report_tab_ranges.2_months"), length: 56, interval: "week"}
 ]
 
 Analytics.Static.ActionNames = {
-  "create": {name: "新增", color: "green"}
-  "update": {name: "修改", color: "blue"}
-  "destroy": {name: "删除", color: "red"}
+  "create": {name: I18n.t("commons.add"), color: "green"}
+  "update": {name: I18n.t("commons.modify"), color: "blue"}
+  "destroy": {name: I18n.t("commons.delete"), color: "red"}
 }
 
 Analytics.Static.ResourceTypes = {
-  "Report": "报告"
-  "Metric": "指标"
-  "Project": "项目"
-  "ReportCategory": "报告分类"
-  "ReportTab": "报告标签"
-  "Segment": "用户群"
-  "Setting": "设置"
-  "UserAttribute": "用户属性"
-  "Widget": "小窗口"
+  "Report": I18n.t("resources.report")
+  "Metric": I18n.t("resources.metric")
+  "Project": I18n.t("resources.project")
+  "ReportCategory": I18n.t("resources.report_category")
+  "ReportTab": I18n.t("resources.report_tab")
+  "Segment": I18n.t("resources.segment")
+  "Setting": I18n.t("resources.setting")
+  "UserAttribute": I18n.t("resources.user_attribtue")
+  "Widget": I18n.t("resources.widget")
 }
 
 Analytics.Static.getDimensionsEvents = () ->

@@ -33,5 +33,5 @@ class Analytics.Views.UserAttributes.IndexView extends Backbone.View
   remove: (ev) ->
     id = $(ev.currentTarget).attr("value")
     model = @collection.get(id)
-    if confirm("确认删除？")
+    if confirm(I18n.t('commons.confirm_delete'))
       model.destroy({wait: true})

@@ -59,7 +59,7 @@ class Analytics.Views.Charts.TimelinesView extends Backbone.View
       @small_width = $(@render_to).width()
 
   block: () ->
-    $(@render_to).block({message: "<strong>载入中...</strong>"})
+    $(@render_to).block({message: "<strong>" + I18n.t('commons.pending') + "</strong>"})
 
   unblock: () ->
     $(@render_to).unblock()

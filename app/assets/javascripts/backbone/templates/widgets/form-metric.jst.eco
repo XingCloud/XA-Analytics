@@ -1,7 +1,7 @@
 <div class="control-group">
     <label class="control-label">
         <abbr title="必填">*</abbr>
-        指标
+        <%= I18n.t("resources.metric") %>
     </label>
     <div class="controls">
         <input type="hidden" name="metric_id" value="<%= @metric_id %>" />
@@ -15,7 +15,7 @@
         <% else: %>
             <div class="metric-add-dropdown dropdown">
                 <div class="metric-add dropdown-toggle" data-toggle="dropdown">
-                    选择指标
+                    <%= I18n.t('templates.widgets.form_metric.choose_metric') %>
                     <b class="caret"></b>
                 </div>
             </div>

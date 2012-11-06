@@ -5,6 +5,7 @@ class Report < ActiveRecord::Base
   has_many :report_tabs, :dependent => :destroy
   belongs_to :original, :class_name => "Report", :foreign_key => "original_report_id"
   has_many :clones, :class_name => "Report", :foreign_key => "original_report_id"
+  has_many :translations, :foreign_key => :rid, :conditions => ["translations.rtype = ?", "Report"], :dependent => :destroy
 
 
   accepts_nested_attributes_for :report_tabs, :allow_destroy => true

@@ -7,22 +7,22 @@
 
 <div class="control-group should-check">
     <label class="control-label" for="report_tabs_attributes_<%= @index %>_title">
-        <abbr title="必填">*</abbr>
-        标签标题
+        <abbr title="<%= I18n.t('commons.required') %>">*</abbr>
+        <%= I18n.t("templates.report_tabs.form_body.title") %>
     </label>
     <div class="controls">
-        <input class="should-check-empty" id="report_tabs_attributes_<%= @index %>_title" name="report_tabs_attributes[<%= @index %>][title]" type="text" value="<%= if @title? then @title else '新建标签' %>" />
+        <input class="should-check-empty" id="report_tabs_attributes_<%= @index %>_title" name="report_tabs_attributes[<%= @index %>][title]" type="text" value="<%= if @title? then @title else I18n.t('templates.report_tabs.form_body.default_title') %>" />
     </div>
 </div>
 
 <div class="control-group">
     <input id="report_tabs_attributes_<%= @index %>_id" name="report_tabs_attributes[<%= @index %>][id]" type="hidden" value="<%= @id %>" />
-    <label class="control-label" for="report_tabs_attributes_<%= @index %>_chart_type">类型</label>
+    <label class="control-label" for="report_tabs_attributes_<%= @index %>_chart_type"><%= I18n.t("templates.report_tabs.form_body.type") %></label>
     <div class="controls">
         <input id="report_tabs_attributes_<%= @index %>_chart_type" name="report_tabs_attributes[<%= @index %>][chart_type]" type="hidden" value="<%= @chart_type %>" />
         <div class="btn-group">
-            <button id="report_tabs_attributes_<%= @index %>_type_line" class="<%= (if @chart_type == 'line' then 'active btn type-btn' else 'btn type-btn') %>" value="line" href="">线状图</button>
-            <button id="report_tabs_attributes_<%= @index %>_type_column" class="<%= ( if @chart_type == 'column' then 'active btn type-btn' else 'btn type-btn') %>" value="column" href="">柱状图</button>
+            <button id="report_tabs_attributes_<%= @index %>_type_line" class="<%= (if @chart_type == 'line' then 'active btn type-btn' else 'btn type-btn') %>" value="line" href=""><%= I18n.t("templates.report_tabs.form_body.line_chart") %></button>
+            <button id="report_tabs_attributes_<%= @index %>_type_column" class="<%= ( if @chart_type == 'column' then 'active btn type-btn' else 'btn type-btn') %>" value="column" href=""><%= I18n.t("templates.report_tabs.form_body.bar_chart") %></button>
         </div>
     </div>
 </div>
@@ -32,55 +32,55 @@
 
 <div class="control-group">
     <div class="controls">
-        <a class="btn" id="toggle-advanced-options">&gt;&gt;高级选项</a>
+        <a class="btn" id="toggle-advanced-options">&gt;&gt;<%= I18n.t("templates.report_tabs.form_body.advanced_options") %></a>
     </div>
 </div>
 
 <div id="advanced-options" style="display: none;">
     <div class="control-group should-check">
         <label class="control-label" for="report_tabs_attributes_<%= @index %>_length">
-            <abbr title="必填">*</abbr>
-            报告时长
+            <abbr title="<%= I18n.t('commons.required') %>">*</abbr>
+            <%= I18n.t("templates.report_tabs.form_body.length") %>
         </label>
         <div class="controls">
             <input class="should-check-empty should-check-natural-number" type="text" id="report_tabs_attributes_<%= @index %>_length" name="report_tabs_attributes[<%= @index %>][length]" value="<%= @length %>"/>
-            天
+            <%= I18n.t("commons.days") %>
         </div>
     </div>
     <div class="control-group should-check">
         <label class="control-label" for="report_tabs_attributes_<%= @index %>_day_offset">
-            <abbr title="必填">*</abbr>
-            默认截止到距今
+            <abbr title="<%= I18n.t('commons.required') %>">*</abbr>
+            <%= I18n.t("templates.report_tabs.form_body.offset") %>
         </label>
         <div class="controls">
             <input class="should-check-empty should-check-natural-number" type="text" id="report_tabs_attributes_<%= @index %>_day_offset" name="report_tabs_attributes[<%= @index %>][day_offset]" value="<%= @day_offset %>"/>
-            天
+            <%= I18n.t("commons.days") %>
         </div>
     </div>
     <div class="control-group">
         <label class="control-label" for="report_tabs_attributes_<%= @index %>_interval">
-            报告频率
+            <%= I18n.t("templates.report_tabs.form_body.frequency") %>
         </label>
         <div class="controls">
             <input type="hidden" id="report_tabs_attributes_<%= @index %>_interval" name="report_tabs_attributes[<%= @index %>][interval]" value="<%= @interval %>"/>
             <div class="btn-group">
-                <button class="<%= ( if @interval == 'min5' then 'btn interval active' else 'btn interval') %>" value="min5">分钟</button>
-                <button class="<%= ( if @interval == 'hour' then 'btn interval active' else 'btn interval') %>" value="hour">小时</button>
-                <button class="<%= ( if @interval == 'day' then 'btn interval active' else 'btn interval') %>" value="day">天</button>
-                <button class="<%= ( if @interval == 'week' then 'btn interval active' else 'btn interval') %>" value="week">周</button>
-                <button class="<%= ( if @interval == 'month' then 'btn interval active' else 'btn interval') %>" value="month">月</button>
+                <button class="<%= ( if @interval == 'min5' then 'btn interval active' else 'btn interval') %>" value="min5"><%= I18n.t("commons.minute") %></button>
+                <button class="<%= ( if @interval == 'hour' then 'btn interval active' else 'btn interval') %>" value="hour"><%= I18n.t("commons.hour") %></button>
+                <button class="<%= ( if @interval == 'day' then 'btn interval active' else 'btn interval') %>" value="day"><%= I18n.t("commons.day") %></button>
+                <button class="<%= ( if @interval == 'week' then 'btn interval active' else 'btn interval') %>" value="week"><%= I18n.t("commons.week") %></button>
+                <button class="<%= ( if @interval == 'month' then 'btn interval active' else 'btn interval') %>" value="month"><%= I18n.t("commons.month") %></button>
             </div>
         </div>
     </div>
     <div class="control-group">
-        <label class="control-label" for="report_tabs_attributes_<%= @index %>_compare">与过去对比</label>
+        <label class="control-label" for="report_tabs_attributes_<%= @index %>_compare"><%= I18n.t("templates.report_tabs.form_body.compare") %></label>
         <div class="controls">
             <input type="hidden" id="report_tabs_attributes_<%= @index %>_compare" name="report_tabs_attributes[<%= @index %>][compare]" value="<%= @compare %>" />
             <input type="checkbox" id="compare-checkbox" <%= if @compare != 0 then 'checked="checked"' else ' ' %> />
         </div>
     </div>
     <div class="control-group">
-        <label class="control-label" for="report_tabs_attributes_<%= @index %>_compare">显示数据表格</label>
+        <label class="control-label" for="report_tabs_attributes_<%= @index %>_compare"><%= I18n.t("templates.report_tabs.form_body.show_table") %></label>
         <div class="controls">
             <input type="hidden" id="report_tabs_attributes_<%= @index %>_show_table" name="report_tabs_attributes[<%= @index %>][show_table]" value="<%= if @show_table then '1' else '0' %>" />
             <input type="checkbox" id="show-table-checkbox" <%= if @show_table then 'checked="checked"' else ' ' %> />

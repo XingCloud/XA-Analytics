@@ -1,4 +1,4 @@
 <a value="<%= @index %>" style="cursor: pointer;">
     <i class="icon-remove-sign close"></i>
-    <span><%= (if @title? then @title else '新建标签') %>&nbsp;</span>
+    <span><%= (if @title? then @title else I18n.t('templates.report_tabs.form_header.default_title')) %>&nbsp;</span>
 </a>

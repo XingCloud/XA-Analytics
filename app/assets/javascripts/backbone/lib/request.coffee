@@ -35,14 +35,14 @@ Analytics.Request.ajax = (options, hide_loading = false) ->
 Analytics.Request.error = (xhr, options, error) ->
   Analytics.Request.doAlert("", xhr.status)
 
-Analytics.Request.doAlert = (message = "服务器开小差了，请稍候再试", status = 500, type = "alert-error") ->
+Analytics.Request.doAlert = (message = I18n.t("errors.err_default"), status = 500, type = "alert-error") ->
   if Analytics.Request.error_message
     $('#error-message').remove()
   params = {}
   if message? and message != ""
     params.message = message
   else
-    params.message = "服务器开小差了，请稍候再试"
+    params.message = I18n.t("errors.err_default")
   if status?
     params.status = status
   if type?
@@ -53,18 +53,18 @@ Analytics.Request.doAlert = (message = "服务器开小差了，请稍候再试"
 
 Analytics.Request.doAlertWithErrcode = (err_code) ->
   codeTable = {
-    "ERR_11" :    {type: "alert-error", message: "请求参数为空，请联系管理员"},
-    "ERR_12751":  {type: "", message: "NumberOfDay和Interval非法。如果指标的定义涉及多天的数据的计算，那么您不能以小于一天（小时或分钟）为间隔来展示这个指标。"},
-    "ERR_1275":   {type: "alert-error", message: "参数非法，请联系管理员"},
-    "ERR_12":     {type: "alert-error", message: "Json解析错误，请联系管理员"},
-    "ERR_20":     {type: "alert-error", message: "开始/结束日期非法，请联系管理员"},
-    "ERR_22":     {type: "alert-error", message: "Segment解析和处理过程中发生异常，请联系管理员"},
-    "ERR_37":     {type: "alert-error", message: "查询异常，请联系管理员"},
-    "ERR_39":     {type: "alert-error", message: "汇总Total和Natural过程中发生异常，请联系管理员"}
-    "ERR_36":     {type: "", message: "没有此项目的数据。请联系打日志的技术人员或者管理员"}
-    "ERR_TIMEOUT":{type: "alert-error", message: "服务器查询超时，请稍候再试"}
+    "ERR_11" :    {type: "alert-error", message: I18n.t("errors.err_11")},
+    "ERR_12751":  {type: "", message: I18n.t("errors.err_12751")},
+    "ERR_1275":   {type: "alert-error", message: I18n.t("errors.err_1275")},
+    "ERR_12":     {type: "alert-error", message: I18n.t("errors.err_12")},
+    "ERR_20":     {type: "alert-error", message: I18n.t("errors.err_20")},
+    "ERR_22":     {type: "alert-error", message: I18n.t("errors.err_22")},
+    "ERR_37":     {type: "alert-error", message: I18n.t("errors.err_37")},
+    "ERR_39":     {type: "alert-error", message: I18n.t("errors.err_39")}
+    "ERR_36":     {type: "", message: I18n.t("errors.err_36")}
+    "ERR_TIMEOUT":{type: "alert-error", message: I18n.t("errors.err_40")}
   }
   option = codeTable[err_code]
   if not option?
-    option = {type: "alert-error", message: "未知错误，请稍候再试"}
+    option = {type: "alert-error", message: I18n.t("errors.err_unknown")}
   Analytics.Request.doAlert option.message, 500, option.type

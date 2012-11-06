@@ -1,33 +1,33 @@
 <% if @id?: %>
-    <h3>编辑用户群</h3>
+    <h3><%= I18n.t('templates.segments.form.edit') %></h3>
     <hr/>
     <form class="form-horizontal" id="edit_segment_<%= @id %>" action="#" onsubmit="return false;">
 <% else: %>
-    <h3>新建用户群</h3>
+    <h3><%= I18n.t('templates.segments.form.new') %></h3>
     <hr/>
     <form class="form-horizontal" id="new_segment" action="#" onsubmit="return false;">
 <% end %>
     <fieldset>
         <div class="control-group should-check">
             <label class="control-label" for="segment_name">
-                <abbr title="必填">*</abbr>
-                用户群名称
+                <abbr title="<%= I18n.t('commons.required') %>">*</abbr>
+                <%= I18n.t('commons.name') %>
             </label>
             <div class="controls">
-                <input class="should-check-empty" type="text" id="segment_name" name="name" value="<%= if @name? then @name else '新建用户群' %>" />
+                <input class="should-check-empty" type="text" id="segment_name" name="name" value="<%= if @name? then @name else I18n.t('templates.segments.form.default_name') %>" />
             </div>
         </div>
         <div class="control-group">
-            <label class="control-label">过滤条件</label>
+            <label class="control-label"><%= I18n.t('templates.segments.form.filter') %></label>
             <div class="controls" id="expression-list">
                 <div class="expression-add">
-                    <span id="expression-add">添加"AND"语句</span>
+                    <span id="expression-add"><%= I18n.t('templates.segments.form.add_and') %></span>
                 </div>
             </div>
         </div>
         <div class="form-actions">
-            <a class="btn btn-primary" id="submit-segment">提交</a>
-            <a class="btn" id="submit-segment-cancel">取消</a>
+            <a class="btn btn-primary" id="submit-segment"><%= I18n.t('commons.submit') %></a>
+            <a class="btn" id="submit-segment-cancel"><%= I18n.t('commons.cancel') %></a>
         </div>
     </fieldset>
 </form>

@@ -31,7 +31,7 @@ class Analytics.Views.MaintenancePlans.IndexView extends Backbone.View
     }).render()
 
   remove_maintenance_plan: (ev) ->
-    if confirm("确认删除？")
+    if confirm(I18n.t('commons.confirm_delete'))
       id = $(ev.currentTarget).attr("value")
       model = Instances.Collections.maintenance_plans.get(id)
       model.destroy({

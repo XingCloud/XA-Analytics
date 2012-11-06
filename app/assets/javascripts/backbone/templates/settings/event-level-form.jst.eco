@@ -1,13 +1,13 @@
 <form class="form-horizontal">
     <% for num in [0..5]: %>
         <div class="control-group">
-            <label class="control-label">事件第<%= num+1 %>层</label>
+            <label class="control-label"><%= I18n.t('templates.settings.event_level_form.level', {level: num+1}) %></label>
             <div class="controls">
                 <input type="text" name="event_level_<%= num %>" value="<%= if @event_level? then @event_level.split('.')[num] %>"/>
             </div>
         </div>
     <% end %>
     <div class="form-actions">
-        <a class="btn btn-primary submit">保存</a>
+        <a class="btn btn-primary submit"><%= I18n.t('commons.save') %></a>
     </div>
 </form>

@@ -193,7 +193,7 @@ class Analytics.Views.Dimensions.ListView extends Backbone.View
       })
 
   block: () ->
-    $(@el).block({message: "<strong>载入中...</strong>"})
+    $(@el).block({message: "<strong>" + I18n.t('commons.pending') + "</strong>"})
 
   unblock: () ->
     $(@el).unblock()

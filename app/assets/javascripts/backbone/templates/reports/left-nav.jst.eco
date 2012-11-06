@@ -14,13 +14,13 @@
 </div>
 <div class="btn-group" style="padding-left: 42px;">
     <a class="btn" href="#/reports/new">
-        <i class="icon icon-plus" title="添加报告"></i>
+        <i class="icon icon-plus" title="<%= I18n.t('templates.reports.left_nav.add_report') %>"></i>
     </a>
     <a class="btn" href="#/dashboard">
-        <i class="icon icon-home" title="数据面板"></i>
+        <i class="icon icon-home" title="<%= I18n.t('templates.reports.left_nav.dashboard') %>"></i>
     </a>
     <a class="btn" href="#/settings">
-        <i class="icon icon-cog" title="项目设置"></i>
+        <i class="icon icon-cog" title="<%= I18n.t('templates.reports.left_nav.settings') %>"></i>
     </a>
 </div>
 

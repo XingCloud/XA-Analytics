@@ -81,7 +81,7 @@ class Analytics.Views.Dimensions.FormListView extends Backbone.View
 
   add_dimension: () ->
     if @level >= 6
-      alert("最多支持6个报告维度")
+      alert(I18n.t("views.dimensions.form_list.alert"))
     else
       dimension = new Analytics.Models.Dimension()
       @render_dimension(dimension)

@@ -11,7 +11,7 @@
         <table>
             <tr>
                 <td>
-                    截止到
+                    <%= I18n.t('commons.to') %>
                     <%= Analytics.Utils.formatUTCDate(@end_time) %>
                 </td>
                 <td class="toggle"><span>&#9660;</span></td>

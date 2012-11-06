@@ -1,8 +1,8 @@
-<label class="control-label" for="report_tabs_attributes_<%= @index %>_dimensions">报告维度</label>
+<label class="control-label" for="report_tabs_attributes_<%= @index %>_dimensions"><%= I18n.t("templates.dimensions.form_list.dimensions") %></label>
 <div class="controls well dimension">
     <div class="dimensions"></div>
     <div class="dimension-add" style="mouseover: cursor;">
         <i class="icon-plus" />
-        添加维度
+        <%= I18n.t("templates.dimensions.form_list.add_dimension") %>
     </div>
 </div>

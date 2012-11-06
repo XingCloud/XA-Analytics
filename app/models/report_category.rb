@@ -2,6 +2,7 @@ class ReportCategory < ActiveRecord::Base
   has_many :project_report_categories, :dependent => :destroy
   has_many :projects, :through => :project_report_categories
   has_many :reports
+  has_many :translations, :foreign_key => :rid, :conditions => ["translations.rtype = ?", "ReportCategory"], :dependent => :destroy
 
   validates_presence_of :name
 

@@ -2,7 +2,7 @@ class Analytics.Collections.ReportCategories extends Backbone.Collection
   model : Analytics.Models.ReportCategory
 
   initialize: (models, options) ->
-    @resource_name = "报告分类"
+    @resource_name = I18n.t("resources.report_category")
     if options?
       @project = options.project
 

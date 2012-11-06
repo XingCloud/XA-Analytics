@@ -2,7 +2,7 @@ class Analytics.Collections.Metrics extends Backbone.Collection
   model: Analytics.Models.Metric
 
   initialize: (models, options) ->
-    @resource_name = "指标"
+    @resource_name = I18n.t("resources.metric")
     if options?
       @project = options.project
 

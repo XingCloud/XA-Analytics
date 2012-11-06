@@ -7,28 +7,28 @@
     - if @maintenance_plan.present?
       %h3.service-unavailable
         %i.icon-time
-        服务器维护:
+        = t("maintenance")
         %span.date
           = @maintenance_plan.begin_at.strftime("%H:%M %D")
-        至
+        = t("to")
         %span.date
           = @maintenance_plan.end_at.strftime("%H:%M %D")
       %p.announcement
         %i.icon-bullhorn
         %strong
-          维护公告:
+          = t("maintenance_announcement")
         - if @maintenance_plan.announcement.present?
-          = @maintenance_plan.announcement
+          = @maintenance_plan.localized_announcement
         - else
-          服务器维护中...
+          = t("maintenance_announcement_default")
         %br
         %i.icon-envelope
-        如有问题请洽
+        = t("maintenance_contact")
         %a{:href => "mailto:xa@xingcloud.com"}
           xa@xingcloud.com
     - else
       %p.announcement
-        服务暂不可用，请稍后访问，如有问题请洽
+        = t("maintenance_default")
         %a{:href => "mailto:xa@xingcloud.com"}
           xa@xingcloud.com
   .span4

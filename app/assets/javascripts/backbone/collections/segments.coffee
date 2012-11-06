@@ -2,7 +2,7 @@ class Analytics.Collections.Segments extends Backbone.Collection
   model : Analytics.Models.Segment
 
   initialize: (models, options) ->
-    @resource_name = "用户群"
+    @resource_name = I18n.t("resources.segment")
     if options?
       @project = options.project
 

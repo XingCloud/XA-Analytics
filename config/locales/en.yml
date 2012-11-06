@@ -2,4 +2,20 @@
 # See https://github.com/svenfuchs/rails-i18n/tree/master/rails%2Flocale for starting points.
 
 en:
-  hello: "Hello world"
+  application: "Xingcloud Analytics"
+  maintenance: "Server under maintenance"
+  maintenance_default: "Service is not available now, if you have problem please contact"
+  maintenance_announcement: "Announcement:"
+  maintenance_announcement_default: "Service is not available now..."
+  maintenance_contact: "if you have problem please contact"
+  maintenance_time: "Maintenance Time:"
+  to: "to"
+  menu: "Menu"
+  projects: "Projects"
+  project: "Project"
+  identifier: "Identifier"
+  reports: "Default Reports"
+  segments: "Default Segments"
+  dashboard: "Default Widgets"
+  maintenance_plans: "Maintenance Plans"
+  translations: "Translations"

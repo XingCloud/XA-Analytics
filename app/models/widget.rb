@@ -3,6 +3,7 @@ class Widget < ActiveRecord::Base
   belongs_to :report_tab
   has_many :project_widgets, :dependent => :destroy
   has_many :projects, :through => :project_widgets
+  has_many :translations, :foreign_key => :rid, :conditions => ["translations.rtype = ?", "Widget"], :dependent => :destroy
 
   validates_presence_of :metric_id, :length, :title, :widget_type, :interval
   validates_numericality_of :length, :only_integer => true, :greater_than => 0

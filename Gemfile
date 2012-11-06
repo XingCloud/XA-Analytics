@@ -35,4 +35,5 @@ group :assets do
   gem 'eco'
   gem 'twitter-bootstrap-rails'
   gem 'jquery-cookie-rails'
+  gem 'i18n-js', ">=3.0.0.rc3" 
 end

@@ -3,6 +3,7 @@ class Metric < ActiveRecord::Base
   has_many :widgets, :dependent => :destroy
   has_many :report_tab_metrics, :dependent => :destroy
   has_many :report_tabs, :through => :report_tab_metrics
+  has_many :translations, :foreign_key => :rid, :conditions => ["translations.rtype = ?", "Metric"], :dependent => :destroy
   
   has_one :combine, :class_name => "Metric", :foreign_key => "combine_id", :dependent => :destroy
   belongs_to :segment

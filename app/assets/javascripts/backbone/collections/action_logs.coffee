@@ -2,7 +2,7 @@ class Analytics.Collections.ActionLogs extends Backbone.Collection
   model: Analytics.Models.ActionLog
 
   initialize: (models, options) ->
-    @resource_name = "操作日志"
+    @resource_name = I18n.t("resources.action_log")
     if options?
       @project = options.project
     @page = 1

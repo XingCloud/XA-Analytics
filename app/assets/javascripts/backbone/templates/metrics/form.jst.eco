@@ -1,9 +1,9 @@
 <div class="modal-header">
     <a class="close" data-dismiss="modal">x</a>
     <% if @id? or @is_clone: %>
-        <h3>编辑指标</h3>
+        <h3><%= I18n.t("templates.metrics.form.edit") %></h3>
     <% else: %>
-        <h3>新建指标</h3>
+        <h3><%= I18n.t("templates.metrics.form.new") %></h3>
     <% end %>
 </div>
 <div class="modal-body">
@@ -15,16 +15,16 @@
         <fieldset>
             <div class="control-group should-check">
                 <label class="control-label" for="metric_name">
-                    <abbr title="必填">*</abbr>
-                    指标名称
+                    <abbr title="<%= I18n.t('commons.required') %>">*</abbr>
+                    <%= I18n.t("templates.metrics.form.name") %>
                 </label>
                 <div class="controls">
-                    <input class="should-check-empty" type="text" id="metric_name" name="name" value="<%= if @name? then @name else '新建指标'  %>"/>
+                    <input class="should-check-empty" type="text" id="metric_name" name="name" value="<%= if @name? then @name else I18n.t('templates.metrics.form.default_name')  %>"/>
                 </div>
             </div>
             <div class="control-group">
                 <label class="control-label">
-                    指标描述
+                    <%= I18n.t("templates.metrics.form.description") %>
                 </label>
                 <div class="controls">
                     <textarea class="span4" name="description" rows="3"><%= @description %></textarea>
@@ -32,8 +32,8 @@
             </div>
             <div class="control-group">
                 <label class="control-label">
-                    <abbr title="必填">*</abbr>
-                    事件名称
+                    <abbr title="<%= I18n.t('commons.required') %>">*</abbr>
+                    <%= I18n.t("templates.metrics.form.event_name") %>
                 </label>
                 <div class="controls">
                     <% for i in [0..5]: %>
@@ -47,8 +47,8 @@
             </div>
             <div class="control-group">
                 <label class="control-label" for="metric_condition">
-                    <abbr title="必填">*</abbr>
-                    事件计算方法
+                    <abbr title="<%= I18n.t('commons.required') %>">*</abbr>
+                    <%= I18n.t("templates.metrics.form.event_calculate_method") %>
                 </label>
                 <div class="controls">
                     <select id="metric_condition" name="condition" style="width: auto;">
@@ -60,18 +60,18 @@
             </div>
 
             <div class="control-group should-check">
-                <label class="control-label">报告偏移</label>
+                <label class="control-label"><%= I18n.t("templates.metrics.form.offset") %></label>
                 <div class="controls">
-                    从距当前
+                    <%= I18n.t("templates.metrics.form.from") %>
                     <input class="input-mini should-check-integer" type="text" id="metric_number_of_day_origin" name="number_of_day_origin" value="<%= @number_of_day_origin %>"/>
-                    天到距当前
+                    <%= I18n.t("templates.metrics.form.to") %>
                     <input class="input-mini should-check-integer" type="text" id="metric_number_of_day" name="number_of_day" value="<%= @number_of_day %>"/>
-                    天
+                    <%= I18n.t("commons.days") %>
                 </div>
             </div>
 
             <div class="control-group">
-                <label class="control-label">用户群</label>
+                <label class="control-label"><%= I18n.t("templates.metrics.form.segment") %></label>
                 <div class="controls">
                     <select name="segment_id">
                         <option value=""></option>
@@ -84,8 +84,8 @@
 
             <div class="control-group should-check">
                 <label class="control-label">
-                    <abbr title="必填">*</abbr>
-                    伸缩系数
+                    <abbr title="<%= I18n.t('commons.required') %>">*</abbr>
+                    <%= I18n.t("templates.metrics.form.scale") %>
                 </label>
                 <div class="controls">
                     <input class="input-mini should-check-empty should-check-float" type="text" name="scale" value="<%= @scale %>"/>
@@ -93,7 +93,7 @@
             </div>
 
             <div class="control-group">
-                <label class="control-label" for="metric_combine_action"> 与另一事件组合计算</label>
+                <label class="control-label" for="metric_combine_action"> <%= I18n.t("templates.metrics.form.combine") %></label>
                 <div class="controls">
                     <select id="metric_combine_action" name="combine_action">
                         <option value="" <%= if not @combine_action? or (@combine_action? == '') then 'selected="selected"' %> ></option>
@@ -111,8 +111,8 @@
                 <input type="hidden" id="metric_combine_attributes_name" name="combine_attributes[name]" value="<%= if @combine_attributes?  and @combine_attributes.name? then @combine_attributes.name else 'combine' %>"/>
                 <div class="control-group">
                     <label class="control-label" for="metric_combine_attributes_event_key_<%= i %>">
-                        <abbr title="必填">*</abbr>
-                        事件名称
+                        <abbr title="<%= I18n.t('commons.required') %>">*</abbr>
+                        <%= I18n.t("templates.metrics.form.event_name") %>
                     </label>
                     <div class="controls">
                         <% for i in [0..5]: %>
@@ -126,8 +126,8 @@
                 </div>
                 <div class="control-group">
                     <label class="control-label" for="metric_combine_attributes_condition">
-                        <abbr title="必填">*</abbr>
-                        计算方法
+                        <abbr title="<%= I18n.t('commons.required') %>">*</abbr>
+                        <%= I18n.t("templates.metrics.form.event_calculate_method") %>
                     </label>
                     <div class="controls">
                         <select id="metric_combine_attributes_condition" name="combine_attributes[condition]" style="width: auto;">
@@ -139,18 +139,18 @@
                 </div>
 
                 <div class="control-group should-check">
-                    <label class="control-label">报告偏移</label>
+                    <label class="control-label"><%= I18n.t("templates.metrics.form.offset") %></label>
                     <div class="controls">
-                        从距当前
+                        <%= I18n.t("templates.metrics.form.from") %>
                         <input class="input-mini should-check-integer" type="text" id="metric_combine_attributes_number_of_day_origin" name="combine_attributes[number_of_day_origin]" value="<%= if @combine_attributes? then @combine_attributes.number_of_day_origin %>"/>
-                        天到
+                        <%= I18n.t("templates.metrics.form.to") %>
                         <input class="input-mini should-check-integer" type="text" id="metric_combine_attributes_number_of_day" name="combine_attributes[number_of_day]" value="<%= if @combine_attributes? then @combine_attributes.number_of_day %>"/>
-                        天
+                        <%= I18n.t("commons.days") %>
                     </div>
                 </div>
 
                 <div class="control-group">
-                    <label class="control-label">用户群</label>
+                    <label class="control-label"><%= I18n.t("templates.metrics.form.segment") %></label>
                     <div class="controls">
                         <select name="combine_attributes[segment_id]">
                             <option value=""></option>
@@ -163,8 +163,8 @@
 
                 <div class="control-group should-check">
                     <label class="control-label">
-                        <abbr title="必填">*</abbr>
-                        伸缩系数
+                        <abbr title="<%= I18n.t('commons.required') %>">*</abbr>
+                        <%= I18n.t("templates.metrics.form.scale") %>
                     </label>
                     <div class="controls">
                         <input class="input-mini should-check-empty should-check-float" type="text" name="combine_attributes[scale]" value="<%= if @combine_attributes? then @combine_attributes.scale else '1' %>"/>
@@ -176,6 +176,6 @@
     </form>
 </div>
 <div class="modal-footer">
-    <a class="btn" id="metric-cancel">取消</a>
-    <a class="btn btn-primary" id="metric-submit">保存</a>
+    <a class="btn" id="metric-cancel"><%= I18n.t("commons.cancel") %></a>
+    <a class="btn btn-primary" id="metric-submit"><%= I18n.t("commons.save") %></a>
 </div>

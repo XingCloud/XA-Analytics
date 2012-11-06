@@ -6,7 +6,7 @@
                 <tbody>
                     <tr>
                         <td>
-                            <a class="select-filter" type="ALL">所有</a>
+                            <a class="select-filter" type="ALL"><%= I18n.t("commons.all") %></a>
                         </td>
                         <td>&#187;</td>
                         <% for filter in @dimensions_filters: %>

@@ -2,7 +2,7 @@
 %html{:lang => "en"}
   %head
     %meta{:charset => "utf-8"}/
-    %title= content_for?(:title) ? yield(:title) : "行云数据分析"
+    %title= content_for?(:title) ? yield(:title) : t("application")
     
     = csrf_meta_tags
     
@@ -16,21 +16,24 @@
     = javascript_include_tag "application"
     = stylesheet_link_tag    "application"
 
+    - if Rails.application.assets.find_asset("locales/#{I18n.locale}").present?
+      = javascript_include_tag "locales/#{I18n.locale}"
+
   - if MaintenancePlan.current_notice.first.present?
     #error-message.alert{:style => "text-align: center; margin-bottom: 0px;"}
       %b.close{"data-dismiss" => "alert"}
         x
       %i.icon-bullhorn
       - if MaintenancePlan.current_notice.first.announcement.present?
-        服务器维护公告:
-        = MaintenancePlan.current_notice.first.announcement
+        = t("maintenance_announcement")
+        = MaintenancePlan.current_notice.first.localized_announcement
       - else
-        服务器维护中
+        = t("maintenance_announcement_default")
       %br
       %i.icon-time
-      维护时间：
+      = t("maintenance_time")
       = MaintenancePlan.current_notice.first.begin_at.strftime("%H:%M %D")
-      至
+      = t("to")
       = MaintenancePlan.current_notice.first.end_at.strftime("%H:%M %D")
   %body
     #container
@@ -39,6 +42,10 @@
 
 
     :javascript
+      I18n.fallbacks = true;
+      I18n.defaultlocale = "en";
+      I18n.locale = "#{I18n.locale}";
+
       var _gaq = _gaq || [];
         _gaq.push(['_setAccount', 'UA-32275811-1']);
         _gaq.push(['_trackPageview']);

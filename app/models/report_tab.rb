@@ -4,6 +4,7 @@ class ReportTab < ActiveRecord::Base
   has_many :widgets, :dependent => :destroy
   has_many :report_tab_metrics, :dependent => :destroy, :order => "position ASC"
   has_many :metrics, :through => :report_tab_metrics
+  has_many :translations, :foreign_key => :rid, :conditions => ["translations.rtype = ?", "ReportTab"], :dependent => :destroy
 
   accepts_nested_attributes_for :dimensions, :allow_destroy => true
   accepts_nested_attributes_for :report_tab_metrics, :allow_destroy => true

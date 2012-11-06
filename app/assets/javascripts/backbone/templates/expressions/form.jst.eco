@@ -23,4 +23,4 @@
         <% end %>
     </div>
 </div>
-<div class="expression-form-and">及</div>
+<div class="expression-form-and"><%= I18n.t("commons.and") %></div>

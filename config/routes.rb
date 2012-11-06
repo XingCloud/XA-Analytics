@@ -31,6 +31,7 @@ Analytic::Application.routes.draw do
     resources :widgets
     resources :user_attributes
     resources :action_logs
+    resources :translations
   end
 
   namespace :template do
@@ -46,5 +47,6 @@ Analytic::Application.routes.draw do
     resources :segments
     resources :widgets
     resources :maintenance_plans
+    resources :translations
   end
 end

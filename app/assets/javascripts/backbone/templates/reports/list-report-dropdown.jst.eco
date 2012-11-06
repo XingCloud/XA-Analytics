@@ -1,24 +1,24 @@
 <div class="dropdown">
     <a class="dropdown-toggle btn" data-toggle="dropdown" href="#">
-        操作
+        <%= I18n.t("commons.action") %>
         <b class="caret"></b>
     </a>
     <ul class="dropdown-menu">
         <li>
             <a href="#/reports/<%= @id %>/edit">
                 <i class="icon-edit"></i>
-                &nbsp;编辑
+                &nbsp;<%= I18n.t("commons.edit") %>
             </a>
         </li>
         <li>
             <a href="#/reports/<%= @id %>/delete">
                 <i class="icon-trash"></i>
-                &nbsp;删除
+                &nbsp;<%= I18n.t("commons.delete") %>
             </a>
         </li>
         <li class="divider"></li>
         <% if not @categories.length: %>
-            <li style="text-align: center;"><i>暂无分类</i></li>
+            <li style="text-align: center;"><i><%= I18n.t("commons.no_data") %></i></li>
         <% end %>
         <% for category in @categories: %>
             <li>

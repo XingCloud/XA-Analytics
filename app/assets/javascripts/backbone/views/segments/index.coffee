@@ -39,7 +39,7 @@ class Analytics.Views.Segments.IndexView extends Backbone.View
   remove_segment: (ev) ->
     id = $(ev.currentTarget).attr("value")
     segment = @collection.get(id)
-    if confirm("确认删除？")
+    if confirm(I18n.t('commons.confirm_delete'))
       segment.destroy({wait: true})
 
 

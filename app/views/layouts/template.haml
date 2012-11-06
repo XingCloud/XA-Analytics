@@ -2,7 +2,7 @@
 %html{:lang => "en"}
   %head
     %meta{:charset => "utf-8"}/
-    %title= content_for?(:title) ? yield(:title) : "行云数据分析"
+    %title= content_for?(:title) ? yield(:title) : t("application")
     = csrf_meta_tags
 
     = favicon_link_tag '/favicon.png', :type => 'image/png'
@@ -14,9 +14,19 @@
     = javascript_include_tag "https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.18/jquery-ui.min.js"
     = javascript_include_tag "application"
     = stylesheet_link_tag    "application"
+
+    - if Rails.application.assets.find_asset("locales/#{I18n.locale}").present?
+      = javascript_include_tag "locales/#{I18n.locale}"
+
     = yield :head
 
     = yield
 
     #loading-message{:style => "display: none"} 载入中...
     = javascript_include_tag "#{BasisService.base_url}/xingcloud.js?project_id=&select=analytic"
+
+
+    :javascript
+      I18n.fallbacks = true;
+      I18n.defaultlocale = "en";
+      I18n.locale = "#{I18n.locale}";

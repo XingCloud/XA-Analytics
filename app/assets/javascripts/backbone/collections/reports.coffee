@@ -2,7 +2,7 @@ class Analytics.Collections.Reports extends Backbone.Collection
   model : Analytics.Models.Report
 
   initialize: (models, options) ->
-    @resource_name = "报告"
+    @resource_name = I18n.t("resources.report")
     if options?
       @project = options.project
 

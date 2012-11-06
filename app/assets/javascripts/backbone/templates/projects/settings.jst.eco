@@ -1,12 +1,12 @@
-<h3>项目设置</h3>
+<h3><%= I18n.t("templates.projects.settings.header") %></h3>
 <hr/>
 <div class="row-fluid">
     <ul class="nav nav-tabs">
         <li class="active">
-            <a data-toggle="tab" href="#user_attributes">自定义属性</a>
+            <a data-toggle="tab" href="#user_attributes"><%= I18n.t("templates.projects.settings.user_attributes") %></a>
         </li>
         <li>
-            <a data-toggle="tab" href="#event_levels">自定义事件字段名</a>
+            <a data-toggle="tab" href="#event_levels"><%= I18n.t("templates.projects.settings.custom_event_names") %></a>
         </li>
     </ul>
 </div>

@@ -60,7 +60,7 @@ Analytics.Utils.checkFormFields = (form) ->
         (not value? or value == ""))
       valid = false
       $(group).addClass('error')
-      $(group).find('.controls').append('<span class="help-inline">不能为空</span>')
+      $(group).find('.controls').append('<span class="help-inline">'+ I18n.t("lib.utils.not_empty") +'</span>')
       continue
 
     if (value? and
@@ -77,7 +77,7 @@ Analytics.Utils.checkFormFields = (form) ->
         isNaN(parseInt(value)))
       valid = false
       $(group).addClass('error')
-      $(group).find('.controls').append('<span class="help-inline">必须为整数</span>')
+      $(group).find('.controls').append('<span class="help-inline">'+ I18n.t("lib.utils.should_be_integer") +'</span>')
       continue
 
     if (value? and
@@ -86,7 +86,7 @@ Analytics.Utils.checkFormFields = (form) ->
         isNaN(parseFloat(value)))
       valid = false
       $(group).addClass('error')
-      $(group).find('.controls').append('<span class="help-inline">必须为数字</span>')
+      $(group).find('.controls').append('<span class="help-inline">'+ I18n.t("lib.utils.should_be_number") +'</span>')
       continue
 
     if (value? and
@@ -95,7 +95,7 @@ Analytics.Utils.checkFormFields = (form) ->
         (isNaN(parseInt(value)) or parseInt(value) < 0))
       valid = false
       $(group).addClass('error')
-      $(group).find('.controls').append('<span class="help-inline">必须为大于或等于0的整数</span>')
+      $(group).find('.controls').append('<span class="help-inline">'+ I18n.t("lib.utils.should_be_natural_number") +'</span>')
       continue
 
   valid

@@ -17,7 +17,7 @@
             <% if not @selector.get_dimension()? and not @for_widget: %>
                 <tr>
                     <td class="no-dimension" colspan="<%= @metric_ids.length + 1 %>">
-                        <i>暂无细分, 请添加(最多支持6层细分)</i>
+                        <i><%= I18n.t("templates.charts.dimensions.no_dimension") %></i>
                     </td>
                 </tr>
             <% else: %>
@@ -32,7 +32,7 @@
                                     <% if item[0] == 'pending': %>
                                         <div class="pending-message" style="border: none; margin: 0px; padding: 0px; top: 0px; left: 0px; opacity: 0.7; cursor: wait; float:right;">
                                             <div class="progress progress-striped active" style="margin-bottom: 0px;">
-                                                <div class="bar" style="width: 100%; padding: 2px 20px;">更新中...</div>
+                                                <div class="bar" style="width: 100%; padding: 2px 20px;"><%= I18n.t("commons.pending") %></div>
                                             </div>
                                         </div>
                                         <%= item[0] %>
@@ -43,7 +43,7 @@
 
                             </td>
                             <% for metric_id in @metric_ids: %>
-                                <td class="<%= if parseInt(@orderby) == metric_id then 'orderby' %> <%=if item[1][metric_id] == 'pending' then 'pending' else ''%>">
+                                <td class="<%= if parseInt(@orderby) == metric_id then 'orderby' %> <%=if item[1][metric_id] == 'pending' then I18n.t('commons.pending') else ''%>">
                                 <%= if item[1][metric_id]? then item[1][metric_id] else '-' %>
                                 </td>
                             <% end %>
@@ -52,7 +52,7 @@
                 <% end %>
                 <% if no_data: %>
                     <tr>
-                        <td class="no-data" colspan="<%= @metric_ids.length + 1 %>"><i>没有数据</i></td>
+                        <td class="no-data" colspan="<%= @metric_ids.length + 1 %>"><i><%= I18n.t("commons.no_data") %></i></td>
                     </tr>
                 <% end %>
             <% end %>
@@ -61,7 +61,7 @@
 </div>
 <div class="dimensions-controls row-fluid">
     <% if @selector.get_dimension()? and @segment_ids.length > 0 and not @for_widget: %>
-        <label class="left">选择用户群:&nbsp;</label>
+        <label class="left"><%= I18n.t("templates.charts.dimensions.choose_segment") %>:&nbsp;</label>
         <div class="left btn-group dropup">
             <a class="btn dropdown-toggle" data-toggle="dropdown">
                 <%= Instances.Collections.segments.get(@segment_id).get("name") %>
@@ -83,15 +83,15 @@
         <div class="right dimensions-control">
             <ul class="pager">
                 <% page_num = Math.ceil(@total / @pagesize) %>
-                <li><a class="previous-page <%= if @index ==0 then 'disabled' else 'active' %>">上一页</a></li>
+                <li><a class="previous-page <%= if @index ==0 then 'disabled' else 'active' %>"><%= I18n.t("commons.previous_page") %></a></li>
                 <%= if @total != 0 then @index + 1 else 0 %>/<%= page_num %>
-                <li><a class="next-page <%= if page_num == 0 or page_num == @index + 1 then 'disabled' else 'active' %>">下一页</a></li>
+                <li><a class="next-page <%= if page_num == 0 or page_num == @index + 1 then 'disabled' else 'active' %>"><%= I18n.t("commons.next_page") %></a></li>
             </ul>
         </div>
 
         <% if not @for_widget: %>
             <div class="right dimensions-control">
-                <label class="left control-label">跳到第&nbsp;</label>
+                <label class="left control-label"><%= I18n.t("commons.jump_to") %>&nbsp;</label>
                 <div class="controls left">
                     <input class="input-mini left" type="text" value="<%= if @total != 0 then @index+1 else 0 %>" id="page-index" style="width: 30px;">
                     <button type="button" class="btn jump-page">OK</button>
@@ -100,16 +100,16 @@
         <% end %>
 
         <div class="right dimensions-control">
-            <label class="left">总共&nbsp;<%= @total %>&nbsp;项细分&nbsp;</label>
+            <label class="left"><%= I18n.t("templates.charts.dimensions.total_dimensions", {count: @total}) %>&nbsp;</label>
             <% if not @for_widget: %>
-                <label class="left">显示&nbsp;</label>
+                <label class="left"><%= I18n.t("commons.show") %>&nbsp;</label>
                 <select class="left pagesize">
                     <option value="10" <%= if @pagesize == 10 then 'selected = "selected"' %> >10</option>
                     <option value="20" <%= if @pagesize == 20 then 'selected = "selected"' %> >20</option>
                     <option value="50" <%= if @pagesize == 50 then 'selected = "selected"' %> >50</option>
                     <option value="100" <%= if @pagesize == 100 then 'selected = "selected"' %> >100</option>
                 </select>
-                <label class="left">&nbsp;项</label>
+                <label class="left">&nbsp;<%= I18n.t("commons.items") %></label>
             <% end %>
         </div>
     <% end %>

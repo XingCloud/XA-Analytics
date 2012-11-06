@@ -9,7 +9,7 @@ class Analytics.Views.Projects.SettingsView extends Backbone.View
     @event_levels_view = new Analytics.Views.Settings.EventLevelsFormView({model: Instances.Models.setting})
 
   render: () ->
-    $(@el).html(@template(@model))
+    $(@el).html(@template())
     $(@el).find('#user_attributes').html(@user_attributes_view.render().el)
     $(@el).find('#event_levels').html(@event_levels_view.render().el)
     this

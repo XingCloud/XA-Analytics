@@ -1,13 +1,13 @@
 <h3>数据面板管理</h3>
 <hr/>
 <p>
-    <a class="btn add-widget">添加小窗口</a>
+    <a class="btn add-widget"><%= I18n.t('templates.widgets.list.add') %></a>
 </p>
 
 <table class="table">
     <tr>
-        <th width="50%">名称</th>
-        <th width="30%">创建时间</th>
+        <th width="50%"><%= I18n.t('commons.name') %></th>
+        <th width="30%"><%= I18n.t('commons.created_at') %></th>
         <th width="15%"></th>
     </tr>
     <% for widget in @models: %>

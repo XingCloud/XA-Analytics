@@ -2,7 +2,7 @@ class Analytics.Collections.Widgets extends Backbone.Collection
   model: Analytics.Models.Widget
 
   initialize: (models, options) ->
-    @resource_name = "小窗口"
+    @resource_name = I18n.t("resources.widget")
     @synced = false
     if options?
       @project = options.project

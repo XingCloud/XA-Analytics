@@ -4,11 +4,11 @@
     <table class="table table-striped">
         <thead>
             <tr>
-                <th>名称</th>
-                <th>资源类型</th>
-                <th>资源名称</th>
-                <th>用户</th>
-                <th>时间</th>
+                <th><%= I18n.t("templates.action_logs.index.name_column") %></th>
+                <th><%= I18n.t("templates.action_logs.index.resource_type_column") %></th>
+                <th><%= I18n.t("templates.action_logs.index.resource_name_column") %></th>
+                <th><%= I18n.t("templates.action_logs.index.triggered_by_column") %></th>
+                <th><%= I18n.t("templates.action_logs.index.triggered_time_column") %></th>
             </tr>
         </thead>
         <tbody>
@@ -44,15 +44,15 @@
 <div class="row-fluid">
     <ul class="pager right">
         <% if @collection.page > 1: %>
-            <li class="pre enabled"><a href="#/action_logs/<%= @collection.page - 1 %>">上一页</a></li>
+            <li class="pre enabled"><a href="#/action_logs/<%= @collection.page - 1 %>"><%= I18n.t("commons.previous_page") %></a></li>
         <% else: %>
-            <li class="pre disabled"><a>上一页</a></li>
+            <li class="pre disabled"><a><%= I18n.t("commons.previous_page") %></a></li>
         <% end %>
-        第<%= @collection.page %>&nbsp;/&nbsp;<%= @collection.max_page %>页
+        <%= @collection.page %>&nbsp;/&nbsp;<%= @collection.max_page %>
         <% if @collection.page < @collection.max_page: %>
-            <li class="nex enabled"><a href="#/action_logs/<%= @collection.page + 1 %>">下一页</a></li>
+            <li class="nex enabled"><a href="#/action_logs/<%= @collection.page + 1 %>"><%= I18n.t("commons.next_page") %></a></li>
         <% else: %>
-            <li class="nex disabled"><a>下一页</a></li>
+            <li class="nex disabled"><a><%= I18n.t("commons.next_page") %></a></li>
         <% end %>
     </ul>
 </div>

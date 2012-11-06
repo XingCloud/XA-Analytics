@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121105071625) do
+ActiveRecord::Schema.define(:version => 20121106081555) do
 
   create_table "action_logs", :force => true do |t|
     t.integer  "project_id"
@@ -152,6 +152,7 @@ ActiveRecord::Schema.define(:version => 20121105071625) do
     t.string   "title"
     t.datetime "created_at",         :null => false
     t.datetime "updated_at",         :null => false
+    t.integer  "original_report_id"
   end
 
   add_index "reports", ["project_id"], :name => "index_reports_on_project_id"
@@ -179,6 +180,16 @@ ActiveRecord::Schema.define(:version => 20121105071625) do
     t.string   "event_level"
     t.datetime "created_at",  :null => false
     t.datetime "updated_at",  :null => false
+  end
+
+  create_table "translations", :force => true do |t|
+    t.integer  "rid"
+    t.string   "rtype"
+    t.string   "rfield"
+    t.string   "locale"
+    t.text     "content"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
   end
 
   create_table "user_attributes", :force => true do |t|

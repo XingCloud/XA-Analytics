@@ -5,9 +5,9 @@
             <div class="bar" style="width: 0%"></div>
         </div>
         <div>
-            <em class="init-message">初始化...0%</em>
+            <em class="init-message"><%= I18n.t("templates.projects.init.initializing") %></em>
             <em class="error-message" style="display: none; color: #ff0000;">
-                资源载入出错
+                <%= I18n.t("templates.projects.init.load_error") %>
             </em>
         </div>
     </div>

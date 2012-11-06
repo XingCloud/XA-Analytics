@@ -3,7 +3,7 @@
     <% if @for_widget: %>
         <tr>
             <td class="length">
-                <span>近<%= @selector.get("length") %>天</span>
+                <span><%= I18n.t("templates.charts.kpis.latest_days", {days: @selector.get("length")}) %></span>
             </td>
         </tr>
     <% end %>
@@ -13,7 +13,7 @@
             <td class="metric-name"></td>
         <% end %>
         <% if not has_segments and not @for_widget and @selector.get("show_table"): %>
-            <td class="name-header">指标名称</td>
+            <td class="name-header"><%= I18n.t("templates.charts.kpis.metric_name") %></td>
         <% end %>
         <% index = 0 %>
         <% for metric_id in @metric_ids: %>
@@ -33,7 +33,7 @@
                 <td class="segment-name" value="<%= segment_id %>"><%= Instances.Collections.segments.get(segment_id).get("name") %></td>
             <% end %>
             <% if not has_segments and not @for_widget and @selector.get("show_table"): %>
-                <td class="data-header">数据汇总</td>
+                <td class="data-header"><%= I18n.t("templates.charts.kpis.data_summary") %></td>
             <% end %>
             <% index = 0 %>
             <% for metric_id in @metric_ids: %>
@@ -82,7 +82,7 @@
                             </p>
                             <% if use_natural: %>
                                 <p class="percent-label">
-                                    <span>占总用户%:&nbsp;</span>
+                                    <span><%= I18n.t("templates.charts.kpis.user_percentage") %>:&nbsp;</span>
                                 </p>
                                 <p class="percent">
                                     <% percent = (if chart.get("sequence").total == 0 then 0 else chart.get("sequence").natural / chart.get("sequence").total) %>
@@ -109,8 +109,8 @@
                     <td class="time"><%= dateStr %></td>
                     <% for metric_id in @metric_ids: %>
                         <% data = cmap[segment_id][date][metric_id] %>
-                        <td class="data <%= if data == "pending" or data == "na" then "pending" else ""%>">
-                        <%= if data == "pending" then "pending" else if data == "na" then "n/a" else data %>
+                        <td class="data <%= if data == "pending" or data == "na" then I18n.t("commons.pending") else "" %>">
+                        <%= if data == "pending" then I18n.t("commons.pending") else if data == "na" then "n/a" else data %>
                         </td>
                     <% end %>
                 </tr>

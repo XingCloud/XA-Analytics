@@ -1,9 +1,9 @@
-<h3>维护计划管理</h3>
+<h3><%= I18n.t("templates.maintenance_plans.index.header") %></h3>
 <hr/>
 <p>
     <a class="btn btn-primary" id="new-maintenance-plan">
         <i class="icon icon-plus icon-white"></i>
-        新增维护计划
+        <%= I18n.t("templates.maintenance_plans.index.add") %>
     </a>
 </p>
 
@@ -11,11 +11,11 @@
     <thead>
         <tr>
             <th>#</th>
-            <th>开始</th>
-            <th>结束</th>
-            <th>创建人</th>
-            <th>保持服务运转</th>
-            <th>内容</th>
+            <th><%= I18n.t("templates.maintenance_plans.index.start") %></th>
+            <th><%= I18n.t("templates.maintenance_plans.index.end") %></th>
+            <th><%= I18n.t("templates.maintenance_plans.index.created_by") %></th>
+            <th><%= I18n.t("templates.maintenance_plans.index.keep_running") %></th>
+            <th><%= I18n.t("templates.maintenance_plans.index.announcement") %></th>
             <th></th>
         </tr>
     </thead>
@@ -29,7 +29,7 @@
                     <td><%= moment(model.get("end_at")).format("YYYY-MM-DD HH:mm:ss") %></td>
                     <td><%= model.get("created_by") %></td>
                     <td>
-                        <%= if model.get("keep_running") then '是' else '否' %>
+                        <%= if model.get("keep_running") then I18n.t("commons.yes") else I18n.t("commons.no") %>
                     </td>
                     <td>
                         <% if model.get("announcement")? and model.get("announcement").length > 20: %>
@@ -48,7 +48,7 @@
             <% end %>
         <% else: %>
             <tr>
-                <td colspan="6" style="text-align: center;"><i>暂无维护计划</i></td>
+                <td colspan="6" style="text-align: center;"><i><%= I18n.t("templates.maintenance_plans.index.no_data") %></i></td>
             </tr>
         <% end %>
     </tbody>

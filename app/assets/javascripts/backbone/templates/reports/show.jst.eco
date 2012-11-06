@@ -1,15 +1,15 @@
 <div class="row-fluid container-header">
     <div class="left btn-group">
-        <a class="btn segment-btn"><i class="icon-user" title="用户群"/></a>
+        <a class="btn segment-btn"><i class="icon-user" title="<%= I18n.t('resources.segment') %>"/></a>
         <a class="btn" href="#/reports/<%= @id %>/edit">
-            <i class="icon-edit" title="编辑报告"/>
+            <i class="icon-edit" title="<%= I18n.t('commons.edit') %>"/>
         </a>
         <a class="btn refresh-btn">
-            <i class="icon-refresh" title="刷新"/>
+            <i class="icon-refresh" title="<%= I18n.t('commons.refresh') %>"/>
         </a>
     </div>
     <div class="left container-info">
-        <span><i>报告时区为UTC+0</i></span>
+        <span><i><%= I18n.t('templates.reports.show.timezone') %></i></span>
     </div>
     <div class="right report-tab-range-picker">
     </div>
@@ -20,10 +20,11 @@
 <div class="row-fluid report-tabs">
     <ul class="nav nav-tabs">
         <% for report_tab in @report_tabs_attributes: %>
+            <% report_tab_model = Instances.Collections.report_tabs.get(report_tab.id) %>
             <% if @project_id?: %>
-                <li class="<%= (if @report_tabs_attributes.indexOf(report_tab) == @report_tab_index then 'report-tab active' else 'report-tab')%>" value="<%= @report_tabs_attributes.indexOf(report_tab) %>"><a style="cursor: pointer;"><%= report_tab.title %></a></li>
+                <li class="<%= (if @report_tabs_attributes.indexOf(report_tab) == @report_tab_index then 'report-tab active' else 'report-tab')%>" value="<%= @report_tabs_attributes.indexOf(report_tab) %>"><a style="cursor: pointer;"><%= report_tab_model.get("title") %></a></li>
             <% else: %>
-                <li class="<%= (if @report_tabs_attributes.indexOf(report_tab) == @report_tab_index then 'report-tab active' else 'report-tab')%>" value="<%= @report_tabs_attributes.indexOf(report_tab) %>"><a style="cursor: pointer;"><%= report_tab.title %></a></li>
+                <li class="<%= (if @report_tabs_attributes.indexOf(report_tab) == @report_tab_index then 'report-tab active' else 'report-tab')%>" value="<%= @report_tabs_attributes.indexOf(report_tab) %>"><a style="cursor: pointer;"><%= report_tab_model.get("title") %></a></li>
             <% end %>
         <% end %>
     </ul>

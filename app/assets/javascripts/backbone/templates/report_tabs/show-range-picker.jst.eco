@@ -4,7 +4,7 @@
             <tbody>
             <tr>
                 <td>
-                    截止到
+                    <%= I18n.t("templates.report_tabs.show_range_picker.to") %>
                 </td>
                 <td>
                     <div class="<%= if @compare != 0 then 'compare-info' %>">
@@ -21,10 +21,10 @@
                 </td>
                 <td>
                     <% range = Analytics.Utils.checkReportTabRange(@length, @interval) %>
-                    <%= (if range? then range.name else '自定义' + @length + '天') %>
+                    <%= (if range? then range.name else I18n.t("templates.report_tabs.show_range_picker.custom", {length: @length})) %>
                 </td>
                 <td>
-                    每<%= Analytics.Utils.intervalName(@interval) %>数据
+                    <%= I18n.t("templates.report_tabs.show_range_picker.interval", {interval: Analytics.Utils.intervalName(@interval)}) %>
                 </td>
                 <td class="toggle">
                     <span>&#9660;</span>
@@ -44,12 +44,12 @@
             </li>
         <% end %>
         <li>
-            <a class="custom-range" data-toggle="modal" style="cursor: pointer">自定义</a>
+            <a class="custom-range" data-toggle="modal" style="cursor: pointer"><%= I18n.t("commons.custom") %></a>
         </li>
         <li class="divider"></li>
         <li class="range-datepicker">
             <input type="checkbox" class="compare-checkbox" id="report_tab_compare_<%= @id %>" <%= if @compare != 0 then 'checked="checked"' %> />
-            <label for="report_tab_compare_<%= @id %>">对比截止到</label>
+            <label for="report_tab_compare_<%= @id %>"><%= I18n.t("templates.report_tabs.show_range_picker.compare") %></label>
             <span class="range compare-datepicker" data-date="<%= Analytics.Utils.formatUTCDate(@compare_end_time) %>" data-date-format="yyyy/mm/dd">
                 <%= Analytics.Utils.formatUTCDate(@compare_end_time) %>
                 <span>&#9660;</span>

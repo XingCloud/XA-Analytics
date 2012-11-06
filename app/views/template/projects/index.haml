@@ -2,36 +2,44 @@
   #container.row-fluid
     .span2
       .well.sidebar-nav
-        %h3 菜单
+        %h3
+          = t("menu")
         %url.nav.nav-list
           %li
             %a{:href => template_projects_path()}
               %i.icon-home
-              项目列表
+              = t("projects")
           %li
             %a{:href => "#/reports"}
               %i.icon-file
-              通用报告管理
+              = t("reports")
           %li
             %a{:href => "#/segments"}
               %i.icon-user
-              通用用户群管理
+              = t("segments")
           %li
             %a{:href => "#/dashboard"}
-              %i.icon-user
-              通用数据面板管理
+              %i.icon-bar-chart
+              = t("dashboard")
           %li
             %a{:href => "#/maintenance_plans"}
               %i.icon-volume-up
-              维护计划管理
+              = t("maintenance_plans")
+          %li
+            %a{:href => "#/translations"}
+              %i.icon-flag
+              = t("translations")
     .span10
       #main-container
-        %h3 项目列表
+        %h3
+          = t("projects")
         %hr
         %table.table.table-striped.table-bordered.table-condensed
           %thead
-            %th 项目
-            %th 标示符
+            %th
+              = t("project")
+            %th
+              = t("identifier")
           %tbody
             - @projects.each do |project|
               %tr
@@ -49,7 +57,8 @@
     report_tabs: new Analytics.Collections.ReportTabs([]),
     widgets: new Analytics.Collections.Widgets(#{Widget.template.map(&:js_attributes).to_json}),
     metrics: new Analytics.Collections.Metrics(#{Metric.template.where(:combine_id => nil).map(&:js_attributes).to_json}),
-    maintenance_plans: new Analytics.Collections.MaintenancePlans(#{MaintenancePlan.all.map(&:attributes).to_json})
+    maintenance_plans: new Analytics.Collections.MaintenancePlans(#{MaintenancePlan.all.map(&:attributes).to_json}),
+    translations: new Analytics.Collections.Translations([])
   };
   Instances.Collections.reports.init_report_tabs();
   Instances.Collections.segments.init_expressions();
@@ -58,6 +67,7 @@
     reports_router: new Analytics.Routers.ReportsRouter(),
     segments_router: new Analytics.Routers.SegmentsRouter(),
     widgets_router: new Analytics.Routers.WidgetsRouter(),
-    maintenance_plans_router: new Analytics.Routers.MaintenancePlansRouter()
+    maintenance_plans_router: new Analytics.Routers.MaintenancePlansRouter(),
+    translations_router: new Analytics.Routers.TranslationsRouter()
   };
   Backbone.history.start();

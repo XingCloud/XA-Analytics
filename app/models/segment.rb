@@ -1,6 +1,7 @@
 class Segment < ActiveRecord::Base
 
   has_many :expressions, :dependent => :destroy
+  has_many :translations, :foreign_key => :rid, :conditions => ["translations.rtype = ?", "Segment"], :dependent => :destroy
   belongs_to :project
 
   accepts_nested_attributes_for :expressions, :allow_destroy => true

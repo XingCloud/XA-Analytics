@@ -51,7 +51,7 @@ class Analytics.Routers.ReportsRouter extends Backbone.Router
   delete: (id) ->
     report = Instances.Collections.reports.get(id)
     if report?
-     if confirm("确认删除报告"+report.get("title"))
+     if confirm(I18n.t("commons.confirm_delete"))
         report.destroy({wait: true, success: (model, resp) ->
           Instances.Collections.reports.trigger "change"
           Analytics.Utils.actionFinished()

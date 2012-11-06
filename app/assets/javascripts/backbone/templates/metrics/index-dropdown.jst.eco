@@ -18,7 +18,7 @@
     <li>
         <a class="metric-new">
             <i class="icon icon-plus"/>
-            新建指标
+            <%= I18n.t("templates.metrics.index_dropdown.add_metric") %>
         </a>
     </li>
 <% end %>

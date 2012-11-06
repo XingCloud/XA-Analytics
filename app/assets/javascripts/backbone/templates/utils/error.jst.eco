@@ -1,13 +1,13 @@
 <div id="error-message" class="alert <%= @type %> message" style="display: none;">
     <b class="close" data-dismiss="alert">×</b>
     <% if @status == 400: %>
-        资源操作失败，请检查参数是否正确
+        <%= I18n.t('templates.utils.errors.400') %>
     <% else if @status == 404: %>
-        您访问的资源不存在或已删除，请&nbsp;<a href="<%= window.location.href.split('#')[0] %>">刷新页面</a>
+        <%= I18n.t('templates.utils.errors.404') %>&nbsp;<a href="<%= window.location.href.split('#')[0] %>"><%= I18n.t('templates.utils.errors.refresh') %></a>
     <% else if @status == 401: %>
-        您会话已过期，请&nbsp;<a href="<%= window.location.href.split('#')[0] %>">重新登陆</a>
+        <%= I18n.t('templates.utils.errors.401') %>&nbsp;<a href="<%= window.location.href.split('#')[0] %>"><%= I18n.t('templates.utils.errors.relogin') %></a>
     <% else if @status == 503: %>
-        服务器维护中，服务暂不可用请稍后再试
+        <%= I18n.t('templates.utils.errors.503') %>
     <% else: %>
         <%= @message %>
     <% end %>

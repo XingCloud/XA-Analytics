@@ -10,19 +10,19 @@
                     <li>
                         <a href="#/report_categories/<%= id %>/edit">
                             <i class="icon icon-edit"></i>
-                            &nbsp;编辑
+                            &nbsp;<%= I18n.t("commons.edit") %>
                         </a>
                     </li>
                     <li>
                         <a href="#/report_categories/<%= id %>/delete">
                             <i class="icon icon-trash"></i>
-                            &nbsp;删除
+                            &nbsp;<%= I18n.t("commons.delete") %>
                         </a>
                     </li>
                     <li>
                         <a href="#/report_categories/new">
                             <i class="icon icon-plus"></i>
-                            &nbsp;新增
+                            &nbsp;<%= I18n.t("commons.add") %>
                         </a>
                     </li>
                 </ul>
@@ -36,7 +36,7 @@
                     <li>
                         <a href="#/report_categories/new">
                             <i class="icon icon-plus"></i>
-                            &nbsp;新增
+                            &nbsp;<%= I18n.t("commons.add") %>
                         </a>
                     </li>
                 </ul>
@@ -47,7 +47,7 @@
             <% if @report_category?: %>
                 <%= @report_category.get("name") %>
             <% else: %>
-                未分类
+            <%= I18n.t("commons.uncategorized") %>
             <% end %>
         </div>
     </div>
@@ -68,7 +68,7 @@
                     </li>
                 <% end %>
                 <% if @reports.length == 0: %>
-                    <li class="no-data">没有数据</li>
+                    <li class="no-data"><%= I18n.t("commons.no_data") %></li>
                 <% end %>
             </ul>
         </div>
@@ -78,13 +78,13 @@
             <li>
                 <a href="#/reports/<%= report.id %>/edit">
                     <i class="icon icon-edit"></i>
-                    &nbsp;编辑
+                    &nbsp;<%= I18n.t("commons.edit") %>
                 </a>
             </li>
             <li>
                 <a href="#/reports/<%= report.id %>/delete">
                     <i class="icon icon-trash"></i>
-                    &nbsp;删除
+                    &nbsp;<%= I18n.t("commons.delete") %>
                 </a>
             </li>
             <li class="divider"></li>

@@ -1,6 +1,5 @@
 class Analytics.Models.Widget extends Backbone.Model
   defaults:
-    title: '新建小窗口'
     widget_type: 'kpi'
     length: 7
     interval: 'day'
