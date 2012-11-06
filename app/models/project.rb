@@ -70,7 +70,8 @@ class Project < ActiveRecord::Base
 
   def filter_v9
     if (/^v9-.+/ =~ identifier).present? and identifier != 'v9-v9'
-      Project.fetch('v9-v9')
+      self
+      #Project.fetch('v9-v9')
     else
       self
     end
