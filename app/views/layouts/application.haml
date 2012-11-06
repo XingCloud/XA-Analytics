@@ -18,7 +18,8 @@
 
   - if MaintenancePlan.current_notice.first.present?
     #error-message.alert{:style => "text-align: center; margin-bottom: 0px;"}
-      %b.close{"data-dismiss" => "close"}
+      %b.close{"data-dismiss" => "alert"}
+        x
       %i.icon-bullhorn
       - if MaintenancePlan.current_notice.first.announcement.present?
         服务器维护公告:
