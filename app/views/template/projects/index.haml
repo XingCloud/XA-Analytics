@@ -48,6 +48,9 @@
         = will_paginate @projects
 
 :javascript
+  I18n.fallbacks = true;
+  I18n.defaultlocale = "en";
+  I18n.locale = "#{I18n.locale}";
   Instances.Collections = {
     user_attributes: new Analytics.Collections.UserAttributes([]),
     segments: new Analytics.Collections.Segments(#{Segment.template.map(&:js_attributes).to_json}),
