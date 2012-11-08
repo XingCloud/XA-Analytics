@@ -12,6 +12,7 @@ gem 'dalli'
 gem 'spreadsheet'
 gem 'resque', :require => "resque/server"
 gem 'http_accept_language'
+gem 'browser'
 
 group :development, :test do
   gem "pry"
