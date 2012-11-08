@@ -387,13 +387,13 @@ I18n.translations = {
 
             },
             "report_tab_ranges": {
-                "realtime": "realtime",
-                "current_day": "this day",
-                "2_days": "2 days",
-                "this_week": "this week",
-                "2_weeks": "2 weeks",
-                "this_month": "this month",
-                "2_months": "2 months"
+                "realtime": "Realtime",
+                "current_day": "Today",
+                "2_days": "Two Days",
+                "this_week": "Last 7 Days",
+                "2_weeks": "Last 14 Days",
+                "this_month": "Last 30 Days",
+                "2_months": "Two Months"
             },
             "user_attribute_types":{
                 "sql_string": "String",
