@@ -400,20 +400,20 @@ I18n.translations = {
                 "sql_bigint": "Number",
                 "sql_datetime": "Date"
             }
+        },
+        "errors": {
+            "err_default": "Oops, we got a problem here!",
+            "err_11": "Null parameter，please contact the administrator",
+            "err_12751": "Invalid 'NumberOfDay' and 'Interval'. If your report contains more than one day data, you can't set report interval less than a day",
+            "err_1275": "Invalid parameter，please contact the administrator",
+            "err_12": "Wrong json format，please contact the administrator",
+            "err_20": "Invalid start or end date format，please contact the administrator",
+            "err_22": "Failed to parse or operate segment，please contact the administrator",
+            "err_37": "Query exception，please contact the administrator",
+            "err_39": "Failed to calculate 'Total' and 'Natural'，please contact the administrator",
+            "err_36": "The statistics of your project is not exist，please contact the administrator",
+            "err_timeout": "Query timeout，please contact the administrator",
+            "err_unknown": "Unknown exception，please contact the administrator"
         }
-    },
-    "errors": {
-        "err_default": "Oops, we got a problem here!",
-        "err_11": "Null parameter，please contact the administrator",
-        "err_12751": "Invalid 'NumberOfDay' and 'Interval'. If your report contains more than one day data, you can't set report interval less than a day",
-        "err_1275": "Invalid parameter，please contact the administrator",
-        "err_12": "Wrong json format，please contact the administrator",
-        "err_20": "Invalid start or end date format，please contact the administrator",
-        "err_22": "Failed to parse or operate segment，please contact the administrator",
-        "err_37": "Query exception，please contact the administrator",
-        "err_39": "Failed to calculate 'Total' and 'Natural'，please contact the administrator",
-        "err_36": "The statistics of your project is not exist，please contact the administrator",
-        "err_timeout": "Query timeout，please contact the administrator",
-        "err_unknown": "Unknown exception，please contact the administrator"
     }
 };
