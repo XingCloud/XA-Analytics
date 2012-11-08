@@ -107,7 +107,8 @@ I18n.translations = {
                 },
                 "show": {
                     "degrade": "Old version",
-                    "action_logs": "Action logs"
+                    "action_logs": "Action logs",
+                    "change_language": "Change Language"
                 }
             },
             "report_categories": {
@@ -261,6 +262,11 @@ I18n.translations = {
                     "original_text": "Original",
                     "translated_text": "Translation"
                 }
+            },
+            "user_preferences": {
+                "set_language": {
+                    "title": "Choose Language"
+                }
             }
         },
         "commons": {
@@ -312,7 +318,8 @@ I18n.translations = {
             "refresh": "Refresh",
             "to": "To",
             "confirm_delete": "Are sure to delete this?",
-            "loaded": "Loaded "
+            "loaded": "Loaded ",
+            "language": "language"
         },
         "resources": {
             "dimension":"Dimension",
@@ -327,7 +334,8 @@ I18n.translations = {
             "setting": "Setting",
             "user_attribute": "User Attribute",
             "action_log": "Action Log",
-            "translation": "Language resources"
+            "translation": "Language resources",
+            "user_preference": "User Preference"
         },
         "statics": {
             "user_attributes": {

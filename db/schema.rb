@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121106081555) do
+ActiveRecord::Schema.define(:version => 20121108035036) do
 
   create_table "action_logs", :force => true do |t|
     t.integer  "project_id"
@@ -201,6 +201,16 @@ ActiveRecord::Schema.define(:version => 20121106081555) do
     t.datetime "created_at",                                 :null => false
     t.datetime "updated_at",                                 :null => false
   end
+
+  create_table "user_preferences", :force => true do |t|
+    t.string   "user"
+    t.string   "key"
+    t.string   "value"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  add_index "user_preferences", ["user"], :name => "index_user_preferences_on_user"
 
   create_table "versions", :force => true do |t|
     t.string   "item_type",  :null => false

@@ -22,6 +22,7 @@ class Analytics.Models.Project extends Backbone.Model
       widgets: new Analytics.Collections.Widgets([], {project: project})
       metrics: new Analytics.Collections.Metrics([], {project: project})
       translations: new Analytics.Collections.Translations([], {project: project})
+      user_preferences: new Analytics.Collections.UserPreferences()
     }
     total = _.select(Instances.Collections, (instance) -> instance.url?).length
     load_finished = @load_finished

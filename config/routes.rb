@@ -6,6 +6,7 @@ Analytic::Application.routes.draw do
   mount Resque::Server.new, :at => "/resque"
 
   resources :maintenance_plans
+  resources :user_preferences
 
   resources :projects do
 

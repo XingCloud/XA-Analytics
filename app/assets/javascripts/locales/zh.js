@@ -107,7 +107,8 @@ I18n.translations = {
                 },
                 "show": {
                     "degrade": "回旧版",
-                    "action_logs": "操作日志"
+                    "action_logs": "操作日志",
+                    "change_language": "修改语言"
                 }
             },
             "report_categories": {
@@ -261,6 +262,11 @@ I18n.translations = {
                     "add_report": "添加报告",
                     "add_category": "添加分类"
                 }
+            },
+            "user_preferences": {
+                "set_language": {
+                    "title": "设置语言"
+                }
             }
         },
         "commons": {
@@ -312,7 +318,8 @@ I18n.translations = {
             "refresh": "刷新",
             "to": "截止到",
             "confirm_delete": "确认删除？",
-            "loaded": "已载入"
+            "loaded": "已载入",
+            "language": "语言"
         },
         "resources": {
             "dimension": "细分",
@@ -327,7 +334,8 @@ I18n.translations = {
             "setting": "设置",
             "user_attribute": "用户属性" ,
             "action_log": "操作日志",
-            "translation": "语言文件"
+            "translation": "语言文件",
+            "user_preference": "用户设置"
         },
         "statics": {
             "user_attributes": {

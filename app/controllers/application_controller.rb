@@ -29,7 +29,11 @@ class ApplicationController < ActionController::Base
   end
 
   def set_locale
-    I18n.locale = request.user_preferred_languages.first[0..1]
+    browser_locale = request.user_preferred_languages.first[0..1]
+    if UserPreference.where({:user => session[:cas_user], :key => "language"}).first.present?
+      user_locale = UserPreference.where({:user => session[:cas_user], :key => "language"}).first.value
+    end
+    I18n.locale = user_locale || browser_locale
     pp request.user_preferred_languages.first
   end
   

@@ -7,6 +7,7 @@ class Analytics.Views.Projects.ShowView extends Backbone.View
   events:
     "click td.nav-toggle" : "toggle_left_nav"
     "click .dashboard-toggle .btn" : "toggle_dashboard"
+    "click a.change_language" : "change_language"
 
   initialize: () ->
     _.bindAll(this, "render")
@@ -40,3 +41,6 @@ class Analytics.Views.Projects.ShowView extends Backbone.View
 
   toggle_dashboard: (ev) ->
     window.location.href = "#/dashboard"
+
+  change_language: (ev) ->
+    new Analytics.Views.UserPreferences.SetLanguageView().render()

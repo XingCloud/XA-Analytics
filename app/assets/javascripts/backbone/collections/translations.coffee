@@ -44,7 +44,7 @@ class Analytics.Collections.Translations extends Backbone.Collection
       collection: "maintenance_plans"
     }
   ]
-  languages: ["en"]
+  languages: ["en", "zh"]
 
   initialize: (models, options) ->
     @resource_name = I18n.t("resources.translation")

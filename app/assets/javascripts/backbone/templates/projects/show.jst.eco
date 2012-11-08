@@ -21,5 +21,7 @@
         <a href="http://p.xingcloud.com/analytics/overview?project_id=<%= @identifier %>"><%= I18n.t("templates.projects.show.degrade") %></a>
         |
         <a href="#/action_logs"><%= I18n.t("templates.projects.show.action_logs") %></a>
+        |
+        <a class="change_language" style="cursor: pointer;"><%= I18n.t("templates.projects.show.change_language") %></a>
     </footer>
 </div>

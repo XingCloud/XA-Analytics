@@ -1,0 +1,26 @@
+<div class="modal-header">
+    <b class="close" data-dismiss="modal">×</b>
+    <h3><%= I18n.t("templates.user_preferences.set_language.title") %></h3>
+</div>
+<div class="modal-body">
+    <form class="form-horizontal">
+        <fieldset>
+            <div class="control-group">
+                <label class="control-label"><%= I18n.t("commons.language") %></label>
+                <div class="controls">
+                    <% current_language = Instances.Collections.user_preferences.get_preference("language") %>
+                    <% if not current_language? then current_language = I18n.locale %>
+                    <select>
+                        <% for language in Instances.Collections.translations.languages: %>
+                            <option value="<%= language %>" <%- if current_language == language then 'selected="selected"' %> ><%= language %></option>
+                        <% end %>
+                    </select>
+                </div>
+            </div>
+        </fieldset>
+    </form>
+</div>
+<div class="modal-footer">
+    <a class="right btn" data-dismiss="modal"><%= I18n.t("commons.cancel") %></a>
+    <a class="right btn btn-primary submit" style="margin-right: 4px;"><%= I18n.t("commons.ok") %></a>
+</div>
