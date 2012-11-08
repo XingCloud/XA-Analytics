@@ -126,7 +126,7 @@
 <div class="row-fluid">
     <% max_page = 1 %>
     <% length = models.length %>
-    <% if length > @page_size then max_page = parseInt(length / @page_size) %>
+    <% if length > @page_size then max_page = Math.ceil(length / @page_size) %>
     <ul class="pager right">
         <% if @page > 1: %>
             <li class="pre enabled"><a style="cursor: pointer;"><%= I18n.t("commons.previous_page") %></a></li>
