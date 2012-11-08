@@ -12,7 +12,7 @@
             <% end %>
         </select>
         <select class="left operator-select" name="expressions_attributes[<%= @index %>][operator]" >
-            <% for operator in Analytics.Static.ExpressionOperator: %>
+            <% for operator in Analytics.Static.expression_operators(): %>
                 <option value="<%= operator.value %>" <%= if @operator == operator.value then 'selected="selected"'  %> ><%= operator.name %></option>
             <% end %>
         </select>

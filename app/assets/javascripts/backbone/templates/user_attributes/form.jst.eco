@@ -12,7 +12,7 @@
             <label class="control-label"><abbr title="<%= I18n.t('commons.required') %>">*</abbr><%= I18n.t('commons.name') %></label>
             <div class="controls">
                 <% name = @name %>
-                <% name_item = _.find(Analytics.Static.UserAttributes, (item) -> item.name == name) %>
+                <% name_item = _.find(Analytics.Static.user_attributes(), (item) -> item.name == name) %>
                 <% nickname = @nickname %>
                 <% if not @nickname? and name_item?: %>
                     <% nickname = name_item.nickname %>
@@ -31,7 +31,7 @@
             <label class="control-label"><abbr title="必填">*</abbr><%= I18n.t('templates.user_attributes.form.type') %></label>
             <div class="controls">
                 <select class="atype" name="atype" <%= if @id? then 'disabled="disabled"' %> >
-                    <% for type in Analytics.Static.UserAttributeTypes: %>
+                    <% for type in Analytics.Static.user_attribute_types(): %>
                         <option value="<%= type.key %>" <%= if type.key == @atype then 'selected="selected"' %>><%= type.value %></option>
                     <% end %>
                 </select>

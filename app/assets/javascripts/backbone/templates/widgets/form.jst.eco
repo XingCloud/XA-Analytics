@@ -48,7 +48,7 @@
                 </label>
                 <div class="controls">
                     <select name="interval">
-                        <% for interval in Analytics.Static.ReportTabIntervals: %>
+                        <% for interval in Analytics.Static.report_tab_intervals(): %>
                             <option value="<%= interval.value %>" <%= if @interval == interval.value then 'selected="selected"' %> ><%= interval.name %></option>
                         <% end %>
                     </select>

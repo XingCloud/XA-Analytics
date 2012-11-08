@@ -377,14 +377,6 @@ I18n.translations = {
                 "sum": "值的总和",
                 "user_count": "发生的用户人数"
             },
-            "metric_comparison_operators": {
-                "gt": "大于",
-                "ge": "大于等于",
-                "lt": "小于",
-                "le": "小于等于",
-                "eq": "等于",
-                "ne": "不等于"
-            },
             "events": {
                 "event0": "事件字段第一层",
                 "event1": "事件字段第二层",

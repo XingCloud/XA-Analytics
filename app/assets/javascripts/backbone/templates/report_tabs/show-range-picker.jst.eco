@@ -36,7 +36,7 @@
     </div>
 
     <ul class="dropdown-menu">
-        <% for range in Analytics.Static.ReportTabRanges: %>
+        <% for range in Analytics.Static.report_tab_ranges(): %>
             <li>
                 <a class="default-range" length="<%= range.length %>" interval="<%= range.interval %>" style="cursor: pointer;">
                     <%= range.name %>

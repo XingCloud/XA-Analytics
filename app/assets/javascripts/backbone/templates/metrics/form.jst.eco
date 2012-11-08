@@ -52,7 +52,7 @@
                 </label>
                 <div class="controls">
                     <select id="metric_condition" name="condition" style="width: auto;">
-                        <% for condition in Analytics.Static.MetricCondition: %>
+                        <% for condition in Analytics.Static.metric_conditions(): %>
                             <option value="<%= condition.value %>" <%= if @condition == condition.value then 'selected="selected"' %> ><%= condition.name %></option>
                         <% end %>
                     </select>
@@ -97,7 +97,7 @@
                 <div class="controls">
                     <select id="metric_combine_action" name="combine_action">
                         <option value="" <%= if not @combine_action? or (@combine_action? == '') then 'selected="selected"' %> ></option>
-                        <% for combine_action in Analytics.Static.MetricCombineAction: %>
+                        <% for combine_action in Analytics.Static.metric_combine_actions(): %>
                             <option value="<%= combine_action.value %>" <%= if @combine_action == combine_action.value then 'selected="selected"' %> ><%= combine_action.name %></option>
                         <% end %>
                     </select>
@@ -131,7 +131,7 @@
                     </label>
                     <div class="controls">
                         <select id="metric_combine_attributes_condition" name="combine_attributes[condition]" style="width: auto;">
-                            <% for condition in Analytics.Static.MetricCondition: %>
+                            <% for condition in Analytics.Static.metric_conditions(): %>
                                 <option value="<%= condition.value %>" <%= if @combine_attributes? and @combine_attributes.condition  == condition.value then 'selected="selected"' %> ><%= condition.name %></option>
                             <% end %>
                         </select>

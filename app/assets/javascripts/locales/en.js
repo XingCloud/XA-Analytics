@@ -377,14 +377,6 @@ I18n.translations = {
                 "sum": "Sum",
                 "user_count": "Users Count"
             },
-            "metric_comparison_operators": {
-                "gt": "greater than",
-                "ge": "greater and equal to",
-                "lt": "less than",
-                "le": "less and equal to",
-                "eq": "equal to",
-                "ne": "not equal to"
-            },
             "events": {
                 "event0": "Event 1st level",
                 "event1": "Event 2nd level",
@@ -422,6 +414,14 @@ I18n.translations = {
             "err_36": "The statistics of your project is not exist，please contact the administrator",
             "err_timeout": "Query timeout，please contact the administrator",
             "err_unknown": "Unknown exception，please contact the administrator"
+        },
+        "lib": {
+            utils:{
+                "not_empty": "cannot be empty",
+                "should_be_integer": "must be integer",
+                "should_be_number": "must be number",
+                "should_be_natural_number": "must be natural number"
+            }
         }
     }
 };

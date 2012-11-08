@@ -16,7 +16,7 @@ Analytics.Utils.countMonth = (end, start) ->
   (end_date.getFullYear() - start_date.getFullYear()) * 12 + end_date.getMonth() - start_date.getMonth() + 1
 
 Analytics.Utils.intervalName = (interval) ->
-  item = _.find(Analytics.Static.ReportTabIntervals, (item) -> item.value == interval)
+  item = _.find(Analytics.Static.report_tab_intervals(), (item) -> item.value == interval)
   if item?
     item.name
   else
@@ -40,7 +40,7 @@ Analytics.Utils.getColor = (index, compare) ->
     (if compare then colors[index][1] else colors[index][0])
 
 Analytics.Utils.checkReportTabRange = (length, interval) ->
-  same_lengths = _.filter(Analytics.Static.ReportTabRanges, (item) -> item.length == length)
+  same_lengths = _.filter(Analytics.Static.report_tab_ranges(), (item) -> item.length == length)
   if same_lengths.length == 0
     null
   else if same_lengths.length == 1

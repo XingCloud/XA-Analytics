@@ -1,7 +1,7 @@
 class Analytics.Models.Expression extends Backbone.Model
   defaults:
-    value_type: Analytics.Static.UserAttributes[0].atype
-    name: Analytics.Static.UserAttributes[0].name
+    value_type: Analytics.Static.user_attributes()[0].atype
+    name: Analytics.Static.user_attributes()[0].name
 
   value: () ->
     if @get("value_type") == "int" or @get("value_type") == "sql_bigint"

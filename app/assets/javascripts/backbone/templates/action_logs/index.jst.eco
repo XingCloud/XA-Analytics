@@ -14,15 +14,15 @@
         <tbody>
             <% for action_log in @collection.models: %>
                 <tr>
-                    <% action = Analytics.Static.ActionNames[action_log.get("action")] %>
+                    <% action = Analytics.Static.action_names()[action_log.get("action")] %>
                     <% if action?: %>
                         <td style="color: <%= action.color %>"><%= action.name %></td>
                     <% else: %>
                         <td><%= action_log.get("action") %></td>
                     <% end %>
                     <td>
-                        <% if Analytics.Static.ResourceTypes[action_log.get("resource_type")]?: %>
-                            <%= Analytics.Static.ResourceTypes[action_log.get("resource_type")] %>
+                        <% if Analytics.Static.resource_types()[action_log.get("resource_type")]?: %>
+                            <%= Analytics.Static.resource_types()[action_log.get("resource_type")] %>
                         <% else: %>
                             <%= action_log.get("resource_type") %>
                         <% end %>
