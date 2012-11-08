@@ -37,6 +37,7 @@ GEM
       multi_json (~> 1.0)
     addressable (2.3.2)
     arel (3.0.2)
+    browser (0.1.5)
     builder (3.0.4)
     capistrano (2.13.5)
       highline
@@ -256,6 +257,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  browser
   capistrano
   capistrano-resque
   coffee-rails

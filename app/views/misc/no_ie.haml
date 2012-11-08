@@ -1,0 +1,57 @@
+.row-fluid
+  .span3
+  .span6
+    %img.left{:src => "/assets/no_ie.jpg"}
+    .title
+      = t("no_ie_title")
+    %br
+    .content
+      = t("no_ie_content")
+    .others
+      .btn-group
+        %a.btn{:href => "http://www.google.com/chrome"}
+          %img{:src => "/assets/chrome.png"}
+        %a.btn{:href => "http://www.mozilla.org/en-US/firefox/new"}
+          %img{:src => "/assets/firefox.png"}
+        %a.btn{:href => "http://www.apple.com/safari"}
+          %img{:src => "/assets/safari.png"}
+        %a.btn{:href => "http://www.opera.com"}
+          %img{:src => "/assets/opera.png"}
+    .force
+      = t("no_ie_screw_it")
+      %a{:href => request.url + "?force_ie=1"}
+        = t("no_ie_just_enter")
+  .span3
+
+:css
+  .row-fluid{
+    padding-top: 100px;
+  }
+  img.left{
+    padding-right: 10px;
+  }
+  .title{
+    text-align: center;
+    font-family: Cambria,Georgia,Palatino,"Palatino Linotype",Serif;
+    color: #888;
+    font-size: 24px;
+    line-height: 30px;
+  }
+
+  .content{
+    font-size: 20px;
+    color: #666;
+    line-height: 22px;
+  }
+  .others{
+    padding-top: 10px;
+    text-align: center;
+  }
+
+  .force{
+    padding-top: 10px;
+    font-size: 16px;
+    line-height: 22px;
+    font-style: italic;
+    color: #6F6F6F;
+  }

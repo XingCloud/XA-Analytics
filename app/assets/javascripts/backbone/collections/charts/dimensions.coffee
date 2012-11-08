@@ -60,7 +60,7 @@ class Analytics.Collections.DimensionCharts extends Analytics.Collections.BaseCh
       if not has and data[0] == "pending"
         has = true
     )
-    console.log @xa_id() + " has_pendings "+has
+#    console.log @xa_id() + " has_pendings "+has
     has
 
   process_fetched_data: (resp) ->

@@ -16,4 +16,8 @@ zh:
   dashboard: "通用数据面板管理"
   maintenance_plans: "维护计划管理"
   translations: "翻译管理"
+  no_ie_title: "警告：浏览器不支持！"
+  no_ie_content: "我们很抱歉的通知您，您的IE浏览器版本过低（小于IE8），我们无法给您提供足够的支持，为了获取更好的浏览体验请升级您的IE浏览器或者使用以下浏览器"
+  no_ie_screw_it: "或者，忽略掉此问题，"
+  no_ie_just_enter: "继续浏览"
 

@@ -19,3 +19,7 @@ en:
   dashboard: "Default Widgets"
   maintenance_plans: "Maintenance Plans"
   translations: "Translations"
+  no_ie_title: "WARNING: Detected Unsupported Browser!"
+  no_ie_content: "We've detected your browser is an old version (&lt;8) of Internet Explorer &reg which drives us crazy. To gain the perfect experience in our site, we recommend you to update your browser to lastest version or use these instead:"
+  no_ie_screw_it: "Or, screw it,"
+  no_ie_just_enter: "just enter"
