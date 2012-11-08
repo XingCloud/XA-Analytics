@@ -68,10 +68,15 @@ class Metric < ActiveRecord::Base
 
   def template_attributes
     {:number_of_day => number_of_day,
-     :name => name, :event_key => event_key,
+     :number_of_day_origin => number_of_day,
+     :name => name,
+     :event_key => event_key,
      :condition => condition,
      :combine_action => combine_action,
-     :segment_id => segment_id}
+     :segment_id => segment_id,
+     :description => description,
+     :scale => scale
+    }
   end
 
   def clone_as_template(project_id)
