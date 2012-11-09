@@ -380,7 +380,7 @@ I18n.translations = {
             "metric_conditions": {
                 "count": "发生的次数",
                 "sum": "值的总和",
-                "user_count": "发生的用户人数"
+                "user_num": "发生的用户人数"
             },
             "events": {
                 "event0": "事件字段第一层",

@@ -375,7 +375,7 @@ I18n.translations = {
             "metric_conditions": {
                 "count": "Count",
                 "sum": "Sum",
-                "user_count": "Users Count"
+                "user_num": "Users Count"
             },
             "events": {
                 "event0": "Event 1st level",
