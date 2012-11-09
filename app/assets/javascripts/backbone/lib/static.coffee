@@ -139,3 +139,5 @@ Analytics.Static.getDimensionName = (key) ->
   dimension = _.find(Analytics.Static.getDimensions(), (dimension) -> dimension.value == key)
   if dimension?
     dimension.name
+  else
+    key
