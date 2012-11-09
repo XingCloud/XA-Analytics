@@ -44,7 +44,7 @@ Analytics.Static.metric_conditions = () ->
   [
     {value: 'count', name: I18n.t("statics.metric_conditions.count")},
     {value: 'sum', name: I18n.t("statics.metric_conditions.sum")},
-    {value: 'user_num', name: I18n.t("statics.metric_conditions.user_num")}
+    {value: 'user_count', name: I18n.t("statics.metric_conditions.user_num")}
   ]
 
 Analytics.Static.dimensions_events = () ->
