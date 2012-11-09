@@ -2,7 +2,11 @@ module Workers
   module SyncReport
     @queue = :sync_report
 
-    def self.perform(report_id, action = "SAVE_OR_UPDATE")
+    def self.perform(metrics, action = "SAVE_OR_UPDATE")
+      AnalyticService.sync_metric(action, metrics) unless metrics.length == 0
+    end
+
+    def self.params(report_id)
       report = Report.find(report_id)
       metrics = []
       report.report_tabs.each do |report_tab|
@@ -13,10 +17,7 @@ module Workers
           end
         end
       end
-      AnalyticService.sync_metric(action, metrics) unless metrics.length == 0
-      if action == "REMOVE"
-        raise "destroy error" unless report.destroy
-      end
+      metrics
     end
   end
 end

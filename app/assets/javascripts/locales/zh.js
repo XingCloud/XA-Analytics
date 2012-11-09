@@ -163,6 +163,11 @@ I18n.translations = {
                 },
                 "show": {
                     "timezone": "报告时区为UTC+0"
+                },
+                "list": {
+                    "header": "通用报告",
+                    "add_report": "添加报告",
+                    "add_category": "添加分类"
                 }
             },
             "segments": {

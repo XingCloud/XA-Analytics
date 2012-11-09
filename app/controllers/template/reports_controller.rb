@@ -8,7 +8,7 @@ class Template::ReportsController < Template::BaseController
   def create
     @report = Report.new(params[:report])
     if @report.save
-      Resque.enqueue(Workers::SyncReport, @report.id) unless APP_CONFIG[:sync_metric] != 1
+      Resque.enqueue(Workers::SyncReport, Workers::SyncReport.params(@report.id)) unless APP_CONFIG[:sync_metric] != 1
       render :json => @report.js_attributes
     else
       render :json => @report.js_attributes, :status => 400
@@ -18,7 +18,7 @@ class Template::ReportsController < Template::BaseController
   def update
     @report.attributes = params[:report]
     if @report.save
-      Resque.enqueue(Workers::SyncReport, @report.id) unless APP_CONFIG[:sync_metric] != 1
+      Resque.enqueue(Workers::SyncReport, Workers::SyncReport.params(@report.id)) unless APP_CONFIG[:sync_metric] != 1
       render :json => @report.js_attributes
     else
       render :json => @report.js_attributes, :status => 400
@@ -26,8 +26,12 @@ class Template::ReportsController < Template::BaseController
   end
 
   def destroy
-    Resque.enqueue(Workers::SyncReport, @report.id, "REMOVE") unless APP_CONFIG[:sync_metric] != 1
-    render :json => @report.js_attributes
+    Resque.enqueue(Workers::SyncReport, Workers::SyncReport.params(@report.id), "REMOVE") unless APP_CONFIG[:sync_metric] != 1
+    if @report.destroy
+      render :json => @report.js_attributes
+    else
+      render :json => @report.js_attributes, :status => 500
+    end
   end
 
   def set_category

@@ -13,7 +13,7 @@ class UserAttributesController < ProjectBaseController
     params[:user_attribute][:gpattern] = nil unless params[:user_attribute][:gpattern].present?
     @user_attribute = @project.user_attributes.build(params[:user_attribute])
     if @user_attribute.save
-      Resque.enqueue(Workers::SyncUserAttributes, @project.id, "SAVE", @user_attribute.id)
+      Resque.enqueue(Workers::SyncUserAttributes, @project.id, "SAVE", @user_attribute.serialize)
       render :json => @user_attribute.attributes
     else
       render :json => @user_attribute.attributes, :status => 400
@@ -21,7 +21,7 @@ class UserAttributesController < ProjectBaseController
   end
 
   def destroy
-    Resque.enqueue(Workers::SyncUserAttributes, @project.id, "REMOVE", @user_attribute.id)
+    Resque.enqueue(Workers::SyncUserAttributes, @project.id, "REMOVE", @user_attribute.serialize)
     render :json => @user_attribute.attributes
   end
 

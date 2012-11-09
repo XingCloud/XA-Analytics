@@ -13,7 +13,7 @@ class SegmentsController < ProjectBaseController
   def create
     @segment = @project.segments.build(params[:segment])
     if @segment.save
-      Resque.enqueue(Workers::SyncSegment, @segment.id, @segment.project_id)
+      Resque.enqueue(Workers::SyncSegment, @segment.id, @segment.sequence, @segment.project_id)
       render :json => @segment.js_attributes
     else
       render :json => @segment.js_attributes, :status => 400
@@ -24,7 +24,7 @@ class SegmentsController < ProjectBaseController
   def update
     @segment.attributes = params[:segment]
     if @segment.save
-      Resque.enqueue(Workers::SyncSegment, @segment.id, @segment.project_id)
+      Resque.enqueue(Workers::SyncSegment, @segment.id, @segment.sequence, @segment.project_id)
       render :json => @segment.js_attributes
     else
       render :json => @segment.js_attributes, :status => 400
@@ -32,8 +32,12 @@ class SegmentsController < ProjectBaseController
   end
 
   def destroy
-    Resque.enqueue(Workers::SyncSegment, @segment.id, @segment.project_id, "REMOVE")
-    render :json => @segment.js_attributes
+    Resque.enqueue(Workers::SyncSegment, @segment.id, @segment.sequence, @segment.project_id, "REMOVE")
+    if @segment.destroy
+      render :json => @segment.js_attributes
+    else
+      render :json => @segment.js_attributes, :status => 500
+    end
   end
 
   private

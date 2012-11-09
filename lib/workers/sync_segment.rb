@@ -2,13 +2,9 @@ module Workers
   module SyncSegment
     @queue = :sync_segment
 
-    def self.perform(segment_id, project_id, action="APPEND_OR_UPDATE")
-      segment = Segment.find(segment_id)
+    def self.perform(segment_id, segment, project_id, action="APPEND_OR_UPDATE")
       project = (project_id.present? ? Project.find(project_id) : nil)
-      AnalyticService.sync_segments(action, [segment], project)
-      if action == "REMOVE"
-        raise "destroy error" unless segment.destroy
-      end
+      AnalyticService.sync_segments(action, {segment_id => segment}, project)
     end
   end
 end
