@@ -1,10 +1,9 @@
 class Dimension < ActiveRecord::Base
   belongs_to :report_tab
-  validates_presence_of :name, :value, :dimension_type, :level
+  validates_presence_of :value, :dimension_type, :level
 
   def template_attributes
-    {:name => name,
-     :value => value,
+    {:value => value,
      :dimension_type => dimension_type,
      :level => level}
   end

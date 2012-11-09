@@ -134,3 +134,7 @@ Analytics.Static.getDimensions = () ->
   for user_attribute in user_attributes
     results.push({value: user_attribute.name, name: user_attribute.nickname, dimension_type: 'USER_PROPERTIES', value_type: user_attribute.atype})
   results.concat(Analytics.Static.getDimensionsEvents())
+
+Analytics.Static.getDimensionName = (key) ->
+  dimension = _.find(Analytics.Static.getDimensions(), (dimension) -> dimension.value == key)
+  dimension.name

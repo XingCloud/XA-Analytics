@@ -1,6 +1,5 @@
 class Analytics.Models.Dimension extends Backbone.Model
   defaults:
-    name: Analytics.Static.user_attributes()[0].nickname
     value: Analytics.Static.user_attributes()[0].name
     dimension_type: "USER_PROPERTIES"
 

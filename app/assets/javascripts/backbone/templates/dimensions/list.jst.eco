@@ -5,13 +5,13 @@
             <% for dimension in @dimensions: %>
                 <% if @dimension? and dimension.dimension_type == @dimension.dimension_type and dimension.value == @dimension.value: %>
                     <td class="current">
-                        <%= dimension.name %>
+                        <%= Analytics.Static.getDimensionName(dimension.value) %>
                         <% if @dimension.dimension_type == "USER_PROPERTIES" and (@dimension.value_type == "sql_bigint" or @dimension.value_type == "int"): %>
                             (<a class="change-gpattern"><%= I18n.t("templates.dimensions.list.change_shard_rule") %></a>)
                         <% end %>
                     </td>
                 <% else: %>
-                    <td><a class="select-dimension" value="<%= dimension.value %>" dimension_type="<%= dimension.dimension_type %>"><%= dimension.name %></a></td>
+                    <td><a class="select-dimension" value="<%= dimension.value %>" dimension_type="<%= dimension.dimension_type %>"><%= Analytics.Static.getDimensionName(dimension.value) %></a></td>
                 <% end %>
             <% end %>
             <td class="add-dimension">
@@ -44,7 +44,7 @@
     <div class="modal gpattern" style="display: none;">
         <div class="modal-header">
             <b class="close" data-dismiss="modal">×</b>
-            <h3><%= I18n.t("commons.modify") %><%= @dimension.name %></h3>
+            <h3><%= I18n.t("commons.modify") %><%= Analytics.Static.getDimensionName(@dimension.value) %></h3>
         </div>
         <div class="modal-body">
             <form class="form-horizontal">

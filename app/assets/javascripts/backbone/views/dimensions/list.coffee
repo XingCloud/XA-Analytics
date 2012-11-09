@@ -155,7 +155,7 @@ class Analytics.Views.Dimensions.ListView extends Backbone.View
     filter = {
       dimension: {
         dimension_type: dimension.dimension_type
-        name: dimension.name
+        name: Analytics.Static.getDimensionName(dimension.value)
         value: dimension.value
         value_type: dimension.value_type
       }

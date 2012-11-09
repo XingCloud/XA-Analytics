@@ -1,7 +1,6 @@
 <div class="dimension-item" style="margin-left: <%= @level*20 %>px;">
     <input type="hidden" id="report_tabs_<%= @report_tab_index %>_dimensions_<%= @index %>__destroy" name="report_tabs_attributes[<%= @report_tab_index %>][dimensions_attributes][<%= @index %>][_destroy]" value="<%= 0 %>"/>
     <input type="hidden" id="report_tabs_<%= @report_tab_index %>_dimensions_<%= @index %>_id" name="report_tabs_attributes[<%= @report_tab_index %>][dimensions_attributes][<%= @index %>][id]" value="<%= @id %>"/>
-    <input type="hidden" id="report_tabs_<%= @report_tab_index %>_dimensions_<%= @index %>_name" name="report_tabs_attributes[<%= @report_tab_index %>][dimensions_attributes][<%= @index %>][name]" value="<%= @name %>"/>
     <input type="hidden" id="report_tabs_<%= @report_tab_index %>_dimensions_<%= @index %>_value" name="report_tabs_attributes[<%= @report_tab_index %>][dimensions_attributes][<%= @index %>][value]" value="<%= @value %>"/>
     <input type="hidden" id="report_tabs_<%= @report_tab_index %>_dimensions_<%= @index %>_dimension_type" name="report_tabs_attributes[<%= @report_tab_index %>][dimensions_attributes][<%= @index %>][dimension_type]" value="<%= @dimension_type %>"/>
     <input type="hidden" id="report_tabs_<%= @report_tab_index %>_dimensions_<%= @index %>_level" name="report_tabs_attributes[<%= @report_tab_index %>][dimensions_attributes][<%= @index %>][level]" value="<%= @level %>"/>
