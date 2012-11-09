@@ -54,7 +54,7 @@ class Analytics.Routers.ReportsRouter extends Backbone.Router
      if confirm(I18n.t("commons.confirm_delete"))
         report.destroy({wait: true, success: (model, resp) ->
           Instances.Collections.reports.trigger "change"
-          Analytics.Utils.actionFinished()
+          window.location.href = "#/dashboard"
         })
     else
       window.location.href = "#/404"
