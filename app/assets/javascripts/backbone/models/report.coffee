@@ -17,6 +17,7 @@ class Analytics.Models.Report extends Backbone.Model
         report_tab = Instances.Collections.report_tabs.get(report_tab_attributes.id)
         if report_tab?
           report_tab.set(report_tab_attributes)
+          report_tab.update_dimensions()
         else
           Instances.Collections.report_tabs.add(new Analytics.Models.ReportTab(report_tab_attributes))
     resp
