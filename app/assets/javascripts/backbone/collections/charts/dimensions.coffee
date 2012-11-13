@@ -59,6 +59,10 @@ class Analytics.Collections.DimensionCharts extends Analytics.Collections.BaseCh
     _.each(@data, (data) ->
       if not has and data[0] == "pending"
         has = true
+      _.each(data[1], (v,k) ->
+        if v == "pending"
+          has = true
+      )
     )
 #    console.log @xa_id() + " has_pendings "+has
     has

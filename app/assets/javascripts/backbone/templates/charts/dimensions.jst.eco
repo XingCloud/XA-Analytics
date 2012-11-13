@@ -43,8 +43,20 @@
 
                             </td>
                             <% for metric_id in @metric_ids: %>
-                                <td class="<%= if parseInt(@orderby) == metric_id then 'orderby' %> <%=if item[1][metric_id] == 'pending' then I18n.t('commons.pending') else ''%>">
-                                <%= if item[1][metric_id]? then item[1][metric_id] else '-' %>
+                                <td class="<%= if parseInt(@orderby) == metric_id then 'orderby' %> <%=if item[1][metric_id] == 'pending' then 'pending' else ''%>">
+                                <% if item[1][metric_id]: %>
+                                    <% if item[1][metric_id] == 'pending': %>
+                                        <div class="pending-message" style="border: none; margin: 0px; padding: 0px; top: 0px; left: 0px; opacity: 0.7; cursor: wait; float:right;">
+                                            <div class="progress progress-striped active" style="margin-bottom: 0px;">
+                                                <div class="bar" style="width: 100%; padding: 2px 20px;"><%= I18n.t("commons.pending") %></div>
+                                            </div>
+                                        </div>
+                                    <% else: %>
+                                        <%= item[1][metric_id] %>
+                                    <% end %>
+                                <% else: %>
+                                    -
+                                <% end %>
                                 </td>
                             <% end %>
                         </tr>
