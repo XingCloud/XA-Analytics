@@ -3,6 +3,7 @@ class Analytics.Models.Report extends Backbone.Model
 
   initialize: (options) ->
     @report_tab_index = 0
+    @dimensions_filters = []
     if not @get("report_tabs_attributes")?
       @set({report_tabs_attributes: []})
 

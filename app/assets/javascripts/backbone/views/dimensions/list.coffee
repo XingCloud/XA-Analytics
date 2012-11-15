@@ -27,7 +27,7 @@ class Analytics.Views.Dimensions.ListView extends Backbone.View
     @parent_view = options.parent_view
     @dimensions = new Analytics.Collections.DimensionCharts([], {
       selector: @model
-      filters: @model.dimensions_filters
+      filters: @model.dimensions_filters()
     })
     @dimensions.orderby = @model.get("metric_ids")[0] if @model.get("metric_ids")[0]?
 
@@ -161,11 +161,11 @@ class Analytics.Views.Dimensions.ListView extends Backbone.View
       }
       value: value
     }
-    oldfilter =  _.find(@model.dimensions_filters, (item) ->
+    oldfilter =  _.find(@model.dimensions_filters(), (item) ->
       item.dimension.dimension_type == filter.dimension.dimension_type and item.dimension.value == filter.dimension.value
     )
     if not oldfilter?
-      @model.dimensions_filters.push(filter)
+      @model.dimensions_filters().push(filter)
     level = @model.dimension.level
     @model.dimension =  _.find(@model.dimensions, (item) -> item.level == level + 1)
     @parent_view.redraw()

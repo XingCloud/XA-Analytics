@@ -27,5 +27,5 @@ class Analytics.Collections.Segments extends Backbone.Collection
         if expression?
           expression.set(expression_attributes)
         else
-          Instances.Collections.expressions.add(new Analytics.Models.ReportTab(expression_attributes))
+          Instances.Collections.expressions.add(new Analytics.Models.Expression(expression_attributes))
     )

@@ -108,16 +108,16 @@ class Analytics.Views.ReportTabs.ShowView extends Backbone.View
     type = $(ev.currentTarget).attr("type")
     if type.toUpperCase() == 'ALL'
       @model.dimension = @model.dimensions[0]
-      @model.dimensions_filters.splice(0, @model.dimensions_filters.length)
+      @model.dimensions_filters().splice(0, @model.dimensions_filters().length)
     else
       @model.dimension = _.find(@model.dimensions, (item) ->
         item.value == value and item.dimension_type == type
       )
-      dimension_filter = _.find(@model.dimensions_filters, (item) ->
+      dimension_filter = _.find(@model.dimensions_filters(), (item) ->
         item.dimension.value == value and item.dimension.dimension_type == type
       )
-      dimension_filter_index = @model.dimensions_filters.indexOf(dimension_filter)
-      @model.dimensions_filters.splice(dimension_filter_index + 1, @model.dimensions_filters.length - dimension_filter_index - 1)
+      dimension_filter_index = @model.dimensions_filters().indexOf(dimension_filter)
+      @model.dimensions_filters().splice(dimension_filter_index + 1, @model.dimensions_filters().length - dimension_filter_index - 1)
     @redraw()
 
 class Analytics.Views.ReportTabs.ShowRangePickerView extends Backbone.View

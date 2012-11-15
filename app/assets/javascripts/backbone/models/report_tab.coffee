@@ -8,15 +8,18 @@ class Analytics.Models.ReportTab extends Backbone.Model
     show_table: false
     metric_ids: []
 
-  initialize: (options) ->
+  initialize: (attributes, options) ->
     now = new Date().getTime()
     compare = new Date().getTime() - @get("length")*86400000 - @get("day_offset")*86400000
     @end_time = now - now % 86400000 - @get("day_offset")*86400000
     @compare_end_time = compare - compare % 86400000
-    @dimensions_filters = []
     @dimensions = _.clone(@get("dimensions_attributes"))
     @dimension = (if @dimensions? and @dimensions.length > 0 then @dimensions[0])
     @force_fetch = false
+
+  dimensions_filters: () ->
+    report = Instances.Collections.reports.get(@get("report_id"))
+    report.dimensions_filters
 
   urlRoot: () ->
     if @get('project_id')?
@@ -37,7 +40,7 @@ class Analytics.Models.ReportTab extends Backbone.Model
     _.extend({
       end_time: @end_time
       compare_end_time: @compare_end_time
-      dimensions_filters: @dimensions_filters
+      dimensions_filters: @dimensions_filters()
       dimensions: @dimensions
       dimension: @dimension
     }, @attributes)
