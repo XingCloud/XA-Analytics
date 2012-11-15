@@ -18,7 +18,13 @@
     margin-left: 6px;
   }
 }
-
+.reports-nav{
+  .nav-dashboard{
+    a{
+      padding: 8px 15px;
+    }
+  }
+}
 .range-control{
   cursor: pointer;
   border: 1px solid #CCC;

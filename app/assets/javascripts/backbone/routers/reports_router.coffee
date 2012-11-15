@@ -72,6 +72,7 @@ class Analytics.Routers.ReportsRouter extends Backbone.Router
       window.location.href = "#/404"
 
   highlight_report_nav: (report) ->
+    $('.nav-dashboard li').removeClass("active")
     category_id = (if report.get("report_category_id")? then report.get("report_category_id") else 'unknown')
     if not $('#nav-category-'+category_id+"-body").hasClass("in")
       $('#nav-category-'+category_id).click()

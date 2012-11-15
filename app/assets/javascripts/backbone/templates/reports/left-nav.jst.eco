@@ -1,4 +1,7 @@
 <div class="reports-nav">
+    <ul class="nav nav-list nav-dashboard">
+        <li><a href="#/dashboard"><i class="icon-dashboard"></i> <%= I18n.t('templates.reports.left_nav.dashboard') %> </a></li>
+    </ul>
     <div class="accordion" id="reports-accordion">
         <% for report_category in @report_categories.models: %>
             <% is_in = (report_category == @report_categories.first()) %>
@@ -12,17 +15,19 @@
         <% end %>
     </div>
 </div>
-<div class="btn-group" style="padding-left: 42px;">
-    <a class="btn" href="#/reports/new">
-        <i class="icon icon-plus" title="<%= I18n.t('templates.reports.left_nav.add_report') %>"></i>
-    </a>
-    <a class="btn" href="#/dashboard">
-        <i class="icon icon-home" title="<%= I18n.t('templates.reports.left_nav.dashboard') %>"></i>
-    </a>
-    <a class="btn" href="#/settings">
-        <i class="icon icon-cog" title="<%= I18n.t('templates.reports.left_nav.settings') %>"></i>
-    </a>
-</div>
-
+<ul class="nav nav-list">
+    <li class="nav-report">
+        <a href="#/reports/new">
+            <i class="icon icon-plus"></i>
+            <%= I18n.t('templates.reports.left_nav.add_report') %>
+        </a>
+    </li>
+    <li class="nav-report">
+        <a href="#/settings">
+            <i class="icon icon-cog"></i>
+            <%= I18n.t('templates.reports.left_nav.settings') %>
+        </a>
+    </li>
+</ul>
 
 
