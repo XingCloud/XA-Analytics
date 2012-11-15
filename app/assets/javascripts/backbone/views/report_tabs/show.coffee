@@ -12,7 +12,7 @@ class Analytics.Views.ReportTabs.ShowView extends Backbone.View
     @model.view = this
     @timelines = new Analytics.Collections.TimelineCharts([], {
       selector: @model
-      filters: @model.dimensions_filters
+      filters: @model.dimensions_filters()
     })
 
   render: () ->
