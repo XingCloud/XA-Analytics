@@ -14,10 +14,12 @@
                         </a>
                     </li>
                     <li>
-                        <a href="#/report_categories/<%= id %>/delete">
-                            <i class="icon icon-trash"></i>
-                            &nbsp;<%= I18n.t("commons.delete") %>
-                        </a>
+                        <% if id != 2: %>
+                            <a href="#/report_categories/<%= id %>/delete">
+                                <i class="icon icon-trash"></i>
+                                &nbsp;<%= I18n.t("commons.delete") %>
+                            </a>
+                        <% end %>
                     </li>
                     <li>
                         <a href="#/report_categories/new">
@@ -82,10 +84,12 @@
                 </a>
             </li>
             <li>
-                <a href="#/reports/<%= report.id %>/delete">
-                    <i class="icon icon-trash"></i>
-                    &nbsp;<%= I18n.t("commons.delete") %>
-                </a>
+                <% if report.get("project_id")? or report.get("report_category_id") != 2: %>
+                    <a href="#/reports/<%= report.id %>/delete">
+                        <i class="icon icon-trash"></i>
+                        &nbsp;<%= I18n.t("commons.delete") %>
+                    </a>
+                <% end %>
             </li>
             <li class="divider"></li>
             <% for category in Instances.Collections.report_categories.models: %>

@@ -1,5 +1,6 @@
 class ReportCategoriesController < ProjectBaseController
   before_filter :find_category, :only => [:update, :destroy]
+  before_filter :filter_destroy, :only => [:destroy]
   after_filter :log_action, :only => [:create, :update, :destroy]
 
   def index
@@ -93,5 +94,12 @@ class ReportCategoriesController < ProjectBaseController
     Resque.enqueue(Workers::LogAction, @project.id,
                    "ReportCategory", @category.name, action_name,
                    session[:cas_user], Time.now)
+  end
+
+  def filter_destroy
+    if @category.id == 2
+      render :json => @category.js_attributes, :status => 400
+      return
+    end
   end
 end
