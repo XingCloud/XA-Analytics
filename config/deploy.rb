@@ -15,10 +15,10 @@ set :scm, :git
 # Or: `accurev`, `bzr`, `cvs`, `darcs`, `git`, `mercurial`, `perforce`, `subversion` or `none`
 
 # task :stage do
-  role :web, "app@119.254.28.37", "app@10.1.138.170"                          # Your HTTP server, Apache/etc
-  role :app, "app@119.254.28.37", "app@10.1.138.170"                      # This may be the same as your `Web` server
-  role :db,  "app@119.254.28.37" , :primary => true # This is where Rails migrations will run
-  role :resque_worker, "app@119.254.28.37", "app@10.1.138.170"
+  role :web, "app@58.68.229.98"                          # Your HTTP server, Apache/etc
+  role :app, "app@58.68.229.98"                      # This may be the same as your `Web` server
+  role :db,  "app@58.68.229.98" , :primary => true # This is where Rails migrations will run
+  role :resque_worker, "app@58.68.229.98"
 # end
 
 # task :production do
