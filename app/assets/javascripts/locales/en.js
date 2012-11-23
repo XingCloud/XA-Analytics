@@ -47,6 +47,11 @@ I18n.translations = {
                     "shard_rule_helper": "use number separated by comma"
                 }
             },
+            "expressions": {
+                "form": {
+                    "handler_placeholder": "Date offset"
+                }
+            },
             "maintenance_plans": {
                 "form": {
                     "edit": "Edit",

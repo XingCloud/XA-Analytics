@@ -16,6 +16,10 @@ class Analytics.Models.Expression extends Backbone.Model
       result[@get("name")] = @value()
     else if operator == "handler"
       result[@get("name")] = {"$handler": "DateSplittor"}
+      if @get("value")?
+        result[@get("name")]["offset"] = @get("value")
+      else
+        result[@get("name")]["offset"] = 0
     else
       result[@get("name")] = {}
       result[@get("name")]["$"+operator] = @value()

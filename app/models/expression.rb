@@ -8,7 +8,7 @@ class Expression < ActiveRecord::Base
     if operator == "eq"
       {name => value_wrapper}
     elsif operator == "handler"
-      {name => {"$handler" => "DateSplittor"}}
+      {name => {"$handler" => "DateSplittor", "offset" => value_wrapper.present? ? value_wrapper : 0}}
     else
       {name => {"$#{operator}" => value_wrapper}}
     end
