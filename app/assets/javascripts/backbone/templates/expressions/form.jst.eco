@@ -19,7 +19,7 @@
         <% if (@value_type == 'Date' or @value_type == 'sql_datetime') and @operator != 'handler': %>
             <input class="datepicker" type="text" name="expressions_attributes[<%= @index %>][value]" value="<%= if @value? and @value.length > 0 then @value else Analytics.Utils.formatUTCDate(new Date().getTime(), 'YYYY-MM-DD') %>"/>
         <% else if @operator == 'handler': %>
-            <input type="text" placeholder="<%= I18n.t('templates.expressions.form.handler_placeholder') %>" name="expressions_attributes[<%= @index %>][value]" value="<%= if @value? then @value else 0 %>"/>
+            <input type="text" placeholder="<%= I18n.t('templates.expressions.form.handler_placeholder') %>" name="expressions_attributes[<%= @index %>][value]" value="<%= if @value? and @value.length > 0 then @value else 0 %>"/>
         <% else: %>
             <input type="text" name="expressions_attributes[<%= @index %>][value]" value="<%= @value %>"/>
         <% end %>
