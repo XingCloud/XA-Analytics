@@ -388,12 +388,12 @@ I18n.translations = {
                 "user_num": "发生的用户人数"
             },
             "events": {
-                "event0": "事件字段第一层",
-                "event1": "事件字段第二层",
-                "event2": "事件字段第三层",
-                "event3": "事件字段第四层",
-                "event4": "事件字段第五层",
-                "event5": "事件字段第六层"
+                "event0": "事件第一层",
+                "event1": "事件第二层",
+                "event2": "事件第三层",
+                "event3": "事件第四层",
+                "event4": "事件第五层",
+                "event5": "事件第六层"
 
             },
             "report_tab_ranges": {
