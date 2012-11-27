@@ -133,13 +133,6 @@
         cursor: pointer;
       }
     }
-    td.add-dimension{
-      padding-left: 10px;
-      ul{
-        max-height: 200px;
-        overflow: auto;
-      }
-    }
   }
 }
 
@@ -214,5 +207,54 @@
   }
   .dimensions-control{
     margin-left: 5px;
+  }
+}
+
+.dimensions-panel{
+  .dimension-tags{
+    .dimension-tag-splitter{
+      float: left;
+    }
+    .dimension-tag{
+      list-style: none;
+      float: left;
+      border-radius: 6px;
+      -moz-border-radius: 6px;
+      -webkit-border-radius: 6px;
+      background-color: #EEE;
+      padding: 2px 2px 2px 4px;
+      position: relative;
+      line-height: 20px;
+      img{
+        cursor: move;
+      }
+      span{
+        cursor: pointer;
+      }
+      margin: 0 3px 0 3px;
+    }
+
+    .dimension-tag:hover{
+      color: white;
+      background-color: #08C;
+    }
+    .dimension-tag.active{
+      color: white;
+      background-color: #08C;
+    }
+
+    float: left;
+    margin: 0;
+  }
+  .sign{
+    float: left;
+    margin-top: 5px;
+  }
+  .add-dimension{
+    padding-left: 10px;
+    ul{
+      max-height: 200px;
+      overflow: auto;
+    }
   }
 }

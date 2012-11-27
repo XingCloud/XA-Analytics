@@ -1,0 +1,12 @@
+<table>
+    <tr>
+        <td class="filters">
+            <div class="dimensions-panel row-fluid"></div>
+            <div class="segments-panel row-fluid"></div>
+        </td>
+        <td class="range-picker">
+            <div class="right report-tab-range-picker">
+            </div>
+        </td>
+    </tr>
+</table>

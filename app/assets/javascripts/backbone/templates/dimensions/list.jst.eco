@@ -1,39 +1,4 @@
 <div class="dimensions-list row-fluid">
-    <table class="left">
-        <tbody>
-        <tr>
-            <% for dimension in @dimensions: %>
-                <% if @dimension? and dimension.dimension_type == @dimension.dimension_type and dimension.value == @dimension.value: %>
-                    <td class="current">
-                        <%= Analytics.Static.getDimensionName(dimension.value) %>
-                        <% if @dimension.dimension_type == "USER_PROPERTIES" and (@dimension.value_type == "sql_bigint" or @dimension.value_type == "int"): %>
-                            (<a class="change-gpattern"><%= I18n.t("templates.dimensions.list.change_shard_rule") %></a>)
-                        <% end %>
-                    </td>
-                <% else: %>
-                    <td><a class="select-dimension" value="<%= dimension.value %>" dimension_type="<%= dimension.dimension_type %>"><%= Analytics.Static.getDimensionName(dimension.value) %></a></td>
-                <% end %>
-            <% end %>
-            <td class="add-dimension">
-                <div class="dropdown">
-                    <a class="btn dropdown-toggle" data-toggle="dropdown">
-                        <i class="icon icon-plus"/>
-                        <span class="caret"></span>
-                    </a>
-                    <ul class="dropdown-menu">
-                        <% for dimension in Analytics.Static.getDimensions(): %>
-                            <li>
-                                <a value="<%= dimension.value %>" name="<%= dimension.name %>" dimension_type="<%= dimension.dimension_type %>" value_type="<%= dimension.value_type %>">
-                                    <%= dimension.name %>
-                                </a>
-                            </li>
-                        <% end %>
-                    </ul>
-                </div>
-            </td>
-        </tr>
-        </tbody>
-    </table>
     <div class="right form-search">
         <input type="text" class="input-medium search-query search-dimension-query" />
         <button class="btn search search-dimension"><%= I18n.t("commons.search") %></button>

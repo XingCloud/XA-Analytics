@@ -1,3 +1,25 @@
 // Place all the styles related to the reports controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+.report-panel{
+  border: 1px solid grey;
+  border-radius: 10px;
+  -moz-border-radius: 10px;
+  -webkit-border-radius: 10px;
+  z-index: 1000;
+  background-color: white;
+  table{
+    width: 100%;
+    td.filters{
+      padding-left: 5px;
+      span.sign{
+        float: left;
+      }
+    }
+    td.range-picker{
+      text-align: right;
+      padding-right: 5px;
+    }
+  }
+}
