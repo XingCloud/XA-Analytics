@@ -139,6 +139,7 @@ Analytics.Utils.formatCSVOutput = (csv) ->
     ret = csv.replace(new RegExp("^[ \t]*\r?\n","gm"),"") #remove the empty line
     ret = ret.replace(new RegExp(",\"[ \r\n]*","gm"),",\"") #remove space after ,"
     ret = ret.replace(new RegExp("[ \r\n]*\",","gm"),"\",") #remove space before ", 
-    ret = ret.replace(new RegExp("[ \r\n]*\"\r?\n","gm"),"\"\r\n") #remove space before "\n
+    ret = ret.replace(new RegExp("[ \r\n]*\"\r?\n","gm"),"\"\r\n") #remove space before "
+    ret = ret.replace(new RegExp("&nbsp;","gm"),"")
     # ret = ret.replace(new RegExp("[\r\n]*\"[ \r\n]*","gm"),"\"") #remove space after "
     "\ufeff"+ret                #add utf-8 bom

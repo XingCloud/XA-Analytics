@@ -125,9 +125,10 @@ class Analytics.Collections.TimelineCharts extends Analytics.Collections.BaseCha
       legend:
         enabled: @for_widget
       plotOptions:
-        line:
+        series:
+          fillOpacity:0.1
           marker:
-            enabled: interval_count <= (if @for_widget? then 24 else 48)
+            enabled: interval_count <= (if @for_widget? then 24 else 48)          
       series: []
     }
     if @selector.get("interval") == "min5" or @selector.get("interval") == "hour"
