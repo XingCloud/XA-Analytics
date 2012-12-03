@@ -119,3 +119,8 @@
     <% end %>
     </tbody>
 </table>
+
+<a download="<%=Instances.Models.project.get('identifier')+'_'+Instances.Collections.reports.get(@selector.get('report_id')).get('title')+'_'+@selector.get('title')%>.csv"
+   class="download-table" >
+   <i class="icon-download-alt" title="csv"></i>
+</a>

@@ -12,6 +12,9 @@ class Analytics.Views.Charts.KpisView extends Backbone.View
     "click .segment-name" : "click_segment_name"
     "mouseenter .metric-name" : "tryshow_desc_icon"
     "mouseleave .metric-name" : "tryhide_desc_icon"
+    "click a.download-table" : "download_table"
+    "mouseenter" : "mouseenter_table"
+    "mouseleave" : "mouseleave_table"
 
   initialize: (options) ->
     _.bindAll this, "render", "redraw"
@@ -71,3 +74,14 @@ class Analytics.Views.Charts.KpisView extends Backbone.View
 
   tryhide_desc_icon: (event) ->
     $("i", event.currentTarget).fadeTo('fast', 0.4)
+
+
+  download_table: (event) ->
+    csv = $(@el).find("table").table2CSV({delivery:'value'})
+    event.currentTarget.href = 'data:text/csv;charset=UTF-8,'+encodeURIComponent(Analytics.Utils.formatCSVOutput(csv))
+
+  mouseenter_table: (event) ->
+    $(@el).find("a.download-table").show()
+
+  mouseleave_table: (event)->
+    $(@el).find("a.download-table").hide()
