@@ -148,7 +148,7 @@ class Metric < ActiveRecord::Base
         json[:segment] = segment.sequence.to_json
       end
     else
-      json[:segment] = condition.upcase
+      json[:segment] = "TOTAL_USER"
     end
 
     json
