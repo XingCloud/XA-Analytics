@@ -108,7 +108,8 @@ I18n.translations = {
                 "settings": {
                     "header": "Settings",
                     "user_attributes": "User attributes",
-                    "custom_event_names": "Event names"
+                    "custom_event_names": "Event names",
+		    "privilege_admin" : "Privilege administrator"
                 },
                 "show": {
                     "degrade": "Old version",

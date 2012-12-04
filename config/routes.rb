@@ -33,6 +33,7 @@ Analytic::Application.routes.draw do
     resources :user_attributes
     resources :action_logs
     resources :translations
+    resources :project_users
   end
 
   namespace :template do

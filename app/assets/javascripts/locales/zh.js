@@ -108,7 +108,8 @@ I18n.translations = {
                 "settings": {
                     "header": "项目设置",
                     "user_attributes": "自定义属性",
-                    "custom_event_names": "自定义事件字段名"
+                    "custom_event_names": "自定义事件字段名",
+		    "privilege_admin" : "权限管理"
                 },
                 "show": {
                     "degrade": "回旧版",
