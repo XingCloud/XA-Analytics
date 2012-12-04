@@ -131,6 +131,7 @@ I18n.translations = {
                     "type": "类型",
                     "line_chart": "线状图",
                     "bar_chart": "柱状图",
+		    "area_chart" : "积分图",
                     "advanced_options": "高级选项",
                     "length": "报告时长",
                     "offset": "默认截止到距今",

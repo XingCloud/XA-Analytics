@@ -20,6 +20,7 @@ class Analytics.Views.Dimensions.ListView extends Backbone.View
     "change select.pagesize" : "change_pagesize"
     "click a.change-gpattern" : "change_gpattern"
     "click a.submit-gpattern" : "submit_gpattern"
+    "click a.download-table" : "download_table"
 
   initialize: (options) ->
     _.bindAll this, "render", "redraw"
@@ -197,3 +198,8 @@ class Analytics.Views.Dimensions.ListView extends Backbone.View
 
   unblock: () ->
     $(@el).unblock()
+
+  download_table: (event) ->
+    csv = $(@el).find(".dimensions-table table").table2CSV({delivery:'value'})
+    event.currentTarget.href = 'data:text/csv;charset=UTF-8,'+encodeURIComponent(Analytics.Utils.formatCSVOutput(csv))
+    

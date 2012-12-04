@@ -19,10 +19,12 @@ class ReportsController < ProjectBaseController
         @report.save!
         @project.project_reports.create!({:report_id => @report.id})
         render :json => @report.js_attributes, :status => 200
-      rescue ActiveRecord::RecordInvalid
+      rescue ActiveRecord::RecordInvalid        
         render :json => @report.js_attributes, :status => 400
         raise ActiveRecord::Rollback
-      rescue Exception
+      rescue Exception =>e
+        logger.error e.message
+        logger.error e.backtrace.inspect
         render :json => @report.js_attributes, :status => 500
         raise ActiveRecord::Rollback
       end
@@ -47,6 +49,8 @@ class ReportsController < ProjectBaseController
         render :json => @report.js_attributes, :status => 400
         raise ActiveRecord::Rollback
       rescue Exception => e
+        logger.error e.message
+        logger.error e.backtrace.inspect        
         render :json => @report.js_attributes, :status => 500
         raise ActiveRecord::Rollback
       end

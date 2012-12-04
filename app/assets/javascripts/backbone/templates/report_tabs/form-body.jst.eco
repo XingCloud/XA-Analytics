@@ -23,6 +23,7 @@
         <div class="btn-group">
             <button id="report_tabs_attributes_<%= @index %>_type_line" class="<%= (if @chart_type == 'line' then 'active btn type-btn' else 'btn type-btn') %>" value="line" href=""><%= I18n.t("templates.report_tabs.form_body.line_chart") %></button>
             <button id="report_tabs_attributes_<%= @index %>_type_column" class="<%= ( if @chart_type == 'column' then 'active btn type-btn' else 'btn type-btn') %>" value="column" href=""><%= I18n.t("templates.report_tabs.form_body.bar_chart") %></button>
+            <button id="report_tabs_attributes_<%= @index %>_type_area" class="<%= ( if @chart_type == 'area' then 'active btn type-btn' else 'btn type-btn') %>" value="area" href=""><%= I18n.t("templates.report_tabs.form_body.area_chart") %></button>
         </div>
     </div>
 </div>
