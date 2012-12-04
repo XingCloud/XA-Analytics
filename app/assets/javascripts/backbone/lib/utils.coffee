@@ -134,3 +134,12 @@ Analytics.Utils.actionFinished = () ->
 Analytics.Utils.zeroPad = (num, places) ->
   zero = places - num.toString().length + 1
   Array(+(zero > 0 && zero)).join("0") + num
+
+Analytics.Utils.formatCSVOutput = (csv) ->
+    ret = csv.replace(new RegExp("^[ \t]*\r?\n","gm"),"") #remove the empty line
+    ret = ret.replace(new RegExp(",\"[ \r\n]*","gm"),",\"") #remove space after ,"
+    ret = ret.replace(new RegExp("[ \r\n]*\",","gm"),"\",") #remove space before ", 
+    ret = ret.replace(new RegExp("[ \r\n]*\"\r?\n","gm"),"\"\r\n") #remove space before "
+    ret = ret.replace(new RegExp("&nbsp;","gm"),"")
+    # ret = ret.replace(new RegExp("[\r\n]*\"[ \r\n]*","gm"),"\"") #remove space after "
+    "\ufeff"+ret                #add utf-8 bom

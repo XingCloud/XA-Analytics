@@ -18,12 +18,13 @@ class ReportsController < ProjectBaseController
       begin
         @report.save!
         @project.project_reports.create!({:report_id => @report.id})
-        Resque.enqueue(Workers::SyncReport, Workers::SyncReport.params(@report.id)) unless APP_CONFIG[:sync_metric] != 1
         render :json => @report.js_attributes, :status => 200
-      rescue ActiveRecord::RecordInvalid
+      rescue ActiveRecord::RecordInvalid        
         render :json => @report.js_attributes, :status => 400
         raise ActiveRecord::Rollback
-      rescue Exception
+      rescue Exception =>e
+        logger.error e.message
+        logger.error e.backtrace.inspect
         render :json => @report.js_attributes, :status => 500
         raise ActiveRecord::Rollback
       end
@@ -39,17 +40,17 @@ class ReportsController < ProjectBaseController
           project_report = @project.project_reports.find_by_report_id(@report.id)
           project_report.update_attributes!({:display => false})
           ProjectReport.create!({:project_id => @project.id, :report_id => new_report.id})
-          Resque.enqueue(Workers::SyncReport, Workers::SyncReport.params(new_report.id)) unless APP_CONFIG[:sync_metric] != 1
           render :json => new_report.js_attributes, :status => 200
         else
           @report.update_attributes!(params[:report])
-          Resque.enqueue(Workers::SyncReport, Workers::SyncReport.params(@report.id)) unless APP_CONFIG[:sync_metric] != 1
           render :json => @report.js_attributes, :status => 200
         end
       rescue ActiveRecord::RecordInvalid
         render :json => @report.js_attributes, :status => 400
         raise ActiveRecord::Rollback
       rescue Exception => e
+        logger.error e.message
+        logger.error e.backtrace.inspect        
         render :json => @report.js_attributes, :status => 500
         raise ActiveRecord::Rollback
       end
@@ -65,7 +66,6 @@ class ReportsController < ProjectBaseController
         render :json => @report.js_attributes, :status => 500
       end
     else
-      Resque.enqueue(Workers::SyncReport, Workers::SyncReport.params(@report.id), "REMOVE") unless APP_CONFIG[:sync_metric] != 1
       if @report.destroy
         render :json => @report.js_attributes
       else

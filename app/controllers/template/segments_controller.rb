@@ -8,7 +8,6 @@ class Template::SegmentsController < Template::BaseController
   def create
     @segment = Segment.new(params[:segment])
     if @segment.save
-      Resque.enqueue(Workers::SyncSegment, @segment.id, @segment.sequence, nil)
       render :json => @segment.js_attributes
     else
       render :json => @segment.js_attributes, :status => 400
@@ -18,7 +17,6 @@ class Template::SegmentsController < Template::BaseController
   def update
     @segment.attributes = params[:segment]
     if @segment.save
-      Resque.enqueue(Workers::SyncSegment, @segment.id, @segment.sequence, nil)
       render :json => @segment.js_attributes
     else
       render :json => @segment.js_attributes, :status => 400
@@ -26,7 +24,6 @@ class Template::SegmentsController < Template::BaseController
   end
 
   def destroy
-    Resque.enqueue(Workers::SyncSegment, @segment.id, @segment.sequence, nil, "REMOVE")
     if @segment.destroy
       render :json => @segment.js_attributes
     else

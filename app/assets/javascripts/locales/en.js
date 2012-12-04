@@ -131,6 +131,7 @@ I18n.translations = {
                     "type": "Chart type",
                     "line_chart": "Line",
                     "bar_chart": "Column",
+		    "area_chart": "Integral",
                     "advanced_options": "Advanced options",
                     "length": "Length",
                     "offset": "Before",

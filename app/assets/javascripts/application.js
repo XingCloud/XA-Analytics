@@ -18,6 +18,7 @@
 //= require moment
 //= require jquery.blockUI
 //= require jquery.form_to_json
+//= require table2CSV
 //= require bootstrap-datepicker
 //= require i18n
 //= require ./locales/en

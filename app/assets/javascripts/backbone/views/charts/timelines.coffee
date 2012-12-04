@@ -43,9 +43,10 @@ class Analytics.Views.Charts.TimelinesView extends Backbone.View
 
   render_data: () ->
     highcharts = @highcharts
+    chart_type = (if @collection.selector.get("chart_type")? then @collection.selector.get("chart_type") else "line")
     @collection.each((timeline) ->
       highcharts.get(timeline.id).timeline = timeline
-      highcharts.get(timeline.id).setData(timeline.plot_data())
+      highcharts.get(timeline.id).setData(timeline.plot_data(chart_type))
     )
     $(@render_to).append(@template())
     if @collection.has_pendings()

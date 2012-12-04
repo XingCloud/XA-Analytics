@@ -93,6 +93,7 @@ class Analytics.Collections.TimelineCharts extends Analytics.Collections.BaseCha
 
   charts_options: (render_to, visibles) ->
     interval_count = Analytics.Utils.intervalCount(@selector.get_end_time(), @selector.get("interval"), @selector.get("length"))
+    chart_type = (if @selector.get("chart_type")? then @selector.get("chart_type") else 'line')
     options = {
       credits:
         enabled: false
@@ -101,7 +102,7 @@ class Analytics.Collections.TimelineCharts extends Analytics.Collections.BaseCha
       chart:
         renderTo: render_to
         height: 220 + 6 * (if @models.length > 9 then @models.length - 9 else 0)
-        type: (if @selector.get("chart_type")? then @selector.get("chart_type") else 'line')
+        type: chart_type
       yAxis:
         min: 0
         gridLineWidth: 0.5
@@ -124,9 +125,10 @@ class Analytics.Collections.TimelineCharts extends Analytics.Collections.BaseCha
       legend:
         enabled: @for_widget
       plotOptions:
-        line:
+        series:
+          fillOpacity:0.1
           marker:
-            enabled: interval_count <= (if @for_widget? then 24 else 48)
+            enabled: interval_count <= (if @for_widget? then 24 else 48)          
       series: []
     }
     if @selector.get("interval") == "min5" or @selector.get("interval") == "hour"
@@ -137,7 +139,7 @@ class Analytics.Collections.TimelineCharts extends Analytics.Collections.BaseCha
     @each((chart) ->
       options.series.push({
         name: chart.name()
-        data: chart.plot_data()
+        #data: chart.plot_data()
         color: "#" + chart.get("color")
         id: chart.id
         visible: (if visibles[chart.id]? then visibles[chart.id] else (chart.get("metric_id") == display_metric))

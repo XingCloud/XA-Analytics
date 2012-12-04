@@ -131,6 +131,29 @@ class Metric < ActiveRecord::Base
     options
   end
 
+  def sync_json(interval = "DAY", groupby_json = nil)
+    json = {
+        :interval => interval == "MIN5" ? "MIN5" : "DAY",
+        :event => event_key,
+        :type => groupby_json.present? ? "GROUP" : "COMMON",
+        :coverRange => number_of_day.present? ? number_of_day : 0,
+        :coverRangeOrigin => number_of_day_origin.present? ? number_of_day_origin : 0
+    }
+    if groupby_json.present?
+      json[:group_by] = groupby_json
+    end
+    if segment_id.present?
+      segment = Segment.find_by_id(segment_id)
+      if segment.present? and segment.sequence.present?
+        json[:segment] = segment.sequence.to_json
+      end
+    else
+      json[:segment] = condition.upcase
+    end
+
+    json
+  end
+
   protected
 
   def correct_combine
@@ -162,5 +185,4 @@ class Metric < ActiveRecord::Base
     end
     item
   end
-
 end

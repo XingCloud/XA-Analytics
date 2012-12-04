@@ -187,3 +187,14 @@
   display: inline-block;
   width: 0px;
 }
+
+a.download-table{
+    display:none;
+    position:absolute;
+    left:5px;
+    top:3px;
+    i{
+	font-size:20px;
+	color:#333;
+    }
+}
