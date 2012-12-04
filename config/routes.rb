@@ -50,4 +50,12 @@ Analytic::Application.routes.draw do
     resources :maintenance_plans
     resources :translations
   end
+
+  namespace :service do
+    resources :projects do
+      member do
+        get :sync_metrics
+      end
+    end
+  end
 end
