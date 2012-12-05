@@ -41,13 +41,15 @@
                     <% metric = Instances.Collections.metrics.get(metric_id) %>
                     <% chart = _.find(@models, (chart) -> chart.get("metric_id") == metric_id and chart.get("segment_id") == segment_id and not chart.get("compare_for")?) %>
                     <% up_filters = _.filter(chart.get("filters"), (item) -> item['dimension']['dimension_type'] == 'USER_PROPERTIES') %>
-                    <% use_natural = has_segments %>
+                    <% use_natural = (chart.get("sequence").total != chart.get("sequence").natural or has_segments or up_filters.length > 0) %>
                     <% chart_value = (if use_natural then chart.get("sequence").natural else chart.get("sequence").total) %>
                     <div class="kpi-info <%= if metric_id != @display_metric then 'deactive' %>" kpi-id="<%= chart.id %>" compare-kpi-id="<%= chart.get('compare_to') %>" metric-id="<%= metric_id %>" segment-id="<%= segment_id %>">
                         <% if @has_compare: %>
                             <% compare_chart = _.find(@models, (chart) -> chart.get("metric_id") == metric_id and chart.get("segment_id") == segment_id and chart.get("compare_for")?) %>
                             <% compare_chart_value = (if use_natural then compare_chart.get("sequence").natural else compare_chart.get("sequence").total) %>
-                            <% if chart_value == compare_chart_value: %>
+                            <% if not chart_value? or not compare_chart_value?: %>
+                                <p class="value unavailable">N/A</p>
+                            <% else if chart_value == compare_chart_value: %>
                                 <p class="value">
                                     <span>0%</span>
                                 </p>
@@ -65,12 +67,12 @@
                                     <% if not @for_widget: %>
                                         <span class="kpi-dot" style="border-color: #<%= chart.get('color') %>"></span>
                                     <% end %>
-                                    <%= if metric.get("value_type") == "percent" then (chart_value*100).toFixed(2)+"%" else chart_value %>
+                                    <%= if chart_value? then (if metric.get("value_type") == "percent" then (chart_value*100).toFixed(2)+"%" else chart_value) else 'N/A' %>
                                     &nbsp;vs&nbsp;
                                     <% if not @for_widget: %>
                                         <span class="kpi-dot" style="border-color: #<%= compare_chart.get('color') %>"></span>
                                     <% end %>
-                                    <%= if metric.get("value_type") == "percent" then (compare_chart_value*100).toFixed(2)+"%" else compare_chart_value %>
+                                    <%= if compare_chart_value? then (if metric.get("value_type") == "percent" then (compare_chart_value*100).toFixed(2)+"%" else compare_chart_value) else 'N/A' %>
                                 </span>
                             </p>
                         <% else: %>
@@ -78,9 +80,9 @@
                                 <% if not @for_widget: %>
                                     <span class="kpi-dot" style="border-color: #<%= chart.get('color') %>"></span>
                                 <% end %>
-                                <span><%= chart_value %></span>
+                                <span><%= if chart_value? then chart_value else 'N/A' %></span>
                             </p>
-                            <% if use_natural: %>
+                            <% if has_segments: %>
                                 <p class="percent-label">
                                     <span><%= I18n.t("templates.charts.kpis.user_percentage") %>:&nbsp;</span>
                                 </p>

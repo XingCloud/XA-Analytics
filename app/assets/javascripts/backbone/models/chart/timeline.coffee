@@ -40,7 +40,7 @@ class Analytics.Models.TimelineChart extends Backbone.Model
 
   ##过滤pending标记，给画图用
   plot_data: (chart_type) ->  
-    data = _.map(@data(), (x) -> if x[1] == "pending" or x[1] == "na" then [x[0], 0] else x)
+    data = _.map(@data(), (x) -> if not x[1]? or x[1] == "pending" or x[1] == "XA-NA" then [x[0], 0] else x)
 
     if chart_type == "area"
       _.each(data, (x, index) -> if index>0 && data[index][1]? then data[index][1] += data[index-1][1])
