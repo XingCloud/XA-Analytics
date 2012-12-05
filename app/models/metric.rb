@@ -75,7 +75,8 @@ class Metric < ActiveRecord::Base
      :combine_action => combine_action,
      :segment_id => segment_id,
      :description => description,
-     :scale => scale
+     :scale => scale,
+      :value_type => value_type
     }
   end
 

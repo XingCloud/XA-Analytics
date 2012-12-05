@@ -90,7 +90,10 @@ I18n.translations = {
                     "to": "天到距当前",
                     "segment": "用户群",
                     "scale": "伸缩系数",
-                    "combine": "与另一事件组合计算"
+                    "combine": "与另一事件组合计算",
+		    "value_type" : "显示格式",
+		    "origin_value_type": "原始值",
+		    "percent_value_type" : "百分比"		    
                 },
                 "index_dropdown": {
                     "add_metric": "新建指标"

@@ -90,7 +90,10 @@ I18n.translations = {
                     "to": "day(s) to last",
                     "segment": "Segment",
                     "scale": "Scale",
-                    "combine": "Combine with another"
+                    "combine": "Combine with another",
+		    "value_type" : "Display",
+		    "origin_value_type": "origin",
+		    "percent_value_type" : "percent"
                 },
                 "index_dropdown": {
                     "add_metric": "Add Metric"

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121109073542) do
+ActiveRecord::Schema.define(:version => 20121205062253) do
 
   create_table "action_logs", :force => true do |t|
     t.integer  "project_id"
@@ -22,22 +22,28 @@ ActiveRecord::Schema.define(:version => 20121109073542) do
     t.datetime "perform_at"
   end
 
+  create_table "broadcastings", :force => true do |t|
+    t.string   "message"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
   create_table "dimensions", :force => true do |t|
     t.integer "report_tab_id"
     t.string  "value"
-    t.string  "value_tupe",     :default => "String"
     t.string  "dimension_type"
     t.integer "level"
+    t.string  "value_type",     :default => "String"
   end
 
   create_table "expressions", :force => true do |t|
     t.string   "name"
     t.string   "operator"
     t.string   "value"
-    t.string   "value_type", :default => "String"
     t.integer  "segment_id"
     t.datetime "created_at",                       :null => false
     t.datetime "updated_at",                       :null => false
+    t.string   "value_type", :default => "String"
   end
 
   create_table "maintenance_plans", :force => true do |t|
@@ -51,19 +57,20 @@ ActiveRecord::Schema.define(:version => 20121109073542) do
   end
 
   create_table "metrics", :force => true do |t|
-    t.integer  "project_id"
-    t.integer  "combine_id"
-    t.integer  "segment_id"
-    t.integer  "number_of_day"
-    t.integer  "number_of_day_origin"
-    t.string   "name"
     t.string   "event_key"
     t.string   "condition"
+    t.datetime "created_at",                                 :null => false
+    t.datetime "updated_at",                                 :null => false
+    t.integer  "combine_id"
     t.string   "combine_action"
+    t.string   "name"
+    t.integer  "project_id"
+    t.integer  "number_of_day"
+    t.integer  "number_of_day_origin"
+    t.integer  "segment_id"
     t.text     "description"
-    t.datetime "created_at",                            :null => false
-    t.datetime "updated_at",                            :null => false
     t.float    "scale",                :default => 1.0
+    t.string   "value_type",           :default => "origin"
   end
 
   add_index "metrics", ["combine_id"], :name => "index_metrics_on_combine_id"
@@ -89,7 +96,17 @@ ActiveRecord::Schema.define(:version => 20121109073542) do
   add_index "project_reports", ["project_id"], :name => "index_project_reports_on_project_id"
   add_index "project_reports", ["report_id"], :name => "index_project_reports_on_report_id"
 
-  create_table "project_widgets", :id => false, :force => true do |t|
+  create_table "project_users", :force => true do |t|
+    t.integer "project_id"
+    t.integer "user_id"
+    t.string  "role"
+    t.text    "privilege"
+  end
+
+  add_index "project_users", ["project_id"], :name => "index_project_users_on_project_id"
+  add_index "project_users", ["user_id"], :name => "index_project_users_on_user_id"
+
+  create_table "project_widgets", :force => true do |t|
     t.integer "widget_id"
     t.integer "project_id"
     t.integer "display",    :default => 1
@@ -97,8 +114,8 @@ ActiveRecord::Schema.define(:version => 20121109073542) do
     t.integer "py"
   end
 
-  add_index "project_widgets", ["project_id"], :name => "index_project_widgets_on_project_id"
-  add_index "project_widgets", ["widget_id"], :name => "index_project_widgets_on_widget_id"
+  add_index "project_widgets", ["project_id"], :name => "index_widget_connectors_on_project_id"
+  add_index "project_widgets", ["widget_id"], :name => "index_widget_connectors_on_widget_id"
 
   create_table "projects", :force => true do |t|
     t.string   "identifier"
@@ -121,20 +138,19 @@ ActiveRecord::Schema.define(:version => 20121109073542) do
     t.integer "position",      :default => 0
   end
 
-  add_index "report_tab_metrics", ["metric_id"], :name => "index_report_tab_metrics_on_metric_id"
-  add_index "report_tab_metrics", ["report_tab_id"], :name => "index_report_tab_metrics_on_report_tab_id"
-
   create_table "report_tabs", :force => true do |t|
-    t.integer "report_id"
-    t.integer "project_id"
-    t.string  "title"
-    t.string  "description"
-    t.string  "chart_type",  :default => "line"
-    t.integer "length",      :default => 7
-    t.string  "interval",    :default => "day"
-    t.integer "compare",     :default => 0
-    t.boolean "show_table",  :default => false
-    t.integer "day_offset",  :default => 0
+    t.integer  "report_id"
+    t.integer  "project_id"
+    t.string   "title"
+    t.string   "description"
+    t.string   "chart_type",  :default => "line"
+    t.datetime "created_at",                      :null => false
+    t.datetime "updated_at",                      :null => false
+    t.integer  "length",      :default => 7
+    t.string   "interval",    :default => "day"
+    t.integer  "compare",     :default => 0
+    t.boolean  "show_table",  :default => false
+    t.integer  "day_offset",  :default => 0
   end
 
   add_index "report_tabs", ["report_id"], :name => "index_report_tabs_on_report_id"
@@ -143,10 +159,10 @@ ActiveRecord::Schema.define(:version => 20121109073542) do
     t.integer  "project_id"
     t.integer  "report_category_id"
     t.integer  "position"
-    t.integer  "original_report_id"
     t.string   "title"
     t.datetime "created_at",         :null => false
     t.datetime "updated_at",         :null => false
+    t.integer  "original_report_id"
   end
 
   add_index "reports", ["project_id"], :name => "index_reports_on_project_id"
@@ -205,6 +221,13 @@ ActiveRecord::Schema.define(:version => 20121109073542) do
   end
 
   add_index "user_preferences", ["user"], :name => "index_user_preferences_on_user"
+
+  create_table "users", :force => true do |t|
+    t.string   "name"
+    t.string   "role"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
 
   create_table "versions", :force => true do |t|
     t.string   "item_type",  :null => false
