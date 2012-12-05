@@ -109,7 +109,7 @@
                     <td class="time"><%= dateStr %></td>
                     <% for metric_id in @metric_ids: %>
                         <% data = cmap[segment_id][date][metric_id] %>
-                        <td class="data <%= if data == "pending" or data == "na" then I18n.t("commons.pending") else "" %>">
+                        <td class="data <%= if data == "pending" or data == "na" then 'unavailable' else "" %>">
                         <%= if data == "pending" then I18n.t("commons.pending") else if data == "na" then "n/a" else data %>
                         </td>
                     <% end %>

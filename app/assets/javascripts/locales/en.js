@@ -27,7 +27,8 @@ I18n.translations = {
                 "dimensions": {
                     "no_dimension": "No dimension. Please add (Support most 6 dimensions)",
                     "choose_segment": "Choose Segment",
-                    "total_dimensions": "Total {{count}} Segment(s)"
+                    "total_dimensions": "Total {{count}} Segment(s)" ,
+                    "no_category": "No category"
                 },
                 "kpis": {
                     "latest_days": "Latest {{days}} day(s)",
