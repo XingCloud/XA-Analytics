@@ -65,12 +65,12 @@
                                     <% if not @for_widget: %>
                                         <span class="kpi-dot" style="border-color: #<%= chart.get('color') %>"></span>
                                     <% end %>
-                                    <%= chart_value %>
+                                    <%= if metric.get("value_type") == "percent" then (chart_value*100).toFixed(2)+"%" else chart_value %>
                                     &nbsp;vs&nbsp;
                                     <% if not @for_widget: %>
                                         <span class="kpi-dot" style="border-color: #<%= compare_chart.get('color') %>"></span>
                                     <% end %>
-                                    <%= compare_chart_value %>
+                                    <%= if metric.get("value_type") == "percent" then (compare_chart_value*100).toFixed(2)+"%" else compare_chart_value %>
                                 </span>
                             </p>
                         <% else: %>
@@ -110,7 +110,7 @@
                     <% for metric_id in @metric_ids: %>
                         <% data = cmap[segment_id][date][metric_id] %>
                         <td class="data <%= if data == "pending" or data == "XA-NA" then 'unavailable' else "" %>">
-                        <%= if data == "pending" then I18n.t("commons.pending") else if data == "XA-NA" then "n/a" else data %>
+                        <%= if data == "pending" then I18n.t("commons.pending") else if data == "XA-NA" then "n/a" else if Instances.Collections.metrics.get(metric_id).get("value_type")=="percent" then (data*100).toFixed(2)+"%" else data %>
                         </td>
                     <% end %>
                 </tr>
@@ -124,3 +124,4 @@
    class="download-table" >
    <i class="icon-download-alt" title="csv"></i>
 </a>
+
