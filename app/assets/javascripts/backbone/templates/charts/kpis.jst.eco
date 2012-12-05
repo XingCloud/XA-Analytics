@@ -41,7 +41,7 @@
                     <% metric = Instances.Collections.metrics.get(metric_id) %>
                     <% chart = _.find(@models, (chart) -> chart.get("metric_id") == metric_id and chart.get("segment_id") == segment_id and not chart.get("compare_for")?) %>
                     <% up_filters = _.filter(chart.get("filters"), (item) -> item['dimension']['dimension_type'] == 'USER_PROPERTIES') %>
-                    <% use_natural = (chart.get("sequence").total != chart.get("sequence").natural or has_segments or up_filters.length > 0) %>
+                    <% use_natural = has_segments %>
                     <% chart_value = (if use_natural then chart.get("sequence").natural else chart.get("sequence").total) %>
                     <div class="kpi-info <%= if metric_id != @display_metric then 'deactive' %>" kpi-id="<%= chart.id %>" compare-kpi-id="<%= chart.get('compare_to') %>" metric-id="<%= metric_id %>" segment-id="<%= segment_id %>">
                         <% if @has_compare: %>
@@ -109,8 +109,8 @@
                     <td class="time"><%= dateStr %></td>
                     <% for metric_id in @metric_ids: %>
                         <% data = cmap[segment_id][date][metric_id] %>
-                        <td class="data <%= if data == "pending" or data == "na" then 'unavailable' else "" %>">
-                        <%= if data == "pending" then I18n.t("commons.pending") else if data == "na" then "n/a" else data %>
+                        <td class="data <%= if data == "pending" or data == "XA-NA" then 'unavailable' else "" %>">
+                        <%= if data == "pending" then I18n.t("commons.pending") else if data == "XA-NA" then "n/a" else data %>
                         </td>
                     <% end %>
                 </tr>
