@@ -217,6 +217,18 @@ I18n.translations = {
                     "shard_rule": "分段规则"
                 }
             },
+	    "project_users":{
+		"user" : "用户",
+		"role" : "角色",
+		"access_reports" : "允许查看报告",
+		"normal_role" : "普通用户",
+		"mgriant_role" : "外来用户",
+		"unlimited" : "无限制",
+		"form":{
+		    "edit" : "编辑用户"
+		}
+
+	    },
             "utils": {
                 "404": {
                     "message": "您访问的资源不存在或者已删除，请访问其他资源",

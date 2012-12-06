@@ -2,6 +2,7 @@ class ProjectsController < ProjectBaseController
   before_filter :filter_v9, :only => [:update_project_widgets]
 
   def show
+    @user = User.find_by_name(session[:cas_user])
   end
 
   def event_item

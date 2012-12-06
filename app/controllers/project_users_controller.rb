@@ -9,7 +9,8 @@ class ProjectUsersController < ProjectBaseController
   def update
     ProjectUser.transaction do
       begin
-        @project_user.update_attributes!(param[:project_user])
+        @project_user.update_attributes!(params[:project_user])
+        render  :json=> @project_user.js_attributes
       rescue ActiveRecord::RecordInvalid
         render :json => @project_user.js_attributes, :status=>400
         raise ActiveRecord::Rollback
@@ -48,7 +49,7 @@ private
           @project.project_users.create!({
                                           :user_id=>@user.id,
                                           :role=>"normal",
-                                          :privilege=>{:reports=>{}}})
+                                          :privilege=>{:report_ids=>[]}})
         rescue ActiveRecord::RecordInvalid
 
           raise ActiveRecord::Rollback

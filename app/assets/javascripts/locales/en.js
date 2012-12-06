@@ -217,6 +217,17 @@ I18n.translations = {
                     "shard_rule": "Shard Rule"
                 }
             },
+	    "project_users":{
+		"user" : "user",
+		"role" : "role",
+		"access_reports" : "access reports",
+		"normal_role" : "normal",
+		"mgriant_role" : "mgriant",
+		"unlimited" : "unlimited",
+		"form":{
+		    "edit" : "Edit user"
+		}
+	    },
             "utils": {
                 "404": {
                     "message": "The resource you access is not exist now, please check other resources",
