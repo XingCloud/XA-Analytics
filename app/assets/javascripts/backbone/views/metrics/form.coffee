@@ -8,6 +8,7 @@ class Analytics.Views.Metrics.FormView extends Backbone.View
     "focus input.event-input" : "event_input_focus"
     "change input.event-input" : "event_input_change"
     "change select#metric_combine_action" : "toggle_combine"
+    "click button.type-btn" : "change_value_type"
 
   initialize: (options) ->
     _.bindAll(this, "render")
@@ -121,3 +122,8 @@ class Analytics.Views.Metrics.FormView extends Backbone.View
     else
       $(@el).find('#combine-fields').show()
       $(@el).find('#metric_combine_attributes__destroy').val(0)
+
+  change_value_type:(ev) ->
+    $(@el).find('button.type-btn').removeClass('active')
+    $(ev.currentTarget).addClass('active')
+    $(@el).find("#value-type").val($(ev.currentTarget).attr("value"))

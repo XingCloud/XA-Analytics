@@ -1,6 +1,7 @@
 class Analytics.Models.Metric extends Backbone.Model
   defaults:
     "scale": 1
+    "value_type": "origin"
   urlRoot: () ->
     if @get("project_id")?
       "/projects/"+@get("project_id")+"/metrics"

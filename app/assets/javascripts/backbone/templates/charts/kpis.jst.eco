@@ -20,9 +20,13 @@
             <% metric = Instances.Collections.metrics.get(metric_id) %>
             <td class="metric-name <%= if index+1 == @metric_ids.length then 'last' %>" value="<%= metric_id %>">
                 <% if metric.get('description'): %>
-                    <i class="icon icon-question-sign" data-content="<%= metric.get('description') %>" data-original-title="<%= metric.get("name") %>"></i>
+                    <span class="metric-name-desc" data-content="<%= metric.get('description') %>" data-original-title="<%= metric.get("name") %>"><i class="icon icon-question-sign"></i>
+                    <%= metric.get("name") %>
+                    </span>
+                <% else: %>
+                    <span><%= metric.get("name") %></span>
                 <% end %>
-                <span><%= metric.get("name") %></span>
+
             </td>
             <% index = index + 1 %>
         <% end %>
@@ -67,12 +71,12 @@
                                     <% if not @for_widget: %>
                                         <span class="kpi-dot" style="border-color: #<%= chart.get('color') %>"></span>
                                     <% end %>
-                                    <%= if chart_value? then chart_value else 'N/A' %>
+                                    <%= if chart_value? then (if metric.get("value_type") == "percent" then (chart_value*100).toFixed(2)+"%" else chart_value) else 'N/A' %>
                                     &nbsp;vs&nbsp;
                                     <% if not @for_widget: %>
                                         <span class="kpi-dot" style="border-color: #<%= compare_chart.get('color') %>"></span>
                                     <% end %>
-                                    <%= if compare_chart_value? then compare_chart_value else 'N/A' %>
+                                    <%= if compare_chart_value? then (if metric.get("value_type") == "percent" then (compare_chart_value*100).toFixed(2)+"%" else compare_chart_value) else 'N/A' %>
                                 </span>
                             </p>
                         <% else: %>
@@ -112,7 +116,7 @@
                     <% for metric_id in @metric_ids: %>
                         <% data = cmap[segment_id][date][metric_id] %>
                         <td class="data <%= if data == "pending" or data == "XA-NA" then 'unavailable' else "" %>">
-                        <%= if data == "pending" then I18n.t("commons.pending") else if data == "XA-NA" then "n/a" else data %>
+                        <%= if data == "pending" then I18n.t("commons.pending") else if data == "XA-NA" then "n/a" else if Instances.Collections.metrics.get(metric_id).get("value_type")=="percent" then (data*100).toFixed(2)+"%" else data %>
                         </td>
                     <% end %>
                 </tr>
@@ -126,3 +130,4 @@
    class="download-table" >
    <i class="icon-download-alt" title="csv"></i>
 </a>
+
