@@ -38,4 +38,18 @@ class ProjectBaseController < ApplicationController
   def filter_v9
     @project = @project.filter_v9
   end
+
+  def check_privilege
+    user = User.find_by_name(session[:cas_user])
+    if user
+      project_user = ProjectUser.find_by_user_id(user.id)
+      if project_user.role == "mgriant"
+        render :json=>{:message=>"have no privilege"}, :status => 403
+        return
+      end
+    end
+  rescue
+    render :json=>{:message=>""}, :status=>403
+    return
+  end
 end

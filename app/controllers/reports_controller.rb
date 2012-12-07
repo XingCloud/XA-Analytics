@@ -1,8 +1,9 @@
 class ReportsController < ProjectBaseController
   before_filter :find_report, :only => [:show, :edit, :update, :destroy, :set_category]
   before_filter :filter_destroy, :only => [:destroy]
+  before_filter :check_privilege, :only =>[:create, :update, :destroy, :set_category]
   after_filter :log_action, :only => [:update, :create, :destroy]
-
+  
   def index
     check_reports
     reports = []

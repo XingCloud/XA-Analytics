@@ -5,6 +5,9 @@ class Analytics.Models.Project extends Backbone.Model
   first_report: () ->
     Instances.Collections.reports.first()
 
+  first_can_access_report: () ->
+    _.find(Instances.Collections.reports.models, (report)-> Instances.Models.user.can_access_report(report.id))
+
   loading: () ->
     @load_resources(@)
 
@@ -43,6 +46,7 @@ class Analytics.Models.Project extends Backbone.Model
 
   load_finished: (project) ->
     Instances.Collections.translations.attach_translation()
+    Instances.Models.user.set_project_user() #todo:必须在render所有view之前执行,因为要做权限判断(其实可以在服务器端完成)
     new Analytics.Views.Projects.ShowView({model: project}).render()
     Instances.Routers = {
       report_categories_router: new Analytics.Routers.ReportCategoriesRouter(),

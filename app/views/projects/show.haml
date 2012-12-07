@@ -1,3 +1,10 @@
+- if @user
+  :javascript
+    Instances.Models.user = new Analytics.Models.User(#{@user.js_attributes.to_json});
+- else
+  :javascript
+    Instances.Models.user = new Analytics.Models.User({role:"admin",name:"#{session[:cas_user]}"})
+
 :javascript
   //I18n.fallbacks = true;
   I18n.defaultlocale = "en";
@@ -8,6 +15,3 @@
   Instances.Models.setting = new Analytics.Models.Setting(#{@project.setting.present? ? @project.setting.attributes.to_json : {}});
   Instances.Models.project.loading();
 
-- if @user
-  :javascript
-    Instances.Models.user = new Analytics.Models.User(#{@user.js_attributes.to_json});

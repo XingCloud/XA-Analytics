@@ -3,9 +3,11 @@
         <% id = (if @report_category? then @report_category.id else 'unknown') %>
         <% if @report_category?: %>
             <div class="dropdown">
+	        <% if not Instances.Models.user.is_mgriant():%>
                 <div class="dropdown-toggle" value="category-<%= id %>">
                     <span class="caret"></span>
                 </div>
+	       <% end %>
                 <ul class="dropdown-menu" id="dropdown-category-<%= id %>">
                     <li>
                         <a href="#/report_categories/<%= id %>/edit">
@@ -31,9 +33,11 @@
             </div>
         <% else: %>
             <div class="dropdown">
+	        <% if not Instances.Models.user.is_mgriant():%>
                 <div class="dropdown-toggle" value="category-unknown">
                     <span class="caret"></span>
                 </div>
+		<% end %>
                 <ul class="dropdown-menu" id="dropdown-category-unknown">
                     <li>
                         <a href="#/report_categories/new">
@@ -56,19 +60,23 @@
     <div id="nav-category-<%= id %>-body" class="accordion-body <%= if @is_in then 'in' %> collapse">
         <div class="accordion-inner">
             <ul class="nav nav-list">
-                <% for report in @reports: %>
+              <% for report in @reports: %>
+	            <% if Instances.Models.user.can_access_report(report.id): %>
                     <li id="nav-report-<%= report.id %>" class="nav-report">
+		        <% if not Instances.Models.user.is_mgriant(): %>
                         <div class="dropdown">
                             <div class="dropdown-toggle" value="report-<%= report.id %>">
                                 <span class="caret"></span>
                             </div>
                         </div>
+			<% end %>
                         <a href="#/reports/<%= report.id %>">
                             <i class="icon-file"></i>
                             <%= report.get("title") %>
                         </a>
                     </li>
-                <% end %>
+                    <% end %>
+		<% end %>
                 <% if @reports.length == 0: %>
                     <li class="no-data"><%= I18n.t("commons.no_data") %></li>
                 <% end %>

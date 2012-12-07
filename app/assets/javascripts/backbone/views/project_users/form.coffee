@@ -19,6 +19,7 @@ class Analytics.Views.ProjectUsers.FormView extends Backbone.View
 
     $(@el).modal().css({
       "min-width":"800px"
+      'margin-left': () -> -($(this).width() / 2)
     })
 
     $(@el).find("select").change()

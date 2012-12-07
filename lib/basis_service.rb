@@ -57,7 +57,7 @@ class BasisService
     false
   end
 
-  def self.get_users(identifier)
+  def self.get_members(identifier)
     users = []
     req = Net::HTTP::Get.new("/projects/#{identifier}/members")
     req.basic_auth BASIC_USERNAME, BASIC_PASSWORD

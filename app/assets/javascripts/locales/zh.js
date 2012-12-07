@@ -218,12 +218,13 @@ I18n.translations = {
                 }
             },
 	    "project_users":{
-		"user" : "用户",
+		"user" : "项目成员",
 		"role" : "角色",
 		"access_reports" : "允许查看报告",
 		"normal_role" : "普通用户",
 		"mgriant_role" : "外来用户",
 		"unlimited" : "无限制",
+		"current_user" : "(当前用户)",
 		"form":{
 		    "edit" : "编辑用户"
 		}
@@ -238,6 +239,7 @@ I18n.translations = {
                     "400": "资源操作失败，请检查参数是否正确",
                     "404": "您访问的资源不存在或已删除，请",
                     "401": "您会话已过期，请",
+                    "403": "操作被禁止",
                     "503": "服务器维护中，服务暂不可用请稍后再试",
                     "refresh": "刷新页面",
                     "relogin": "重新登陆"

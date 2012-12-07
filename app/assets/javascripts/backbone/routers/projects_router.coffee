@@ -11,6 +11,9 @@ class Analytics.Routers.ProjectsRouter extends Backbone.Router
     $('#main-container').html(JST['backbone/templates/utils/404']())
 
   settings: () ->
+    if Instances.Models.user.is_mgriant()
+      window.location.href = "#/404"
+      return
     view = new Analytics.Views.Projects.SettingsView({model: Instances.Models.project})
     $('#main-container').html(view.render().el)
     $('.nav-report').removeClass('active')
