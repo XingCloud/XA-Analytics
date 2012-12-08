@@ -3,7 +3,7 @@ class Analytics.Models.User extends Backbone.Model
     
   set_project_user: () ->
     id = @id
-    @project_user = _.find(Instances.Collections.project_users.models, (model) -> model.get("user_id") == id) || new Analytics.Models.ProjectUser({role:"admin",privilege:{report_ids:[]}})
+    @project_user = _.find(Instances.Collections.project_users.models, (model) -> model.get("user_id") == id) || new Analytics.Models.ProjectUser({role:"normal",privilege:{report_ids:[]}})
 
   urlRoot: ()->
     if Instances.Models.project?
