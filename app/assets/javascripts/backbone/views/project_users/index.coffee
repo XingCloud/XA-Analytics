@@ -9,6 +9,9 @@ class Analytics.Views.ProjectUsers.IndexView extends Backbone.View
   initialize: (options) ->
     _.bindAll this, "render", "redraw"
     @collection.bind "change", @redraw
+    # 过滤掉已经被删除的report(todo:可以在服务器端完成)
+    for model in @collection.models
+      model.get("privilege").report_ids = _.filter(model.get("privilege").report_ids, (report_id) -> Instances.Collections.reports.get(report_id))
 
   redraw: ()->
     @render()

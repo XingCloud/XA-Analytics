@@ -27,9 +27,10 @@ class Analytics.Views.ProjectUsers.FormView extends Backbone.View
   submit: () ->
     @model.get("privilege").report_ids = _.uniq(_.map(@report_ids, (x)->parseInt(x)))
     form = $(@el).find("form").toJSON()
-    @model.save(form, {wait:true, success: (model, resp) ->
+    model = @model
+    @model.save(form, {wait:true, silent:true,  success: (model, resp) ->
       $(model.view.el).modal('hide')
-      
+      model.trigger("change")
     })
 
   toggle_reports_picker: (ev) ->

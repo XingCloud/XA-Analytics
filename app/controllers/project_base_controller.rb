@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 class ProjectBaseController < ApplicationController
   before_filter :find_project
   before_filter :auth_project
@@ -42,8 +43,8 @@ class ProjectBaseController < ApplicationController
   def check_privilege
     user = User.find_by_name(session[:cas_user])
     if user
-      project_user = ProjectUser.find_by_user_id(user.id)
-      if project_user.role == "mgriant"
+      project_user = @project.project_users.find_by_user_id(user.id)
+      if (not project_user.nil?) && project_user.role == "mgriant" # project_user为nil证明该用户为超管,之所以在user表里面,是因为曾经沦为某个project的member,参见fetch_project_members
         render :json=>{:message=>"have no privilege"}, :status => 403
         return
       end

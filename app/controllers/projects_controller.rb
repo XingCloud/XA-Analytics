@@ -55,17 +55,19 @@ class ProjectsController < ProjectBaseController
   def fetch_project_members
     users = BasisService.get_members(@project.identifier)
     users.each do |user|
-      if not User.find_by_name(user).nil?
-        next
+      @user = User.find_by_name(user)
+      if @user.nil?
+        @user = User.new({:name=>user})
       end
-      @user = User.new({:name=>user})
       User.transaction do
         begin
           @user.save!
-          @project.project_users.create!({
-                                          :user_id=>@user.id,
-                                          :role=>"normal",
-                                          :privilege=>{:report_ids=>[]}})
+          if @project.project_users.find_by_user_id(@user.id).nil?
+            @project.project_users.create!({
+                                             :user_id=>@user.id,
+                                             :role=>"normal",
+                                             :privilege=>{:report_ids=>[]}})
+          end
         rescue ActiveRecord::RecordInvalid
 
           raise ActiveRecord::Rollback
