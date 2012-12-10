@@ -112,7 +112,8 @@ I18n.translations = {
                 "settings": {
                     "header": "Settings",
                     "user_attributes": "User attributes",
-                    "custom_event_names": "Event names"
+                    "custom_event_names": "Event names",
+		    "privilege_admin" : "Privilege administrator"
                 },
                 "show": {
                     "degrade": "Old version",
@@ -220,6 +221,18 @@ I18n.translations = {
                     "shard_rule": "Shard Rule"
                 }
             },
+	    "project_users":{
+		"user" : "members",
+		"role" : "role",
+		"access_reports" : "access reports",
+		"normal_role" : "normal",
+		"mgriant_role" : "mgriant",
+		"unlimited" : "unlimited",
+		"current_user" : "(current user)",
+		"form":{
+		    "edit" : "Edit user"
+		}
+	    },
             "utils": {
                 "404": {
                     "message": "The resource you access is not exist now, please check other resources",
@@ -229,6 +242,7 @@ I18n.translations = {
                     "400": "Failed to operate resource, please check your parameters",
                     "404": "The resource you access is not exist now, please",
                     "401": "Your session have expired, please",
+                    "403": "The operation was fobidden",		
                     "503": "Server under maintenance now, please try it later",
                     "refresh": "refresh the page",
                     "relogin": "relogin"

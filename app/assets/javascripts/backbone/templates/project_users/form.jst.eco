@@ -1,0 +1,42 @@
+<div class="modal-header">
+    <b class="close" data-dismiss="modal">×</b>
+    <h3><%=I18n.t("templates.project_users.form.edit")%></h3>
+</div>
+
+<div class="modal-body">
+  <form class="form-horizontal">
+    <div class="control-group should-check">
+      <label class="control-label"><abbr title="<%= I18n.t('commons.required') %>">*</abbr><%= I18n.t("templates.project_users.user") %></label>
+      <div class="controls">
+	<input class="" name="" type="text" value="<%=@model.get('username')%>" disabled="disabled">
+      </div>
+    </div>
+
+    <div class="control-group">
+      <label class="control-label"><abbr title="<%= I18n.t('commons.required') %>">*</abbr><%= I18n.t("templates.project_users.role") %></label>
+      <div class="controls">
+	<select id="role" class="" name="role">
+	  <option value="normal" <%=if @model.get("role")=="normal" then "selected"%> ><%=I18n.t("templates.project_users.normal_role")%></option>
+	  <option value="mgriant" <%=if @model.get("role")=="mgriant" then "selected"%>><%=I18n.t("templates.project_users.mgriant_role")%></option>
+	</select>
+      </div>
+    </div>
+
+    <div id="access-reports-picker" class="control-group" style="display:none">
+      <label class="control-label"><abbr title="<%= I18n.t('commons.required') %>">*</abbr><%= I18n.t("templates.project_users.access_reports") %></label>
+      <div class="controls well">
+	<% for report in Instances.Collections.reports.models:%>
+	<div class="<%=(if _.contains(@report_ids,report.id) then 'access report-display' else 'report-display')%>" report_id=<%=report.id%>>
+	  <%=report.get("title")%>
+	</div>
+	<%end%>
+	<div style="clear:both"/>
+      </div>
+    </div>
+  </form>
+</div>
+
+<div class="modal-footer">
+    <a class="btn cancel" data-dismiss="modal"><%= I18n.t('commons.cancel') %></a>
+    <a class="btn btn-primary submit"><%= I18n.t('commons.ok') %></a>
+</div

@@ -1,9 +1,11 @@
 <h3><%= I18n.t('templates.reports.list.header') %></h3>
 <hr/>
+<% if not Instances.Models.user.is_mgriant():%>
 <p>
     <a class="btn" href="#/reports/new"><%= I18n.t('templates.reports.list.add_report') %></a>
     <a class="btn" href="#/report_categories/new"><%= I18n.t('templates.reports.list.add_category') %></a>
 </p>
+<% end %>
 
 <table class="table">
     <tr>
@@ -18,11 +20,14 @@
         <tr>
             <td><i class="icon-folder-open"></i><em>&nbsp;&nbsp;<%= category.name %></em></td>
             <td><%= category.created_at %></td>
-            <td>
+            <td
+	    <% if not Instances.Models.user.is_mgriant():%>
                 <%- JST['backbone/templates/reports/list-category-dropdown'](category) %>
+	    <% end %>
             </td>
         </tr>
         <% for report in category.reports: %>
+	    <%if Instances.Models.user.can_access_report(report.id):%>
             <tr>
                 <td>
                     &nbsp;&nbsp;&nbsp;&nbsp;
@@ -35,14 +40,18 @@
                 </td>
                 <td><%= report.created_at %></td>
                 <td>
+                  <% if not Instances.Models.user.is_mgriant():%>
                     <% clone_report = _.clone(report) %>
                     <% clone_report.categories = @categories %>
                     <%- JST['backbone/templates/reports/list-report-dropdown'](clone_report) %>
+                  <% end %>
                 </td>
             </tr>
+	    <% end %>
         <% end %>
     <% end %>
     <% for report in @reports: %>
+        <% if Instances.Models.user.can_access_report(report.id):%>
         <tr>
             <td>
                 <i class="icon-file"></i>
@@ -54,11 +63,14 @@
             </td>
             <td><%= report.created_at %></td>
             <td>
+              <% if not Instances.Models.user.is_mgriant():%>
                 <% clone_report = _.clone(report) %>
                 <% clone_report.categories = @categories %>
                 <%- JST['backbone/templates/reports/list-report-dropdown'](clone_report) %>
+	      <% end %>
             </td>
         </tr>
+        <% end %>
     <% end %>
 </table>
 

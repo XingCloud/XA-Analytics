@@ -9,6 +9,9 @@ class Analytics.Routers.ReportCategoriesRouter extends Backbone.Router
   initialize: () ->
 
   new: () ->
+    if Instances.Models.user.is_mgriant()
+      window.location.href = "#/404"
+      return
     last_category = Instances.Collections.report_categories.last()
     position = (if last_category? then last_category.get("position") + 1 else 0)
     if Instances.Models.project?
@@ -21,6 +24,9 @@ class Analytics.Routers.ReportCategoriesRouter extends Backbone.Router
     new Analytics.Views.ReportCategories.FormView({model: report_category, id : "new_report_category"}).render()
 
   edit: (id) ->
+    if Instances.Models.user.is_mgriant()
+      window.location.href = "#/404"
+      return
     category = Instances.Collections.report_categories.get(id)
     if category?
       new Analytics.Views.ReportCategories.FormView({model: category, id : "edit_report_category"+id}).render()
@@ -28,6 +34,9 @@ class Analytics.Routers.ReportCategoriesRouter extends Backbone.Router
       window.location.href = "#/404"
 
   delete: (id) ->
+    if Instances.Models.user.is_mgriant()
+      window.location.href = "#/404"
+      return
     category = Instances.Collections.report_categories.get(id)
     if category? and confirm(I18n.t("commons.confirm_delete"))
       category.destroy({wait: true, success : (model, resp) ->

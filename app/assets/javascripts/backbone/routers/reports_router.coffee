@@ -9,6 +9,12 @@ class Analytics.Routers.ReportsRouter extends Backbone.Router
 
   initialize: () ->
 
+  can_access: (id) ->
+    Instances.Models.user.can_access_report(parseInt(id))
+      
+  can_alter: () ->
+    not Instances.Models.user.is_mgriant()
+    
   index: (project_id) ->
     if not Instances.Collections.reports.view?
       new Analytics.Views.Reports.IndexView({
@@ -20,6 +26,9 @@ class Analytics.Routers.ReportsRouter extends Backbone.Router
 
 
   show: (id) ->
+    if not @can_access(id)
+      window.location.href = "#/404"
+      return
     report = Instances.Collections.reports.get(id)
     if report?
       if not report.view?
@@ -32,6 +41,9 @@ class Analytics.Routers.ReportsRouter extends Backbone.Router
       window.location.href = "#/404"
 
   new: () ->
+    if not @can_alter()
+      window.location.href = "#/404"
+      return
     if Instances.Models.project?
       report = new Analytics.Models.Report({project_id: Instances.Models.project.id})
     else
@@ -41,6 +53,9 @@ class Analytics.Routers.ReportsRouter extends Backbone.Router
     $('.nav-report').removeClass("active")
 
   edit: (id) ->
+    if not @can_alter()
+      window.location.href = "#/404"
+      return    
     report = Instances.Collections.reports.get(id)
     if report?
       new Analytics.Views.Reports.FormView({id : "edit_report_"+report.id, model: report}).render()
@@ -49,6 +64,9 @@ class Analytics.Routers.ReportsRouter extends Backbone.Router
       window.location.href = "#/404"
 
   delete: (id) ->
+    if not @can_alter()
+      window.location.href = "#/404"
+      return
     report = Instances.Collections.reports.get(id)
     if report?
      if confirm(I18n.t("commons.confirm_delete"))

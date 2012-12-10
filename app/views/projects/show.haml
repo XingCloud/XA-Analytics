@@ -1,9 +1,17 @@
+- if @user
+  :javascript
+    Instances.Models.user = new Analytics.Models.User(#{@user.js_attributes.to_json});
+- else -#查找不到该用户当系统管理员处理(前提:该用户已经通过了该项目的认证)
+  :javascript
+    Instances.Models.user = new Analytics.Models.User({role:"admin",name:"#{session[:cas_user]}"}) 
+
 :javascript
   //I18n.fallbacks = true;
   I18n.defaultlocale = "en";
   I18n.locale = "#{I18n.locale}";
   window.XAUSER = "#{session[:cas_user]}";
   window.XA.init({app: "xaa", uid: XAUSER});
-  Instances.Models.project = new Analytics.Models.Project(#{@project.js_attributes.to_json});
+  Instances.Models.project = new Analytics.Models.Project(#{@project.js_attributes.to_json});  
   Instances.Models.setting = new Analytics.Models.Setting(#{@project.setting.present? ? @project.setting.attributes.to_json : {}});
   Instances.Models.project.loading();
+
