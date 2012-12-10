@@ -1,7 +1,7 @@
 - if @user
   :javascript
     Instances.Models.user = new Analytics.Models.User(#{@user.js_attributes.to_json});
-- else -#查找不到该用户当系统管理员处理(前提:该用户已经通过了该项目的认证)
+- else
   :javascript
     Instances.Models.user = new Analytics.Models.User({role:"admin",name:"#{session[:cas_user]}"}) 
 
