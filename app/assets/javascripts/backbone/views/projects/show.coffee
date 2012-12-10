@@ -24,9 +24,12 @@ class Analytics.Views.Projects.ShowView extends Backbone.View
     }).render()
 
   render_default_report: () ->
-    if @model.first_report()?
+    if @model.first_can_access_report()?
       if window.location.href.indexOf('#') == -1
-        window.location.href = "#/dashboard"
+        if Instances.Models.user.is_mgriant()
+          window.location.href = "#/reports/"+@model.first_can_access_report().id
+        else
+          window.location.href = "#/dashboard"
     else
       $(@el).find('#main-container').html(JST['backbone/templates/projects/no-report']())
 

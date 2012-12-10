@@ -2,6 +2,8 @@ class ProjectsController < ProjectBaseController
   before_filter :filter_v9, :only => [:update_project_widgets]
 
   def show
+    fetch_project_members
+    @user = User.find_by_name(session[:cas_user])
   end
 
   def event_item
@@ -49,4 +51,32 @@ class ProjectsController < ProjectBaseController
     end
     render :json => {}, :status => (error ? 400 : 200)
   end
+
+  def fetch_project_members
+    users = BasisService.get_members(@project.identifier)
+    users.each do |user|
+      @user = User.find_by_name(user)
+      if @user.nil?
+        @user = User.new({:name=>user})
+      end
+      User.transaction do
+        begin
+          @user.save!
+          if @project.project_users.find_by_user_id(@user.id).nil?
+            @project.project_users.create!({
+                                             :user_id=>@user.id,
+                                             :role=>"normal",
+                                             :privilege=>{:report_ids=>[]}})
+          end
+        rescue ActiveRecord::RecordInvalid
+
+          raise ActiveRecord::Rollback
+        rescue Exception => e
+          logger.error e.message
+          logger.error e.backtrace.inspect          
+        end
+      end #end transaction
+    end #end each 
+  end
+
 end

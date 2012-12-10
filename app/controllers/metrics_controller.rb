@@ -1,6 +1,7 @@
 class MetricsController < ProjectBaseController
   before_filter :find_metric, :only => [:update]
   before_filter :filter_number_of_day, :only => [:create, :update]
+  before_filter :check_privilege, :only =>[:create, :update, :destroy]
   after_filter :log_action, :only => [:create, :update]
 
   def index

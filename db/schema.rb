@@ -59,8 +59,13 @@ ActiveRecord::Schema.define(:version => 20121205062253) do
   create_table "metrics", :force => true do |t|
     t.string   "event_key"
     t.string   "condition"
+<<<<<<< HEAD
     t.datetime "created_at",                                 :null => false
     t.datetime "updated_at",                                 :null => false
+=======
+    t.datetime "created_at",                            :null => false
+    t.datetime "updated_at",                            :null => false
+>>>>>>> new_privilege_system
     t.integer  "combine_id"
     t.string   "combine_action"
     t.string   "name"

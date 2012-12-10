@@ -1,0 +1,35 @@
+<div class="row-fluid">
+    <table class="table table-striped user_attributes">
+        <tr>
+            <th width="25%"><%= I18n.t("templates.project_users.user") %></th>
+            <th width="25%"><%= I18n.t("templates.project_users.role") %></th>
+            <th width="40%"><%= I18n.t("templates.project_users.access_reports") %></th>
+            <th width="10%"></th>
+        </tr>
+	<%for project_user in _.sortBy(@project_users, (item) -> (0 - Date.parse(item.get("created_at")))) :%>
+	<tr>
+	  <td><%= project_user.get("username")%><%=if Instances.Models.user.get('name') == project_user.get("username") then I18n.t("templates.project_users.current_user")%></td>
+	  <td><%= I18n.t("templates.project_users."+project_user.get("role")+"_role")%></td>
+	  <% report_ids = _.sortBy(project_user.get("privilege").report_ids, (item) -> item)%>
+	  <% report_names = []%>
+	  <% for id in report_ids:%>
+	  <% report_names.push(Instances.Collections.reports.get(id).get("title"))%>
+	  <% end %>
+	  <td>
+	    <%if project_user.get("role") == "normal":%>
+	      <%=I18n.t("templates.project_users.unlimited")%>
+	    <%else:%>
+	     <%= report_names.slice(0,3).join(",")%>
+	     <% if report_ids.length>3:%>
+	       <a user_id=<%=project_user.get("user_id")%> class="show-more" data-content="<%=report_names.join(',')%>"  data-placement="bottom"
+		  data-original-title="<%=I18n.t('templates.project_users.access_reports')%>">...</a>
+	     <%end%>
+	    <%end%>
+	  </td>
+          <td>
+            <a class="btn btn-mini left edit-project-user" value="<%= project_user.id %>"><i class="icon-edit"/></a>
+          </td>	  
+	</tr>
+	<%end%>
+    </table>
+</div>
