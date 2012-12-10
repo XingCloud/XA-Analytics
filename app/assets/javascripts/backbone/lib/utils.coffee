@@ -39,6 +39,40 @@ Analytics.Utils.getColor = (index, compare) ->
   else
     (if compare then colors[index][1] else colors[index][0])
 
+# 检查输入的日期是否合法。
+# 日期有效性：
+# * 未来时间不能选。
+# 总数限制：
+# * 点的个数不能太多：最多1440个点。
+# * 总日期不能太长：最多365天。
+# 及时性限制：
+# * 如果是按天选择的报告，那么今天不能被包括在内。
+
+Analytics.Utils.validateDateRange = (end_time, length, interval) ->
+  now = new Date()
+  if(now.getTime() < end_time)
+    return ret =
+      result: false
+      message: "err_future"
+  if length > 365
+    return ret =
+      result: false
+      message: "err_days"
+  periods = Analytics.Utils.intervalCount(end_time, interval, length)
+  if(periods > 1440)
+    return ret =
+      result: false
+      message: "err_points"
+
+  if((interval == "day") && new Date(now.getFullYear(), now.getMonth(), now.getDate()) <= end_time)
+    return ret =
+      result: false
+      message: "err_today"
+
+  ret =
+    result: true
+
+
 Analytics.Utils.checkReportTabRange = (length, interval) ->
   same_lengths = _.filter(Analytics.Static.report_tab_ranges(), (item) -> item.length == length)
   if same_lengths.length == 0

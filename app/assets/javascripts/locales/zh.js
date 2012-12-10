@@ -150,7 +150,14 @@ I18n.translations = {
                     "header": "您想看：",
                     "end_at": "截止到",
                     "length": "时长为",
-                    "every": "每"
+                    "every": "每",
+                    "every_post": "一个点",
+                    "error": {
+                        "err_future": "不能看未来的数据。",
+                        "err_days": "请少观察一段时间。",
+                        "err_points": "图上的点太多了。",
+                        "err_today": "今天还没结束呢。试试今天的每小时或5分钟"
+                    }
                 },
                 "show_range_picker": {
                     "to": "截止到",
