@@ -14,3 +14,5 @@ class Analytics.Models.User extends Backbone.Model
 
   can_access_report: (report_id) ->
     @get("role")=="admin" || @project_user.get("role") == "normal" || _.contains(@project_user.get("privilege").report_ids, report_id)
+
+  
