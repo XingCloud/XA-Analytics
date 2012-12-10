@@ -102,7 +102,8 @@ class Analytics.Views.ReportTabs.FormBodyView extends Backbone.View
     length = parseInt($(@el).find("#report_tabs_attributes_"+index+"_length").val())
     day_offset = parseInt($(@el).find("#report_tabs_attributes_"+index+"_day_offset").val())
     now = new Date()
-    end_time = new Date(now.getFullYear(), now.getMonth(), now.getDate()).getTime()-day_offset*86400000
+    #end_time = new Date(now.getFullYear(), now.getMonth(), now.getDate()).getTime()-day_offset*86400000
+    end_time = now.getTime()-day_offset*86400000
     interval = $(@el).find("#report_tabs_attributes_"+index+"_interval").val()
     ret = Analytics.Utils.validateDateRange(end_time,length,interval)
     if !ret.result

@@ -59,7 +59,7 @@ Analytics.Utils.validateDateRange = (end_time, length, interval) ->
       result: false
       message: "err_days"
   periods = Analytics.Utils.intervalCount(end_time, interval, length)
-  if(periods > 1440)
+  if(periods > 2016) # 288*7, 7天的每5分钟数据
     return ret =
       result: false
       message: "err_points"

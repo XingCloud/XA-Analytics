@@ -120,6 +120,8 @@ class Analytics.Views.ReportTabs.ShowView extends Backbone.View
       @model.dimensions_filters().splice(dimension_filter_index + 1, @model.dimensions_filters().length - dimension_filter_index - 1)
     @redraw()
 
+
+#model: Analytics.Models.ReportTab
 class Analytics.Views.ReportTabs.ShowRangePickerView extends Backbone.View
   template: JST['backbone/templates/report_tabs/show-range-picker']
   events:
@@ -168,9 +170,14 @@ class Analytics.Views.ReportTabs.ShowRangePickerView extends Backbone.View
     )
 
   change_default_range: (ev) ->
+    console.log "change_default_range"
+    day_offset = $(ev.currentTarget).attr("day_offset")
+    now = new Date()
+    end_time = now.getTime()-day_offset*86400000
     range = {
       length: parseInt($(ev.currentTarget).attr("length"))
       interval: $(ev.currentTarget).attr("interval")
+      end_time: end_time
     }
     @model.compare_end_time = @model.end_time - range.length*86400000
     @model.set(range)
