@@ -4,7 +4,7 @@ class Analytics.Models.ReportTab extends Backbone.Model
     interval: 'day'
     length: 7
     compare: 0
-    day_offset: 0
+    day_offset: 1
     show_table: false
     metric_ids: []
 

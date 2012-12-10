@@ -151,7 +151,14 @@ I18n.translations = {
                     "header": "Custom report time range",
                     "end_at": "End at",
                     "length": "Length",
-                    "every": "Every"
+                    "every": "Every",
+                    "every_post": "a point",
+                    "error": {
+                        "err_future": "Cannot look into future.",
+                        "err_days": "Too many days selected.",
+                        "err_points": "Too many points in timeline.",
+                        "err_today": "Today is not over yet. Try hourly/5min plot with today."
+                    }
                 },
                 "show_range_picker": {
                     "to": "To",

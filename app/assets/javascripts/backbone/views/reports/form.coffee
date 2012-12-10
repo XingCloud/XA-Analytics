@@ -4,14 +4,17 @@ class Analytics.Views.Reports.FormView extends Backbone.View
   template: JST['backbone/templates/reports/form']
   events:
     "click li#tab-add" : "add_tab"
-    "click a#submit" : "submit"
+    "click a#submit" : "check_submit"
     "click a#cancel" : "cancel"
 
+
   initialize: (options) ->
-    _.bindAll(this, "render")
+    _.bindAll this, "render", "validate_date_range"
     @model.form = this
     @index = 0
     @count = 0
+    @tabHeaders = []
+    @tabBodies = []
 
   render: () ->
     $(@el).html(@template(@model.attributes))
@@ -37,6 +40,14 @@ class Analytics.Views.Reports.FormView extends Backbone.View
       if $(tab_header_view.el).hasClass('active')
         @active_first_tab()
       @count = @count - 1
+      for header, i in @tabHeaders
+        if header is tab_header_view
+          @tabHeaders.splice(i, 1)
+          break
+      for body, i in @tabBodies
+        if body is report_tab
+          @tabBodies.splice(i ,1)
+          break
 
   remove_tab_active_class: () ->
     $(@el).find('ul li.tab-header').removeClass('active')
@@ -67,6 +78,13 @@ class Analytics.Views.Reports.FormView extends Backbone.View
     $(@el).find('.tab-content').append(body.render().el)
     @index = @index + 1
     @count = @count + 1
+    @tabHeaders.push(header)
+    @tabBodies.push(body)
+
+  check_submit: () ->
+    ret = @validate_date_range()
+    if ret.result
+      @submit()
 
   submit: () ->
     if Analytics.Utils.checkFormFields($(@el).find('form'))
@@ -99,3 +117,35 @@ class Analytics.Views.Reports.FormView extends Backbone.View
         form_attributes.report_tabs_attributes.push(report_tab_attributes)
     )
     form_attributes
+
+  ## 检查选择的range是否合法。
+  ## return {result: true/false, message: error message}
+  validate_date_range: () ->
+    @clear_error()
+    index = -1
+    result = {}
+    _.each(@tabBodies, (body, i) ->
+      if(index != -1)
+        return
+      ret = body.validate_date_range()
+      if !ret.result
+        result = ret
+        index = i
+    )
+
+    if(index != -1)
+      $(@el).find("#report_tab_"+index+"_header a span").click() #show what's happening
+      tab = $(@el).find("#report_tab_"+index)
+      if(tab.find("#advanced-options").css("display")=="none")
+        tab.find("#toggle-advanced-options").click()
+
+      return result
+    else
+      return ret =
+        result: true
+
+
+  clear_error: () ->
+    $(@el).find(".error").removeClass("error")
+    $(@el).find("span.error-message").text("")
+

@@ -1,4 +1,4 @@
-<div class="modal" id="custom-range-<%= @id %>" style="display: none;">
+<div class="modal custom-range" id="custom-range-<%= @id %>" style="display: none;">
     <div class="modal-header">
         <b class="close" data-dismiss="modal">×</b>
         <h3><%= I18n.t("templates.report_tabs.show_custom_range.header") %></h3>
@@ -27,11 +27,13 @@
                             <option value="<%= interval.value %>" <%= if @interval == interval.value then 'selected="selected"' %> ><%= interval.name %></option>
                         <% end %>
                     </select>
+                    <span><%= I18n.t("templates.report_tabs.show_custom_range.every_post") %></span>
                 </div>
             </div>
         </div>
     </div>
     <div class="modal-footer">
+        <span class="error-message"></span>
         <a data-dismiss="modal" class="btn"><%= I18n.t("commons.cancel") %></a>
         <a class="btn btn-primary submit-custom-range"><%= I18n.t("commons.ok") %></a>
     </div>
