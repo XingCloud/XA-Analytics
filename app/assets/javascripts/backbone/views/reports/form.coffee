@@ -15,6 +15,7 @@ class Analytics.Views.Reports.FormView extends Backbone.View
     @count = 0
     @tabHeaders = []
     @tabBodies = []
+    XA.action("click.report.edit")
 
   render: () ->
     $(@el).html(@template(@model.attributes))

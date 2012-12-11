@@ -87,6 +87,7 @@ class Analytics.Views.Widgets.ShowView extends Backbone.View
     }, force)
 
   edit: () ->
+    XA.action("click.dashboard.edit")
     new Analytics.Views.Widgets.FormView({
       model: @model
     }).render()

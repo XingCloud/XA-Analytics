@@ -28,6 +28,7 @@ class Analytics.Views.Widgets.IndexView extends Backbone.View
     $(el).find(".widget-range").datepicker().on('changeDate', (ev) ->
       $(el).find('.widget-range').datepicker('hide')
       collection.end_time = Analytics.Utils.pickUTCDate(ev.date.valueOf())
+      XA.action("click.dashboard.calendar")
       view.redraw()
     )
 
