@@ -51,6 +51,7 @@ class Analytics.Views.Projects.ShowView extends Backbone.View
 
   degrade: (ev) ->
     XA.action("click.banner.degrade")
+    identifier = @model.get("identifier")
     setTimeout( () ->
-      window.location = "http://p.xingcloud.com/analytics/overview?project_id="+@identifier
+      window.location = "http://p.xingcloud.com/analytics/overview?project_id="+identifier
     , 500)
