@@ -17,10 +17,11 @@ class Analytics.Views.Widgets.IndexView extends Backbone.View
   render: () ->
     $(@el).html(@template(@collection))
     $("#main-container").html($(@el))
-    @render_datepicker()
+    #@render_datepicker()
     @render_widgets()
     @render_sortable()
 
+  ###
   render_datepicker: () ->
     el = @el
     collection = @collection
@@ -31,6 +32,7 @@ class Analytics.Views.Widgets.IndexView extends Backbone.View
       XA.action("click.dashboard.calendar")
       view.redraw()
     )
+  ###
 
   render_widgets: () ->
     Instances.Charts.reset()
