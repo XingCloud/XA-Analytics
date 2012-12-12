@@ -177,9 +177,9 @@ class Analytics.Views.ReportTabs.ShowRangePickerView extends Backbone.View
     range = {
       length: parseInt($(ev.currentTarget).attr("length"))
       interval: $(ev.currentTarget).attr("interval")
-      end_time: end_time
     }
-    @model.compare_end_time = @model.end_time - range.length*86400000
+    @model.compare_end_time = @model.compare_end_time + end_time - @model.end_time
+    @model.end_time = end_time
     @model.set(range)
 
   change_compare: (ev) ->
