@@ -57,8 +57,8 @@
                                         n/a
                                     <% else: %>
                                         <%= if Instances.Collections.metrics.get(metric_id).get("value_type")=="percent" then (item[1][metric_id]*100).toFixed(2)+"%" else item[1][metric_id] %>
-                                        <% if parseInt(@percentageby) == metric_id: %>
-                                            <div class="percent-bar" style="width:<%= item[1][metric_id] * 100 / @percentage_max %>%;"></div>
+                                        <% if @maxis[metric_id] > 0: %>
+                                            <div class="percent-bar" style="width:<%= item[1][metric_id] * 100 / @maxis[metric_id] %>%;"></div>
                                         <% end %>
 
                                     <% end %>

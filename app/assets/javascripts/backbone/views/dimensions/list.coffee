@@ -142,7 +142,6 @@ class Analytics.Views.Dimensions.ListView extends Backbone.View
         order = 'DESC'
       @dimensions.order = order
       @dimensions.orderby = orderby
-      @dimensions.percentageby = orderby
       @dimensions.index = 0
       @fetch_dimensions()
 
