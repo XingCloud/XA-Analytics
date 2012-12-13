@@ -64,7 +64,7 @@ class Analytics.Collections.DimensionCharts extends Analytics.Collections.BaseCh
           has = true
       )
     )
-#    console.log @xa_id() + " has_pendings "+has
+#     @xa_id() + " has_pendings "+has
     has
 
   process_fetched_data: (resp) ->
@@ -74,4 +74,23 @@ class Analytics.Collections.DimensionCharts extends Analytics.Collections.BaseCh
       @data = []
     if resp["data"]? and resp["data"]["total"]?
       @total = resp["data"]["total"]
+    if @orderby and not @percentageby
+      @percentageby = @orderby
+    if @percentageby?
+      metric_id = parseInt(@percentageby)
+      max = 0
+      has_negative = false
+      _.each(@data, (d) ->
+        v= parseFloat(d[1][metric_id])
+        if v
+          if v < 0
+            has_negative = true
+          else if v > max
+            max = v
+      )
+      if has_negative || max <= 0
+        @percentageby = null
+      else
+        @percentage_max = max
+
     true

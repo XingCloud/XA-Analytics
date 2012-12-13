@@ -19,7 +19,7 @@ class Analytics.Collections.BaseCharts extends Backbone.Collection
     if not @is_activated()
       ## @xa_id() + " fetching, but no longer needed"
       return
-#    console.log @xa_id() + " fetching charts..."
+    # @xa_id() + " fetching charts..."
     collection = this
     start_time = (new Date()).getTime()
     if @pending_start_time == 0
@@ -77,7 +77,7 @@ class Analytics.Collections.BaseCharts extends Backbone.Collection
   ##chart的数据是否含有pending状态。
   ##由子类实现。
   has_pendings: () ->
-#    console.log @xa_id() + " charts has_pendings false"
+#     @xa_id() + " charts has_pendings false"
     false
 
   fetch_success: (resp, start_time, send_xa = true) ->

@@ -186,6 +186,11 @@
   tr:nth-child(even) td.orderby{
     background-color: #F3F3F3;
   }
+  .percent-bar{
+    background-color: #CCC;
+    height:6px;
+    margin-bottom: -6px;
+  }
 }
 
 .dimensions-controls{
