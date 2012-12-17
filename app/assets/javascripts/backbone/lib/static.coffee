@@ -75,13 +75,13 @@ Analytics.Static.user_attribute_types = () ->
 
 Analytics.Static.report_tab_ranges = () ->
   [
-    {name: I18n.t("statics.report_tab_ranges.realtime"), length: 1, interval: "min5"},
-    {name: I18n.t("statics.report_tab_ranges.current_day"), length: 1, interval: "hour"},
-    {name: I18n.t("statics.report_tab_ranges.2_days"), length: 2, interval: "hour"},
-    {name: I18n.t("statics.report_tab_ranges.this_week"), length: 7, interval: "day"},
-    {name: I18n.t("statics.report_tab_ranges.2_weeks"), length: 14, interval: "day"},
-    {name: I18n.t("statics.report_tab_ranges.this_month"), length: 28, interval: "day"},
-    {name: I18n.t("statics.report_tab_ranges.2_months"), length: 56, interval: "week"}
+    {name: I18n.t("statics.report_tab_ranges.realtime"), day_offset: 0, length: 1, interval: "min5"},
+    {name: I18n.t("statics.report_tab_ranges.current_day"), day_offset: 0, length: 1, interval: "hour"},
+    {name: I18n.t("statics.report_tab_ranges.2_days"), day_offset: 0, length: 2, interval: "hour"},
+    {name: I18n.t("statics.report_tab_ranges.this_week"), day_offset: 1, length: 7, interval: "day"},
+    {name: I18n.t("statics.report_tab_ranges.2_weeks"), day_offset: 1, length: 14, interval: "day"},
+    {name: I18n.t("statics.report_tab_ranges.this_month"), day_offset: 1, length: 28, interval: "day"},
+    {name: I18n.t("statics.report_tab_ranges.2_months"), day_offset: 1, length: 56, interval: "week"}
   ]
 
 Analytics.Static.action_names =  () ->

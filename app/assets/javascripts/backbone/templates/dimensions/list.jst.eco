@@ -14,6 +14,7 @@
                     <td><a class="select-dimension" value="<%= dimension.value %>" dimension_type="<%= dimension.dimension_type %>"><%= Analytics.Static.getDimensionName(dimension.value) %></a></td>
                 <% end %>
             <% end %>
+	    <% if not Instances.Models.user.is_mgriant():%>
             <td class="add-dimension">
                 <div class="dropdown">
                     <a class="btn dropdown-toggle" data-toggle="dropdown">
@@ -31,6 +32,7 @@
                     </ul>
                 </div>
             </td>
+	    <%end%>
         </tr>
         </tbody>
     </table>

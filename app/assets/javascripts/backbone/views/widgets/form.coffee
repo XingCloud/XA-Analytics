@@ -1,5 +1,8 @@
 Analytics.Views.Widgets ||= {}
 
+###
+model: Instances.Collections.widgets[i]:Analytics.Models.Widget
+###
 class Analytics.Views.Widgets.FormView extends Backbone.View
   template: JST["backbone/templates/widgets/form"]
   className: "modal widget-form"

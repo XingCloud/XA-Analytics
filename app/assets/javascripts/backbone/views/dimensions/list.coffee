@@ -151,6 +151,7 @@ class Analytics.Views.Dimensions.ListView extends Backbone.View
     @fetch_dimensions()
 
   filter_dimension: (ev) ->
+    XA.action("click.report.filter_dimension")
     value = $(ev.currentTarget).attr("value")
     dimension = @model.dimension
     filter = {

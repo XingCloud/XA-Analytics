@@ -17,7 +17,7 @@ set :scm, :git
 # task :stage do
   role :web, "app@58.68.229.98", "app@58.68.229.168"                          # Your HTTP server, Apache/etc
   role :app, "app@58.68.229.98", "app@58.68.229.168"                      # This may be the same as your `Web` server
-#  role :db,  "app@58.68.229.98" , :primary => true # This is where Rails migrations will run
+  role :db,  "app@58.68.229.98" , "app@58.68.229.168", :primary => true # This is where Rails migrations will run
   role :resque_worker, "app@58.68.229.98", "app@58.68.229.168"
 # end
 

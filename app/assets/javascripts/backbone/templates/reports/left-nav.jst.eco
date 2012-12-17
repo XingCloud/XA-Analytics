@@ -1,7 +1,9 @@
 <div class="reports-nav">
+    <% if not Instances.Models.user.is_mgriant(): %>
     <ul class="nav nav-list nav-dashboard">
         <li><a href="#/dashboard"><i class="icon-dashboard"></i> <%= I18n.t('templates.reports.left_nav.dashboard') %> </a></li>
     </ul>
+    <% end %>
     <div class="accordion" id="reports-accordion">
         <% for report_category in @report_categories.models: %>
             <% is_in = (report_category == @report_categories.first()) %>
@@ -15,6 +17,8 @@
         <% end %>
     </div>
 </div>
+
+<% if not Instances.Models.user.is_mgriant(): %>
 <ul class="nav nav-list">
     <li class="nav-report">
         <a href="#/reports/new">
@@ -29,5 +33,5 @@
         </a>
     </li>
 </ul>
-
+<% end %>
 

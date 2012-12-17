@@ -80,6 +80,18 @@
   mouseover: cursor;
 }
 
+.custom-range, .report-form{
+  .error{
+    background-color: #FFEEEE;
+  }
+  .active.error{
+    background-image:linear-gradient(to bottom, #ffffff, #D14);
+  }
+  .error-message{
+    color: #D14;
+  }
+}
+
 table.chart-tooltip{
   th{
     text-align: center;

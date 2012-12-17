@@ -56,4 +56,25 @@ class BasisService
     end
     false
   end
+
+  def self.get_members(identifier)
+    users = []
+    req = Net::HTTP::Get.new("/projects/#{identifier}/members")
+    req.basic_auth BASIC_USERNAME, BASIC_PASSWORD
+    res = Net::HTTP.start(HOST, PORT){|http|
+      http.request(req)
+    }
+    pp res.body
+    if res.is_a?(Net::HTTPSuccess)
+      results = JSON.parse(res.body)
+      if results.length == 0
+        users
+      else
+        results.each do |result|
+          users.append(result["login"])
+        end
+      end
+    end
+    users
+  end
 end

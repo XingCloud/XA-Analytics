@@ -8,6 +8,7 @@ class Analytics.Views.Projects.ShowView extends Backbone.View
     "click td.nav-toggle" : "toggle_left_nav"
     "click .dashboard-toggle .btn" : "toggle_dashboard"
     "click a.change_language" : "change_language"
+    "click a.previous-version" : "degrade"
 
   initialize: () ->
     _.bindAll(this, "render")
@@ -24,9 +25,12 @@ class Analytics.Views.Projects.ShowView extends Backbone.View
     }).render()
 
   render_default_report: () ->
-    if @model.first_report()?
+    if @model.first_can_access_report()?
       if window.location.href.indexOf('#') == -1
-        window.location.href = "#/dashboard"
+        if Instances.Models.user.is_mgriant()
+          window.location.href = "#/reports/"+@model.first_can_access_report().id
+        else
+          window.location.href = "#/dashboard"
     else
       $(@el).find('#main-container').html(JST['backbone/templates/projects/no-report']())
 
@@ -44,3 +48,10 @@ class Analytics.Views.Projects.ShowView extends Backbone.View
 
   change_language: (ev) ->
     new Analytics.Views.UserPreferences.SetLanguageView().render()
+
+  degrade: (ev) ->
+    XA.action("click.banner.degrade")
+    identifier = @model.get("identifier")
+    setTimeout( () ->
+      window.location = "http://p.xingcloud.com/analytics/overview?project_id="+identifier
+    , 500)
