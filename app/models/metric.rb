@@ -75,7 +75,8 @@ class Metric < ActiveRecord::Base
      :combine_action => combine_action,
      :segment_id => segment_id,
      :description => description,
-     :scale => scale
+     :scale => scale,
+      :value_type => value_type
     }
   end
 
@@ -148,7 +149,7 @@ class Metric < ActiveRecord::Base
         json[:segment] = segment.sequence.to_json
       end
     else
-      json[:segment] = condition.upcase
+      json[:segment] = "TOTAL_USER"
     end
 
     json

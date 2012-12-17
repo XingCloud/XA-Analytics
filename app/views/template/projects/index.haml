@@ -73,4 +73,6 @@
     maintenance_plans_router: new Analytics.Routers.MaintenancePlansRouter(),
     translations_router: new Analytics.Routers.TranslationsRouter()
   };
+
+  Instances.Models.user = new Analytics.Models.User({role:"admin",name:"xaadmin"})  
   Backbone.history.start();

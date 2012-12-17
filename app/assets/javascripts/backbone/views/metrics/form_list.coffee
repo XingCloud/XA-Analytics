@@ -54,6 +54,7 @@ class Analytics.Views.Metrics.FormListItemView extends Backbone.View
     if cloned.get("combine_attributes")?
       cloned.get("combine_attributes")["id"] = null
       cloned.get("combine_attributes")["project_id"] = Instances.Models.project.id
+      cloned.get("combine_attributes")["combine_attributes"] = {}
     else
       cloned.set("combine_attributes", {})
     cloned.set({"name": cloned.get("name")+"_copy"})

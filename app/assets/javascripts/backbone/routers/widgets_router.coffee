@@ -5,6 +5,9 @@ class Analytics.Routers.WidgetsRouter extends Backbone.Router
   initialize: () ->
 
   index: () ->
+    if Instances.Models.user.is_mgriant()
+      window.location.href="#/404"
+      return
     collection = Instances.Collections.widgets
     if not collection.view?
       if Instances.Models.project?

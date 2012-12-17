@@ -27,7 +27,8 @@ I18n.translations = {
                 "dimensions": {
                     "no_dimension": "暂无细分, 请添加(最多支持6层细分)",
                     "choose_segment": "选择用户群",
-                    "total_dimensions": "总共 {{count}} 项细分"
+                    "total_dimensions": "总共 {{count}} 项细分" ,
+                    "no_category": "未细分"
                 },
                 "kpis": {
                     "latest_days": "近{{days}}天",
@@ -90,7 +91,10 @@ I18n.translations = {
                     "to": "天到距当前",
                     "segment": "用户群",
                     "scale": "伸缩系数",
-                    "combine": "与另一事件组合计算"
+                    "combine": "与另一事件组合计算",
+		    "value_type" : "显示格式",
+		    "origin_value_type": "原始值",
+		    "percent_value_type" : "百分比"		    
                 },
                 "index_dropdown": {
                     "add_metric": "新建指标"
@@ -108,7 +112,8 @@ I18n.translations = {
                 "settings": {
                     "header": "项目设置",
                     "user_attributes": "自定义属性",
-                    "custom_event_names": "自定义事件字段名"
+                    "custom_event_names": "自定义事件字段名",
+		    "privilege_admin" : "权限管理"
                 },
                 "show": {
                     "degrade": "回旧版",
@@ -146,7 +151,14 @@ I18n.translations = {
                     "header": "您想看：",
                     "end_at": "截止到",
                     "length": "时长为",
-                    "every": "每"
+                    "every": "每",
+                    "every_post": "一个点",
+                    "error": {
+                        "err_future": "不能看未来的数据。",
+                        "err_days": "请少观察一段时间。",
+                        "err_points": "图上的点太多了。",
+                        "err_today": "今天还没结束呢。试试今天的每小时或5分钟"
+                    }
                 },
                 "show_range_picker": {
                     "to": "截止到",
@@ -216,6 +228,19 @@ I18n.translations = {
                     "shard_rule": "分段规则"
                 }
             },
+	    "project_users":{
+		"user" : "项目成员",
+		"role" : "角色",
+		"access_reports" : "允许查看报告",
+		"normal_role" : "普通用户",
+		"mgriant_role" : "外来用户",
+		"unlimited" : "无限制",
+		"current_user" : "(当前用户)",
+		"form":{
+		    "edit" : "编辑用户"
+		}
+
+	    },
             "utils": {
                 "404": {
                     "message": "您访问的资源不存在或者已删除，请访问其他资源",
@@ -225,6 +250,7 @@ I18n.translations = {
                     "400": "资源操作失败，请检查参数是否正确",
                     "404": "您访问的资源不存在或已删除，请",
                     "401": "您会话已过期，请",
+                    "403": "操作被禁止",
                     "503": "服务器维护中，服务暂不可用请稍后再试",
                     "refresh": "刷新页面",
                     "relogin": "重新登陆"

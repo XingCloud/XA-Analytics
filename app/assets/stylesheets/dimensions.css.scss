@@ -142,10 +142,6 @@
   td{
 
   }
-  td.pending{
-    color: #DDDDDD;
-    font-size: 80%;
-  }
   td.no-data{
     text-align: center;
   }
@@ -182,6 +178,11 @@
   }
   tr:nth-child(even) td.orderby{
     background-color: #F3F3F3;
+  }
+  .percent-bar{
+    background-color: #CCC;
+    height:4px;
+    margin-bottom: -4px;
   }
 }
 

@@ -67,6 +67,7 @@ class Analytics.Views.Reports.ShowView extends Backbone.View
     @render_report_tab()
 
   refresh: (ev) ->
+    XA.action("click.report.refresh")
     report_tab_index = $(@el).find('.report-tabs ul li.active').attr('value')
     report_tab_attributes = @model.get("report_tabs_attributes")[report_tab_index]
     report_tab = Instances.Collections.report_tabs.get(report_tab_attributes.id)

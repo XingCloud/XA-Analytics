@@ -64,7 +64,7 @@ class Analytics.Collections.DimensionCharts extends Analytics.Collections.BaseCh
           has = true
       )
     )
-#    console.log @xa_id() + " has_pendings "+has
+#     @xa_id() + " has_pendings "+has
     has
 
   process_fetched_data: (resp) ->
@@ -74,4 +74,20 @@ class Analytics.Collections.DimensionCharts extends Analytics.Collections.BaseCh
       @data = []
     if resp["data"]? and resp["data"]["total"]?
       @total = resp["data"]["total"]
+    maxis = {}
+    _.each(@data, (d) ->
+      _.each(d[1], (v, metric_id) ->
+        v= parseFloat(v)
+        if v
+          if v < 0
+            maxis[metric_id] = -1
+          else
+            if not maxis[metric_id]?
+              maxis[metric_id] = 0
+            if maxis[metric_id] < v && maxis[metric_id] != -1
+              maxis[metric_id] = v
+      )
+    )
+    @maxis = maxis
+
     true

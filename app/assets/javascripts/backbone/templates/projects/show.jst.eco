@@ -18,7 +18,7 @@
     </table>
     <footer class="footer">
         © 2012 XingCloud All Rights Reserved |
-        <a href="http://p.xingcloud.com/analytics/overview?project_id=<%= @identifier %>"><%= I18n.t("templates.projects.show.degrade") %></a>
+        <a class="previous-version" style="cursor: pointer;"><%= I18n.t("templates.projects.show.degrade") %></a>
         |
         <a href="#/action_logs"><%= I18n.t("templates.projects.show.action_logs") %></a>
         |

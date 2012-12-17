@@ -61,11 +61,6 @@
     border-collapse: collapse;
     position: relative;
     width: 100%;
-
-    .pending{
-      color: #DDDDDD;
-      font-size: 80%;
-    }
     td {
       border-bottom: 1px solid #DDD;
       border-right: 1px solid #DDD;
@@ -197,4 +192,11 @@ a.download-table{
 	font-size:20px;
 	color:#333;
     }
+}
+
+table{
+  td.unavailable{
+    color: #DDDDDD;
+    font-size: 80%;
+  }
 }

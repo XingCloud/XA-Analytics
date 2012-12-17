@@ -3,6 +3,9 @@
 向服务器发请求；如果数据中含有pending，而且本chart是处于激活状态的，则定时重新刷新。
 ###
 class Analytics.Collections.BaseCharts extends Backbone.Collection
+  pending_period: 1
+  pending_start_time: 0
+
 
   ## for subclasses to override
   initialize: (models, options) ->
@@ -16,9 +19,11 @@ class Analytics.Collections.BaseCharts extends Backbone.Collection
     if not @is_activated()
       ## @xa_id() + " fetching, but no longer needed"
       return
-#    console.log @xa_id() + " fetching charts..."
+    # @xa_id() + " fetching charts..."
     collection = this
     start_time = (new Date()).getTime()
+    if @pending_start_time == 0
+      @pending_start_time = start_time
     params = @fetch_params()
     ## @last_request, 对上一次请求的缓存，用来防止同一个页面狂刷的情况
     if (force or @last_request.params != JSON.stringify(params) or
@@ -52,21 +57,27 @@ class Analytics.Collections.BaseCharts extends Backbone.Collection
     Instances.Charts.is_activated this
 
   ##检查所有timeline，看看有没有还在pending的数据。如果有，则定时reload一次：再次fetch_charts
-  check_pendings: () ->
+  check_pendings: (send_xa = true) ->
     collection = this
     if @has_pendings()
       @last_request?.success = false
       if collection.timer?
         clearTimeout(collection.timer);
-      collection.timer = _.delay(collection.fetch_charts, 10000)
-    else if collection.timer?
-      clearTimeout(collection.timer);
-      delete collection.timer
+      collection.timer = _.delay(collection.fetch_charts, 1000 * @pending_period * @pending_period)
+      @pending_period = @pending_period + 1
+    else
+      @pending_period = 1
+      if send_xa
+        @xa_pending(@pending_start_time)
+        @pending_start_time = 0
+      if collection.timer?
+        clearTimeout(collection.timer);
+        delete collection.timer
 
   ##chart的数据是否含有pending状态。
   ##由子类实现。
   has_pendings: () ->
-#    console.log @xa_id() + " charts has_pendings false"
+#     @xa_id() + " charts has_pendings false"
     false
 
   fetch_success: (resp, start_time, send_xa = true) ->
@@ -81,7 +92,7 @@ class Analytics.Collections.BaseCharts extends Backbone.Collection
       contains_error = not @process_fetched_data(resp)
       ##发送 change 事件。让相应的view(TimelinesView, KpisView等) 重绘自己
       @trigger "change"
-      @check_pendings()
+      @check_pendings(send_xa)
     if send_xa
       @xa_action(start_time, (if contains_error then "error" else "success"))
 
@@ -99,6 +110,11 @@ class Analytics.Collections.BaseCharts extends Backbone.Collection
     xa_action = "response." + Instances.Models.project.get("identifier") + "." + @xa_id()
     xa_interval = (new Date()).getTime() - start_time
     XA.action(xa_action + ".responsetime." + Analytics.Utils.timeShard(xa_interval) + "," + xa_interval, xa_action+"."+tag+",0")
+
+  xa_pending: (start_time) ->
+    xa_action = "response." + Instances.Models.project.get("identifier") + "." + @xa_id()
+    xa_interval = (new Date()).getTime() - start_time
+    XA.action(xa_action + ".pending." + Analytics.Utils.timeShard(xa_interval) + "," + xa_interval)
 
   xa_id: () ->
     if @for_widget

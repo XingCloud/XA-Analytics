@@ -1,6 +1,7 @@
 class ReportCategoriesController < ProjectBaseController
   before_filter :find_category, :only => [:update, :destroy]
   before_filter :filter_destroy, :only => [:destroy]
+  before_filter :check_privilege, :only =>[:create, :update, :destroy]
   after_filter :log_action, :only => [:create, :update, :destroy]
 
   def index
