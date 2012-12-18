@@ -63,7 +63,7 @@
               <% for report in @reports: %>
                 <% if Instances.Models.user.can_access_report(report.id): %>
                     <li id="nav-report-<%= report.id %>" class="nav-report">
-                    <% if not Instances.Models.user.is_mgriant() and report.get("report_category_id") != 2: %>
+                    <% if not Instances.Models.user.is_mgriant() and (report.get("project_id")? or report.get("report_category_id") != 2): %>
                         <div class="dropdown">
                             <div class="dropdown-toggle" value="report-<%= report.id %>">
                                 <span class="caret"></span>
