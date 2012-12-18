@@ -6,7 +6,7 @@
 <ul class="dimension-tags">
     <% for dimension in @dimensions: %>
         <% active = (@dimension? and dimension.dimension_type == @dimension.dimension_type and dimension.value == @dimension.value) %>
-        <% filter = _.find(@dimensions_filters, (filter) -> filter.dimension.value == dimension.value and filter.dimension.value_type == dimension.dimension_type) %>
+        <% filter = _.find(@dimensions_filters, (filter) -> filter.dimension.value == dimension.value and filter.dimension.dimension_type == dimension.dimension_type) %>
         <li class="dimension-tag <%= if active then 'active' %> ">
             <table>
                 <tr>

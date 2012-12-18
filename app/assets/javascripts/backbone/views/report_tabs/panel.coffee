@@ -36,13 +36,16 @@ class Analytics.Views.ReportTabs.PanelView extends Backbone.View
     this
 
 
+#model: Analytics.Models.ReportTab
 class Analytics.Views.ReportTabs.ShowRangePickerView extends Backbone.View
   template: JST['backbone/templates/report_tabs/show-range-picker']
   events:
     "click li a.default-range" : "change_default_range"
     "change .compare-checkbox" : "change_compare"
     "click li a.custom-range" : "show_custom_range"
-    "click a.submit-custom-range" : "change_custom_range"
+    "click a.submit-custom-range" : "check_submit"
+    "blur input" : "validate_custom_range"
+    "blur select" : "validate_custom_range"
 
   initialize: () ->
     _.bindAll this, "render", "redraw"
@@ -82,11 +85,16 @@ class Analytics.Views.ReportTabs.ShowRangePickerView extends Backbone.View
     )
 
   change_default_range: (ev) ->
+    XA.action("click.report.defaultrange")
+    day_offset = $(ev.currentTarget).attr("day_offset")
+    now = new Date()
+    end_time = now.getTime() - day_offset*86400000
     range = {
       length: parseInt($(ev.currentTarget).attr("length"))
       interval: $(ev.currentTarget).attr("interval")
     }
-    @model.compare_end_time = @model.end_time - range.length*86400000
+    @model.compare_end_time = @model.compare_end_time + end_time - @model.end_time
+    @model.end_time = end_time
     @model.set(range)
 
   change_compare: (ev) ->
@@ -95,8 +103,14 @@ class Analytics.Views.ReportTabs.ShowRangePickerView extends Backbone.View
   show_custom_range: (ev) ->
     $(@el).find(".dropdown").removeClass("open")
     $(@el).find('#custom-range-'+@model.id).modal()
+    @clear_error()
+
+  check_submit: (ev) ->
+    if @validate_custom_range()
+      @change_custom_range()
 
   change_custom_range: (ev) ->
+    XA.action("click.report.customrange")
     range = {
       length: parseInt($(@el).find('.length-input').val())
       interval: $(@el).find('.interval-select option:selected').attr("value")
@@ -110,5 +124,30 @@ class Analytics.Views.ReportTabs.ShowRangePickerView extends Backbone.View
     if change
       @model.trigger("change")
 
+  # 检查选择的range是否合法。
+  validate_custom_range: (ev) ->
+    @clear_error()
+    length = parseInt($(@el).find('.length-input').val())
+    interval = $(@el).find('.interval-select option:selected').attr("value")
+    end_time = parseInt($(@el).find('.end-time').val())
+    ret = Analytics.Utils.validateDateRange(end_time, length, interval)
+    if not ret.result
+      $(@el).find("span.error-message").text(I18n.t("templates.report_tabs.show_custom_range.error."+ret.message))
+      switch ret.message
+        when "err_future"
+          $(@el).find("input.custom-datepicker").addClass("error")
+        when "err_days"
+          $(@el).find("input.length-input").addClass("error")
+        when "err_points"
+          $(@el).find("input.length-input").addClass("error")
+          $(@el).find("select.interval-select").addClass("error")
+        when "err_today"
+          $(@el).find("input.custom-datepicker").addClass("error")
+          $(@el).find("select.interval-select").addClass("error")
+      return false
+    else
+      return true
 
-
+  clear_error: () ->
+    $(@el).find(".error").removeClass("error")
+    $(@el).find("span.error-message").text("")

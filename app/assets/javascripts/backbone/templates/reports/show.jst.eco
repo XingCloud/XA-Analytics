@@ -1,20 +1,4 @@
-<div class="row-fluid report-panel" data-spy="affix" data-offset-top="60">
-    <div class="left btn-group">
-        <% if not Instances.Models.user.is_mgriant():%>
-        <a class="btn segment-btn"><i class="icon-user" title="<%= I18n.t('resources.segment') %>"/></a>
-        <a class="btn" href="#/reports/<%= @id %>/edit">
-            <i class="icon-edit" title="<%= I18n.t('commons.edit') %>"/>
-        </a>
-	<% end %>
-        <a class="btn refresh-btn">
-            <i class="icon-refresh" title="<%= I18n.t('commons.refresh') %>"/>
-        </a>
-    </div>
-    <div class="left container-info">
-        <span><i><%= I18n.t('templates.reports.show.timezone') %></i></span>
-    </div>
-    <div class="right report-tab-range-picker">
-    </div>
+<div class="row-fluid report-panel" data-offset-top="60">
 </div>
 
 <div class="row-fluid segments">
