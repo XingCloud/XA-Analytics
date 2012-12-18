@@ -14,6 +14,9 @@ class Analytics.Routers.ReportsRouter extends Backbone.Router
       
   can_alter: () ->
     not Instances.Models.user.is_mgriant()
+
+  is_system: (report) ->
+    Instances.Models.project? and (not report.get("project_id")?) and report.get("report_category_id") == 2
     
   index: (project_id) ->
     if not Instances.Collections.reports.view?
@@ -57,7 +60,7 @@ class Analytics.Routers.ReportsRouter extends Backbone.Router
       window.location.href = "#/404"
       return    
     report = Instances.Collections.reports.get(id)
-    if report?
+    if report? and not @is_system(report)
       new Analytics.Views.Reports.FormView({id : "edit_report_"+report.id, model: report}).render()
       @highlight_report_nav(report)
     else
@@ -68,7 +71,7 @@ class Analytics.Routers.ReportsRouter extends Backbone.Router
       window.location.href = "#/404"
       return
     report = Instances.Collections.reports.get(id)
-    if report?
+    if report? and not @is_system(report)
      if confirm(I18n.t("commons.confirm_delete"))
         report.destroy({wait: true, success: (model, resp) ->
           Instances.Collections.reports.trigger "change"
@@ -78,8 +81,11 @@ class Analytics.Routers.ReportsRouter extends Backbone.Router
       window.location.href = "#/404"
 
   set_category: (id, category_id) ->
+    if not @can_alter()
+      window.location.href = "#/404"
+      return
     report = Instances.Collections.reports.get(id)
-    if report?
+    if report? and not @is_system(report)
       report.set_category(category_id, {success: (resp, status, xhr) ->
         if Instances.Models.project?
           window.location.href = "#/reports/" + report.id
