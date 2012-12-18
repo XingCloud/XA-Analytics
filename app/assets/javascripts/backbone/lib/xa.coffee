@@ -43,7 +43,7 @@ class XA
       else
         rest = rest + strItem
       index = index + 1
-    (new Image()).src = rest + '_ts=' + new Date().getTime()
+    (new Image()).src = rest + 'img&_ts=' + new Date().getTime()
     if @updates.length + @actions.length > 0
       @asyncSend()
     @sending = false

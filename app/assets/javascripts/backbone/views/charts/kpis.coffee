@@ -23,7 +23,6 @@ class Analytics.Views.Charts.KpisView extends Backbone.View
     @collection.on("change", @redraw)
 
   render: () ->
-    console.log "kpi render"
     $(@el).html(@template(@collection))
     $(@render_to).html(@el)
     $(@el).find("span.metric-name-desc").popover({
