@@ -28,7 +28,7 @@ class Analytics.Routers.ReportCategoriesRouter extends Backbone.Router
       window.location.href = "#/404"
       return
     category = Instances.Collections.report_categories.get(id)
-    if category?
+    if category? and not @is_system(category)
       new Analytics.Views.ReportCategories.FormView({model: category, id : "edit_report_category"+id}).render()
     else
       window.location.href = "#/404"
@@ -38,7 +38,7 @@ class Analytics.Routers.ReportCategoriesRouter extends Backbone.Router
       window.location.href = "#/404"
       return
     category = Instances.Collections.report_categories.get(id)
-    if category? and confirm(I18n.t("commons.confirm_delete"))
+    if category? and not @is_system(category) and confirm(I18n.t("commons.confirm_delete"))
       category.destroy({wait: true, success : (model, resp) ->
           reports = Instances.Collections.reports.select((report) -> report.get("report_category_id") == category.id)
           _.each(reports, (report) -> report.set({report_category_id: null}, {silent: true}))
@@ -50,7 +50,7 @@ class Analytics.Routers.ReportCategoriesRouter extends Backbone.Router
 
   shift_up: (id) ->
     category = Instances.Collections.report_categories.get(id)
-    if category?
+    if category? and not @is_system(category)
       category.shift_up({success: (resp, status, xhr) ->
         Analytics.Utils.actionFinished()
       })
@@ -59,9 +59,12 @@ class Analytics.Routers.ReportCategoriesRouter extends Backbone.Router
 
   shift_down: (id) ->
     category = Instances.Collections.report_categories.get(id)
-    if category?
+    if category? and not @is_system(category)
       category.shift_down({success: (resp, status, xhr) ->
         Analytics.Utils.actionFinished()
       })
     else
       window.location.href = "#/404"
+
+  is_system: (category) ->
+    Instances.Models.project? and category.id == 2
