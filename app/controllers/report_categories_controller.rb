@@ -1,6 +1,6 @@
 class ReportCategoriesController < ProjectBaseController
   before_filter :find_category, :only => [:update, :destroy]
-  before_filter :filter_destroy, :only => [:destroy]
+  before_filter :filter_system, :only => [:update, :destroy]
   before_filter :check_privilege, :only =>[:create, :update, :destroy]
   after_filter :log_action, :only => [:create, :update, :destroy]
 
@@ -97,7 +97,7 @@ class ReportCategoriesController < ProjectBaseController
                    session[:cas_user], Time.now)
   end
 
-  def filter_destroy
+  def filter_system
     if @category.id == 2
       render :json => @category.js_attributes, :status => 400
       return
