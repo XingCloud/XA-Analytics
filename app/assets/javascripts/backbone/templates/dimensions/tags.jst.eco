@@ -1,43 +1,77 @@
-<span class="sign">
-    &nbsp;&nbsp;
-    <i class="icon-tags icon-large"></i>
-    :&nbsp;&nbsp;
-</span>
-<ul class="dimension-tags">
-    <% for dimension in @dimensions: %>
-        <% active = (@dimension? and dimension.dimension_type == @dimension.dimension_type and dimension.value == @dimension.value) %>
-        <% filter = _.find(@dimensions_filters, (filter) -> filter.dimension.value == dimension.value and filter.dimension.dimension_type == dimension.dimension_type) %>
-        <li class="dimension-tag <%= if active then 'active' %> ">
+<% if @dimensions_filters.length > 0 or @dimensions.length > 0: %>
+    <span class="sign">
+        &nbsp;&nbsp;
+        <i class="icon-tags icon-large"></i>
+        :&nbsp;&nbsp;
+    </span>
+<% end %>
+<ul class="dimension-tags control-tags">
+    <% if @dimensions_filters.length > 0: %>
+        <li class="dimension-tag control-tag filter all">
             <table>
                 <tr>
                     <td>
-                        <% if filter?: %>
-                            <span><%= Analytics.Static.getDimensionName(dimension.value) %>:<%= filter.value %></span>
-                        <% else: %>
-                            <span><%= Analytics.Static.getDimensionName(dimension.value) %></span>
-                        <% end %>
-                    </td>
-                    <td>
-                        <i class="icon-remove-sign"></i>
+                        <span><%= I18n.t("templates.dimensions.tags.all") %></span>
                     </td>
                 </tr>
             </table>
         </li>
     <% end %>
+    <% for filter in @dimensions_filters: %>
+        <li class="filter-path-splitter">&nbsp;»&nbsp;</li>
+        <li class="dimension-tag control-tag filter" key="<%= filter.dimension.value %>" key_type="<%= filter.dimension.dimension_type %>" value="<%= filter.value %>" value_type="<%= filter.dimension.value_type %>">
+            <table>
+                <tr>
+                    <td>
+                        <span><%= Analytics.Static.getDimensionName(filter.dimension.value) %>:<%= filter.value %></span>
+                    </td>
+                </tr>
+            </table>
+        </li>
+    <% end %>
+    <% if @dimensions_filters.length > 0: %>
+        <li class="divider"><strong>&nbsp;|&nbsp;</strong></li>
+    <% end %>
+    <% for dimension in @dimensions: %>
+        <% active = (@dimension? and dimension.dimension_type == @dimension.dimension_type and dimension.value == @dimension.value) %>
+        <% filter = _.find(@dimensions_filters, (filter) -> filter.dimension.value == dimension.value and filter.dimension.dimension_type == dimension.dimension_type) %>
+        <% if not filter?: %>
+            <li class="dimension-tag control-tag <%= if active then 'active' %> ">
+                <table>
+                    <tr>
+                        <td class="tag" dimension-value="<%= dimension.value %>" dimension-type="<%= dimension.dimension_type %>">
+                            <span><%= Analytics.Static.getDimensionName(dimension.value) %></span>
+                        </td>
+                        <td>
+                            <i class="icon-remove-sign" dimension-value="<%= dimension.value %>" dimension-type="<%= dimension.dimension_type %>" ></i>
+                        </td>
+                    </tr>
+                </table>
+            </li>
+        <% end %>
+    <% end %>
 </ul>
-<div class="add-dimension left">
+<div class="add-dimension add-tag left">
     <div class="dropdown">
         <a class="btn dropdown-toggle" data-toggle="dropdown">
-            <i class="icon icon-plus"/>
+            <% if @dimensions_filters.length > 0 or @dimensions.length > 0: %>
+                <i class="icon-plus"/>
+            <% else: %>
+                <i class="icon-tags"/>
+            <% end %>
             <span class="caret"></span>
         </a>
         <ul class="dropdown-menu">
             <% for dimension in Analytics.Static.getDimensions(): %>
-                <li>
-                    <a value="<%= dimension.value %>" name="<%= dimension.name %>" dimension_type="<%= dimension.dimension_type %>" value_type="<%= dimension.value_type %>">
-                        <%= dimension.name %>
-                    </a>
-                </li>
+                <% exist = _.find(@dimensions, (di) -> di.dimension_type == dimension.dimension_type and di.value == dimension.value) %>
+                <% filter_exist = _.find(@dimension_filters, (filter) -> filter.dimension.dimension_type == dimension.dimension_type and filter.dimension.value == dimension.value) %>
+                <% if not exist? and not filter_exist?: %>
+                    <li>
+                        <a class="add-dimension-item" value="<%= dimension.value %>" name="<%= dimension.name %>" dimension_type="<%= dimension.dimension_type %>" value_type="<%= dimension.value_type %>">
+                            <%= dimension.name %>
+                        </a>
+                    </li>
+                <% end %>
             <% end %>
         </ul>
     </div>

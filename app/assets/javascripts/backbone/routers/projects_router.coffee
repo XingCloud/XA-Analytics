@@ -2,6 +2,7 @@ class Analytics.Routers.ProjectsRouter extends Backbone.Router
   routes:
     "/404" : "error_404"
     "/settings" : "settings"
+    "/settings/:active" : "settings_with_active"
     "/action_logs": "action_logs"
     "/action_logs/:page": "action_logs"
 
@@ -11,12 +12,10 @@ class Analytics.Routers.ProjectsRouter extends Backbone.Router
     $('#main-container').html(JST['backbone/templates/utils/404']())
 
   settings: () ->
-    if Instances.Models.user.is_mgriant()
-      window.location.href = "#/404"
-      return
-    view = new Analytics.Views.Projects.SettingsView({model: Instances.Models.project})
-    $('#main-container').html(view.render().el)
-    $('.nav-report').removeClass('active')
+    @do_settings()
+
+  settings_with_active: (active) ->
+    @do_settings(active)
 
   action_logs: (page = 1) ->
     if Instances.Collections.action_logs.view?
@@ -28,3 +27,14 @@ class Analytics.Routers.ProjectsRouter extends Backbone.Router
     $('.nav-report').removeClass('active')
     Instances.Collections.action_logs.page = parseInt(page)
     Instances.Collections.action_logs.fetch()
+
+  do_settings: (active = null) ->
+    if Instances.Models.user.is_mgriant()
+      window.location.href = "#/404"
+      return
+    view = new Analytics.Views.Projects.SettingsView({
+      model: Instances.Models.project
+      active: active
+    })
+    $('#main-container').html(view.render().el)
+    $('.nav-report').removeClass('active')

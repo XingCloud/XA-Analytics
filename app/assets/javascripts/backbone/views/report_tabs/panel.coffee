@@ -2,15 +2,19 @@ Analytics.Views.ReportTabs ||= {}
 
 class Analytics.Views.ReportTabs.PanelView extends Backbone.View
   template: JST["backbone/templates/report_tabs/panel"]
+  events:
+    "click .refresh-report-tab": "refresh_report_tab"
 
-  initialize: () ->
+  initialize: (options) ->
     _.bindAll this, "render", "redraw"
     @model.panel_view = this
+    @parent_view = options.parent_view
 
   render: () ->
     $(@el).html(@template(@model.show_attributes()))
     @render_range_picker()
     @render_dimension_tags()
+    @render_segment_tags()
     this
 
   render_range_picker: () ->
@@ -24,16 +28,36 @@ class Analytics.Views.ReportTabs.PanelView extends Backbone.View
 
   render_dimension_tags: () ->
     if not @dimension_tags_view?
-      @dimension_tags_view = new Analytics.Views.Dimensions.TagsView({model: @model})
-      $(@el).find(".dimensions-panel").html(@dimension_tags_view.render().el)
+      @dimension_tags_view = new Analytics.Views.Dimensions.TagsView({
+        model: @model
+        parent_view: this
+        report_tab_view: @parent_view
+      })
+      @dimension_tags_view.render()
     else
-      $(@el).find(".dimensions-panel").html(@dimension_tags_view.redraw().el)
+      @dimension_tags_view.redraw()
+
+  render_segment_tags: () ->
+    if not @segment_tags_view?
+      @segment_tags_view = new Analytics.Views.Segments.TagsView({
+        model: @model
+        parent_view: this
+        report_tab_view: @parent_view
+      })
+      @segment_tags_view.render()
+    else
+      @segment_tags_view.redraw()
 
   redraw: () ->
     @remove()
     @render()
     @delegateEvents(@events)
     this
+
+  refresh_report_tab: () ->
+    XA.action("click.report.refresh")
+    @model.force_fetch = true
+    @model.trigger("change")
 
 
 #model: Analytics.Models.ReportTab

@@ -5,7 +5,6 @@ class Analytics.Views.Reports.ShowView extends Backbone.View
   template: JST['backbone/templates/reports/show']
 
   events:
-    "click a.segment-btn" : "toggle_segments"
     "click a.refresh-btn" : "refresh"
     "click li.report-tab" : "change_tab"
 
@@ -46,19 +45,6 @@ class Analytics.Views.Reports.ShowView extends Backbone.View
 
   reset_segments_select: () ->
     Instances.Collections.segments.reset_selected(@segments_selected)
-
-  hide_segments: () ->
-    $(@el).find('.segment-btn').removeClass('active')
-    $(@el).find('.segments').empty()
-
-  toggle_segments: () ->
-    if $(@el).find('.segment-btn').hasClass('active')
-      @hide_segments()
-      @reset_segments_select()
-    else
-      @segments_selected = Instances.Collections.segments.selected()
-      @render_segments()
-      $(@el).find('.segment-btn').addClass('active')
 
   change_tab: (ev) ->
     $(@el).find('.report-tabs ul li').removeClass('active')

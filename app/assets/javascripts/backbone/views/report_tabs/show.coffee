@@ -3,8 +3,6 @@ Analytics.Views.ReportTabs ||= {}
 #model: Analytics.Models.ReportTab
 class Analytics.Views.ReportTabs.ShowView extends Backbone.View
   template: JST["backbone/templates/report_tabs/show"]
-  events:
-    "click .select-filter" : "select_filter"
 
   initialize: () ->
     _.bindAll this, "render", "redraw"
@@ -18,10 +16,10 @@ class Analytics.Views.ReportTabs.ShowView extends Backbone.View
   render: () ->
     $(@el).html(@template(@model.show_attributes()))
     $(@report_view.el).find('.tab-container').html($(@el))
-    @render_panel()
     @render_timelines()
     @render_kpis()
     @render_dimensions()
+    @render_panel()
     @fetch_data()
 
   redraw: () ->
@@ -33,12 +31,15 @@ class Analytics.Views.ReportTabs.ShowView extends Backbone.View
     if not @model.panel_view?
       new Analytics.Views.ReportTabs.PanelView({
         model: @model
+        parent_view: this
       })
       $(@report_view.el).find('.report-panel').html(@model.panel_view.render().el)
     else
       $(@report_view.el).find('.report-panel').html(@model.panel_view.redraw().el)
     $(@report_view.el).find('.report-panel').outerWidth($(@report_view.el).width())
-    $(@report_view.el).find('.report-panel').affix()
+    $(@report_view.el).find('.report-panel').affix({
+      offset: 60
+    })
 
   render_timelines: () ->
     segment_ids = Instances.Collections.segments.selected()
@@ -103,21 +104,3 @@ class Analytics.Views.ReportTabs.ShowView extends Backbone.View
             dimensions_view.unblock()
         }, @model.force_fetch)
       @model.force_fetch = false
-
-
-  select_filter: (ev) ->
-    value = $(ev.currentTarget).attr("value")
-    type = $(ev.currentTarget).attr("type")
-    if type.toUpperCase() == 'ALL'
-      @model.dimension = @model.dimensions[0]
-      @model.dimensions_filters().splice(0, @model.dimensions_filters().length)
-    else
-      @model.dimension = _.find(@model.dimensions, (item) ->
-        item.value == value and item.dimension_type == type
-      )
-      dimension_filter = _.find(@model.dimensions_filters(), (item) ->
-        item.dimension.value == value and item.dimension.dimension_type == type
-      )
-      dimension_filter_index = @model.dimensions_filters().indexOf(dimension_filter)
-      @model.dimensions_filters().splice(dimension_filter_index + 1, @model.dimensions_filters().length - dimension_filter_index - 1)
-    @redraw()
