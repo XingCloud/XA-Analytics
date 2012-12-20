@@ -5,7 +5,7 @@
         <td class="filters">
             <% if has_dimension_tag and has_segment_tag: %>
                 <div class="dimensions-panel control-panel row-fluid"></div>
-                <div class="segments-panel control-panel row-fluid"></div>
+                <div class="segments-panel control-panel row-fluid" style="margin-top: 2px;"></div>
             <% else: %>
                 <table>
                     <tr>
