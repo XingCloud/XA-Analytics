@@ -46,6 +46,9 @@ I18n.translations = {
                     "shard_rule": "shard rule",
                     "change_shard_rule": "modify shard rule",
                     "shard_rule_helper": "use number separated by comma"
+                },
+                "tags": {
+                    "all": "ALL"
                 }
             },
             "expressions": {
@@ -113,7 +116,8 @@ I18n.translations = {
                     "header": "Settings",
                     "user_attributes": "User attributes",
                     "custom_event_names": "Event names",
-		    "privilege_admin" : "Privilege administrator"
+		            "privilege_admin" : "Privilege administrator",
+                    "segments_management": "Segments Management"
                 },
                 "show": {
                     "degrade": "Old version",
@@ -205,6 +209,9 @@ I18n.translations = {
                     "default": "Default Segments",
                     "custom": "Custom Segments",
                     "add": "Add Segment"
+                },
+                "tags": {
+                    "manage": "Manage Segments"
                 }
             },
             "settings": {

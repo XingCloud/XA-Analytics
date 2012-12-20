@@ -1,13 +1,5 @@
 Analytics.Views.Charts ||= {}
 
-
-###
-collection: Analytics.Collections.TimelineCharts([], {
-  selector: @model
-  filters: @model.dimensions_filters
-})
-render_to: $(@el).find("#report_tab_" + @model.id + "_timelines")[0]
-###
 class Analytics.Views.Charts.TimelinesView extends Backbone.View
   template: JST["backbone/templates/charts/timeline"]
 

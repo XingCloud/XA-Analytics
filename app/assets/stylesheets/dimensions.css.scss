@@ -133,13 +133,6 @@
         cursor: pointer;
       }
     }
-    td.add-dimension{
-      padding-left: 10px;
-      ul{
-        max-height: 200px;
-        overflow: auto;
-      }
-    }
   }
 }
 
@@ -216,5 +209,33 @@
   }
   .dimensions-control{
     margin-left: 5px;
+  }
+}
+
+.dimensions-panel{
+  .dimension-tags{
+    .divider{
+      line-height: 24px;
+    }
+    .dimension-tag{
+      cursor: pointer;
+    }
+    .dimension-tag:hover{
+      color: white;
+      background-color: #08C;
+    }
+    .dimension-tag.active{
+      color: white;
+      background-color: #08C;
+    }
+  }
+  .add-dimension{
+    ul{
+      max-height: 200px;
+      overflow: auto;
+      li a{
+        cursor: pointer;
+      }
+    }
   }
 }

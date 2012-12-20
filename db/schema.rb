@@ -59,13 +59,8 @@ ActiveRecord::Schema.define(:version => 20121205062253) do
   create_table "metrics", :force => true do |t|
     t.string   "event_key"
     t.string   "condition"
-<<<<<<< HEAD
     t.datetime "created_at",                                 :null => false
     t.datetime "updated_at",                                 :null => false
-=======
-    t.datetime "created_at",                            :null => false
-    t.datetime "updated_at",                            :null => false
->>>>>>> new_privilege_system
     t.integer  "combine_id"
     t.string   "combine_action"
     t.string   "name"
@@ -100,6 +95,16 @@ ActiveRecord::Schema.define(:version => 20121205062253) do
 
   add_index "project_reports", ["project_id"], :name => "index_project_reports_on_project_id"
   add_index "project_reports", ["report_id"], :name => "index_project_reports_on_report_id"
+
+  create_table "project_users", :force => true do |t|
+    t.integer "project_id"
+    t.integer "user_id"
+    t.string  "role"
+    t.text    "privilege"
+  end
+
+  add_index "project_users", ["project_id"], :name => "index_project_users_on_project_id"
+  add_index "project_users", ["user_id"], :name => "index_project_users_on_user_id"
 
   create_table "project_widgets", :force => true do |t|
     t.integer "widget_id"
@@ -216,6 +221,13 @@ ActiveRecord::Schema.define(:version => 20121205062253) do
   end
 
   add_index "user_preferences", ["user"], :name => "index_user_preferences_on_user"
+
+  create_table "users", :force => true do |t|
+    t.string   "name"
+    t.string   "role"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
 
   create_table "versions", :force => true do |t|
     t.string   "item_type",  :null => false

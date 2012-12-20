@@ -46,6 +46,9 @@ I18n.translations = {
                     "shard_rule": "分段规则",
                     "change_shard_rule": "修改分段规则",
                     "shard_rule_helper": "用数字表示，数字与数字之间用逗号隔开"
+                },
+                "tags": {
+                    "all": "所有"
                 }
             },
             "expressions": {
@@ -113,7 +116,8 @@ I18n.translations = {
                     "header": "项目设置",
                     "user_attributes": "自定义属性",
                     "custom_event_names": "自定义事件字段名",
-		    "privilege_admin" : "权限管理"
+		            "privilege_admin" : "权限管理",
+                    "segments_management": "用户群管理"
                 },
                 "show": {
                     "degrade": "回旧版",
@@ -205,6 +209,9 @@ I18n.translations = {
                     "default": "默认用户群",
                     "custom": "自定义用户群",
                     "add": "新建用户群"
+                },
+                "tags": {
+                    "manage": "管理用户群"
                 }
             },
             "settings": {

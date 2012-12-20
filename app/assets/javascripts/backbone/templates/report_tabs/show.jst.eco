@@ -1,33 +1,3 @@
-<div class="report-tab-controls">
-    <div class="dimensions-filters">
-        <% if @dimensions_filters.length > 0: %>
-            <% last_filter = @dimensions_filters[@dimensions_filters.length - 1] %>
-            <table>
-                <tbody>
-                    <tr>
-                        <td>
-                            <a class="select-filter" type="ALL"><%= I18n.t("commons.all") %></a>
-                        </td>
-                        <td>&#187;</td>
-                        <% for filter in @dimensions_filters: %>
-                            <% if filter == last_filter: %>
-                                <td><%= filter.dimension.name %>:&nbsp;<%= filter.value %></td>
-                            <% else: %>
-                                <td>
-                                    <a class="select-filter" value="<%= filter.dimension.value %>" type="<%= filter.dimension.dimension_type %>">
-                                        <%= filter.dimension.name %>:
-                                    </a>
-                                    <%= filter.value %>
-                                </td>
-                                <td>&#187;</td>
-                            <% end %>
-                        <% end %>
-                    </tr>
-                </tbody>
-            </table>
-        <% end %>
-    </div>
-</div>
 <div class="timelines" id="report_tab_<%= @id %>_timelines">
 </div>
 <div class="kpis" id="report_tab_<%= @id %>_kpis">

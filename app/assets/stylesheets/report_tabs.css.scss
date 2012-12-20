@@ -111,3 +111,34 @@ table.chart-tooltip{
     color: #4B9525;
   }
 }
+.control-panel{
+  .sign{
+    float: left;
+    margin-top: 5px;
+  }
+  .control-tags{
+    li{
+      list-style: none;
+      float: left;
+    }
+    .control-tag{
+      border-radius: 6px;
+      -moz-border-radius: 6px;
+      -webkit-border-radius: 6px;
+      background-color: #EEE;
+      padding: 2px 2px 2px 4px;
+      position: relative;
+      line-height: 20px;
+      margin: 0 3px 0 3px;
+      .icon-remove-sign{
+        cursor: pointer;
+      }
+    }
+    float: left;
+    margin: 0;
+  }
+  .add-tag{
+    float: left;
+    padding-left: 10px;
+  }
+}

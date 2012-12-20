@@ -8,8 +8,6 @@ parent_view: Analytics.Views.ReportTabs.ShowView
 class Analytics.Views.Dimensions.ListView extends Backbone.View
   template: JST["backbone/templates/dimensions/list"]
   events:
-    "click .select-dimension" : "select_dimension"
-    "click .add-dimension ul li a" : "add_dimension"
     "click button.search-dimension": "search_dimension"
     "click .dimensions-table th" : "sort_dimensions"
     "click .next-page.active" : "next_page"
@@ -32,10 +30,14 @@ class Analytics.Views.Dimensions.ListView extends Backbone.View
     })
     @dimensions.orderby = @model.get("metric_ids")[0] if @model.get("metric_ids")[0]?
 
-  render: (should_fetch = true) ->
+  render: (should_fetch = true, should_scroll = false) ->
     $(@el).html(@template(@model.show_attributes()))
     @render_dimensions_chart()
     $(@render_to).html(@el)
+    if should_scroll
+      $('body').animate({
+        scrollTop: $(@el).offset().top
+      })
     if should_fetch
       @fetch_dimensions()
 
@@ -59,7 +61,9 @@ class Analytics.Views.Dimensions.ListView extends Backbone.View
     @dimensions.index = 0
     @dimensions.query = null
     @dimensions.total = 0
-    @render((if options.should_fetch? then options.should_fetch else true))
+    should_fetch = (if options.should_fetch? then options.should_fetch else true)
+    should_scroll = (if options.should_scroll? then options.should_scroll else false)
+    @render(should_fetch, should_scroll)
     @delegateEvents(@events)
 
   fetch_dimensions: () ->
@@ -74,32 +78,6 @@ class Analytics.Views.Dimensions.ListView extends Backbone.View
         error: (xhr, options, err) ->
           $(el).unblock()
       })
-
-  select_dimension: (ev) ->
-    value = $(ev.currentTarget).attr("value")
-    dimension_type = $(ev.currentTarget).attr("dimension_type")
-    @model.dimension = _.find(@model.dimensions, (item) ->
-      item.value == value and item.dimension_type == dimension_type
-    )
-    @redraw()
-
-  add_dimension: (ev) ->
-    if @model.dimensions.length < 6
-      option = $(ev.currentTarget)
-      new_dimension = {
-        name: option.attr("name")
-        value: option.attr("value")
-        dimension_type: option.attr("dimension_type")
-        value_type: option.attr("value_type")
-        level: @model.dimensions.length
-        report_tab_id: @model.id
-      }
-      @model.dimensions.push(new_dimension)
-      @model.dimension = new_dimension
-      @dimensions.activate()
-      @redraw()
-    else
-      alert("最多支持六层细分")
 
   search_dimension: (ev) ->
     @dimensions.query = $(@el).find('input.search-dimension-query').val()
@@ -169,7 +147,14 @@ class Analytics.Views.Dimensions.ListView extends Backbone.View
     if not oldfilter?
       @model.dimensions_filters().push(filter)
     level = @model.dimension.level
-    @model.dimension =  _.find(@model.dimensions, (item) -> item.level == level + 1)
+    @model.dimension = null
+    for dimension in @model.dimensions
+      filter_exist = _.find(@model.dimensions_filters(), (item) ->
+        item.dimension.dimension_type == dimension.dimension_type and item.dimension.value == dimension.value
+      )
+      if not filter_exist?
+        @model.dimension = dimension
+        break
     @parent_view.redraw()
 
   change_gpattern: (ev) ->

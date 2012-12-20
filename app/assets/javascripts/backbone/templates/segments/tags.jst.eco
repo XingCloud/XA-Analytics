@@ -1,0 +1,57 @@
+<% if Instances.Collections.segments.selected().length > 0: %>
+    <span class="sign">
+        &nbsp;&nbsp;
+        <i class="icon-user icon-large"></i>
+        :&nbsp;&nbsp;
+    </span>
+<% end %>
+<div class="segment-tags control-tags">
+    <% for segment_id in Instances.Collections.segments.selected(): %>
+        <% segment = Instances.Collections.segments.get(segment_id) %>
+        <li class="segment-tag control-tag">
+            <table>
+                <tr>
+                    <td>
+                        <span><%= segment.get("name") %></span>
+                    </td>
+                    <td>
+                        <i class="icon-remove-sign" value="<%= segment_id %>"></i>
+                    </td>
+                </tr>
+            </table>
+        </li>
+    <% end %>
+</div>
+
+<div class="add-segment add-tag">
+    <div class="dropdown">
+        <a class="btn dropdown-toggle" data-toggle="dropdown">
+            <% if Instances.Collections.segments.selected().length > 0: %>
+                <i class="icon-plus"/>
+            <% else: %>
+                <i class="icon-user" />
+            <% end %>
+            <span class="caret"></span>
+        </a>
+        <ul class="dropdown-menu">
+            <li>
+                <div class="segment-list">
+                    <% for segment in Instances.Collections.segments.models: %>
+                        <% if not segment.selected: %>
+                            <div class="segment" value="<%= segment.id %>">
+                                <%= segment.get("name") %>
+                            </div>
+                        <% end %>
+                    <% end %>
+                </div>
+            </li>
+            <li class="divider"></li>
+            <li>
+                <a class="manage-segments" href="#/settings/segments_management">
+                    <i class="icon-cog"/>
+                    <%= I18n.t("templates.segments.tags.manage") %>
+                </a>
+            </li>
+        </ul>
+    </div>
+</div>
