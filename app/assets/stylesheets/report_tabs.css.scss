@@ -112,9 +112,14 @@ table.chart-tooltip{
   }
 }
 .control-panel{
+  .sign-container{
+    min-width: 50px;
+  }
+  .add-container{
+    min-width: 60px;
+  }
   .sign{
     float: left;
-    margin-top: 5px;
   }
   .control-tags{
     li{

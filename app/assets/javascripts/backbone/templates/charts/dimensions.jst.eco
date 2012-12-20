@@ -5,7 +5,7 @@
             <tr>
                 <th width="<%= if @for_widget then 40 else 15 %>%" class="<%= if not @orderby? then @order %>">
                     <% if @selector.get_dimension()?: %>
-                        <%= @selector.get_dimension().name %>
+                        <%= Analytics.Static.getDimensionName(@selector.get_dimension().value) %>
                     <% end %>
                 </th>
                 <% for metric_id in @metric_ids: %>

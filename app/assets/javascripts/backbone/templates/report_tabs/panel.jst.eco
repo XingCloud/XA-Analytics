@@ -1,4 +1,5 @@
 <div class="navbar-inner">
+
     <% has_dimension_tag = (@dimensions.length > 0 or @dimensions_filters.length > 0) %>
     <% has_segment_tag = (Instances.Collections.segments.selected().length > 0) %>
     <table class="control-panels-container">
@@ -6,7 +7,7 @@
             <td class="filters">
                 <% if has_dimension_tag and has_segment_tag: %>
                     <div class="dimensions-panel control-panel row-fluid"></div>
-                    <div class="segments-panel control-panel row-fluid"></div>
+                    <div class="segments-panel control-panel row-fluid" style="margin-top: 2px;"></div>
                 <% else: %>
                     <table>
                         <tr>
