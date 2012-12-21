@@ -77,4 +77,18 @@ class BasisService
     end
     users
   end
+
+  def self.get_projects(user)
+    projects = []
+    req = Net::HTTP::Get.new("/users/#{user}/projects")
+    req.basic_auth BASIC_USERNAME, BASIC_PASSWORD
+    res = Net::HTTP.start(HOST, PORT){|http|
+      http.request(req)
+    }
+    if res.is_a?(Net::HTTPSuccess)
+      results = JSON.parse(res.body)
+      projects = results["items"].map{|item| JSON.parse(item)}
+    end
+    projects
+  end
 end

@@ -1,0 +1,11 @@
+.container
+  .hero-unit
+    %h1
+      = t("no_projects_title")
+    %br
+    %p
+      = t("no_projects_description")
+    %p
+      %a.btn.btn-primary.btn-large{:href => "http://p.xingcloud.com/projects/new"}
+        %i{:class => "icon-plus"}
+        = t("no_projects_create")
