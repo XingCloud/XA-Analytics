@@ -22,10 +22,6 @@ class Analytics.Views.Reports.ShowView extends Backbone.View
     @render()
     @delegateEvents(@events)
 
-  render_segments: () ->
-    $(@el).find('.segments').html(new Analytics.Views.Segments.ListView({
-      parent: this
-    }).render().el)
 
   render_report_tab: () ->
     Instances.Charts.reset()
@@ -42,9 +38,6 @@ class Analytics.Views.Reports.ShowView extends Backbone.View
         })
         report_tab.view.report_view = this
         report_tab.view.render()
-
-  reset_segments_select: () ->
-    Instances.Collections.segments.reset_selected(@segments_selected)
 
   change_tab: (ev) ->
     $(@el).find('.report-tabs ul li').removeClass('active')
