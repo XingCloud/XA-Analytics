@@ -38,7 +38,7 @@
   %body
     #container
       = yield
-    = javascript_include_tag "#{BasisService.base_url}/xingcloud.js?project_id=#{@project.identifier}&select=analytic"
+    = javascript_include_tag "#{BasisService.base_url}/xingcloud.js?project_id=#{@project.identifier unless @project.blank?}&select=analytic"
 
 
     :javascript

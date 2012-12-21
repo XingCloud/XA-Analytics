@@ -23,3 +23,6 @@ en:
   no_ie_content: "We've detected your browser is an old version (&lt;8) of Internet Explorer &reg which drives us crazy. To gain the perfect experience in our site, we recommend you to update your browser to lastest version or use these instead:"
   no_ie_screw_it: "Or, screw it,"
   no_ie_just_enter: "just enter"
+  no_projects_title: "No Project"
+  no_projects_description: "You haven't created any projects or your projects have been removed, please contact the administrator or create a new project"
+  no_projects_create: "Create Project"
