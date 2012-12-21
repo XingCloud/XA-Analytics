@@ -22,11 +22,11 @@
                 <div class="report-tab-actions">
                     <% report = Instances.Collections.reports.get(@report_id) %>
                     <% if not Instances.Models.user.is_mgriant() and (report.get("project_id")? or report.get("report_category_id") != 2): %>
-                        <div class="btn action edit-report">
-                            <a href="#/reports/<%= @report_id %>/edit">
-                                <i class="icon-edit" title="<%= I18n.t('commons.edit') %>"></i>
-                            </a>
-                        </div>
+                        <a href="#/reports/<%= @report_id %>/edit" title="<%= I18n.t('commons.edit') %>">
+                            <div class="btn action edit-report">
+                                <i class="icon-edit"></i>
+                            </div>
+                        </a>
                     <% end %>
                     <div class="btn action refresh-report-tab"><i class="icon-refresh" title="<%= I18n.t('commons.refresh') %>"></i></div>
                 </div>
