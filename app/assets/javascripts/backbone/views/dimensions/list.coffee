@@ -147,14 +147,6 @@ class Analytics.Views.Dimensions.ListView extends Backbone.View
     if not oldfilter?
       @model.dimensions_filters().push(filter)
     level = @model.dimension.level
-    @model.dimension = null
-    for dimension in @model.dimensions
-      filter_exist = _.find(@model.dimensions_filters(), (item) ->
-        item.dimension.dimension_type == dimension.dimension_type and item.dimension.value == dimension.value
-      )
-      if not filter_exist?
-        @model.dimension = dimension
-        break
     @parent_view.redraw()
 
   change_gpattern: (ev) ->
