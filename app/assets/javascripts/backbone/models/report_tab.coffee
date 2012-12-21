@@ -37,6 +37,7 @@ class Analytics.Models.ReportTab extends Backbone.Model
     metrics
 
   show_attributes: () ->
+    @update_dimension()
     _.extend({
       end_time: @end_time
       compare_end_time: @compare_end_time
@@ -57,3 +58,17 @@ class Analytics.Models.ReportTab extends Backbone.Model
   update_dimensions: () ->
     @dimensions = _.clone(@get("dimensions_attributes"))
     @dimension = (if @dimensions? and @dimensions.length > 0 then @dimensions[0])
+
+  update_dimension: () ->
+    if @find_filter(@dimension)?
+      @dimension = null
+      for dimension in @dimensions
+        filter_exist = @find_filter(dimension)
+        if not filter_exist?
+          @dimension = dimension
+          break
+
+  find_filter: (dimension) ->
+    _.find(@dimensions_filters(), (item) ->
+      item.dimension.dimension_type == dimension.dimension_type and item.dimension.value == dimension.value
+    )
