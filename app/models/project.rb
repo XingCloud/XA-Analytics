@@ -17,7 +17,9 @@ class Project < ActiveRecord::Base
   validate :identifier, :presence => true, :uniqueness => true
 
   def self.fetch(identifier)
-    project = Project.find_by_identifier(identifier) || Project.find_by_id(identifier) || Project.find_remote(identifier)
+    project = Project.find_by_identifier(identifier)
+    project ||= Project.find_by_id(identifier) unless identifier.match('^[\d]+$').blank?
+    project ||= Project.find_remote(identifier)
     if project.blank?
       raise ActiveRecord::RecordNotFound, "Project can not find #{identifier}"
     else

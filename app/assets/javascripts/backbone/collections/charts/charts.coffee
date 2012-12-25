@@ -5,6 +5,7 @@
 class Analytics.Collections.BaseCharts extends Backbone.Collection
   pending_period: 1
   pending_start_time: 0
+  is_pending: false
 
 
   ## for subclasses to override
@@ -22,8 +23,9 @@ class Analytics.Collections.BaseCharts extends Backbone.Collection
     # @xa_id() + " fetching charts..."
     collection = this
     start_time = (new Date()).getTime()
-    if @pending_start_time == 0
+    if not @is_pending
       @pending_start_time = start_time
+      @is_pending = true
     params = @fetch_params()
     ## @last_request, 对上一次请求的缓存，用来防止同一个页面狂刷的情况
     if (force or @last_request.params != JSON.stringify(params) or
@@ -67,9 +69,9 @@ class Analytics.Collections.BaseCharts extends Backbone.Collection
       @pending_period = @pending_period + 1
     else
       @pending_period = 1
+      @is_pending = false
       if send_xa
         @xa_pending(@pending_start_time)
-        @pending_start_time = 0
       if collection.timer?
         clearTimeout(collection.timer);
         delete collection.timer

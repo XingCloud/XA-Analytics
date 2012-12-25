@@ -28,7 +28,8 @@ I18n.translations = {
                     "no_dimension": "暂无细分, 请添加(最多支持6层细分)",
                     "choose_segment": "选择用户群",
                     "total_dimensions": "总共 {{count}} 项细分" ,
-                    "no_category": "未细分"
+                    "no_category": "未细分",
+                    "dimension_date": "展示数据日期"
                 },
                 "kpis": {
                     "latest_days": "近{{days}}天",

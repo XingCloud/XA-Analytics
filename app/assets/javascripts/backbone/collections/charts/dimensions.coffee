@@ -11,6 +11,7 @@ class Analytics.Collections.DimensionCharts extends Analytics.Collections.BaseCh
     @index = 0
     @order = 'DESC'
     @data = []
+    @info = {}
     @last_request = {params: "", resp: "", success: true, time: 0}
 
   initialize_charts: (metric_ids, segment_ids = []) ->
@@ -22,6 +23,7 @@ class Analytics.Collections.DimensionCharts extends Analytics.Collections.BaseCh
     @index = 0
     @total = 0
     @data = []
+    @info = {}
     for metric_id in metric_ids
       chart = new Analytics.Models.DimensionChart({
         id: 'm'+metric_id
@@ -74,6 +76,8 @@ class Analytics.Collections.DimensionCharts extends Analytics.Collections.BaseCh
       @data = []
     if resp["data"]? and resp["data"]["total"]?
       @total = resp["data"]["total"]
+    if resp["data"]? and resp["data"]["info"]?
+      @info = resp["data"]["info"]
     maxis = {}
     _.each(@data, (d) ->
       _.each(d[1], (v, metric_id) ->

@@ -20,8 +20,9 @@
             <% metric = Instances.Collections.metrics.get(metric_id) %>
             <td class="metric-name <%= if index+1 == @metric_ids.length then 'last' %>" value="<%= metric_id %>">
                 <% if metric.get('description'): %>
-                    <span class="metric-name-desc" data-content="<%= metric.get('description') %>" data-original-title="<%= metric.get("name") %>"><i class="icon icon-question-sign"></i>
-                    <%= metric.get("name") %>
+                    <span class="metric-name-desc" data-content="<%= metric.get('description') %>" data-original-title="<%= metric.get("name") %>">
+                        <i class="icon icon-question-sign"></i>
+                        <%= metric.get("name") %>
                     </span>
                 <% else: %>
                     <span><%= metric.get("name") %></span>
