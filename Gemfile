@@ -32,6 +32,7 @@ group :assets do
   gem 'sass-rails'
   gem 'less-rails'
   gem 'coffee-rails'
+  gem 'libv8', '~> 3.11.8'
   gem 'therubyracer'
   gem 'uglifier'
   gem 'eco'
