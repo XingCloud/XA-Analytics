@@ -10,7 +10,7 @@
                 </th>
                 <% for metric_id in @metric_ids: %>
                     <th class="<%= if parseInt(@orderby) == metric_id then @order %>" value="<%= metric_id %>">
-                        <% if @info[metric_id]? %>
+                        <% if @info[metric_id]?: %>
                             <span class="dimension-column-desc" data-content="<%= @info[metric_id] %>" data-original-title="<%= I18n.t('templates.charts.dimensions.dimension_date') %>">
                                 <i class="icon icon-question-sign" style="opacity: 0.4;"></i>
                                 <%= Instances.Collections.metrics.get(metric_id).get("name") %>
