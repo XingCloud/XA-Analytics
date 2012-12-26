@@ -3,9 +3,7 @@
         <% if Instances.Collections.segments.selected().length > 0: %>
             <td class="sign-container">
                 <span class="sign">
-                    &nbsp;&nbsp;
                     <i class="icon-user icon-large"></i>
-                    :&nbsp;&nbsp;
                 </span>
             </td>
         <% end %>
@@ -41,10 +39,10 @@
                     </a>
                     <ul class="dropdown-menu">
                         <li>
-                            <div class="segment-list">
+                            <div class="tag-list">
                                 <% for segment in Instances.Collections.segments.models: %>
                                     <% if not segment.selected: %>
-                                        <div class="segment" value="<%= segment.id %>">
+                                        <div class="tag" value="<%= segment.id %>">
                                             <%= segment.get("name") %>
                                         </div>
                                     <% end %>
@@ -53,7 +51,7 @@
                         </li>
                         <li class="divider"></li>
                         <li>
-                            <a class="manage-segments" href="#/settings/segments_management">
+                            <a class="manage-tags" href="#/settings/segments_management">
                                 <i class="icon-cog"/>
                                 <%= I18n.t("templates.segments.tags.manage") %>
                             </a>

@@ -49,7 +49,8 @@ I18n.translations = {
                     "shard_rule_helper": "use number separated by comma"
                 },
                 "tags": {
-                    "all": "ALL"
+                    "all": "ALL",
+                    "manage": "Manage User Attributes"
                 }
             },
             "expressions": {

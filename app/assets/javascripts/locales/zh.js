@@ -49,7 +49,8 @@ I18n.translations = {
                     "shard_rule_helper": "用数字表示，数字与数字之间用逗号隔开"
                 },
                 "tags": {
-                    "all": "所有"
+                    "all": "所有",
+                    "manage": "管理用户属性"
                 }
             },
             "expressions": {

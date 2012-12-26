@@ -3,7 +3,7 @@ Analytics.Views.Segments ||= {}
 class Analytics.Views.Segments.TagsView extends Backbone.View
   template: JST["backbone/templates/segments/tags"]
   events:
-    "click .add-segment .segment": "add_segment"
+    "click .add-segment .tag": "add_segment"
     "click .icon-remove-sign": "remove_segment"
 
 

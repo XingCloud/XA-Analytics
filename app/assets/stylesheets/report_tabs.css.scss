@@ -146,5 +146,30 @@ table.chart-tooltip{
   .add-tag{
     float: left;
     padding-left: 10px;
+    ul{
+      .tag-list{
+        max-height: 200px;
+        padding: 2px 10px 2px 5px;
+        position: relative;
+        overflow: auto;
+        .tag{
+          border: 1px solid #2F67B4;
+          background-color:  #C5DCFE;
+          color: #2F67B4;
+          margin: 1px 1px 1px 0;
+          cursor: pointer;
+          font-size: 0.9em;
+          font-weight: bold;
+          padding: 4px 3px 4px 5px;
+        }
+        .tag:hover{
+          background-color: #6FAEFD;
+          color: white;
+        }
+      }
+      .manage-tags{
+        cursor: pointer;
+      }
+    }
   }
 }

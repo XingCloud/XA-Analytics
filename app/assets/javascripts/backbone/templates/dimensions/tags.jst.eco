@@ -3,7 +3,7 @@
         <% if @dimensions_filters.length > 0 or @dimensions.length > 0: %>
             <td class="sign-container">
                 <span class="sign">
-                <i class="icon-tags icon-large"></i>
+                    <i class="icon-tags icon-large"></i>
                 </span>
             </td>
         <% end %>
@@ -67,17 +67,26 @@
                         <span class="caret"></span>
                     </a>
                     <ul class="dropdown-menu">
-                        <% for dimension in Analytics.Static.getDimensions(): %>
-                            <% exist = _.find(@dimensions, (di) -> di.dimension_type == dimension.dimension_type and di.value == dimension.value) %>
-                            <% filter_exist = _.find(@dimension_filters, (filter) -> filter.dimension.dimension_type == dimension.dimension_type and filter.dimension.value == dimension.value) %>
-                            <% if not exist? and not filter_exist?: %>
-                                <li>
-                                    <a class="add-dimension-item" value="<%= dimension.value %>" name="<%= dimension.name %>" dimension_type="<%= dimension.dimension_type %>" value_type="<%= dimension.value_type %>">
-                                        <%= dimension.name %>
-                                    </a>
-                                </li>
-                            <% end %>
-                        <% end %>
+                        <li>
+                            <div class="tag-list">
+                                <% for dimension in Analytics.Static.getDimensions(): %>
+                                    <% exist = _.find(@dimensions, (di) -> di.dimension_type == dimension.dimension_type and di.value == dimension.value) %>
+                                    <% filter_exist = _.find(@dimension_filters, (filter) -> filter.dimension.dimension_type == dimension.dimension_type and filter.dimension.value == dimension.value) %>
+                                    <% if not exist? and not filter_exist?: %>
+                                        <div class="tag" value="<%= dimension.value %>" name="<%= dimension.name %>" dimension_type="<%= dimension.dimension_type %>" value_type="<%= dimension.value_type %>">
+                                            <%= dimension.name %>
+                                        </div>
+                                    <% end %>
+                                <% end %>
+                            </div>
+                        </li>
+                        <li class="divider"></li>
+                        <li>
+                            <a class="manage-tags" href="#/settings/user_attributes">
+                                <i class="icon-cog"/>
+                                <%= I18n.t("templates.dimensions.tags.manage") %>
+                            </a>
+                        </li>
                     </ul>
                 </div>
             </div>

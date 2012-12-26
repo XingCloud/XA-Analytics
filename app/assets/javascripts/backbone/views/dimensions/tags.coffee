@@ -5,7 +5,7 @@ class Analytics.Views.Dimensions.TagsView extends Backbone.View
   events:
     "click .dimension-tag td.tag": "choose_dimension"
     "click .dimension-tag i.icon-remove-sign": "remove_dimension"
-    "click .add-dimension-item": "add_dimension"
+    "click .add-tag .tag": "add_dimension"
     "click .dimension-tag.filter": "click_filter"
 
   initialize: (options) ->
