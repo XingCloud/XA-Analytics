@@ -7,49 +7,18 @@
     </a>
 </p>
 
-<table class="table table-striped">
-    <thead>
-        <tr>
-            <th>#</th>
-            <th><%= I18n.t("templates.maintenance_plans.index.start") %></th>
-            <th><%= I18n.t("templates.maintenance_plans.index.end") %></th>
-            <th><%= I18n.t("templates.maintenance_plans.index.created_by") %></th>
-            <th><%= I18n.t("templates.maintenance_plans.index.keep_running") %></th>
-            <th><%= I18n.t("templates.maintenance_plans.index.announcement") %></th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        <% if @models.length > 0: %>
-            <% for index in [0..@models.length-1]: %>
-                <% model = @models[index] %>
-                <tr>
-                    <td><%= index %></td>
-                    <td><%= moment(model.get("begin_at")).format("YYYY-MM-DD HH:mm:ss") %></td>
-                    <td><%= moment(model.get("end_at")).format("YYYY-MM-DD HH:mm:ss") %></td>
-                    <td><%= model.get("created_by") %></td>
-                    <td>
-                        <%= if model.get("keep_running") then I18n.t("commons.yes") else I18n.t("commons.no") %>
-                    </td>
-                    <td>
-                        <% if model.get("announcement")? and model.get("announcement").length > 20: %>
-                            <%= model.get("announcement").substring(0, 20) %>...
-                        <% else if model.get("announcement")? and model.get("announcement").length <= 20: %>
-                            <%= model.get("announcement") %>
-                        <% else: %>
-                            <i>暂无公告</i>
-                        <% end %>
-                    </td>
-                    <td>
-                        <a class="btn btn-mini left edit-maintenance-plan" value="<%= model.id %>"><i class="icon-edit"/></a>
-                        <a class="btn btn-mini left remove-maintenance-plan" value="<%= model.id %>"><i class="icon-remove"/></a>
-                    </td>
-                </tr>
-            <% end %>
-        <% else: %>
-            <tr>
-                <td colspan="6" style="text-align: center;"><i><%= I18n.t("templates.maintenance_plans.index.no_data") %></i></td>
-            </tr>
-        <% end %>
-    </tbody>
-</table>
+<div class="row-fluid">
+    <ul class="nav nav-tabs">
+        <li class="<%= if @active_table == 'active' then 'active' %>" type="active">
+            <a data-toggle="tab" href="#maintenance-plan-active"><%= I18n.t("templates.maintenance_plans.index.active") %></a>
+        </li>
+        <li class="<%= if @active_table == 'nonactive' then 'active' %>" type="nonactive">
+            <a data-toggle="tab" href="#maintenance-plan-nonactive"><%= I18n.t("templates.maintenance_plans.index.nonactive") %></a>
+        </li>
+    </ul>
+</div>
+
+<div class="row-fluid tab-content">
+    <div class="tab-pane <%= if @active_table == 'active' then 'active' %>" id="maintenance-plan-active"></div>
+    <div class="tab-pane <%= if @active_table == 'nonactive' then 'active' %>" id="maintenance-plan-nonactive"></div>
+</div>

@@ -74,7 +74,9 @@ I18n.translations = {
                     "created_by": "创建人",
                     "keep_running": "保持服务运转",
                     "announcement": "内容",
-                    "no_data": "暂无维护计划"
+                    "no_data": "暂无维护计划",
+                    "active": "当前生效",
+                    "nonactive": "已过期"
                 }
             },
             "metrics": {

@@ -64,7 +64,9 @@ I18n.translations = {
                     "start": "Start",
                     "end": "End",
                     "announcement": "Announcement",
-                    "keep_running": "Keep Running"
+                    "keep_running": "Keep Running",
+                    "active": "Active",
+                    "nonactive": "Expired"
                 },
                 "index": {
                     "header": "Maintenance Plans Management",
