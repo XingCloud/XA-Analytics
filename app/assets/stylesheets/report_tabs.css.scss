@@ -113,12 +113,13 @@ table.chart-tooltip{
 }
 .control-panel{
   .sign-container{
-    min-width: 50px;
+    min-width: 30px;
   }
   .add-container{
     min-width: 60px;
   }
   .sign{
+    margin-left: 5px;
     float: left;
   }
   .control-tags{

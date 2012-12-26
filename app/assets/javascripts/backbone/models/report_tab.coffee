@@ -69,6 +69,8 @@ class Analytics.Models.ReportTab extends Backbone.Model
           break
 
   find_filter: (dimension) ->
+    if not dimension?
+      return null
     _.find(@dimensions_filters(), (item) ->
       item.dimension.dimension_type == dimension.dimension_type and item.dimension.value == dimension.value
     )

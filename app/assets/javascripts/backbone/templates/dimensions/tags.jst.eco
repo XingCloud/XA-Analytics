@@ -3,9 +3,7 @@
         <% if @dimensions_filters.length > 0 or @dimensions.length > 0: %>
             <td class="sign-container">
                 <span class="sign">
-                &nbsp;&nbsp;
                 <i class="icon-tags icon-large"></i>
-                :&nbsp;&nbsp;
                 </span>
             </td>
         <% end %>
