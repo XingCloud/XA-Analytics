@@ -52,6 +52,13 @@ Backbone.sync = (method, model, options) ->
 
 $(document).on "click", "a[href^='/']", (ev) ->
   href = $(ev.currentTarget).attr("href")
+  if _gaq?
+    _gaq.push(['_trackPageview', href])
   if Analytics.Utils.checkPushState() and href != "/template/projects"
     ev.preventDefault()
     Backbone.history.navigate href.replace(window.ROOT + '/', ''), {trigger: true}
+
+$(document).on "click", "a[href^='#']", (ev) ->
+  href = $(ev.currentTarget).attr("href")
+  if _gaq?
+    _gaq.push(['_trackPageview', window.ROOT + '/' + href.replace("#", '')])
