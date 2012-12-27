@@ -377,7 +377,8 @@ I18n.translations = {
             "user_attribute": "User Attribute",
             "action_log": "Action Log",
             "translation": "Language resources",
-            "user_preference": "User Preference"
+            "user_preference": "User Preference",
+            "project_users": "Project Users"
         },
         "statics": {
             "user_attributes": {

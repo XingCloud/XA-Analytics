@@ -146,6 +146,9 @@ table.chart-tooltip{
   .add-tag{
     float: left;
     padding-left: 10px;
+    .dropdown-toggle{
+      margin-top: 0px;
+    }
     ul{
       .tag-list{
         max-height: 200px;

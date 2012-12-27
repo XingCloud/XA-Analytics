@@ -383,7 +383,8 @@ I18n.translations = {
             "user_attribute": "用户属性" ,
             "action_log": "操作日志",
             "translation": "语言文件",
-            "user_preference": "用户设置"
+            "user_preference": "用户设置",
+            "project_users": "用户列表"
         },
         "statics": {
             "user_attributes": {

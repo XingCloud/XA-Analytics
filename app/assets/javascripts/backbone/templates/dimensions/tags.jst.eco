@@ -1,35 +1,18 @@
 <table>
     <tr>
-        <% if @dimensions_filters.length > 0 or @dimensions.length > 0: %>
-            <td class="sign-container">
-                <span class="sign">
-                    <i class="icon-tags icon-large"></i>
-                </span>
-            </td>
-        <% end %>
         <td>
             <ul class="dimension-tags control-tags">
                 <% if @dimensions_filters.length > 0: %>
-                    <li class="dimension-tag control-tag filter all">
-                        <table>
-                            <tr>
-                                <td>
-                                    <span><%= I18n.t("templates.dimensions.tags.all") %></span>
-                                </td>
-                            </tr>
-                        </table>
+                    <li class="filter all">
+                        <i class="icon-folder-open"></i>
+                        <a><%= I18n.t("templates.dimensions.tags.all") %></a>
                     </li>
                 <% end %>
                 <% for filter in @dimensions_filters: %>
                     <li class="filter-path-splitter">&nbsp;»&nbsp;</li>
-                    <li class="dimension-tag control-tag filter" key="<%= filter.dimension.value %>" key_type="<%= filter.dimension.dimension_type %>" value="<%= filter.value %>" value_type="<%= filter.dimension.value_type %>">
-                        <table>
-                            <tr>
-                                <td>
-                                    <span><%= Analytics.Static.getDimensionName(filter.dimension.value) %>:<%= filter.value %></span>
-                                </td>
-                            </tr>
-                        </table>
+                    <li class="filter" key="<%= filter.dimension.value %>" key_type="<%= filter.dimension.dimension_type %>" value="<%= filter.value %>" value_type="<%= filter.dimension.value_type %>">
+                        <i class="icon-folder-open"></i>
+                        <a><%= Analytics.Static.getDimensionName(filter.dimension.value) %>:<%= filter.value %></a>
                     </li>
                 <% end %>
                 <% if @dimensions_filters.length > 0: %>
@@ -61,6 +44,7 @@
                     <a class="btn dropdown-toggle" data-toggle="dropdown">
                         <% if @dimensions_filters.length > 0 or @dimensions.length > 0: %>
                             <i class="icon-plus"/>
+                            <i class="icon-tags"/>
                         <% else: %>
                             <i class="icon-tags"/>
                         <% end %>
