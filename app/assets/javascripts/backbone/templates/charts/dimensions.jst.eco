@@ -131,7 +131,7 @@
             <div class="right dimensions-control">
                 <label class="left control-label"><%= I18n.t("commons.jump_to") %>&nbsp;</label>
                 <div class="controls left">
-                    <input class="input-mini left" type="text" value="<%= if @total != 0 then @index+1 else 0 %>" id="page-index" style="width: 30px;">
+                    <input class="input-mini" type="text" value="<%= if @total != 0 then @index+1 else 0 %>" id="page-index" style="width: 30px;">
                     <button type="button" class="btn jump-page">OK</button>
                 </div>
             </div>
