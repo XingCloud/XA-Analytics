@@ -5,13 +5,13 @@
     </a>
     <ul class="dropdown-menu">
         <li>
-            <a href="#/reports/<%= @id %>/edit">
+            <a href="<%= Analytics.Utils.hrefWrapper('reports/' + @id + '/edit') %>">
                 <i class="icon-edit"></i>
                 &nbsp;<%= I18n.t("commons.edit") %>
             </a>
         </li>
         <li>
-            <a href="#/reports/<%= @id %>/delete">
+            <a href="<%= Analytics.Utils.hrefWrapper('reports/' + @id + '/delete') %>">
                 <i class="icon-trash"></i>
                 &nbsp;<%= I18n.t("commons.delete") %>
             </a>
@@ -28,7 +28,7 @@
                     <%= category.name %>
                 </a>
                 <% else: %>
-                <a href="#/reports/<%= @id %>/set_category/<%= category.id %>">
+                <a href="<%= Analytics.Utils.hrefWrapper('reports/' + @id + '/set_category/' + category.id) %>">
                     <i class="icon-folder-close"></i>
                     <%= category.name %>
                 </a>

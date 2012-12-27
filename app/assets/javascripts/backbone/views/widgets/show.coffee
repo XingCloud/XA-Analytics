@@ -100,7 +100,7 @@ class Analytics.Views.Widgets.ShowView extends Backbone.View
       if parseInt(report_tab_attributes.id) == report_tab.id
         break
       report.report_tab_index = report.report_tab_index + 1
-    window.location.href = '#/reports/' + report.id
+    Analytics.Utils.redirect("reports/" + report.id)
 
   next_table_page: (ev) ->
     page_num = Math.ceil(@chart.total / @chart.pagesize)

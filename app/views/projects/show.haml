@@ -11,6 +11,7 @@
   I18n.locale = "#{I18n.locale}";
   window.XAUSER = "#{session[:cas_user]}";
   window.XA.init({app: "xaa", uid: XAUSER});
+  window.ROOT = "#{'/projects/'+params[:id]}";
   Instances.Models.project = new Analytics.Models.Project(#{@project.js_attributes.to_json});  
   Instances.Models.setting = new Analytics.Models.Setting(#{@project.setting.present? ? @project.setting.attributes.to_json : {}});
   Instances.Models.project.loading();

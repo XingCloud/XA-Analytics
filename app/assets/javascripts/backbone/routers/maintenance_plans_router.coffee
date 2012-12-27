@@ -1,9 +1,9 @@
 class Analytics.Routers.MaintenancePlansRouter extends Backbone.Router
   routes:
-    "/maintenance_plans": "index"
-    "/maintenance_plans/new": "new"
-    "/maintenance_plans/:id/edit": "edit"
-    "/maintenance_plans/:id/destroy": "destroy"
+    "maintenance_plans": "index"
+    "maintenance_plans/new": "new"
+    "maintenance_plans/:id/edit": "edit"
+    "maintenance_plans/:id/destroy": "destroy"
 
   initialize: () ->
 

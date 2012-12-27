@@ -11,19 +11,19 @@
                     <% end %>
                         <ul class="dropdown-menu" id="dropdown-category-<%= id %>">
                             <li>
-                                <a href="#/report_categories/<%= id %>/edit">
+                                <a href="<%= Analytics.Utils.hrefWrapper('report_categories/' + id + '/edit') %>">
                                     <i class="icon icon-edit"></i>
                                     &nbsp;<%= I18n.t("commons.edit") %>
                                 </a>
                             </li>
                             <li>
-                                <a href="#/report_categories/<%= id %>/delete">
+                                <a href="<%= Analytics.Utils.hrefWrapper('report_categories/' + id + '/delete') %>">
                                     <i class="icon icon-trash"></i>
                                     &nbsp;<%= I18n.t("commons.delete") %>
                                 </a>
                             </li>
                             <li>
-                                <a href="#/report_categories/new">
+                                <a href="<%= Analytics.Utils.hrefWrapper('report_categories/new') %>">
                                     <i class="icon icon-plus"></i>
                                     &nbsp;<%= I18n.t("commons.add") %>
                                 </a>
@@ -40,7 +40,7 @@
 		    <% end %>
                 <ul class="dropdown-menu" id="dropdown-category-unknown">
                     <li>
-                        <a href="#/report_categories/new">
+                        <a href="<%= Analytics.Utils.hrefWrapper('report_categories/new') %>">
                             <i class="icon icon-plus"></i>
                             &nbsp;<%= I18n.t("commons.add") %>
                         </a>
@@ -70,7 +70,7 @@
                             </div>
                         </div>
                     <% end %>
-                        <a href="#/reports/<%= report.id %>">
+                        <a href="<%= Analytics.Utils.hrefWrapper('reports/' + report.id) %>">
                             <i class="icon-file"></i>
                             <%= report.get("title") %>
                         </a>
@@ -87,13 +87,13 @@
         <% if report.get("project_id")? or report.get("report_category_id") != 2: %>
             <ul class="dropdown-menu report-dropdown" id="dropdown-report-<%= report.id %>">
                 <li>
-                    <a href="#/reports/<%= report.id %>/edit">
+                    <a href="<%= Analytics.Utils.hrefWrapper('reports/' + report.id + '/edit') %>">
                         <i class="icon icon-edit"></i>
                         &nbsp;<%= I18n.t("commons.edit") %>
                     </a>
                 </li>
                 <li>
-                    <a href="#/reports/<%= report.id %>/delete">
+                    <a href="<%= Analytics.Utils.hrefWrapper('reports/' + report.id + '/delete') %>">
                         <i class="icon icon-trash"></i>
                         &nbsp;<%= I18n.t("commons.delete") %>
                     </a>
@@ -107,7 +107,7 @@
                                 <%= category.get("name") %>
                             </a>
                         <% else: %>
-                            <a href="#/reports/<%= report.id %>/set_category/<%= category.id %>">
+                            <a href="<%= Analytics.Utils.hrefWrapper('reports/' + report.id + '/set_category/' + category.id) %>">
                                 <i class="icon icon-folder-open"></i>
                                 <%= category.get("name") %>
                             </a>

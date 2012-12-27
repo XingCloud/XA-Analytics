@@ -1,7 +1,7 @@
 <div class="reports-nav">
     <% if not Instances.Models.user.is_mgriant(): %>
     <ul class="nav nav-list nav-dashboard">
-        <li><a href="#/dashboard"><i class="icon-dashboard"></i> <%= I18n.t('templates.reports.left_nav.dashboard') %> </a></li>
+        <li><a href="<%= Analytics.Utils.hrefWrapper('dashboard') %>"><i class="icon-dashboard"></i> <%= I18n.t('templates.reports.left_nav.dashboard') %> </a></li>
     </ul>
     <% end %>
     <div class="accordion" id="reports-accordion">
@@ -21,13 +21,13 @@
 <% if not Instances.Models.user.is_mgriant(): %>
 <ul class="nav nav-list">
     <li class="nav-report">
-        <a href="#/reports/new">
+        <a href="<%= Analytics.Utils.hrefWrapper('reports/new') %>">
             <i class="icon icon-plus"></i>
             <%= I18n.t('templates.reports.left_nav.add_report') %>
         </a>
     </li>
     <li class="nav-report">
-        <a href="#/settings">
+        <a href="<%= Analytics.Utils.hrefWrapper('settings') %>">
             <i class="icon icon-cog"></i>
             <%= I18n.t('templates.reports.left_nav.settings') %>
         </a>

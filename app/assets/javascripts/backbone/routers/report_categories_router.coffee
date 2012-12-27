@@ -1,16 +1,16 @@
 class Analytics.Routers.ReportCategoriesRouter extends Backbone.Router
   routes:
-    "/report_categories/new" : "new"
-    "/report_categories/:id/edit" : "edit"
-    "/report_categories/:id/delete" : "delete"
-    "/report_categories/:id/shift_up" : "shift_up"
-    "/report_categories/:id/shift_down" : "shift_down"
+    "report_categories/new" : "new"
+    "report_categories/:id/edit" : "edit"
+    "report_categories/:id/delete" : "delete"
+    "report_categories/:id/shift_up" : "shift_up"
+    "report_categories/:id/shift_down" : "shift_down"
 
   initialize: () ->
 
   new: () ->
     if Instances.Models.user.is_mgriant()
-      window.location.href = "#/404"
+      Analytics.Utils.redirect("404")
       return
     last_category = Instances.Collections.report_categories.last()
     position = (if last_category? then last_category.get("position") + 1 else 0)
@@ -25,17 +25,17 @@ class Analytics.Routers.ReportCategoriesRouter extends Backbone.Router
 
   edit: (id) ->
     if Instances.Models.user.is_mgriant()
-      window.location.href = "#/404"
+      Analytics.Utils.redirect("404")
       return
     category = Instances.Collections.report_categories.get(id)
     if category? and not @is_system(category)
       new Analytics.Views.ReportCategories.FormView({model: category, id : "edit_report_category"+id}).render()
     else
-      window.location.href = "#/404"
+      Analytics.Utils.redirect("404")
 
   delete: (id) ->
     if Instances.Models.user.is_mgriant()
-      window.location.href = "#/404"
+      Analytics.Utils.redirect("404")
       return
     category = Instances.Collections.report_categories.get(id)
     if category? and not @is_system(category) and confirm(I18n.t("commons.confirm_delete"))
@@ -46,7 +46,7 @@ class Analytics.Routers.ReportCategoriesRouter extends Backbone.Router
         }
       )
     else
-      window.location.href = "#/404"
+      Analytics.Utils.redirect("404")
 
   shift_up: (id) ->
     category = Instances.Collections.report_categories.get(id)
@@ -55,7 +55,7 @@ class Analytics.Routers.ReportCategoriesRouter extends Backbone.Router
         Analytics.Utils.actionFinished()
       })
     else
-      window.location.href = "#/404"
+      Analytics.Utils.redirect("404")
 
   shift_down: (id) ->
     category = Instances.Collections.report_categories.get(id)
@@ -64,7 +64,7 @@ class Analytics.Routers.ReportCategoriesRouter extends Backbone.Router
         Analytics.Utils.actionFinished()
       })
     else
-      window.location.href = "#/404"
+      Analytics.Utils.redirect("404")
 
   is_system: (category) ->
     Instances.Models.project? and category.id == 2

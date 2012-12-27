@@ -26,11 +26,8 @@ class Analytics.Views.Projects.ShowView extends Backbone.View
 
   render_default_report: () ->
     if @model.first_can_access_report()?
-      if window.location.href.indexOf('#') == -1
-        if Instances.Models.user.is_mgriant()
-          window.location.href = "#/reports/"+@model.first_can_access_report().id
-        else
-          window.location.href = "#/dashboard"
+      if Instances.Models.user.is_mgriant()
+        Analytics.Utils.redirect("reports/" + @model.first_can_access_report().id)
     else
       $(@el).find('#main-container').html(JST['backbone/templates/projects/no-report']())
 
@@ -44,7 +41,7 @@ class Analytics.Views.Projects.ShowView extends Backbone.View
     $('#main-container').trigger("resize")
 
   toggle_dashboard: (ev) ->
-    window.location.href = "#/dashboard"
+    Analytics.Utils.redirect("dashboard")
 
   change_language: (ev) ->
     new Analytics.Views.UserPreferences.SetLanguageView().render()

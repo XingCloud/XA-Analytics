@@ -1,6 +1,6 @@
 class Analytics.Routers.SegmentsRouter extends Backbone.Router
   routes:
-    "/segments" : "index"
+    "segments" : "index"
 
   initialize: () ->
 

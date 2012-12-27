@@ -97,6 +97,15 @@ class ReportsController < ProjectBaseController
     end
   end
 
+  def show
+  end
+
+  def new
+  end
+
+  def edit
+  end
+
   private
 
   def find_report

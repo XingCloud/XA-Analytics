@@ -1,11 +1,11 @@
 class Analytics.Routers.ReportsRouter extends Backbone.Router
   routes:
-    "/reports" : "index"
-    "/reports/new" : "new"
-    "/reports/:id" : "show"
-    "/reports/:id/edit" : "edit"
-    "/reports/:id/delete" : "delete"
-    "/reports/:id/set_category/:category_id" : "set_category"
+    "reports" : "index"
+    "reports/new" : "new"
+    "reports/:id" : "show"
+    "reports/:id/edit" : "edit"
+    "reports/:id/delete" : "delete"
+    "reports/:id/set_category/:category_id" : "set_category"
 
   initialize: () ->
 
@@ -30,7 +30,7 @@ class Analytics.Routers.ReportsRouter extends Backbone.Router
 
   show: (id) ->
     if not @can_access(id)
-      window.location.href = "#/404"
+      Analytics.Utils.redirect("404")
       return
     report = Instances.Collections.reports.get(id)
     if report?
@@ -41,11 +41,11 @@ class Analytics.Routers.ReportsRouter extends Backbone.Router
         report.view.redraw()
       @highlight_report_nav(report)
     else
-      window.location.href = "#/404"
+      Analytics.Utils.redirect("404")
 
   new: () ->
     if not @can_alter()
-      window.location.href = "#/404"
+      Analytics.Utils.redirect("404")
       return
     if Instances.Models.project?
       report = new Analytics.Models.Report({project_id: Instances.Models.project.id})
@@ -57,18 +57,18 @@ class Analytics.Routers.ReportsRouter extends Backbone.Router
 
   edit: (id) ->
     if not @can_alter()
-      window.location.href = "#/404"
+      Analytics.Utils.redirect("404")
       return    
     report = Instances.Collections.reports.get(id)
     if report? and not @is_system(report)
       new Analytics.Views.Reports.FormView({id : "edit_report_"+report.id, model: report}).render()
       @highlight_report_nav(report)
     else
-      window.location.href = "#/404"
+      Analytics.Utils.redirect("404")
 
   delete: (id) ->
     if not @can_alter()
-      window.location.href = "#/404"
+      Analytics.Utils.redirect("404")
       return
     report = Instances.Collections.reports.get(id)
     if report? and not @is_system(report)
@@ -78,11 +78,11 @@ class Analytics.Routers.ReportsRouter extends Backbone.Router
           window.location.href = "#/dashboard"
         })
     else
-      window.location.href = "#/404"
+      Analytics.Utils.redirect("404")
 
   set_category: (id, category_id) ->
     if not @can_alter()
-      window.location.href = "#/404"
+      Analytics.Utils.redirect("404")
       return
     report = Instances.Collections.reports.get(id)
     if report? and not @is_system(report)
@@ -93,7 +93,7 @@ class Analytics.Routers.ReportsRouter extends Backbone.Router
           window.location.href = "#/reports"
       })
     else
-      window.location.href = "#/404"
+      Analytics.Utils.redirect("404")
 
   highlight_report_nav: (report) ->
     $('.nav-dashboard li').removeClass("active")

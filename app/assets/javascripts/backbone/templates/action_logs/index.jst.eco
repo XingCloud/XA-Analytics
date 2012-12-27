@@ -44,13 +44,13 @@
 <div class="row-fluid">
     <ul class="pager right">
         <% if @collection.page > 1: %>
-            <li class="pre enabled"><a href="#/action_logs/<%= @collection.page - 1 %>"><%= I18n.t("commons.previous_page") %></a></li>
+            <li class="pre enabled"><a href="<%= Analytics.Utils.hrefWrapper('action_logs/' + (@collection.page - 1).toString()) %>"><%= I18n.t("commons.previous_page") %></a></li>
         <% else: %>
             <li class="pre disabled"><a><%= I18n.t("commons.previous_page") %></a></li>
         <% end %>
         <%= @collection.page %>&nbsp;/&nbsp;<%= @collection.max_page %>
         <% if @collection.page < @collection.max_page: %>
-            <li class="nex enabled"><a href="#/action_logs/<%= @collection.page + 1 %>"><%= I18n.t("commons.next_page") %></a></li>
+            <li class="nex enabled"><a href="<%= Analytics.Utils.hrefWrapper('action_logs/' + (@collection.page + 1).toString()) %>"><%= I18n.t("commons.next_page") %></a></li>
         <% else: %>
             <li class="nex disabled"><a><%= I18n.t("commons.next_page") %></a></li>
         <% end %>

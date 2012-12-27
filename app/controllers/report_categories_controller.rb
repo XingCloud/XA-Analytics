@@ -70,6 +70,12 @@ class ReportCategoriesController < ProjectBaseController
     end
   end
 
+  def new
+  end
+
+  def edit
+  end
+
   private
 
   def find_category

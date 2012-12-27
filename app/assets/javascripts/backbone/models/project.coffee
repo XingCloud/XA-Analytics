@@ -55,4 +55,10 @@ class Analytics.Models.Project extends Backbone.Model
       widgets_router: new Analytics.Routers.WidgetsRouter(),
       projects_router: new Analytics.Routers.ProjectsRouter()
     }
-    Backbone.history.start()
+    need_redirect = (location.href.indexOf('#') == -1 or location.href.indexOf('#') + 1 >= location.href.length)
+    if Analytics.Utils.checkPushState()
+      Backbone.history.start({pushState: true, root: window.ROOT})
+    else
+      Backbone.history.start()
+    if need_redirect
+      Analytics.Utils.redirect("dashboard")

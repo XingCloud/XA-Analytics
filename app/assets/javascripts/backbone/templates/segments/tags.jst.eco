@@ -45,7 +45,7 @@
                         </li>
                         <li class="divider"></li>
                         <li>
-                            <a class="manage-tags" href="#/settings/segments_management">
+                            <a class="manage-tags" href="<%= Analytics.Utils.hrefWrapper('settings/segments_management') %>">
                                 <i class="icon-cog"/>
                                 <%= I18n.t("templates.segments.tags.manage") %>
                             </a>

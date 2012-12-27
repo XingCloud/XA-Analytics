@@ -59,4 +59,7 @@ Analytic::Application.routes.draw do
       end
     end
   end
+
+  match "/projects/:id/*other" => redirect {|params| "/projects/#{params[:id]}##{params[:other]}"}
+  match "/template/projects/*other" => redirect {|params| "/template/projects##{params[:other]}"}
 end

@@ -29,7 +29,10 @@ Analytics.Request.ajax = (options, hide_loading = false) ->
     ## maybe user aborted
     if not not xhr.getAllResponseHeaders()
       Analytics.Request.error(xhr, opts, err)
-
+  if options.data?
+    options.data["format"] = "json"
+  else
+    options["data"] = {format: "json"}
   $.ajax(options)
 
 Analytics.Request.error = (xhr, options, error) ->

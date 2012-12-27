@@ -1,10 +1,10 @@
 class Analytics.Routers.ProjectsRouter extends Backbone.Router
   routes:
-    "/404" : "error_404"
-    "/settings" : "settings"
-    "/settings/:active" : "settings_with_active"
-    "/action_logs": "action_logs"
-    "/action_logs/:page": "action_logs"
+    "404" : "error_404"
+    "settings" : "settings"
+    "settings/:active" : "settings_with_active"
+    "action_logs": "action_logs"
+    "action_logs/:page": "action_logs"
 
   initialize: () ->
 
@@ -30,7 +30,7 @@ class Analytics.Routers.ProjectsRouter extends Backbone.Router
 
   do_settings: (active = null) ->
     if Instances.Models.user.is_mgriant()
-      window.location.href = "#/404"
+      Analytics.Utils.redirect("404")
       return
     view = new Analytics.Views.Projects.SettingsView({
       model: Instances.Models.project

@@ -161,9 +161,9 @@ Analytics.Utils.actionFinished = () ->
     window.history.back()
   else
     if Analytics.Models.project?
-      window.location.href = "#/dashboard"
+      Analytics.Utils.redirect("dashboard")
     else
-      window.location.href = "#/reports"
+      Analytics.Utils.redirect("reports")
 
 Analytics.Utils.zeroPad = (num, places) ->
   zero = places - num.toString().length + 1
@@ -177,3 +177,18 @@ Analytics.Utils.formatCSVOutput = (csv) ->
     ret = ret.replace(new RegExp("&nbsp;","gm"),"")
     # ret = ret.replace(new RegExp("[\r\n]*\"[ \r\n]*","gm"),"\"") #remove space after "
     "\ufeff"+ret                #add utf-8 bom
+
+Analytics.Utils.checkPushState = () ->
+  window.history.pushState?
+
+Analytics.Utils.hrefWrapper = (href) ->
+  if Analytics.Utils.checkPushState()
+    window.ROOT + '/' + href
+  else
+    '#' + href
+
+Analytics.Utils.redirect = (href) ->
+  if Analytics.Utils.checkPushState()
+    Backbone.history.navigate(href, {trigger: true})
+  else
+    location.href = '#' + href

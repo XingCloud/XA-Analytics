@@ -99,7 +99,7 @@ class Analytics.Views.Reports.FormView extends Backbone.View
 
         model.form.remove()
         if model.get("project_id")?
-          window.location.href = "#/reports/"+model.id
+          Analytics.Utils.redirect("reports/" + model.id)
         else
           Analytics.Utils.actionFinished()
       })

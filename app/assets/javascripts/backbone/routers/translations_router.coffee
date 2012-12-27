@@ -1,6 +1,6 @@
 class Analytics.Routers.TranslationsRouter extends Backbone.Router
   routes:
-    "/translations": "index"
+    "translations": "index"
 
   initialize: () ->
 

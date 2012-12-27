@@ -38,6 +38,10 @@ window.Instances = {
 
 Backbone.default_sync = Backbone.sync
 Backbone.sync = (method, model, options) ->
+  if options.data?
+    options.data["format"] = "json"
+  else
+    options["data"] = {format: "json"}
   $('#loading-message').fadeIn(200)
   request = Backbone.default_sync(method, model, options)
   request.done((resp) -> $('#loading-message').fadeOut(200))
@@ -46,3 +50,8 @@ Backbone.sync = (method, model, options) ->
     Analytics.Request.error(xhr, options, error)
   )
 
+$(document).on "click", "a[href^='/']", (ev) ->
+  href = $(ev.currentTarget).attr("href")
+  if Analytics.Utils.checkPushState() and href != "/template/projects"
+    ev.preventDefault()
+    Backbone.history.navigate href.replace(window.ROOT + '/', ''), {trigger: true}

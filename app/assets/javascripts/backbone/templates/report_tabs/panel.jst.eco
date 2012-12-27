@@ -22,7 +22,7 @@
                 <div class="report-tab-actions">
                     <% report = Instances.Collections.reports.get(@report_id) %>
                     <% if not Instances.Models.user.is_mgriant() and (report.get("project_id")? or report.get("report_category_id") != 2): %>
-                        <a href="#/reports/<%= @report_id %>/edit" title="<%= I18n.t('commons.edit') %>">
+                        <a href="<%= Analytics.Utils.hrefWrapper('reports/' + @report_id + '/edit') %>" title="<%= I18n.t('commons.edit') %>">
                             <div class="btn action edit-report">
                                 <i class="icon-edit"></i>
                             </div>

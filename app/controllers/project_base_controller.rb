@@ -4,6 +4,7 @@ class ProjectBaseController < ApplicationController
   before_filter :auth_project
   before_filter :filter_maintenance_plan
   before_filter :filter_v9
+  before_filter :filter_redirect
 
   protected
   
@@ -52,5 +53,16 @@ class ProjectBaseController < ApplicationController
   rescue
     render :json=>{:message=>""}, :status=>403
     return
+  end
+
+  def filter_redirect
+    if params[:format].blank?
+      path = "/projects/#{params[:project_id].present? ? params[:project_id] : params[:id]}"
+      index = request.path.index(path) + path.length + 1
+      if index < request.path.length
+        rpath = request.path[index..request.path.length - 1]
+        redirect_to path + "##{rpath}"
+      end
+    end
   end
 end

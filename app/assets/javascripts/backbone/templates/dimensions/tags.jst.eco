@@ -66,7 +66,7 @@
                         </li>
                         <li class="divider"></li>
                         <li>
-                            <a class="manage-tags" href="#/settings/user_attributes">
+                            <a class="manage-tags" href="<%= Analytics.Utils.hrefWrapper('settings/user_attributes') %>">
                                 <i class="icon-cog"/>
                                 <%= I18n.t("templates.dimensions.tags.manage") %>
                             </a>

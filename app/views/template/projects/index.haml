@@ -6,27 +6,27 @@
           = t("menu")
         %url.nav.nav-list
           %li
-            %a{:href => template_projects_path()}
+            %a{:href => template_reports_path()}
               %i.icon-home
               = t("projects")
           %li
-            %a{:href => "#/reports"}
+            %a.relative{:href => "reports"}
               %i.icon-file
               = t("reports")
           %li
-            %a{:href => "#/segments"}
+            %a.relative{:href => "segments"}
               %i.icon-user
               = t("segments")
           %li
-            %a{:href => "#/dashboard"}
+            %a.relative{:href => "dashboard"}
               %i.icon-bar-chart
               = t("dashboard")
           %li
-            %a{:href => "#/maintenance_plans"}
+            %a.relative{:href => "maintenance_plans"}
               %i.icon-volume-up
               = t("maintenance_plans")
           %li
-            %a{:href => "#/translations"}
+            %a.relative{:href => "translations"}
               %i.icon-flag
               = t("translations")
     .span10
@@ -51,6 +51,7 @@
   I18n.fallbacks = true;
   I18n.defaultlocale = "en";
   I18n.locale = "#{I18n.locale}";
+  window.ROOT = "/template/projects";
   Instances.Collections = {
     user_attributes: new Analytics.Collections.UserAttributes([]),
     segments: new Analytics.Collections.Segments(#{Segment.template.map(&:js_attributes).to_json}),
@@ -74,5 +75,15 @@
     translations_router: new Analytics.Routers.TranslationsRouter()
   };
 
-  Instances.Models.user = new Analytics.Models.User({role:"admin",name:"xaadmin"})  
-  Backbone.history.start();
+  Instances.Models.user = new Analytics.Models.User({role:"admin",name:"xaadmin"})
+
+  $('.nav.nav-list li a.relative').each(function (index, el){
+    href = $(el).attr("href");
+    $(el).attr("href", Analytics.Utils.hrefWrapper(href));
+  });
+  if (Analytics.Utils.checkPushState()){
+    Backbone.history.start({pushState: true, root: window.ROOT});
+  }
+  else{
+    Backbone.history.start();
+  }
