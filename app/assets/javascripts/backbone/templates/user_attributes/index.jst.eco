@@ -35,7 +35,7 @@
                     <%= atype.value %>
                 </td>
                 <td>
-                    <% if user_attribute.get("atype") == "sql_bigint" and user_attribute.get("gpattern")?: %>
+                    <% if (user_attribute.get("atype") == "sql_bigint" or user_attribute.get("atype") == "sql_datetime") and user_attribute.get("gpattern")?: %>
                         <%= user_attribute.get("gpattern") %>
                     <% else: %>
                         ---
