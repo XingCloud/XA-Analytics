@@ -232,7 +232,8 @@ I18n.translations = {
                     "identifier_helper":"字段必须为数字、字母和下划线组合",
                     "type":"类型",
                     "shard_rule":"分段规则",
-                    "shard_rule_helper":"用数字表示，数字与数字之间用逗号隔开"
+                    "shard_rule_int_helper":"用数字表示，数字与数字之间用逗号隔开",
+                    "shard_rule_date_helper":"用日期(YYYY-MM-DD)表示，日期与日期之间用逗号隔开"
                 },
                 "index":{
                     "add":"添加属性",

@@ -12,8 +12,13 @@ class Analytics.Models.DimensionChart extends Backbone.Model
     if @selector.get_dimension().dimension_type == "USER_PROPERTIES"
       name = @selector.get_dimension().value
       user_attribute = _.find(Analytics.Static.getUserAttributes(), (item) -> item.name == name)
-      if user_attribute? and user_attribute.atype == "sql_bigint"
-        metric_options["slice_pattern"] = user_attribute["gpattern"]
+      if user_attribute?
+        if user_attribute.atype == "sql_bigint" and user_attribute.gpattern?
+          metric_options["slice_pattern"] = user_attribute["gpattern"]
+          metric_options["slice_type"] = "NUMERIC"
+        else if user_attribute.atype == "sql_datetime" and user_attribute.gpattern?
+          metric_options["slice_pattern"] = user_attribute["gpattern"]
+          metric_options["slice_type"] = "DATED"
     sequence_options = metric.sequence_options(@collection.segment_id, @collection.filters)
     for item in sequence_options.items
       item["groupby"] = @selector.get_dimension().value

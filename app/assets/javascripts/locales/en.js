@@ -232,7 +232,8 @@ I18n.translations = {
                     "identifier_helper":"Muse be letters, numbers or underline",
                     "type":"Type",
                     "shard_rule":"Shard rule",
-                    "shard_rule_helper":"Number only, separated by comma"
+                    "shard_rule_int_helper":"use number separated by comma",
+                    "shard_rule_date_helper":"use date(YYYY-MM-DD) separated by comma"
                 },
                 "index":{
                     "add":"Add Attribute",

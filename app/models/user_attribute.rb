@@ -6,7 +6,8 @@ class UserAttribute < ActiveRecord::Base
   validates_presence_of :name, :atype
   validates :atype, :inclusion => {:in => ATYPES}
   validates_format_of :name, :with => /^[a-zA-Z0-9_]+$/i
-  validates_format_of :gpattern, :with => /^\d+(,\d+)*$/, :if => proc{|m|m.gpattern.present?}
+  validates_format_of :gpattern, :with => /^\d+(,\d+)*$/, :if => proc{|m|m.gpattern.present? and m.atype == "sql_bigint"}
+  validate :validate_datetime_gpattern
 
   def serialize
     {
@@ -15,5 +16,24 @@ class UserAttribute < ActiveRecord::Base
         :type => atype,
         :groupby_pattern => gpattern
     }
+  end
+
+  def validate_datetime_gpattern
+    if gpattern.present? and atype == "sql_datetime"
+      is_matched = /^\d{4}-((0\d)|(1[012]))-(([012]\d)|3[01])(,\d{4}-((0\d)|(1[012]))-(([012]\d)|3[01]))*/.match(gpattern).present?
+      if is_matched
+        gpattern.split(",").each do |date|
+          begin
+            Date.parse(date)
+          rescue
+            is_matched = false
+            break
+          end
+        end
+      end
+      if not is_matched
+        errors.add(:gpattern, "gpattern is invalid")
+      end
+    end
   end
 end

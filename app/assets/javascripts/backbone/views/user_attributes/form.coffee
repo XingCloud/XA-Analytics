@@ -13,13 +13,13 @@ class Analytics.Views.UserAttributes.FormView extends Backbone.View
 
   render: () ->
     $(@el).html(@template(@model.attributes))
-    if @model.get("atype") != "sql_bigint"
+    if @model.get("atype") != "sql_bigint" and @model.get("atype") != "sql_datetime"
       $(@el).find(".control-group.gpattern").hide()
     $(@el).modal()
 
   change_type: () ->
     type = $(@el).find("select.atype option:selected").attr("value")
-    if type == "sql_bigint"
+    if type == "sql_bigint" or type == "sql_datetime"
       $(@el).find(".control-group.gpattern").show()
     else
       $(@el).find(".control-group.gpattern").hide()

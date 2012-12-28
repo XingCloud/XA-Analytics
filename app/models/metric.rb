@@ -147,6 +147,8 @@ class Metric < ActiveRecord::Base
       segment = Segment.find_by_id(segment_id)
       if segment.present? and segment.sequence.present?
         json[:segment] = segment.sequence.to_json
+      else
+        json[:segment] = "TOTAL_USER"
       end
     else
       json[:segment] = "TOTAL_USER"
