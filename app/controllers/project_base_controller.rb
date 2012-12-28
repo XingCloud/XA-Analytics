@@ -56,7 +56,7 @@ class ProjectBaseController < ApplicationController
   end
 
   def filter_redirect
-    if params[:format].blank?
+    if request.headers["Accept"].index("application/json").blank? and request.method == "GET"
       path = "/projects/#{params[:project_id].present? ? params[:project_id] : params[:id]}"
       index = request.path.index(path) + path.length + 1
       if index < request.path.length

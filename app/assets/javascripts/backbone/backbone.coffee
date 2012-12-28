@@ -38,10 +38,6 @@ window.Instances = {
 
 Backbone.default_sync = Backbone.sync
 Backbone.sync = (method, model, options) ->
-  if options.data?
-    options.data["format"] = "json"
-  else
-    options["data"] = {format: "json"}
   $('#loading-message').fadeIn(200)
   request = Backbone.default_sync(method, model, options)
   request.done((resp) -> $('#loading-message').fadeOut(200))

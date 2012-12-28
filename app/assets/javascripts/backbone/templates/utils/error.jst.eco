@@ -3,9 +3,9 @@
     <% if @status == 400: %>
         <%= I18n.t('templates.utils.error.400') %>
     <% else if @status == 404: %>
-        <%= I18n.t('templates.utils.error.404') %>&nbsp;<a href="<%= window.location.href.split('#')[0] %>"><%= I18n.t('templates.utils.errors.refresh') %></a>
+        <%= I18n.t('templates.utils.error.404') %>&nbsp;<a href="<%= window.location.href.split('#')[0] %>"><%= I18n.t('templates.utils.error.refresh') %></a>
     <% else if @status == 401: %>
-        <%= I18n.t('templates.utils.error.401') %>&nbsp;<a href="<%= window.location.href.split('#')[0] %>"><%= I18n.t('templates.utils.errors.relogin') %></a>
+        <%= I18n.t('templates.utils.error.401') %>&nbsp;<a href="<%= window.location.href.split('#')[0] %>"><%= I18n.t('templates.utils.error.relogin') %></a>
     <% else if @status == 403: %>
         <%= I18n.t('templates.utils.error.403') %>
     <% else if @status == 503: %>
