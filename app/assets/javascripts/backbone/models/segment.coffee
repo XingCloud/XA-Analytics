@@ -20,8 +20,8 @@ class Analytics.Models.Segment extends Backbone.Model
     resp
 
   urlRoot: () ->
-    if @get('project_id')?
-      "/projects/"+@get('project_id')+'/segments'
+    if Instances.Models.project?
+      "/projects/"+Instances.Models.project.id+'/segments'
     else
       "/template/segments"
 
