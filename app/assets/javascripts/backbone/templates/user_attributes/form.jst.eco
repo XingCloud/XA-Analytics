@@ -46,6 +46,9 @@
                 <% else if @atype == "sql_datetime": %>
                     <input class="should-check-pattern" name="gpattern" type="text" value="<%= @gpattern %>" placeholder="2012-10-13,2012-11-14" pattern="^\d{4}-((0\d)|(1[012]))-(([012]\d)|3[01])(,\d{4}-((0\d)|(1[012]))-(([012]\d)|3[01]))*$"/>
                     <p class="help-block"><%= I18n.t('templates.user_attributes.form.shard_rule_date_helper') %></p>
+                <% else: %>
+                    <input class="should-check-pattern" name="gpattern" type="text" value="<%= @gpattern %>" placeholder="" pattern=""/>
+                    <p class="help-block"></p>
                 <% end %>
             </div>
         </div>
