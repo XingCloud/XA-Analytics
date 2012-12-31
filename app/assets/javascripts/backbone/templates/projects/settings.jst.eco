@@ -3,16 +3,16 @@
 <div class="row-fluid">
     <ul class="nav nav-tabs">
         <li class="<%= if @active == 'user_attributes' or not @active? then 'active' %>">
-            <a data-toggle="tab" href="#user_attributes"><%= I18n.t("templates.projects.settings.user_attributes") %></a>
+            <a href="<%= Analytics.Utils.hrefWrapper('settings/user_attributes') %>"><%= I18n.t("templates.projects.settings.user_attributes") %></a>
         </li>
         <li class="<%= if @active == 'event_levels' then 'active' %>">
-            <a data-toggle="tab" href="#event_levels"><%= I18n.t("templates.projects.settings.custom_event_names") %></a>
+            <a href="<%= Analytics.Utils.hrefWrapper('settings/event_levels') %>"><%= I18n.t("templates.projects.settings.custom_event_names") %></a>
         </li>
         <li class="<%= if @active == 'project_users' then 'active' %>">
-            <a data-toggle="tab" href="#project_users"><%= I18n.t("templates.projects.settings.privilege_admin") %></a>
+            <a href="<%= Analytics.Utils.hrefWrapper('settings/project_users') %>"><%= I18n.t("templates.projects.settings.privilege_admin") %></a>
         </li>
         <li class="<%= if @active == 'segments_management' then 'active' %>">
-            <a data-toggle="tab" href="#segments_management"><%= I18n.t("templates.projects.settings.segments_management") %></a>
+            <a href="<%= Analytics.Utils.hrefWrapper('settings/segments_management') %>"><%= I18n.t("templates.projects.settings.segments_management") %></a>
         </li>
     </ul>
 </div>

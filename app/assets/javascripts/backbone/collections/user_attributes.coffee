@@ -8,3 +8,6 @@ class Analytics.Collections.UserAttributes extends Backbone.Collection
 
   url: () ->
     "/projects/" + @project.id + "/user_attributes"
+
+  comparator: (user_attribute) ->
+    0 - Date.parse(user_attribute.get("created_at"))

@@ -66,9 +66,9 @@ class Analytics.Views.MaintenancePlans.IndexTableView extends Backbone.View
   initialize: (options) ->
     _.bindAll this, "render", "redraw"
     @page = 1
-    @max_page = (if @collection.length == 0 then 1 else Math.ceil(@collection.length / 10))
 
   render: () ->
+    @calc_page()
     $(@el).html(@template({
       models: @collection
       page: @page
@@ -86,3 +86,8 @@ class Analytics.Views.MaintenancePlans.IndexTableView extends Backbone.View
   next_page: () ->
     @page = @page + 1
     @redraw()
+
+  calc_page: () ->
+    @max_page = (if @collection.length == 0 then 1 else Math.ceil(@collection.length / 10))
+    if @page > @max_page
+      @page = @max_page
