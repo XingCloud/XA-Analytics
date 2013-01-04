@@ -17,7 +17,7 @@
         </tbody>
     </table>
     <footer class="footer">
-        © 2012 XingCloud All Rights Reserved |
+        © 2013 XingCloud All Rights Reserved |
         <a class="previous-version" style="cursor: pointer;"><%= I18n.t("templates.projects.show.degrade") %></a>
         |
         <a href="<%= Analytics.Utils.hrefWrapper('action_logs') %>"><%= I18n.t("templates.projects.show.action_logs") %></a>
