@@ -23,9 +23,6 @@ class Analytics.Collections.BaseCharts extends Backbone.Collection
     # @xa_id() + " fetching charts..."
     collection = this
     start_time = (new Date()).getTime()
-    if not @is_pending
-      @pending_start_time = start_time
-      @is_pending = true
     params = @fetch_params()
     ## @last_request, 对上一次请求的缓存，用来防止同一个页面狂刷的情况
     if (force or @last_request.params != JSON.stringify(params) or
@@ -62,19 +59,23 @@ class Analytics.Collections.BaseCharts extends Backbone.Collection
   check_pendings: (send_xa = true) ->
     collection = this
     if @has_pendings()
+      if not @is_pending
+        @pending_start_time = (new Date()).getTime()
+        @is_pending = true
       @last_request?.success = false
       if collection.timer?
         clearTimeout(collection.timer);
       collection.timer = _.delay(collection.fetch_charts, 2000 * @pending_period)
       @pending_period = @pending_period + 1
     else
-      @pending_period = 1
-      @is_pending = false
       if send_xa
-        @xa_pending(@pending_start_time)
+        @xa_pending(@pending_start_time, @is_pending)
       if collection.timer?
         clearTimeout(collection.timer);
         delete collection.timer
+      @last_request?.success = true
+      @pending_period = 1
+      @is_pending = false
 
   ##chart的数据是否含有pending状态。
   ##由子类实现。
@@ -90,7 +91,6 @@ class Analytics.Collections.BaseCharts extends Backbone.Collection
       Analytics.Request.doAlertWithErrcode (resp["err_code"])
       contains_error = true
     else
-      @last_request.success = true
       contains_error = not @process_fetched_data(resp)
       ##发送 change 事件。让相应的view(TimelinesView, KpisView等) 重绘自己
       @trigger "change"
@@ -113,10 +113,13 @@ class Analytics.Collections.BaseCharts extends Backbone.Collection
     xa_interval = (new Date()).getTime() - start_time
     XA.action(xa_action + ".responsetime." + Analytics.Utils.timeShard(xa_interval) + "," + xa_interval, xa_action+"."+tag+",0")
 
-  xa_pending: (start_time) ->
+  xa_pending: (start_time, has_pending) ->
     xa_action = "response." + Instances.Models.project.get("identifier") + "." + @xa_id()
     xa_interval = (new Date()).getTime() - start_time
-    XA.action(xa_action + ".pending." + Analytics.Utils.timeShard(xa_interval) + "," + xa_interval)
+    if has_pending
+      XA.action(xa_action + ".pending." + Analytics.Utils.timeShard(xa_interval) + "," + xa_interval, xa_action + ".show,0")
+    else
+      XA.action(xa_action + ".show,0")
 
   xa_id: () ->
     if @for_widget

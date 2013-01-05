@@ -78,13 +78,11 @@ class Analytics.Views.ReportTabs.ShowView extends Backbone.View
     else
       @dimensions_view.redraw({render_to: render_to, should_fetch: false})
 
-  fetch_data: (blocking = true) ->
+  fetch_data: () ->
     if @model.get("metric_ids").length > 0
       @timelines.activate()
-      if blocking?
-        @timelines_view.block()
-        if @model.dimension?
-          @dimensions_view.block()
+      @timelines_view.block()
+      @dimensions_view.block()
       timelines_view = @timelines_view
       kpis_view = @kpis_view
       dimensions_view = @dimensions_view
@@ -98,7 +96,6 @@ class Analytics.Views.ReportTabs.ShowView extends Backbone.View
         @dimensions_view.dimensions.activate()
         @dimensions_view.dimensions.fetch_charts({
           success: (resp) ->
-            dimensions_view.dimensions_chart_view.redraw()
             dimensions_view.unblock()
           error: (xhr, options, err) ->
             dimensions_view.unblock()
