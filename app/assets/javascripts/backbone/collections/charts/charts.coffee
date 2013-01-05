@@ -65,7 +65,7 @@ class Analytics.Collections.BaseCharts extends Backbone.Collection
       @last_request?.success = false
       if collection.timer?
         clearTimeout(collection.timer);
-      collection.timer = _.delay(collection.fetch_charts, 1000 * @pending_period * @pending_period)
+      collection.timer = _.delay(collection.fetch_charts, 2000 * @pending_period)
       @pending_period = @pending_period + 1
     else
       @pending_period = 1
