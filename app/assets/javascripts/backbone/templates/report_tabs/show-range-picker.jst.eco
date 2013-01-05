@@ -57,4 +57,3 @@
         </li>
     </ul>
 </div>
-<%- JST['backbone/templates/report_tabs/show-custom-range'](@) %>

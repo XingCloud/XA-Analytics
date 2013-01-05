@@ -67,9 +67,6 @@ class Analytics.Views.ReportTabs.ShowRangePickerView extends Backbone.View
     "click li a.default-range" : "change_default_range"
     "change .compare-checkbox" : "change_compare"
     "click li a.custom-range" : "show_custom_range"
-    "click a.submit-custom-range" : "check_submit"
-    "blur input" : "validate_custom_range"
-    "blur select" : "validate_custom_range"
 
   initialize: () ->
     _.bindAll this, "render", "redraw"
@@ -126,8 +123,27 @@ class Analytics.Views.ReportTabs.ShowRangePickerView extends Backbone.View
 
   show_custom_range: (ev) ->
     $(@el).find(".dropdown").removeClass("open")
-    $(@el).find('#custom-range-'+@model.id).modal()
+    new Analytics.Views.ReportTabs.CustomRangeView({model: @model}).render()
+
+class Analytics.Views.ReportTabs.CustomRangeView extends Backbone.View
+  template: JST["backbone/templates/report_tabs/show-custom-range"]
+  className: "modal custom-range"
+  events:
+    "click a.submit-custom-range" : "check_submit"
+    "blur input" : "validate_custom_range"
+    "blur select" : "validate_custom_range"
+
+  initialize: () ->
+    _.bindAll this, "render"
+
+  render: () ->
+    $(@el).html(@template(@model.show_attributes()))
     @clear_error()
+    $(@el).modal()
+
+  clear_error: () ->
+    $(@el).find(".error").removeClass("error")
+    $(@el).find("span.error-message").text("")
 
   check_submit: (ev) ->
     if @validate_custom_range()
@@ -141,7 +157,7 @@ class Analytics.Views.ReportTabs.ShowRangePickerView extends Backbone.View
     }
     end_time = parseInt($(@el).find('.end-time').val())
     change = (@model.end_time != end_time or @model.get("length") != range.length or @model.get("interval") != range.interval)
-    $(@el).find('#custom-range-'+@model.id).modal('hide')
+    $(@el).modal('hide')
     @model.compare_end_time = @model.compare_end_time + end_time - @model.end_time
     @model.end_time = end_time
     @model.set(range, {silent: true})
@@ -171,7 +187,3 @@ class Analytics.Views.ReportTabs.ShowRangePickerView extends Backbone.View
       return false
     else
       return true
-
-  clear_error: () ->
-    $(@el).find(".error").removeClass("error")
-    $(@el).find("span.error-message").text("")
