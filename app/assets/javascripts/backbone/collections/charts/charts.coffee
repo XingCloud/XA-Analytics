@@ -5,6 +5,7 @@
 class Analytics.Collections.BaseCharts extends Backbone.Collection
   pending_period: 1
   pending_start_time: 0
+  initial_start_time: 0
   is_pending: false
 
 
@@ -23,6 +24,8 @@ class Analytics.Collections.BaseCharts extends Backbone.Collection
     # @xa_id() + " fetching charts..."
     collection = this
     start_time = (new Date()).getTime()
+    if not @is_pending
+      @initial_start_time = start_time
     params = @fetch_params()
     ## @last_request, 对上一次请求的缓存，用来防止同一个页面狂刷的情况
     if (force or @last_request.params != JSON.stringify(params) or
@@ -69,7 +72,7 @@ class Analytics.Collections.BaseCharts extends Backbone.Collection
       @pending_period = @pending_period + 1
     else
       if send_xa
-        @xa_pending(@pending_start_time, @is_pending)
+        @xa_pending()
       if collection.timer?
         clearTimeout(collection.timer);
         delete collection.timer
@@ -113,13 +116,16 @@ class Analytics.Collections.BaseCharts extends Backbone.Collection
     xa_interval = (new Date()).getTime() - start_time
     XA.action(xa_action + ".responsetime." + Analytics.Utils.timeShard(xa_interval) + "," + xa_interval, xa_action+"."+tag+",0")
 
-  xa_pending: (start_time, has_pending) ->
+  xa_pending: () ->
     xa_action = "response." + Instances.Models.project.get("identifier") + "." + @xa_id()
-    xa_interval = (new Date()).getTime() - start_time
-    if has_pending
-      XA.action(xa_action + ".pending." + Analytics.Utils.timeShard(xa_interval) + "," + xa_interval, xa_action + ".show,0")
+    end = (new Date()).getTime()
+    xa_interval = end - @initial_start_time
+    xa_pending_interval = end - @pending_start_time
+    if @is_pending
+      XA.action(xa_action + ".pending." + Analytics.Utils.timeShard(xa_pending_interval) + "," + xa_pending_interval,
+                xa_action + ".show." + Analytics.Utils.timeShard(xa_interval) + "," + xa_interval)
     else
-      XA.action(xa_action + ".show,0")
+      XA.action(xa_action + ".show." + Analytics.Utils.timeShard(xa_interval) + "," + xa_interval)
 
   xa_id: () ->
     if @for_widget
