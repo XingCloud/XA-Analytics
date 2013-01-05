@@ -122,7 +122,7 @@ class Analytics.Collections.BaseCharts extends Backbone.Collection
     xa_interval = end - @initial_start_time
     xa_pending_interval = end - @pending_start_time
     if @is_pending
-      XA.action(xa_action + ".pending." + Analytics.Utils.timeShard(xa_pending_interval) + "," + xa_pending_interval,
+      XA.action(xa_action + ".pend." + Analytics.Utils.timeShard(xa_pending_interval) + "," + xa_pending_interval,
                 xa_action + ".show." + Analytics.Utils.timeShard(xa_interval) + "," + xa_interval)
     else
       XA.action(xa_action + ".show." + Analytics.Utils.timeShard(xa_interval) + "," + xa_interval)
