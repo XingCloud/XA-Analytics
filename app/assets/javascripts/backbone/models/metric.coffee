@@ -3,8 +3,8 @@ class Analytics.Models.Metric extends Backbone.Model
     "scale": 1
     "value_type": "origin"
   urlRoot: () ->
-    if @get("project_id")?
-      "/projects/"+@get("project_id")+"/metrics"
+    if Instances.Models.project?
+      "/projects/" + Instances.Models.project.id + "/metrics"
     else
       "/template/metrics"
 

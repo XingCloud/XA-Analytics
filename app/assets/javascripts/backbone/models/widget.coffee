@@ -5,8 +5,8 @@ class Analytics.Models.Widget extends Backbone.Model
     interval: 'day'
 
   urlRoot: () ->
-    if @get("project_id")?
-      "/projects/"+@get("project_id")+"/widgets"
+    if Instances.Models.project?
+      "/projects/" + Instances.Models.project.id + "/widgets"
     else
       "/template/widgets"
 
