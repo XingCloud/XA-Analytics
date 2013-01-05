@@ -74,7 +74,6 @@ class Analytics.Views.ReportTabs.ShowRangePickerView extends Backbone.View
 
   render: () ->
     $(@el).html(@template(@model.show_attributes()))
-    @render_datepicker()
     @render_compare_datepicker()
     this
 
@@ -83,13 +82,6 @@ class Analytics.Views.ReportTabs.ShowRangePickerView extends Backbone.View
     @render()
     @delegateEvents(@events)
     this
-
-  render_datepicker: () ->
-    el = @el
-    $(el).find('.custom-datepicker').datepicker({format: 'yyyy/mm/dd'}).on('changeDate', (ev) ->
-      $(el).find('.custom-datepicker').datepicker('hide')
-      $(el).find('.end-time').val(Analytics.Utils.pickUTCDate(ev.date.valueOf()))
-    )
 
   render_compare_datepicker: () ->
     el = @el
@@ -138,8 +130,16 @@ class Analytics.Views.ReportTabs.CustomRangeView extends Backbone.View
 
   render: () ->
     $(@el).html(@template(@model.show_attributes()))
+    @render_datepicker()
     @clear_error()
     $(@el).modal()
+
+  render_datepicker: () ->
+    el = @el
+    $(el).find('.custom-datepicker').datepicker({format: 'yyyy/mm/dd'}).on('changeDate', (ev) ->
+      $(el).find('.custom-datepicker').datepicker('hide')
+      $(el).find('.end-time').val(Analytics.Utils.pickUTCDate(ev.date.valueOf()))
+    )
 
   clear_error: () ->
     $(@el).find(".error").removeClass("error")
