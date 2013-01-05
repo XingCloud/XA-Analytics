@@ -18,9 +18,9 @@ class Analytics.Collections.BaseCharts extends Backbone.Collection
     true
 
   fetch_charts: (options = {}, force = false) ->
-    if not @is_activated()
+    ##if not @is_activated()
       ## @xa_id() + " fetching, but no longer needed"
-      return
+    ##  return
     # @xa_id() + " fetching charts..."
     collection = this
     start_time = (new Date()).getTime()
