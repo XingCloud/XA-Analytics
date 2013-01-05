@@ -456,6 +456,7 @@ I18n.translations = {
             "err_37":"Query exception，please contact the administrator",
             "err_39":"Failed to calculate 'Total' and 'Natural'，please contact the administrator",
             "err_36":"The statistics of your project is not exist，please contact the administrator",
+            "err_40": "Unknown exception，please contact the administrator",
             "err_timeout":"Query timeout，please contact the administrator",
             "err_unknown":"Unknown exception，please contact the administrator"
         },
