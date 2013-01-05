@@ -82,10 +82,8 @@ class Analytics.Views.ReportTabs.ShowView extends Backbone.View
     if @model.get("metric_ids").length > 0
       @timelines.activate()
       @timelines_view.block()
-      @dimensions_view.block()
       timelines_view = @timelines_view
       kpis_view = @kpis_view
-      dimensions_view = @dimensions_view
       @timelines.fetch_charts({
         success: (resp) ->
           timelines_view.unblock()
@@ -93,6 +91,8 @@ class Analytics.Views.ReportTabs.ShowView extends Backbone.View
           timelines_view.unblock()
       }, @model.force_fetch)
       if @model.dimension?
+        dimensions_view = @dimensions_view
+        @dimensions_view.block()
         @dimensions_view.dimensions.activate()
         @dimensions_view.dimensions.fetch_charts({
           success: (resp) ->
