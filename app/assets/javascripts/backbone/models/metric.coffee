@@ -39,7 +39,7 @@ class Analytics.Models.Metric extends Backbone.Model
       options.items.push(combine.item_options("y", segment_id, filters))
       switch @get("combine_action").toUpperCase()
         when "ADDITION" then options.formula = "x*"+@get("scale")+"+y*"+combine.get("scale")
-        when "DIVISION" then options.formula = "x*"+@get("scale")+"/y*"+combine.get("scale")
+        when "DIVISION" then options.formula = "(x*"+@get("scale")+")/(y*"+combine.get("scale") + ")"
         when "MULTIPLICATION" then options.formula = "x*"+@get("scale")+"*y*"+combine.get("scale")
         when "SUBDUCTION" then options.formula = "x*"+@get("scale")+"-y*"+combine.get("scale")
     options
