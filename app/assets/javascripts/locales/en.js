@@ -453,6 +453,7 @@ I18n.translations = {
             "err_12":"Wrong json format，please contact the administrator",
             "err_20":"Invalid start or end date format，please contact the administrator",
             "err_22":"Failed to parse or operate segment，please contact the administrator",
+            "err_35":"Error shard rule",
             "err_37":"Query exception，please contact the administrator",
             "err_39":"Failed to calculate 'Total' and 'Natural'，please contact the administrator",
             "err_36":"The statistics of your project is not exist，please contact the administrator",
