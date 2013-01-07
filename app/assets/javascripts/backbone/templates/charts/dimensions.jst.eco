@@ -70,7 +70,9 @@
                                             <% if compare? and compare.get(item[0])?: %>
                                                 <% natural = compare.get(item[0]).get("sequence")?.natural %>
                                             <% end %>
-                                            <% if not natural? or ['XA-NA', 'na'].indexOf(natural) != -1: %>
+                                            <% if compare? and compare.get(item[0])? and compare.get(item[0]).id == "XA-NA": %>
+                                                <%= if Instances.Collections.metrics.get(metric_id).get("value_type")=="percent" then (item[1][metric_id]*100).toFixed(2)+"%" else item[1][metric_id] %>
+                                            <% else if not natural? or ['XA-NA', 'na'].indexOf(natural) != -1: %>
                                                 <%= if Instances.Collections.metrics.get(metric_id).get("value_type")=="percent" then (item[1][metric_id]*100).toFixed(2)+"%" else item[1][metric_id] %>
                                                 <span class="vs">
                                                     vs
