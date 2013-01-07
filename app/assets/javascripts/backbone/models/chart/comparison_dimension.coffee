@@ -9,7 +9,7 @@ class Analytics.Models.ComparisonDimensionChart extends Backbone.Model
     end_time = @report_tab.compare_end_time
     start_time = end_time - (@report_tab.get("length") - 1) * 86400000
     metric = Instances.Collections.metrics.get(@get("metric_id"))
-    metric_options = metric.sequence_options(@get("segment_id"), @build_filters(@id))
+    metric_options = metric.sequence_options(@get("segment_id"), @build_filters(@get("dimension_result")))
     _.extend(metric_options, {
       id: @id
       end_time: Analytics.Utils.formatUTCDate(end_time, "YYYY-MM-DD")
