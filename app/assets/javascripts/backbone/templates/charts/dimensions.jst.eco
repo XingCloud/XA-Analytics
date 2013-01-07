@@ -65,7 +65,44 @@
                                     <% else if ['XA-NA', 'na'].indexOf(item[1][metric_id]) != -1: %>
                                         n/a
                                     <% else: %>
-                                        <%= if Instances.Collections.metrics.get(metric_id).get("value_type")=="percent" then (item[1][metric_id]*100).toFixed(2)+"%" else item[1][metric_id] %>
+                                        <% if not @for_widget and @selector.get("compare") != 0 and parseInt(@orderby) == metric_id and item[0] != "pending": %>
+                                            <% compare = @compares[@orderby] %>
+                                            <% if compare? and compare.get(item[0])?: %>
+                                                <% natural = compare.get(item[0]).get("sequence")?.natural %>
+                                            <% end %>
+                                            <% if not natural? or ['XA-NA', 'na'].indexOf(natural) != -1: %>
+                                                <%= if Instances.Collections.metrics.get(metric_id).get("value_type")=="percent" then (item[1][metric_id]*100).toFixed(2)+"%" else item[1][metric_id] %>
+                                                <span class="vs">
+                                                    vs
+                                                    n/a
+                                                </span>
+                                            <% else if natural == "pending": %>
+                                                <%= if Instances.Collections.metrics.get(metric_id).get("value_type")=="percent" then (item[1][metric_id]*100).toFixed(2)+"%" else item[1][metric_id] %>
+                                                <span class="vs">
+                                                    vs
+                                                    pending
+                                                </span>
+                                            <% else: %>
+                                                <%= if Instances.Collections.metrics.get(metric_id).get("value_type")=="percent" then (item[1][metric_id]*100).toFixed(2)+"%" else item[1][metric_id] %>
+                                                <span class="vs">
+                                                    vs
+                                                    <%= if Instances.Collections.metrics.get(metric_id).get("value_type")=="percent" then (natural*100).toFixed(2)+"%" else natural %>
+                                                </span>
+                                                <% if natural == item[1][metric_id]: %>
+                                                    <span class="change">0%</span>
+                                                <% else if natural > item[1][metric_id]: %>
+                                                    <span class="change lower">
+                                                        -<%- (if natural != 0 then ((natural - item[1][metric_id]) * 100 / natural).toFixed(2)+'%' else '&infin;') %>
+                                                    </span>
+                                                <% else if natural < item[1][metric_id]: %>
+                                                    <span class="change higher">
+                                                        +<%- (if natural != 0 then ((item[1][metric_id] - natural) * 100 / natural).toFixed(2)+'%' else '&infin;') %>
+                                                    </span>
+                                                <% end %>
+                                            <% end %>
+                                        <% else: %>
+                                            <%= if Instances.Collections.metrics.get(metric_id).get("value_type")=="percent" then (item[1][metric_id]*100).toFixed(2)+"%" else item[1][metric_id] %>
+                                        <% end %>
                                         <% if @maxis[metric_id] > 0: %>
                                             <div class="percent-bar" style="width:<%= item[1][metric_id] * 100 / @maxis[metric_id] %>%;"></div>
                                         <% end %>

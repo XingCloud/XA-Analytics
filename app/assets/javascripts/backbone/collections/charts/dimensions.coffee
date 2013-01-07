@@ -12,6 +12,7 @@ class Analytics.Collections.DimensionCharts extends Analytics.Collections.BaseCh
     @order = 'DESC'
     @data = []
     @info = {}
+    @compares = {}
     @last_request = {params: "", resp: "", success: true, time: 0}
 
   initialize_charts: (metric_ids, segment_ids = []) ->
@@ -24,6 +25,7 @@ class Analytics.Collections.DimensionCharts extends Analytics.Collections.BaseCh
     @total = 0
     @data = []
     @info = {}
+    @compares = {}
     for metric_id in metric_ids
       chart = new Analytics.Models.DimensionChart({
         id: 'm'+metric_id
@@ -78,6 +80,11 @@ class Analytics.Collections.DimensionCharts extends Analytics.Collections.BaseCh
       @total = resp["data"]["total"]
     if resp["data"]? and resp["data"]["info"]?
       @info = resp["data"]["info"]
+    @process_maxis_data()
+    @fetch_compare_data()
+    true
+
+  process_maxis_data: () ->
     maxis = {}
     _.each(@data, (d) ->
       _.each(d[1], (v, metric_id) ->
@@ -94,4 +101,18 @@ class Analytics.Collections.DimensionCharts extends Analytics.Collections.BaseCh
     )
     @maxis = maxis
 
-    true
+  fetch_compare_data: () ->
+    if (not @for_widget and @selector.get("compare") != 0 and
+        @data.length > 0 and not @has_pendings() and
+        @orderby?)
+      dimension_results = (item[0] for item in @data)
+      compare = @compares[@orderby]
+      if not compare?
+        compare = new Analytics.Collections.ComparisonDimensionCharts([], {
+          dimension_charts: @
+          selector: @selector
+          metric_id: @orderby
+        })
+        @compares[@orderby] = compare
+      compare.initialize_charts(dimension_results, @segment_id)
+      compare.fetch_charts()

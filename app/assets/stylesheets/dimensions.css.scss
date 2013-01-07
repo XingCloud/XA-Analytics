@@ -139,8 +139,19 @@
 .dimensions-table{
   position: relative;  
   margin-top: 10px;
-  td{
-
+  td.orderby{
+    span.vs{
+      opacity: 0.5;
+    }
+    span.change{
+      float: right;
+    }
+    span.change.higher{
+      color: #4B9525;
+    }
+    span.change.lower{
+      color: #932D22;
+    }
   }
   td.no-data{
     text-align: center;

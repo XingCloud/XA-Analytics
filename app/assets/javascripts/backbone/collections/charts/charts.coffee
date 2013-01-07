@@ -46,8 +46,8 @@ class Analytics.Collections.BaseCharts extends Backbone.Collection
             options.error(xhr, opts, err)
       }, true)
     else
+      collection.fetch_success(@last_request.resp, 0, false)
       if options.success?
-        collection.fetch_success(@last_request.resp, 0, false)
         options.success(@last_request.resp)
 
   ##开启后台数据自动更新
