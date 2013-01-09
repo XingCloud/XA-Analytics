@@ -9,4 +9,7 @@ class ActionLogsController < ProjectBaseController
       render :json => {:action_logs => [], :max_page => max_page}, :status => 400
     end
   end
+
+  def show
+  end
 end
