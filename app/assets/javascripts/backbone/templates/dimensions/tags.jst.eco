@@ -12,7 +12,11 @@
                     <li class="filter-path-splitter">&nbsp;»&nbsp;</li>
                     <li class="filter" key="<%= filter.dimension.value %>" key_type="<%= filter.dimension.dimension_type %>" value="<%= filter.value %>" value_type="<%= filter.dimension.value_type %>">
                         <i class="icon-folder-open"></i>
-                        <a><%= Analytics.Static.getDimensionName(filter.dimension.value) %>:<%= filter.value %></a>
+                        <% if filter != _.last(@dimensions_filters): %>
+                            <a><%= Analytics.Static.getDimensionName(filter.dimension.value) %>:<%= filter.value %></a>
+                        <% else: %>
+                            <%= Analytics.Static.getDimensionName(filter.dimension.value) %>:<%= filter.value %>
+                        <% end %>
                     </li>
                 <% end %>
                 <% if @dimensions_filters.length > 0: %>

@@ -65,13 +65,13 @@ class Analytics.Views.Dimensions.TagsView extends Backbone.View
       value_type = $(ev.currentTarget).attr("value_type")
       filter = _.find(@model.dimensions_filters(), (filter) -> filter.dimension.value == key and filter.dimension.dimension_type == key_type)
       filter_index = @model.dimensions_filters().indexOf(filter)
-      @model.dimensions_filters().splice(filter_index, @model.dimensions_filters().length - filter_index)
-
-      dimension = _.find(@model.dimensions, (dimension) -> dimension.value == key and dimension.dimension_type == key_type)
+      next_filter = @model.dimensions_filters()[filter_index + 1]
+      @model.dimensions_filters().splice(filter_index + 1, @model.dimensions_filters().length - filter_index - 1)
+      dimension = _.find(@model.dimensions, (dimension) -> dimension.value == next_filter.dimension.value and dimension.dimension_type == next_filter.dimension.dimension_type)
       if dimension?
         @do_choose_dimension(dimension)
       else
-        @do_add_dimension(key, key_type, value_type)
+        @do_add_dimension(next_filter.dimension.key, next_filter.dimension.dimension_type, next_filter.dimension.value_type)
 
     @report_tab_view.redraw()
 
