@@ -100,7 +100,7 @@ Analytics.Static.resource_types = () ->
     "ReportTab": I18n.t("resources.report_tab")
     "Segment": I18n.t("resources.segment")
     "Setting": I18n.t("resources.setting")
-    "UserAttribute": I18n.t("resources.user_attribtue")
+    "UserAttribute": I18n.t("resources.user_attribute")
     "Widget": I18n.t("resources.widget")
   }
 
