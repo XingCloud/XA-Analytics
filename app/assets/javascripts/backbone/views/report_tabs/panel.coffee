@@ -101,7 +101,7 @@ class Analytics.Views.ReportTabs.ShowRangePickerView extends Backbone.View
     XA.action("click.report.defaultrange")
     day_offset = $(ev.currentTarget).attr("day_offset")
     now = new Date()
-    end_time = now.getTime() - day_offset*86400000
+    end_time = now - now % 86400000 - day_offset*86400000
     range = {
       length: parseInt($(ev.currentTarget).attr("length"))
       interval: $(ev.currentTarget).attr("interval")
