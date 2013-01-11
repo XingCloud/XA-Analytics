@@ -13,7 +13,7 @@ class Expression < ActiveRecord::Base
     elsif operator == "in"
       {name => value.split(",").map{|item| value_wrapper(item)}}
     elsif operator == "handler"
-      {name => {"$handler" => "DateSplittor", "offset" => value_wrapper.present? ? value_wrapper(value) : 0}}
+      {name => {"$handler" => "DateSplittor", "offset" => value_wrapper(value).present? ? value_wrapper(value) : 0}}
     else
       {name => {"$#{operator}" => value_wrapper(value)}}
     end
