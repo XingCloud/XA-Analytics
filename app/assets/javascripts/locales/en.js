@@ -388,7 +388,6 @@ I18n.translations = {
                 "first_pay_time":"First payment time",
                 "last_pay_time":"Last payment time",
                 "grade":"Grade",
-                "game_time":"Game time",
                 "pay_amount":"Payment amount",
                 "language":"Language",
                 "nation":"Nation",

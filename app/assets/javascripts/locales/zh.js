@@ -394,7 +394,6 @@ I18n.translations = {
                 "first_pay_time":"首次付费时间",
                 "last_pay_time":"最后付费时间",
                 "grade":"等级",
-                "game_time":"游戏时间",
                 "pay_amount":"付费量",
                 "language":"语言",
                 "nation":"国家",

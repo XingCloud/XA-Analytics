@@ -7,9 +7,6 @@ class Segment < ActiveRecord::Base
   accepts_nested_attributes_for :expressions, :allow_destroy => true
 
   validates :name, :presence => true
-
-  DEFAULT_USER_ATTRIBUTES = ["register_time", "last_login_time", "first_pay_time", "last_pay_time", "grade", "game_time", "pay_amount", "language", "platform"]
-
   scope :template, where(:project_id => nil)
 
   def to_hsh

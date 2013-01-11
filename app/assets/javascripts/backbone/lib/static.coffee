@@ -7,7 +7,6 @@ Analytics.Static.user_attributes = () ->
     {name: 'first_pay_time', nickname: I18n.t("statics.user_attributes.first_pay_time"), atype: 'sql_datetime'},
     {name: 'last_pay_time', nickname: I18n.t("statics.user_attributes.last_pay_time"), atype: 'sql_datetime'},
     {name: 'grade', nickname: I18n.t("statics.user_attributes.grade"), atype: 'sql_bigint', gpattern: '0,5,10,20,50,100'},
-    {name: 'game_time', nickname: I18n.t("statics.user_attributes.game_time"), atype: 'sql_bigint', gpattern: '0,5,10,20,50,100'},
     {name: 'pay_amount', nickname: I18n.t("statics.user_attributes.pay_amount"), atype: 'sql_bigint', gpattern: '0,5,10,20,50,100'},
     {name: 'language', nickname: I18n.t("statics.user_attributes.language"), atype: 'sql_string'},
     {name: 'nation', nickname: I18n.t("statics.user_attributes.nation"), atype: 'sql_string'},
