@@ -3,17 +3,19 @@ class Analytics.Models.Expression extends Backbone.Model
     value_type: Analytics.Static.user_attributes()[0].atype
     name: Analytics.Static.user_attributes()[0].name
 
-  value: () ->
+  value: (original_value) ->
     if @get("value_type") == "int" or @get("value_type") == "sql_bigint"
-      parseInt(@get("value"))
+      parseInt(original_value)
     else
-      @get("value")
+      original_value
 
   serialize: () ->
     result = {}
     operator = @get("operator")
     if operator == "eq"
-      result[@get("name")] = @value()
+      result[@get("name")] = @value( @get("value"))
+    else if operator == "in"
+      result[@get("name")] = (@value(item) for item in @get("value").split(","))
     else if operator == "handler"
       result[@get("name")] = {"$handler": "DateSplittor"}
       if @get("value")? and @get("value").length > 0
@@ -22,6 +24,6 @@ class Analytics.Models.Expression extends Backbone.Model
         result[@get("name")]["offset"] = 0
     else
       result[@get("name")] = {}
-      result[@get("name")]["$"+operator] = @value()
+      result[@get("name")]["$"+operator] = @value(@get("value"))
     result
 

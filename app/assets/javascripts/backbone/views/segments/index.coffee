@@ -6,14 +6,21 @@ class Analytics.Views.Segments.IndexView extends Backbone.View
     "click a#new-segment" : "new_segment"
     "click a.edit-segment" : "edit_segment"
     "click a.remove-segment" : "remove_segment"
-
+    "click li.pre.enabled a" : "pre_page"
+    "click li.nex.enabled a" : "nex_page"
 
   initialize: () ->
     _.bindAll(this, "render", "redraw")
     @collection.bind "all", @redraw
+    @page = 1
 
   render: () ->
-    $(@el).html(@template(@collection))
+    @calc_page()
+    $(@el).html(@template({
+      segments: @collection.filter((segment) -> segment.get("project_id")?)
+      page: @page
+      max_page: @max_page
+    }))
     this
 
   redraw: () ->
@@ -41,6 +48,20 @@ class Analytics.Views.Segments.IndexView extends Backbone.View
     segment = @collection.get(id)
     if confirm(I18n.t('commons.confirm_delete'))
       segment.destroy({wait: true})
+
+  pre_page: (ev) ->
+    @page = @page - 1
+    @redraw()
+
+  nex_page: (ev) ->
+    @page = @page + 1
+    @redraw()
+
+  calc_page: () ->
+    filtered = @collection.filter((segment) -> segment.get("project_id")?)
+    @max_page = (if filtered.length == 0 then 1 else Math.ceil(filtered.length / 10))
+    if @page > @max_page
+      @page = @max_page
 
 
 

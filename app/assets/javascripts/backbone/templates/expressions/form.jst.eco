@@ -16,7 +16,11 @@
                 <option value="<%= operator.value %>" <%= if @operator == operator.value then 'selected="selected"'  %> ><%= operator.name %></option>
             <% end %>
         </select>
-        <% if (@value_type == 'Date' or @value_type == 'sql_datetime') and @operator != 'handler': %>
+        <% if @operator == "in" and (@value_type == 'Date' or @value_type == 'sql_datetime'): %>
+            <input type="text" placeholder="<%= I18n.t('templates.expressions.form.date_in_placeholder') %>" name="expressions_attributes[<%= @index %>][value]" value="<%= @value %>" pattern="^\d{4}-((0\d)|(1[012]))-(([012]\d)|3[01])(,\d{4}-((0\d)|(1[012]))-(([012]\d)|3[01]))*"/>
+        <% else if @operator == "in": %>
+            <input type="text" placeholder="<%= I18n.t('templates.expressions.form.in_placeholder') %>" name="expressions_attributes[<%= @index %>][value]" value="<%= @value %>"/>
+        <% else if (@value_type == 'Date' or @value_type == 'sql_datetime') and @operator != 'handler': %>
             <input class="datepicker" type="text" name="expressions_attributes[<%= @index %>][value]" value="<%= if @value? and @value.length > 0 then @value else Analytics.Utils.formatUTCDate(new Date().getTime(), 'YYYY-MM-DD') %>"/>
         <% else if @operator == 'handler': %>
             <input type="text" placeholder="<%= I18n.t('templates.expressions.form.handler_placeholder') %>" name="expressions_attributes[<%= @index %>][value]" value="<%= if @value? and @value.length > 0 then @value else 0 %>"/>

@@ -55,7 +55,9 @@ I18n.translations = {
             },
             "expressions":{
                 "form":{
-                    "handler_placeholder":"日期偏移"
+                    "handler_placeholder":"日期偏移",
+                    "in_placeholder": "字段间用逗号隔开",
+                    "date_in_placeholder": "日期(YYYY-MM-DD)用逗号分隔"
                 }
             },
             "maintenance_plans":{
@@ -413,7 +415,8 @@ I18n.translations = {
                 "lt":"小于",
                 "lte":"小于等于",
                 "eq":"等于",
-                "handler":"相对时间"
+                "handler":"相对时间",
+                "in":"包含于"
             },
             "metric_combine_actions":{
                 "addition":"加法",

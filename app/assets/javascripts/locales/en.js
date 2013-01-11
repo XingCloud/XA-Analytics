@@ -55,7 +55,9 @@ I18n.translations = {
             },
             "expressions":{
                 "form":{
-                    "handler_placeholder":"Date offset"
+                    "handler_placeholder":"Date offset",
+                    "in_placeholder": "Identifiers separated by comma",
+                    "date_in_placeholder": "Date(YYYY-MM-DD) separated by comma"
                 }
             },
             "maintenance_plans":{
@@ -407,7 +409,8 @@ I18n.translations = {
                 "lt":"less than",
                 "lte":"less and equal to",
                 "eq":"equal to",
-                "handler":"handler"
+                "handler":"handler",
+                "in":"contains"
             },
             "metric_combine_actions":{
                 "addition":"Addition",

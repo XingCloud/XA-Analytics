@@ -12,7 +12,8 @@
         <th width="30%"><%= I18n.t('commons.created_at') %></th>
         <th width="15%"></th>
     </tr>
-    <% for segment in @models: %>
+    <% for index in [(@page - 1)*10..Math.min(@page*10 - 1, @segments.length - 1)]: %>
+        <% segment = @segments[index] %>
         <% if not Instances.Models.project? or segment.get("project_id")?: %>
             <tr>
                 <td><%= segment.get('name') %></td>
@@ -25,4 +26,20 @@
         <% end %>
     <% end %>
 </table>
+
+<div class="row-fluid">
+    <ul class="pager right">
+        <% if @page > 1: %>
+            <li class="pre enabled"><a style="cursor: pointer;"><%= I18n.t("commons.previous_page") %></a></li>
+        <% else: %>
+            <li class="pre disabled"><a><%= I18n.t("commons.previous_page") %></a></li>
+        <% end %>
+        <%= @page %>&nbsp;/&nbsp;<%= @max_page %>
+        <% if @page < @max_page: %>
+            <li class="nex enabled"><a style="cursor: pointer;"><%= I18n.t("commons.next_page") %></a></li>
+        <% else: %>
+            <li class="nex disabled"><a><%= I18n.t("commons.next_page") %></a></li>
+        <% end %>
+    </ul>
+</div>
 

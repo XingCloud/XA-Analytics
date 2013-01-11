@@ -28,7 +28,8 @@ Analytics.Static.expression_operators = () ->
     {value: 'lt', name: I18n.t("statics.expression_operators.lt")},
     {value: 'lte', name: I18n.t("statics.expression_operators.lte")},
     {value: 'eq', name: I18n.t("statics.expression_operators.eq")},
-    {value: 'handler', name: I18n.t("statics.expression_operators.handler")}
+    {value: 'handler', name: I18n.t("statics.expression_operators.handler")},
+    {value: 'in', name: I18n.t("statics.expression_operators.in")}
   ]
 
 Analytics.Static.metric_combine_actions = () ->
