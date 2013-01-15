@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121205062253) do
+ActiveRecord::Schema.define(:version => 20130114034422) do
 
   create_table "action_logs", :force => true do |t|
     t.integer  "project_id"
@@ -39,7 +39,7 @@ ActiveRecord::Schema.define(:version => 20121205062253) do
   create_table "expressions", :force => true do |t|
     t.string   "name"
     t.string   "operator"
-    t.string   "value"
+    t.text     "value"
     t.integer  "segment_id"
     t.datetime "created_at",                       :null => false
     t.datetime "updated_at",                       :null => false
@@ -206,10 +206,10 @@ ActiveRecord::Schema.define(:version => 20121205062253) do
     t.string   "name"
     t.string   "nickname"
     t.string   "atype"
-    t.string   "gpattern",   :default => "0,5,10,20,50,100"
+    t.string   "gpattern"
     t.integer  "project_id"
-    t.datetime "created_at",                                 :null => false
-    t.datetime "updated_at",                                 :null => false
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
   end
 
   create_table "user_preferences", :force => true do |t|

@@ -9,6 +9,8 @@ class UserAttribute < ActiveRecord::Base
   validates_format_of :gpattern, :with => /^\d+(,\d+)*$/, :if => proc{|m|m.gpattern.present? and m.atype == "sql_bigint"}
   validate :validate_datetime_gpattern
 
+  before_save :check_gpattern
+
   def serialize
     {
         :name => name,
@@ -34,6 +36,12 @@ class UserAttribute < ActiveRecord::Base
       if not is_matched
         errors.add(:gpattern, "gpattern is invalid")
       end
+    end
+  end
+
+  def check_gpattern
+    if self.atype == "sql_bigint"
+      self.gpattern ||= "0,10,30,50,100"
     end
   end
 end

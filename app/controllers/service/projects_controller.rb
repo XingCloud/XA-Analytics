@@ -20,6 +20,19 @@ class Service::ProjectsController < Service::BaseController
     render :json => metrics.uniq
   end
 
+  def sync_user_attributes
+    user_attributes = []
+    @project.user_attributes.each do |user_attribute|
+      if user_attribute.atype == "sql_bigint" and user_attribute.gpattern.present?
+        user_attributes.append({
+            :name => user_attribute.name,
+            :pattern => user_attribute.gpattern
+        })
+      end
+    end
+    render :json => user_attributes
+  end
+
   private
 
   def find_project

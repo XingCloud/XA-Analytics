@@ -56,6 +56,7 @@ Analytic::Application.routes.draw do
     resources :projects do
       member do
         get :sync_metrics
+        get :sync_user_attributes
       end
     end
   end
