@@ -12,17 +12,19 @@
         <th width="30%"><%= I18n.t('commons.created_at') %></th>
         <th width="15%"></th>
     </tr>
-    <% for index in [(@page - 1)*10..Math.min(@page*10 - 1, @segments.length - 1)]: %>
-        <% segment = @segments[index] %>
-        <% if not Instances.Models.project? or segment.get("project_id")?: %>
-            <tr>
-                <td><%= segment.get('name') %></td>
-                <td><%= segment.get('created_at') %></td>
-                <td>
-                    <a class="btn btn-mini left edit-segment" value="<%= segment.id %>"><i class="icon-edit"/></a>
-                    <a class="btn btn-mini left remove-segment" value="<%= segment.id %>"><i class="icon-remove"/></a>
-                </td>
-            </tr>
+    <% if @segments.length > 0: %>
+        <% for index in [(@page - 1)*10..Math.min(@page*10 - 1, @segments.length - 1)]: %>
+            <% segment = @segments[index] %>
+            <% if not Instances.Models.project? or segment.get("project_id")?: %>
+                <tr>
+                    <td><%= segment.get('name') %></td>
+                    <td><%= segment.get('created_at') %></td>
+                    <td>
+                        <a class="btn btn-mini left edit-segment" value="<%= segment.id %>"><i class="icon-edit"/></a>
+                        <a class="btn btn-mini left remove-segment" value="<%= segment.id %>"><i class="icon-remove"/></a>
+                    </td>
+                </tr>
+            <% end %>
         <% end %>
     <% end %>
 </table>
