@@ -30,6 +30,15 @@ class ProjectUsersController < ProjectBaseController
     end
   end
 
+  def show
+  end
+
+  def edit
+  end
+
+  def new
+  end
+
 private
   def find_project_user
     @project_user = @project.project_users.find(params[:id])
