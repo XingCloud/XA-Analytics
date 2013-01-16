@@ -22,7 +22,7 @@ class Expression < ActiveRecord::Base
   private
 
   def value_wrapper(original_value)
-    if value_type == "int"
+    if value_type == "sql_bigint"
       original_value.to_i
     else
       original_value
