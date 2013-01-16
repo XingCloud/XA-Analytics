@@ -13,21 +13,13 @@ class Expression < ActiveRecord::Base
     elsif operator == "in"
       {name => value.split(",").map{|item| value_wrapper(item)}}
     elsif operator == "handler"
-      {name => {"$handler" => "DateSplittor", "offset" => value_wrapper(value).present? ? value_wrapper(value) : 0}}
+      {name => {"$handler" => "DateSplittor", "offset" => value.present? ? value.to_i : 0}}
     else
       {name => {"$#{operator}" => value_wrapper(value)}}
     end
   end
 
   private
-
-  def value_wrapper(original_value)
-    if value_type == "sql_bigint"
-      original_value.to_i
-    else
-      original_value
-    end
-  end
 
   def validate_in_datetime
     if operator == "in" and value_type == "sql_datetime"
