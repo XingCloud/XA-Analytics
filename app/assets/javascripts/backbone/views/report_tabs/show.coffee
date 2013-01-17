@@ -40,6 +40,7 @@ class Analytics.Views.ReportTabs.ShowView extends Backbone.View
     $(@report_view.el).find('.report-panel').affix({
       offset: 60
     })
+    $(@report_view.el).find('.report-panel-shadow').height($(@report_view.el).find('.report-panel').height())
 
   render_timelines: () ->
     segment_ids = Instances.Collections.segments.selected()
