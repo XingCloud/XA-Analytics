@@ -45,3 +45,13 @@
 .report-panel.affix{
   top: 0;
 }
+
+.report-panel-shadow{
+  margin-bottom: 20px;
+}
+.report-panel.affix-top + .report-panel-shadow{
+  display: none;
+}
+.report-panel.affix + .report-panel-shadow{
+  display: block;
+}
