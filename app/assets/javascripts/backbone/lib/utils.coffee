@@ -1,14 +1,16 @@
 Analytics.Utils ||= {}
 Analytics.Utils.parseUTCDate = (date_str, offset) ->
-  date = new Date(moment(date_str, "YYYY-MM-DD HH:mm").unix()*1000 + offset)
-  Date.UTC(date.getFullYear(), date.getMonth(), date.getDate(), date.getHours(), date.getMinutes())
+  new Date(moment(date_str + " +0000", "YYYY-MM-DD HH:mm Z").unix()*1000 + offset).getTime()
 
 Analytics.Utils.formatUTCDate = (timestamp, format) ->
-  timezone_offset = new Date().getTimezoneOffset()*60000
-  moment(timestamp+timezone_offset).format(if format? then format else "YYYY/MM/DD")
+  timezone_offset = (new Date().getTimezoneOffset() + 480)*60000
+  moment(timestamp + timezone_offset).format(if format? then format else "YYYY/MM/DD")
+
+Analytics.Utils.formatLabelDate = (timestamp, format) ->
+  moment(timestamp + new Date().getTimezoneOffset() * 60000).format(if format? then format else "YYYY/MM/DD")
 
 Analytics.Utils.pickUTCDate = (timestamp) ->
-  timestamp - new Date().getTimezoneOffset()*60000
+  timestamp - (new Date().getTimezoneOffset() + 480)*60000
 
 Analytics.Utils.countMonth = (end, start) ->
   start_date = new Date(start)
