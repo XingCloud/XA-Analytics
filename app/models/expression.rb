@@ -21,6 +21,14 @@ class Expression < ActiveRecord::Base
 
   private
 
+  def value_wrapper(original_value)
+    if value_type == "sql_bigint"
+      original_value.to_i
+    else
+      original_value
+    end
+  end
+
   def validate_in_datetime
     if operator == "in" and value_type == "sql_datetime"
       is_matched = /^\d{4}-((0\d)|(1[012]))-(([012]\d)|3[01])(,\d{4}-((0\d)|(1[012]))-(([012]\d)|3[01]))*/.match(value).present?
