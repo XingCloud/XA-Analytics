@@ -20,7 +20,7 @@ class Analytics.Models.Widget extends Backbone.Model
   由 配置中的length和interval 自动决定end_time
   ###
   get_end_time: () ->
-    now = new Date().getTime()
+    now = Analytics.Utils.pickUTCStart()
     ret = Analytics.Utils.validateDateRange(now, @get("length"),@get("interval"))
     if ret.result
       end_time = now

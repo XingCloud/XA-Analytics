@@ -7,7 +7,7 @@ class Analytics.Collections.Widgets extends Backbone.Collection
     if options?
       @project = options.project
     now = new Date().getTime()
-    @end_time = now - now % 86400000
+    @end_time = Analytics.Utils.pickUTCStart()
     @columns = 3
 
   comparator: (lwidget, rwidget) ->

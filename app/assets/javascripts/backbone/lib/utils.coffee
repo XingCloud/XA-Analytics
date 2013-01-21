@@ -12,6 +12,11 @@ Analytics.Utils.formatLabelDate = (timestamp, format) ->
 Analytics.Utils.pickUTCDate = (timestamp) ->
   timestamp - (new Date().getTimezoneOffset() + 480)*60000
 
+Analytics.Utils.pickUTCStart = (timestamp = null) ->
+  if not timestamp?
+    timestamp = new Date().getTime()
+  timestamp - timestamp % 86400000 - 28800000
+
 Analytics.Utils.countMonth = (end, start) ->
   start_date = new Date(start)
   end_date = new Date(end)
