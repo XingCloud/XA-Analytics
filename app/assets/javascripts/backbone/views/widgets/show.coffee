@@ -78,12 +78,12 @@ class Analytics.Views.Widgets.ShowView extends Backbone.View
     @chart.activate()
     el = $(@el).find(".widget-data")[0]
     chart_view = @chart_view
-    $(el).block({message: "<strong>" + I18n.t("commons.pending") + "</strong>"})
+    chart_view.block()
     @chart.fetch_charts({
       success: (resp) ->
-        $(el).unblock()
+        chart_view.unblock()
       error: (xhr, options, err) ->
-        $(el).unblock()
+        chart_view.unblock()
     }, force)
 
   edit: () ->

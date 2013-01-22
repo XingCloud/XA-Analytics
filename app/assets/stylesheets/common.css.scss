@@ -200,3 +200,30 @@ table{
     font-size: 80%;
   }
 }
+
+.blockOverlay{
+  background-color: #fff !important;
+  filter:alpha(opacity=70) !important;
+  -moz-opacity:0.7 !important;
+  -khtml-opacity: 0.7 !important;
+  opacity: 0.7 !important;
+}
+
+.blockMsg{
+  border: 0 !important;
+}
+
+.timelines{
+  .pending-message{
+    display: none;
+    z-index: 1000;
+    border: none;
+    margin: 0px;
+    padding: 0px;
+    left: 0px;
+    top: 0px;
+    opacity: 0.7;
+    cursor: wait;
+    position: absolute;
+  }
+}

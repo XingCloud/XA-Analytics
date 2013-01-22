@@ -175,7 +175,8 @@ class Analytics.Views.Dimensions.ListView extends Backbone.View
     $(@el).block({message: "<strong>" + I18n.t('commons.pending') + "</strong>"})
 
   unblock: () ->
-    $(@el).unblock()
+    if $(@el).find(".blockOverlay").length > 0
+      $(@el).unblock()
 
   download_table: (event) ->
     csv = $(@el).find(".dimensions-table table").table2CSV({delivery:'value'})

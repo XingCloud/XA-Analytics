@@ -40,7 +40,7 @@ class Analytics.Views.Charts.TimelinesView extends Backbone.View
       highcharts.get(timeline.id).timeline = timeline
       highcharts.get(timeline.id).setData(timeline.plot_data(chart_type))
     )
-    $(@render_to).append(@template())
+    $(@render_to).prepend(@template())
     if @collection.has_pendings()
       $(@render_to).find(".pending-message").show()
     else
@@ -55,4 +55,5 @@ class Analytics.Views.Charts.TimelinesView extends Backbone.View
     $(@render_to).block({message: "<strong>" + I18n.t('commons.pending') + "</strong>"})
 
   unblock: () ->
-    $(@render_to).unblock()
+    if $(@render_to).find(".blockOverlay").length > 0
+      $(@render_to).unblock()
