@@ -5,11 +5,16 @@ class BasisService
   
   HOST  = APP_CONFIG[:basis][:host]
   PORT    = APP_CONFIG[:basis][:port]
+  SSL_PORT = APP_CONFIG[:basis][:ssl_port]
   BASIC_USERNAME = APP_CONFIG[:basis][:basic_username]
   BASIC_PASSWORD = APP_CONFIG[:basis][:basic_password]
   
-  def self.base_url
-    URI::HTTP.build({:host => HOST, :port => PORT}).to_s
+  def self.base_url(scheme)
+    if scheme == "https"
+      URI::HTTPS.build({:host => HOST, :port => SSL_PORT}).to_s
+    else
+      URI::HTTP.build({:host => HOST, :port => PORT}).to_s
+    end
   end
   
   def self.find_project(identifier)

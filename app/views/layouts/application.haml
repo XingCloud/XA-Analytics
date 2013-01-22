@@ -9,10 +9,10 @@
     = favicon_link_tag '/favicon.png', :type => 'image/png'
     / Le HTML5 shim, for IE6-8 support of HTML elements
     /[if lt IE 9]
-      = javascript_include_tag "http://html5shim.googlecode.com/svn/trunk/html5.js"
+      = javascript_include_tag "//html5shim.googlecode.com/svn/trunk/html5.js"
     / Le styles
-    = javascript_include_tag "http://lib.sinaapp.com/js/jquery/1.7.2/jquery.min.js"
-    = javascript_include_tag "http://lib.sinaapp.com/js/jquery-ui/1.8.11/jquery-ui.min.js"
+    = javascript_include_tag "//ajax.aspnetcdn.com/ajax/jquery/jquery-1.9.0.min.js"
+    = javascript_include_tag "//ajax.aspnetcdn.com/ajax/jquery.ui/1.10.0/jquery-ui.min.js"
     = javascript_include_tag "application"
     = stylesheet_link_tag    "application"
 
@@ -38,7 +38,7 @@
   %body
     #container
       = yield
-    = javascript_include_tag "#{BasisService.base_url}/xingcloud.js?project_id=#{@project.identifier unless @project.blank?}&select=analytic"
+    = javascript_include_tag "#{BasisService.base_url(request.scheme)}/xingcloud.js?project_id=#{@project.identifier unless @project.blank?}&select=analytic"
 
 
     :javascript
