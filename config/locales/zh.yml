@@ -6,6 +6,7 @@ zh:
   header_my_account: "我的账户"
   header_logout: "登出"
   header_loading: "载入中..."
+  header_select_project: "请选择项目"
   application: "行云数据分析"
   maintenance: "服务器维护"
   maintenance_default: "服务暂不可用，请稍后访问，如有问题请洽"

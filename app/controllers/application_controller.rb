@@ -1,8 +1,8 @@
 class ApplicationController < ActionController::Base
   helper_method :current_user
-  before_filter :check_browser
   before_filter :cas_filter
-  before_filter :set_locale
+  before_filter :check_browser, :except => :logout
+  before_filter :set_locale, :except => :logout
   #before_filter :debug_cas
 
   def logout
@@ -57,14 +57,16 @@ class ApplicationController < ActionController::Base
   end
 
   def check_browser
-    I18n.locale = request.user_preferred_languages.first[0..1]
-    browser = Browser.new(:ua => request.env['HTTP_USER_AGENT'], :accept_language => request.env['HTTP_ACCEPT_LANGUAGE'])
-    if browser.ie? and browser.version.to_i < 8
-      if params[:force_ie] == "1" or session[:force_ie]
-        session[:force_ie] = true
-      else
-        render "misc/no_ie"
-        return
+    if request.user_preferred_languages.present? and request.user_preferred_languages.first.present?
+      I18n.locale = request.user_preferred_languages.first[0..1]
+      browser = Browser.new(:ua => request.env['HTTP_USER_AGENT'], :accept_language => request.env['HTTP_ACCEPT_LANGUAGE'])
+      if browser.ie? and browser.version.to_i < 8
+        if params[:force_ie] == "1" or session[:force_ie]
+          session[:force_ie] = true
+        else
+          render "misc/no_ie"
+          return
+        end
       end
     end
   end

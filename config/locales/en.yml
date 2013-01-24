@@ -9,6 +9,7 @@ en:
   header_my_account: "My Account"
   header_logout: "Logout"
   header_loading: "Loading..."
+  header_select_project: "Please select project"
   application: "Xingcloud Analytics"
   maintenance: "Server under maintenance"
   maintenance_default: "Service is not available now, if you have problem please contact"

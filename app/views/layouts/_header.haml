@@ -10,7 +10,7 @@
       .container-fluid.nav-collapse
         %ul.nav{:style => "font-size:18px"}
           %li{:style => "padding:10px 10px 11px"}
-            %select.project_select
+            %select.project_select{"data-placeholder" => "#{t(:header_select_project)}"}
               %option
                 = t(:header_loading)
           %li.divider-vertical
@@ -44,17 +44,21 @@
     url: "/my_projects",
     success: function (data, status, jqXHR){
       $('.project_select').html('');
+      contains = false;
       for (var i = 0; i < data.length; i++){
         identifier = "#{project.identifier unless project.blank?}";
         if (identifier.length > 0 && identifier == data[i].identifier){
           $('.project_select').append('<option value="'+ data[i].identifier +'" selected="selected">'+ data[i].name +'</option>');
+          contains = true;
         }
         else{
           $('.project_select').append('<option value="'+ data[i].identifier +'">'+ data[i].name +'</option>');
         }
-
       }
-      $('.project_select').chosen().change(function (){
+      if (!contains){
+        $('.project_select').prepend('<option></option>');
+      }
+      $('.project_select').chosen().change(function (ev){
         window.location.href = "/projects/" + $(".project_select option:selected").val();
       });
     }
