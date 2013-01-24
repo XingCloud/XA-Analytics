@@ -79,7 +79,8 @@ I18n.translations = {
                     "announcement":"内容",
                     "no_data":"暂无维护计划",
                     "active":"当前生效",
-                    "nonactive":"已过期"
+                    "nonactive":"已过期",
+                    "total_time": "本月总共维护时间：{{hours}} 小时，{{minutes}} 分钟"
                 }
             },
             "metrics":{
