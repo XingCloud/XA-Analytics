@@ -14,7 +14,8 @@ class Analytics.Views.ReportTabs.PanelView extends Backbone.View
     $(@el).html(@template(@model.show_attributes()))
     @render_range_picker()
     @render_dimension_tags()
-    @render_segment_tags()
+    if not Instances.Models.user.is_mgriant()
+      @render_segment_tags()
     this
 
   render_range_picker: () ->
