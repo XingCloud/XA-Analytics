@@ -3,6 +3,7 @@ Analytic::Application.routes.draw do
   root :to => "application#redirect"
   match "/logout" => "application#logout"
   match "/503" => "maintenance_plans#index"
+  match "/my_projects" => "application#my_projects"
   mount Resque::Server.new, :at => "/resque"
 
   resources :maintenance_plans

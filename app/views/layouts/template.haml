@@ -17,10 +17,6 @@
 
     - if Rails.application.assets.find_asset("locales/#{I18n.locale}").present?
       = javascript_include_tag "locales/#{I18n.locale}"
-
-    = yield :head
-
+    = render :partial => "layouts/header", :locals => {:project => nil}
     = yield
-
     #loading-message{:style => "display: none"} 载入中...
-    = javascript_include_tag "#{BasisService.base_url(request.scheme)}/xingcloud.js?project_id=&select=analytic"

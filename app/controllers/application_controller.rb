@@ -24,6 +24,10 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  def my_projects
+    render :json => BasisService.get_projects(session[:cas_user])
+  end
+
   protected
   
   def current_user

@@ -16,6 +16,7 @@
 //= require backbone
 //= require highcharts
 //= require moment
+//= require jquery.chosen
 //= require jquery.blockUI
 //= require jquery.form_to_json
 //= require table2CSV
