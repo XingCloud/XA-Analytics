@@ -132,3 +132,14 @@ class Analytics.Collections.BaseCharts extends Backbone.Collection
       "widget." + @selector.id
     else
       "report." + @selector.get("report_id") + "/" + @selector.id + "/" + @constructor.name
+
+  decorate_num: (num, metric_id)->
+    value_type =  Instances.Collections.metrics.get(metric_id).get('value_type')
+    result = num
+    if not _.contains(["XA-NA", "na", "pending", null], num)
+      if "percent" == value_type
+        result = (num*100).toFixed(2)+"%"
+      else if "rounding" == value_type
+        result = Math.floor(num)
+
+    result

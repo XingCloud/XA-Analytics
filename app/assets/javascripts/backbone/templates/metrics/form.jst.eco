@@ -37,6 +37,7 @@
 		<div class="btn-group">
 		  <button id="" class="<%=(if @value_type == 'origin' then 'active btn type-btn' else 'btn type-btn')%>" value="origin" ><%=I18n.t("templates.metrics.form.origin_value_type")%></button>
 		  <button id="" class="<%=(if @value_type == 'percent' then 'active btn type-btn' else 'btn type-btn')%>" value="percent"><%=I18n.t("templates.metrics.form.percent_value_type")%></button>
+		  <button id="" class="<%=(if @value_type == 'rounding' then 'active btn type-btn' else 'btn type-btn')%>" value="rounding"><%=I18n.t("templates.metrics.form.rounding_value_type")%></button>
 		</div>
 	      </div>
 	    </div>

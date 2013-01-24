@@ -76,8 +76,9 @@ class Analytics.Collections.TimelineCharts extends Analytics.Collections.BaseCha
         contains_error = true
       chart = @get(sequence.id)
       _.extend(chart.get("sequence"), sequence)
+    
     not contains_error
-
+  
   has_pendings: () ->
     has = false
     @each((chart) ->

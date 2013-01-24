@@ -103,7 +103,8 @@ I18n.translations = {
                     "combine":"与另一事件组合计算",
                     "value_type":"显示格式",
                     "origin_value_type":"原始值",
-                    "percent_value_type":"百分比"
+                    "percent_value_type":"百分比", 
+		    "rounding_value_type":"取整数"
                 },
                 "index_dropdown":{
                     "add_metric":"新建指标"

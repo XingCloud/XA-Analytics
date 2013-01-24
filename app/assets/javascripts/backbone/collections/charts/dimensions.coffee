@@ -80,10 +80,11 @@ class Analytics.Collections.DimensionCharts extends Analytics.Collections.BaseCh
       @total = resp["data"]["total"]
     if resp["data"]? and resp["data"]["info"]?
       @info = resp["data"]["info"]
+      
     @process_maxis_data()
     @fetch_compare_data()
     true
-
+            
   process_maxis_data: () ->
     maxis = {}
     _.each(@data, (d) ->

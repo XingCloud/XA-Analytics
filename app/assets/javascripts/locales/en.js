@@ -103,7 +103,8 @@ I18n.translations = {
                     "combine":"Combine with another",
                     "value_type":"Display",
                     "origin_value_type":"origin",
-                    "percent_value_type":"percent"
+                    "percent_value_type":"percent",
+		    "rounding_value_type":"rounding"
                 },
                 "index_dropdown":{
                     "add_metric":"Add Metric"

@@ -45,15 +45,19 @@
                 <td class="<%= if index+1 == @metric_ids.length then 'last' %>">
                     <% metric = Instances.Collections.metrics.get(metric_id) %>
                     <% chart = _.find(@models, (chart) -> chart.get("metric_id") == metric_id and chart.get("segment_id") == segment_id and not chart.get("compare_for")?) %>
+		    
                     <% up_filters = _.filter(chart.get("filters"), (item) -> item['dimension']['dimension_type'] == 'USER_PROPERTIES') %>
                     <% use_natural = (chart.get("sequence").total != chart.get("sequence").natural or has_segments or up_filters.length > 0) %>
                     <% chart_value = (if use_natural then chart.get("sequence").natural else chart.get("sequence").total) %>
                     <% chart_value =  if chart_value == "XA-NA" then null else chart_value %>
+		    
                     <div class="kpi-info <%= if metric_id != @display_metric then 'deactive' %>" kpi-id="<%= chart.id %>" compare-kpi-id="<%= chart.get('compare_to') %>" metric-id="<%= metric_id %>" segment-id="<%= segment_id %>">
                         <% if @has_compare: %>
                             <% compare_chart = _.find(@models, (chart) -> chart.get("metric_id") == metric_id and chart.get("segment_id") == segment_id and chart.get("compare_for")?) %>
+			    
                         <% compare_chart_value = (if use_natural then compare_chart.get("sequence").natural else compare_chart.get("sequence").total) %>
                         <% compare_chart_value = if compare_chart_value == "XA-NA" then null else compare_chart_value %>
+		
                             <% if not chart_value? or not compare_chart_value?: %>
                                 <p class="value unavailable">N/A</p>
                             <% else if chart_value == compare_chart_value: %>
@@ -74,12 +78,12 @@
                                     <% if not @for_widget: %>
                                         <span class="kpi-dot" style="border-color: #<%= chart.get('color') %>"></span>
                                     <% end %>
-                                    <%= if chart_value? then (if metric.get("value_type") == "percent" then (chart_value*100).toFixed(2)+"%" else chart_value) else 'N/A' %>
+                                    <%= if chart_value? then @decorate_num(chart_value, metric_id) else 'N/A' %>
                                     &nbsp;vs&nbsp;
                                     <% if not @for_widget: %>
                                         <span class="kpi-dot" style="border-color: #<%= compare_chart.get('color') %>"></span>
                                     <% end %>
-                                    <%= if compare_chart_value? then (if metric.get("value_type") == "percent" then (compare_chart_value*100).toFixed(2)+"%" else compare_chart_value) else 'N/A' %>
+                                    <%= if compare_chart_value? then @decorate_num(compare_chart_value, metric_id) else 'N/A' %>
                                 </span>
                             </p>
                         <% else: %>
@@ -87,7 +91,7 @@
                                 <% if not @for_widget: %>
                                     <span class="kpi-dot" style="border-color: #<%= chart.get('color') %>"></span>
                                 <% end %>
-                                <span><%= if chart_value? then (if metric.get("value_type") == "percent" then (chart_value*100).toFixed(2)+"%" else chart_value) else 'N/A' %></span>
+                                <span><%= if chart_value? then @decorate_num(chart_value,metric_id) else 'N/A' %></span>
                             </p>
                             <% if has_segments: %>
                                 <p class="percent-label">
@@ -119,7 +123,7 @@
                     <% for metric_id in @metric_ids: %>
                         <% data = cmap[segment_id][date][metric_id] %>
                         <td class="data <%= if data == "pending" or data == "XA-NA" then 'unavailable' else "" %>">
-                        <%= if data == "pending" then I18n.t("commons.pending") else if data == "XA-NA" then "n/a" else if Instances.Collections.metrics.get(metric_id).get("value_type")=="percent" then (data*100).toFixed(2)+"%" else data %>
+                        <%= if data == "pending" then I18n.t("commons.pending") else if data == "XA-NA" then "n/a" else @decorate_num(cmap[segment_id][date][metric_id], metric_id) %>
                         </td>
                     <% end %>
                 </tr>

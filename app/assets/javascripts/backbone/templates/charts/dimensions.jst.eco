@@ -30,7 +30,9 @@
                     </td>
                 </tr>
             <% else: %>
+	        <% item_index = -1%>
                 <% for item in @data: %>
+		    <%item_index++%>
                     <% if item[0]? and item[1]?: %>
                         <% no_data = false %>
                         <tr>
@@ -71,24 +73,24 @@
                                                 <% natural = compare.get('d_'+item[0]).get("sequence")?.natural %>
                                             <% end %>
                                             <% if compare? and compare.get('d_'+item[0])? and compare.get('d_'+item[0]).id == "XA-NA": %>
-                                                <%= if Instances.Collections.metrics.get(metric_id).get("value_type")=="percent" then (item[1][metric_id]*100).toFixed(2)+"%" else item[1][metric_id] %>
+                                                <%= @decorate_num(item[1][metric_id],metric_id) %>
                                             <% else if not natural? or ['XA-NA', 'na'].indexOf(natural) != -1: %>
-                                                <%= if Instances.Collections.metrics.get(metric_id).get("value_type")=="percent" then (item[1][metric_id]*100).toFixed(2)+"%" else item[1][metric_id] %>
+                                                <%= @decorate_num(item[1][metric_id],metric_id) %>
                                                 <span class="vs">
                                                     vs
                                                     n/a
                                                 </span>
                                             <% else if natural == "pending": %>
-                                                <%= if Instances.Collections.metrics.get(metric_id).get("value_type")=="percent" then (item[1][metric_id]*100).toFixed(2)+"%" else item[1][metric_id] %>
+                                                <%=  %>
                                                 <span class="vs">
                                                     vs
                                                     pending
                                                 </span>
                                             <% else: %>
-                                                <%= if Instances.Collections.metrics.get(metric_id).get("value_type")=="percent" then (item[1][metric_id]*100).toFixed(2)+"%" else item[1][metric_id] %>
+                                                <%= @decorate_num(item[1][metric_id],metric_id) %>
                                                 <span class="vs">
                                                     vs
-                                                    <%= if Instances.Collections.metrics.get(metric_id).get("value_type")=="percent" then (natural*100).toFixed(2)+"%" else natural %>
+						    <%=@decorate_num(natural, metric_id)%>
                                                 </span>
                                                 <% if natural == item[1][metric_id]: %>
                                                     <span class="change">0%</span>
@@ -103,7 +105,7 @@
                                                 <% end %>
                                             <% end %>
                                         <% else: %>
-                                            <%= if Instances.Collections.metrics.get(metric_id).get("value_type")=="percent" then (item[1][metric_id]*100).toFixed(2)+"%" else item[1][metric_id] %>
+                                            <%= @decorate_num(item[1][metric_id],metric_id) %>
                                         <% end %>
                                         <% if @maxis[metric_id] > 0: %>
                                             <div class="percent-bar" style="width:<%= item[1][metric_id] * 100 / @maxis[metric_id] %>%;"></div>
