@@ -42,6 +42,9 @@ class Analytics.Models.TimelineChart extends Backbone.Model
   plot_data: (chart_type) ->  
     data = _.map(@data(), (x) -> if not x[1]? or x[1] == "pending" or x[1] == "XA-NA" then [x[0], 0] else x)
 
+    if Instances.Collections.metrics.get(@get("metric_id")).get('value_type') == "rounding"
+      _.each(data, (x, index) -> data[index][1] = Math.floor(data[index][1]))
+      
     if chart_type == "area"
       _.each(data, (x, index) -> if index>0 && data[index][1]? then data[index][1] += data[index-1][1])
 
