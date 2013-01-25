@@ -79,7 +79,8 @@ I18n.translations = {
                     "created_by":"Created By",
                     "keep_running":"Keep Running",
                     "announcement":"Announcement",
-                    "no_data":"No Maintenance Plan"
+                    "no_data":"No Maintenance Plan",
+                    "total_time": "Amount of current month's maintenance time: {{hours}} Hours，{{minutes}} Minutes"
                 }
             },
             "metrics":{

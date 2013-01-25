@@ -10,17 +10,19 @@
     /[if lt IE 9]
       = javascript_include_tag "//html5shim.googlecode.com/svn/trunk/html5.js"
     / Le styles
-    = javascript_include_tag "//ajax.aspnetcdn.com/ajax/jquery/jquery-1.9.0.min.js"
-    = javascript_include_tag "//ajax.aspnetcdn.com/ajax/jquery.ui/1.10.0/jquery-ui.min.js"
+    = javascript_include_tag "//cdnjs.cloudflare.com/ajax/libs/jquery/1.9.0/jquery.min.js"
+    = javascript_include_tag "//cdnjs.cloudflare.com/ajax/libs/jqueryui/1.10.0/jquery-ui.min.js"
+    = javascript_include_tag "//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.2.2/bootstrap.min.js"
+    = javascript_include_tag "//cdnjs.cloudflare.com/ajax/libs/highcharts/2.3.5/highcharts.js"
+    = javascript_include_tag "//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.4.3/underscore-min.js"
+    = javascript_include_tag "//cdnjs.cloudflare.com/ajax/libs/backbone.js/0.9.10/backbone-min.js"
+    = javascript_include_tag "//cdnjs.cloudflare.com/ajax/libs/chosen/0.9.11/chosen.jquery.min.js"
+    = javascript_include_tag "//cdnjs.cloudflare.com/ajax/libs/moment.js/1.7.2/moment.min.js"
     = javascript_include_tag "application"
     = stylesheet_link_tag    "application"
 
     - if Rails.application.assets.find_asset("locales/#{I18n.locale}").present?
       = javascript_include_tag "locales/#{I18n.locale}"
-
-    = yield :head
-
+    = render :partial => "layouts/header", :locals => {:project => nil}
     = yield
-
     #loading-message{:style => "display: none"} 载入中...
-    = javascript_include_tag "#{BasisService.base_url(request.scheme)}/xingcloud.js?project_id=&select=analytic"

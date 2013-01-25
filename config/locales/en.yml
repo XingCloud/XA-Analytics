@@ -2,6 +2,14 @@
 # See https://github.com/svenfuchs/rails-i18n/tree/master/rails%2Flocale for starting points.
 
 en:
+  header_brand: "XingCloud"
+  header_analytics: "Analytics"
+  header_gdp: "GDP"
+  header_settings: "Settings"
+  header_my_account: "My Account"
+  header_logout: "Logout"
+  header_loading: "Loading..."
+  header_select_project: "Please select project"
   application: "Xingcloud Analytics"
   maintenance: "Server under maintenance"
   maintenance_default: "Service is not available now, if you have problem please contact"

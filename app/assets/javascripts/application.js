@@ -11,11 +11,6 @@
 // GO AFTER THE REQUIRES BELOW.
 //
 
-//= require twitter/bootstrap
-//= require underscore
-//= require backbone
-//= require highcharts
-//= require moment
 //= require jquery.blockUI
 //= require jquery.form_to_json
 //= require table2CSV
