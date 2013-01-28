@@ -14,7 +14,7 @@ class Analytics.Models.ComparisonDimensionChart extends Backbone.Model
       id: @id
       end_time: Analytics.Utils.formatUTCDate(end_time, "YYYY-MM-DD")
       start_time: Analytics.Utils.formatUTCDate(start_time, "YYYY-MM-DD")
-      interval: @report_tab.get("interval").toUpperCase()
+      interval: @interval_wrapper()
       type: "COMMON"
       project_id: Instances.Models.project.get("identifier")
     })
@@ -39,3 +39,9 @@ class Analytics.Models.ComparisonDimensionChart extends Backbone.Model
     if not oldfilter? and dimension_result != "XA-NA"
       cloned_filters.push(filter)
     cloned_filters
+
+  interval_wrapper: () ->
+    if @report_tab.get("interval").toUpperCase() == "HOUR" or @report_tab.get("interval").toUpperCase() == "MIN5"
+      "DAY"
+    else
+      @report_tab.get("interval").toUpperCase()
