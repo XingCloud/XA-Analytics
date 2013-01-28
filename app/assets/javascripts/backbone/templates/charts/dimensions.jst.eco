@@ -81,7 +81,7 @@
                                                     n/a
                                                 </span>
                                             <% else if natural == "pending": %>
-                                                <%=  %>
+                                                <%= @decorate_num(item[1][metric_id],metric_id) %>
                                                 <span class="vs">
                                                     vs
                                                     pending
@@ -90,7 +90,7 @@
                                                 <%= @decorate_num(item[1][metric_id],metric_id) %>
                                                 <span class="vs">
                                                     vs
-						    <%=@decorate_num(natural, metric_id)%>
+						                        <%= @decorate_num(natural, metric_id) %>
                                                 </span>
                                                 <% if natural == item[1][metric_id]: %>
                                                     <span class="change">0%</span>
