@@ -59,7 +59,7 @@ class ProjectsController < ProjectBaseController
       :report_count => calc_report_count,
       :metric_count => @project.metrics.where(:combine_id => nil).length + Metric.template.where(:combine_id => nil).length,
       :segment_count => @project.segments.length + Segment.template.length,
-      :action_logs => @project.action_logs.first(3).map(&:attributes)
+      :action_logs => @project.action_logs.paginate(:page => 1, :per_page => 3, :order => "perform_at DESC")
     })
     render :json => attributes
   end

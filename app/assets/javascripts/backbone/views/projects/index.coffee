@@ -3,6 +3,7 @@ class Analytics.Views.Projects.IndexView extends Backbone.View
   template: JST["backbone/templates/projects/index"]
   events:
     "click .load-more": "load_more"
+    "click .project a": "redirect"
 
   initialize: () ->
     _.bindAll this, "render", "redraw"
@@ -33,6 +34,9 @@ class Analytics.Views.Projects.IndexView extends Backbone.View
     if @collection.page == @collection.max_page
       $(@el).find(".load-more").remove()
     @render_projects()
+
+  redirect: (ev) ->
+    window.location.href = $(ev.currentTarget).attr("href")
 
 class Analytics.Views.Projects.IndexItemView extends Backbone.View
   template: JST["backbone/templates/projects/index-item"]
