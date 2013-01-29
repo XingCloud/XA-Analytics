@@ -1,0 +1,58 @@
+<a href="/projects/<%= @identifier %>">
+    <li><h4><%= @name %></h4></li>
+    <li><hr/></li>
+    <li>
+        <table>
+            <tr>
+                <td>
+                    <i class="icon-user"></i>
+                    <span><%= @user_count + " " + I18n.t("templates.projects.index.users") %></span>
+                </td>
+                <td>
+                    <i class="icon-bar-chart"></i>
+                    <span><%= @report_count + " " + I18n.t("templates.projects.index.reports") %></span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <i class="icon-beaker"></i>
+                    <span><%= @metric_count + " " + I18n.t("templates.projects.index.metrics") %></span>
+                </td>
+                <td>
+                    <i class="icon-group"></i>
+                    <span><%= @segment_count + " " + I18n.t("templates.projects.index.segments") %></span>
+                </td>
+            </tr>
+        </table>
+    </li>
+    <% if @action_logs.length > 0: %>
+        <li><hr></li>
+    <% end %>
+    <li>
+        <table>
+            <% for action_log in @action_logs: %>
+                <tr>
+                    <% action = Analytics.Static.action_names()[action_log.action] %>
+                    <td>
+                        <%= action_log.user %>
+                    </td>
+                    <% if action?: %>
+                        <td style="color: <%= action.color %>"><%= action.name %></td>
+                    <% else: %>
+                        <td><%= action_log.action %></td>
+                    <% end %>
+                    <td>
+                        <% if Analytics.Static.resource_types()[action_log.resource_type]?: %>
+                            <%= Analytics.Static.resource_types()[action_log.resource_type] %>
+                        <% else: %>
+                            <%= action_log.resource_type %>
+                        <% end %>
+                    </td>
+                    <td>
+                        <%= action_log.resource_name %>
+                    </td>
+                </tr>
+            <% end %>
+        </table>
+    </li>
+</a>

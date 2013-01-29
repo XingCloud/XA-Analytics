@@ -31,5 +31,6 @@ zh:
   no_projects_title: "没有项目"
   no_projects_description: "没有发现任何与您相关的项目或者您的项目已被删除，您可以联系管理员或者新建项目"
   no_projects_create: "创建项目"
+  login_admin: "进入管理员界面"
 
 

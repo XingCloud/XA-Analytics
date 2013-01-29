@@ -131,6 +131,14 @@ I18n.translations = {
                     "degrade":"回旧版",
                     "action_logs":"操作日志",
                     "change_language":"修改语言"
+                },
+                "index": {
+                    "loading": "载入项目中",
+                    "load_more": "载入更多",
+                    "users": "用户",
+                    "reports": "报告",
+                    "metrics": "指标",
+                    "segments": "用户群"
                 }
             },
             "report_categories":{

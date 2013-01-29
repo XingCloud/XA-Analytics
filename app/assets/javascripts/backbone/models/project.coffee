@@ -1,6 +1,16 @@
 class Analytics.Models.Project extends Backbone.Model
+  defaults:
+    user_count: 0
+    report_count: 0
+    metric_count: 0
+    segment_count: 0
+    action_logs: []
 
   initialize: (options) ->
+    @fetched = false
+
+  url: () ->
+    "/projects/" + @id + "/description"
 
   first_report: () ->
     Instances.Collections.reports.first()

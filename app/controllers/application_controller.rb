@@ -24,8 +24,18 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  def my_projects
-    render :json => BasisService.get_projects(session[:cas_user])
+  def projects_summary
+    projects = BasisService.get_projects(session[:cas_user])
+    render :json => projects.map{|project| {:identifier => project["identifier"], :name => project["name"]}}
+  end
+
+  def projects_details
+    projects = BasisService.get_projects(session[:cas_user])
+    render :json => projects.map{|project| Project.fetch(project["identifier"])}
+  end
+
+  def home
+    render "projects/index"
   end
 
   protected

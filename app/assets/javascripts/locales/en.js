@@ -131,6 +131,14 @@ I18n.translations = {
                     "degrade":"Old version",
                     "action_logs":"Action logs",
                     "change_language":"Change Language"
+                },
+                "index": {
+                    "loading": "Loading Projects",
+                    "load_more": "Load More",
+                    "users": "Users",
+                    "reports": "Reports",
+                    "metrics": "Metrics",
+                    "segments": "Segments"
                 }
             },
             "report_categories":{

@@ -1,0 +1,21 @@
+<div class="row-fliud projects">
+    <% for i in [0..@columns - 1]: %>
+        <ul class="projects-column" column="<%= i %>" style="width: <%= (100/@columns).toFixed(2) %>%"></ul>
+    <% end %>
+</div>
+<div class="row-fluid load">
+    <div class="span3"></div>
+    <div class="span6">
+        <% if @fetched and @max_page > @page: %>
+            <div class="btn btn-large btn-block load-more">
+                <%= I18n.t("templates.projects.index.load_more") %>
+            </div>
+        <% else if not @fetched: %>
+            <div class="btn btn-large btn-block disabled">
+                <img src="/assets/sync.gif"/>
+                <%= I18n.t("templates.projects.index.loading") %>
+            </div>
+        <% end %>
+    </div>
+    <div class="span3"></div>
+</div>

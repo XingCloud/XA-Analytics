@@ -1,0 +1,16 @@
+.container
+  .home
+  - if APP_CONFIG[:admin].include?(session[:cas_user])
+    .admin
+      .row-fluid
+        .span4
+        .span4
+          %a{:href => "/template/projects"}
+            >>
+            = t(:login_admin)
+            <<
+        .span4
+:javascript
+  I18n.defaultlocale = "en";
+  I18n.locale = "#{I18n.locale}";
+  projects = new Analytics.Collections.Projects();

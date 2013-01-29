@@ -1,9 +1,10 @@
 Analytic::Application.routes.draw do
 
-  root :to => "application#redirect"
+  root :to => "application#home"
   match "/logout" => "application#logout"
   match "/503" => "maintenance_plans#index"
-  match "/my_projects" => "application#my_projects"
+  match "/projects_summary" => "application#projects_summary"
+  match "/projects_details" => "application#projects_details"
   mount Resque::Server.new, :at => "/resque"
 
   resources :maintenance_plans
@@ -17,6 +18,7 @@ Analytic::Application.routes.draw do
       post :dimensions
       post :ups
       post :update_project_widgets
+      get :description
     end
 
     resource :settings
