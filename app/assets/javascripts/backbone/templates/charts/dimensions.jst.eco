@@ -69,10 +69,10 @@
                                     <% else: %>
                                         <% if not @for_widget and @selector.get("compare") != 0 and parseInt(@orderby) == metric_id and item[0] != "pending": %>
                                             <% compare = @compares[@orderby] %>
-                                            <% if compare? and compare.get('d_'+item[0])?: %>
-                                                <% natural = compare.get('d_'+item[0]).get("sequence")?.natural %>
+                                            <% if compare? and compare.get(Base64.encode(item[0]))?: %>
+                                                <% natural = compare.get(Base64.encode(item[0])).get("sequence")?.natural %>
                                             <% end %>
-                                            <% if compare? and compare.get('d_'+item[0])? and compare.get('d_'+item[0]).id == "XA-NA": %>
+                                            <% if compare? and compare.get(Base64.encode(item[0]))? and compare.get(Base64.encode(item[0])).id == "XA-NA": %>
                                                 <%= @decorate_num(item[1][metric_id],metric_id) %>
                                             <% else if not natural? or ['XA-NA', 'na'].indexOf(natural) != -1: %>
                                                 <%= @decorate_num(item[1][metric_id],metric_id) %>
