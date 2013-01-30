@@ -13,7 +13,7 @@ class Analytics.Collections.ComparisonDimensionCharts extends Analytics.Collecti
     @reset()
     for dimension_result in dimension_results
       chart = new Analytics.Models.ComparisonDimensionChart({
-        id: @id_wrapper(dimension_result.toString())
+        id: @id_wrapper(dimension_result)
         dimension_result: dimension_result.toString()
         metric_id: @metric_id
         segment_id: segment_id
@@ -60,6 +60,7 @@ class Analytics.Collections.ComparisonDimensionCharts extends Analytics.Collecti
 
 
   id_wrapper: (dimension) ->
+    dimension = dimension.toString()
     if not dimension? or dimension.length == 0
       Base64.encode(" ")
     else
