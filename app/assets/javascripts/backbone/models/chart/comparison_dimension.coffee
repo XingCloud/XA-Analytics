@@ -10,6 +10,11 @@ class Analytics.Models.ComparisonDimensionChart extends Backbone.Model
     start_time = end_time - (@report_tab.get("length") - 1) * 86400000
     metric = Instances.Collections.metrics.get(@get("metric_id"))
     metric_options = metric.sequence_options(@get("segment_id"), @build_filters(@get("dimension_result")))
+    disable_total = false
+    _.each(metric_options.items, (item) ->
+      if item["segment"]?
+        disable_total = true
+    )
     _.extend(metric_options, {
       id: @id
       end_time: Analytics.Utils.formatUTCDate(end_time, "YYYY-MM-DD")
@@ -17,6 +22,7 @@ class Analytics.Models.ComparisonDimensionChart extends Backbone.Model
       interval: @interval_wrapper()
       type: "COMMON"
       project_id: Instances.Models.project.get("identifier")
+      disable_total: disable_total
     })
 
 
