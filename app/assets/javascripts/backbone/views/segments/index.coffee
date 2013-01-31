@@ -17,7 +17,7 @@ class Analytics.Views.Segments.IndexView extends Backbone.View
   render: () ->
     @calc_page()
     $(@el).html(@template({
-      segments: @collection.filter((segment) -> segment.get("project_id")?)
+      segments: @collection.filter((segment) -> not Instances.Models.project? or segment.get("project_id")?)
       page: @page
       max_page: @max_page
     }))
