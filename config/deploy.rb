@@ -78,5 +78,5 @@ namespace :private_pub do
 end
 
 before "deploy:finalize_update", "custom_symlink"
-after "deploy:restart", "private_sub:restart"
+after "deploy:restart", "private_pub:restart"
 after "deploy:restart", "resque:restart"
