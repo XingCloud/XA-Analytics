@@ -60,5 +60,23 @@ namespace :deploy do
   end
 end
 
+namespace :private_pub do
+  desc "Start private_pub server"
+  task :start do
+    run "cd #{current_path};RAILS_ENV=production bundle exec thin -C config/private_pub_thin.yml start"
+  end
+
+  desc "Stop private_pub server"
+  task :stop do
+    run "cd #{current_path};RAILS_ENV=production bundle exec thin -C config/private_pub_thin.yml stop"
+  end
+
+  desc "Restart private_pub server"
+  task :restart do
+    run "cd #{current_path};RAILS_ENV=production bundle exec thin -C config/private_pub_thin.yml restart"
+  end
+end
+
 before "deploy:finalize_update", "custom_symlink"
+after "deploy:restart", "private_sub:restart"
 after "deploy:restart", "resque:restart"

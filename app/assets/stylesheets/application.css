@@ -13,6 +13,9 @@
  *= require datepicker
  *= require common
  *= require chosen
+ *= require jquery.pnotify.default
+ *= require jquery.pnotify.default.icons
+
  *= require projects
  *= require segments
  *= require reports

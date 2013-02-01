@@ -14,3 +14,15 @@
   I18n.defaultlocale = "en";
   I18n.locale = "#{I18n.locale}";
   projects = new Analytics.Collections.Projects();
+
+= subscribe_to "/maintenance_plan"
+
+:javascript
+  PrivatePub.subscribe("/maintenance_plan", function(data, channel){
+    $.pnotify({
+      title: data.title,
+      text: data.text,
+      hide: false,
+      sticker: false
+    });
+  });

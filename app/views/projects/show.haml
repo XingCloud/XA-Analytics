@@ -16,3 +16,15 @@
   Instances.Models.setting = new Analytics.Models.Setting(#{@project.setting.present? ? @project.setting.attributes.to_json : {}});
   Instances.Models.project.loading();
 
+= subscribe_to "/maintenance_plan"
+
+:javascript
+  PrivatePub.subscribe("/maintenance_plan", function(data, channel){
+    $.pnotify({
+      title: data.title,
+      text: data.text,
+      hide: false,
+      sticker: false
+    });
+  });
+

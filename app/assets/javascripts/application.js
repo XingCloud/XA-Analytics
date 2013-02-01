@@ -17,6 +17,8 @@
 //= require table2CSV
 //= require bootstrap-datepicker
 //= require i18n
+//= require private_pub
+//= require jquery.pnotify
 //= require ./locales/en
 //= require_directory ./backbone
 //= require_directory ./backbone/lib
@@ -26,3 +28,5 @@
 //= require_tree ./backbone/views
 //= require_tree ./backbone/routers
 
+$.pnotify.defaults.styling = "bootstrap";
+$.pnotify.defaults.history = false;

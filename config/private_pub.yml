@@ -1,0 +1,10 @@
+development:
+  server: "http://localhost:4443/faye"
+  secret_token: "secret"
+test:
+  server: "http://localhost:4443/faye"
+  secret_token: "secret"
+production:
+  server: "http://a.xingcloud.com:4443/faye"
+  secret_token: "96f1d26dc094febf3e556e363b37bebc448c1f0500d0d95e30670f2c1b0ebd54"
+  signature_expiration: 3600 # one hour
