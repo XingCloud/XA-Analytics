@@ -44,7 +44,7 @@ task :custom_symlink do
     run "cd #{release_path} && rm -rf #{dir} && ln -sf #{shared_path}/#{dir} ."
   end
   
-  %w(database app_config).each do |config_file|
+  %w(database app_config private_pub private_pub_thin).each do |config_file|
     run "cd #{release_path} && rm -rf config/#{config_file}.yml && ln -sf #{shared_path}/config/#{config_file}.yml config/#{config_file}.yml"
   end
   
@@ -78,5 +78,5 @@ namespace :private_pub do
 end
 
 before "deploy:finalize_update", "custom_symlink"
-after "deploy:restart", "private_pub:restart"
 after "deploy:restart", "resque:restart"
+after "deploy:restart", "private_pub:restart"
