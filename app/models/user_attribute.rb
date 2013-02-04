@@ -3,6 +3,7 @@ class UserAttribute < ActiveRecord::Base
 
   ATYPES = %w{sql_string sql_bigint sql_datetime}
 
+  validates_uniqueness_of :name, :scope => :project_id
   validates_presence_of :name, :atype
   validates :atype, :inclusion => {:in => ATYPES}
   validates_format_of :name, :with => /^[a-zA-Z0-9_]+$/i
