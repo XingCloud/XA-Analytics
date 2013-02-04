@@ -74,7 +74,7 @@ class Analytics.Collections.BaseCharts extends Backbone.Collection
       if send_xa
         @xa_pending()
       if collection.timer?
-        clearTimeout(collection.timer);
+        clearTimeout(collection.timer)
         delete collection.timer
       @last_request?.success = true
       @pending_period = 1
@@ -110,6 +110,11 @@ class Analytics.Collections.BaseCharts extends Backbone.Collection
     @last_request.success = false
     if send_xa
       @xa_action(start_time, "error")
+    if collection.timer?
+      clearTimeout(collection.timer)
+      delete collection.timer
+    @pending_period = 1
+    @is_pending = false
 
   xa_action: (start_time, tag) ->
     xa_action = "response." + Instances.Models.project.get("identifier") + "." + @xa_id()
