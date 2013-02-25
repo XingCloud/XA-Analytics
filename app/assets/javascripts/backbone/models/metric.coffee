@@ -76,13 +76,13 @@ class Analytics.Models.Metric extends Backbone.Model
         if values.length >= 2
           options["filter"] = {
             "comparison_operator": @get("filter_operator")
-            "comparison_value": parseInt(values[0])
-            "comparison_value2": parseInt(values[1])
+            "comparison_value": parseFloat(values[0])
+            "comparison_value2": parseFloat(values[1])
           }
       else
         options["filter"] = {
           "comparison_operator": @get("filter_operator")
-          "comparison_value": parseInt(@get("filter_value"))
+          "comparison_value": parseFloat(@get("filter_value"))
         }
 
     options
