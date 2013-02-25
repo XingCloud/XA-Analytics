@@ -101,7 +101,7 @@ Analytics.Utils.checkFormFields = (form) ->
         (not value? or value == ""))
       valid = false
       $(group).addClass('error')
-      $(group).find('.controls').append('<span class="help-inline">'+ I18n.t("lib.utils.not_empty") +'</span>')
+      $(group).find('.controls').append('<span class="help-inline">'+ I18n.t("lib.utils.not_empty") + '</span>')
       continue
 
     if (value? and
@@ -118,7 +118,7 @@ Analytics.Utils.checkFormFields = (form) ->
         isNaN(parseInt(value)))
       valid = false
       $(group).addClass('error')
-      $(group).find('.controls').append('<span class="help-inline">'+ I18n.t("lib.utils.should_be_integer") +'</span>')
+      $(group).find('.controls').append('<span class="help-inline">'+ I18n.t("lib.utils.should_be_integer") + '</span>')
       continue
 
     if (value? and
@@ -127,7 +127,7 @@ Analytics.Utils.checkFormFields = (form) ->
         isNaN(parseFloat(value)))
       valid = false
       $(group).addClass('error')
-      $(group).find('.controls').append('<span class="help-inline">'+ I18n.t("lib.utils.should_be_number") +'</span>')
+      $(group).find('.controls').append('<span class="help-inline">'+ I18n.t("lib.utils.should_be_number") + '</span>')
       continue
 
     if (value? and
@@ -136,7 +136,7 @@ Analytics.Utils.checkFormFields = (form) ->
         (isNaN(parseInt(value)) or parseInt(value) < 0))
       valid = false
       $(group).addClass('error')
-      $(group).find('.controls').append('<span class="help-inline">'+ I18n.t("lib.utils.should_be_natural_number") +'</span>')
+      $(group).find('.controls').append('<span class="help-inline">'+ I18n.t("lib.utils.should_be_natural_number") + '</span>')
       continue
 
   valid

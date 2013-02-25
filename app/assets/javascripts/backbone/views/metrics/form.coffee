@@ -8,6 +8,7 @@ class Analytics.Views.Metrics.FormView extends Backbone.View
     "focus input.event-input" : "event_input_focus"
     "change input.event-input" : "event_input_change"
     "change select#metric_combine_action" : "toggle_combine"
+    "change .filter select": "change_filter"
     "click button.type-btn" : "change_value_type"
 
   initialize: (options) ->
@@ -117,9 +118,11 @@ class Analytics.Views.Metrics.FormView extends Backbone.View
 
   toggle_combine : (ev) ->
     if $(ev.currentTarget).find(":selected").val() == ""
+      $(@el).find('.filter').show()
       $(@el).find('#combine-fields').hide()
       $(@el).find('#metric_combine_attributes__destroy').val(1)
     else
+      $(@el).find('.filter').hide()
       $(@el).find('#combine-fields').show()
       $(@el).find('#metric_combine_attributes__destroy').val(0)
 
@@ -127,3 +130,27 @@ class Analytics.Views.Metrics.FormView extends Backbone.View
     $(@el).find('button.type-btn').removeClass('active')
     $(ev.currentTarget).addClass('active')
     $(@el).find("#value-type").val($(ev.currentTarget).attr("value"))
+
+  change_filter: (ev) ->
+    if $(ev.currentTarget).find(":selected").val() == ""
+      $(@el).find(".filter input").hide()
+      $(@el).find(".filter").removeClass("should-check")
+      $(@el).find(".filter input").removeClass("should-check-empty")
+      $(@el).find(".filter input").removeClass("should-check-float")
+      $(@el).find(".filter input").removeClass("should-check-pattern")
+      $(@el).find(".filter input").removeAttr("pattern")
+    else
+      $(@el).find(".filter").addClass("should-check")
+      $(@el).find(".filter input").addClass("should-check-empty")
+      if $(ev.currentTarget).find(":selected").val() == "BETWEEN"
+        $(@el).find(".filter input").removeClass("should-check-float")
+        $(@el).find(".filter input").addClass("should-check-pattern")
+        $(@el).find(".filter input").attr("pattern", "^[0-9]+,[0-9]+$")
+        $(@el).find(".filter input").show()
+        $(@el).find(".filter input").attr("placeholder", I18n.t("templates.metrics.form.filter_between_placeholder"))
+      else
+        $(@el).find(".filter input").addClass("should-check-float")
+        $(@el).find(".filter input").removeClass("should-check-pattern")
+        $(@el).find(".filter input").removeAttr("pattern")
+        $(@el).find(".filter input").show()
+        $(@el).find(".filter input").attr("placeholder", "")

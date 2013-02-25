@@ -30,17 +30,17 @@
                     <textarea class="span4" name="description" rows="3"><%= @description %></textarea>
                 </div>
             </div>
-	    <div class="control-group">
-	      <label class="control-label" for="value-type"><%=I18n.t("templates.metrics.form.value_type")%></label>
-	      <div class="controls">
-		<input id="value-type" name="value_type" type="hidden" value="<%=@value_type%>"/>
-		<div class="btn-group">
-		  <button id="" class="<%=(if @value_type == 'origin' then 'active btn type-btn' else 'btn type-btn')%>" value="origin" ><%=I18n.t("templates.metrics.form.origin_value_type")%></button>
-		  <button id="" class="<%=(if @value_type == 'percent' then 'active btn type-btn' else 'btn type-btn')%>" value="percent"><%=I18n.t("templates.metrics.form.percent_value_type")%></button>
-		  <button id="" class="<%=(if @value_type == 'rounding' then 'active btn type-btn' else 'btn type-btn')%>" value="rounding"><%=I18n.t("templates.metrics.form.rounding_value_type")%></button>
-		</div>
-	      </div>
-	    </div>
+            <div class="control-group">
+                <label class="control-label" for="value-type"><%=I18n.t("templates.metrics.form.value_type")%></label>
+                <div class="controls">
+                    <input id="value-type" name="value_type" type="hidden" value="<%=@value_type%>"/>
+                    <div class="btn-group">
+                        <button class="<%=(if @value_type == 'origin' then 'active btn type-btn' else 'btn type-btn')%>" value="origin" ><%=I18n.t("templates.metrics.form.origin_value_type")%></button>
+                        <button class="<%=(if @value_type == 'percent' then 'active btn type-btn' else 'btn type-btn')%>" value="percent"><%=I18n.t("templates.metrics.form.percent_value_type")%></button>
+                        <button class="<%=(if @value_type == 'rounding' then 'active btn type-btn' else 'btn type-btn')%>" value="rounding"><%=I18n.t("templates.metrics.form.rounding_value_type")%></button>
+                    </div>
+                </div>
+            </div>
             <div class="control-group">
                 <label class="control-label">
                     <abbr title="<%= I18n.t('commons.required') %>">*</abbr>
@@ -103,11 +103,34 @@
                 </div>
             </div>
 
+            <% has_combine = @combine_action? and (@combine_action != '') %>
+
+            <div class="control-group filter <%= if not has_combine and @filter_operator? 'should-check' %> " style="<%= if has_combine then 'display:none;' %>" >
+                <label class="control-label">
+                    <%= I18n.t("templates.metrics.form.filter") %>
+                </label>
+                <div class="controls">
+                    <select name="filter_operator">
+                        <option value=""><i><%= I18n.t("commons.none") %></i></option>
+                        <% for operator in Analytics.Static.metric_filter_operators(): %>
+                            <option value="<%= operator.value %>" <%= if @filter_operator == operator.value then 'selected="selected"' %> ><%= operator.name %></option>
+                        <% end %>
+                    </select>
+                    <% if @filter_operator? and @filter_operator == "BETWEEN": %>
+                        <input class="should-check-empty should-check-pattern" pattern="^[0-9]+,[0-9]+$" type="text" name="filter_value" value="<%= @filter_value %>"/>
+                    <% else if @filter_operator?: %>
+                        <input class="should-check-empty" type="text" name="filter_value" value="<%= @filter_value %>"/>
+                    <% else: %>
+                        <input type="text" name="filter_value" value="<%= @filter_value %>" style="display: none"/>
+                    <% end %>
+                </div>
+            </div>
+
             <div class="control-group">
                 <label class="control-label" for="metric_combine_action"> <%= I18n.t("templates.metrics.form.combine") %></label>
                 <div class="controls">
                     <select id="metric_combine_action" name="combine_action">
-                        <option value="" <%= if not @combine_action? or (@combine_action? == '') then 'selected="selected"' %> ></option>
+                        <option value="" <%= if not has_combine then 'selected="selected"' %> ></option>
                         <% for combine_action in Analytics.Static.metric_combine_actions(): %>
                             <option value="<%= combine_action.value %>" <%= if @combine_action == combine_action.value then 'selected="selected"' %> ><%= combine_action.name %></option>
                         <% end %>

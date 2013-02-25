@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130114034422) do
+ActiveRecord::Schema.define(:version => 20130225024154) do
 
   create_table "action_logs", :force => true do |t|
     t.integer  "project_id"
@@ -71,6 +71,8 @@ ActiveRecord::Schema.define(:version => 20130114034422) do
     t.text     "description"
     t.float    "scale",                :default => 1.0
     t.string   "value_type",           :default => "origin"
+    t.string   "filter_operator"
+    t.string   "filter_value"
   end
 
   add_index "metrics", ["combine_id"], :name => "index_metrics_on_combine_id"

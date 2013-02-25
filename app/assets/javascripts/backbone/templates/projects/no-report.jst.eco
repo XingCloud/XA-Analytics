@@ -3,9 +3,9 @@
     <p><%= I18n.t("templates.projects.no_report.guide") %></p>
     <p></p>
     <% if not Instances.Models.user.is_mgriant(): %>
-    <a class="btn btn-primary btn-large" href="<%= Analytics.Utils.hrefWrapper('reports/new') %>">
-        <i class="icon-plus icon-white"></i>
-        <%= I18n.t("templates.projects.no_report.add") %>
-    </a>
+        <a class="btn btn-primary btn-large" href="<%= Analytics.Utils.hrefWrapper('reports/new') %>">
+            <i class="icon-plus icon-white"></i>
+            <%= I18n.t("templates.projects.no_report.add") %>
+        </a>
     <% end %>
 </div>

@@ -101,6 +101,8 @@ I18n.translations = {
                     "to":"天到距当前",
                     "segment":"用户群",
                     "scale":"伸缩系数",
+                    "filter": "结果过滤",
+                    "filter_between_placeholder": "输入两个值用逗号隔开",
                     "combine":"与另一事件组合计算",
                     "value_type":"显示格式",
                     "origin_value_type":"原始值",
@@ -380,7 +382,8 @@ I18n.translations = {
             "to":"截止到",
             "confirm_delete":"确认删除？",
             "loaded":"已载入",
-            "language":"语言"
+            "language":"语言",
+            "none": "无"
         },
         "resources":{
             "dimension":"细分",
@@ -438,6 +441,15 @@ I18n.translations = {
                 "count":"发生的次数",
                 "sum":"值的总和",
                 "user_num":"发生的用户人数"
+            },
+            "metric_filter_operators":{
+                "gt": "大于",
+                "lt": "小于",
+                "ge": "大于等于",
+                "le": "小于等于",
+                "eq": "等于",
+                "ne": "不等于",
+                "between": "位于区间"
             },
             "events":{
                 "event0":"事件第一层",

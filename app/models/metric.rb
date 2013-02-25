@@ -7,11 +7,7 @@ class Metric < ActiveRecord::Base
   
   has_one :combine, :class_name => "Metric", :foreign_key => "combine_id", :dependent => :destroy
   belongs_to :segment
-  
-  OPERATIONS = ["count", "sum", "user_num"]
-  COMPARISION_OPERATORS = ["gt", "lt", "ge", "le", "eq", "ne"]
-  COMBINE_ACTIONS = ["addition", "division", "multiplication", "subduction"]
-  
+
   accepts_nested_attributes_for :combine, :allow_destroy => true
   
   before_validation :correct_combine
@@ -21,6 +17,7 @@ class Metric < ActiveRecord::Base
   validates_numericality_of :number_of_day, :only_integer => true, :if => proc{|m| m.number_of_day.present? }
   validates_numericality_of :number_of_day_origin, :only_integer => true, :if => proc{|m| m.number_of_day_origin.present?}
   validates_numericality_of :scale, :if => proc{|m| m.scale.present?}
+  validates_inclusion_of :filter_operator, :in => ["GT","LT","GE","LE","EQ","NE","BETWEEN"], :if => proc{|m| m.filter_operator.present?}
   
   before_validation :correct_event_key
   

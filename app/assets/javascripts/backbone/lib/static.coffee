@@ -47,6 +47,17 @@ Analytics.Static.metric_conditions = () ->
     {value: 'user_num', name: I18n.t("statics.metric_conditions.user_num")}
   ]
 
+Analytics.Static.metric_filter_operators = () ->
+  [
+    {value: 'GT', name: I18n.t("statics.metric_filter_operators.gt")},
+    {value: 'LT', name: I18n.t("statics.metric_filter_operators.lt")},
+    {value: 'GE', name: I18n.t("statics.metric_filter_operators.ge")},
+    {value: 'LE', name: I18n.t("statics.metric_filter_operators.le")},
+    {value: 'EQ', name: I18n.t("statics.metric_filter_operators.eq")},
+    {value: 'NE', name: I18n.t("statics.metric_filter_operators.ne")},
+    {value: 'BETWEEN', name: I18n.t("statics.metric_filter_operators.between")}
+  ]
+
 Analytics.Static.dimensions_events = () ->
   [
     {value: "0", name: I18n.t("statics.events.event0"), dimension_type: 'EVENT', value_type: 'sql_string'},

@@ -101,6 +101,8 @@ I18n.translations = {
                     "to":"day(s) to last",
                     "segment":"Segment",
                     "scale":"Scale",
+                    "filter_between_placeholder": "input two value, separated by comma",
+                    "filter": "Filter",
                     "combine":"Combine with another",
                     "value_type":"Display",
                     "origin_value_type":"origin",
@@ -374,7 +376,8 @@ I18n.translations = {
             "to":"To",
             "confirm_delete":"Are sure to delete this?",
             "loaded":"Loaded ",
-            "language":"language"
+            "language":"language",
+            "none": "None"
         },
         "resources":{
             "dimension":"Dimension",
@@ -432,6 +435,15 @@ I18n.translations = {
                 "count":"Count",
                 "sum":"Sum",
                 "user_num":"Users Count"
+            },
+            "metric_filter_operators":{
+                "gt": "Greater",
+                "lt": "Less",
+                "ge": "Greater Equal",
+                "le": "Less Equal",
+                "eq": "Equal",
+                "ne": "Not Equal",
+                "between": "Between"
             },
             "events":{
                 "event0":"Event 1st level",
