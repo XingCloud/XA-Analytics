@@ -49,6 +49,8 @@ class Analytics.Collections.ComparisonDimensionCharts extends Analytics.Collecti
         has = true
       if chart.get("sequence")?.total == "pending"
         has = true
+      if (not has) and _.find(chart.data(), (point) -> point[1] == "pending")
+        has = true
     )
     has
 
