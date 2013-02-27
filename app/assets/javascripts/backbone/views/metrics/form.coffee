@@ -118,11 +118,9 @@ class Analytics.Views.Metrics.FormView extends Backbone.View
 
   toggle_combine : (ev) ->
     if $(ev.currentTarget).find(":selected").val() == ""
-      $(@el).find('.filter').show()
       $(@el).find('#combine-fields').hide()
       $(@el).find('#metric_combine_attributes__destroy').val(1)
     else
-      $(@el).find('.filter').hide()
       $(@el).find('#combine-fields').show()
       $(@el).find('#metric_combine_attributes__destroy').val(0)
 
@@ -132,25 +130,25 @@ class Analytics.Views.Metrics.FormView extends Backbone.View
     $(@el).find("#value-type").val($(ev.currentTarget).attr("value"))
 
   change_filter: (ev) ->
+    identifier = $(ev.currentTarget).attr("identifier")
+    filter = $(@el).find(".filter."+identifier)
+    input = $(filter).find("input")
     if $(ev.currentTarget).find(":selected").val() == ""
-      $(@el).find(".filter input").hide()
-      $(@el).find(".filter").removeClass("should-check")
-      $(@el).find(".filter input").removeClass("should-check-empty")
-      $(@el).find(".filter input").removeClass("should-check-float")
-      $(@el).find(".filter input").removeClass("should-check-pattern")
-      $(@el).find(".filter input").removeAttr("pattern")
+      $(filter).removeClass("should-check should-check-empty should-check-float should-check-pattern")
+      $(input).removeAttr("pattern")
+      $(input).hide()
     else
-      $(@el).find(".filter").addClass("should-check")
-      $(@el).find(".filter input").addClass("should-check-empty")
+      $(filter).addClass("should-check")
+      $(input).addClass("should-check-empty")
       if $(ev.currentTarget).find(":selected").val() == "BETWEEN"
-        $(@el).find(".filter input").removeClass("should-check-float")
-        $(@el).find(".filter input").addClass("should-check-pattern")
-        $(@el).find(".filter input").attr("pattern", "^[0-9]+,[0-9]+$")
-        $(@el).find(".filter input").show()
-        $(@el).find(".filter input").attr("placeholder", I18n.t("templates.metrics.form.filter_between_placeholder"))
+        $(input).removeClass("should-check-float")
+        $(input).addClass("should-check-pattern")
+        $(input).attr("pattern", "^[0-9]+,[0-9]+$")
+        $(input).attr("placeholder", I18n.t("templates.metrics.form.filter_between_placeholder"))
+        $(input).show()
       else
-        $(@el).find(".filter input").addClass("should-check-float")
-        $(@el).find(".filter input").removeClass("should-check-pattern")
-        $(@el).find(".filter input").removeAttr("pattern")
-        $(@el).find(".filter input").show()
-        $(@el).find(".filter input").attr("placeholder", "")
+        $(input).addClass("should-check-float")
+        $(input).removeClass("should-check-pattern")
+        $(input).removeAttr("pattern")
+        $(input).attr("placeholder", "")
+        $(input).show()

@@ -70,7 +70,7 @@ class Analytics.Models.Metric extends Backbone.Model
     if options["segment"]?
       options["segment"] = JSON.stringify(options["segment"])
 
-    if @get("filter_operator")? and @get("filter_operator") != "" and not @get("combine_attributes")?
+    if @get("filter_operator")? and @get("filter_operator") != ""
       if @get("filter_operator") == "BETWEEN"
         values = @get("filter_value").split(",")
         if values.length >= 2

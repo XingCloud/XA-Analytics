@@ -103,14 +103,12 @@
                 </div>
             </div>
 
-            <% has_combine = @combine_action? and (@combine_action != '') %>
-
-            <div class="control-group filter <%= if not has_combine and @filter_operator? 'should-check' %> " style="<%= if has_combine then 'display:none;' %>" >
+            <div class="x control-group filter <%= if @filter_operator? and @filter_operator != '' then 'should-check' %> ">
                 <label class="control-label">
                     <%= I18n.t("templates.metrics.form.filter") %>
                 </label>
                 <div class="controls">
-                    <select name="filter_operator">
+                    <select name="filter_operator" identifier="x">
                         <option value=""><i><%= I18n.t("commons.none") %></i></option>
                         <% for operator in Analytics.Static.metric_filter_operators(): %>
                             <option value="<%= operator.value %>" <%= if @filter_operator == operator.value then 'selected="selected"' %> ><%= operator.name %></option>
@@ -130,7 +128,7 @@
                 <label class="control-label" for="metric_combine_action"> <%= I18n.t("templates.metrics.form.combine") %></label>
                 <div class="controls">
                     <select id="metric_combine_action" name="combine_action">
-                        <option value="" <%= if not has_combine then 'selected="selected"' %> ></option>
+                        <option value="" <%= if not @combine_action? or @combine_action == '' then 'selected="selected"' %> ></option>
                         <% for combine_action in Analytics.Static.metric_combine_actions(): %>
                             <option value="<%= combine_action.value %>" <%= if @combine_action == combine_action.value then 'selected="selected"' %> ><%= combine_action.name %></option>
                         <% end %>
@@ -202,6 +200,27 @@
                     </label>
                     <div class="controls">
                         <input class="input-mini should-check-empty should-check-float" type="text" name="combine_attributes[scale]" value="<%= if @combine_attributes? then @combine_attributes.scale else '1' %>"/>
+                    </div>
+                </div>
+
+                <div class="y control-group filter <%= if @combine_attributes? and @combine_attributes.filter_operator? and @combine_attributes.filter_operator != '' then 'should-check' %> ">
+                    <label class="control-label">
+                        <%= I18n.t("templates.metrics.form.filter") %>
+                    </label>
+                    <div class="controls">
+                        <select name="combine_attributes[filter_operator]" identifier="y" >
+                            <option value=""><i><%= I18n.t("commons.none") %></i></option>
+                            <% for operator in Analytics.Static.metric_filter_operators(): %>
+                                <option value="<%= operator.value %>" <%= if @combine_attributes? and @combine_attributes.filter_operator == operator.value then 'selected="selected"' %> ><%= operator.name %></option>
+                            <% end %>
+                        </select>
+                        <% if @combine_attributes? and @combine_attributes.filter_operator? and @combine_attributes.filter_operator != "" and @combine_attributes.filter_operator == "BETWEEN": %>
+                            <input class="should-check-empty should-check-pattern" pattern="^[0-9]+,[0-9]+$" type="text" name="combine_attributes[filter_value]" value="<%= @combine_attributes.filter_value %>"/>
+                        <% else if @combine_attributes? and @combine_attributes.filter_operator? and @combine_attributes.filter_operator != "": %>
+                            <input class="should-check-empty" type="text" name="combine_attributes[filter_value]" value="<%= @combine_attributes.filter_value %>"/>
+                        <% else: %>
+                            <input type="text" name="combine_attributes[filter_value]" value="" style="display: none"/>
+                        <% end %>
                     </div>
                 </div>
 
