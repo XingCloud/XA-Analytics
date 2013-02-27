@@ -51,3 +51,11 @@ class Analytics.Models.ComparisonDimensionChart extends Backbone.Model
       "DAY"
     else
       @report_tab.get("interval").toUpperCase()
+
+  data: () ->
+    if @get("sequence")? and @get("sequence")["data"]?
+      if @get("compare_for")?
+        offset = @report_tab.get_end_time() - @report_tab.get_compare_end_time()
+        [Analytics.Utils.parseUTCDate(item[0], offset), item[1]] for item in @get("sequence")["data"]
+      else
+        [Analytics.Utils.parseUTCDate(item[0], 0), item[1]] for item in @get("sequence")["data"]

@@ -38,8 +38,7 @@ class Analytics.Collections.ComparisonDimensionCharts extends Analytics.Collecti
       if not sequence.data? or sequence.data.length == 0
         contains_error = true
       chart = @get(sequence.id)
-      chart.get("sequence").natural = sequence.natural
-      chart.get("sequence").total = sequence.total
+      _.extend(chart.get("sequence"), sequence)
     not contains_error
 
   has_pendings: () ->
