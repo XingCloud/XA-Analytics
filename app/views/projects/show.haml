@@ -6,7 +6,7 @@
     Instances.Models.user = new Analytics.Models.User({role:"admin",name:"#{session[:cas_user]}"}) 
 
 :javascript
-  //I18n.fallbacks = true;
+  I18n.fallbacks = true;
   I18n.defaultlocale = "en";
   I18n.locale = "#{I18n.locale}";
   window.XAUSER = "#{session[:cas_user]}";
