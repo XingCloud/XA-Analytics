@@ -27,7 +27,7 @@ class AnalyticService
     else
       ret.merge!({:err_code => resp["err_code"], :err_msg => resp["err_msg"]})
     end
-    ret.merge!({:results => results, :status => resp["status"].blank? ? 200 : resp["status"]})
+    ret.merge!({:results => results, :status => resp["http_status"].blank? ? 200 : resp["status"]})
     ret
   end
 
@@ -38,7 +38,7 @@ class AnalyticService
     if not resp["result"]
       ret.merge!({:err_code => resp["err_code"], :err_msg => resp["err_msg"]})
     end
-    ret.merge!({:results => results, :status => resp["status"].blank? ? 200 : resp["status"]})
+    ret.merge!({:results => results, :status => resp["http_status"].blank? ? 200 : resp["status"]})
     ret
   end
 
@@ -138,7 +138,7 @@ class AnalyticService
     rescue Timeout::Error
       logger.info "Request #{url} timeout"
       pp "request timeout error"
-      return {"result" => false, "data" => [], "status" => 200, "err_code" => "ERR_TIMEOUT"}
+      return {"result" => false, "data" => [], "http_status" => 200, "err_code" => "ERR_TIMEOUT"}
     end
     dllength = response.body.length
     if response[ 'Content-Encoding' ].eql?( 'gzip' ) then
@@ -162,7 +162,7 @@ class AnalyticService
     if response.is_a?(Net::HTTPSuccess)
       return JSON.parse(response.body)
     else
-      return {"result" => false, "status" => 500}
+      return {"result" => false, "http_status" => 500}
     end
   end
 
