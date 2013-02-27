@@ -131,7 +131,7 @@ class Metric < ActiveRecord::Base
 
   def sync_json(interval = "DAY", groupby_json = nil)
     json = {
-        :interval => interval == "MIN5" ? "MIN5" : "DAY",
+        :interval => ["MIN5","HOUR","DAY"].index(interval).present? ? interval : "DAY",
         :event => event_key,
         :type => groupby_json.present? ? "GROUP" : "COMMON",
         :coverRange => number_of_day.present? ? number_of_day : 0,
