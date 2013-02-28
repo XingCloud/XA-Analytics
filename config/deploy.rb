@@ -9,7 +9,7 @@ set :rvm_install_type, :head
 #before 'deploy:setup', 'rvm:install_ruby'
 
 set :application, "XingCloud-Analytic-2.0"
-set :repository,  "git@github.com:fangjian601/XingCloud-Analytics.git"
+set :repository,  "git@github.com:XingCloud/XingCloud-Analytics.git"
 
 set :scm, :git
 # Or: `accurev`, `bzr`, `cvs`, `darcs`, `git`, `mercurial`, `perforce`, `subversion` or `none`
