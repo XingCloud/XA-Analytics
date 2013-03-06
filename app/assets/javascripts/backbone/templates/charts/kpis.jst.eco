@@ -112,7 +112,7 @@
             <% end %>
         </tr>
         <% cmap = @charts_map() %>
-        <% if cmap[segment_id]? and not @for_widget and not has_segments and @selector.get("show_table"): %>
+        <% if cmap[segment_id]? and not @for_widget and @segment_ids.length < 2 and @selector.get("show_table"): %>
             <% dates = [] %>
             <% _.each(cmap[segment_id], (value, key) -> dates.push(key)) %>
             <% for date in _.sortBy(dates, (date) -> 0 - Date.parse(date.replace(/-/g, '/'))): %>
