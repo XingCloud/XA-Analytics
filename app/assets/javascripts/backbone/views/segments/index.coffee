@@ -28,7 +28,7 @@ class Analytics.Views.Segments.IndexView extends Backbone.View
     @render()
 
   new_segment: () ->
-    segment = new Analytics.Models.Segment({project_id: Instances.Models.project.id})
+    segment = new Analytics.Models.Segment({project_id: if Instances.Models.project then Instances.Models.project.id else null})
     segment.collection = @collection
     $(@el).html(new Analytics.Views.Segments.FormView({
       model: segment
