@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130225024154) do
+ActiveRecord::Schema.define(:version => 20130312073336) do
 
   create_table "action_logs", :force => true do |t|
     t.integer  "project_id"
@@ -103,6 +103,7 @@ ActiveRecord::Schema.define(:version => 20130225024154) do
     t.integer "user_id"
     t.string  "role"
     t.text    "privilege"
+    t.integer "visit",      :default => 0
   end
 
   add_index "project_users", ["project_id"], :name => "index_project_users_on_project_id"
