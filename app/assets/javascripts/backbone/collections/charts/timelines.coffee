@@ -16,6 +16,7 @@ class Analytics.Collections.TimelineCharts extends Analytics.Collections.BaseCha
   initialize: (models, options) ->
     _.bindAll this, "fetch_charts"
     #todo immars how selector works?
+    @project = Instances.Models.project
     @selector = options.selector
     @filters = options.filters
     @for_widget = (if options.for_widget? then options.for_widget else false)
@@ -70,14 +71,17 @@ class Analytics.Collections.TimelineCharts extends Analytics.Collections.BaseCha
     "/projects/" + Instances.Models.project.id + "/timelines"
 
   process_fetched_data: (resp) ->
-    contains_error = false
-    for sequence in resp["data"]
-      if not sequence.data? or sequence.data.length == 0
-        contains_error = true
-      chart = @get(sequence.id)
-      _.extend(chart.get("sequence"), sequence)
-    
-    not contains_error
+    if not resp["data"]? or resp["err_code"]?
+      true
+    else
+      contains_error = false
+      for sequence in resp["data"]
+        if not sequence.data? or sequence.data.length == 0
+          contains_error = true
+        chart = @get(sequence.id)
+        _.extend(chart.get("sequence"), sequence)
+
+      not contains_error
   
   has_pendings: () ->
     has = false

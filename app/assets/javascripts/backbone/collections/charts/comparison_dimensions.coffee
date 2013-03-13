@@ -3,6 +3,7 @@ class Analytics.Collections.ComparisonDimensionCharts extends Analytics.Collecti
 
   initialize: (models, options) ->
     _.bindAll this, "fetch_charts"
+    @project = Instances.Models.project
     @dimension_charts = options.dimension_charts
     @selector = options.selector
     @metric_id = options.metric_id
@@ -33,13 +34,16 @@ class Analytics.Collections.ComparisonDimensionCharts extends Analytics.Collecti
     "/projects/" + Instances.Models.project.id + "/timelines"
 
   process_fetched_data: (resp) ->
-    contains_error = false
-    for sequence in resp["data"]
-      if not sequence.data? or sequence.data.length == 0
-        contains_error = true
-      chart = @get(sequence.id)
-      _.extend(chart.get("sequence"), sequence)
-    not contains_error
+    if not resp["data"]? or resp["err_code"]?
+      true
+    else
+      contains_error = false
+      for sequence in resp["data"]
+        if not sequence.data? or sequence.data.length == 0
+          contains_error = true
+        chart = @get(sequence.id)
+        _.extend(chart.get("sequence"), sequence)
+      not contains_error
 
   has_pendings: () ->
     has = false

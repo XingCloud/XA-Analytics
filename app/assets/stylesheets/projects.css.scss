@@ -157,25 +157,26 @@ table.main-table{
   }
   .projects{
     margin-top: 20px;
-    .projects-column{
-      float: left;
-      list-style: none;
-      margin: 0;
-      .project{
-        margin: 0 7px 14px 7px;
-        a{
-          color: inherit;
-          text-decoration: none;
-          li{
-            list-style: none;
-            table{
-              width: 100%;
-            }
-          }
-        }
+    th{
+      text-align: center;
+    }
+    td{
+      text-align: center;
+      vertical-align: middle;
+      p.count{
+        font-size: 130%;
+        font-weight: bold;
       }
-      .project:hover{
-        border-width: 3px;
+      span.interval{
+        font-weight: bold;
+      }
+      span.higher{
+        font-weight: bold;
+        color: #4B9525;
+      }
+      span.lower{
+        font-weight: bold;
+        color: #932D22;
       }
     }
   }

@@ -23,3 +23,6 @@ class Analytics.Collections.Projects extends Backbone.Collection
           collection.page = collection.max_page
         collection.view.redraw()
     })
+
+  comparator: (project) ->
+    return 0 - project.get("visit")

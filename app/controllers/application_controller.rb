@@ -31,7 +31,17 @@ class ApplicationController < ActionController::Base
 
   def projects_details
     projects = BasisService.get_projects(session[:cas_user])
-    render :json => projects.map{|project| Project.fetch(project["identifier"])}
+    user = User.find_by_name(session[:cas_user])
+    render :json => projects.map{|project|
+      project = Project.fetch(project["identifier"])
+      project_user = user.project_users.find_by_project_id(project.id)
+      attributes = project.attributes
+      if project_user.present?
+        attributes.merge({:visit => project_user.visit})
+      else
+        attributes.merge({:visit => 0})
+      end
+    }
   end
 
   def home

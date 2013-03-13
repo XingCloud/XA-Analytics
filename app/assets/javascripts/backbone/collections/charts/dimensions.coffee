@@ -3,6 +3,7 @@ class Analytics.Collections.DimensionCharts extends Analytics.Collections.BaseCh
 
   initialize: (models, options) ->
     _.bindAll this, "fetch_charts"
+    @project = Instances.Models.project
     @selector = options.selector
     @filters = options.filters
     @for_widget = (if options.for_widget? then options.for_widget else false)
@@ -64,20 +65,23 @@ class Analytics.Collections.DimensionCharts extends Analytics.Collections.BaseCh
     return @status == "pending"
 
   process_fetched_data: (resp) ->
-    if resp["data"]? and resp["data"]["datas"]?
-      @data = resp["data"]["datas"]
+    if not resp["data"]? or resp["err_code"]?
+      true
     else
-      @data = []
-    if resp["data"]? and resp["data"]["total"]?
-      @total = resp["data"]["total"]
-    if resp["data"]? and resp["data"]["info"]?
-      @info = resp["data"]["info"]
-    if resp["data"]?
-      @status = resp["data"]["status"]
-      
-    @process_maxis_data()
-    @fetch_compare_data()
-    true
+      if resp["data"]? and resp["data"]["datas"]?
+        @data = resp["data"]["datas"]
+      else
+        @data = []
+      if resp["data"]? and resp["data"]["total"]?
+        @total = resp["data"]["total"]
+      if resp["data"]? and resp["data"]["info"]?
+        @info = resp["data"]["info"]
+      if resp["data"]?
+        @status = resp["data"]["status"]
+
+      @process_maxis_data()
+      @fetch_compare_data()
+      true
             
   process_maxis_data: () ->
     maxis = {}

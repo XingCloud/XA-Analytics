@@ -137,10 +137,15 @@ I18n.translations = {
                 "index": {
                     "loading": "Loading Projects",
                     "load_more": "Load More",
+                    "no_more": "No More Projects",
                     "users": "Users",
                     "reports": "Reports",
                     "metrics": "Metrics",
-                    "segments": "Segments"
+                    "segments": "Segments",
+                    "name": "Name",
+                    "income": "Income",
+                    "active_user": "Active User",
+                    "new_user": "New User"
                 }
             },
             "report_categories":{

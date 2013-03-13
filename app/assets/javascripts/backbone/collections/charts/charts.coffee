@@ -89,15 +89,15 @@ class Analytics.Collections.BaseCharts extends Backbone.Collection
   fetch_success: (resp, start_time, send_xa = true) ->
     @last_request.resp = resp
     ##判断resp的状态信息，是否有错误
-    if not resp["data"]? or resp["err_code"]?
-      @last_request.success = false
-      Analytics.Request.doAlertWithErrcode (resp["err_code"])
-      contains_error = true
-    else
-      contains_error = not @process_fetched_data(resp)
-      ##发送 change 事件。让相应的view(TimelinesView, KpisView等) 重绘自己
+    if @process_fetched_data(resp)?
+      contains_error = false
       @trigger "change"
       @check_pendings(send_xa)
+    else
+      contains_error = true
+      @last_request.success = false
+      if resp["err_code"]?
+        Analytics.Request.doAlertWithErrcode (resp["err_code"])
     if send_xa
       @xa_action(start_time, (if contains_error then "error" else "success"))
 
@@ -117,12 +117,12 @@ class Analytics.Collections.BaseCharts extends Backbone.Collection
     @is_pending = false
 
   xa_action: (start_time, tag) ->
-    xa_action = "response." + Instances.Models.project.get("identifier") + "." + @xa_id()
+    xa_action = "response." + @project.get("identifier") + "." + @xa_id()
     xa_interval = (new Date()).getTime() - start_time
     XA.action(xa_action + ".responsetime." + Analytics.Utils.timeShard(xa_interval) + "," + xa_interval, xa_action+"."+tag+",0")
 
   xa_pending: () ->
-    xa_action = "response." + Instances.Models.project.get("identifier") + "." + @xa_id()
+    xa_action = "response." + @project.get("identifier") + "." + @xa_id()
     end = (new Date()).getTime()
     xa_interval = end - @initial_start_time
     xa_pending_interval = end - @pending_start_time

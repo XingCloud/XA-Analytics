@@ -137,10 +137,15 @@ I18n.translations = {
                 "index": {
                     "loading": "载入项目中",
                     "load_more": "载入更多",
+                    "no_more": "没有项目了",
                     "users": "用户",
                     "reports": "报告",
                     "metrics": "指标",
-                    "segments": "用户群"
+                    "segments": "用户群",
+                    "name": "项目名称",
+                    "income": "收入",
+                    "active_user": "活跃用户",
+                    "new_user": "新用户"
                 }
             },
             "report_categories":{
