@@ -137,9 +137,9 @@ class Analytics.Collections.TimelineCharts extends Analytics.Collections.BaseCha
       series: []
     }
     if @selector.get("interval") == "min5" or @selector.get("interval") == "hour"
-      options.xAxis.labels.formatter = () -> Highcharts.dateFormat('%b %d %H:%M', this.value)
+      options.xAxis.labels.formatter = () -> Highcharts.dateFormat('%m/%d %H:%M', this.value)
     else
-      options.xAxis.labels.formatter = () -> Highcharts.dateFormat('%b %d', this.value)
+      options.xAxis.labels.formatter = () -> Highcharts.dateFormat('%m/%d', this.value)
     display_metric = @display_metric
     @each((chart) ->
       options.series.push({
