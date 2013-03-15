@@ -13,7 +13,7 @@ class Analytics.Collections.DimensionCharts extends Analytics.Collections.BaseCh
     @order = 'DESC'
     @data = []
     @info = {}
-    @status = null
+    @status = {}
     @compares = {}
     @last_request = {params: "", resp: "", success: true, time: 0}
 
@@ -27,7 +27,7 @@ class Analytics.Collections.DimensionCharts extends Analytics.Collections.BaseCh
     @total = 0
     @data = []
     @info = {}
-    @status = null
+    @status = {}
     @compares = {}
     for metric_id in metric_ids
       chart = new Analytics.Models.DimensionChart({
@@ -62,7 +62,20 @@ class Analytics.Collections.DimensionCharts extends Analytics.Collections.BaseCh
     "/projects/" + Instances.Models.project.id + "/dimensions"
 
   has_pendings: () ->
-    return @status == "pending"
+    flag = false
+    _.each(@status, (value) ->
+      if value == "pending"
+        flag = true
+    )
+    _.each(@data, (data) ->
+      if data[0] == "pending"
+        flag = true
+      _.each(data[1], (v) ->
+        if v == "pending"
+          flag = true
+      )
+    )
+    flag
 
   process_fetched_data: (resp) ->
     if not resp["data"]? or resp["err_code"]?

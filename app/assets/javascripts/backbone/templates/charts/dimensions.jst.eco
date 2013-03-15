@@ -10,7 +10,10 @@
                 </th>
                 <% for metric_id in @metric_ids: %>
                     <th class="<%= if parseInt(@orderby) == metric_id then @order %>" value="<%= metric_id %>">
-                        <% if @info[metric_id]?: %>
+                        <% if @status[metric_id] == "pending": %>
+                            <img src="/assets/sync.gif"/>
+                            <%= Instances.Collections.metrics.get(metric_id).get("name") %>
+                        <% else if @info[metric_id]?: %>
                             <span class="dimension-column-desc" data-content="<%= @info[metric_id] %>" data-original-title="<%= I18n.t('templates.charts.dimensions.dimension_date') %>">
                                 <i class="icon icon-question-sign" style="opacity: 0.4;"></i>
                                 <%= Instances.Collections.metrics.get(metric_id).get("name") %>
@@ -30,9 +33,9 @@
                     </td>
                 </tr>
             <% else: %>
-	        <% item_index = -1%>
+	            <% item_index = -1%>
                 <% for item in @data: %>
-		    <%item_index++%>
+		            <% item_index++ %>
                     <% if item[0]? and item[1]?: %>
                         <% no_data = false %>
                         <tr>
@@ -41,11 +44,7 @@
                                     <%= item[0] %>
                                 <% else: %>
                                     <% if item[0] == 'pending': %>
-                                        <div class="pending-message" style="border: none; margin: 0px; padding: 0px; top: 0px; left: 0px; opacity: 0.7; cursor: wait; float:right;">
-                                            <div class="progress progress-striped active" style="margin-bottom: 0px;">
-                                                <div class="bar" style="width: 100%; padding: 2px 20px;"><%= I18n.t("commons.pending") %></div>
-                                            </div>
-                                        </div>
+                                        <%= I18n.t("commons.pending") %>
                                         <%= item[0] %>
                                     <% else if item[0] == 'XA-NA': %>
                                         <i><%= I18n.t("templates.charts.dimensions.no_category") %></i>
@@ -58,12 +57,8 @@
                             <% for metric_id in @metric_ids: %>
                                 <td class="<%= if parseInt(@orderby) == metric_id then 'orderby' %> <%=if not item[1][metric_id]? or ['pending', 'XA-NA', 'na'].indexOf(item[1][metric_id]) != -1 then 'unavailable'%>">
                                 <% if item[1][metric_id]: %>
-                                    <% if item[1][metric_id] == 'pending': %>
-                                        <div class="pending-message" style="border: none; margin: 0px; padding: 0px; top: 0px; left: 0px; opacity: 0.7; cursor: wait; float:right;">
-                                            <div class="progress progress-striped active" style="margin-bottom: 0px;">
-                                                <div class="bar" style="width: 100%; padding: 2px 20px;"><%= I18n.t("commons.pending") %></div>
-                                            </div>
-                                        </div>
+                                    <% if @status[metric_id] == 'pending' or item[1][metric_id] == "pending": %>
+                                        <%= I18n.t("commons.pending") %>
                                     <% else if ['XA-NA', 'na'].indexOf(item[1][metric_id]) != -1: %>
                                         n/a
                                     <% else: %>

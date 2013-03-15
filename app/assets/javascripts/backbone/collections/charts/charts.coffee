@@ -89,7 +89,7 @@ class Analytics.Collections.BaseCharts extends Backbone.Collection
   fetch_success: (resp, start_time, send_xa = true) ->
     @last_request.resp = resp
     ##判断resp的状态信息，是否有错误
-    if @process_fetched_data(resp)?
+    if @process_fetched_data(resp)
       contains_error = false
       @trigger "change"
       @check_pendings(send_xa)

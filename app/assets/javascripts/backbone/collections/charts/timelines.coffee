@@ -72,7 +72,7 @@ class Analytics.Collections.TimelineCharts extends Analytics.Collections.BaseCha
 
   process_fetched_data: (resp) ->
     if not resp["data"]? or resp["err_code"]?
-      true
+      false
     else
       contains_error = false
       for sequence in resp["data"]
