@@ -89,7 +89,7 @@ class Analytics.Collections.DimensionCharts extends Analytics.Collections.BaseCh
         @total = resp["data"]["total"]
       if resp["data"]? and resp["data"]["info"]?
         @info = resp["data"]["info"]
-      if resp["data"]?
+      if resp["data"]? and resp["data"]["status"]?
         @status = resp["data"]["status"]
 
       @process_maxis_data()
