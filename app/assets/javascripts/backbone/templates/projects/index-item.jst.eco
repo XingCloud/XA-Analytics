@@ -28,7 +28,7 @@
                 <span class="interval"><%= I18n.t("commons.week") %></span>
                 <span class="<%= if @data[type]['compare_week'] == 'infinity' or @data[type]['compare_week'] >= 0 then 'higher' else 'lower' %>">
                     <% if @data[type]["compare_week"] == "infinity": %>
-                        +&infin;
+                        +&infin;%
                     <% else: %>
                         <%= if @data[type]["compare_week"] >= 0 then "+" else "-" %>
                         <%= (Math.abs(@data[type]["compare_week"]) * 100).toFixed(2) + "%" %>
