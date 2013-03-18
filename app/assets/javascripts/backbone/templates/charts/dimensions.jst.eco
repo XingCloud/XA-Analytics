@@ -55,8 +55,8 @@
 
                             </td>
                             <% for metric_id in @metric_ids: %>
-                                <td class="<%= if parseInt(@orderby) == metric_id then 'orderby' %> <%=if not item[1][metric_id]? or ['pending', 'XA-NA', 'na'].indexOf(item[1][metric_id]) != -1 then 'unavailable'%>">
-                                <% if item[1][metric_id]: %>
+                                <td class="<%= if parseInt(@orderby) == metric_id then 'orderby' %> <%=if @status[metric_id] == 'pending' or not item[1][metric_id]? or ['pending', 'XA-NA', 'na'].indexOf(item[1][metric_id]) != -1 then 'unavailable'%>">
+                                <% if item[1][metric_id]?: %>
                                     <% if @status[metric_id] == 'pending' or item[1][metric_id] == "pending": %>
                                         <%= I18n.t("commons.pending") %>
                                     <% else if ['XA-NA', 'na'].indexOf(item[1][metric_id]) != -1: %>
