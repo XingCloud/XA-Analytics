@@ -1,7 +1,5 @@
 <!--for decorations only-->
-<div style="display:none"></div>
-<div class="pending-message">
-    <div class="progress progress-striped active" style="margin-left: 50px;">
-        <div class="bar" style="width: 100%; padding: 2px 20px;"><%= I18n.t("commons.pending") %></div>
-    </div>
-</div>
+<span class="label label-info">
+    <i class="icon-refresh icon-spin"></i>
+    <%= I18n.t("commons.pending") %>
+</span>

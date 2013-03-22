@@ -129,6 +129,10 @@ class Analytics.Collections.TimelineCharts extends Analytics.Collections.BaseCha
         formatter: () -> JST['backbone/templates/charts/tooltip'](@)
       legend:
         enabled: @for_widget
+      loading:
+        style:
+          "background-color": "transparent"
+          opacity: 1
       plotOptions:
         series:
           fillOpacity:0.1
