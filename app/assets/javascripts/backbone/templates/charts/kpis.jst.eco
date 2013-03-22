@@ -51,7 +51,7 @@
                     <% chart_value = (if use_natural then chart.get("sequence").natural else chart.get("sequence").total) %>
                     <% chart_value =  if chart_value == "XA-NA" then null else chart_value %>
 		    
-                    <div class="kpi-info <%= if metric_id != @display_metric then 'deactive' %>" kpi-id="<%= chart.id %>" compare-kpi-id="<%= chart.get('compare_to') %>" metric-id="<%= metric_id %>" segment-id="<%= segment_id %>">
+                    <div class="kpi-info <%= if not chart.display then 'deactive' %>" kpi-id="<%= chart.id %>" compare-kpi-id="<%= chart.get('compare_to') %>" metric-id="<%= metric_id %>" segment-id="<%= segment_id %>">
                         <% if @has_compare: %>
                             <% compare_chart = _.find(@models, (chart) -> chart.get("metric_id") == metric_id and chart.get("segment_id") == segment_id and chart.get("compare_for")?) %>
 			    

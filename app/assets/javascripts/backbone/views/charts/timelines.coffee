@@ -11,18 +11,13 @@ class Analytics.Views.Charts.TimelinesView extends Backbone.View
 
   bind_nav_toggle: () ->
     timelines_view = this
-    small_width = @small_width
     $('#main-container').on("resize", () ->
-      visibles = {}
-      _.each(timelines_view.highcharts.series, (serie) ->
-        visibles[serie.options.id] = serie.visible
-      )
-      timelines_view.redraw({visibles: visibles})
+      timelines_view.redraw()
     )
 
-  render: (visibles = {}) ->
+  render: () ->
     @set_small_width()
-    @highcharts = new Highcharts.Chart(@collection.charts_options(@render_to, visibles))
+    @highcharts = new Highcharts.Chart(@collection.charts_options(@render_to))
     @render_data()
 
   redraw: (options = {}) ->
@@ -30,7 +25,7 @@ class Analytics.Views.Charts.TimelinesView extends Backbone.View
       @highcharts.destroy()
     if options.render_to?
       @render_to = options.render_to
-    @render(options.visibles)
+    @render()
     @delegateEvents(@events)
 
   render_data: () ->

@@ -60,13 +60,17 @@ class Analytics.Views.Charts.KpisView extends Backbone.View
     compare_kpi_id = $(element).attr('compare-kpi-id')
     if($(element).hasClass('deactive'))
       @timelines_view.highcharts.get(kpi_id).show()
+      @collection.get(kpi_id).display = true
       if compare_kpi_id? and compare_kpi_id.length > 0
         @timelines_view.highcharts.get(compare_kpi_id).show()
+        @collection.get(compare_kpi_id).display = true
       $(element).removeClass('deactive')
     else
       @timelines_view.highcharts.get(kpi_id).hide()
+      @collection.get(kpi_id).display = false
       if compare_kpi_id? and compare_kpi_id.length > 0
         @timelines_view.highcharts.get(compare_kpi_id).hide()
+        @collection.get(compare_kpi_id).display = false
       $(element).addClass('deactive')
 
   tryshow_desc_icon: (event) ->

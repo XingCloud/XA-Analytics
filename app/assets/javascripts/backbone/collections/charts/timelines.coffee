@@ -24,22 +24,26 @@ class Analytics.Collections.TimelineCharts extends Analytics.Collections.BaseCha
     @activate()
 
   initialize_charts: (metric_ids, segment_ids = [0], has_compare = false) ->
-    @reset()
     segment_ids = (if segment_ids.length == 0 then [0] else segment_ids)
-    @display_metric = (if metric_ids.length > 0 then metric_ids[0])
     @metric_ids = metric_ids
     @segment_ids = segment_ids
     @has_compare = has_compare
     index = 0
+    charts = []
     for metric_id in metric_ids
-      metric = Instances.Collections.metrics.get(metric_id)
       for segment_id in segment_ids
         chart_id = @generate_chart_id(metric_id, segment_id, false)
         if has_compare? and has_compare
           compare_chart_id = @generate_chart_id(metric_id, segment_id, true)
-          @initialize_chart(compare_chart_id, metric_id, segment_id, null, chart_id, index)
-        @initialize_chart(chart_id, metric_id, segment_id, compare_chart_id, null, index)
+          charts.push(@initialize_chart(compare_chart_id, metric_id, segment_id, null, chart_id, index))
+        charts.push(@initialize_chart(chart_id, metric_id, segment_id, compare_chart_id, null, index))
         index = index + 1
+    @reset()
+    for chart in charts
+      if not @get(chart.id)
+        @add(chart)
+    if metric_ids.length > 0
+      @initialize_display(metric_ids[0])
 
   initialize_chart: (chart_id, metric_id, segment_id, compare_to, compare_for, index) ->
     chart = @get(chart_id)
@@ -53,8 +57,16 @@ class Analytics.Collections.TimelineCharts extends Analytics.Collections.BaseCha
       filters: @filters
     })
     chart.selector = @selector
-    if not @get(chart.id)?
-      @add(chart)
+    if @get(chart.id)?
+      chart.display = @get(chart.id).display
+    chart
+
+  initialize_display: (metric_id) ->
+    if @filter((chart) -> chart.display).length == 0
+      @each((chart) ->
+        if chart.get("metric_id") == metric_id
+          chart.display = true
+      )
 
   generate_chart_id: (metric_id, segment_id, for_compare) ->
     "m" + metric_id + "s" + segment_id + (if for_compare then 'c' else '')
@@ -96,7 +108,7 @@ class Analytics.Collections.TimelineCharts extends Analytics.Collections.BaseCha
 #     @xa_id() + " has_pendings "+has
     has
 
-  charts_options: (render_to, visibles) ->
+  charts_options: (render_to) ->
     interval_count = Analytics.Utils.intervalCount(@selector.get_end_time(), @selector.get("interval"), @selector.get("length"))
     chart_type = (if @selector.get("chart_type")? then @selector.get("chart_type") else 'line')
     options = {
@@ -144,14 +156,13 @@ class Analytics.Collections.TimelineCharts extends Analytics.Collections.BaseCha
       options.xAxis.labels.formatter = () -> Highcharts.dateFormat('%m/%d %H:%M', this.value)
     else
       options.xAxis.labels.formatter = () -> Highcharts.dateFormat('%m/%d', this.value)
-    display_metric = @display_metric
     @each((chart) ->
       options.series.push({
         name: chart.name()
         #data: chart.plot_data()
         color: "#" + chart.get("color")
         id: chart.id
-        visible: (if visibles[chart.id]? then visibles[chart.id] else (chart.get("metric_id") == display_metric))
+        visible: chart.display
       })
     )
     options
