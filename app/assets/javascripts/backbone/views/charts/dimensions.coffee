@@ -46,3 +46,10 @@ class Analytics.Views.Charts.DimensionsView extends Backbone.View
 
   tryhide_desc_icon: (event) ->
     $("i", event.currentTarget).fadeTo('fast', 0.4)
+
+  block: () ->
+    $(@render_to).block({message: "<strong>" + I18n.t('commons.pending') + "</strong>"})
+
+  unblock: () ->
+    if $(@render_to).find(".blockOverlay").length > 0
+      $(@render_to).unblock()

@@ -123,11 +123,11 @@
             <% end %>
         </tbody>
     </table>
-    <%if @data.length>0:%>
-    <a download="<%=Instances.Models.project.get('identifier')+'_'+Instances.Collections.reports.get(@selector.get('report_id')).get('title')+'_'+@selector.get('title')+'_groupby_'+@selector.dimension.value%>.csv"
-       class="download-table">
-      <i class="icon-download-alt"  title="csv"></i>
-    </a>
+    <%if @data.length>0 and not @for_widget:%>
+        <a download="<%=Instances.Models.project.get('identifier')+'_'+Instances.Collections.reports.get(@selector.get('report_id')).get('title')+'_'+@selector.get('title')+'_groupby_'+@selector.dimension.value%>.csv"
+           class="download-table">
+          <i class="icon-download-alt"  title="csv"></i>
+        </a>
     <%end%>
 </div>
 

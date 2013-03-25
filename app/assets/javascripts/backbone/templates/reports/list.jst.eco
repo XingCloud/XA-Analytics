@@ -2,8 +2,8 @@
 <hr/>
 <% if not Instances.Models.user.is_mgriant():%>
 <p>
-    <a class="btn" href="#/reports/new"><%= I18n.t('templates.reports.list.add_report') %></a>
-    <a class="btn" href="#/report_categories/new"><%= I18n.t('templates.reports.list.add_category') %></a>
+    <a class="btn" href="<%= Analytics.Utils.hrefWrapper('reports/new') %>"><%= I18n.t('templates.reports.list.add_report') %></a>
+    <a class="btn" href="<%= Analytics.Utils.hrefWrapper('report_categories/new') %>"><%= I18n.t('templates.reports.list.add_category') %></a>
 </p>
 <% end %>
 
@@ -33,7 +33,7 @@
                     &nbsp;&nbsp;&nbsp;&nbsp;
                     <i class="icon-file"></i>
                     <% if @project?: %>
-                        <a href="#/reports/<%= report.id %>"><%= report.title %></a>
+                        <a href="<%= Analytics.Utils.hrefWrapper('reports/' + report.id) %>"><%= report.title %></a>
                     <% else: %>
                         <%= report.title %>
                     <% end %>
@@ -56,9 +56,9 @@
             <td>
                 <i class="icon-file"></i>
                 <% if @project?: %>
-                <a href="#/reports/<%= report.id %>"><%= report.title %></a>
+                    <a href="<%= Analytics.Utils.hrefWrapper('reports/' + report.id) %>"><%= report.title %></a>
                 <% else: %>
-                <%= report.title %>
+                    <%= report.title %>
                 <% end %>
             </td>
             <td><%= report.created_at %></td>
