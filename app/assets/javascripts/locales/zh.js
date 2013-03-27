@@ -146,6 +146,9 @@ I18n.translations = {
                     "income": "收入",
                     "active_user": "活跃用户",
                     "new_user": "新用户"
+                },
+                "header": {
+                    "select_project": "请选择项目..."
                 }
             },
             "report_categories":{

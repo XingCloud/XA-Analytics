@@ -146,6 +146,9 @@ I18n.translations = {
                     "income": "Income",
                     "active_user": "Active User",
                     "new_user": "New User"
+                },
+                "header": {
+                    "select_project": "Please select project..."
                 }
             },
             "report_categories":{

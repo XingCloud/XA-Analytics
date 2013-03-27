@@ -7,16 +7,6 @@
       .nav-collapse.collapse.navbar-inverse.collapse
         %ul.nav
           %li.dropdown.project-select
-            %a.dropdown-toggle{"data-toggle" => "dropdown"}
-              - if project.present?
-                %i.icon-globe
-                = project.name
-                %b.caret
-              - else
-                %i
-                  = t(:no_project_select)
-                %b.caret
-            %ul.dropdown-menu.project-dropdown
           %li.active
             %a
               = t(:header_analytics)
@@ -45,4 +35,4 @@
   I18n.fallbacks = true;
   I18n.defaultlocale = "en";
   I18n.locale = "#{I18n.locale}";
-  new Analytics.Views.Projects.HeaderView().render();
+  new Analytics.Views.Projects.HeaderView({project: #{project.present? ? project.js_attributes.to_json : "null"}}).render();

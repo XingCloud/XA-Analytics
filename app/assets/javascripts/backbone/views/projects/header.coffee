@@ -1,20 +1,23 @@
 Analytics.Views.Projects ||= {}
 class Analytics.Views.Projects.HeaderView extends Backbone.View
   template: JST["backbone/templates/projects/header"]
-  el: ".navbar .project-select .project-dropdown"
+  el: ".navbar .project-select"
   events:
+    "click .dropdown-toggle": "dropdown_toggle"
     "click .project-search input" : "click_search"
     "mouseover .project-list .project" : "highlight_project"
     "keyup .project-search input" : "keyup_toggle"
     "keydown .project-search input" : "keydown_toggle"
 
-  initialize: () ->
+  initialize: (options) ->
     _.bindAll this, "render"
+    @project = options.project
     @projects = []
     @fetched = false
 
   render: () ->
     $(@el).html(@template({
+      project: @project
       fetched: @fetched
       projects: @projects
     }))
@@ -30,6 +33,14 @@ class Analytics.Views.Projects.HeaderView extends Backbone.View
         view.fetched = true
         view.render()
     })
+
+  dropdown_toggle: (ev) ->
+    ev.stopPropagation()
+    if $(@el).hasClass("open")
+      $(@el).removeClass("open")
+    else
+      $(@el).addClass("open")
+      $(@el).find(".project-search input").focus()
 
   click_search: (ev) ->
     ev.stopPropagation()
