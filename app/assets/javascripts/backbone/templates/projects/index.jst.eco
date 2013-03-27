@@ -17,7 +17,7 @@
             </div>
         <% else if not @fetched: %>
             <div class="btn btn-large btn-block disabled">
-                <img src="/assets/sync.gif"/>
+                <i class="icon-refresh icon-spin"></i>
                 <%= I18n.t("templates.projects.index.loading") %>
             </div>
         <% end %>

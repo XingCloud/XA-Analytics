@@ -48,9 +48,6 @@
         = will_paginate @projects
 
 :javascript
-  I18n.fallbacks = true;
-  I18n.defaultlocale = "en";
-  I18n.locale = "#{I18n.locale}";
   window.ROOT = "/template/projects";
   Instances.Collections = {
     user_attributes: new Analytics.Collections.UserAttributes([]),

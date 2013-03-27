@@ -12,7 +12,6 @@
  *= require bootstrap_and_overrides
  *= require datepicker
  *= require common
- *= require chosen
  *= require jquery.pnotify.default
  *= require jquery.pnotify.default.icons
 

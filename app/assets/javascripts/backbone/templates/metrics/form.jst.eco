@@ -53,7 +53,7 @@
                             <em>.</em>
                         <% end %>
                     <% end %>
-                    <img class="event-list-sync" src="/assets/sync.gif" style="display: none;"/>
+                    <i class="event-list-sync icon-refresh icon-spin" style="display: none;"></i>
                 </div>
             </div>
             <div class="control-group">
@@ -153,7 +153,7 @@
                                 <em>.</em>
                             <% end %>
                         <% end %>
-                        <img class="event-list-sync-combine" src="/assets/sync.gif" style="display: none;"/>
+                        <i class="event-list-sync-combine icon-refresh icon-spin" style="display: none;"></i>
                     </div>
                 </div>
                 <div class="control-group">

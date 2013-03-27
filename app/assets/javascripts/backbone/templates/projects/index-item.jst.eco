@@ -1,5 +1,5 @@
 <td>
-    <a href="http://<%= window.location.host %>/projects/<%= @identifier %>">
+    <a href="<%= location.protocol %>//<%= window.location.host %>/projects/<%= @identifier %>">
         <%= @name %>
     </a>
 </td>
@@ -10,7 +10,7 @@
         <% if @no_data: %>
             <%= I18n.t("commons.no_data") %>
         <% else if values.indexOf("pending") >= 0: %>
-            <img src="/assets/sync.gif"/>
+            <i class="icon-refresh icon-spin"></i>
             <%= I18n.t("commons.pending") %>
         <% else: %>
             <p class="count"><%= @data[type]["count"] %></p>

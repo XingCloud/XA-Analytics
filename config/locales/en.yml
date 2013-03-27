@@ -35,3 +35,4 @@ en:
   no_projects_description: "You haven't created any projects or your projects have been removed, please contact the administrator or create a new project"
   no_projects_create: "Create Project"
   login_admin: "Log into administrator interface"
+  no_project_select: "Please select a project..."

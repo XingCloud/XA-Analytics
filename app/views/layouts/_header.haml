@@ -1,29 +1,32 @@
 .navbar.navbar-inverse.navbar-static-top
   .navbar-inner
-    .container-fluid
-      %a.btn.btn-navbar{"data-target" => "nav-collapse", "data-toggle" => "collapse"}
-        %span.i-bar
-        %span.i-bar
-        %span.i-bar
-      %a.brand{:style => "font-size:35px", :href => "http://p.xingcloud.com"}
+    .container
+      %a.brand{:href => "http://p.xingcloud.com"}
+        %i.icon-home
         = t(:header_brand)
-      .container-fluid.nav-collapse
-        %ul.nav{:style => "font-size:18px"}
-          %li{:style => "padding:10px 10px 11px"}
-            %select.project_select{"data-placeholder" => "#{t(:header_select_project)}"}
-              %option
-                = t(:header_loading)
-          %li.divider-vertical
+      .nav-collapse.collapse.navbar-inverse.collapse
+        %ul.nav
+          %li.dropdown.project-select
+            %a.dropdown-toggle{"data-toggle" => "dropdown"}
+              - if project.present?
+                %i.icon-globe
+                = project.name
+                %b.caret
+              - else
+                %i
+                  = t(:no_project_select)
+                %b.caret
+            %ul.dropdown-menu.project-dropdown
           %li.active
-            %a{:style => "font-size:18px;line-height:34px"}
+            %a
               = t(:header_analytics)
           - if project.present?
             %li
-              %a{:style => "font-size:18px;line-height:34px", :href => "http://p.xingcloud.com/platform_apps?project_id=#{project.identifier}"}
+              %a{:href => "http://p.xingcloud.com/platform_apps?project_id=#{project.identifier}"}
                 = t(:header_gdp)
         %ul.nav.pull-right
           %li.dropdown
-            %a.dropdown-toggle{:href => "#", "data-toggle" => "dropdown", :style => "padding-top:16px"}
+            %a.dropdown-toggle{:href => "#", "data-toggle" => "dropdown"}
               = session[:cas_user]
               %b.caret
             %ul.dropdown-menu
@@ -37,29 +40,9 @@
               %li
                 %a{:href => "http://p.xingcloud.com:3001/logout", :ref => "nofollow"}
                   = t(:header_logout)
-          %li.divider-vertical{:style => "height:54px"}
-
+          %li.divider-vertical
 :javascript
-  Analytics.Request.get({
-    url: "/projects_summary",
-    success: function (data, status, jqXHR){
-      $('.project_select').html('');
-      contains = false;
-      for (var i = 0; i < data.length; i++){
-        identifier = "#{project.identifier unless project.blank?}";
-        if (identifier.length > 0 && identifier == data[i].identifier){
-          $('.project_select').append('<option value="'+ data[i].identifier +'" selected="selected">'+ data[i].name +'</option>');
-          contains = true;
-        }
-        else{
-          $('.project_select').append('<option value="'+ data[i].identifier +'">'+ data[i].name +'</option>');
-        }
-      }
-      if (!contains){
-        $('.project_select').prepend('<option></option>');
-      }
-      $('.project_select').chosen().change(function (ev){
-        window.location.href = "/projects/" + $(".project_select option:selected").val();
-      });
-    }
-  });
+  I18n.fallbacks = true;
+  I18n.defaultlocale = "en";
+  I18n.locale = "#{I18n.locale}";
+  new Analytics.Views.Projects.HeaderView().render();
