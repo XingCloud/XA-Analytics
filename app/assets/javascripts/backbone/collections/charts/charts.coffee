@@ -150,6 +150,13 @@ class Analytics.Collections.BaseCharts extends Backbone.Collection
     result
 
   incomplete: (date, metric) ->
+    interval = 0;
+    switch @selector.get("interval")
+      when "day" then interval=0
+      when "week" then interval=6
+      when "month" then interval=new Date(date.getFullYear(), date.getMonth()+1, 0).getDate()-1
+    interval = interval*24*60*60*1000
+
     number_of_day_origin = metric.get("number_of_day_origin")
     number_of_day = metric.get("number_of_day")
 
@@ -157,7 +164,7 @@ class Analytics.Collections.BaseCharts extends Backbone.Collection
       return false
 
     current_time = new Date().getTime()
-    end_time = date.getTime() - number_of_day*24*60*60*1000
+    end_time = date.getTime() + interval - number_of_day*24*60*60*1000
     if current_time < end_time
       return true
 
