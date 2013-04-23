@@ -13,6 +13,11 @@
 
 ActiveRecord::Schema.define(:version => 20130312073336) do
 
+  create_table "a", :force => true do |t|
+    t.string "a1"
+    t.string "a2"
+  end
+
   create_table "action_logs", :force => true do |t|
     t.integer  "project_id"
     t.string   "resource_type"
@@ -20,6 +25,11 @@ ActiveRecord::Schema.define(:version => 20130312073336) do
     t.string   "action"
     t.string   "user"
     t.datetime "perform_at"
+  end
+
+  create_table "b", :force => true do |t|
+    t.string "b1"
+    t.string "b2"
   end
 
   create_table "broadcastings", :force => true do |t|
@@ -209,10 +219,10 @@ ActiveRecord::Schema.define(:version => 20130312073336) do
     t.string   "name"
     t.string   "nickname"
     t.string   "atype"
-    t.string   "gpattern"
+    t.string   "gpattern",   :default => "0,5,10,20,50,100"
     t.integer  "project_id"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.datetime "created_at",                                 :null => false
+    t.datetime "updated_at",                                 :null => false
   end
 
   create_table "user_preferences", :force => true do |t|

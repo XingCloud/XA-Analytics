@@ -122,7 +122,7 @@
                     <td class="time"><%= dateStr %></td>
                     <% for metric_id in @metric_ids: %>
                         <% data = cmap[segment_id][date][metric_id] %>
-                        <td class="data <%= if data == "pending" or data == "XA-NA" then 'unavailable' else "" %>">
+                        <td class="data <%= if data == "pending" or data == "XA-NA" or @incomplete(d, Instances.Collections.metrics.get(metric_id)) then 'unavailable' else "" %>">
                         <%= if data == "pending" then I18n.t("commons.pending") else if data == "XA-NA" then "n/a" else @decorate_num(cmap[segment_id][date][metric_id], metric_id) %>
                         </td>
                     <% end %>

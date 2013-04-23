@@ -148,3 +148,23 @@ class Analytics.Collections.BaseCharts extends Backbone.Collection
         result = Math.floor(num)
 
     result
+
+  incomplete: (date, metric) ->
+    number_of_day_origin = metric.get("number_of_day_origin")
+    number_of_day = metric.get("number_of_day")
+
+    if number_of_day == null or number_of_day == null
+      return false
+
+    current_time = new Date().getTime()
+    end_time = date.getTime() - number_of_day*24*60*60*1000
+    if current_time < end_time
+      return true
+
+    if metric.get("combine_action") != null
+      if @incomplete(date, new Analytics.Models.Metric(metric.get("combine_attributes")))
+        return true
+
+    return false
+
+
