@@ -422,7 +422,9 @@ I18n.translations = {
                 "ref1":"Reference 2nd level",
                 "ref2":"Reference 3rd level",
                 "ref3":"Reference 4th level",
-                "ref4":"Reference 5th level"
+                "ref4":"Reference 5th level",
+                "version": "Version",
+                "locale": "GeoIP"
             },
             "expression_operators":{
                 "gt":"greater than",

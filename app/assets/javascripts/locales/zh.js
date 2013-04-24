@@ -428,7 +428,9 @@ I18n.translations = {
                 "ref1":"来源第二层",
                 "ref2":"来源第三层",
                 "ref3":"来源第四层",
-                "ref4":"来源第五层"
+                "ref4":"来源第五层",
+                "version": "版本",
+                "locale": "GeoIP"
             },
             "expression_operators":{
                 "gt":"大于",
