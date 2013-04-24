@@ -168,7 +168,7 @@ class Analytics.Collections.BaseCharts extends Backbone.Collection
     if current_time < end_time
       return true
 
-    if metric.get("combine_action") != null
+    if metric.get("combine_action") != null and metric.get("combine_action") != ""  and  metric.get("combine_attributes") != null
       if @incomplete(date, new Analytics.Models.Metric(metric.get("combine_attributes")))
         return true
 
