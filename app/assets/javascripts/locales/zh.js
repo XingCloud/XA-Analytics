@@ -430,7 +430,7 @@ I18n.translations = {
                 "ref3":"来源第四层",
                 "ref4":"来源第五层",
                 "version": "版本",
-                "locale": "GeoIP"
+                "geoip": "GeoIP"
             },
             "expression_operators":{
                 "gt":"大于",

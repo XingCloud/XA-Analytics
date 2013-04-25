@@ -424,7 +424,7 @@ I18n.translations = {
                 "ref3":"Reference 4th level",
                 "ref4":"Reference 5th level",
                 "version": "Version",
-                "locale": "GeoIP"
+                "geoip": "GeoIP"
             },
             "expression_operators":{
                 "gt":"greater than",

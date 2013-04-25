@@ -19,7 +19,7 @@ Analytics.Static.user_attributes = () ->
     {name: 'ref3', nickname: I18n.t("statics.user_attributes.ref3"), atype: 'sql_string'},
     {name: 'ref4', nickname: I18n.t("statics.user_attributes.ref4"), atype: 'sql_string'},
     {name: 'version', nickname: I18n.t("statics.user_attributes.version"), atype: 'sql_string'},
-    {name: 'locale', nickname: I18n.t("statics.user_attributes.locale"), atype: 'sql_string'}
+    {name: 'geoip', nickname: I18n.t("statics.user_attributes.geoip"), atype: 'sql_string'}
   ]
 
 Analytics.Static.expression_operators = () ->
