@@ -4,6 +4,7 @@ require "net/http"
 
 class AnalyticService
   BASE_URL = APP_CONFIG[:analytics_base_url]
+  ALTERNATE_BASE_URL = APP_CONFIG[:analytics_alternate_base_url]
 
   def self.logger
     unless @logger
@@ -119,11 +120,11 @@ class AnalyticService
     params
   end
 
-  def self.commit(url, options = {})
-    logger.info "Request: #{url} \n #{options.pretty_inspect}"
+  def self.commit(url_str, options = {})
+    logger.info "Request: #{url_str} \n #{options.pretty_inspect}"
     pp options
 
-    url = URI.parse(File.join(BASE_URL, url))
+    url = URI.parse(File.join(BASE_URL, url_str))
     pp url
 
     start_time = Time.now
@@ -136,9 +137,16 @@ class AnalyticService
         http.request(req)
       }
     rescue Timeout::Error
-      logger.info "Request #{url} timeout"
-      pp "request timeout error"
-      return {"result" => false, "data" => [], "http_status" => 200, "err_code" => "ERR_TIMEOUT"}
+      alternate_url = URI.parse(File.join(ALTERNATE_BASE_URL, url_str))
+      begin
+        response = Net::HTTP.new(alternate_url.hostname, alternate_url.port).start {|http|
+          http.request(req)
+        }
+      rescue Timeout::Error
+        logger.info "Request #{url} timeout"
+        pp "request timeout error"
+        return {"result" => false, "data" => [], "http_status" => 200, "err_code" => "ERR_TIMEOUT"}
+      end
     end
     dllength = response.body.length
     if response[ 'Content-Encoding' ].eql?( 'gzip' ) then
