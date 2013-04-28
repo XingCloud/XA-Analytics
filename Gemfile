@@ -14,6 +14,7 @@ gem 'resque', :require => "resque/server"
 gem 'http_accept_language'
 gem 'browser'
 gem 'private_pub'
+gem 'resque-scheduler', :require => 'resque_scheduler'
 
 group :development, :test do
   gem "pry"
