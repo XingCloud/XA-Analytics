@@ -92,6 +92,10 @@ class AnalyticService
     }.to_json})
   end
 
+  def self.pay_rank
+    commit("/dd/pay_rank")
+  end
+
   private
 
 

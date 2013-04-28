@@ -25,4 +25,7 @@ class Analytics.Collections.Projects extends Backbone.Collection
     })
 
   comparator: (project) ->
-    return 0 - project.get("visit")
+    if project.get("rank")?
+      project.get("rank")
+    else
+      Number.MAX_VALUE

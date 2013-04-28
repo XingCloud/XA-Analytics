@@ -2,7 +2,10 @@
     <table class="table table-bordered projects">
         <tr>
             <th width="15%"><%= I18n.t("templates.projects.index.name") %></th>
-            <th width="25%"><%= I18n.t("templates.projects.index.income") %></th>
+            <th width="25%">
+                <i class="icon-arrow-down right"/>
+                <%= I18n.t("templates.projects.index.income") %>
+            </th>
             <th width="25%"><%= I18n.t("templates.projects.index.new_user") %></th>
             <th width="25%"><%= I18n.t("templates.projects.index.active_user") %></th>
         </tr>

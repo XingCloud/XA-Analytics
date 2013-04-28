@@ -1,0 +1,2 @@
+ProjectRanking:
+  cron: "00 09 * * *"

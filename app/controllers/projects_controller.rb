@@ -3,7 +3,6 @@ class ProjectsController < ProjectBaseController
 
   def show
     fetch_project_members
-    Resque.enqueue(Workers::LogVisit, @project.id, session[:cas_user])
     @user = User.find_by_name(session[:cas_user])
   end
 

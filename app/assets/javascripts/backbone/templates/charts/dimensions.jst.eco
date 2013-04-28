@@ -45,7 +45,6 @@
                                 <% else: %>
                                     <% if item[0] == 'pending': %>
                                         <%= I18n.t("commons.pending") %>
-                                        <%= item[0] %>
                                     <% else if item[0] == 'XA-NA': %>
                                         <i><%= I18n.t("templates.charts.dimensions.no_category") %></i>
                                     <% else: %>
