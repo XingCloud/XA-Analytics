@@ -17,7 +17,7 @@ set :scm, :git
 # task :stage do
   role :web, "app@a.xingcloud.com", "app@at.xingcloud.com"                          # Your HTTP server, Apache/etc
   role :app, "app@a.xingcloud.com", "app@at.xingcloud.com"                      # This may be the same as your `Web` server
-  role :db, "app@at.xingcloud.com", :primary => true # This is where Rails migrations will run
+  role :db, "app@a.xingcloud.com", :primary => true # This is where Rails migrations will run
   role :resque_worker, "app@a.xingcloud.com", "app@at.xingcloud.com"
 # end
 
