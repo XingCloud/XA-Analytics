@@ -22,6 +22,7 @@ class UserAttributesController < ProjectBaseController
 
   def destroy
     Resque.enqueue(Workers::SyncUserAttributes, @project.id, "REMOVE", @user_attribute.serialize)
+    @user_attribute.destroy
     render :json => @user_attribute.attributes
   end
 
