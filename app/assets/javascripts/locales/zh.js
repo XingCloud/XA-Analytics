@@ -107,7 +107,9 @@ I18n.translations = {
                     "value_type":"显示格式",
                     "origin_value_type":"原始值",
                     "percent_value_type":"百分比", 
-		    "rounding_value_type":"取整数"
+		            "rounding_value_type":"取整数",
+                    "since":"从",
+                    "start":"开始"
                 },
                 "index_dropdown":{
                     "add_metric":"新建指标"

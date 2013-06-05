@@ -30,18 +30,20 @@ class Analytics.Models.Metric extends Backbone.Model
     event_keys.join(".")
 
   sequence_options: (segment_id, filters) ->
+    scale_startdate = @get("scale_startdate") 
+    if not scale_startdate then scale_startdate = Analytics.Utils.formatUTCDate(new Date(0).getTime(), 'YYYY-MM-DD')
     options = {
       items: [@item_options("x", segment_id, filters)]
-      formula: "x*" + @get("scale")
+      formula: "x*" + @get("scale")+"|x*1|"+scale_startdate
     }
     if @get("combine_attributes")?
       combine = new Analytics.Models.Metric(@get("combine_attributes"))
       options.items.push(combine.item_options("y", segment_id, filters))
       switch @get("combine_action").toUpperCase()
-        when "ADDITION" then options.formula = "x*"+@get("scale")+"+y*"+combine.get("scale")
-        when "DIVISION" then options.formula = "(x*"+@get("scale")+")/(y*"+combine.get("scale") + ")"
-        when "MULTIPLICATION" then options.formula = "x*"+@get("scale")+"*y*"+combine.get("scale")
-        when "SUBDUCTION" then options.formula = "x*"+@get("scale")+"-y*"+combine.get("scale")
+        when "ADDITION" then options.formula = "x*"+@get("scale")+"+y*"+combine.get("scale")+"|x+y|"+scale_startdate
+        when "DIVISION" then options.formula = "(x*"+@get("scale")+")/(y*"+combine.get("scale") + ")"+"|x/y|"+scale_startdate
+        when "MULTIPLICATION" then options.formula = "x*"+@get("scale")+"*y*"+combine.get("scale")+"|x*y|"+scale_startdate
+        when "SUBDUCTION" then options.formula = "x*"+@get("scale")+"-y*"+combine.get("scale")+"|x-y|"+scale_startdate
     options
 
 

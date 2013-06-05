@@ -38,7 +38,15 @@ class Analytics.Views.Metrics.FormView extends Backbone.View
       'min-width': '800px'
       'margin-left': () -> -($(this).width() / 2)
     })
+    @render_datepicker()
     $(@el).find('.event-key-select').chosen()
+
+  render_datepicker: () ->
+    el = @el
+    $(el).find('.datepicker').datepicker({format: 'yyyy-mm-dd'}).on('changeDate', (ev) ->
+      $(el).find('.datepicker').datepicker('hide')
+      $(el).find('.datepicker').blur()
+    )
 
   submit: () ->
     if Analytics.Utils.checkFormFields($(@el).find('form'))
