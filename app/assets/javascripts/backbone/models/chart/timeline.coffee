@@ -6,7 +6,7 @@ class Analytics.Models.TimelineChart extends Backbone.Model
       natural: 0
       rate: 0
       data: []
-      summarize_by:{x:"AVG"}
+      summarize_by:{x:"QUERY",y:"QUERY"}
     }})
 
   fetch_params: () ->
