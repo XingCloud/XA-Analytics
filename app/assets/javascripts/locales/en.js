@@ -35,7 +35,15 @@ I18n.translations = {
                     "latest_days":"Latest {{days}} day(s)",
                     "metric_name":"Metric Name",
                     "data_summary":"Data Summary",
-                    "user_percentage":"User Percentage"
+                    "user_percentage":"User Percentage",
+                    "event":"Involved event(s):",
+                    "summarize":"Summarize by:",
+                    "QUERY":"NormalQuery",
+                    "AVG":"DailyAverage",
+                    "addition":"+",
+                    "subduction":"-",
+                    "multiplication":"*",
+                    "division":"/"
                 }
             },
             "dimensions":{

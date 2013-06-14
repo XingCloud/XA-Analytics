@@ -47,7 +47,7 @@ class Metric < ActiveRecord::Base
 
   def js_attributes
     attributes = self.attributes
-    attributes.delete("event_key")
+    #attributes.delete("event_key")
     attributes.merge({
       :combine_attributes => (combine.js_attributes unless combine.nil?),
       :event_key_0 => event_key_0,

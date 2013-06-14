@@ -18,9 +18,19 @@
         <% index = 0 %>
         <% for metric_id in @metric_ids: %>
             <% metric = Instances.Collections.metrics.get(metric_id) %>
+            <% chart = _.find(@models, (chart) -> chart.get("metric_id") == metric_id and not chart.get("compare_for")?)%>
+            <% event_key=I18n.t("templates.charts.kpis.event")+"</br>"+"&nbsp;&nbsp;"+metric.get("event_key")%>
+            <% description=metric.get('description')%>
+            <% summarize_by=chart.get("sequence").summarize_by %>
+            <% summarize_desc = I18n.t("templates.charts.kpis.summarize")+"</br>"+"&nbsp;&nbsp;"+I18n.t("templates.charts.kpis."+summarize_by.x) %>
+            <% if metric.get("combine_action"):%>
+                <% summarize_y = summarize_by.y %>
+                <% summarize_desc+=I18n.t("templates.charts.kpis."+metric.get("combine_action"))+I18n.t("templates.charts.kpis."+summarize_by.y)%>
+                <% event_key+=" && "+metric.get("combine_attributes").event_key%>
+            <% end %>
             <td class="metric-name <%= if index+1 == @metric_ids.length then 'last' %>" value="<%= metric_id %>">
                 <% if metric.get('description'): %>
-                    <span class="metric-name-desc" data-content="<%= metric.get('description') %>" data-original-title="<%= metric.get("name") %>">
+                    <span class="metric-name-desc" data-content="<%= description+'<br/>'+event_key+'</br>'+summarize_desc %>" data-original-title="<%= metric.get("name") %>">
                         <i class="icon icon-question-sign"></i>
                         <%= metric.get("name") %>
                     </span>

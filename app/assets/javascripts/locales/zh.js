@@ -35,7 +35,15 @@ I18n.translations = {
                     "latest_days":"近{{days}}天",
                     "metric_name":"指标名称",
                     "data_summary":"数据汇总",
-                    "user_percentage":"占总用户%"
+                    "user_percentage":"占总用户%",
+                    "event":"涉及事件:",
+                    "summarize":"汇总方式:",
+                    "QUERY":"正常查询",
+                    "AVG":"每日平均",
+                    "addition":"+",
+                    "subduction":"-",
+                    "multiplication":"*",
+                    "division":"/"
                 }
             },
             "dimensions":{
