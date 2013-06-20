@@ -41,10 +41,10 @@
             <label class="control-label"><%= I18n.t('templates.user_attributes.form.shard_rule') %></label>
             <div class="controls">
                 <% if @atype == "sql_bigint": %>
-                    <input class="should-check-pattern" name="gpattern" type="text" value="<%= @gpattern %>" placeholder="0,5,10,20,50,100" pattern="^\d+(,\d+)*$"/>
+                    <input class="should-check-pattern" name="gpattern" type="text" value="<%= @gpattern %>" placeholder="0,5,10,20,50,100" pattern="^\\d+(,\\d+)*$"/>
                     <p class="help-block"><%= I18n.t('templates.user_attributes.form.shard_rule_int_helper') %></p>
                 <% else if @atype == "sql_datetime": %>
-                    <input class="should-check-pattern" name="gpattern" type="text" value="<%= @gpattern %>" placeholder="2012-10-13,2012-11-14" pattern="^\d{4}-((0\d)|(1[012]))-(([012]\d)|3[01])(,\d{4}-((0\d)|(1[012]))-(([012]\d)|3[01]))*$"/>
+                    <input class="should-check-pattern" name="gpattern" type="text" value="<%= @gpattern %>" placeholder="2012-10-13,2012-11-14" pattern="^\\d{4}-((0\\d)|(1[012]))-(([012]\\d)|3[01])(,\\d{4}-((0\\d)|(1[012]))-(([012]\\d)|3[01]))*$"/>
                     <p class="help-block"><%= I18n.t('templates.user_attributes.form.shard_rule_date_helper') %></p>
                 <% else: %>
                     <input class="should-check-pattern" name="gpattern" type="text" value="<%= @gpattern %>" placeholder="" pattern=""/>
