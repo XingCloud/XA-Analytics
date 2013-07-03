@@ -25,7 +25,7 @@ class Analytics.Collections.Segments extends Backbone.Collection
       for expression_attributes in segment.get("expressions_attributes")
         expression = Instances.Collections.expressions.get(expression_attributes.id)
         if expression?
-          expression.set(expression_attributes)
+          expression.set(expression_attributes) # update
         else
           Instances.Collections.expressions.add(new Analytics.Models.Expression(expression_attributes))
     )

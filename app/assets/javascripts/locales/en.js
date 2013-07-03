@@ -65,7 +65,10 @@ I18n.translations = {
                 "form":{
                     "handler_placeholder":"Date offset",
                     "in_placeholder": "Identifiers separated by comma",
-                    "date_in_placeholder": "Date(YYYY-MM-DD) separated by comma"
+                    "date_in_placeholder": "Date(YYYY-MM-DD) separated by comma",
+                    "absolute":"absolute time",
+                    "relative":"relative time"
+
                 }
             },
             "maintenance_plans":{

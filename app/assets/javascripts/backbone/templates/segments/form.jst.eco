@@ -17,7 +17,7 @@
                 <input class="should-check-empty" type="text" id="segment_name" name="name" value="<%= if @name? then @name else I18n.t('templates.segments.form.default_name') %>" />
             </div>
         </div>
-        <div class="control-group">
+        <div class="control-group should-check">
             <label class="control-label"><%= I18n.t('templates.segments.form.filter') %></label>
             <div class="controls" id="expression-list">
                 <div class="expression-add">

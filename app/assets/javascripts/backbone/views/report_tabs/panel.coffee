@@ -7,7 +7,7 @@ class Analytics.Views.ReportTabs.PanelView extends Backbone.View
 
   initialize: (options) ->
     _.bindAll this, "render", "redraw"
-    @model.panel_view = this
+    @model.panel_view = this  # model:report_tab
     @parent_view = options.parent_view
 
   render: () ->
@@ -71,7 +71,7 @@ class Analytics.Views.ReportTabs.ShowRangePickerView extends Backbone.View
 
   initialize: () ->
     _.bindAll this, "render", "redraw"
-    @model.range_picker_view = this
+    @model.range_picker_view = this # model:report_tab
 
   render: () ->
     $(@el).html(@template(@model.show_attributes()))

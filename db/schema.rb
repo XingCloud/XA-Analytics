@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130605072706) do
+ActiveRecord::Schema.define(:version => 20130628074821) do
 
   create_table "action_logs", :force => true do |t|
     t.integer  "project_id"
@@ -44,6 +44,7 @@ ActiveRecord::Schema.define(:version => 20130605072706) do
     t.datetime "created_at",                       :null => false
     t.datetime "updated_at",                       :null => false
     t.string   "value_type", :default => "String"
+    t.string   "time_type"
   end
 
   create_table "maintenance_plans", :force => true do |t|

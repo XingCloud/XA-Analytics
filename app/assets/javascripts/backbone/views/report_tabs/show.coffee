@@ -30,7 +30,7 @@ class Analytics.Views.ReportTabs.ShowView extends Backbone.View
   render_panel: () ->
     if not @model.panel_view?
       new Analytics.Views.ReportTabs.PanelView({
-        model: @model
+        model: @model  # report_tab
         parent_view: this
       })
       $(@report_view.el).find('.report-panel').html(@model.panel_view.render().el)
@@ -43,7 +43,7 @@ class Analytics.Views.ReportTabs.ShowView extends Backbone.View
     $(@report_view.el).find('.report-panel-shadow').height($(@report_view.el).find('.report-panel').height())
 
   render_timelines: () ->
-    segment_ids = Instances.Collections.segments.selected()
+    segment_ids = Instances.Collections.segments.selected() # changed by panel, used on report level
     @timelines.initialize_charts(@model.get("metric_ids"), segment_ids, @model.get("compare") != 0)
     render_to = $(@el).find("#report_tab_" + @model.id + "_timelines")[0]
     if not @timelines_view?

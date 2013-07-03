@@ -35,10 +35,7 @@ class Analytics.Models.Segment extends Backbone.Model
         expression = Instances.Collections.expressions.get(expression_attributes.id)
         serialize = results[expression.get("name")]
         if serialize?
-          if expression.get("operator") == "eq" or expression.get("operator") == "handler"
-            _.extend(results, expression.serialize())
-          else if $.isPlainObject(serialize) and not serialize["$handler"]?
-            _.extend(serialize, expression.serialize()[expression.get("name")])
+          _.union(serialize, expression.serialize()[expression.get("name")])
         else
           _.extend(results, expression.serialize())
       results

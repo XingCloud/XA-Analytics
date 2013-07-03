@@ -19,6 +19,7 @@ set :scm, :git
   role :app, "app@a.xingcloud.com", "app@at.xingcloud.com"                      # This may be the same as your `Web` server
   role :db, "app@a.xingcloud.com", :primary => true # This is where Rails migrations will run
   role :resque_worker, "app@a.xingcloud.com", "app@at.xingcloud.com"
+  role :resque_scheduler, "app@a.xingcloud.com", "app@at.xingcloud.com"
 # end
 
 # task :production do
@@ -74,6 +75,14 @@ namespace :private_pub do
   desc "Restart private_pub server"
   task :restart do
     run "cd #{current_path};RAILS_ENV=production bundle exec thin -C config/private_pub_thin.yml restart"
+  end
+end
+
+namespace :sake do
+  desc "Run a task on a remote server."
+  # run like: cap sake:invoke task="xxx"
+  task :invoke do
+    run("cd #{deploy_to}/current && bundle exec rake #{ENV['task']} RAILS_ENV=#{rails_env}")
   end
 end
 

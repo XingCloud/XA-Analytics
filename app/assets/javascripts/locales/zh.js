@@ -65,7 +65,9 @@ I18n.translations = {
                 "form":{
                     "handler_placeholder":"日期偏移",
                     "in_placeholder": "字段间用逗号隔开",
-                    "date_in_placeholder": "日期(YYYY-MM-DD)用逗号分隔"
+                    "date_in_placeholder": "日期(YYYY-MM-DD)用逗号分隔",
+                    "absolute":"绝对时间",
+                    "relative":"相对时间"
                 }
             },
             "maintenance_plans":{

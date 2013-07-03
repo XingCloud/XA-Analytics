@@ -12,7 +12,7 @@
             <% end %>
         </select>
         <select class="left operator-select" name="expressions_attributes[<%= @index %>][operator]" >
-            <% for operator in Analytics.Static.expression_operators(): %>
+            <% for operator in Analytics.Static.expression_operators(@time_type): %>
                 <option value="<%= operator.value %>" <%= if @operator == operator.value then 'selected="selected"'  %> ><%= operator.name %></option>
             <% end %>
         </select>
@@ -20,10 +20,17 @@
             <input type="text" placeholder="<%= I18n.t('templates.expressions.form.date_in_placeholder') %>" name="expressions_attributes[<%= @index %>][value]" value="<%= @value %>" pattern="^\d{4}-((0\d)|(1[012]))-(([012]\d)|3[01])(,\d{4}-((0\d)|(1[012]))-(([012]\d)|3[01]))*"/>
         <% else if @operator == "in": %>
             <input type="text" placeholder="<%= I18n.t('templates.expressions.form.in_placeholder') %>" name="expressions_attributes[<%= @index %>][value]" value="<%= @value %>"/>
-        <% else if (@value_type == 'Date' or @value_type == 'sql_datetime') and @operator != 'handler': %>
-            <input class="datepicker" type="text" name="expressions_attributes[<%= @index %>][value]" value="<%= if @value? and @value.length > 0 then @value else Analytics.Utils.formatUTCDate(new Date().getTime(), 'YYYY-MM-DD') %>"/>
-        <% else if @operator == 'handler': %>
-            <input type="text" placeholder="<%= I18n.t('templates.expressions.form.handler_placeholder') %>" name="expressions_attributes[<%= @index %>][value]" value="<%= if @value? and @value.length > 0 then @value else 0 %>"/>
+        <% else if (@value_type == 'Date' or @value_type == 'sql_datetime'): %>
+            <input id="time-type" name="expressions_attributes[<%= @index %>][time_type]" value="<%=@time_type%>" type="hidden">
+            <div class="btn-group" data-toggle="buttons-radio">
+              <button type="button" class="<%=(if @time_type == 'absolute' then 'active btn type-btn' else 'btn type-btn')%>" value="absolute"><%= I18n.t('templates.expressions.form.absolute') %></button>
+              <button type="button" class="<%=(if @time_type == 'relative' then 'active btn type-btn' else 'btn type-btn')%>" value="relative"><%= I18n.t('templates.expressions.form.relative') %></button>
+            </div>
+            <% if @time_type=="absolute": %>
+                <input class="datepicker should-check-pattern should-check-empty" type="text" name="expressions_attributes[<%= @index %>][value]" value="<%= if @value? and @value.length > 0 then @value else Analytics.Utils.formatUTCDate(new Date().getTime(), 'YYYY-MM-DD') %>"  pattern="^\d{4}-((0\d)|(1[012]))-(([012]\d)|3[01])$"/>
+            <% else:%>
+                <input class="should-check-pattern should-check-empty" type="text" placeholder="<%= I18n.t('templates.expressions.form.handler_placeholder') %>" name="expressions_attributes[<%= @index %>][value]" value="<%= if @value? and @value.length > 0 then @value else 0 %>" pattern="^-?\d+$"/>
+            <% end %>
         <% else: %>
             <input type="text" name="expressions_attributes[<%= @index %>][value]" value="<%= @value %>"/>
         <% end %>

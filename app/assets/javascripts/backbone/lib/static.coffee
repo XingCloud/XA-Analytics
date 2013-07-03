@@ -22,16 +22,18 @@ Analytics.Static.user_attributes = () ->
     {name: 'geoip', nickname: I18n.t("statics.user_attributes.geoip"), atype: 'sql_string'}
   ]
 
-Analytics.Static.expression_operators = () ->
-  [
+Analytics.Static.expression_operators = (time_type="absolute") ->
+  operators=[
     {value: 'gt', name: I18n.t("statics.expression_operators.gt")},
     {value: 'gte', name: I18n.t("statics.expression_operators.gte")},
     {value: 'lt', name: I18n.t("statics.expression_operators.lt")},
     {value: 'lte', name: I18n.t("statics.expression_operators.lte")},
     {value: 'eq', name: I18n.t("statics.expression_operators.eq")},
-    {value: 'handler', name: I18n.t("statics.expression_operators.handler")},
-    {value: 'in', name: I18n.t("statics.expression_operators.in")}
   ]
+  if time_type != "relative"
+    operators.push({value: 'in', name: I18n.t("statics.expression_operators.in")}) # Don't support operator "in" for relative date.
+
+  operators
 
 Analytics.Static.metric_combine_actions = () ->
   [
