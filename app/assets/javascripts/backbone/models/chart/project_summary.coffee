@@ -28,7 +28,7 @@ class Analytics.Models.ProjectSummaryChart extends Backbone.Model
       name: "x"
       event_key: "visit.*.*.*.*.*"
       count_method: "USER_NUM"
-      segment: '{"register_time":{"$handler":"DateSplittor","offset":0}}'
+      segment: '{"register_time":[{"op":"gte", "expr":"$date_add(0)","type":"VAR"},{"op":"lte", "expr":"$date_add(0)","type":"VAR"}]}'
     ]
     formula: "x"
     id: @id

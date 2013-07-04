@@ -15,9 +15,9 @@ class Analytics.Models.Expression extends Backbone.Model
     if (@get("value_type") == "sql_datetime" or @get("value_type") == "Date") and @get("time_type") == "relative"
       value= @value(@get("value"))
       if @get("operator") == "eq"
-        ge={"op":"ge", "expr":"$date_add(#{value})","type":"VAR"}
-        le={"op":"le", "expr":"$date_add(#{value})","type":"VAR"}
-        result[@get("name")] = [ge,le]
+        gte={"op":"gte", "expr":"$date_add(#{value})","type":"VAR"}
+        lte={"op":"lte", "expr":"$date_add(#{value})","type":"VAR"}
+        result[@get("name")] = [gte,lte]
       else # We will never encounter the situtation that operator is 'in' while time_type is "relative"
         result[@get("name")] = [{"op":@get("operator"), "expr":"$date_add(#{value})", "type":"VAR"}]
     else
