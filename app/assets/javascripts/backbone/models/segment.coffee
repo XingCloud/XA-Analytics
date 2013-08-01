@@ -35,7 +35,7 @@ class Analytics.Models.Segment extends Backbone.Model
         expression = Instances.Collections.expressions.get(expression_attributes.id)
         serialize = results[expression.get("name")]
         if serialize?
-          _.union(serialize, expression.serialize()[expression.get("name")])
+          results[expression.get("name")]=_.union(serialize, expression.serialize()[expression.get("name")])
         else
           _.extend(results, expression.serialize())
       results
