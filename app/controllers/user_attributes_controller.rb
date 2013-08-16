@@ -12,18 +12,28 @@ class UserAttributesController < ProjectBaseController
   def create
     params[:user_attribute][:gpattern] = nil unless params[:user_attribute][:gpattern].present?
     @user_attribute = @project.user_attributes.build(params[:user_attribute])
+
+    AnalyticService.sync_user_attribute(@project, {:type => "SAVE", :params => [user_attribute].to_json})
     if @user_attribute.save
-      Resque.enqueue(Workers::SyncUserAttributes, @project.id, "SAVE", @user_attribute.serialize)
+      #Resque.enqueue(Workers::SyncUserAttributes, @project.id, "SAVE", @user_attribute.serialize)
       render :json => @user_attribute.attributes
     else
       render :json => @user_attribute.attributes, :status => 400
     end
+  rescue
+    render :json=>@user_attribute, :status => 500
   end
 
   def destroy
-    Resque.enqueue(Workers::SyncUserAttributes, @project.id, "REMOVE", @user_attribute.serialize)
-    @user_attribute.destroy
-    render :json => @user_attribute.attributes
+    #Resque.enqueue(Workers::SyncUserAttributes, @project.id, "REMOVE", @user_attribute.serialize)
+    AnalyticService.sync_user_attribute(@project, {:type => "REMOVE", :params => [user_attribute].to_json})
+    if @user_attribute.destroy
+      render :json => @user_attribute.attributes
+    else
+      render :json => @user_attribute.attributes, :status => 400
+    end
+  rescue
+    render :json => @user_attribute, :status => 500
   end
 
   def update

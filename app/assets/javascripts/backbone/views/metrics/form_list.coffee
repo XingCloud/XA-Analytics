@@ -37,7 +37,7 @@ class Analytics.Views.Metrics.FormListItemView extends Backbone.View
       Instances.Collections.metrics.remove(@model)
       Instances.Collections.metrics.add(template_model)
       @model.collection = Instances.Collections.metrics
-      @model.set({id: null, project_id: Instances.Models.project.id}, {silent: true})
+      @model.set({id: null, project_id: Instances.Models.project.id, name:template_model.get("name")+"_custom"}, {silent: true})
       if @model.get("combine_attributes")?
         @model.get("combine_attributes")["id"] = null
         @model.get("combine_attributes")["project_id"] = Instances.Models.project.id
@@ -134,7 +134,7 @@ class Analytics.Views.Metrics.FormListView extends Backbone.View
     this
 
   add_metric: (metric_id) ->
-    if @model.metric_ids.indexOf(metric_id)>=0
+    if @model.metric_ids.indexOf(metric_id)>=0  # model report_tab
       alert(I18n.t('views.metrics.form_list.alert'))
     else
       @model.metric_ids.push(metric_id)

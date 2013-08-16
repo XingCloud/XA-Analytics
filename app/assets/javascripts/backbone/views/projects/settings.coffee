@@ -9,6 +9,7 @@ class Analytics.Views.Projects.SettingsView extends Backbone.View
     @event_levels_view = new Analytics.Views.Settings.EventLevelsFormView({model: Instances.Models.setting})
     @project_users_view = new Analytics.Views.ProjectUsers.IndexView({collection: Instances.Collections.project_users})
     @segments_view = new Analytics.Views.Segments.IndexView({collection: Instances.Collections.segments})
+    @metrics_view = new Analytics.Views.Metrics.IndexView({collection: Instances.Collections.metrics})
     @active = options.active
   
   render: () ->
@@ -19,4 +20,5 @@ class Analytics.Views.Projects.SettingsView extends Backbone.View
     $(@el).find('#event_levels').html(@event_levels_view.render().el)
     $(@el).find('#project_users').html(@project_users_view.render().el)
     $(@el).find('#segments_management').html(@segments_view.render().el)
+    $(@el).find('#metrics_management').html(@metrics_view.render().el)
     this

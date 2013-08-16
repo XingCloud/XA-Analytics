@@ -1,5 +1,5 @@
 class MetricsController < ProjectBaseController
-  before_filter :find_metric, :only => [:update]
+  before_filter :find_metric, :only => [:update, :destroy]
   before_filter :filter_number_of_day, :only => [:create, :update]
   before_filter :check_privilege, :only =>[:create, :update, :destroy]
   after_filter :log_action, :only => [:create, :update]
@@ -27,6 +27,14 @@ class MetricsController < ProjectBaseController
       render :json => @metric.js_attributes
     else
       render :json => @metric.js_attributes, :status => 400
+    end
+  end
+
+  def destroy
+    if @metric.destroy
+      render :json => @metric.js_attributes
+    else
+      render :json => @metric.js_attrbutes, :status => 500
     end
   end
 

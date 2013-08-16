@@ -139,7 +139,8 @@ class Analytics.Views.ReportTabs.CustomRangeView extends Backbone.View
     el = @el
     $(el).find('.custom-datepicker').datepicker({format: 'yyyy/mm/dd'}).on('changeDate', (ev) ->
       $(el).find('.custom-datepicker').datepicker('hide')
-      $(el).find('.end-time').val(Analytics.Utils.pickUTCDate(ev.date.valueOf()))
+      $(ev.currentTarget).prev().val(Analytics.Utils.pickUTCDate(ev.date.valueOf()))
+      #$(el).find('.end-time').val()
     )
 
   clear_error: () ->
@@ -153,14 +154,13 @@ class Analytics.Views.ReportTabs.CustomRangeView extends Backbone.View
   change_custom_range: (ev) ->
     XA.action("click.report.customrange")
     range = {
-      length: parseInt($(@el).find('.length-input').val())
-      interval: $(@el).find('.interval-select option:selected').attr("value")
+      length: @length
+      interval: @interval
     }
-    end_time = parseInt($(@el).find('.end-time').val())
-    change = (@model.end_time != end_time or @model.get("length") != range.length or @model.get("interval") != range.interval)
+    change = (@model.end_time != @end_time or @model.get("length") != range.length or @model.get("interval") != range.interval)
     $(@el).modal('hide')
-    @model.compare_end_time = @model.compare_end_time + end_time - @model.end_time
-    @model.end_time = end_time
+    @model.compare_end_time = @model.compare_end_time + @end_time - @model.end_time
+    @model.end_time = @end_time
     @model.set(range, {silent: true})
     if change
       @model.trigger("change")
@@ -168,10 +168,14 @@ class Analytics.Views.ReportTabs.CustomRangeView extends Backbone.View
   # 检查选择的range是否合法。
   validate_custom_range: (ev) ->
     @clear_error()
-    length = parseInt($(@el).find('.length-input').val())
-    interval = $(@el).find('.interval-select option:selected').attr("value")
-    end_time = parseInt($(@el).find('.end-time').val())
-    ret = Analytics.Utils.validateDateRange(end_time, length, interval)
+
+    start_time = parseInt($(@el).find('.start-time').val())
+    @end_time = parseInt($(@el).find('.end-time').val())
+    @interval = $(@el).find('.interval-select option:selected').attr("value")
+
+    @length = parseInt((@end_time - start_time)/86400000)+1
+
+    ret = Analytics.Utils.validateDateRange(@end_time, @length, @interval)
     if not ret.result
       $(@el).find("span.error-message").text(I18n.t("templates.report_tabs.show_custom_range.error."+ret.message))
       switch ret.message

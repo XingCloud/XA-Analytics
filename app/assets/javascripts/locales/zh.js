@@ -139,7 +139,8 @@ I18n.translations = {
                     "user_attributes":"自定义属性",
                     "custom_event_names":"自定义事件字段名",
                     "privilege_admin":"权限管理",
-                    "segments_management":"用户群管理"
+                    "segments_management":"用户群管理",
+                    "metrics_management":"指标管理"
                 },
                 "show":{
                     "degrade":"回旧版",
@@ -191,7 +192,8 @@ I18n.translations = {
                 },
                 "show_custom_range":{
                     "header":"您想看：",
-                    "end_at":"截止到",
+                    "start_at":"开始",
+                    "end_at":"结束",
                     "length":"时长为",
                     "every":"每",
                     "every_post":"一个点",
@@ -261,13 +263,19 @@ I18n.translations = {
                 "form":{
                     "edit":"编辑属性",
                     "new":"新建属性",
+                    "remove":"删除属性",
+                    "system_attribute":"系统属性",
                     "default_name":"新建属性",
                     "identifier":"字段",
                     "identifier_helper":"字段必须为数字、字母和下划线组合",
                     "type":"类型",
                     "shard_rule":"分段规则",
                     "shard_rule_int_helper":"用数字表示，数字与数字之间用逗号隔开",
-                    "shard_rule_date_helper":"用日期(YYYY-MM-DD)表示，日期与日期之间用逗号隔开"
+                    "shard_rule_date_helper":"用日期(YYYY-MM-DD)表示，日期与日期之间用逗号隔开",
+                    "related_segment": "相关用户群",
+                    "related_metric": "相关指标",
+                    "delete_related": "警告:相关用户群和指标会被一起删除!",
+                    "none":"无"
                 },
                 "index":{
                     "add":"添加属性",

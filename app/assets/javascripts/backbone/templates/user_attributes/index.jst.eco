@@ -43,8 +43,12 @@
                     <% end %>
                 </td>
                 <td>
-                    <a class="btn btn-mini left edit-user-attribute" value="<%= user_attribute.id %>"><i class="icon-edit"/></a>
-                    <a class="btn btn-mini left remove-user-attribute" value="<%= user_attribute.id %>"><i class="icon-remove"/></a>
+                    <%if not _.contains(_.pluck(Analytics.Static.user_attributes(), "name"), user_attribute.get("name")):%>
+                        <a class="btn btn-mini left edit-user-attribute" value="<%= user_attribute.id %>"><i class="icon-edit"/></a>
+                        <a class="btn btn-mini left remove-user-attribute" value="<%= user_attribute.id %>"><i class="icon-remove"/></a>
+                    <%else:%>
+                    <%=I18n.t('templates.user_attributes.form.system_attribute')%>
+                    <%end%>
                 </td>
             </tr>
         <% end %>

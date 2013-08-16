@@ -53,7 +53,7 @@
             <% if @report_category?: %>
                 <%= @report_category.get("name") %>
             <% else: %>
-            <%= I18n.t("commons.uncategorized") %>
+                <%= I18n.t("commons.uncategorized") %>
             <% end %>
         </div>
     </div>

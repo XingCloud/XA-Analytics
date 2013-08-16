@@ -17,7 +17,7 @@ class Analytics.Collections.TimelineCharts extends Analytics.Collections.BaseCha
     _.bindAll this, "fetch_charts"
     #todo immars how selector works?
     @project = Instances.Models.project
-    @selector = options.selector
+    @selector = options.selector #report_tab
     @filters = options.filters
     @for_widget = (if options.for_widget? then options.for_widget else false)
     @last_request = {params: "", resp: "", success: true, time: 0}

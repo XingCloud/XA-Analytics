@@ -41,8 +41,9 @@ class Analytics.Views.UserAttributes.IndexView extends Backbone.View
   remove: (ev) ->
     id = $(ev.currentTarget).attr("value")
     model = @collection.get(id)
-    if confirm(I18n.t('commons.confirm_delete'))
-      model.destroy({wait: true})
+#    if confirm(I18n.t('commons.confirm_delete'))
+#      model.destroy({wait: true})
+    new Analytics.Views.UserAttributes.RemoveView({model: model}).render()
 
   pre_page: (ev) ->
     @page = @page - 1

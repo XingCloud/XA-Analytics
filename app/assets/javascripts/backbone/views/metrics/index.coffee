@@ -133,3 +133,47 @@ class Analytics.Views.Metrics.IndexDropdownView extends Backbone.View
       when 40 then @highlight_next_metric()
       when 38 then @highlight_prev_metric()
       when 13 then @select_metric(ev)
+
+class Analytics.Views.Metrics.IndexView extends Backbone.View
+  template: JST['backbone/templates/metrics/index']
+  events:
+    "click a#new-metric" : "new_metric"
+    "click a.edit-metric" : "edit_metic"
+    "click a.remove-metric" : "remove_metric"
+    "click li.pre.enabled a" : "pre_page"
+    "click li.nex.enabled a" : "nex_page"
+
+  initialize: () ->
+    _.bindAll(this, "render", "redraw")
+    @collection.bind "all", @redraw
+    @page = 1
+
+  render: () ->
+    @calc_page()
+    $(@el).html(@template({
+      metrics: @collection.filter((metric) -> not Instances.Models.project? or metric.get("project_id")?)
+      page: @page
+      max_page: @max_page
+    }))
+    this
+
+  redraw: () ->
+    @delegateEvents(@events)
+    @render()
+
+  remove_metirc: ()->
+    @model
+
+  pre_page: (ev) ->
+    @page = @page - 1
+    @redraw()
+
+  nex_page: (ev) ->
+    @page = @page + 1
+    @redraw()
+
+  calc_page: () ->
+    filtered = @collection.filter((metric) -> metric.get("project_id")?)
+    @max_page = (if filtered.length == 0 then 1 else Math.ceil(filtered.length / 10))
+    if @page > @max_page
+      @page = @max_page

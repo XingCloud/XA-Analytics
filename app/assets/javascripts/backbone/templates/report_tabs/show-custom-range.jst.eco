@@ -6,17 +6,18 @@
 <div class="modal-body">
     <div class="form-horizontal">
         <div class="control-group">
+            <label class="control-label"><%= I18n.t("templates.report_tabs.show_custom_range.start_at") %></label>
+            <div class="controls">
+                <%start_time = @end_time - (@length-1)*86400000%>
+                <input type="hidden" class="start-time" value="<%= start_time %>" />
+                <input type="text" class="input-small custom-datepicker" value="<%= Analytics.Utils.formatUTCDate(start_time) %>" data-date="<%= Analytics.Utils.formatUTCDate(start_time) %>"/>
+            </div>
+        </div>
+        <div class="control-group">
             <label class="control-label"><%= I18n.t("templates.report_tabs.show_custom_range.end_at") %></label>
             <div class="controls">
                 <input type="hidden" class="end-time" value="<%= @end_time %>" />
                 <input type="text" class="input-small custom-datepicker" value="<%= Analytics.Utils.formatUTCDate(@end_time) %>" data-date="<%= Analytics.Utils.formatUTCDate(@end_time) %>"/>
-            </div>
-        </div>
-        <div class="control-group">
-            <label class="control-label"><%= I18n.t("templates.report_tabs.show_custom_range.length") %></label>
-            <div class="controls">
-                <input type="text" class="input-mini length-input" value="<%= @length %>"/>
-                <span><%= I18n.t("commons.days") %></span>
             </div>
         </div>
         <div class="control-group">

@@ -140,7 +140,8 @@ I18n.translations = {
                     "user_attributes":"User attributes",
                     "custom_event_names":"Event names",
                     "privilege_admin":"Privilege administrator",
-                    "segments_management":"Segments Management"
+                    "segments_management":"Segments Management",
+                    "metrics_management":"Metrics Management"
                 },
                 "show":{
                     "degrade":"Old version",
@@ -192,7 +193,8 @@ I18n.translations = {
                 },
                 "show_custom_range":{
                     "header":"Custom report time range",
-                    "end_at":"End at",
+                    "start_at":"Start",
+                    "end_at":"End",
                     "length":"Length",
                     "every":"Every",
                     "every_post":"a point",
@@ -262,13 +264,19 @@ I18n.translations = {
                 "form":{
                     "edit":"Edit Attribute",
                     "new":"New Attribute",
+                    "remove":"Delete Attribute",
+                    "system_attribute":"system attribute",
                     "default_name":"new attribute",
                     "identifier":"Identifier",
                     "identifier_helper":"Muse be letters, numbers or underline",
                     "type":"Type",
                     "shard_rule":"Shard rule",
                     "shard_rule_int_helper":"use number separated by comma",
-                    "shard_rule_date_helper":"use date(YYYY-MM-DD) separated by comma"
+                    "shard_rule_date_helper":"use date(YYYY-MM-DD) separated by comma",
+                    "related_segment": "related segment",
+                    "related_metric": "related metric",
+                    "delete_related": "Warning:Related segments and metrics will be deleted also!",
+                    "none":"none"
                 },
                 "index":{
                     "add":"Add Attribute",
