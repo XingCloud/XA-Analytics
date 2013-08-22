@@ -9,6 +9,7 @@ class Analytics.Views.UserAttributes.RemoveView extends Backbone.View
 
   initialize: (options)->
     attribute = @model
+    @model.view = this
     relative_expressions = _.filter(Instances.Collections.expressions.models, (model)-> model.get("name") == attribute.get("name"))
 
     @relative_segments = _.uniq(_.map(relative_expressions, (expression) -> Instances.Collections.segments.get(expression.get("segment_id"))), (segment)->segment.get("id"))
@@ -21,13 +22,17 @@ class Analytics.Views.UserAttributes.RemoveView extends Backbone.View
     $(@el).modal()
 
   submit: (ev) ->
+    #todo also need to remove related expressions at client side(server-side expressions were removed with segment), or we will get erroe after removing user attribute fail.
+
     for segments in @relative_segments
       segments.destroy({wait:true})
 
     for metric in @relative_metrics
       metric.destroy({wait:true})
 
-    @model.destroy({wait: true})
+    @model.destroy({wait: true, success: (model ,resp) ->
+      $(model.view.el).modal('hide')
+    })
 
   hidden: (ev) ->
     @remove()
