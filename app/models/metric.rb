@@ -13,7 +13,7 @@ class Metric < ActiveRecord::Base
   before_validation :correct_combine
   
   validates_presence_of :name
-  validates_uniqueness_of :name, :scope => :project_id
+  #validates_uniqueness_of :name, :scope => :project_id
   validates_presence_of :condition
   validates_numericality_of :number_of_day, :only_integer => true, :if => proc{|m| m.number_of_day.present? }
   validates_numericality_of :number_of_day_origin, :only_integer => true, :if => proc{|m| m.number_of_day_origin.present?}
