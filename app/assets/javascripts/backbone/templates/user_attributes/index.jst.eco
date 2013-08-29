@@ -47,7 +47,8 @@
                         <a class="btn btn-mini left edit-user-attribute" value="<%= user_attribute.id %>"><i class="icon-edit"/></a>
                         <a class="btn btn-mini left remove-user-attribute" value="<%= user_attribute.id %>"><i class="icon-remove"/></a>
                     <%else:%>
-                    <%=I18n.t('templates.user_attributes.form.system_attribute')%>
+                    <!--%=I18n.t('templates.user_attributes.form.system_attribute')%-->
+                        <a class="btn btn-mini left edit-user-attribute" value="<%= user_attribute.id %>"><i class="icon-edit"/></a>
                     <%end%>
                 </td>
             </tr>
