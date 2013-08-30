@@ -5,6 +5,8 @@ class Analytics.Routers.ProjectsRouter extends Backbone.Router
     "settings/:active" : "settings_with_active"
     "action_logs": "action_logs"
     "action_logs/:page": "action_logs"
+    "ads" : "ads"
+    "ads/:active" : "ads_with_active"
 
   initialize: () ->
 
@@ -36,5 +38,16 @@ class Analytics.Routers.ProjectsRouter extends Backbone.Router
       model: Instances.Models.project
       active: active
     })
+    $('#main-container').html(view.render().el)
+    $('.nav-report').removeClass('active')
+
+  ads: ()->
+    @do_ads()
+
+  ads_with_active: (active) ->
+    @do_ads(active)
+
+  do_ads:(active = null) ->
+    view = new Analytics.Views.Projects.AdsView({active: active})
     $('#main-container').html(view.render().el)
     $('.nav-report').removeClass('active')

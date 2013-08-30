@@ -222,7 +222,8 @@ I18n.translations = {
                 "left_nav":{
                     "add_report":"Add Report",
                     "dashboard":"Dashboard",
-                    "settings":"Settings"
+                    "settings":"Settings",
+                    "ads":"Ads"
                 },
                 "list":{
                     "header":"Reports",
@@ -353,6 +354,12 @@ I18n.translations = {
                 "set_language":{
                     "title":"Choose Language"
                 }
+            },
+            "ads":{
+                "date":"Date",
+                "channel":"Channel",
+                "fee":"Fee",
+                "create_at":"create at"
             }
         },
         "commons":{

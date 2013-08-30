@@ -1,0 +1,51 @@
+<form class="form-inline well">
+  <input id="date" class="datepicker" type="text" value="<%= Analytics.Utils.formatUTCDate(new Date().getTime(), 'YYYY-MM-DD') %>"/>
+  <input id="channel" type="text" class="input-small" placeholder="Channel">
+  <input id="fee" type="text" class="input-small" placeholder="Fee">
+  <a id="add_ad" class="btn btn-primary" >Add</a>
+</form>
+
+<table class="table">
+    <tr>
+        <th width="25%"><%= I18n.t("templates.ads.date") %></th>
+        <th width="25%"><%= I18n.t("templates.ads.channel") %></th>
+        <th width="15%"><%= I18n.t("templates.ads.fee") %></th>
+        <th width="20%"><%= I18n.t('commons.created_at') %></th>
+        <th width="15%"></th>
+    </tr>
+    <% if @ads.length > 0: %>
+        <% for index in [(@page - 1)*10..Math.min(@page*10 - 1, @ads.length - 1)]: %>
+            <% ad = @ads[index] %>
+            <tr>
+                <td><%= ad.get('date') %></td>
+                <td><%= ad.get('channel') %></td>
+                <td><%= ad.get('fee') %></td>
+                <td><%= ad.get('created_at') %></td>
+                <td>
+                    <a class="btn btn-mini left remove-ad" value="<%= ad.get("id") %>"><i class="icon-remove"/></a>
+                </td>
+            </tr>
+        <% end %>
+    <%else:%>
+        <tr>
+            <td colspan=5 style="text-align:center;"><%=I18n.t("commons.no_data")%></td>
+        </tr>
+    <% end %>
+</table>
+
+<div class="row-fluid">
+    <ul class="pager right">
+        <% if @page > 1: %>
+            <li class="pre enabled"><a style="cursor: pointer;"><%= I18n.t("commons.previous_page") %></a></li>
+        <% else: %>
+            <li class="pre disabled"><a><%= I18n.t("commons.previous_page") %></a></li>
+        <% end %>
+        <%= @page %>&nbsp;/&nbsp;<%= @max_page %>
+        <% if @page < @max_page: %>
+            <li class="nex enabled"><a style="cursor: pointer;"><%= I18n.t("commons.next_page") %></a></li>
+        <% else: %>
+            <li class="nex disabled"><a><%= I18n.t("commons.next_page") %></a></li>
+        <% end %>
+    </ul>
+</div>
+

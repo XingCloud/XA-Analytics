@@ -221,7 +221,8 @@ I18n.translations = {
                 "left_nav":{
                     "add_report":"添加报告",
                     "dashboard":"数据面板",
-                    "settings":"项目设置"
+                    "settings":"项目设置",
+                    "ads":"打广告费"
                 },
                 "show":{
                     "timezone":"报告时区为UTC+0"
@@ -358,6 +359,15 @@ I18n.translations = {
                 "set_language":{
                     "title":"设置语言"
                 }
+            },
+            "ads":{
+                "header":"打广告费",
+                "ads_add":"打广告费",
+                "url_gen":"URL生成",
+                "date":"日期",
+                "channel":"渠道",
+                "fee":"费用",
+                "create_at":"创建时间"
             }
         },
         "commons":{

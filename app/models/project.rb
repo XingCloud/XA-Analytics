@@ -13,6 +13,7 @@ class Project < ActiveRecord::Base
   has_many :project_users, :dependent => :destroy
   has_many :users, :through => :project_users 
   has_one :setting, :dependent => :destroy
+  has_many :ads, :dependent => :destroy
 
   validate :identifier, :presence => true, :uniqueness => true
 
