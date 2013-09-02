@@ -223,7 +223,7 @@ I18n.translations = {
                     "add_report":"Add Report",
                     "dashboard":"Dashboard",
                     "settings":"Settings",
-                    "ads":"Ads"
+                    "ads_track":"Ads track"
                 },
                 "list":{
                     "header":"Reports",
@@ -363,7 +363,8 @@ I18n.translations = {
                 "fee":"Fee($)",
                 "add":"Add",
                 "date":"Date",
-                "create_at":"create at"
+                "create_at":"create at",
+                "list":"Display all"
             }
         },
         "commons":{

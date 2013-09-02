@@ -3,6 +3,7 @@
   <input id="channel" type="text" class="input-small" placeholder="<%=  I18n.t("templates.ads.channel") %>">
   <input id="fee" type="text" class="input-small" placeholder="<%=  I18n.t("templates.ads.fee") %>">
   <a id="add-ad" class="btn btn-primary" ><%=  I18n.t("templates.ads.add")%></a>
+  <a id="list-all" class="btn btn-primary" ><%=  I18n.t("templates.ads.list")%></a>
   <span class="error-message"></span>
 </form>
 
@@ -20,7 +21,11 @@
             <tr>
                 <td><%= ad.get('date') %></td>
                 <td><%= ad.get('channel') %></td>
-                <td><%= ad.get('fee') %></td>
+                <td class="td-fee" ad-id="<%=ad.get('id')%>" >
+                    <label><%= ad.get('fee') %><i class="icon-pencil" style="display:none"></i></label>
+                    <input class="input-small" value="<%= ad.get('fee') %>" style="display:none"></input>
+                    <span class="error-message"></span>
+                </td>
                 <!--td><%= ad.get('created_at') %></td>
                 <td>
                     <a id="remove-ad" class="btn btn-mini left" value="<%= ad.get("id") %>"><i class="icon-remove"/></a>

@@ -222,7 +222,7 @@ I18n.translations = {
                     "add_report":"添加报告",
                     "dashboard":"数据面板",
                     "settings":"项目设置",
-                    "ads":"打广告费"
+                    "ads_track":"广告追踪"
                 },
                 "show":{
                     "timezone":"报告时区为UTC+0"
@@ -368,7 +368,8 @@ I18n.translations = {
                 "fee":"费用(美元)",
                 "add":"添加",
                 "date":"日期",
-                "create_at":"创建时间"
+                "create_at":"创建时间",
+                "list":"显示所有"
             }
         },
         "commons":{

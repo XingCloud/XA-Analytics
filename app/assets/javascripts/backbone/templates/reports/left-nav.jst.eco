@@ -37,8 +37,8 @@
 
     <li class="nav-report">
         <a href="<%= Analytics.Utils.hrefWrapper('ads') %>">
-            <i class="icon icon-plus"></i>
-            <%= I18n.t('templates.reports.left_nav.ads') %>
+            <i class="icon icon-hand-up"></i>
+            <%= I18n.t('templates.reports.left_nav.ads_track') %>
         </a>
     </li>
 </ul>

@@ -19,6 +19,15 @@ class AdsController < ProjectBaseController
     end
   end
 
+  def update
+    @ad.attributes = params[:ad]
+    if @ad.save
+      render :json => @ad.js_attributes
+    else
+      render :json => @ad.js_attributes, :status => 400
+    end
+  end
+
   def destroy
     if @ad.destroy
       render :json => @ad.js_attributes
