@@ -364,9 +364,10 @@ I18n.translations = {
                 "header":"打广告费",
                 "ads_add":"打广告费",
                 "url_gen":"URL生成",
-                "date":"日期",
                 "channel":"渠道",
-                "fee":"费用",
+                "fee":"费用(美元)",
+                "add":"添加",
+                "date":"日期",
                 "create_at":"创建时间"
             }
         },
@@ -536,7 +537,8 @@ I18n.translations = {
                 "not_empty":"不能为空",
                 "should_be_integer":"必须为整数",
                 "should_be_number":"必须为数字",
-                "should_be_natural_number":"必须为大于或等于0的整数"
+                "should_be_natural_number":"必须为大于或等于0的整数",
+                "should_be_non_negative_number":"必须为非负数"
             }
         }
     }

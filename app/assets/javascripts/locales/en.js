@@ -356,9 +356,13 @@ I18n.translations = {
                 }
             },
             "ads":{
-                "date":"Date",
+                "header":"ADS",
+                "ads_add":"Add ADS",
+                "url_gen":"URL Generator",
                 "channel":"Channel",
-                "fee":"Fee",
+                "fee":"Fee($)",
+                "add":"Add",
+                "date":"Date",
                 "create_at":"create at"
             }
         },
@@ -528,7 +532,8 @@ I18n.translations = {
                 "not_empty":"cannot be empty",
                 "should_be_integer":"must be integer",
                 "should_be_number":"must be number",
-                "should_be_natural_number":"must be natural number"
+                "should_be_natural_number":"must be natural number",
+                "should_be_non_negative_number": "must be non negative number"
             }
         }
     }

@@ -1,4 +1,4 @@
-class XA
+class Analytics.XA
   url: "//xa.xingcloud.com/v4/"
   actions: []
   updates: []
@@ -47,4 +47,4 @@ class XA
     if @updates.length + @actions.length > 0
       @asyncSend()
     @sending = false
-window.XA = new XA()
+window.XA = new Analytics.XA()

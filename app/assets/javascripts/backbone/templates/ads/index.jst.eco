@@ -1,17 +1,18 @@
-<form class="form-inline well">
-  <input id="date" class="datepicker" type="text" value="<%= Analytics.Utils.formatUTCDate(new Date().getTime(), 'YYYY-MM-DD') %>"/>
-  <input id="channel" type="text" class="input-small" placeholder="Channel">
-  <input id="fee" type="text" class="input-small" placeholder="Fee">
-  <a id="add_ad" class="btn btn-primary" >Add</a>
+<form id="add-ad-form" class="form-inline well">
+  <input id="date" class="datepicker" type="text" value="<%= @date %>"/>
+  <input id="channel" type="text" class="input-small" placeholder="<%=  I18n.t("templates.ads.channel") %>">
+  <input id="fee" type="text" class="input-small" placeholder="<%=  I18n.t("templates.ads.fee") %>">
+  <a id="add-ad" class="btn btn-primary" ><%=  I18n.t("templates.ads.add")%></a>
+  <span class="error-message"></span>
 </form>
 
 <table class="table">
     <tr>
-        <th width="25%"><%= I18n.t("templates.ads.date") %></th>
-        <th width="25%"><%= I18n.t("templates.ads.channel") %></th>
-        <th width="15%"><%= I18n.t("templates.ads.fee") %></th>
-        <th width="20%"><%= I18n.t('commons.created_at') %></th>
-        <th width="15%"></th>
+        <th width="30%"><%= I18n.t("templates.ads.date") %></th>
+        <th width="30%"><%= I18n.t("templates.ads.channel") %></th>
+        <th width="40%"><%= I18n.t("templates.ads.fee") %></th>
+        <!--th width="20%"><%= I18n.t('commons.created_at') %></th>
+        <th width="15%"></th-->
     </tr>
     <% if @ads.length > 0: %>
         <% for index in [(@page - 1)*10..Math.min(@page*10 - 1, @ads.length - 1)]: %>
@@ -20,10 +21,10 @@
                 <td><%= ad.get('date') %></td>
                 <td><%= ad.get('channel') %></td>
                 <td><%= ad.get('fee') %></td>
-                <td><%= ad.get('created_at') %></td>
+                <!--td><%= ad.get('created_at') %></td>
                 <td>
-                    <a class="btn btn-mini left remove-ad" value="<%= ad.get("id") %>"><i class="icon-remove"/></a>
-                </td>
+                    <a id="remove-ad" class="btn btn-mini left" value="<%= ad.get("id") %>"><i class="icon-remove"/></a>
+                </td-->
             </tr>
         <% end %>
     <%else:%>
