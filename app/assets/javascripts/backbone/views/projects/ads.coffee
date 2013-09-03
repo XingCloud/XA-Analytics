@@ -10,7 +10,8 @@ class Analytics.Views.Projects.AdsView extends Backbone.View
 
   render:()->
     $(@el).html(@template({
-      active: @active
+      active: @active,
+      appid: Instances.Models.project.get("identifier")
     }))
 
     $(@el).find('#ads').html(@ads_view.render().el)
