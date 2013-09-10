@@ -50,7 +50,7 @@ class Analytics.Views.Ads.IndexView extends Backbone.View
       model = new Analytics.Models.Ad({date:@date, channel:@channel, fee:@fee})
       model.save({}, {wait:true, success: (model ,resp) ->
         collection.add(model)
-        _this.xa_log(date, channel, fee)
+        _this.xa_log(date, channel, parseFloat(fee)*100)
       })
 
   edit_fee: (ev) ->
@@ -68,7 +68,7 @@ class Analytics.Views.Ads.IndexView extends Backbone.View
     _this = @
     if @check_fee(fee, $(ev.currentTarget).parent().find("span.error-message"))
       model.save({fee:fee},{wait:true, success:(model, resp)->
-        _this.xa_log(model.get("date"), model.get("channel"), model.get("fee"))
+        _this.xa_log(model.get("date"), model.get("channel"), parseFloat(model.get("fee"))*100)
         redraw()
       })
 
