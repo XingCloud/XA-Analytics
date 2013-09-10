@@ -1,3 +1,6 @@
+<p>
+    行云可以抓取来自google adwords, facebook 以及 tapjoy的广告。如果其他的渠道花费还没有被抓取，可以通过这个页面手动录入。
+</p>
 <form id="add-ad-form" class="form-inline well">
   <input id="date" class="datepicker" type="text" value="<%= @date %>"/>
   <input id="channel" type="text" class="input-small" placeholder="<%=  I18n.t("templates.ads.channel") %>">

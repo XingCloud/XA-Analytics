@@ -20,7 +20,7 @@
 
                     <div class="controls">
                         <input type="text" class="form-control"
-                               placeholder="appid。可以是GDP发布的ID如ddt@elex337_en_1；也可以是项目ID如ddt。aoe android以age@android开头，iOS固定为age@ios_en">
+                               placeholder="appid。可以是GDP发布的ID如<%= @appid %>@elex337_en_1；也可以是项目ID如<%= @appid %>。<%= if @appid == 'age' then 'aoe android以age@android开头，iOS固定为age@ios_en'%>">
                     </div>
                 </div>
                 <div class="control-group" id="url" >
@@ -42,14 +42,14 @@
                     <label for="country" class="control-label">语言信息</label>
 
                     <div class="controls">
-                        <input type="text" class="form-control" placeholder="本广告针对的语言。如en,pt,tr,等等。如果appid已经包括语言信息（如ddt@elex337_en_1），则此项可以不填">
+                        <input type="text" class="form-control" placeholder="本广告针对的语言。如en,pt,tr,等等。">
                     </div>
                 </div>
                 <div class="control-group" id="platform" >
                     <label for="platform" class="control-label">平台信息</label>
 
                     <div class="controls">
-                        <input type="text" class="form-control" placeholder="应用所在平台，如elex337,facebook等。如果appid已经包括平台信息（如ddt@elex337_en_1），则此项可以不填">
+                        <input type="text" class="form-control" placeholder="应用所在平台，如elex337,facebook等。">
                     </div>
                 </div>
                 <div class="control-group" id="channel">
