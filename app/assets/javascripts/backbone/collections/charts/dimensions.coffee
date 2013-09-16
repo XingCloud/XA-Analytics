@@ -117,7 +117,7 @@ class Analytics.Collections.DimensionCharts extends Analytics.Collections.BaseCh
     if (not @for_widget and @selector.get("compare") != 0 and
         @data.length > 0 and not @has_pendings() and
         @orderby?)
-      dimension_results = (item[0] for item in @data)
+      dimension_results = (item[0] for item in @data) #
       compare = @compares[@orderby]
       if not compare?
         compare = new Analytics.Collections.ComparisonDimensionCharts([], {
