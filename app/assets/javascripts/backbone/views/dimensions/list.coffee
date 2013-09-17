@@ -24,11 +24,16 @@ class Analytics.Views.Dimensions.ListView extends Backbone.View
     _.bindAll this, "render", "redraw"
     @render_to = options.render_to
     @parent_view = options.parent_view
-    @dimensions = new Analytics.Collections.DimensionCharts([], {
-      selector: @model
+    @init_dimensions()
+
+  init_dimensions:()->
+    @dimensions = new Analytics.Collections.DimensionCharts([], {  # the original object will be destroyed by js gc
+      selector: @model # report_tab
       filters: @model.dimensions_filters()
     })
     @dimensions.orderby = @model.get("metric_ids")[0] if @model.get("metric_ids")[0]?
+    @dimensions.initialize_charts(@model.get("metric_ids"), Instances.Collections.segments.selected())
+    @dimensions.activate()
 
   render: (should_fetch = true, should_scroll = false) ->
     $(@el).html(@template(@model.show_attributes()))
@@ -43,16 +48,11 @@ class Analytics.Views.Dimensions.ListView extends Backbone.View
 
   render_dimensions_chart: () ->
     render_to = $(@el).find(".dimensions-chart")[0]
-    segment_ids = Instances.Collections.segments.selected()
-    @dimensions.initialize_charts(@model.get("metric_ids"), segment_ids)
-    if not @dimensions_chart_view?
-      @dimensions_chart_view = new Analytics.Views.Charts.DimensionsView({
-        collection: @dimensions
-        render_to: render_to
-      })
-      @dimensions_chart_view.render()
-    else
-      @dimensions_chart_view.redraw({render_to: render_to})
+    @dimensions_chart_view = new Analytics.Views.Charts.DimensionsView({  # reconstruct everytime cause we may have different dimensions
+      collection: @dimensions
+      render_to: render_to
+    })
+    @dimensions_chart_view.render()
 
   redraw: (options = {}) ->
     @remove()
@@ -65,6 +65,10 @@ class Analytics.Views.Dimensions.ListView extends Backbone.View
     should_scroll = (if options.should_scroll? then options.should_scroll else false)
     @render(should_fetch, should_scroll)
     @delegateEvents(@events)
+
+  dimensions_change: (options = {}) ->
+    @init_dimensions() # for thread safety reasons: reconstruct dimensions collection each time we change dimensions
+    @redraw(options)
 
   fetch_dimensions: () ->
     if @model.dimension?

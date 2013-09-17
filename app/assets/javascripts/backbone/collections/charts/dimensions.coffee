@@ -4,7 +4,7 @@ class Analytics.Collections.DimensionCharts extends Analytics.Collections.BaseCh
   initialize: (models, options) ->
     _.bindAll this, "fetch_charts"
     @project = Instances.Models.project
-    @selector = options.selector
+    @selector = options.selector # report_tab
     @filters = options.filters
     @for_widget = (if options.for_widget? then options.for_widget else false)
     @total = 0

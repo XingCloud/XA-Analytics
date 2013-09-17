@@ -26,6 +26,7 @@ window.Instances = {
       if chart instanceof Analytics.Collections.TimelineCharts and not (chart in Instances.Charts.timelines)
         Instances.Charts.timelines.push(chart)
       else if chart instanceof Analytics.Collections.DimensionCharts and not (chart in Instances.Charts.dimensions)
+        Instances.Charts.dimensions = [] # current, we only store one dimension object
         Instances.Charts.dimensions.push(chart)
     is_activated: (chart) ->
       if chart instanceof Analytics.Collections.TimelineCharts

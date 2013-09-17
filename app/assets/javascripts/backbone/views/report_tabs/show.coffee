@@ -71,7 +71,7 @@ class Analytics.Views.ReportTabs.ShowView extends Backbone.View
     render_to = $(@el).find("#report_tab_" + @model.id + "_dimensions")[0]
     if not @dimensions_view?
       @dimensions_view = new Analytics.Views.Dimensions.ListView({
-        model: @model
+        model: @model  # report_tab
         render_to: render_to
         parent_view: this
       })
@@ -91,10 +91,10 @@ class Analytics.Views.ReportTabs.ShowView extends Backbone.View
         error: (xhr, options, err) ->
           timelines_view.unblock()
       }, @model.force_fetch)
-      if @model.dimension?
+      if @model.dimension?  # if we have dimension to deal with, modified by panel
         dimensions_view = @dimensions_view
+        @dimensions_view.dimensions_change({should_fetch:false}) # fetch_data may trigger with dimensions change, eg: add segment
         @dimensions_view.block()
-        @dimensions_view.dimensions.activate()
         @dimensions_view.dimensions.fetch_charts({
           success: (resp) ->
             dimensions_view.unblock()

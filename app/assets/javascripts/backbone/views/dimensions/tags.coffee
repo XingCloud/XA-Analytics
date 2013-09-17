@@ -29,7 +29,7 @@ class Analytics.Views.Dimensions.TagsView extends Backbone.View
     if dimension? and dimension != @model.dimension
       @do_choose_dimension(dimension)
       @redraw()
-      @report_tab_view.dimensions_view.redraw({should_scroll: true})
+      @report_tab_view.dimensions_view.dimensions_change({should_scroll: true})
 
   remove_dimension: (ev) ->
     dimension_value = $(ev.currentTarget).attr("dimension-value")
@@ -43,14 +43,13 @@ class Analytics.Views.Dimensions.TagsView extends Backbone.View
       @model.dimension = null
     @redraw()
     if active
-      @report_tab_view.dimensions_view.redraw({should_scroll: true})
+      @report_tab_view.dimensions_view.dimensions_change({should_scroll: true})
 
   add_dimension: (ev) ->
     option = $(ev.currentTarget)
     @do_add_dimension(option.attr("value"), option.attr("dimension_type"), option.attr("value_type"))
     @redraw()
-    @report_tab_view.dimensions_view.dimensions.activate()
-    @report_tab_view.dimensions_view.redraw({should_scroll: true})
+    @report_tab_view.dimensions_view.dimensions_change({should_scroll: true})
 
   click_filter: (ev) ->
     if $(ev.currentTarget).hasClass("all")
