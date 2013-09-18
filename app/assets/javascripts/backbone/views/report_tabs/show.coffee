@@ -14,7 +14,7 @@ class Analytics.Views.ReportTabs.ShowView extends Backbone.View
     })
 
   render: () ->
-    $(@el).html(@template(@model.show_attributes()))
+    $(@el).html(@template(@model.show_attributes()))   #report_tab.show_attributes() will check if we need to set report_tab.dimenssion to null, like we click one dimension value
     $(@report_view.el).find('.tab-container').html($(@el))
     @render_timelines()
     @render_kpis()
