@@ -57,8 +57,12 @@ class Analytics.Collections.TimelineCharts extends Analytics.Collections.BaseCha
       filters: @filters
     })
     chart.selector = @selector
-    if @get(chart.id)?
+    if @get(chart.id)?  # reserve the display property
       chart.display = @get(chart.id).display
+
+    if compare_for? and @get(compare_for) # consider the circumstance: click the compare checkbox, make sure that compare timeline has the same display value with the original timeline
+      chart.display = @get(compare_for).display
+
     chart
 
   initialize_display: (metric_id) ->
