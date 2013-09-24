@@ -43,6 +43,8 @@ class Analytics.Collections.ComparisonDimensionCharts extends Analytics.Collecti
           contains_error = true
         chart = @get(sequence.id)
         _.extend(chart.get("sequence"), sequence)
+
+      @trigger_change() # todo:_.extend don't trigger change sometime, don't know why.
       not contains_error
 
   has_pendings: () ->
