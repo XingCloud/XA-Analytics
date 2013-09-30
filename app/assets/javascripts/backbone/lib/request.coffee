@@ -59,9 +59,10 @@ Analytics.Request.doAlertWithErrcode = (err_code) ->
     "ERR_20":     {type: "alert-error", message: I18n.t("errors.err_20")},
     "ERR_22":     {type: "alert-error", message: I18n.t("errors.err_22")},
     "ERR_37":     {type: "alert-error", message: I18n.t("errors.err_37")},
-    "ERR_39":     {type: "alert-error", message: I18n.t("errors.err_39")}
-    "ERR_36":     {type: "", message: I18n.t("errors.err_36")}
-    "ERR_TIMEOUT":{type: "alert-error", message: I18n.t("errors.err_40")}
+    "ERR_39":     {type: "alert-error", message: I18n.t("errors.err_39")},
+    "ERR_36":     {type: "", message: I18n.t("errors.err_36")},
+    "ERR_TIMEOUT":{type: "alert-error", message: I18n.t("errors.err_40")},
+    "ERR_UNKNOWN":{type: "alert-error", message: I18n.t("errors.err_unknown")}
   }
   option = codeTable[err_code]
   if not option?

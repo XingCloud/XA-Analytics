@@ -99,6 +99,8 @@ class Analytics.Collections.BaseCharts extends Backbone.Collection
       @last_request.success = false
       if resp["err_code"]?
         Analytics.Request.doAlertWithErrcode (resp["err_code"])
+      else
+        Analytics.Request.doAlertWithErrcode("ERR_UNKNOWN") ## contains error but error_code is null, see timelines.process_fetched_data
     if send_xa
       @xa_action(start_time, (if contains_error then "error" else "success"))
 
