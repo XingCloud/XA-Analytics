@@ -129,7 +129,8 @@ class AnalyticService
     pp options
 
     url = URI.parse(File.join(BASE_URL, url_str))
-    ["xaa"].each do |request_drill_project|
+    #url = URI.parse(File.join("http://69.28.58.61:8082", url_str))
+    ["xaa", "xlfc", "ram", "ddt", "opiece", "bwzq", "yzzt", "age"].each do |request_drill_project|
       if options.to_s.include? request_drill_project
         url = URI.parse(File.join("http://69.28.58.61:8082", url_str))
         break
