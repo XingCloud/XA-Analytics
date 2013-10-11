@@ -8,15 +8,27 @@ class Expression < ActiveRecord::Base
   EXPRESSION_OPERATORS = ["gt","gte", "lt", "lte", "eq", "handler", "in"]
 
   def sequence
-    if operator == "eq"
-      {name => value_wrapper(value)}
-    elsif operator == "in"
-      {name => value.split(",").map{|item| value_wrapper(item)}}
-    elsif operator == "handler"
-      {name => {"$handler" => "DateSplittor", "offset" => value.present? ? value.to_i : 0}}
+    result = {}
+    if value_type == "sql_datetime" or value_type == "Date" and time_type == "relative"
+      w_value= value_wrapper(value)
+      if operator == "eq"
+        gte={"op"=>"gte", "expr"=>"$date_add(#{w_value})","type"=>"VAR"}
+        lte={"op"=>"lte", "expr"=>"$date_add(#{w_value})","type"=>"VAR"}
+        result[name] = [gte,lte]
+      else # We will never encounter the situtation that operator is 'in' while time_type is "relative"
+        result[name] = [{"op"=>operator, "expr"=>"$date_add(#{w_value})", "type"=>"VAR"}]
+      end
     else
-      {name => {"$#{operator}" => value_wrapper(value)}}
+      expression={"op"=>operator}
+      expression["type"] = "CONST"
+      result[name]=[expression]
+      if operator == "in"
+        expression["expr"] = value.split(",").map{|x|value_wrapper(x)}.join("|")
+      else
+        expression["expr"] = value_wrapper(value)
+      end
     end
+    result
   end
 
   private

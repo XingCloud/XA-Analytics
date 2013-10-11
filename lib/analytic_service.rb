@@ -126,6 +126,7 @@ class AnalyticService
 
   def self.commit(url_str, options = {})
     url = URI.parse(File.join(BASE_URL, url_str))
+    #url = URI.parse(File.join("http://69.28.58.61:8082", url_str))
     #if url_str.index("query")
     #  project_id = JSON.parse(options[:params])[0]["project_id"]
     #  if ["xaa", "xlfc", "ram", "ddt", "opiece", "bwzq", "yzzt", "age"].include? project_id
