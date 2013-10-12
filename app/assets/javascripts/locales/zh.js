@@ -276,7 +276,8 @@ I18n.translations = {
                     "related_segment": "相关用户群",
                     "related_metric": "相关指标",
                     "delete_related": "警告:相关用户群和指标会被一起删除!",
-                    "none":"无"
+                    "none":"无",
+                    "func":"更新方式"
                 },
                 "index":{
                     "add":"添加属性",

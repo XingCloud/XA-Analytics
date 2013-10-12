@@ -87,6 +87,13 @@ Analytics.Static.user_attribute_types = () ->
     {key: "sql_datetime", value: I18n.t("statics.user_attribute_types.sql_datetime")}
   ]
 
+Analytics.Static.user_attribute_funcs = () ->
+  [
+    {key:"cover",value:"cover"},
+    {key:"once", value:"once"},
+    {key:"inc", value:"inc"}
+  ]
+
 Analytics.Static.report_tab_ranges = () ->
   [
     {name: I18n.t("statics.report_tab_ranges.realtime"), day_offset: 0, length: 1, interval: "min5"},

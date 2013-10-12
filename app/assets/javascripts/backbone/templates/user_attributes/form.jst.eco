@@ -28,6 +28,16 @@
             </div>
         </div>
         <div class="control-group">
+            <label class="control-label"><abbr title="必填">*</abbr><%= I18n.t('templates.user_attributes.form.func') %></label>
+            <div class="controls">
+                <select class="atype" name="func" <%= if @id? then 'disabled="disabled"' %> >
+                    <% for func in Analytics.Static.user_attribute_funcs(): %>
+                        <option value="<%= func.key %>" <%= if func.key == @func then 'selected="selected"' %>><%= func.value %></option>
+                    <% end %>
+                </select>
+            </div>
+        </div>
+        <div class="control-group">
             <label class="control-label"><abbr title="必填">*</abbr><%= I18n.t('templates.user_attributes.form.type') %></label>
             <div class="controls">
                 <select class="atype" name="atype" <%= if @id? then 'disabled="disabled"' %> >
@@ -52,6 +62,7 @@
                 <% end %>
             </div>
         </div>
+
     </form>
 </div>
 <div class="modal-footer">

@@ -17,7 +17,8 @@ class UserAttribute < ActiveRecord::Base
         :name => name,
         :nickname => nickname,
         :type => atype,
-        :groupby_pattern => gpattern
+        :groupby_pattern => gpattern,
+        :func => func
     }
   end
 

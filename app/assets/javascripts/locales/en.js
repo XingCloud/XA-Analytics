@@ -277,7 +277,8 @@ I18n.translations = {
                     "related_segment": "related segment",
                     "related_metric": "related metric",
                     "delete_related": "Warning:Related segments and metrics will be deleted also!",
-                    "none":"none"
+                    "none":"none",
+                    "func":"Update"
                 },
                 "index":{
                     "add":"Add Attribute",
