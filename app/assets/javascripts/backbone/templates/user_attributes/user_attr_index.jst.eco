@@ -1,0 +1,73 @@
+<div class="row-fluid">
+    <a class="btn btn-primary add-user-attribute">
+        <i class="icon icon-plus icon-white"/>
+        <%= I18n.t('templates.user_attributes.index.add') %>
+    </a>
+</div>
+<br>
+<div class="row-fluid">
+    <table class="table table-striped user_attributes">
+        <tr>
+            <th width="20%"><%= I18n.t('commons.name') %></th>
+            <th width="20%"><%= I18n.t('commons.identifier') %></th>
+            <th width="20%"><%= I18n.t('commons.type') %></th>
+            <th width="30%"><%= I18n.t('templates.user_attributes.index.shard_rule') %></th>
+            <th width="10%"></th>
+        </tr>
+        <% if @user_attributes.length == 0: %>
+            <tr>
+                <td colspan="4" style="text-align: center;"><i><%= I18n.t('commons.no_data') %></i></td>
+            </tr>
+        <% else: %>
+        <% for index in [(@page - 1)*10..Math.min(@page*10 - 1, @user_attributes.length - 1)]: %>
+            <% user_attribute = @user_attributes[index] %>
+            <tr>
+                <td>
+                    <% name_item = _.find(Analytics.Static.user_attributes(), (item) -> item.name == user_attribute.get("name")) %>
+                    <% nickname = user_attribute.get("nickname") %>
+                    <% if not nickname? and name_item?: %>
+                        <% nickname = name_item.nickname %>
+                    <% end %>
+                    <%= nickname %>
+                </td>
+                <td><%= user_attribute.get("name") %></td>
+                <td>
+                    <% atype = _.find(Analytics.Static.user_attribute_types(), (item) -> item.key == user_attribute.get("atype")) %>
+                    <%= atype.value %>
+                </td>
+                <td>
+                    <% if (user_attribute.get("atype") == "sql_bigint" or user_attribute.get("atype") == "sql_datetime") and user_attribute.get("gpattern")?: %>
+                        <%= user_attribute.get("gpattern") %>
+                    <% else: %>
+                        ---
+                    <% end %>
+                </td>
+                <td>
+                    <%if not _.contains(_.pluck(Analytics.Static.user_attributes(), "name"), user_attribute.get("name")):%>
+                        <a class="btn btn-mini left edit-user-attribute" value="<%= user_attribute.id %>"><i class="icon-edit"/></a>
+                        <a class="btn btn-mini left remove-user-attribute" value="<%= user_attribute.id %>"><i class="icon-remove"/></a>
+                    <%else:%>
+                    <!--%=I18n.t('templates.user_attributes.form.system_attribute')%-->
+                        <a class="btn btn-mini left edit-user-attribute" value="<%= user_attribute.id %>"><i class="icon-edit"/></a>
+                    <%end%>
+                </td>
+            </tr>
+        <% end %>
+        <% end %>
+    </table>
+</div>
+<div class="row-fluid">
+    <ul class="pager right">
+        <% if @page > 1: %>
+            <li class="pre enabled"><a style="cursor: pointer;"><%= I18n.t("commons.previous_page") %></a></li>
+        <% else: %>
+            <li class="pre disabled"><a><%= I18n.t("commons.previous_page") %></a></li>
+        <% end %>
+        <%= @page %>&nbsp;/&nbsp;<%= @max_page %>
+        <% if @page < @max_page: %>
+            <li class="nex enabled"><a style="cursor: pointer;"><%= I18n.t("commons.next_page") %></a></li>
+        <% else: %>
+            <li class="nex disabled"><a><%= I18n.t("commons.next_page") %></a></li>
+        <% end %>
+    </ul>
+</div>

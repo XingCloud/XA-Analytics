@@ -1,0 +1,143 @@
+<h3><%= I18n.t("templates.translations.index.header") %></h3>
+<hr/>
+
+<div class="row-fluid translations-controls">
+    <table>
+        <tr>
+            <td>
+                <label><%= I18n.t("templates.translations.index.choose_resource") %>:&nbsp;</label>
+            </td>
+            <td>
+                <select class="resource">
+                    <% for resource in @resources: %>
+                        <% if resource.value == @resource.value: %>
+                            <option value="<%= resource.value %>" selected="selected"><%= I18n.t("resources." + resource.name) %></option>
+                        <% else: %>
+                            <option value="<%= resource.value %>"><%= I18n.t("resources." + resource.name) %></option>
+                        <% end %>
+                    <% end %>
+                </select>
+            </td>
+            <td>&nbsp;&nbsp;</td>
+            <td>
+                <label><%= I18n.t("templates.translations.index.choose_field") %>:&nbsp;</label>
+            </td>
+            <td>
+                <select class="field">
+                    <% for field in @resource.fields: %>
+                        <% if field == @field: %>
+                            <option value="<%= field %>" selected="selected"><%= I18n.t("commons." + field) %></option>
+                        <% else: %>
+                            <option value="<%= field %>"><%= I18n.t("commons." + field) %></option>
+                        <% end %>
+                    <% end %>
+                </select>
+            </td>
+            <td>&nbsp;&nbsp;</td>
+            <td>
+                <label><%= I18n.t("templates.translations.index.choose_language") %>:&nbsp;</label>
+            </td>
+            <td>
+                <select class="language">
+                    <% for language in @languages: %>
+                        <% if language == @language: %>
+                            <option value="<%= language %>" selected="selected"><%= language %></option>
+                        <% else: %>
+                            <option value="<%= language %>"><%= language %></option>
+                        <% end %>
+                    <% end %>
+                </select>
+            </td>
+            <td>&nbsp;&nbsp;</td>
+            <td>
+                <%= I18n.t("templates.translations.index.unfinished") %>:&nbsp;
+                <input type="checkbox" class="unfinished" <%- if @unfinished then 'checked="checked"' %> />
+            </td>
+        </tr>
+    </table>
+</div>
+
+<div class="row-fluid">
+    <table class="table table-striped">
+        <thead>
+            <th><%= I18n.t("templates.translations.index.is_finished") %></th>
+            <th><%= I18n.t("templates.translations.index.resource_id") %></th>
+            <th><%= I18n.t("templates.translations.index.original_text") %></th>
+            <th><%= I18n.t("templates.translations.index.translated_text") %></th>
+            <th></th>
+        </thead>
+        <tbody>
+            <% index = 0 %>
+            <% models = Instances.Collections[@resource.collection].models %>
+            <% if @unfinished: %>
+                <% models = [] %>
+                <% for model in Instances.Collections[@resource.collection].models: %>
+                    <% if not @get_with_condition(model.id)? then models.push(model) %>
+                <% end %>
+            <% end %>
+            <% for model in models.slice((@page - 1) * @page_size): %>
+                <% if index >= @page_size then break %>
+                <% translate = @get_with_condition(model.id) %>
+                <tr>
+                    <td>
+                        <% if translate?: %>
+                            <i class="icon-ok"></i>
+                        <% else: %>
+                            <i class="icon-minus"></i>
+                        <% end %>
+                    </td>
+                    <td><%= model.id %></td>
+                    <td>
+                        <% if model.get(@field)? and model.get(@field).length > 20: %>
+                            <%= model.get(@field).substring(0, 20) + "..." %>
+                        <% else: %>
+                            <%= model.get(@field) %>
+                        <% end %>
+                    </td>
+                    <td>
+                        <% if translate?: %>
+                            <% if translate.get("content")? and translate.get("content").length > 20: %>
+                                <%= translate.get("content").substring(0, 20) + "..." %>
+                            <% else: %>
+                                <%= translate.get("content") %>
+                            <% end %>
+                        <% else: %>
+                            <i class="icon-minus"></i>
+                        <% end %>
+                    </td>
+                    <td>
+                        <a class="btn btn-mini left edit-translate" resource-id="<%= model.id %>"><i class="icon-edit"/></a>
+                        <% if translate?: %>
+                            <a class="btn btn-mini left remove-translate" resource-id="<%= model.id %>"><i class="icon-remove"/></a>
+                        <% end %>
+                    </td>
+                </tr>
+                <% index = index + 1 %>
+            <% end %>
+            <% if models.length == 0: %>
+                <tr>
+                    <td colspan="5" style="text-align: center;"><%= I18n.t("commons.no_data") %></td>
+                </tr>
+            <% end %>
+        </tbody>
+    </table>
+</div>
+
+<div class="row-fluid">
+    <% max_page = 1 %>
+    <% length = models.length %>
+    <% if length > @page_size then max_page = Math.ceil(length / @page_size) %>
+    <ul class="pager right">
+        <% if @page > 1: %>
+            <li class="pre enabled"><a style="cursor: pointer;"><%= I18n.t("commons.previous_page") %></a></li>
+        <% else: %>
+            <li class="pre disabled"><a><%= I18n.t("commons.previous_page") %></a></li>
+        <% end %>
+        <%= @page %>&nbsp;/&nbsp;<%= max_page %>
+        <% if @page < max_page: %>
+            <li class="nex enabled"><a style="cursor: pointer;"><%= I18n.t("commons.next_page") %></a></li>
+        <% else: %>
+            <li class="nex disabled"><a><%= I18n.t("commons.next_page") %></a></li>
+        <% end %>
+    </ul>
+</div>

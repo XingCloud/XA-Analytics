@@ -1,0 +1,13 @@
+<div class="widget-edit">
+    <i class="icon icon-cog"></i>
+</div>
+<div class="widget-title" widget-id="<%= @id %>">
+    <% if @report_tab_id?: %>
+        <a class="widget-report-tab"><%= @title %></a>
+    <% else: %>
+        <%= @title %>
+    <% end %>
+</div>
+<div class="widget-data">
+    <div class="widget-chart timelines" id="widget_<%= @id %>_chart"></div>
+</div>

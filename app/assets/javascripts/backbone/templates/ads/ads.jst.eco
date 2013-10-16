@@ -1,0 +1,239 @@
+<h3><%= I18n.t("templates.reports.left_nav.ads_track") %></h3>
+<hr/>
+<div class="row-fluid">
+    <ul class="nav nav-tabs">
+        <li class="<%= if @active == 'ads_add' or not @active? then 'active' %>">
+            <a href="<%= Analytics.Utils.hrefWrapper('ads/ads_add') %>"><%= I18n.t("templates.ads.ads_add") %></a>
+        </li>
+        <li class="<%= if @active == 'url_gen' then 'active' %>">
+            <a href="<%= Analytics.Utils.hrefWrapper('ads/url_gen') %>"><%= I18n.t("templates.ads.url_gen") %></a>
+        </li>
+</div>
+
+<div class="row-fluid tab-content .ads">
+    <div class="tab-pane <%= if @active == 'ads_add' or not @active? then 'active' %>"  id="ads"></div>
+    <div class="tab-pane <%= if @active == 'url_gen' then 'active' %>" id="url_gen">
+        <div class="well">
+            <form class="form-horizontal" role="form">
+                <div class="control-group" id="appid">
+                    <label for="appid" class="control-label">appid</label>
+
+                    <div class="controls">
+                        <input type="text" class="form-control"
+                               placeholder="appid。可以是GDP发布的ID如<%= @appid %>@elex337_en_1；也可以是项目ID如<%= @appid %>。<%= if @appid == 'age' then 'aoe android以age@android开头，iOS固定为age@ios_en'%>">
+                    </div>
+                </div>
+                <div class="control-group" id="url" >
+                    <label for="url" class=" control-label">游戏下载地址</label>
+
+                    <div class="controls">
+                        <input type="text" class="form-control" placeholder="应用的推广landing page，或者游戏的下载地址。">
+                    </div>
+                </div>
+                <div class="control-group" id="ad" >
+                    <label for="ad" class="control-label">广告名</label>
+
+                    <div class="controls">
+                        <input type="text" class="form-control" placeholder="广告名">
+                    </div>
+                </div>
+
+                <div class="control-group" id="country" >
+                    <label for="country" class="control-label">语言信息</label>
+
+                    <div class="controls">
+                        <input type="text" class="form-control" placeholder="本广告针对的语言。如en,pt,tr,等等。">
+                    </div>
+                </div>
+                <div class="control-group" id="platform" >
+                    <label for="platform" class="control-label">平台信息</label>
+
+                    <div class="controls">
+                        <input type="text" class="form-control" placeholder="应用所在平台，如elex337,facebook等。">
+                    </div>
+                </div>
+                <div class="control-group" id="channel">
+                    <label for="channel" class="control-label">渠道</label>
+
+                    <div class="controls">
+                        <input type="text" class="form-control"
+                               placeholder="渠道名，作为来源第一层的信息。如果是adwords，则填g；如果是facebook广告则填f；tapjoy是tapjoy。或者填其他的渠道名称。">
+                    </div>
+                </div>
+                <div class="control-group" id="ref1" >
+                    <label for="ref1" class="control-label">来源第二层</label>
+
+                    <div class="controls">
+                        <input type="text" class="form-control" placeholder="来源第二层信息">
+                    </div>
+                </div>
+                <div class="control-group" id="ref2" >
+                    <label for="ref2" class="control-label">来源第三层</label>
+
+                    <div class="controls">
+                        <input type="text" class="form-control" placeholder="作为来源第三层信息">
+                    </div>
+                </div>
+                <div class="control-group" id="ref3" >
+                    <label for="ref3" class=" control-label">来源第四层</label>
+
+                    <div class="controls">
+                        <input type="text" class="form-control" placeholder="作为来源第四层信息">
+                    </div>
+                </div>
+                <div class="control-group" id="ref4" >
+                    <label for="ref4" class=" control-label">来源第五层</label>
+
+                    <div class="controls">
+                        <input type="text" class="form-control" placeholder="作为来源第五层信息">
+                    </div>
+                </div>
+
+            </form>
+
+        </div>
+        <div class="" style="margin-bottom:20px;">
+            <!--<button type="button" class="btn btn-success for-adwords">生成adwords带utm的url</button>-->
+            <button type="button" class="btn btn-primary for-encodedutm">编码后的utm参数</button>
+            <button type="button" class="btn btn-primary for-fbmobile">为facebook移动应用生成广告名</button>
+            <button type="button" class="btn btn-primary for-src">生成普通带src的链接</button>
+
+        </div>
+        <div class="well" >
+            <div id="generated-container" class="well">
+                <h4 id="generated">生成的url</h4>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+    function generate_src(gentype){
+        var appid=$("#appid input").val();
+        if(appid.length==0){
+            return invalidateForm("#appid", "appid不能为空。");
+        }
+        var url=$("#url input").val();
+        var country=$("#country input").val();
+        var platform=$("#platform input").val();
+        var channel=$("#channel input").val();
+        if(channel.length==0){
+            return invalidateForm("#channel", "渠道不能为空。");
+        }
+        var ref1=$("#ref1 input").val();
+        var ref2=$("#ref2 input").val();
+        var ref3=$("#ref3 input").val();
+        var ref4=$("#ref4 input").val();
+        var ad=$("#ad input").val();
+        var project = appid;
+        if(appid.indexOf("@")!=-1){
+            var game_PlatAndLang=appid.split("_");
+            var game_Plat=game_PlatAndLang[0].split("@");
+            project = game_Plat[0];
+            if(""==platform){
+                platform=game_Plat[1];
+            }
+            if(country.length==0 && game_PlatAndLang.length >= 2){
+                country=game_PlatAndLang[1];
+            }
+        }
+        if(platform.length==0){
+            return invalidateForm("#appid, #platform", "平台信息为空。要么appid包含平台信息（如age@elex337_en_1），要么“平台信息”需要填写。");
+        }
+        if(country.length==0){
+            return invalidateForm("#appid, #country", "语言信息为空。要么appid包含语言信息（如age@elex337_en_1），要么“语言信息”需要填写。");
+        }
+        /*
+        var game_PlatAndLang=appid.split("_");
+        var game_Plat=game_PlatAndLang[0];
+        var raw_game_Plat=game_Plat;
+        game_Plat=game_Plat.replace("@","%2540");
+        */
+        src=country+";"+project+"@"+platform+";"+channel;
+        if(ref1.length>0){
+            src=src+";"+ref1;
+        if(ref2.length>0){
+                src=src+";"+ref2;
+            if(ref3.length>0){
+                    src=src+";"+ref3;
+            if(ref4.length>0){
+                src=src+";"+ref4;
+            }
+            }
+        }
+        }
+        var firstDelimiter = url.indexOf("?")!=-1?"&":"?";
+
+        if(gentype=="adwords"){
+            if(url.length==0){
+                return invalidateForm("#url", "url信息为空。");
+            }
+            return validateForm(url+firstDelimiter+"utm_content="+src);
+        }else if(gentype=="fbmobile"){
+            if(ad.length==0){
+                return invalidateForm("#ad", "广告名称为空。");
+            }
+            if(ad.indexOf("*")!=-1){
+                return invalidateForm("#ae", "广告名称中不能含有*。");
+            }
+            return validateForm(ad+"*"+src);
+        }else if(gentype=="src"){
+            if(url.length==0){
+                return invalidateForm("#url", "url信息为空。");
+            }
+            return validateForm(url+firstDelimiter+"src="+src);
+        }else if(gentype=="encodedutm"){
+            return validateForm(encodeURIComponent("utm_content="+src));
+        }
+        //
+    }
+
+    function validateForm(text){
+        $(".form-group").removeClass("has-error");
+        $("#generated-container").removeClass();
+        $("#generated-container").addClass("alert alert-success");
+        $("#generated").text(text);
+
+    }
+
+    function invalidateForm(selector, text){
+        $(".form-group").removeClass("has-error");
+        $(selector).addClass("has-error");
+        $("#generated-container").removeClass();
+        $("#generated-container").addClass("alert").addClass("alert-danger");
+        $("#generated").text(text);
+    }
+
+    $(".for-adwords").click(function (){
+        $("#channel input").val("g");
+        generate_src("adwords");
+    });
+    $(".for-encodedutm").click(function (){
+        $("#channel input").val("g");
+        generate_src("encodedutm");
+    });
+    $(".for-fbmobile").click(function (){
+        $("#channel input").val("f");
+        generate_src("fbmobile");
+    });
+    $(".for-src").click(function (){
+        generate_src("src");
+    });
+    $("#appid input").blur(function (){
+        var appid=$("#appid input").val();
+        var country = $("#country input").val();
+        var platform = $("#platform input").val();
+        if(appid.indexOf("@")==-1){
+            return;
+        }
+        var ts = appid.split("_");
+
+        if(country.length==0 && ts.length>=2){
+            $("#country input").val(ts[1]);
+        }
+        if(platform.length==0){
+            $("#platform input").val(ts[0].split("@")[1]);
+        }
+    });
+
+    </script>
+    </div>
+</div>

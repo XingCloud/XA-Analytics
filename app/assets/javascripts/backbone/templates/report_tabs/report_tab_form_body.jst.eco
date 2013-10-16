@@ -1,0 +1,90 @@
+<input id="report_tabs_attributes_<%= @index %>_project_id" name="report_tabs_attributes[<%= @index %>][project_id]" type="hidden" value="<%= @project_id %>" />
+<input id="report_tabs_attributes_<%= @index %>__destroy" name="report_tabs_attributes[<%= @index %>][_destroy]" type="hidden" value="0" />
+
+<!--
+<input id="report_tabs_attributes_<%= @index %>_metricmap" name="report_tabs_attributes[<%= @index %>][report_tab_metrics_attributes]" type="hidden" value="<%= @report_tab_metrics_attributes %>" />
+-->
+
+<div class="control-group should-check">
+    <label class="control-label" for="report_tabs_attributes_<%= @index %>_title">
+        <abbr title="<%= I18n.t('commons.required') %>">*</abbr>
+        <%= I18n.t("templates.report_tabs.form_body.title") %>
+    </label>
+    <div class="controls">
+        <input class="should-check-empty" id="report_tabs_attributes_<%= @index %>_title" name="report_tabs_attributes[<%= @index %>][title]" type="text" value="<%= if @title? then @title else I18n.t('templates.report_tabs.form_body.default_title') %>" />
+    </div>
+</div>
+
+<div class="control-group">
+    <input id="report_tabs_attributes_<%= @index %>_id" name="report_tabs_attributes[<%= @index %>][id]" type="hidden" value="<%= @id %>" />
+    <label class="control-label" for="report_tabs_attributes_<%= @index %>_chart_type"><%= I18n.t("templates.report_tabs.form_body.type") %></label>
+    <div class="controls">
+        <input id="report_tabs_attributes_<%= @index %>_chart_type" name="report_tabs_attributes[<%= @index %>][chart_type]" type="hidden" value="<%= @chart_type %>" />
+        <div class="btn-group">
+            <button id="report_tabs_attributes_<%= @index %>_type_line" class="<%= (if @chart_type == 'line' then 'active btn type-btn' else 'btn type-btn') %>" value="line" href=""><%= I18n.t("templates.report_tabs.form_body.line_chart") %></button>
+            <button id="report_tabs_attributes_<%= @index %>_type_column" class="<%= ( if @chart_type == 'column' then 'active btn type-btn' else 'btn type-btn') %>" value="column" href=""><%= I18n.t("templates.report_tabs.form_body.bar_chart") %></button>
+            <button id="report_tabs_attributes_<%= @index %>_type_area" class="<%= ( if @chart_type == 'area' then 'active btn type-btn' else 'btn type-btn') %>" value="area" href=""><%= I18n.t("templates.report_tabs.form_body.area_chart") %></button>
+        </div>
+    </div>
+</div>
+
+<div id="report_tabs_<%= @index %>_metrics"></div>
+<div id="report_tabs_<%= @index %>_dimensions"></div>
+
+<div class="control-group">
+    <div class="controls">
+        <a class="btn" id="toggle-advanced-options">&gt;&gt;<%= I18n.t("templates.report_tabs.form_body.advanced_options") %></a>
+    </div>
+</div>
+
+<div id="advanced-options" style="display: none;">
+    <div class="control-group should-check">
+        <label class="control-label" for="report_tabs_attributes_<%= @index %>_length">
+            <abbr title="<%= I18n.t('commons.required') %>">*</abbr>
+            <%= I18n.t("templates.report_tabs.form_body.length") %>
+        </label>
+        <div class="controls">
+            <input class="should-check-empty should-check-natural-number" type="text" id="report_tabs_attributes_<%= @index %>_length" name="report_tabs_attributes[<%= @index %>][length]" value="<%= @length %>"/>
+            <%= I18n.t("commons.days") %>
+        </div>
+    </div>
+    <div class="control-group should-check">
+        <label class="control-label" for="report_tabs_attributes_<%= @index %>_day_offset">
+            <abbr title="<%= I18n.t('commons.required') %>">*</abbr>
+            <%= I18n.t("templates.report_tabs.form_body.offset") %>
+        </label>
+        <div class="controls">
+            <input class="should-check-empty should-check-natural-number" type="text" id="report_tabs_attributes_<%= @index %>_day_offset" name="report_tabs_attributes[<%= @index %>][day_offset]" value="<%= @day_offset %>"/>
+            <%= I18n.t("commons.days") %>
+        </div>
+    </div>
+    <div class="control-group">
+        <label class="control-label" for="report_tabs_attributes_<%= @index %>_interval">
+            <%= I18n.t("templates.report_tabs.form_body.frequency") %>
+        </label>
+        <div class="controls">
+            <input type="hidden" id="report_tabs_attributes_<%= @index %>_interval" name="report_tabs_attributes[<%= @index %>][interval]" value="<%= @interval %>"/>
+            <div class="btn-group">
+                <button class="<%= ( if @interval == 'min5' then 'btn interval active' else 'btn interval') %>" value="min5"><%= I18n.t("commons.minute") %></button>
+                <button class="<%= ( if @interval == 'hour' then 'btn interval active' else 'btn interval') %>" value="hour"><%= I18n.t("commons.hour") %></button>
+                <button class="<%= ( if @interval == 'day' then 'btn interval active' else 'btn interval') %>" value="day"><%= I18n.t("commons.day") %></button>
+                <button class="<%= ( if @interval == 'week' then 'btn interval active' else 'btn interval') %>" value="week"><%= I18n.t("commons.week") %></button>
+                <button class="<%= ( if @interval == 'month' then 'btn interval active' else 'btn interval') %>" value="month"><%= I18n.t("commons.month") %></button>
+            </div>
+        </div>
+    </div>
+    <div class="control-group">
+        <label class="control-label" for="report_tabs_attributes_<%= @index %>_compare"><%= I18n.t("templates.report_tabs.form_body.compare") %></label>
+        <div class="controls">
+            <input type="hidden" id="report_tabs_attributes_<%= @index %>_compare" name="report_tabs_attributes[<%= @index %>][compare]" value="<%= @compare %>" />
+            <input type="checkbox" id="compare-checkbox" <%= if @compare != 0 then 'checked="checked"' else ' ' %> />
+        </div>
+    </div>
+    <div class="control-group">
+        <label class="control-label" for="report_tabs_attributes_<%= @index %>_compare"><%= I18n.t("templates.report_tabs.form_body.show_table") %></label>
+        <div class="controls">
+            <input type="hidden" id="report_tabs_attributes_<%= @index %>_show_table" name="report_tabs_attributes[<%= @index %>][show_table]" value="<%= if @show_table then '1' else '0' %>" />
+            <input type="checkbox" id="show-table-checkbox" <%= if @show_table then 'checked="checked"' else ' ' %> />
+        </div>
+    </div>
+</div>

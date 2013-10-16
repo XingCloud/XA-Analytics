@@ -1,0 +1,120 @@
+<div class="accordion-group">
+    <div class="accordion-heading">
+        <% id = (if @report_category? then @report_category.id else 'unknown') %>
+        <% if @report_category?: %>
+            <div class="dropdown">
+                <% if id != 2: %>
+                    <% if not Instances.Models.user.is_mgriant():%>
+                        <div class="dropdown-toggle" value="category-<%= id %>">
+                            <span class="caret"></span>
+                        </div>
+                    <% end %>
+                        <ul class="dropdown-menu" id="dropdown-category-<%= id %>">
+                            <li>
+                                <a href="<%= Analytics.Utils.hrefWrapper('report_categories/' + id + '/edit') %>">
+                                    <i class="icon icon-edit"></i>
+                                    &nbsp;<%= I18n.t("commons.edit") %>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="<%= Analytics.Utils.hrefWrapper('report_categories/' + id + '/delete') %>">
+                                    <i class="icon icon-trash"></i>
+                                    &nbsp;<%= I18n.t("commons.delete") %>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="<%= Analytics.Utils.hrefWrapper('report_categories/new') %>">
+                                    <i class="icon icon-plus"></i>
+                                    &nbsp;<%= I18n.t("commons.add") %>
+                                </a>
+                            </li>
+                        </ul>
+                <% end %>
+            </div>
+        <% else: %>
+            <div class="dropdown">
+	        <% if not Instances.Models.user.is_mgriant():%>
+                <div class="dropdown-toggle" value="category-unknown">
+                    <span class="caret"></span>
+                </div>
+		    <% end %>
+                <ul class="dropdown-menu" id="dropdown-category-unknown">
+                    <li>
+                        <a href="<%= Analytics.Utils.hrefWrapper('report_categories/new') %>">
+                            <i class="icon icon-plus"></i>
+                            &nbsp;<%= I18n.t("commons.add") %>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        <% end %>
+        <div class="accordion-toggle collapsed" id="nav-category-<%= id %>" data-toggle="collapse" href="#nav-category-<%= id %>-body">
+            <i class="icon-list-alt icon"/>
+            <% if @report_category?: %>
+                <%= @report_category.get("name") %>
+            <% else: %>
+                <%= I18n.t("commons.uncategorized") %>
+            <% end %>
+        </div>
+    </div>
+    <div id="nav-category-<%= id %>-body" class="accordion-body <%= if @is_in then 'in' %> collapse">
+        <div class="accordion-inner">
+            <ul class="nav nav-list">
+              <% for report in @reports: %>
+                <% if Instances.Models.user.can_access_report(report.id): %>
+                    <li id="nav-report-<%= report.id %>" class="nav-report">
+                    <% if not Instances.Models.user.is_mgriant() and (report.get("project_id")? or report.get("report_category_id") != 2): %>
+                        <div class="dropdown">
+                            <div class="dropdown-toggle" value="report-<%= report.id %>">
+                                <span class="caret"></span>
+                            </div>
+                        </div>
+                    <% end %>
+                        <a href="<%= Analytics.Utils.hrefWrapper('reports/' + report.id) %>">
+                            <i class="icon-file"></i>
+                            <%= report.get("title") %>
+                        </a>
+                    </li>
+                <% end %>
+              <% end %>
+                <% if @reports.length == 0: %>
+                    <li class="no-data"><%= I18n.t("commons.no_data") %></li>
+                <% end %>
+            </ul>
+        </div>
+    </div>
+    <% for report in @reports: %>
+        <% if report.get("project_id")? or report.get("report_category_id") != 2: %>
+            <ul class="dropdown-menu report-dropdown" id="dropdown-report-<%= report.id %>">
+                <li>
+                    <a href="<%= Analytics.Utils.hrefWrapper('reports/' + report.id + '/edit') %>">
+                        <i class="icon icon-edit"></i>
+                        &nbsp;<%= I18n.t("commons.edit") %>
+                    </a>
+                </li>
+                <li>
+                    <a href="<%= Analytics.Utils.hrefWrapper('reports/' + report.id + '/delete') %>">
+                        <i class="icon icon-trash"></i>
+                        &nbsp;<%= I18n.t("commons.delete") %>
+                    </a>
+                </li>
+                <li class="divider"></li>
+                <% for category in Instances.Collections.report_categories.models: %>
+                    <li>
+                        <% if report.get("report_category_id") == category.id: %>
+                            <a>
+                                <i class="icon icon-ok"></i>
+                                <%= category.get("name") %>
+                            </a>
+                        <% else: %>
+                            <a href="<%= Analytics.Utils.hrefWrapper('reports/' + report.id + '/set_category/' + category.id) %>">
+                                <i class="icon icon-folder-open"></i>
+                                <%= category.get("name") %>
+                            </a>
+                        <% end %>
+                    </li>
+                <% end %>
+            </ul>
+        <% end %>
+    <% end %>
+</div>

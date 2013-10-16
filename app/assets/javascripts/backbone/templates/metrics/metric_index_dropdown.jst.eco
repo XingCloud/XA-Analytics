@@ -1,0 +1,24 @@
+<li>
+    <div class="metric-search">
+        <input type="text"/>
+        <i class="icon icon-search"></i>
+    </div>
+</li>
+<li>
+    <div class="metric-list" style="height: <%= @height %>px;">
+        <% for metric in Instances.Collections.metrics.models: %>
+            <div class="metric" value="<%= metric.id %>" name="<%= metric.get('name') %>">
+                <%= metric.get("name") %>
+            </div>
+        <% end %>
+    </div>
+</li>
+<% if not @disable_add_metric: %>
+    <li class="divider"></li>
+    <li>
+        <a class="metric-new">
+            <i class="icon icon-plus"/>
+            <%= I18n.t("templates.metrics.index_dropdown.add_metric") %>
+        </a>
+    </li>
+<% end %>

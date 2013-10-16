@@ -1,0 +1,15 @@
+<div class="row-fluid" style="margin-top: 40px;">
+    <div class="span4">&nbsp;</div>
+    <div class="span4">
+        <div class="progress progress-striped active">
+            <div class="bar" style="width: 0%"></div>
+        </div>
+        <div>
+            <em class="init-message"><%= I18n.t("templates.projects.init.initializing") %></em>
+            <em class="error-message" style="display: none; color: #ff0000;">
+                <%= I18n.t("templates.projects.init.load_error") %>
+            </em>
+        </div>
+    </div>
+    <div class="span4">&nbsp;</div>
+</div>

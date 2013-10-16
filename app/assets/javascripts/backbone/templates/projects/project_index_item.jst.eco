@@ -1,0 +1,40 @@
+<td>
+    <a href="<%= location.protocol %>//<%= window.location.host %>/projects/<%= @identifier %>">
+        <%= @name %>
+    </a>
+</td>
+<% for type in ["pay", "new_user", "active"]: %>
+    <% values = [] %>
+    <% _.each(@data[type], (value) -> values.push(value)) %>
+    <td>
+        <% if @no_data: %>
+            <%= I18n.t("commons.no_data") %>
+        <% else if values.indexOf("pending") >= 0: %>
+            <i class="icon-refresh icon-spin"></i>
+            <%= I18n.t("commons.pending") %>
+        <% else: %>
+            <p class="count"><%= @data[type]["count"] %></p>
+            <p>
+                <span class="interval"><%= I18n.t("commons.day") %></span>
+                <span class="<%= if @data[type]['compare_day'] == 'infinity' or @data[type]['compare_day'] >= 0 then 'higher' else 'lower' %>">
+                    <% if @data[type]["compare_day"] == "infinity": %>
+                        +&infin;%
+                    <% else: %>
+                        <%= if @data[type]["compare_day"] >= 0 then "+" else "-" %>
+                        <%= (Math.abs(@data[type]["compare_day"]) * 100).toFixed(2) + "%" %>
+                    <% end %>
+                </span>
+                <span>&nbsp;&nbsp;</span>
+                <span class="interval"><%= I18n.t("commons.week") %></span>
+                <span class="<%= if @data[type]['compare_week'] == 'infinity' or @data[type]['compare_week'] >= 0 then 'higher' else 'lower' %>">
+                    <% if @data[type]["compare_week"] == "infinity": %>
+                        +&infin;%
+                    <% else: %>
+                        <%= if @data[type]["compare_week"] >= 0 then "+" else "-" %>
+                        <%= (Math.abs(@data[type]["compare_week"]) * 100).toFixed(2) + "%" %>
+                    <% end %>
+                </span>
+            </p>
+        <% end %>
+    </td>
+<% end %>

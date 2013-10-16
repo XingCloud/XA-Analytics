@@ -1,0 +1,11 @@
+<label class="control-label" for="report_tabs_attributes_<%= @index %>_metric_ids"><%= I18n.t("templates.metrics.form_list.group") %></label>
+<div class="controls well metrics">
+    <input type="hidden" id="report_tabs_attributes_<%= @index %>_metric_ids" name="report_tabs_attributes[<%= @index %>][metric_ids]" />
+    <div id="report_tab_<%= @index %>_metric_list" class="metric-box-group"></div>
+    <div class="metric-add-dropdown dropdown">
+        <div class="metric-add dropdown-toggle" data-toggle="dropdown">
+            <%= I18n.t("templates.metrics.form_list.add") %>
+            <b class="caret"></b>
+        </div>
+    </div>
+</div>

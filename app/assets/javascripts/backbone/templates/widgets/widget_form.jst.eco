@@ -1,0 +1,96 @@
+<div class="modal-header">
+    <b class="close" data-dismiss="modal">×</b>
+    <% if @id?: %>
+        <h3><%= I18n.t('templates.widgets.form.edit') %></h3>
+    <% else: %>
+        <h3><%= I18n.t('templates.widgets.form.new') %></h3>
+    <% end %>
+</div>
+<div class="modal-body">
+    <div class="btn-group widget-types" style="width: 100%;">
+        <div class="btn widget-type <%= if @widget_type == 'kpi' then 'active' %>" value="kpi">
+            <img src="/assets/widgets/kpi.png"/>
+            <label><%= I18n.t("resources.metric") %></label>
+        </div>
+        <div class="btn widget-type <%= if @widget_type == 'time' then 'active' %>" value="time">
+            <img src="/assets/widgets/time.png"/>
+            <label><%= I18n.t('templates.widgets.form.timeline') %></label>
+        </div>
+        <div class="btn widget-type <%= if @widget_type == 'table' then 'active' %>" value="table">
+            <img src="/assets/widgets/table.png"/>
+            <label><%= I18n.t("resources.dimension") %></label>
+        </div>
+    </div>
+    <form class="form-horizontal">
+        <fieldset>
+            <div class="widget-metric">
+                <%- JST["backbone/templates/widgets/widget_form_metric"](@) %>
+            </div>
+            <div class="control-group widget-dimension" style="display: <%= (if @widget_type == 'table' then 'block' else 'none') %>;" >
+                <label class="control-label">
+                    <abbr title="<%= I18n.t('commons.required') %>">*</abbr>
+                    <%= I18n.t('templates.widgets.form.dimension_item') %>
+                </label>
+                <div class="controls">
+                    <select name="dimension">
+                        <% for dimension in Analytics.Static.getDimensions(): %>
+                            <option value="<%= dimension.value %>" <%= if @dimension == dimension.value then 'selected="selected"' %> >
+                                <%= dimension.name %>
+                            </option>
+                        <% end %>
+                    </select>
+                </div>
+            </div>
+            <div class="control-group widget-interval" style="display: <%= (if @widget_type == 'time' then 'block' else 'none') %>;" >
+                <label class="control-label">
+                    <abbr title="<%= I18n.t('commons.required') %>">*</abbr>
+                    <%= I18n.t('templates.widgets.form.frequency') %>
+                </label>
+                <div class="controls">
+                    <select name="interval">
+                        <% for interval in Analytics.Static.report_tab_intervals(): %>
+                            <option value="<%= interval.value %>" <%= if @interval == interval.value then 'selected="selected"' %> ><%= interval.name %></option>
+                        <% end %>
+                    </select>
+                </div>
+            </div>
+            <div class="control-group should-check">
+                <label class="control-label">
+                    <abbr title="<%= I18n.t('commons.required') %>">*</abbr>
+                    <%= I18n.t('templates.widgets.form.length') %>
+                </label>
+                <div class="controls">
+                    <input class="input-mini should-check-empty should-check-natural-number" type="text" name="length" value="<%= @length %>"/>
+                </div>
+            </div>
+            <div class="control-group should-check">
+                <label class="control-label">
+                    <abbr title="<%= I18n.t('commons.required') %>">*</abbr>
+                    <%= I18n.t('commons.title') %>
+                </label>
+                <div class="controls">
+                    <input class="widget_type" type="hidden" name="widget_type" value="<%= @widget_type %>"/>
+                    <input class="title should-check-empty " type="text" name="title" value="<%= @title %>" />
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label"><%= I18n.t('templates.widgets.form.report_tab') %></label>
+                <div class="controls">
+                    <select class="report-tab" name="report_tab_id">
+                        <option value=""></option>
+                        <% for report_tab in Instances.Collections.reports.report_tabs(): %>
+                            <option value="<%= report_tab.id %>" <%= if @report_tab_id == report_tab.id then 'selected="selected"' %> ><%= report_tab.title %></option>
+                        <% end %>
+                    </select>
+                </div>
+            </div>
+        </fieldset>
+    </form>
+</div>
+<div class="modal-footer">
+    <% if @id?: %>
+        <a class="right btn btn-danger widget-remove"><%= I18n.t('commons.delete') %></a>
+    <% end %>
+    <a class="left btn btn-primary widget-submit"><%= I18n.t('commons.submit') %></a>
+    <a class="left btn widget-cancel"><%= I18n.t('commons.cancel') %></a>
+</div>

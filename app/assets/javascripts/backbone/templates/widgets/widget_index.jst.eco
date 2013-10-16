@@ -1,0 +1,26 @@
+<div class="row-fluid container-header">
+    <div class="left btn-group">
+        <a class="btn add-widget">
+            <i class="icon icon-plus"></i>
+        </a>
+        <a class="btn refresh-widgets">
+            <i class="icon icon-refresh"></i>
+        </a>
+    </div>
+<!--    <div class="right range-control widget-range" data-date="<%= Analytics.Utils.formatUTCDate(@end_time) %>" data-date-format="yyyy/mm/dd">
+        <table>
+            <tr>
+                <td>
+                    <%= I18n.t('commons.to') %>
+                    <%= Analytics.Utils.formatUTCDate(@end_time) %>
+                </td>
+                <td class="toggle"><span>&#9660;</span></td>
+            </tr>
+        </table>
+    </div>-->
+</div>
+<div class="row-fluid widgets-container">
+    <% for i in [0..@columns - 1]: %>
+        <ul class="widgets" column="<%= i %>" style="width: <%= (100/@columns).toFixed(2) %>%"></ul>
+    <% end %>
+</div>

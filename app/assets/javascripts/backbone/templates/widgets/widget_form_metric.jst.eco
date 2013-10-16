@@ -1,0 +1,24 @@
+<div class="control-group">
+    <label class="control-label">
+        <abbr title="必填">*</abbr>
+        <%= I18n.t("resources.metric") %>
+    </label>
+    <div class="controls">
+        <input type="hidden" name="metric_id" value="<%= @metric_id %>" />
+        <% if @metric_id?: %>
+            <div class="metric-picker">
+                <div class="metric-display">
+                    <%= Instances.Collections.metrics.get(@metric_id).get("name") %>
+                </div>
+                <img src="/assets/cleardot.gif" class="metric-remove" /> &nbsp;
+            </div>
+        <% else: %>
+            <div class="metric-add-dropdown dropdown">
+                <div class="metric-add dropdown-toggle" data-toggle="dropdown">
+                    <%= I18n.t('templates.widgets.form_metric.choose_metric') %>
+                    <b class="caret"></b>
+                </div>
+            </div>
+        <% end %>
+    </div>
+</div>

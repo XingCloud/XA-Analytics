@@ -1,0 +1,53 @@
+<div class="row-fluid">
+    <table class="table table-striped user_attributes">
+        <tr>
+            <th width="25%"><%= I18n.t("templates.project_users.user") %></th>
+            <th width="25%"><%= I18n.t("templates.project_users.role") %></th>
+            <th width="40%"><%= I18n.t("templates.project_users.access_reports") %></th>
+            <th width="10%"></th>
+        </tr>
+        <% if @project_users.length > 0: %>
+            <% for index in [(@page - 1)*10..Math.min(@page*10 - 1, @project_users.length - 1)]: %>
+                <% project_user = @project_users[index] %>
+                <tr>
+                  <td><%= project_user.get("username")%><%=if Instances.Models.user.get('name') == project_user.get("username") then I18n.t("templates.project_users.current_user") %></td>
+                  <td><%= I18n.t("templates.project_users."+project_user.get("role")+"_role") %></td>
+                  <% report_ids = _.sortBy(project_user.get("privilege").report_ids, (item) -> item) %>
+                  <% report_names = [] %>
+                  <% for id in report_ids: %>
+                    <% report_names.push(Instances.Collections.reports.get(id).get("title")) %>
+                  <% end %>
+                  <td>
+                    <%if project_user.get("role") == "normal":%>
+                        <%=I18n.t("templates.project_users.unlimited")%>
+                    <% else: %>
+                        <%= report_names.slice(0,3).join(",")%>
+                        <% if report_ids.length>3:%>
+                            <a user_id=<%=project_user.get("user_id")%> class="show-more" data-content="<%= report_names.join(',') %>"  data-placement="bottom"
+                            data-original-title="<%=I18n.t('templates.project_users.access_reports') %>">...</a>
+                        <% end %>
+                    <% end %>
+                  </td>
+                      <td>
+                        <a class="btn btn-mini left edit-project-user" value="<%= project_user.id %>"><i class="icon-edit"/></a>
+                      </td>
+                </tr>
+            <% end %>
+        <% end %>
+    </table>
+</div>
+<div class="row-fluid">
+    <ul class="pager right">
+        <% if @page > 1: %>
+            <li class="pre enabled"><a style="cursor: pointer;"><%= I18n.t("commons.previous_page") %></a></li>
+        <% else: %>
+            <li class="pre disabled"><a><%= I18n.t("commons.previous_page") %></a></li>
+        <% end %>
+        <%= @page %>&nbsp;/&nbsp;<%= @max_page %>
+        <% if @page < @max_page: %>
+            <li class="nex enabled"><a style="cursor: pointer;"><%= I18n.t("commons.next_page") %></a></li>
+        <% else: %>
+            <li class="nex disabled"><a><%= I18n.t("commons.next_page") %></a></li>
+        <% end %>
+    </ul>
+</div>

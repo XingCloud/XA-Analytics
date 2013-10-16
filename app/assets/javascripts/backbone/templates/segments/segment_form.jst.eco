@@ -1,0 +1,33 @@
+<% if @id?: %>
+    <h3><%= I18n.t('templates.segments.form.edit') %></h3>
+    <hr/>
+    <form class="form-horizontal" id="edit_segment_<%= @id %>" action="#" onsubmit="return false;">
+<% else: %>
+    <h3><%= I18n.t('templates.segments.form.new') %></h3>
+    <hr/>
+    <form class="form-horizontal" id="new_segment" action="#" onsubmit="return false;">
+<% end %>
+    <fieldset>
+        <div class="control-group should-check">
+            <label class="control-label" for="segment_name">
+                <abbr title="<%= I18n.t('commons.required') %>">*</abbr>
+                <%= I18n.t('commons.name') %>
+            </label>
+            <div class="controls">
+                <input class="should-check-empty" type="text" id="segment_name" name="name" value="<%= if @name? then @name else I18n.t('templates.segments.form.default_name') %>" />
+            </div>
+        </div>
+        <div class="control-group should-check">
+            <label class="control-label"><%= I18n.t('templates.segments.form.filter') %></label>
+            <div class="controls" id="expression-list">
+                <div class="expression-add">
+                    <span id="expression-add"><%= I18n.t('templates.segments.form.add_and') %></span>
+                </div>
+            </div>
+        </div>
+        <div class="form-actions">
+            <a class="btn btn-primary" id="submit-segment"><%= I18n.t('commons.submit') %></a>
+            <a class="btn" id="submit-segment-cancel"><%= I18n.t('commons.cancel') %></a>
+        </div>
+    </fieldset>
+</form>

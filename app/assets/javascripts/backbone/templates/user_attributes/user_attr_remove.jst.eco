@@ -1,0 +1,39 @@
+<div class="modal-header">
+    <b class="close" data-dismiss="modal">×</b>
+    <h3 style="display:inline"><%=I18n.t("templates.user_attributes.form.remove")%></h3> <em><%=I18n.t("templates.user_attributes.form.delete_related")%></em>
+</div>
+
+<div class="modal-body">
+    <form class="form-horizontal">
+        <div class="control-group">
+            <label class="control-label"><%=I18n.t("templates.user_attributes.form.related_segment")%></label>
+            <div class="controls well">
+            <%if @relative_segments.length>0:%>
+                <% for segment in @relative_segments:%>
+                     <%=segment.get("name")%> &nbsp;
+                <%end%>
+             <%else:%>
+                <%=I18n.t("templates.user_attributes.form.none")%>
+             <%end%>
+            </div>
+        </div>
+
+        <div class="control-group">
+            <label class="control-label"><%=I18n.t("templates.user_attributes.form.related_metric")%></label>
+            <div class="controls well">
+            <%if @relative_metrics.length>0:%>
+                <% for metric in @relative_metrics:%>
+                     <%=metric.get("name")%> &nbsp;
+                <%end%>
+             <%else:%>
+                <%=I18n.t("templates.user_attributes.form.none")%>
+             <%end%>
+            </div>
+        </div>
+    </form>
+</div>
+
+<div class="modal-footer">
+    <a class="btn cancel" data-dismiss="modal"><%= I18n.t('commons.cancel') %></a>
+    <a class="btn btn-primary submit"><%= I18n.t('commons.ok') %></a>
+</div>

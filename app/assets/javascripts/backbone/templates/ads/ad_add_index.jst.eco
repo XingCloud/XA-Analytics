@@ -1,0 +1,60 @@
+<p>
+    行云可以抓取来自google adwords, facebook 以及 tapjoy的广告。如果其他的渠道花费还没有被抓取，可以通过这个页面手动录入。
+</p>
+<form id="add-ad-form" class="form-inline well">
+  <input id="date" class="datepicker" type="text" value="<%= @date %>"/>
+  <input id="channel" type="text" class="input-small" placeholder="<%=  I18n.t("templates.ads.channel") %>">
+  <input id="fee" type="text" class="input-small" placeholder="<%=  I18n.t("templates.ads.fee") %>">
+  <a id="add-ad" class="btn btn-primary" ><%=  I18n.t("templates.ads.add")%></a>
+  <a id="list-all" class="btn btn-primary" ><%=  I18n.t("templates.ads.list")%></a>
+  <span class="error-message"></span>
+</form>
+
+<table class="table">
+    <tr>
+        <th width="30%"><%= I18n.t("templates.ads.date") %></th>
+        <th width="30%"><%= I18n.t("templates.ads.channel") %></th>
+        <th width="40%"><%= I18n.t("templates.ads.fee") %></th>
+        <!--th width="20%"><%= I18n.t('commons.created_at') %></th>
+        <th width="15%"></th-->
+    </tr>
+    <% if @ads.length > 0: %>
+        <% for index in [(@page - 1)*10..Math.min(@page*10 - 1, @ads.length - 1)]: %>
+            <% ad = @ads[index] %>
+            <tr>
+                <td><%= ad.get('date') %></td>
+                <td><%= ad.get('channel') %></td>
+                <td class="td-fee" ad-id="<%=ad.get('id')%>" >
+                    <label><%= ad.get('fee') %><i class="icon-pencil" style="display:none"></i></label>
+                    <input class="input-small" value="<%= ad.get('fee') %>" style="display:none"></input>
+                    <span class="error-message"></span>
+                </td>
+                <!--td><%= ad.get('created_at') %></td>
+                <td>
+                    <a id="remove-ad" class="btn btn-mini left" value="<%= ad.get("id") %>"><i class="icon-remove"/></a>
+                </td-->
+            </tr>
+        <% end %>
+    <%else:%>
+        <tr>
+            <td colspan=5 style="text-align:center;"><%=I18n.t("commons.no_data")%></td>
+        </tr>
+    <% end %>
+</table>
+
+<div class="row-fluid">
+    <ul class="pager right">
+        <% if @page > 1: %>
+            <li class="pre enabled"><a style="cursor: pointer;"><%= I18n.t("commons.previous_page") %></a></li>
+        <% else: %>
+            <li class="pre disabled"><a><%= I18n.t("commons.previous_page") %></a></li>
+        <% end %>
+        <%= @page %>&nbsp;/&nbsp;<%= @max_page %>
+        <% if @page < @max_page: %>
+            <li class="nex enabled"><a style="cursor: pointer;"><%= I18n.t("commons.next_page") %></a></li>
+        <% else: %>
+            <li class="nex disabled"><a><%= I18n.t("commons.next_page") %></a></li>
+        <% end %>
+    </ul>
+</div>
+
