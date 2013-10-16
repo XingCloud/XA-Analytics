@@ -1,7 +1,7 @@
 Analytics.Views.Reports ||= {}
 
 class Analytics.Views.Reports.NavView extends Backbone.View
-  template: JST['backbone/templates/reports/left-nav']
+  template: JST['backbone/templates/reports/report_left_nav']
   events:
     "mouseenter .accordion-heading": "mouseenter_category"
     "mouseleave .accordion-heading": "mouseleave_category"

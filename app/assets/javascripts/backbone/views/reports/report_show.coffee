@@ -2,7 +2,7 @@ Analytics.Views.Reports ||= {}
 
 #model: Analytics.Models.Report
 class Analytics.Views.Reports.ShowView extends Backbone.View
-  template: JST['backbone/templates/reports/show']
+  template: JST['backbone/templates/reports/report_show']
 
   events:
     "click a.refresh-btn" : "refresh"

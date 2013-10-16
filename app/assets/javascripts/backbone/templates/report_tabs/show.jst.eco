@@ -1,6 +1,0 @@
-<div class="timelines" id="report_tab_<%= @id %>_timelines">
-</div>
-<div class="kpis" id="report_tab_<%= @id %>_kpis">
-</div>
-<div class="dimensions" id="report_tab_<%= @id %>_dimensions">
-</div>
