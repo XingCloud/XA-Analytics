@@ -37,6 +37,16 @@ class Analytics.Collections.DimensionCharts extends Analytics.Collections.BaseCh
       chart.selector = @selector
       @add(chart)
 
+    # add compare chart
+    if not @for_widget and @selector.get("compare") != 0 and @orderby?
+      compare_chart = new Analytics.Models.DimensionChart({
+        id: 'm'+metric_id+":compare"
+        metric_id: @orderby
+        is_compare: true
+      })
+      compare_chart.selector = @selector
+      @add(compare_chart)
+
   fetch_params: () ->
     charts = []
     @each((chart) ->
@@ -93,9 +103,7 @@ class Analytics.Collections.DimensionCharts extends Analytics.Collections.BaseCh
         @status = resp["data"]["status"]
 
       @process_maxis_data()
-      @fetch_compare_data()
       true
-            
   process_maxis_data: () ->
     maxis = {}
     _.each(@data, (d) ->
@@ -112,19 +120,3 @@ class Analytics.Collections.DimensionCharts extends Analytics.Collections.BaseCh
       )
     )
     @maxis = maxis
-
-  fetch_compare_data: () ->
-    if (not @for_widget and @selector.get("compare") != 0 and
-        @data.length > 0 and not @has_pendings() and
-        @orderby?)
-      dimension_results = (item[0] for item in @data) #
-      compare = @compares[@orderby]
-      if not compare?
-        compare = new Analytics.Collections.ComparisonDimensionCharts([], {
-          dimension_charts: @
-          selector: @selector
-          metric_id: @orderby
-        })
-        @compares[@orderby] = compare
-      compare.initialize_charts(dimension_results, @segment_id)
-      compare.fetch_charts()

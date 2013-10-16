@@ -62,19 +62,14 @@
                                         n/a
                                     <% else: %>
                                         <% if not @for_widget and @selector.get("compare") != 0 and parseInt(@orderby) == metric_id and item[0] != "pending": %>
-                                            <% compare = @compares[@orderby] %>
-                                            <% if compare? and compare.get_by_dimension(item[0])?: %>
-                                                <% natural = compare.get_by_dimension(item[0]).get("sequence")?.natural %>
-                                            <% end %>
-                                            <% if compare? and compare.get_by_dimension(item[0])? and compare.get_by_dimension(item[0]).id == "XA-NA": %>
-                                                <%= @decorate_num(item[1][metric_id],metric_id) %>
-                                            <% else if not natural? or ['XA-NA', 'na'].indexOf(natural) != -1: %>
+                                            <% compare_value = item[1][metric_id+":compare"]%>
+                                            <% if not compare_value? or ['XA-NA', 'na'].indexOf(compare_value) != -1: %>
                                                 <%= @decorate_num(item[1][metric_id],metric_id) %>
                                                 <span class="vs">
                                                     vs
                                                     n/a
                                                 </span>
-                                            <% else if natural == "pending": %>
+                                            <% else if @status[metric_id+":compare"] == "pending" or compare_value == "pending": %>
                                                 <%= @decorate_num(item[1][metric_id],metric_id) %>
                                                 <span class="vs">
                                                     vs
@@ -84,17 +79,17 @@
                                                 <%= @decorate_num(item[1][metric_id],metric_id) %>
                                                 <span class="vs">
                                                     vs
-						                        <%= @decorate_num(natural, metric_id) %>
+						                        <%= @decorate_num(compare_value, metric_id) %>
                                                 </span>
-                                                <% if natural == item[1][metric_id]: %>
+                                                <% if compare_value == item[1][metric_id]: %>
                                                     <span class="change">0%</span>
-                                                <% else if natural > item[1][metric_id]: %>
+                                                <% else if compare_value > item[1][metric_id]: %>
                                                     <span class="change lower">
-                                                        -<%- (if natural != 0 then ((natural - item[1][metric_id]) * 100 / natural).toFixed(2)+'%' else '&infin;') %>
+                                                        -<%- (if compare_value != 0 then ((compare_value - item[1][metric_id]) * 100 / compare_value).toFixed(2)+'%' else '&infin;') %>
                                                     </span>
-                                                <% else if natural < item[1][metric_id]: %>
+                                                <% else if compare_value < item[1][metric_id]: %>
                                                     <span class="change higher">
-                                                        +<%- (if natural != 0 then ((item[1][metric_id] - natural) * 100 / natural).toFixed(2)+'%' else '&infin;') %>
+                                                        +<%- (if compare_value != 0 then ((item[1][metric_id] - compare_value) * 100 / compare_value).toFixed(2)+'%' else '&infin;') %>
                                                     </span>
                                                 <% end %>
                                             <% end %>
