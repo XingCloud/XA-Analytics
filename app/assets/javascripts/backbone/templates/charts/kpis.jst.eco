@@ -33,8 +33,10 @@
             <% end %>
             <td class="metric-name <%= if index+1 == @metric_ids.length then 'last' %>" value="<%= metric_id %>">
                 <span class="metric-name-desc" data-content="<%= description+event_key+'</br>'+summarize_desc %>" data-original-title="<%= metric.get("name") %>">
-                    <i class="icon icon-question-sign"></i>
                     <%= metric.get("name") %>
+                    <% if chart.get("sequence").natural == 0:%>
+                        <i class="no_event icon icon-question-sign" style="opacity:1;cursor:pointer;color:#c09853;font-size:18px;" metric_id="<%=metric_id%>"></i>
+                    <%end%>
                 </span>
             </td>
             <% index = index + 1 %>

@@ -252,8 +252,8 @@
 a.download-table{
     display:none;
     position:absolute;
-    left:5px;
-    top:3px;
+    left:0px;
+    top:-20px;
     i{
 	font-size:20px;
 	color:#333;
@@ -293,4 +293,8 @@ table{
     cursor: wait;
     position: absolute;
   }
+}
+
+a.xa-log-url{
+    border:1px dashed black;
 }

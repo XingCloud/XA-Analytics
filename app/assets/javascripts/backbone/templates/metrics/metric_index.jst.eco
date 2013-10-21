@@ -17,6 +17,7 @@
                     <td><%= metric.get('name') %></td>
                     <td><%= metric.get('created_at') %></td>
                     <td>
+                    <a class="btn btn-mini left edit-metric" value="<%= metric.id %>"><i class="icon-edit"/></a>
                     </td>
                 </tr>
             <% end %>

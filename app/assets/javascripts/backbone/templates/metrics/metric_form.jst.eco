@@ -1,6 +1,8 @@
 <div class="modal-header">
     <a class="close" data-dismiss="modal">x</a>
-    <% if @id? or @is_clone: %>
+    <% if @just_show:%>
+        <h3>指标定义</h3>
+    <% else if @id? or @is_clone: %>
         <h3><%= I18n.t("templates.metrics.form.edit") %></h3>
     <% else: %>
         <h3><%= I18n.t("templates.metrics.form.new") %></h3>
@@ -235,7 +237,10 @@
         </fieldset>
     </form>
 </div>
+
 <div class="modal-footer">
     <a class="btn" id="metric-cancel"><%= I18n.t("commons.cancel") %></a>
-    <a class="btn btn-primary" id="metric-submit"><%= I18n.t("commons.save") %></a>
+    <%if not @just_show:%>
+        <a class="btn btn-primary" id="metric-submit"><%= I18n.t("commons.save") %></a>
+    <%end%>
 </div>

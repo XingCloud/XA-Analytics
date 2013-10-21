@@ -34,7 +34,7 @@ class Analytics.Views.Metrics.FormListItemView extends Backbone.View
     @model.list_item_view = this
     if Instances.Models.project? and not @model.get("project_id")?
       template_model = new Analytics.Models.Metric(@model.attributes)
-      Instances.Collections.metrics.remove(@model)
+      Instances.Collections.metrics.remove(@model)  # todo ok to remove?
       Instances.Collections.metrics.add(template_model)
       @model.collection = Instances.Collections.metrics
       @model.set({id: null, project_id: Instances.Models.project.id, name:template_model.get("name")+"_custom"}, {silent: true})

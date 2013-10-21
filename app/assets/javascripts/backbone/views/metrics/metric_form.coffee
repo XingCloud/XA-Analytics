@@ -39,7 +39,8 @@ class Analytics.Views.Metrics.FormView extends Backbone.View
       'margin-left': () -> -($(this).width() / 2)
     })
     @render_datepicker()
-    $(@el).find('.event-key-select').chosen()
+#    $(@el).find('.event-key-select').chosen() #todo catch error
+    this
 
   render_datepicker: () ->
     el = @el

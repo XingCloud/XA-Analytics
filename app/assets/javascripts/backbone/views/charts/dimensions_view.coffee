@@ -12,7 +12,9 @@ class Analytics.Views.Charts.DimensionsView extends Backbone.View
     "mouseleave .dimensions-table" : "mouseleave_table"
     "mouseenter .dimension-column-desc" : "tryshow_desc_icon"
     "mouseleave .dimension-column-desc" : "tryhide_desc_icon"
-    
+    "click i.no_category" : "no_dimension_guide"
+    "click i.no_event" : "no_event"
+
   initialize: (options) ->
     _.bindAll this, "render", "redraw"
     @render_to = options.render_to
@@ -53,3 +55,9 @@ class Analytics.Views.Charts.DimensionsView extends Backbone.View
   unblock: () ->
     if $(@render_to).find(".blockOverlay").length > 0
       $(@render_to).unblock()
+
+  no_dimension_guide: (event) ->
+    Analytics.Guide.no_dimension(@collection.selector)
+
+  no_event: (event) ->
+    Analytics.Guide.no_event(@collection.selector)

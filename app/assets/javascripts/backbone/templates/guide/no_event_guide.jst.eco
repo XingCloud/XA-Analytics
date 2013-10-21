@@ -1,0 +1,28 @@
+<div class="alert alert-info" id="guide-info">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <h4>没数据?</h4>
+    <p></p>
+    <p>没数据是因为没有收到相关事件的log,或者在指定用户群里的用户没有发生该事件．请联系开发人员打log或更新用户属性.</p>
+    <%if @metric_id?:%>
+        <%metric = Instances.Collections.metrics.get(@metric_id)%>
+        <%attributes = _.clone(metric.attributes)%>
+        <p>更新事件的url如下：</p>
+        <p>
+            <a　class="xa-log-url">
+                <%="http://xa.xingcloud.com/v4/#{Instances.Models.project.get('identifier')}/uid?action=#{metric.get("event_key")}"%>
+            </a>
+        </p>
+        <p>
+            查看指标的具体定义
+            <a class="metric" style="cursor:pointer;" metric_id="<%=metric.id%>"><%=metric.get("name")%></a>
+        </p>
+    <%end%>
+
+    <p>
+    更详细的文档请参考
+    <a href="http://doc.xingcloud.com/pages/viewpage.action?pageId=6586380">
+    行云数据统计
+    </a>
+    </p>
+
+</div>

@@ -1,0 +1,20 @@
+<div class="alert alert-info" id="guide-info">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <h4>未细分?</h4>
+    <p></p>
+    <p>未细分是因为有些用户没有<%=@selector.get_dimension().value%>属性，更新此属性的url如下：</p>
+
+    <p>
+        <a　class="xa-log-url" >
+           <%="http://xa.xingcloud.com/v4/#{Instances.Models.project.get('identifier')}/uid?update=#{@selector.get_dimension().value},value"%>
+        </a>
+    </p>
+
+    <p>
+    更详细的文档请参考
+    <a href="http://doc.xingcloud.com/pages/viewpage.action?pageId=6586380#%E8%A1%8C%E4%BA%91%E6%95%B0%E6%8D%AE%E7%BB%9F%E8%AE%A1-%E7%BB%9F%E8%AE%A1%E7%94%A8%E6%88%B7%E5%B1%9E%E6%80%A7">
+    统计用户属性
+    </a>
+    </p>
+
+</div>

@@ -138,7 +138,7 @@ class Analytics.Views.Metrics.IndexView extends Backbone.View
   template: JST['backbone/templates/metrics/metric_index']
   events:
     "click a#new-metric" : "new_metric"
-    "click a.edit-metric" : "edit_metic"
+    "click a.edit-metric" : "edit_metric"
     "click a.remove-metric" : "remove_metric"
     "click li.pre.enabled a" : "pre_page"
     "click li.nex.enabled a" : "nex_page"
@@ -160,6 +160,26 @@ class Analytics.Views.Metrics.IndexView extends Backbone.View
   redraw: () ->
     @delegateEvents(@events)
     @render()
+
+  edit_metric:(ev)->
+    id = $(ev.currentTarget).attr("value")
+    @model = Instances.Collections.metrics.get(id)
+    if Instances.Models.project? and not @model.get("project_id")?
+      template_model = new Analytics.Models.Metric(@model.attributes)
+      Instances.Collections.metrics.remove(@model)  # todo ok to remove?
+      Instances.Collections.metrics.add(template_model)
+      @model.collection = Instances.Collections.metrics
+      @model.set({id: null, project_id: Instances.Models.project.id, name:template_model.get("name")+"_custom"}, {silent: true})
+      if @model.get("combine_attributes")?
+        @model.get("combine_attributes")["id"] = null
+        @model.get("combine_attributes")["project_id"] = Instances.Models.project.id
+
+    @model.set({just_show:true},{slient:true})
+    new Analytics.Views.Metrics.FormView({
+      model: @model
+      clone: template_model
+      id: (if @model.id? then "edit_metric_"+@model.id else "clone_metric")
+    }).render()
 
   remove_metirc: ()->
     @model

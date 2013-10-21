@@ -15,7 +15,7 @@
                             <%= Instances.Collections.metrics.get(metric_id).get("name") %>
                         <% else if @info[metric_id]?: %>
                             <span class="dimension-column-desc" data-content="<%= @info[metric_id] %>" data-original-title="<%= I18n.t('templates.charts.dimensions.dimension_date') %>">
-                                <i class="icon icon-question-sign" style="opacity: 0.4;"></i>
+                                <!--i class="icon icon-question-sign" style="opacity: 0.4;"></i-->
                                 <%= Instances.Collections.metrics.get(metric_id).get("name") %>
                             </span>
                         <% else: %>
@@ -47,6 +47,7 @@
                                         <%= I18n.t("commons.pending") %>
                                     <% else if item[0] == 'XA-NA': %>
                                         <i><%= I18n.t("templates.charts.dimensions.no_category") %></i>
+                                        <i class="no_category icon icon-question-sign" style="cursor:pointer;color:#c09853;">
                                     <% else: %>
                                         <a class="dimension-value" value="<%= item[0] %>"><%= item[0] %></a>
                                     <% end %>
@@ -111,7 +112,10 @@
                 <% end %>
                 <% if no_data: %>
                     <tr>
-                        <td class="no-data" colspan="<%= @metric_ids.length + 1 %>"><i><%= I18n.t("commons.no_data") %></i></td>
+                        <td class="no-data" colspan="<%= @metric_ids.length + 1 %>">
+                        <i><%= I18n.t("commons.no_data") %></i>
+                        <i class="no_event icon icon-question-sign" style="cursor:pointer;color:#c09853;">
+                        </td>
                     </tr>
                 <% end %>
             <% end %>

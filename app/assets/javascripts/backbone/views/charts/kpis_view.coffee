@@ -15,6 +15,7 @@ class Analytics.Views.Charts.KpisView extends Backbone.View
     "click a.download-table" : "download_table"
     "mouseenter" : "mouseenter_table"
     "mouseleave" : "mouseleave_table"
+    "click i.no_event" : "no_event"
 
   initialize: (options) ->
     _.bindAll this, "render", "redraw"
@@ -74,10 +75,10 @@ class Analytics.Views.Charts.KpisView extends Backbone.View
       $(element).addClass('deactive')
 
   tryshow_desc_icon: (event) ->
-    $("i", event.currentTarget).fadeTo('fast', 1)
+#    $("i", event.currentTarget).fadeTo('fast', 1)
 
   tryhide_desc_icon: (event) ->
-    $("i", event.currentTarget).fadeTo('fast', 0.4)
+#    $("i", event.currentTarget).fadeTo('fast', 0.4)
 
 
   download_table: (event) ->
@@ -89,3 +90,7 @@ class Analytics.Views.Charts.KpisView extends Backbone.View
 
   mouseleave_table: (event)->
     $(@el).find("a.download-table").hide()
+
+  no_event: (event) ->
+#    Analytics.Guide.no_event(@collection.selector, $(event.currentTarget).attr("metric_id"))
+    new Analytics.Views.Guide.NoEvent({report_tab:@collection.selector, metric_id:$(event.currentTarget).attr("metric_id")}).render()
