@@ -1,0 +1,9 @@
+ <a class="dropdown-toggle" data-toggle="dropdown">
+    <% if @project?: %>
+        <i class="icon-globe"></i>
+        <%= @project.name %>
+    <% else: %>
+        <i><%= I18n.t("templates.projects.header.select_project") %></i>
+    <% end %>
+    <b class="caret"></b>
+</a>

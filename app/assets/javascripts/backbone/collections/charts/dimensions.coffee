@@ -101,6 +101,8 @@ class Analytics.Collections.DimensionCharts extends Analytics.Collections.BaseCh
         @info = resp["data"]["info"]
       if resp["data"]? and resp["data"]["status"]?
         @status = resp["data"]["status"]
+      if resp["data"]? and resp["data"]["keys"]?
+        @selector.dimension.keys = resp["data"]["keys"]
 
       @process_maxis_data()
       true

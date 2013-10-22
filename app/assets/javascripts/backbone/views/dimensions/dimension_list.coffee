@@ -144,6 +144,7 @@ class Analytics.Views.Dimensions.ListView extends Backbone.View
         value_type: dimension.value_type
       }
       value: value
+      keys: dimension.keys
     }
     oldfilter =  _.find(@model.dimensions_filters(), (item) ->
       item.dimension.dimension_type == filter.dimension.dimension_type and item.dimension.value == filter.dimension.value

@@ -3,22 +3,48 @@
         <td>
             <ul class="dimension-tags control-tags">
                 <% if @dimensions_filters.length > 0: %>
-                    <li class="filter all">
+                    <!--li class="filter all">
                         <i class="icon-folder-open"></i>
                         <a><%= I18n.t("templates.dimensions.tags.all") %></a>
-                    </li>
+                    </li-->
                 <% end %>
+
                 <% for filter in @dimensions_filters: %>
                     <li class="filter-path-splitter">&nbsp;»&nbsp;</li>
-                    <li class="filter" key="<%= filter.dimension.value %>" key_type="<%= filter.dimension.dimension_type %>" value="<%= filter.value %>" value_type="<%= filter.dimension.value_type %>">
-                        <i class="icon-folder-open"></i>
-                        <% if filter != _.last(@dimensions_filters): %>
-                            <a><%= Analytics.Static.getDimensionName(filter.dimension.value) %>:<%= filter.value %></a>
-                        <% else: %>
-                            <%= Analytics.Static.getDimensionName(filter.dimension.value) %>:<%= filter.value %>
-                        <% end %>
+
+                    <li class="dropdown" filter_index="<%=_.indexOf(@dimensions_filters, filter)%>">
+                        <a class="filter" key="<%= filter.dimension.value %>" key_type="<%= filter.dimension.dimension_type %>" value="<%= filter.value %>" value_type="<%= filter.dimension.value_type %>" >
+                            <%= Analytics.Static.getDimensionName(filter.dimension.value) %>:
+                        </a>
+                         <div class="dropdown-toggle" data-toggle="dropdown">
+                                <%=filter.value%>
+                                <i class="icon-play"></i>
+                            </a>
+                        </div>
+                        <ul class="dropdown-menu dimension-dropdown">
+                            <li class="dimension-value-search">
+                                <input type="text">
+                                <i class="icon-search"/>
+                            </li>
+                            <li class="dimension-value-list">
+                            <div class="dimension-value-item" dimension_value="all-dimensions" filter_index="<%=_.indexOf(@dimensions_filters, filter)%>">
+                                <a>所有细分</a>
+                            </div>
+                            <% for key in _.filter(filter.keys, (x)-> x != filter.value): %>
+                                <div class="dimension-value-item" dimension_value="<%=key%>" filter_index="<%=_.indexOf(@dimensions_filters, filter)%>">
+                                    <a><%=key%></a>
+                                </div>
+                            <% end %>
+                                <div class="dimension-value-no-match hide">
+                                    <%= I18n.t("commons.no_data") %>
+                                </div>
+                            </li>
+                        </ul>
+
                     </li>
                 <% end %>
+
+
                 <% if @dimensions_filters.length > 0: %>
                     <li class="divider"><strong>&nbsp;|&nbsp;</strong></li>
                 <% end %>

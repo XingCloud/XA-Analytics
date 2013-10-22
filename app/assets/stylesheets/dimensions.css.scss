@@ -240,6 +240,56 @@
       background-color: #08C;
     }
   }
+  .dropdown{
+    .dropdown-toggle{
+      display:inline;
+    }
+    .dropdown-menu{
+      width:220px;
+      li.dimension-value-search{
+        border: 1px solid #CCC;
+        margin: 0 5px 0 5px;
+        input{
+          border: 0;
+          width: 170px;
+          margin: 0;
+        }
+      }
+      li.dimension-value-list{
+        padding: 2px 10px 2px 5px;
+        position: relative;
+        overflow: auto;
+        max-height: 250px;
+        float: none;
+        .projects-pending{
+          text-align: center;
+        }
+        .dimension-value-no-match{
+          text-align: center;
+        }
+        .dimension-value-item{
+          a{
+            display: block;
+            padding: 3px 10px;
+            clear: both;
+            font-weight: normal;
+            line-height: 20px;
+            color: #333333;
+            white-space: nowrap;
+          }
+        }
+        .dimension-value-item.selected{
+          a{
+            text-decoration: none;
+            color: #ffffff;
+            background-color: #0081c2;
+          }
+        }
+      }
+    }
+  }
+
+
 }
 .jump-page{
   vertical-align:top;
