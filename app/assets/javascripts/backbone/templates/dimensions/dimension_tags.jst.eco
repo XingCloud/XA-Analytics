@@ -2,24 +2,27 @@
     <tr>
         <td>
             <ul class="dimension-tags control-tags">
-                <% if @dimensions_filters.length > 0: %>
-                    <!--li class="filter all">
-                        <i class="icon-folder-open"></i>
-                        <a><%= I18n.t("templates.dimensions.tags.all") %></a>
-                    </li-->
-                <% end %>
+                <%filters = @dimensions_filters%>
+                <%if @dimension? then filters = _.union(filters, [@dimension.filter])%>
+                <% for filter in filters: %>
+                    <li class="dropdown" filter_index="<%=_.indexOf(filters, filter)%>">
+                         <div class="dropdown-toggle control-tag dimension-tag active <%= if @dimension and filter == @dimension.filter then 'current-dimension ' %> " data-toggle="dropdown">
+                            <span class="filter" key="<%= filter.dimension.value %>" key_type="<%= filter.dimension.dimension_type %>" value="<%= filter.value %>" value_type="<%= filter.dimension.value_type %>" >
+                                <%= Analytics.Static.getDimensionName(filter.dimension.value) %>
+                            </span>
+                            <%if filter.value != "all-dimensions":%>
+                                <%=":"+filter.value%>
+                            <%end%>
 
-                <% for filter in @dimensions_filters: %>
-                    <li class="filter-path-splitter">&nbsp;»&nbsp;</li>
+                            <%if (@dimension? and filter == @dimension.filter) or (not @dimension? and filter == filters[filters.length-1]):%>
+                                <i class=" icon-chevron-down dropdown-toggle"></i>
+                            <%else:%>
+                                <i class=" icon-chevron-right dropdown-toggle"></i>
+                            <%end%>
 
-                    <li class="dropdown" filter_index="<%=_.indexOf(@dimensions_filters, filter)%>">
-                        <a class="filter" key="<%= filter.dimension.value %>" key_type="<%= filter.dimension.dimension_type %>" value="<%= filter.value %>" value_type="<%= filter.dimension.value_type %>" >
-                            <%= Analytics.Static.getDimensionName(filter.dimension.value) %>:
-                        </a>
-                         <div class="dropdown-toggle" data-toggle="dropdown">
-                                <%=filter.value%>
-                                <i class="icon-play"></i>
-                            </a>
+                            <%if @dimension? and filter == @dimension.filter:%>
+                                <i class="icon-remove-sign" dimension-value="<%= filter.dimension.value %>" dimension-type="<%= filter.dimension.dimension_type %>" ></i>
+                            <%end%>
                         </div>
                         <ul class="dropdown-menu dimension-dropdown">
                             <li class="dimension-value-search">
@@ -27,11 +30,11 @@
                                 <i class="icon-search"/>
                             </li>
                             <li class="dimension-value-list">
-                            <div class="dimension-value-item" dimension_value="all-dimensions" filter_index="<%=_.indexOf(@dimensions_filters, filter)%>">
+                            <div class="dimension-value-item" dimension_value="all-dimensions" filter_index="<%=_.indexOf(filters, filter)%>">
                                 <a>所有细分</a>
                             </div>
                             <% for key in _.filter(filter.keys, (x)-> x != filter.value): %>
-                                <div class="dimension-value-item" dimension_value="<%=key%>" filter_index="<%=_.indexOf(@dimensions_filters, filter)%>">
+                                <div class="dimension-value-item" dimension_value="<%=key%>" filter_index="<%=_.indexOf(filters, filter)%>">
                                     <a><%=key%></a>
                                 </div>
                             <% end %>
@@ -44,15 +47,11 @@
                     </li>
                 <% end %>
 
-
-                <% if @dimensions_filters.length > 0: %>
-                    <li class="divider"><strong>&nbsp;|&nbsp;</strong></li>
-                <% end %>
                 <% for dimension in @dimensions: %>
                     <% active = (@dimension? and dimension.dimension_type == @dimension.dimension_type and dimension.value == @dimension.value) %>
                     <% filter = _.find(@dimensions_filters, (filter) -> filter.dimension.value == dimension.value and filter.dimension.dimension_type == dimension.dimension_type) %>
-                    <% if not filter?: %>
-                        <li class="dimension-tag control-tag <%= if active then 'active' %> ">
+                    <% if not filter? and not active:%>
+                        <li class="dimension-tag control-tag">
                             <table>
                                 <tr>
                                     <td class="tag" dimension-value="<%= dimension.value %>" dimension-type="<%= dimension.dimension_type %>">

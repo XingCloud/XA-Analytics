@@ -19,7 +19,7 @@ class Analytics.Views.ReportTabs.ShowView extends Backbone.View
     @render_timelines()
     @render_kpis()
     @render_dimensions()
-    @render_panel()
+    @render_panel() # must be after render_dimensions
     @fetch_data()
 
   redraw: () ->
@@ -93,7 +93,7 @@ class Analytics.Views.ReportTabs.ShowView extends Backbone.View
       }, @model.force_fetch)
       if @model.dimension?  # if we have dimension to deal with, modified by panel
         dimensions_view = @dimensions_view
-        @dimensions_view.dimensions_change({should_fetch:false}) # fetch_data may trigger with dimensions change, eg: add segment
+        @dimensions_view.dimensions_change({should_fetch:false}) # fetch_data may trigger while dimensions change, eg: add segment
         @dimensions_view.block()
         @dimensions_view.dimensions.fetch_charts({
           success: (resp) ->

@@ -6,17 +6,19 @@ class Analytics.Views.Dimensions.TagsView extends Backbone.View
     "click .dimension-tag td.tag": "choose_dimension"
     "click .dimension-tag i.icon-remove-sign": "remove_dimension"
     "click .add-tag .tag": "add_dimension"
-    "click .filter": "click_filter"
     "click li .dimension-value-item": "click_dimension_value_item"
     "keyup .dimension-value-search input" : "keyup_toggle"
     "keydown .dimension-value-search input" : "keydown_toggle"
     "mouseover .dimension-value-list .dimension-value-item" : "highlight_dimension_value"
     "click .dimension-value-search" : "click_search"
+    "mouseenter .dropdown-toggle"  : "right2down"
+    "mouseleave .dropdown-toggle"  : "down2right"
 
   initialize: (options) ->
-    _.bindAll this, "render"
+    _.bindAll this, "render", "redraw"
     @parent_view = options.parent_view
     @report_tab_view = options.report_tab_view
+    @report_tab_view.dimensions_view.dimensions.on "change", @redraw
 
   render: () ->
     $(@el).html(@template(@model.show_attributes()))
@@ -40,14 +42,10 @@ class Analytics.Views.Dimensions.TagsView extends Backbone.View
     dimension_value = $(ev.currentTarget).attr("dimension-value")
     dimension_type = $(ev.currentTarget).attr("dimension-type")
     dimension = _.find(@model.dimensions, (dimension) -> dimension.value == dimension_value and dimension.dimension_type == dimension_type)
-    active = (dimension == @model.dimension)
     @model.dimensions.splice(@model.dimensions.indexOf(dimension), 1)
-    if @model.dimensions.length > 0
-      @model.dimension = @model.dimensions[0]
-    else
-      @model.dimension = null
+    model_dimension = @model.dimension # following redraw may change the dimension, we need to backup for next step
     @redraw()
-    if active
+    if dimension_value == model_dimension.value and dimension_type == model_dimension.dimension_type
       @report_tab_view.dimensions_view.dimensions_change({should_scroll: true})
 
   add_dimension: (ev) ->
@@ -56,31 +54,7 @@ class Analytics.Views.Dimensions.TagsView extends Backbone.View
     @redraw()
     @report_tab_view.dimensions_view.dimensions_change({should_scroll: true})
 
-  click_filter: (ev) ->
-    if $(ev.currentTarget).hasClass("all")
-      @model.dimensions_filters().splice(0, @model.dimensions_filters().length)
-      if @model.dimensions.length > 0
-        @model.dimension = @model.dimensions[0]
-      else
-        @model.dimension = null
-    else
-      key = $(ev.currentTarget).attr("key")
-      key_type = $(ev.currentTarget).attr("key_type")
-      value_type = $(ev.currentTarget).attr("value_type")
-      filter = _.find(@model.dimensions_filters(), (filter) -> filter.dimension.value == key and filter.dimension.dimension_type == key_type)
-      filter_index = @model.dimensions_filters().indexOf(filter)
-      next_filter = @model.dimensions_filters()[filter_index + 1]
-      @model.dimensions_filters().splice(filter_index + 1, @model.dimensions_filters().length - filter_index - 1)
-      dimension = _.find(@model.dimensions, (dimension) -> dimension.value == next_filter.dimension.value and dimension.dimension_type == next_filter.dimension.dimension_type)
-      if dimension?
-        @do_choose_dimension(dimension)
-      else
-        @do_add_dimension(next_filter.dimension.key, next_filter.dimension.dimension_type, next_filter.dimension.value_type)
-
-    @report_tab_view.redraw()
-
   do_choose_dimension: (dimension) ->
-    @model.dimension = dimension
     dimensions = [dimension]
     for old_dimension in @model.dimensions
       if old_dimension != dimension
@@ -96,11 +70,10 @@ class Analytics.Views.Dimensions.TagsView extends Backbone.View
       report_tab_id: @model.id
     }
     @model.dimensions = [new_dimension].concat(@model.dimensions)
-    @model.dimension = new_dimension
 
 
   click_dimension_value_item: (ev)->
-    dimension_filter_index = $(ev.currentTarget).attr("filter_index")
+    dimension_filter_index = parseInt($(ev.currentTarget).attr("filter_index"))
     dimension_value = $(ev.currentTarget).attr("dimension_value")
     @change_dimension_value(dimension_filter_index, dimension_value)
 
@@ -171,18 +144,32 @@ class Analytics.Views.Dimensions.TagsView extends Backbone.View
     dimension_value = current_dropdown.find(".dimension-value-list .dimension-value-item.selected").attr("dimension_value")
 
     if dimension_value?
-      dimension_filter_index = current_dropdown.attr("filter_index")
+      dimension_filter_index = parseInt(current_dropdown.attr("filter_index"))
       @change_dimension_value(dimension_filter_index, dimension_value)
 
   change_dimension_value: (dimension_filter_index, dimension_value) ->
+    # check if we are operating on the current dimension and select a specific dimension value, if so, put it to the filters.
+    if dimension_filter_index == @model.dimensions_filters().length and dimension_value != "all-dimensions"
+      new_dimension_filter = @model.dimension.filter
+      new_dimension_filter.value =  dimension_value
+      @model.dimensions_filters().push(new_dimension_filter)
+
     dimension_filter = @model.dimensions_filters()[dimension_filter_index]
     dimension_filter.value = dimension_value
 
+    # splice the filters
     if dimension_value == "all-dimensions"
       @model.dimensions_filters().splice(dimension_filter_index , @model.dimensions_filters().length - dimension_filter_index + 1)
     else
       @model.dimensions_filters().splice(dimension_filter_index+1 , @model.dimensions_filters().length - dimension_filter_index + 1)
 
-    #set the new dimension
-    @model.dimension = _.find(@model.dimensions,(x)-> x)
+    #change dimension, see report_tab#update_dimension
+
     @report_tab_view.redraw()
+
+  right2down: (ev) ->
+    $(ev.currentTarget).find("i.dropdown-toggle").removeClass("icon-chevron-right").addClass("icon-chevron-down")
+
+  down2right: (ev) ->
+    if not $(ev.currentTarget).hasClass("current-dimension")
+      $(ev.currentTarget).find("i.dropdown-toggle").removeClass("icon-chevron-down").addClass("icon-chevron-right")

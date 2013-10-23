@@ -67,7 +67,7 @@ class Analytics.Views.Dimensions.ListView extends Backbone.View
     @delegateEvents(@events)
 
   dimensions_change: (options = {}) ->
-    @init_dimensions() # for thread safety reasons: reconstruct dimensions collection each time we change dimensions
+    # @init_dimensions() # for thread safety reasons: reconstruct dimensions collection each time we change dimensions
     @redraw(options)
 
   fetch_dimensions: () ->
@@ -135,23 +135,16 @@ class Analytics.Views.Dimensions.ListView extends Backbone.View
   filter_dimension: (ev) ->
     XA.action("click.report.filter_dimension")
     value = $(ev.currentTarget).attr("value")
-    dimension = @model.dimension
-    filter = {
-      dimension: {
-        dimension_type: dimension.dimension_type
-        name: Analytics.Static.getDimensionName(dimension.value)
-        value: dimension.value
-        value_type: dimension.value_type
-      }
-      value: value
-      keys: dimension.keys
-    }
+    filter = @model.dimension.filter
+    filter.value = value
     oldfilter =  _.find(@model.dimensions_filters(), (item) ->
       item.dimension.dimension_type == filter.dimension.dimension_type and item.dimension.value == filter.dimension.value
     )
     if not oldfilter?
       @model.dimensions_filters().push(filter)
-    level = @model.dimension.level
+
+    #update dimension, see report_tab#update_dimension
+
     @parent_view.redraw()
 
   change_gpattern: (ev) ->

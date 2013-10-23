@@ -102,7 +102,18 @@ class Analytics.Collections.DimensionCharts extends Analytics.Collections.BaseCh
       if resp["data"]? and resp["data"]["status"]?
         @status = resp["data"]["status"]
       if resp["data"]? and resp["data"]["keys"]?
-        @selector.dimension.keys = resp["data"]["keys"]
+        selector = @selector
+        filter = {
+          dimension: {
+            dimension_type: selector.dimension.dimension_type
+            name: Analytics.Static.getDimensionName(selector.dimension.value)
+            value: selector.dimension.value
+            value_type: selector.dimension.value_type
+          }
+          value: "all-dimensions"
+          keys: resp["data"]["keys"]
+        }
+        @selector.dimension.filter = filter
 
       @process_maxis_data()
       true

@@ -13,6 +13,18 @@ class Analytics.Models.ReportTab extends Backbone.Model
     @compare_end_time = Analytics.Utils.pickUTCStart() - @get("length")*86400000 - @get("day_offset")*86400000
     @dimensions = _.clone(@get("dimensions_attributes"))
     @dimension = (if @dimensions? and @dimensions.length > 0 then @dimensions[0])
+    _dimension = @dimension
+    if _dimension?
+      @dimension.filter = {
+        dimension: {
+          dimension_type: _dimension.dimension_type
+          name: Analytics.Static.getDimensionName(_dimension.value)
+          value: _dimension.value
+          value_type: _dimension.value_type
+        }
+        value: "all-dimensions"
+        keys: []
+      }
     @force_fetch = false
 
   dimensions_filters: () ->
@@ -58,13 +70,31 @@ class Analytics.Models.ReportTab extends Backbone.Model
     @dimension = (if @dimensions? and @dimensions.length > 0 then @dimensions[0])
 
   update_dimension: () ->
-    if @find_filter(@dimension)?
-      @dimension = null
-      for dimension in @dimensions
-        filter_exist = @find_filter(dimension)
-        if not filter_exist?
-          @dimension = dimension
+    remain_dimension = false
+    for dimension in @dimensions
+      filter_exist = @find_filter(dimension)
+      if not filter_exist?
+        remain_dimension = true # we change the only dimension to a specific dimension value, now we only have filter.
+
+        if dimension == @dimension
           break
+
+        @dimension = dimension
+        _dimension = dimension
+        dimension.filter = {
+          dimension: {
+            dimension_type: _dimension.dimension_type
+            name: Analytics.Static.getDimensionName(_dimension.value)
+            value: _dimension.value
+            value_type: _dimension.value_type
+          }
+          value: "all-dimensions"
+          keys: []
+        }
+        break
+
+    if not remain_dimension
+      @dimension = null;
 
   find_filter: (dimension) ->
     if not dimension?
