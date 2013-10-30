@@ -18,6 +18,7 @@
 = subscribe_to "/maintenance_plan"
 
 :javascript
+  new Analytics.Views.Projects.HeaderView({project: "null"}).render();
   PrivatePub.subscribe("/maintenance_plan", function(data, channel){
     $.pnotify({
       title: data.title,

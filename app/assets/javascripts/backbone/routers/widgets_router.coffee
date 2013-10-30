@@ -5,6 +5,7 @@ class Analytics.Routers.WidgetsRouter extends Backbone.Router
   initialize: () ->
 
   index: () ->
+    $('div.report-panel').empty()
     if Instances.Models.user.is_mgriant()
       Analytics.Utils.redirect("404")
       return

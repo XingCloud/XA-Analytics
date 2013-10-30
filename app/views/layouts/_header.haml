@@ -1,38 +1,28 @@
-.navbar.navbar-inverse.navbar-static-top
-  .navbar-inner
-    .container
-      %a.brand{:href => "http://p.xingcloud.com"}
-        %i.icon-home
-        = t(:header_brand)
-      .nav-collapse.collapse.navbar-inverse.collapse
-        %ul.nav
-          %li.dropdown.project-select
-          %li.active
-            %a
-              = t(:header_analytics)
+.header
+  .nav-collapse.collapse.navbar-inverse.collapse
+    %div.hr.right
+      %div.dropdown.pull-right
+        %a.dropdown-toggle{:href => "#", "data-toggle" => "dropdown"}
+          = session[:cas_user]
+          %b.caret
+        %ul.dropdown-menu
           - if project.present?
             %li
-              %a{:href => "http://p.xingcloud.com/platform_apps?project_id=#{project.identifier}"}
-                = t(:header_gdp)
-        %ul.nav.pull-right
-          %li.dropdown
-            %a.dropdown-toggle{:href => "#", "data-toggle" => "dropdown"}
-              = session[:cas_user]
-              %b.caret
-            %ul.dropdown-menu
-              - if project.present?
-                %li
-                  %a{:href => "http://p.xingcloud.com/projects/#{project.identifier}/settings"}
-                    = t(:header_settings)
-              %li
-                %a{:href => "http://p.xingcloud.com/my/account"}
-                  = t(:header_my_account)
-              %li
-                %a{:href => "http://p.xingcloud.com:3001/logout", :ref => "nofollow"}
-                  = t(:header_logout)
-          %li.divider-vertical
+              %a{:href => "http://p.xingcloud.com/projects/#{project.identifier}/settings"}
+                = t(:header_settings)
+          %li
+            %a{:href => "http://p.xingcloud.com/my/account"}
+              = t(:header_my_account)
+          %li
+            %a{:href => "http://p.xingcloud.com:3001/logout", :ref => "nofollow"}
+              = t(:header_logout)
+
+    %div.hl
+      %div.dropdown.project-select
+
+.report-panel{:id=>"report-panel"}
+
 :javascript
   I18n.fallbacks = true;
   I18n.defaultlocale = "en";
   I18n.locale = "#{I18n.locale}";
-  new Analytics.Views.Projects.HeaderView({project: #{project.present? ? project.js_attributes.to_json : "null"}}).render();

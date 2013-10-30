@@ -5,7 +5,7 @@ class Analytics.Views.Projects.ShowView extends Backbone.View
   el: "#container"
 
   events:
-    "click td.nav-toggle" : "toggle_left_nav"
+    "click .nav-toggle" : "toggle_left_nav"
     "click .dashboard-toggle .btn" : "toggle_dashboard"
     "click a.change_language" : "change_language"
     "click a.previous-version" : "degrade"
@@ -32,13 +32,13 @@ class Analytics.Views.Projects.ShowView extends Backbone.View
       $(@el).find('#main-container').html(JST['backbone/templates/projects/no-report']())
 
 
-  toggle_left_nav: (ev) ->
-    $(@el).find('td.left-nav').toggle()
-    if $(ev.currentTarget).hasClass("left-nav-hide")
-      $(ev.currentTarget).removeClass("left-nav-hide")
-    else
-      $(ev.currentTarget).addClass("left-nav-hide")
-    $('#main-container').trigger("resize")
+#  toggle_left_nav: (ev) ->
+#    $(@el).find('.left-nav').toggle()
+#    if $(ev.currentTarget).hasClass("left-nav-hide")
+#      $(ev.currentTarget).removeClass("left-nav-hide")
+#    else
+#      $(ev.currentTarget).addClass("left-nav-hide")
+#    $('#main-container').trigger("resize")
 
   toggle_dashboard: (ev) ->
     Analytics.Utils.redirect("dashboard")

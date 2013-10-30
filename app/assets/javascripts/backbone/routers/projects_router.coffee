@@ -14,6 +14,7 @@ class Analytics.Routers.ProjectsRouter extends Backbone.Router
     $('#main-container').html(JST['backbone/templates/utils/404']())
 
   settings: () ->
+    $('div.report-panel').empty()
     @do_settings()
 
   settings_with_active: (active) ->
@@ -42,6 +43,7 @@ class Analytics.Routers.ProjectsRouter extends Backbone.Router
     $('.nav-report').removeClass('active')
 
   ads: ()->
+    $('div.report-panel').empty()
     @do_ads()
 
   ads_with_active: (active) ->

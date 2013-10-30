@@ -1,7 +1,8 @@
+#填充项目下拉列表和用户设置选项
 Analytics.Views.Projects ||= {}
 class Analytics.Views.Projects.HeaderView extends Backbone.View
   template: JST["backbone/templates/projects/project_header"]
-  el: ".navbar .project-select"
+  el: ".header .project-select"
   events:
     "click .dropdown-toggle": "dropdown_toggle"
     "click .project-search input" : "click_search"
@@ -14,6 +15,8 @@ class Analytics.Views.Projects.HeaderView extends Backbone.View
     @project = options.project
     @projects = []
     @fetched = false
+    if not @project.nil?
+      @render_setting_panel()
 
   render: () ->
     $(@el).html(@template({
@@ -21,6 +24,7 @@ class Analytics.Views.Projects.HeaderView extends Backbone.View
       fetched: @fetched
       projects: @projects
     }))
+
     if not @fetched
       @fetch()
 
@@ -132,3 +136,6 @@ class Analytics.Views.Projects.HeaderView extends Backbone.View
   highlight_project: (ev) ->
     $(@el).find(".project-list .project").removeClass("selected")
     $(ev.currentTarget).addClass("selected")
+
+  render_setting_panel: ()->
+    $(".header .hr").prepend(JST["backbone/templates/projects/project_setting_panel"]())

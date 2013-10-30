@@ -44,6 +44,7 @@ class Analytics.Routers.ReportsRouter extends Backbone.Router
       Analytics.Utils.redirect("404")
 
   new: () ->
+    $('div.report-panel').empty()
     if not @can_alter()
       Analytics.Utils.redirect("404")
       return
@@ -56,6 +57,7 @@ class Analytics.Routers.ReportsRouter extends Backbone.Router
     $('.nav-report').removeClass("active")
 
   edit: (id) ->
+    $('div.report-panel').empty()
     if not @can_alter()
       Analytics.Utils.redirect("404")
       return    

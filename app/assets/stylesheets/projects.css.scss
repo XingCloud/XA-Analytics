@@ -1,3 +1,88 @@
+.header{
+  background-color: rgb(250,249,245);
+  .hl{
+    width: 200px;
+    height:45px;
+    div.project-select{
+      cursor: pointer;
+      font-weight: bold;
+      min-width: 160px;
+      margin-left:15px;
+      padding-top: 10px;
+      a.dropdown-toggle{
+        font-size: 18px;
+      }
+      a:hover{
+        text-decoration: none;
+      }
+      ul.dropdown-menu{
+        width: 220px;
+        li.project-search{
+          border: 1px solid #CCC;
+          margin: 0 5px 0 5px;
+          input{
+            border: 0;
+            width: 170px;
+            margin: 0;
+          }
+        }
+        li.project-list{
+          padding: 2px 10px 2px 5px;
+          position: relative;
+          overflow: auto;
+          max-height: 250px;
+          .projects-pending{
+            text-align: center;
+          }
+          .projects-no-match{
+            text-align: center;
+          }
+          .project{
+            a{
+              display: block;
+              padding: 3px 10px;
+              clear: both;
+              font-weight: normal;
+              line-height: 20px;
+              color: #333333;
+              white-space: nowrap;
+            }
+          }
+          .project.selected{
+            a{
+              text-decoration: none;
+              color: #ffffff;
+              background-color: #0081c2;
+            }
+          }
+        }
+      }
+    }
+  }
+  .hr{
+    margin: 14px 20px 0 0;
+    a{
+      margin-right: 25px;
+    }
+    a:hover{
+      text-decoration: none;
+    }
+    .dropdown{
+      display: inline-block;
+      float: none;
+    }
+  }
+  .navbar-inner{
+    background-image: none;
+    background-color: white;
+    border: none;
+  }
+}
+#container{
+  margin-top: -1px;
+  border-top: 1px solid;
+  border-top-color: rgb(200,200,200);
+}
 .main{
   border-bottom: 1px solid #CCC;
   outline-style: none;
@@ -13,13 +98,17 @@
   border-bottom: 1px solid #CCC;
 }
 
-table.main-table{
+div.main{
+  position: relative; //todo absolute
   width: 100%;
   height: 100%;
   border-collapse: collapse;
   border: none;
-  td.left-nav{
+  overflow: hidden;  //todo
+  div.left-nav{
+    float: left;  // todo not removed from flow
     min-width: 200px;
+    max-width: 200px;
     vertical-align: top;
     .dashboard-toggle{
       padding: 5px 8px 5px 5px;
@@ -39,7 +128,7 @@ table.main-table{
             padding: 0px;
             .nav.nav-list{
               overflow: auto;
-              max-height: 300px;
+              max-height: 400px;
               li{
                 .dropdown{
                   margin-top: 2px;
@@ -77,7 +166,11 @@ table.main-table{
       }
     }
   }
-  td.nav-toggle{
+  div.nav-toggle{
+    position: absolute; //todo removed from flow
+    float:none;
+    left: 200px;
+    overflow: hidden; //todo
     background: whiteSmoke;
     border-right: 1px solid #DDD;
     border-left: 1px solid #C8C8C8;
@@ -92,21 +185,19 @@ table.main-table{
     min-width: 5px;
     width: 5px;
   }
-  td.nav-toggle:hover{
+  div.nav-toggle:hover{
     background-color: #777;
     -moz-transition: background-color .20s linear;
     -webkit-transition: background-color .20s linear;
     transition: background-color .20s linear;
   }
-  td.nav-toggle.hide{
+  div.nav-toggle.hide{
     cursor: e-resize;
     padding-left: 5px;
   }
-  td.main-container{
-    vertical-align: top;
-    width: 100%;
-  }
-  td.main-container #main-container{
+
+  #main-container{
+    overflow: hidden; //todo :clean the float
     min-height: 800px;
     padding: 10px 20px 0px 20px;
   }

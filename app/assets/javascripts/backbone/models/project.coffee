@@ -58,6 +58,7 @@ class Analytics.Models.Project extends Backbone.Model
   load_finished: (project) ->
     Instances.Collections.translations.attach_translation()
     Instances.Models.user.set_project_user() #todo:必须在render所有view之前执行,因为要做权限判断(其实可以在服务器端完成)
+    new Analytics.Views.Projects.HeaderView({project: Instances.Models.project.attributes}).render();
     new Analytics.Views.Projects.ShowView({model: project}).render()
     Instances.Routers = {
       report_categories_router: new Analytics.Routers.ReportCategoriesRouter(),

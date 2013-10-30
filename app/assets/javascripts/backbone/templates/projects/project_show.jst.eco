@@ -3,24 +3,20 @@
         <div class="bar" style="width: 100%;"></div>
     </div>
 </div>
+
 <div id="loading-message" style="display: none;"><%= I18n.t("commons.pending") %></div>
+
 <div class="main">
-    <table class="main-table" cellpadding="0" cellspacing="0">
-        <tbody>
-        <tr>
-            <td class="left-nav" id="left-nav"></td>
-            <td class="nav-toggle"></td>
-            <td class="main-container">
-                <div id="main-container"></div>
-            </td>
-        </tr>
-        </tbody>
-    </table>
-    <footer class="footer">
-        © 2013 XingCloud All Rights Reserved
-        |
-        <a href="<%= Analytics.Utils.hrefWrapper('action_logs') %>"><%= I18n.t("templates.projects.show.action_logs") %></a>
-        |
-        <a class="change_language" style="cursor: pointer;"><%= I18n.t("templates.projects.show.change_language") %></a>
-    </footer>
+        <div class="left-nav" id="left-nav"></div>
+        <div class="nav-toggle" style="z-index:2;"></div>
+        <div id="main-container"></div>
 </div>
+
+<footer class="footer">
+    © 2013 XingCloud All Rights Reserved
+    |
+    <a href="<%= Analytics.Utils.hrefWrapper('action_logs') %>"><%= I18n.t("templates.projects.show.action_logs") %></a>
+    |
+    <a class="change_language" style="cursor: pointer;"><%= I18n.t("templates.projects.show.change_language") %></a>
+</footer>
+

@@ -33,14 +33,13 @@ class Analytics.Views.ReportTabs.ShowView extends Backbone.View
         model: @model  # report_tab
         parent_view: this
       })
-      $(@report_view.el).find('.report-panel').html(@model.panel_view.render().el)
+      $('div.report-panel').html(@model.panel_view.render().el)
     else
-      $(@report_view.el).find('.report-panel').html(@model.panel_view.redraw().el)
-    $(@report_view.el).find('.report-panel').outerWidth($(@report_view.el).width())
-    $(@report_view.el).find('.report-panel').affix({
-      offset: 60
+      $('div.report-panel').html(@model.panel_view.redraw().el)
+#    $('div.report-panel').outerWidth($(@report_view.el).width()) //todo
+    $('div.report-panel').affix({
+      offset: 45
     })
-    $(@report_view.el).find('.report-panel-shadow').height($(@report_view.el).find('.report-panel').height())
 
   render_timelines: () ->
     segment_ids = Instances.Collections.segments.selected() # changed by panel, used on report level
