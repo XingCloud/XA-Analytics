@@ -59,7 +59,7 @@ class Analytics.Views.Segments.IndexView extends Backbone.View
 
   calc_page: () ->
     filtered = @collection.filter((segment) -> segment.get("project_id")?)
-    @max_page = (if filtered.length == 0 then 1 else Math.ceil(filtered.length / 10))
+    @max_page = (if filtered.length == 0 then 1 else Math.ceil(filtered.length / 100))
     if @page > @max_page
       @page = @max_page
 
