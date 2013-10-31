@@ -47,9 +47,12 @@ class Analytics.Views.Reports.NavView extends Backbone.View
     parent = $(ev.currentTarget).parent()
     if parent.find(".dropdown-menu").length == 0
       $(@el).find("#dropdown-"+value).css({
-        top: offset.top + $(ev.currentTarget).outerHeight()
+        top: offset.top + $(ev.currentTarget).outerHeight() - $(".main").offset().top
         left: offset.left
       })
+#      # todo wcl :element that with absolute position its left/top/... attr value is relative to its first parent with relative position
+#      # doesn't equal to the offset attr that relative on the document, so we cannot assign offset to absolute position.
+#      $(@el).find("#dropdown-"+value).offset({top:offset.top+$(ev.currentTarget).outerHeight(),left:offset.left})
     if parent.hasClass("open")
       $(document).off("mousedown", @hide_dropdown)
     else

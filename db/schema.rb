@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20131012064348) do
+ActiveRecord::Schema.define(:version => 20131031103436) do
 
   create_table "action_logs", :force => true do |t|
     t.integer  "project_id"
@@ -185,8 +185,10 @@ ActiveRecord::Schema.define(:version => 20131012064348) do
   create_table "segments", :force => true do |t|
     t.string   "name"
     t.integer  "project_id"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.datetime "created_at",                        :null => false
+    t.datetime "updated_at",                        :null => false
+    t.text     "sql"
+    t.string   "manner",     :default => "formula"
   end
 
   create_table "sessions", :force => true do |t|

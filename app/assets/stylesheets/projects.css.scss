@@ -70,6 +70,9 @@
     .dropdown{
       display: inline-block;
       float: none;
+      a{
+        margin-right: 0px;
+      }
     }
   }
   .navbar-inner{

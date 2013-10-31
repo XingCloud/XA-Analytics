@@ -73,7 +73,7 @@
   };
 
   Instances.Models.user = new Analytics.Models.User({role:"admin",name:"xaadmin"})
-
+  new Analytics.Views.Projects.HeaderView({project: null}).render();
   $('.nav.nav-list li a.relative').each(function (index, el){
     href = $(el).attr("href");
     $(el).attr("href", Analytics.Utils.hrefWrapper(href));

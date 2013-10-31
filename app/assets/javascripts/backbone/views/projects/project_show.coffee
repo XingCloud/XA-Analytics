@@ -32,13 +32,16 @@ class Analytics.Views.Projects.ShowView extends Backbone.View
       $(@el).find('#main-container').html(JST['backbone/templates/projects/no-report']())
 
 
-#  toggle_left_nav: (ev) ->
-#    $(@el).find('.left-nav').toggle()
-#    if $(ev.currentTarget).hasClass("left-nav-hide")
-#      $(ev.currentTarget).removeClass("left-nav-hide")
-#    else
-#      $(ev.currentTarget).addClass("left-nav-hide")
-#    $('#main-container').trigger("resize")
+  toggle_left_nav: (ev) ->
+    $(@el).find('.left-nav').toggle()
+    if $(ev.currentTarget).hasClass("left-nav-hide")
+      $(ev.currentTarget).removeClass("left-nav-hide")
+      $(ev.currentTarget).css('left',200)
+    else
+      $(ev.currentTarget).addClass("left-nav-hide")
+      $(ev.currentTarget).css('left',0)
+
+    $('#main-container').trigger("resize")
 
   toggle_dashboard: (ev) ->
     Analytics.Utils.redirect("dashboard")

@@ -17,7 +17,17 @@
                 <input class="should-check-empty" type="text" id="segment_name" name="name" value="<%= if @name? then @name else I18n.t('templates.segments.form.default_name') %>" />
             </div>
         </div>
-        <div class="control-group should-check">
+        <div class="control-group">
+            <label class="control-label" for="type">manner</label>
+            <input type="hidden" name="manner" id="manner" value="<%=@manner%>">
+            <div class="controls">
+                <div class="btn-group">
+                    <button class="btn manner formula" value="formula">formula</button>
+                    <button class="btn manner sql" value="sql">sql</button>
+                </div>
+            </div>
+        </div>
+        <div class="formula control-group should-check">
             <label class="control-label"><%= I18n.t('templates.segments.form.filter') %></label>
             <div class="controls" id="expression-list">
                 <div class="expression-add">
@@ -25,6 +35,13 @@
                 </div>
             </div>
         </div>
+        <div class="sql control-group should-check">
+            <label class="control-label">sql</label>
+            <div class="controls">
+                <textarea name="sql" value="<%=@sql%>"></textarea>
+            </div>
+        </div>
+
         <div class="form-actions">
             <a class="btn btn-primary" id="submit-segment"><%= I18n.t('commons.submit') %></a>
             <a class="btn" id="submit-segment-cancel"><%= I18n.t('commons.cancel') %></a>

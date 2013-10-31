@@ -1,5 +1,6 @@
 class Analytics.Models.Segment extends Backbone.Model
-
+  defaults:
+    "manner": "formula"
   initialize: (options) ->
     @selected = false
     if not @get("expressions_attributes")?

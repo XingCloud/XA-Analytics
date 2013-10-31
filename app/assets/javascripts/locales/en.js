@@ -146,7 +146,8 @@ I18n.translations = {
                 "show":{
                     "degrade":"Old version",
                     "action_logs":"Action logs",
-                    "change_language":"Change Language"
+                    "change_language":"Change Language",
+                    "document" : "Document"
                 },
                 "index": {
                     "loading": "Loading Projects",

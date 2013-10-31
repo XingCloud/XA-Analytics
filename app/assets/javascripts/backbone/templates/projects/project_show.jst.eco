@@ -18,5 +18,7 @@
     <a href="<%= Analytics.Utils.hrefWrapper('action_logs') %>"><%= I18n.t("templates.projects.show.action_logs") %></a>
     |
     <a class="change_language" style="cursor: pointer;"><%= I18n.t("templates.projects.show.change_language") %></a>
+    |
+    <a href="http://doc.xingcloud.com/pages/viewpage.action?pageId=6586380" style="cursor: pointer;"><%= I18n.t("templates.projects.show.document") %></a>
 </footer>
 

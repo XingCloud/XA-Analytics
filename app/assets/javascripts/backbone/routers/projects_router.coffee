@@ -21,6 +21,7 @@ class Analytics.Routers.ProjectsRouter extends Backbone.Router
     @do_settings(active)
 
   action_logs: (page = 1) ->
+    $('div.report-panel').empty()
     if Instances.Collections.action_logs.view?
       Instances.Collections.action_logs.view.redraw()
     else

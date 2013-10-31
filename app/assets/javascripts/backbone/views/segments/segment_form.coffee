@@ -7,6 +7,7 @@ class Analytics.Views.Segments.FormView extends Backbone.View
     "click span#expression-add" : "add_expression"
     "click a#submit-segment" : "submit_segment"
     "click a#submit-segment-cancel" : "submit_segment_cancel"
+    "click button.manner" : "change_manner"
 
   initialize: (options) ->
     _.bindAll(this, "render")
@@ -23,6 +24,8 @@ class Analytics.Views.Segments.FormView extends Backbone.View
 
     if @model.get("expressions_attributes").length == 0 and Instances.Models.project?
       @render_expression(new Analytics.Models.Expression())
+
+    @show_hide(@model.get("manner"))
 
     this
 
@@ -72,3 +75,18 @@ class Analytics.Views.Segments.FormView extends Backbone.View
         form_attributes.expressions_attributes.push(expression_attributes)
     )
     form_attributes
+
+  change_manner: (ev)->
+    @show_hide($(ev.currentTarget).attr("value"))
+
+  show_hide: (manner) ->
+    $(@el).find("button.manner").removeClass("active")
+    $(@el).find("#manner").val(manner)
+    $(@el).find(".control-group.formula").hide()
+    $(@el).find(".control-group.sql").hide()
+    if manner == "formula"
+      $(@el).find("button.formula").addClass("active")
+      $(@el).find(".control-group.formula").show()
+    else
+      $(@el).find("button.sql").addClass("active")
+      $(@el).find(".control-group.sql").show()

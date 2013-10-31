@@ -116,7 +116,7 @@ I18n.translations = {
                     "combine":"与另一事件组合计算",
                     "value_type":"显示格式",
                     "origin_value_type":"原始值",
-                    "percent_value_type":"百分比", 
+                    "percent_value_type":"百分比",
 		            "rounding_value_type":"取整数",
                     "since":"从",
                     "start":"开始"
@@ -145,7 +145,8 @@ I18n.translations = {
                 "show":{
                     "degrade":"回旧版",
                     "action_logs":"操作日志",
-                    "change_language":"修改语言"
+                    "change_language":"修改语言",
+                    "document" : "使用文档"
                 },
                 "index": {
                     "loading": "载入项目中",

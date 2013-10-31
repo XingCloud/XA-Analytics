@@ -15,7 +15,7 @@ class Analytics.Views.Projects.HeaderView extends Backbone.View
     @project = options.project
     @projects = []
     @fetched = false
-    if not @project.nil?
+    if @project? # or we are in admin page
       @render_setting_panel()
 
   render: () ->
