@@ -2,16 +2,16 @@
     <button type="button" class="close" data-dismiss="alert">&times;</button>
     <h4>没数据?</h4>
     <p></p>
-    <p>没数据是因为没有收到相关事件的log,或者在指定用户群里的用户没有发生该事件．请联系开发人员打log或更新用户属性.</p>
+    <p>没数据是因为没有收到相关事件的log,或者在指定用户群里的用户没有发生该事件．请联系开发人员打log或更新用户属性。</p>
     <%if @metric_id?:%>
         <%metric = Instances.Collections.metrics.get(@metric_id)%>
         <%attributes = _.clone(metric.attributes)%>
-        <p>更新事件的url如下：</p>
-        <p>
-            <a　class="xa-log-url">
-                <%="http://xa.xingcloud.com/v4/#{Instances.Models.project.get('identifier')}/uid?action=#{metric.get("event_key")}"%>
-            </a>
-        </p>
+        <p>如果您通过REST API来发送事件，那么相应的REST接口如下：</p>
+        <pre><%="http://xa.xingcloud.com/v4/#{Instances.Models.project.get('identifier')}/$uid?action=#{metric.get("event_key")}"%></pre>
+        <p>其中，<code>$uid</code>是用户的uid；事件中的<code>*</code>可以是任何事件，结尾的<code>.*</code>可以忽略。</p>
+        <p>如果您通过SDK来发送事件，以java（android）SDK为例：</p>
+        <pre>xaService.action("<%="#{metric.get("event_key")}"%>");</pre>
+        <p>其中，事件名中的<code>*</code>可以是任何事件，结尾的<code>.*</code>可以忽略。<code>xaService</code>对象为行云服务接口对象。</p>
         <p>
             查看指标的具体定义
             <a class="metric" style="cursor:pointer;" metric_id="<%=metric.id%>"><%=metric.get("name")%></a>
