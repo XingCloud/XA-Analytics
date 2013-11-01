@@ -123,7 +123,11 @@ class Analytics.Views.Dimensions.ListView extends Backbone.View
       else
         order = 'DESC'
       @dimensions.order = order
-      @dimensions.orderby = orderby
+
+      if @dimensions.orderby != orderby
+        @dimensions.orderby = orderby
+        @dimensions.orderby_change()
+
       @dimensions.index = 0
       @fetch_dimensions()
 

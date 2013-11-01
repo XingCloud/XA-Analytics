@@ -39,13 +39,13 @@ class Analytics.Collections.DimensionCharts extends Analytics.Collections.BaseCh
 
     # add compare chart
     if not @for_widget and @selector.get("compare") != 0 and @orderby?
-      compare_chart = new Analytics.Models.DimensionChart({
-        id: 'm'+metric_id+":compare"
+      @compare_chart = new Analytics.Models.DimensionChart({
+        id: 'm'+@orderby+":compare"
         metric_id: @orderby
         is_compare: true
       })
-      compare_chart.selector = @selector
-      @add(compare_chart)
+      @compare_chart.selector = @selector
+      @add(@compare_chart)
 
   fetch_params: () ->
     charts = []
@@ -133,3 +133,7 @@ class Analytics.Collections.DimensionCharts extends Analytics.Collections.BaseCh
       )
     )
     @maxis = maxis
+
+  orderby_change: ()->
+    if @compare_chart?
+      @compare_chart.set({id: 'm'+@orderby+":compare", metric_id: @orderby})
