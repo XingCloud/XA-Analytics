@@ -7,7 +7,7 @@
     <pre><%="http://xa.xingcloud.com/v4/#{Instances.Models.project.get('identifier')}/$uid?update=#{@selector.get_dimension().value},$value"%></pre>
     <p>其中，<code>$uid</code>是用户的uid；<code>$value</code>是用户的<%="#{@selector.get_dimension().value}"%>属性的取值。</p>
     <p>如果您通过SDK来更新用户属性，以java（android）SDK为例：</p>
-    <pre>xaService.update("#{@selector.get_dimension().value}"%>", value);</pre>
+    <pre>xaService.update("<%="#{@selector.get_dimension().value}"%>", value);</pre>
     <p>其中，<code>value</code>是用户的<%="#{@selector.get_dimension().value}"%>属性的取值。</p>
     <p>
     更详细的文档请参考
