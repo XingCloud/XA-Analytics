@@ -38,7 +38,7 @@
         <div class="sql control-group should-check">
             <label class="control-label">sql</label>
             <div class="controls">
-                <textarea name="sql" value="<%=@sql%>"></textarea>
+                <textarea  class="span6" name="sql"><%=@sql%></textarea>
             </div>
         </div>
 

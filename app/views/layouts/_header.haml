@@ -1,9 +1,10 @@
 .header
   .nav-collapse.collapse.navbar-inverse.collapse
     %div.hr.right
-      %a{:href => "http://p.xingcloud.com/platform_apps?project_id=#{project.identifier}"}
-        <i class="icon-globe"></i>
-        = t(:header_gdp)
+      -if project.present?
+        %a{:href => "http://p.xingcloud.com/platform_apps?project_id=#{project.identifier}"}
+          <i class="icon-globe"></i>
+          = t(:header_gdp)
       %div.dropdown.pull-right
         %a.dropdown-toggle{:href => "#", "data-toggle" => "dropdown"}
           = session[:cas_user]
