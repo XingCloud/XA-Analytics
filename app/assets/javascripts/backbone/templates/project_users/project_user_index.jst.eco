@@ -7,7 +7,7 @@
             <th width="10%"></th>
         </tr>
         <% if @project_users.length > 0: %>
-            <% for index in [(@page - 1)*10..Math.min(@page*10 - 1, @project_users.length - 1)]: %>
+            <% for index in [(@page - 1)*100..Math.min(@page*100 - 1, @project_users.length - 1)]: %>
                 <% project_user = @project_users[index] %>
                 <tr>
                   <td><%= project_user.get("username")%><%=if Instances.Models.user.get('name') == project_user.get("username") then I18n.t("templates.project_users.current_user") %></td>

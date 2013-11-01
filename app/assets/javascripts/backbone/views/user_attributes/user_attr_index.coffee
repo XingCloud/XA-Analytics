@@ -54,6 +54,6 @@ class Analytics.Views.UserAttributes.IndexView extends Backbone.View
     @redraw()
 
   calc_page: () ->
-    @max_page = (if @collection.length == 0 then 1 else Math.ceil(@collection.length / 10))
+    @max_page = (if @collection.length == 0 then 1 else Math.ceil(@collection.length / 20))
     if @page > @max_page
       @page = @max_page

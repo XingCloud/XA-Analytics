@@ -13,7 +13,7 @@
         <th width="15%"></th>
     </tr>
     <% if @segments.length > 0: %>
-        <% for index in [(@page - 1)*10..Math.min(@page*10 - 1, @segments.length - 1)]: %>
+        <% for index in [(@page - 1)*100..Math.min(@page*100 - 1, @segments.length - 1)]: %>
             <% segment = @segments[index] %>
             <% if not Instances.Models.project? or segment.get("project_id")?: %>
                 <tr>

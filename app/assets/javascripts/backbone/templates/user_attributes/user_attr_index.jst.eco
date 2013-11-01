@@ -19,7 +19,7 @@
                 <td colspan="4" style="text-align: center;"><i><%= I18n.t('commons.no_data') %></i></td>
             </tr>
         <% else: %>
-        <% for index in [(@page - 1)*10..Math.min(@page*10 - 1, @user_attributes.length - 1)]: %>
+        <% for index in [(@page - 1)*20..Math.min(@page*20 - 1, @user_attributes.length - 1)]: %>
             <% user_attribute = @user_attributes[index] %>
             <tr>
                 <td>
