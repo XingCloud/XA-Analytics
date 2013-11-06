@@ -6,7 +6,7 @@ class Analytics.Views.ReportTabs.ShowView extends Backbone.View
 
   initialize: () ->
     _.bindAll this, "render", "redraw"
-    @model.bind "change", @redraw #triggered by panel
+    @model.bind "change", @redraw #report change: triggered by panel or edit report, see report.parse
     @model.view = this
     @timelines = new Analytics.Collections.TimelineCharts([], {
       selector: @model

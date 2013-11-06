@@ -18,7 +18,7 @@ class Analytics.Views.Dimensions.TagsView extends Backbone.View
     _.bindAll this, "render", "redraw"
     @parent_view = options.parent_view
     @report_tab_view = options.report_tab_view
-    @report_tab_view.dimensions_view.dimensions.on "change", @redraw
+    @report_tab_view.dimensions_view.dimensions.on "change", @redraw # we need to update dimension dropdown while dimensionchart change
 
   render: () ->
     $(@el).html(@template(@model.show_attributes()))

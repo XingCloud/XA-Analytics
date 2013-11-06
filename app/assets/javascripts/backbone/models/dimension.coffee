@@ -18,3 +18,22 @@ class Analytics.Models.Dimension extends Backbone.Model
     else
       result[@get("value")] = [{"op":"eq", "expr":value, "type":"CONST"}]
     result
+
+  serialize_to_sql: (value) ->
+    if @get("value_type") == "int" or @get("value_type") == "sql_bigint"
+      if value.indexOf("≥") != -1
+        value = parseInt(value.replace("≥", ""))
+        "select uid from user where #{@get('value')} >= #{value};"
+      else if value.indexOf("<") != -1
+        value = parseInt(value.replace("<", ""))
+        "select uid from user where #{@get('value')} < #{value};"
+      else if value.indexOf("-") != -1
+        splits = value.split("-")  # "a-b"
+        value0 = parseInt(splits[0])
+        value1 = parseInt(splits[1])
+        "select uid from user where #{@get('value')} >= #{value0} and #{@get('value')} <= #{value1}};"
+      else
+        value = parseInt(value)
+        "select uid from user where #{@get('value')} = #{value};"
+    else
+      "select uid from user where #{@get('value')} = '#{value}';"

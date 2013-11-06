@@ -95,7 +95,7 @@ class Analytics.Views.Reports.FormView extends Backbone.View
         if not update
           model.collection.add(model)
         else
-          model.collection.trigger("change")
+          model.collection.trigger("change")  # todo wcl: redraw twice, see below redirect
 
         model.form.remove()
         if model.get("project_id")?

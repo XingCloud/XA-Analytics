@@ -13,18 +13,7 @@ class Analytics.Models.ReportTab extends Backbone.Model
     @compare_end_time = Analytics.Utils.pickUTCStart() - @get("length")*86400000 - @get("day_offset")*86400000
     @dimensions = _.clone(@get("dimensions_attributes"))
     @dimension = (if @dimensions? and @dimensions.length > 0 then @dimensions[0])
-    _dimension = @dimension
-    if _dimension?
-      @dimension.filter = {
-        dimension: {
-          dimension_type: _dimension.dimension_type
-          name: Analytics.Static.getDimensionName(_dimension.value)
-          value: _dimension.value
-          value_type: _dimension.value_type
-        }
-        value: "all-dimensions"
-        keys: []
-      }
+    @add_filter_to_dimension()
     @force_fetch = false
 
   dimensions_filters: () ->
@@ -65,9 +54,10 @@ class Analytics.Models.ReportTab extends Backbone.Model
   get_dimension: () ->
     @dimension
 
-  update_dimensions: () ->
+  update_dimensions: () ->  # invoke by report model after submit change on edit form: we may change the dimensions.
     @dimensions = _.clone(@get("dimensions_attributes"))
     @dimension = (if @dimensions? and @dimensions.length > 0 then @dimensions[0])
+    @add_filter_to_dimension()
 
   update_dimension: () ->
     remain_dimension = false
@@ -81,7 +71,7 @@ class Analytics.Models.ReportTab extends Backbone.Model
 
         @dimension = dimension
         _dimension = dimension
-        dimension.filter = {
+        dimension.filter = {   # initialize its filter with value 'all-dimensions'
           dimension: {
             dimension_type: _dimension.dimension_type
             name: Analytics.Static.getDimensionName(_dimension.value)
@@ -102,3 +92,18 @@ class Analytics.Models.ReportTab extends Backbone.Model
     _.find(@dimensions_filters(), (item) ->
       item.dimension.dimension_type == dimension.dimension_type and item.dimension.value == dimension.value
     )
+
+  # code trick: add a filter to current dimension, so we can deal the dropdown of current dimension like the actually filters, see dimension_tags.jst.eco
+  add_filter_to_dimension: ()->
+    _dimension = @dimension
+    if _dimension?
+      @dimension.filter = {
+        dimension: {
+          dimension_type: _dimension.dimension_type
+          name: Analytics.Static.getDimensionName(_dimension.value)
+          value: _dimension.value
+          value_type: _dimension.value_type
+        }
+        value: "all-dimensions"
+        keys: []
+      }

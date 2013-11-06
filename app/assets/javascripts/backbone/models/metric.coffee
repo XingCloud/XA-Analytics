@@ -59,16 +59,22 @@ class Analytics.Models.Metric extends Backbone.Model
     if @get("number_of_day_origin")?
       options["number_of_day_origin"] = @get("number_of_day_origin")
 
+    #deal the segment metric binding to
     if @get("segment_id")?
       segment = Instances.Collections.segments.get(@get("segment_id"))
       if segment?
         options["segment"] = segment.serialize()
+        options["segmentv2"] = segment.serialize_to_sql()
 
+    #deal the segment from segment selector and dimension filters on the
     if options["segment"]?
       _.extend(options["segment"], @segment_options(segment_id, filters))
+      options["segmentv2"] += @segment_sql_options(segment_id, filters)
     else
       options["segment"] = @segment_options(segment_id, filters)
+      options["segmentv2"] = @segment_sql_options(segment_id, filters)
 
+    #serialize to string
     if options["segment"]?
       options["segment"] = JSON.stringify(options["segment"])
 
@@ -101,4 +107,18 @@ class Analytics.Models.Metric extends Backbone.Model
             _.extend(options, dimension.serialize(filter.value))
           else
             options = dimension.serialize(filter.value)
+    options
+
+  segment_sql_options: (segment_id, filters) ->
+    options = ""
+    if segment_id? and segment_id != 0
+      options = Instances.Collections.segments.get(segment_id).serialize_to_sql()
+    if filters?
+      for filter in filters
+        if filter.dimension.dimension_type.toUpperCase() == "USER_PROPERTIES"
+          dimension = new Analytics.Models.Dimension(filter.dimension)
+          if options?
+            options+=dimension.serialize_to_sql(filter.value)
+          else
+            options = dimension.serialize_to_sql(filter.value)
     options

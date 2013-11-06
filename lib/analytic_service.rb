@@ -15,8 +15,8 @@ class AnalyticService
     end
 
     @logger
-  end
 
+  end
   def self.request_data(project, params)
     ret = {}
     resp = commit("/dd/query", build_params(project, params))

@@ -40,3 +40,15 @@ class Analytics.Models.Segment extends Backbone.Model
         else
           _.extend(results, expression.serialize())
       results
+
+  serialize_to_sql:()->
+    results=""
+    if @manner=="sql"
+      @get("sql")
+    else
+      if @get("expressions_attributes").length > 0
+        for expression_attributes in @get("expressions_attributes")
+          expression = Instances.Collections.expressions.get(expression_attributes.id)
+          results += expression.serialize_to_sql()
+      results
+
