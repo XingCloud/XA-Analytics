@@ -67,7 +67,7 @@ class Analytics.Views.Dimensions.ListView extends Backbone.View
     @delegateEvents(@events)
 
   dimensions_change: (options = {}) ->
-    # @init_dimensions() # for thread safety reasons: reconstruct dimensions collection each time we change dimensions
+    @init_dimensions() # for thread safety reasons: reconstruct dimensions collection each time we change dimensions
     @redraw(options)
 
   fetch_dimensions: () ->

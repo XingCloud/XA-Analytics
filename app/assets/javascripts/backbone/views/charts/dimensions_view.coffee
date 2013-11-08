@@ -18,7 +18,7 @@ class Analytics.Views.Charts.DimensionsView extends Backbone.View
   initialize: (options) ->
     _.bindAll this, "render", "redraw"
     @render_to = options.render_to
-    @collection.on "change", @redraw
+    @collection.on "change", @redraw # DimensionCharts
 
 
   render: () ->
