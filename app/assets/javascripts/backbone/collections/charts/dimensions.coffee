@@ -16,6 +16,7 @@ class Analytics.Collections.DimensionCharts extends Analytics.Collections.BaseCh
     @status = {}
     @compares = {}
     @last_request = {params: "", resp: "", success: true, time: 0}
+    @activate()
 
   initialize_charts: (metric_ids, segment_ids = []) ->
     @reset()
@@ -29,6 +30,9 @@ class Analytics.Collections.DimensionCharts extends Analytics.Collections.BaseCh
     @info = {}
     @status = {}
     @compares = {}
+
+    @reset()
+
     for metric_id in metric_ids
       chart = new Analytics.Models.DimensionChart({
         id: 'm'+metric_id
@@ -46,6 +50,9 @@ class Analytics.Collections.DimensionCharts extends Analytics.Collections.BaseCh
       })
       @compare_chart.selector = @selector
       @add(@compare_chart)
+
+  reinitialize_chart: ()->
+    @initialize_charts(@selector.get("metric_ids"), Instances.Collections.segments.selected())
 
   fetch_params: () ->
     charts = []

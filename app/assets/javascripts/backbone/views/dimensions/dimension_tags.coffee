@@ -18,7 +18,8 @@ class Analytics.Views.Dimensions.TagsView extends Backbone.View
     _.bindAll this, "render", "redraw"
     @parent_view = options.parent_view
     @report_tab_view = options.report_tab_view
-    @report_tab_view.dimensions_view.dimensions.on "change", @redraw # we need to update dimension dropdown while dimensionchart change
+    @dimensions_view = @report_tab_view.dimensions_view
+    @report_tab_view.dimensions.on "change", @redraw # we need to update dimension dropdown while dimensionchart change
 
   render: () ->
     $(@el).html(@template(@model.show_attributes()))
@@ -36,7 +37,7 @@ class Analytics.Views.Dimensions.TagsView extends Backbone.View
     if dimension? and dimension != @model.dimension
       @do_choose_dimension(dimension)
       @redraw()
-      @report_tab_view.dimensions_view.dimensions_change({should_scroll: true})
+      @dimensions_view.redraw()
 
   remove_dimension: (ev) ->
     dimension_value = $(ev.currentTarget).attr("dimension-value")
@@ -46,13 +47,13 @@ class Analytics.Views.Dimensions.TagsView extends Backbone.View
     model_dimension = @model.dimension # following redraw may change the dimension, we need to backup for next step
     @redraw()
     if dimension_value == model_dimension.value and dimension_type == model_dimension.dimension_type
-      @report_tab_view.dimensions_view.dimensions_change({should_scroll: true})
+      @dimensions_view.redraw()
 
   add_dimension: (ev) ->
     option = $(ev.currentTarget)
     @do_add_dimension(option.attr("value"), option.attr("dimension_type"), option.attr("value_type"))
     @redraw()
-    @report_tab_view.dimensions_view.dimensions_change({should_scroll: true})
+    @dimensions_view.redraw()
 
   do_choose_dimension: (dimension) ->
     dimensions = [dimension]
@@ -165,7 +166,7 @@ class Analytics.Views.Dimensions.TagsView extends Backbone.View
 
     #change dimension, see report_tab#update_dimension
 
-    @report_tab_view.redraw()
+    @report_tab_view.redraw()  # we need to redraw the whole report_tab not just dimension view
 
   right2down: (ev) ->
     $(ev.currentTarget).find("i.dropdown-toggle").removeClass("icon-chevron-right").addClass("icon-chevron-down")

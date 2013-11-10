@@ -45,6 +45,9 @@ class Analytics.Collections.TimelineCharts extends Analytics.Collections.BaseCha
     if metric_ids.length > 0
       @initialize_display(metric_ids[0])
 
+  reinitialize_chart: ()->
+    @initialize_charts(@selector.get("metric_ids"), Instances.Collections.segments.selected(), @selector.get("compare") != 0)
+
   initialize_chart: (chart_id, metric_id, segment_id, compare_to, compare_for, index) ->
     chart = @get(chart_id)
     chart = new Analytics.Models.TimelineChart({
