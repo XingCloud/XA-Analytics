@@ -46,7 +46,7 @@ class Analytics.Views.Charts.DimensionsView extends Backbone.View
     })
     @dimensions_chart_view.render()
 
-  redraw: (options = {}) ->
+  redraw: (options = {}) ->  # invoked after we change the dimensions on the panel or ...
     @remove()
     if options.render_to
       @render_to = options.render_to

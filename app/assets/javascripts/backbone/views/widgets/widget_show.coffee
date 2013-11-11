@@ -68,7 +68,7 @@ class Analytics.Views.Widgets.ShowView extends Backbone.View
         when "kpi"
           @chart_view = new Analytics.Views.Charts.KpisView(view_options)
         when "table"
-          @chart_view = new Analytics.Views.Charts.DimensionsView(view_options)
+          @chart_view = new Analytics.Views.Dimensions.TableView(view_options)
       @chart_view.render()
     else
       @chart_view.redraw({render_to: render_to})

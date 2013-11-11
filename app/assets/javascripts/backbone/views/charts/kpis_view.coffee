@@ -94,3 +94,10 @@ class Analytics.Views.Charts.KpisView extends Backbone.View
   no_event: (event) ->
 #    Analytics.Guide.no_event(@collection.selector, $(event.currentTarget).attr("metric_id"))
     new Analytics.Views.Guide.NoEvent({report_tab:@collection.selector, metric_id:$(event.currentTarget).attr("metric_id")}).render()
+
+  block: () ->
+    $(@el).block({message: "<strong>" + I18n.t('commons.pending') + "</strong>"})
+
+  unblock: () ->
+    if $(@el).find(".blockOverlay").length > 0
+      $(@el).unblock()
