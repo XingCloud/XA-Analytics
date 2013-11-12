@@ -109,6 +109,8 @@ class Analytics.Collections.TimelineCharts extends Analytics.Collections.BaseCha
         has = true
       if chart.get("sequence")?.total == "pending"
         has = true
+      if chart.get("sequence")?.status == "pending"
+        has =true
       if (not has) and _.find(chart.data(), (point) -> point[1] == "pending")
         has = true
     )
