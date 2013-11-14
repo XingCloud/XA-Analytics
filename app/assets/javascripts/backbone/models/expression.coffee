@@ -11,7 +11,7 @@ class Analytics.Models.Expression extends Backbone.Model
       original_value
 
   sqlvalue: (original_value) ->
-    if @get("value_type") == "int" or @get("value_type") == "sql_bigint" # we only have three types of value: sql_string/sql_bigint/sql_datetime
+    if @get("value_type") == "int" or @get("value_type") == "sql_bigint" or (@get("time_type")=="relative" and @get("value_type")=="sql_datetime")# we only have three types of value: sql_string/sql_bigint/sql_datetime
         parseInt(original_value)                                         # more detailed type checking will be done at the backend.
     else
         "'"+original_value+"'"
@@ -44,8 +44,10 @@ class Analytics.Models.Expression extends Backbone.Model
     if (@get("value_type") == "sql_datetime" or @get("value_type") == "Date") and @get("time_type") == "relative"
       if @get("operator") == "eq"
         "select uid from user where #{@get('name')} >= date_add('s',#{value}) and #{@get('name')} <= date_add('e',#{value});"
+      else if @get("operator").indexOf("gt") != -1
+        "select uid from user where #{@get('name')} #{operator} date_add('s',#{value});"
       else # We will never encounter the situtation that operator is 'in' while time_type is "relative"
-        "select uid from user where #{@get('name')} #{operator} date_add(#{value});"
+        "select uid from user where #{@get('name')} #{operator} date_add('e',#{value});"
     else
       if @get("operator") == "in"
         "select uid from user where #{@get('name')} in (#{value});"

@@ -10,19 +10,20 @@ class ApplicationController < ActionController::Base
     CASClient::Frameworks::Rails::Filter.logout(self)
   end
 
-  def redirect
-    if not APP_CONFIG[:admin].include?(session[:cas_user])
-      projects = BasisService.get_projects(session[:cas_user])
-      if projects.length > 0
-        redirect_to project_path(projects[0]["identifier"])
-      else
-        render "misc/no_projects"
-        return
-      end
-    else
-      redirect_to template_projects_url()
-    end
-  end
+  #def redirect
+  #  pp "when to be invoked?"
+  #  if not APP_CONFIG[:admin].include?(session[:cas_user])
+  #    projects = BasisService.get_projects(session[:cas_user])
+  #    if projects.length > 0
+  #      redirect_to project_path(projects[0]["identifier"])
+  #    else
+  #      render "misc/no_projects"
+  #      return
+  #    end
+  #  else
+  #    redirect_to template_projects_url()
+  #  end
+  #end
 
   def projects_summary
     projects = BasisService.get_projects(session[:cas_user])
