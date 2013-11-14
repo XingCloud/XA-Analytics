@@ -11,7 +11,7 @@ class Analytics.Models.Expression extends Backbone.Model
       original_value
 
   sqlvalue: (original_value) ->
-    if @get("value_type") == "int" or @get("value_type") == "sql_bigint" or (@get("time_type")=="relative" and @get("value_type")=="sql_datetime")# we only have three types of value: sql_string/sql_bigint/sql_datetime
+    if @get("value_type") == "int" or @get("value_type") == "sql_bigint" or (@get("time_type")=="relative" and (@get("value_type")=="sql_datetime") or @get("value_type")=="Date")# we only have three types of value: sql_string/sql_bigint/sql_datetime
         parseInt(original_value)                                         # more detailed type checking will be done at the backend.
     else
         "'"+original_value+"'"

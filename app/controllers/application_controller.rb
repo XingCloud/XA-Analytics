@@ -1,7 +1,7 @@
 class ApplicationController < ActionController::Base
   helper_method :current_user
-  before_filter :authenticate_user!
-  #before_filter :cas_filter
+  #before_filter :authenticate_user!
+  before_filter :cas_filter
   before_filter :check_browser, :except => :logout
   before_filter :set_locale, :except => :logout
   #before_filter :debug_cas
