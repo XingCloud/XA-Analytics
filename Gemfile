@@ -16,6 +16,7 @@ gem 'browser'
 gem 'private_pub'
 gem 'resque-scheduler', :require => 'resque_scheduler'
 gem 'devise'
+gem 'strong_parameters'
 
 group :development, :test do
   gem "pry"

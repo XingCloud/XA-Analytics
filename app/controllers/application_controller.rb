@@ -1,5 +1,6 @@
 class ApplicationController < ActionController::Base
   helper_method :current_user
+  before_filter :configure_permitted_parameters, if: :devise_controller?
   #before_filter :authenticate_user!
   before_filter :cas_filter
   before_filter :check_browser, :except => :logout
@@ -11,19 +12,19 @@ class ApplicationController < ActionController::Base
     CASClient::Frameworks::Rails::Filter.logout(self)
   end
 
-  def redirect
-    if not APP_CONFIG[:admin].include?(session[:cas_user])
-      projects = BasisService.get_projects(session[:cas_user])
-      if projects.length > 0
-        redirect_to project_path(projects[0]["identifier"])
-      else
-        render "misc/no_projects"
-        return
-      end
-    else
-      redirect_to template_projects_url()
-    end
-  end
+  #def redirect
+  #  if not APP_CONFIG[:admin].include?(session[:cas_user])
+  #    projects = BasisService.get_projects(session[:cas_user])
+  #    if projects.length > 0
+  #      redirect_to project_path(projects[0]["identifier"])
+  #    else
+  #      render "misc/no_projects"
+  #      return
+  #    end
+  #  else
+  #    redirect_to template_projects_url()
+  #  end
+  #end
 
   def projects_summary
     projects = BasisService.get_projects(session[:cas_user])
@@ -85,5 +86,10 @@ class ApplicationController < ActionController::Base
       end
     end
   end
-  
+
+  protected
+
+  def configure_permitted_parameters
+    devise_parameter_sanitizer.for(:sign_up){|u| u.permit(:name, :email, :password, :password_confirmation)}
+  end
 end

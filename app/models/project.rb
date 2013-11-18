@@ -20,7 +20,7 @@ class Project < ActiveRecord::Base
   def self.fetch(identifier)
     project = Project.find_by_identifier(identifier)
     project ||= Project.find_by_id(identifier) unless identifier.match('^[\d]+$').blank?
-    project ||= Project.find_remote(identifier)
+    project ||= Project.find_remote(identifier) #TODO find remote always to keep synchronized
     if project.blank?
       raise ActiveRecord::RecordNotFound, "Project can not find #{identifier}"
     else

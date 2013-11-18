@@ -1,7 +1,13 @@
 <div class="sign">
+
     <img src="/favicon.png">
     <h3>行云数据分析</h3>
-
+    <% if flash[:alert]%>
+        <div class="alert alert-error alert-block">
+            <button type="button" class="close" data-dismiss="alert">x</button>
+            <%=flash[:notice]%><%=flash[:alert]%>
+         </div>
+    <%end%>
     <%= form_for(resource, :as => resource_name, :url => session_path(resource_name)) do |f| %>
       <div><%= f.email_field :email, :autofocus => true , :placeholder=>"email" %></div>
 
