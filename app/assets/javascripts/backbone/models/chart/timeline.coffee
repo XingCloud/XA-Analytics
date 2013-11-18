@@ -41,7 +41,8 @@ class Analytics.Models.TimelineChart extends Backbone.Model
         [Analytics.Utils.parseUTCDate(item[0], 0), item[1]] for item in @get("sequence")["data"]
 
   ##过滤pending标记，给画图用
-  plot_data: (chart_type) ->  
+  plot_data: (chart_type) ->
+    # substitute pending/xa-na to 0
     data = _.map(@data(), (x) -> if not x[1]? or x[1] == "pending" or x[1] == "XA-NA" then [x[0], 0] else x)
 
     if Instances.Collections.metrics.get(@get("metric_id")).get('value_type') == "rounding"

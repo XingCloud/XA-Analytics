@@ -43,7 +43,7 @@ class Analytics.Models.Segment extends Backbone.Model
 
   serialize_to_sql:()->
     results=""
-    if @manner=="sql"
+    if @get("manner") =="sql"
       @get("sql")
     else
       if @get("expressions_attributes").length > 0

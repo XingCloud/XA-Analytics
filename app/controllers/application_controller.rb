@@ -1,5 +1,7 @@
 class ApplicationController < ActionController::Base
   helper_method :current_user
+  before_filter :configure_permitted_parameters, if: :devise_controller?
+  #before_filter :authenticate_user!
   before_filter :cas_filter
   before_filter :check_browser, :except => :logout
   before_filter :set_locale, :except => :logout
@@ -85,5 +87,10 @@ class ApplicationController < ActionController::Base
       end
     end
   end
-  
+
+  protected
+
+  def configure_permitted_parameters
+    devise_parameter_sanitizer.for(:sign_up){|u| u.permit(:name, :email, :password, :password_confirmation)}
+  end
 end

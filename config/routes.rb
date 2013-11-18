@@ -1,5 +1,7 @@
 Analytic::Application.routes.draw do
 
+  devise_for :users
+
   root :to => "application#home"
   match "/logout" => "application#logout"
   match "/503" => "maintenance_plans#index"
