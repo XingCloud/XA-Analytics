@@ -126,10 +126,10 @@ class AnalyticService
 
   def self.commit(url_str, options = {})
     url = URI.parse(File.join(BASE_URL, url_str))
-    if url_str.index("query") and APP_CONFIG[:drill][:query].eql? "open"
+    if url_str.index("query") and APP_CONFIG[:sql][:query].eql? "open"
       project_id = JSON.parse(options[:params])[0]["project_id"]
-      if APP_CONFIG[:drill][:projects].eql? "all" or APP_CONFIG[:drill][:projects].split(",").include? project_id
-        url = URI.parse(File.join("http://69.28.58.61:8082", url_str))
+      if APP_CONFIG[:sql][:projects].eql? "all" or APP_CONFIG[:sql][:projects].split(",").include? project_id
+        url = URI.parse(File.join("http://65.255.35.141:8081", url_str))
       end
     end
 
