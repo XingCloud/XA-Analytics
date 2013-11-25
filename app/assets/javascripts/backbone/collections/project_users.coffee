@@ -6,7 +6,7 @@ class Analytics.Collections.ProjectUsers extends Backbone.Collection
     @project = options.project
     
   url:()->
-    "/projects/"+@project.id+"/project_users"
+    "/projects/"+@project.id+"/users"
 
   comparator: (user) ->
     user.get("username")

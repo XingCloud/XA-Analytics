@@ -4,4 +4,4 @@ class Analytics.Models.ProjectUser extends Backbone.Model
 
   urlRoot: ()->
     if Instances.Models.project?
-      "/projects/"+ Instances.Models.project.id + "/project_users"
+      "/projects/"+ Instances.Models.project.id + "/users"

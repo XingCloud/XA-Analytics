@@ -1,8 +1,8 @@
 class ProjectUsersController < ProjectBaseController
   before_filter :find_project_user, :only =>[:show, :edit, :update, :destroy]
-  
+
   def index
-    render :json => @project.project_users.map(&:js_attributes)
+    render :json => @project.project_users.map(&:js_attributes) # return project_users instead of users for historical issue
   end
 
   def update
@@ -22,7 +22,7 @@ class ProjectUsersController < ProjectBaseController
     end
   end
 
-  def destroy
+  def destroy  # remove user from this project
     if @project_user.destroy
       render :json => @project_user.js_attributes
     else
@@ -39,8 +39,19 @@ class ProjectUsersController < ProjectBaseController
   def new
   end
 
+  def create # add user to this project(we create user in user controller)
+    @user = User.find_by_email(params[:email])
+    if not @user.nil? # check if the user was exist
+      @project.project_users.create!(:user_id=>@user.id, :role=> "normal", :privilege=>{:report_ids=>[]})
+    end
+  end
+
 private
   def find_project_user
     @project_user = @project.project_users.find(params[:id])
+  end
+
+  def find_project
+    @project = Project.find(params[:project_id])
   end
 end

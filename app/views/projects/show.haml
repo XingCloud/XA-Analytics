@@ -15,6 +15,7 @@
   Instances.Models.project = new Analytics.Models.Project(#{@project.js_attributes.to_json});  
   Instances.Models.setting = new Analytics.Models.Setting(#{@project.setting.present? ? @project.setting.attributes.to_json : {}});
   Instances.Models.project.loading();
+//  We render the head view after finish loading project, cause we need the user info to determine if we need to render the setting panel.
 
 = subscribe_to "/maintenance_plan"
 

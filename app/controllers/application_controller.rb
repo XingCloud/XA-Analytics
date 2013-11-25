@@ -1,5 +1,5 @@
 class ApplicationController < ActionController::Base
-  helper_method :current_user
+  #helper_method :current_user
   before_filter :configure_permitted_parameters, if: :devise_controller?
   #before_filter :authenticate_user!
   before_filter :cas_filter
@@ -47,10 +47,10 @@ class ApplicationController < ActionController::Base
 
   protected
   
-  def current_user
-    pp session[:cas_user]
-    session[:cas_user]
-  end
+  #def current_user
+  #  pp session[:cas_user]
+  #  session[:cas_user]
+  #end
 
   def cas_filter
     CASClient::Frameworks::Rails::Filter.filter(self)

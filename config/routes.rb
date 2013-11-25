@@ -2,6 +2,10 @@ Analytic::Application.routes.draw do
 
   devise_for :users
 
+  resources :users do
+    resources :projects, :controller => "user_projects"
+  end
+
   root :to => "application#home"
   match "/logout" => "application#logout"
   match "/503" => "maintenance_plans#index"
@@ -38,7 +42,7 @@ Analytic::Application.routes.draw do
     resources :user_attributes
     resources :action_logs
     resources :translations
-    resources :project_users
+    resources :users, :controller => "project_users"
     resources :ads
   end
 
@@ -69,4 +73,7 @@ Analytic::Application.routes.draw do
 
   match "/projects/:id/*other" => redirect {|params| "/projects/#{params[:id]}##{params[:other]}"}
   match "/template/projects/*other" => redirect {|params| "/template/projects##{params[:other]}"}
+
+  match "/account" => "account#index"
+
 end

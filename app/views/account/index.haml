@@ -1,0 +1,6 @@
+
+
+:javascript
+  new Analytics.Views.Projects.HeaderView({project: null}).render();
+  Instances.Collections.UserProjects = new Analytics.Collections.ProjectUsers(#{@user_projects.map(&:js_attributes)},{project:null})
+  new Analytics.Views.Account.IndexView().render();

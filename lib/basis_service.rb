@@ -69,7 +69,7 @@ class BasisService
     res = Net::HTTP.start(HOST, PORT){|http|
       http.request(req)
     }
-    pp res.body
+    pp "BasisService#get_members:\n"+res.body
     if res.is_a?(Net::HTTPSuccess)
       results = JSON.parse(res.body)
       if results.length == 0

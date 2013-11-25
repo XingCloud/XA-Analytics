@@ -1,0 +1,35 @@
+<form class="form-inline">
+     <a class="dropdown-toggle" data-toggle="dropdown">
+        <% if @current_project?: %>
+            <%= @current_project.name %>
+        <% else: %>
+            <i><%= I18n.t("templates.projects.header.select_project") %></i>
+        <% end %>
+        <b class="caret"></b>
+    </a>
+    <ul class="dropdown-menu project-dropdown">
+        <li class="project-search">
+            <input type="text">
+            <i class="icon-search"/>
+        </li>
+        <li class="project-list">
+            <% for project in _.filter(@projects,(x)-> x.project_id != @current_project.id ):%>
+                <div class="project" name="<%= project.name %>" identifier="<%= project.identifier %>">
+                    <a class="project-item" project_id="<%=project.id%>">
+                        <%= project.name %>
+                    </a>
+                </div>
+            <% end %>
+            <div class="projects-no-match hide">
+                <%= I18n.t("commons.no_data") %>
+            </div>
+        </li>
+    </ul>
+
+  <input name="email" type="text" class="input-small" placeholder="Email">
+
+  <label class="checkbox">
+    <input type="checkbox"> Remember me
+  </label>
+  <button type="submit" class="btn">Sign in</button>
+</form>

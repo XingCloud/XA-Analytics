@@ -44,9 +44,9 @@ class Analytics.Models.Project extends Backbone.Model
     _.each(Instances.Collections, (instance) ->
       if instance.url?
         instance.fetch({
-        error: () ->
+        error: (collection, response, option) ->
           init_view.render_init_error()
-        success: () ->
+        success: (collection, response, option) ->
           count = count + 1
           init_view.render_init_success(I18n.t("commons.loaded")+instance.resource_name+"...", count / total)
           if count == total

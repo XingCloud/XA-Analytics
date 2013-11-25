@@ -55,6 +55,9 @@ class ProjectBaseController < ApplicationController
     return
   end
 
+  # consider we request url:http://a.xingcloud.com/projects/#{project_id}/project_users(or other resources) in the browser,
+  # we need to redirect to http://a.xingcloud.com/projects/#{project_id}#project_users
+  # refer route.rb from another redirect policy
   def filter_redirect
     if request.headers["Accept"].index("application/json").blank? and request.method == "GET"
       path = "/projects/#{params[:project_id].present? ? params[:project_id] : params[:id]}"
