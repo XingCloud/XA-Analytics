@@ -13,10 +13,10 @@
             <i class="icon-search"/>
         </li>
         <li class="project-list">
-            <% for project in _.filter(@projects,(x)-> x.project_id != @current_project.id ):%>
-                <div class="project" name="<%= project.name %>" identifier="<%= project.identifier %>">
-                    <a class="project-item" project_id="<%=project.id%>">
-                        <%= project.name %>
+            <% for user_project in _.filter(@user_projects,(x)-> x.get("project_id ")!= @current_project.get("project_id"):%>
+                <div class="project" name="<%= project.get("project_name") %>">
+                    <a class="project-item" project_id="<%=user_project.get("project_id")%>">
+                        <%= user_project.get("projectname") %>
                     </a>
                 </div>
             <% end %>
@@ -26,10 +26,12 @@
         </li>
     </ul>
 
-  <input name="email" type="text" class="input-small" placeholder="Email">
+  <input id="email" name="email" type="text" class="input-small" placeholder="Email">
 
-  <label class="checkbox">
-    <input type="checkbox"> Remember me
-  </label>
-  <button type="submit" class="btn">Sign in</button>
+    <select id="role" name="role">
+        <option  value="normal">普通用户</option>
+        <option  value="mgriant">外来用户</option>
+    </select>
+
+  <button type="submit" class="btn btn-primary">加入项目</button>
 </form>

@@ -6,7 +6,7 @@ class ProjectUser < ActiveRecord::Base
   serialize :privilege, JSON
 
   def js_attributes
-    attributes.merge({:username=>User.find(user_id).name})
+    attributes.merge({"username"=>User.find(user_id).name, "projectname"=>Project.find(project_id).name})
   end
 
 end
