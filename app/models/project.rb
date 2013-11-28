@@ -15,7 +15,8 @@ class Project < ActiveRecord::Base
   has_one :setting, :dependent => :destroy
   has_many :ads, :dependent => :destroy
 
-  validate :identifier, :presence => true, :uniqueness => true
+  validates :identifier, :presence => true, :uniqueness => true, :allow_blank => false
+  validates :name, :presence => true, :uniqueness => true, :allow_blank => false
 
   def self.fetch(identifier)
     project = Project.find_by_identifier(identifier)

@@ -292,6 +292,7 @@ I18n.translations = {
                 "access_reports":"access reports",
                 "normal_role":"normal",
                 "mgriant_role":"mgriant",
+                "admin_role" : "admin",
                 "unlimited":"unlimited",
                 "current_user":"(current user)",
                 "form":{

@@ -1,4 +1,5 @@
 class Analytics.Models.UserProject extends Backbone.Model
+  idAttribute: 'project_id'
   initialize:(options) ->
 
 

@@ -8,6 +8,6 @@ class AccountController < ApplicationController
 
 private
    def find_user
-     @user = current_user
+     @login_user = current_user
    end
 end

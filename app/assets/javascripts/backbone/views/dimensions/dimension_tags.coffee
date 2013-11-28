@@ -137,8 +137,6 @@ class Analytics.Views.Dimensions.TagsView extends Backbone.View
     current_dropdown.find(".dimension-value-list .dimension-value-item").removeClass("selected")
     $(ev.currentTarget).addClass("selected")
 
-  click_search: (ev) ->
-    ev.stopPropagation()
 
   confirm_search: (ev)->
     current_dropdown = $(ev.currentTarget).parents("li.dropdown")

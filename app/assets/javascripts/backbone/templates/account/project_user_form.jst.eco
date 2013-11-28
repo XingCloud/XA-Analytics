@@ -1,0 +1,33 @@
+<div class="modal">
+    <div class="modal-header">
+        <b class="close" data-dismiss="modal">×</b>
+        <h3><%=I18n.t("templates.project_users.form.edit")%></h3>
+    </div>
+
+    <div class="modal-body">
+      <form class="form-horizontal">
+        <div class="control-group should-check">
+          <label class="control-label"><abbr title="<%= I18n.t('commons.required') %>">*</abbr><%= I18n.t("templates.project_users.user") %></label>
+          <div class="controls">
+        <input class="" name="" type="text" value="<%=@project_user.get('username')%>" disabled="disabled">
+          </div>
+        </div>
+
+        <div class="control-group">
+          <label class="control-label"><abbr title="<%= I18n.t('commons.required') %>">*</abbr><%= I18n.t("templates.project_users.role") %></label>
+          <div class="controls">
+        <select class="role" name="role">
+          <option value="admin" <%=if @project_user.get("role")=="admin" then "selected"%> ><%=I18n.t("templates.project_users.admin_role")%></option>
+          <option value="normal" <%=if @project_user.get("role")=="normal" then "selected"%> ><%=I18n.t("templates.project_users.normal_role")%></option>
+          <option value="mgriant" <%=if @project_user.get("role")=="mgriant" then "selected"%>><%=I18n.t("templates.project_users.mgriant_role")%></option>
+        </select>
+          </div>
+        </div>
+      </form>
+    </div>
+
+    <div class="modal-footer">
+        <a class="btn cancel" data-dismiss="modal"><%= I18n.t('commons.cancel') %></a>
+        <a class="btn btn-primary submit"><%= I18n.t('commons.ok') %></a>
+    </div>
+</div>

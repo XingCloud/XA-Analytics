@@ -291,6 +291,7 @@ I18n.translations = {
                 "access_reports":"允许查看报告",
                 "normal_role":"普通用户",
                 "mgriant_role":"外来用户",
+                "admin_role" : "管理员",
                 "unlimited":"无限制",
                 "current_user":"(当前用户)",
                 "form":{
