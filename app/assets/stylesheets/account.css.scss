@@ -1,0 +1,82 @@
+/*
+ * This is a manifest file that'll be compiled into application.css, which will include all the files
+ * listed below.
+ *
+ * Any CSS and SCSS file within this directory, lib/assets/stylesheets, vendor/assets/stylesheets,
+ * or vendor/assets/stylesheets of plugins, if any, can be referenced here using a relative path.
+ *
+ * You're free to add application-wide styles to this file and they'll appear at the top of the
+ * compiled file, but it's generally better to create a new file per style scope.
+ *
+ *= require_self
+ *= require bootstrap_and_overrides
+ *= require datepicker
+ *= require common
+ *= require jquery.pnotify.default
+ *= require jquery.pnotify.default.icons
+*/
+
+#container{
+  width: 1024px;
+  margin: 0 auto;
+  input[type=text]{
+    width: 150px;
+  }
+
+  input[type=email]{
+    width: 200px;
+  }
+
+  select{
+    width: 100px;
+  }
+
+  .list-project{
+    cursor: pointer;
+
+    ul{
+      width: 220px;
+    }
+
+    .project-search {
+      border: 1px solid #CCC;
+      margin: 0 5px 0 5px;
+      input{
+        border: 0;
+        width: 195px;
+        margin: 0;
+      }
+    }
+
+    .project-list{
+      padding: 2px 10px 2px 5px;
+      position: relative;
+      overflow: auto;
+      max-height: 250px;
+      .projects-pending{
+        text-align: center;
+      }
+      .projects-no-match{
+        text-align: center;
+      }
+      .project{
+        a{
+          display: block;
+          padding: 3px 10px;
+          clear: both;
+          font-weight: normal;
+          line-height: 20px;
+          color: #333333;
+          white-space: nowrap;
+        }
+      }
+      .project.selected{
+        a{
+          text-decoration: none;
+          color: #ffffff;
+          background-color: #0081c2;
+        }
+      }
+    }
+  }
+}

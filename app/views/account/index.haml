@@ -3,4 +3,3 @@
 :javascript
   Instances.Models.user = new Analytics.Models.User(#{@login_user.js_attributes.to_json});
   Instances.Collections.UserProjects = new Analytics.Collections.UserProjects();
-  new Analytics.Views.Projects.HeaderView({project: null}).render();

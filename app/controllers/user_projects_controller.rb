@@ -31,7 +31,12 @@ class UserProjectsController < ApplicationController
             @user.project_users.create!(:project_id=>project.id, :role=>"admin", :privilege=>{:report_ids=>[]})
           end
           render :json =>{}
+        rescue ActiveRecord::RecordInvalid
+          render :json => {}, :status=>400
+          raise ActiveRecord::Rollback
         rescue Exception =>e
+          logger.error e.message
+          logger.error e.backtrace.inspect
           render :json=>{}, :status=>500
         end
       end

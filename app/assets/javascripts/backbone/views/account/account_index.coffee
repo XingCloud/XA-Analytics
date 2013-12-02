@@ -2,7 +2,7 @@ Analytics.Views.Account ||= {}
 class Analytics.Views.Account.IndexView extends Backbone.View
   template: JST["backbone/templates/account/account_index"]
   events:
-    "click .dropdown-toggle": "dropdown_toggle"
+#    "click .list-project .dropdown-toggle": "dropdown_toggle"
     "click li .project-item": "click_project_item"
     "click a.add-to-project" : "add_user_to_project"
     "click .project-search" : "click_search"
@@ -73,8 +73,8 @@ class Analytics.Views.Account.IndexView extends Backbone.View
     })
 
   add_project_to_user: (ev) ->  # create a project and add to this user
-    name = $(@el).find("form.project .name").val()
-    identifier = $(@el).find("form.project .identifier").val()
+    name = $(@el).find("form.new-project .name").val()
+    identifier = $(@el).find("form.new-project .identifier").val()
     user_project = new Analytics.Models.UserProject({name:name, identifier:identifier})
     user_project.save({},{
       success: () ->
