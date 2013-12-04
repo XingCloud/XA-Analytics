@@ -5,8 +5,7 @@ class Analytics.Collections.UserProjects extends Backbone.Collection
     @resource_name = I18n.t("resources.user_projects")
     @fetch({
       success:()->
-        console.log("user projects done")
-        new Analytics.Views.Account.IndexView().render();
+        new Analytics.Views.Manage.ProjectIndexView().render();
     })
 
   url:()->

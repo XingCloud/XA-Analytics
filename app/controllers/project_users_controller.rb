@@ -1,4 +1,4 @@
-class ProjectUsersController < ProjectBaseController #TODO wcl don't inherit from project
+class ProjectUsersController < ProjectBaseController
   before_filter :find_login_user
 
   def index

@@ -2,6 +2,18 @@ Analytic::Application.routes.draw do
 
   devise_for :users
 
+  #devise_for :users, skip: :registrations
+  #devise_scope :user do
+  #  resource :registration,
+  #           only: [:new, :create, :edit, :update],
+  #           path: 'users',
+  #           path_names: { new: 'sign_up' },
+  #           controller: 'devise/registrations',
+  #           as: :user_registration do
+  #    get :cancel
+  #  end
+  #end
+
   resources :users do
     resources :projects, :controller => "user_projects"
   end
@@ -74,6 +86,13 @@ Analytic::Application.routes.draw do
   match "/projects/:id/*other" => redirect {|params| "/projects/#{params[:id]}##{params[:other]}"}
   match "/template/projects/*other" => redirect {|params| "/template/projects##{params[:other]}"}
 
-  match "/account" => "account#index"
+  namespace :manage do
+    resources :projects do
 
+    end
+    get "/users/list" => "users#list"
+    resources :users do
+
+    end
+  end
 end

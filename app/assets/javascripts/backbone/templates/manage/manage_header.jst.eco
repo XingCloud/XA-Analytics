@@ -1,0 +1,59 @@
+<div class="navbar" style="margin-top:10px;">
+    <div class="navbar-inner">
+        <a class="brand" href="#">Elex</a>
+        <ul class="nav">
+            <li><a href="http://a.xingcloud.com">数据分析</a></li>
+            <li><a href="#">337</a></li>
+            <li class="<%=if not @manage_project then 'active'%>"><a href="/manage/users">用户管理</a></li>
+            <li class="<%=if @manage_project then 'active'%>"><a href="/manage/projects">项目管理</a></li>
+            <% if @manage_project: %>
+                <li style="margin-left:30px;" class="active">
+                    <div class="dropdown list-project" style="display:inline-block;">
+                         <a class="btn dropdown-toggle" data-toggle="dropdown">
+                            <% if @current_project?: %>
+                                <%= @current_project.get("project_name") %>
+                            <% else: %>
+                                <i><%= I18n.t("templates.projects.header.select_project") %></i>
+                            <% end %>
+                            <b class="caret"></b>
+                        </a>
+                        <ul class="dropdown-menu project-dropdown">
+                            <li class="project-search">
+                                <input type="text">
+                            </li>
+                            <li class="project-list">
+                                <%current_project_id = @current_project.get("project_id")%>
+                                <% for user_project in _.filter(@user_projects.models,(x)-> x.get("project_id ")!= current_project_id):%>
+                                    <div class="project" name="<%= user_project.get("project_name") %>" identifier="<%=user_project.get("project_identifier")%>" project_id="<%=user_project.get("project_id")%>">
+                                        <a class="project-item" project_id="<%=user_project.get("project_id")%>">
+                                            <%= user_project.get("project_name") %>
+                                        </a>
+                                    </div>
+                                <% end %>
+                                <div class="projects-no-match hide">
+                                    <%= I18n.t("commons.no_data") %>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+                <li style="margin-left:10px;">
+                    <div>
+                        <a class="btn btn-danger remove-project">删除该项目</a>
+                    </div>
+                </li>
+            <%end%>
+        </ul>
+
+
+        <ul class="nav pull-right">
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><%=Instances.Models.user.get("email")%> <b class="caret"></b></a>
+            <ul class="dropdown-menu">
+              <li><a href="/users/sign_out">登出</a></li>
+              <li><a href="/account">项目管理</a></li>
+            </ul>
+          </li>
+        </ul>
+    </div>
+</div>

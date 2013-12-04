@@ -1,6 +1,6 @@
-Analytics.Views.Account ||= {}
-class Analytics.Views.Account.IndexView extends Backbone.View
-  template: JST["backbone/templates/account/account_index"]
+Analytics.Views.Manage ||= {}
+class Analytics.Views.Manage.ProjectIndexView extends Backbone.View
+  template: JST["backbone/templates/manage/project_index"]
   events:
 #    "click .list-project .dropdown-toggle": "dropdown_toggle"
     "click li .project-item": "click_project_item"
@@ -15,6 +15,8 @@ class Analytics.Views.Account.IndexView extends Backbone.View
     "keydown .project-search input" : "keydown_toggle"
     "hidden .modal" : "remove_modal"
     "click .modal a.submit" : "update_project_user"
+    "click li.pre.enabled a" : "pre_page"
+    "click li.nex.enabled a" : "nex_page"
 
 
   initialize: ()->
@@ -52,7 +54,7 @@ class Analytics.Views.Account.IndexView extends Backbone.View
 
   remove_user_from_project: (ev) ->
     id = $(ev.currentTarget).attr("value")
-    project_user = @project_users.get(id)
+    project_user = @project_users.get(id) # collection ProjectUser id is user_id, ref ProjectUser
     if confirm(I18n.t('commons.confirm_delete'))
       project_user.destroy({wait: true})
 

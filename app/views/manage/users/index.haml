@@ -1,0 +1,5 @@
+
+
+:javascript
+  Instances.Models.user = new Analytics.Models.User(#{@login_user.js_attributes.to_json});
+  new Analytics.Views.Manage.UserIndexView().render()

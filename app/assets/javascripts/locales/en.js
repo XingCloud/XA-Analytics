@@ -289,6 +289,7 @@ I18n.translations = {
             "project_users":{
                 "user":"members",
                 "role":"role",
+                "email": "email",
                 "access_reports":"access reports",
                 "normal_role":"normal",
                 "mgriant_role":"mgriant",
