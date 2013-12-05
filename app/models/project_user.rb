@@ -7,7 +7,8 @@ class ProjectUser < ActiveRecord::Base
 
   def js_attributes
     project = Project.find(project_id)
-    attributes.merge({"username"=>User.find(user_id).name, "project_name"=>project.name, "project_identifier"=>project.identifier})
+    user = User.find(user_id)
+    attributes.merge({"username"=>user.name, "email"=>user.email, "project_name"=>project.name, "project_identifier"=>project.identifier})
   end
 
 end

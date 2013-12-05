@@ -4,4 +4,4 @@ class Analytics.Collections.Users extends Backbone.Collection
   initialize: (options) ->
 
   url:()->
-    "/manage/users/list"
+    "/manage/users"

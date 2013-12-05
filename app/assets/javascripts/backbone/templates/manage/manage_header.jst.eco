@@ -7,7 +7,7 @@
             <li class="<%=if not @manage_project then 'active'%>"><a href="/manage/users">用户管理</a></li>
             <li class="<%=if @manage_project then 'active'%>"><a href="/manage/projects">项目管理</a></li>
             <% if @manage_project: %>
-                <li style="margin-left:30px;" class="active">
+                <li style="margin-left:30px;">
                     <div class="dropdown list-project" style="display:inline-block;">
                          <a class="btn dropdown-toggle" data-toggle="dropdown">
                             <% if @current_project?: %>

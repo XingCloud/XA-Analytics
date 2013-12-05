@@ -8,6 +8,8 @@ class Analytics.Views.Manage.UserIndexView extends Backbone.View
     "click li.pre.enabled a" : "pre_page"
     "click li.nex.enabled a" : "nex_page"
     "keyup .form-search input" : "keyup_toggle"
+    "click .modal a.submit" : "update_user"
+    "hidden .modal" : "remove_modal"
 
 
   initialize: ()->
@@ -25,10 +27,12 @@ class Analytics.Views.Manage.UserIndexView extends Backbone.View
     @calc_page()
     $(@el).html(@.template({
       users: @users_to_show()
+      filter_value: @filter_value
       page: @page
       max_page: @max_page
     }))
     $("#container").html(@el)
+    $(".form-search input").focus()
 
   redraw: ()->
     @remove()
@@ -53,7 +57,7 @@ class Analytics.Views.Manage.UserIndexView extends Backbone.View
   edit_user: (ev)->
     id = $(ev.currentTarget).attr("value")
     @current_edit_user = @users.get(id)
-    $(@el).append(JST["backbone/templates/manage/project_user_form"]({project_user:@current_edit_user}))
+    $(@el).append(JST["backbone/templates/manage/user_form"]({user:@current_edit_user}))
     $(@el).find(".modal").modal().css({
       "min-width":"300px"
       'margin-left': () -> -($(this).width() / 2)
@@ -72,6 +76,8 @@ class Analytics.Views.Manage.UserIndexView extends Backbone.View
     if confirm(I18n.t('commons.confirm_delete'))
       user.destroy({wait: true})
 
+  remove_modal: ()->
+    $(@el).find(".modal").remove()
 
   pre_page: (ev) ->
     @page = @page - 1

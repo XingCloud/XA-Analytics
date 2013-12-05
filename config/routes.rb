@@ -87,12 +87,12 @@ Analytic::Application.routes.draw do
   match "/template/projects/*other" => redirect {|params| "/template/projects##{params[:other]}"}
 
   namespace :manage do
-    resources :projects do
+    resources :projects
 
+    scope :constraints=> lambda {|request| request.headers["Accept"].index("application/json").blank? } do
+      get "/users" => "users#home"
     end
-    get "/users/list" => "users#list"
-    resources :users do
+    resources :users
 
-    end
   end
 end

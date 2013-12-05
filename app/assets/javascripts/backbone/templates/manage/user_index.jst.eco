@@ -1,7 +1,9 @@
 <%- JST["backbone/templates/manage/manage_header"]({manage_project:false}) %>
 
+<span style="float:right;margin-right:5px;margin-top:10px;">共有 <%=@users.length%> 个用户</span>
+
 <div class="form-search" style="margin-bottom:10px;">
-  <input type="text" class="input-medium search-query">
+  <input type="text" class="input-medium search-query" value="<%=@filter_value%>">
   <a type="submit" class="btn search">Search</a>
 </div>
 

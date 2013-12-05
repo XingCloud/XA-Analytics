@@ -61,7 +61,7 @@ class Analytics.Views.Manage.ProjectIndexView extends Backbone.View
   edit_project_user: (ev)->
     id = $(ev.currentTarget).attr("value")
     @current_edit_project_user = @project_users.get(id)
-    $(@el).append(JST["backbone/templates/account/project_user_form"]({project_user:@current_edit_project_user}))
+    $(@el).append(JST["backbone/templates/manage/project_user_form"]({project_user:@current_edit_project_user}))
     $(@el).find(".modal").modal().css({
       "min-width":"300px"
       'margin-left': () -> -($(this).width() / 2)
