@@ -51,7 +51,7 @@ $(document).on "click", "a[href^='/']", (ev) ->
   href = $(ev.currentTarget).attr("href")
   if _gaq?
     _gaq.push(['_trackPageview', href])
-  if Analytics.Utils.checkPushState() and href != "/template/projects" and href.indexOf("manage")==-1 and href!="/users/sign_out" and href.indexOf("?page") == -1
+  if Analytics.Utils.checkPushState() and href != "/template/projects" and href.indexOf("manage/")==-1 and href!="/users/sign_out" and href.indexOf("?page") == -1
     ev.preventDefault()
     Backbone.history.navigate href.replace(window.ROOT + '/', ''), {trigger: true}
 
