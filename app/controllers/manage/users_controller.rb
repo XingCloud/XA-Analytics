@@ -1,5 +1,5 @@
 class Manage::UsersController < ApplicationController
-  before_filter :authenticate_user!
+  before_filter :authenticate_user! #TODO wcl: move to ApplicationController
   before_filter :find_login_user
   before_filter :find_user ,:only=>[:update, :destroy]
   layout "manage"

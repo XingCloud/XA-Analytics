@@ -11,6 +11,7 @@
 // GO AFTER THE REQUIRES BELOW.
 //
 
+//= require ./cdn.js
 //= require base64
 //= require jquery.blockUI
 //= require jquery.form_to_json
