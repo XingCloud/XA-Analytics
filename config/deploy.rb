@@ -22,6 +22,12 @@ set :scm, :git
   role :resque_scheduler, "app@a.xingcloud.com", "app@at.xingcloud.com"
 # end
 
+#role :web, "app@a.xingcloud.com"                          # Your HTTP server, Apache/etc
+#role :app, "app@a.xingcloud.com"                      # This may be the same as your `Web` server
+#role :db, "app@a.xingcloud.com", :primary => true # This is where Rails migrations will run
+#role :resque_worker, "app@a.xingcloud.com"
+#role :resque_scheduler, "app@a.xingcloud.com"
+
 # task :production do
 #   role :web, "app@p.xingcloud.com"
 #   role :app, "app@p.xingcloud.com"
