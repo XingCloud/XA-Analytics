@@ -10,12 +10,15 @@ class Analytics.Views.Metrics.FormView extends Backbone.View
     "change select#metric_combine_action" : "toggle_combine"
     "change .filter select": "change_filter"
     "click button.type-btn" : "change_value_type"
+    "click .scales .icon-plus-sign" : "add_scale"
+    "click .scales .icon-remove-sign" : "remove_scale"
 
   initialize: (options) ->
     _.bindAll(this, "render")
     @clone = options.clone
     @event_list_sync = [false, false, false, false, false, false]
     @combine_event_list_sync = [false, false, false, false, false, false]
+    @scales = _.map(@model.get("scales").split('|'), (x)->{scale_startdate:x.split(":")[0], scale_value:x.split(":")[1]})
     @init_bind()
 
   init_bind: () ->
@@ -38,8 +41,10 @@ class Analytics.Views.Metrics.FormView extends Backbone.View
       'min-width': '800px'
       'margin-left': () -> -($(this).width() / 2)
     })
-    @render_datepicker()
 #    $(@el).find('.event-key-select').chosen() #todo catch error
+    @render_scale()
+    @render_datepicker()
+
     this
 
   render_datepicker: () ->
@@ -49,13 +54,45 @@ class Analytics.Views.Metrics.FormView extends Backbone.View
       $(el).find('.datepicker').blur()
     )
 
+  render_scale: () ->
+    @scales = _.uniq(_.sortBy(@scales, (x)-> x.scale_startdate),true,(x)->x.scale_startdate)
+    $(@el).find(".scales .controls").remove()
+    for scale in @scales
+      $(@el).find('.scales').append(JST["backbone/templates/metrics/metric_scale"]({
+        index:@scales.indexOf(scale),
+        length: @scales.length
+        scale_startdate:scale.scale_startdate,
+        scale_value:scale.scale_value}))
+    @render_scale_datepicker()
+
+  render_scale_datepicker: ()->
+    el = @el
+    _this = @
+    $(el).find('.scales .datepicker').datepicker({format: 'yyyy-mm-dd'}).on('changeDate', (ev) ->
+      $(el).find('.datepicker').datepicker('hide')
+      $(el).find('.datepicker').blur()
+      _this.scales =  $(el).find('form').toJSON().scales
+      _this.render_scale()
+    )
+
+  remove_scale: (ev) ->
+    index = $(ev.currentTarget).attr("index")
+    $(ev.currentTarget).parent().remove()
+    @scales = _.compact($(@el).find('form').toJSON().scales)
+    @render_scale()
+
+  add_scale: (ev) ->
+    @scales =  $(@el).find('form').toJSON().scales
+    last_date = Analytics.Utils.formatUTCDate(Analytics.Utils.parseUTCDate(@scales[@scales.length-1].scale_startdate, 86400000), "YYYY-MM-DD")
+    @scales.push({scale_startdate:last_date, scale_value:"1.0"})
+    @render_scale()
+
   submit: () ->
     if Analytics.Utils.checkFormFields($(@el).find('form'))
-      form = $(@el).find('form').toJSON()
       update = @model.id?
       is_clone = @clone?
       el = @el
-      @model.save(form, {
+      @model.save(@form_attributes(), {
         wait: true,
         success: (model, resp) ->
           $(el).modal('hide')
@@ -70,6 +107,20 @@ class Analytics.Views.Metrics.FormView extends Backbone.View
         error: (xhr, options, error) ->
           $(el).modal('hide')
       })
+
+  form_attributes: ()->
+    form = $(@el).find('form').toJSON()
+    form_attributes = _.clone(form)
+
+    scales = ""
+    for scale in  _.sortBy(form.scales, (x)->x.scale_startdate)
+      scales += scale["scale_startdate"]+":"+scale["scale_value"]+"|"
+
+    scales = scales[0..-2] # remove the tail "|"
+
+    form_attributes.scales = scales
+
+    form_attributes
 
   cancel : () ->
     $(@el).modal('hide')

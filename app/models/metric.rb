@@ -37,7 +37,15 @@ class Metric < ActiveRecord::Base
       self.event_key = parts.join(".")
     end
   end
-  
+
+  #def scales= scales
+  #  self.scale = ""
+  #  for scale in scales
+  #    self.scale += scale["scale_startdate"]+":"+scale["scale_value"]+"|"
+  #  end
+  #  self.scale = self.scale[0..-2] # remove the tail "|"
+  #end
+
   def correct_event_key
     6.times do |i|
       if self.send("event_key_#{i}").blank? 

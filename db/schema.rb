@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20131111084721) do
+ActiveRecord::Schema.define(:version => 20131212093528) do
 
   create_table "action_logs", :force => true do |t|
     t.integer  "project_id"
@@ -84,6 +84,7 @@ ActiveRecord::Schema.define(:version => 20131111084721) do
     t.string   "filter_operator"
     t.string   "filter_value"
     t.string   "scale_startdate"
+    t.text     "scales"
   end
 
   add_index "metrics", ["combine_id"], :name => "index_metrics_on_combine_id"

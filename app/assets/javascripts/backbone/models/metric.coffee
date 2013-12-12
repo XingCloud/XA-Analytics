@@ -1,6 +1,7 @@
 class Analytics.Models.Metric extends Backbone.Model
   defaults:
-    "scale": 1
+    "scale" : 1
+    "scales": "1970-01-01:1"
     "value_type": "origin"
   urlRoot: () ->
     if Instances.Models.project?

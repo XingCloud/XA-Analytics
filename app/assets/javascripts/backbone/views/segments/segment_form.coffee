@@ -79,6 +79,7 @@ class Analytics.Views.Segments.FormView extends Backbone.View
   change_manner: (ev)->
     @show_hide($(ev.currentTarget).attr("value"))
 
+  # show or hide some element
   show_hide: (manner) ->
     $(@el).find("button.manner").removeClass("active")
     $(@el).find("#manner").val(manner)

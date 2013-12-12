@@ -95,17 +95,12 @@
                 </div>
             </div>
 
-            <div class="control-group should-check">
+            <div class="control-group should-check scales">
                 <label class="control-label">
                     <abbr title="<%= I18n.t('commons.required') %>">*</abbr>
                     <%= I18n.t("templates.metrics.form.scale") %>
                 </label>
-                <div class="controls">
-                    <input class="input-mini should-check-empty should-check-float" type="text" name="scale" value="<%= @scale %>"/>
-                    <%= I18n.t("templates.metrics.form.since") %>
-                    <input class="input-small datepicker" type="text" name="scale_startdate" value="<%= if @scale_startdate? and @scale_startdate.length > 0 then @scale_startdate else Analytics.Utils.formatUTCDate(new Date(0).getTime(), 'YYYY-MM-DD') %>"/>
-                    <%=I18n.t("templates.metrics.form.start")%>
-                </div>
+
             </div>
 
             <div class="x control-group filter <%= if @filter_operator? and @filter_operator != '' then 'should-check' %> ">
