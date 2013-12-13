@@ -35,7 +35,7 @@ class Analytics.Models.Metric extends Backbone.Model
     if not scale_startdate then scale_startdate = Analytics.Utils.formatUTCDate(new Date(0).getTime(), 'YYYY-MM-DD')
     options = {
       items: [@item_options("x", segment_id, filters)]
-      formula: "x*" + @get("scale")+"|x*1|"+scale_startdate
+      formula: "x*1|" + @get("scales")
     }
     if @get("combine_attributes")?
       combine = new Analytics.Models.Metric(@get("combine_attributes"))

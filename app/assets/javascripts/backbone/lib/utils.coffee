@@ -98,49 +98,50 @@ Analytics.Utils.checkFormFields = (form) ->
   for group in $(form).find('.control-group.should-check')
     $(group).removeClass('error')
     $(group).find('.controls .help-inline').remove()
-    input = $(group).find('.controls input[type="text"]')
-    value = input.val()
-    if (input.hasClass('should-check-empty') and
-        (not value? or value == ""))
-      valid = false
-      $(group).addClass('error')
-      $(group).find('.controls').append('<span class="help-inline">'+ I18n.t("lib.utils.not_empty") + '</span>')
-      continue
+    for input in $(group).find('.controls input[type="text"]')
+      input = $(input)
+      value = input.val()
+      if (input.hasClass('should-check-empty') and
+          (not value? or value == ""))
+        valid = false
+        $(group).addClass('error')
+        $(group).find('.controls').append('<span class="help-inline">'+ I18n.t("lib.utils.not_empty") + '</span>')
+        continue
 
-    if (value? and
-        value != "" and
-        input.hasClass('should-check-pattern') and
-        not new RegExp(input.attr("pattern")).test(value))
-      valid = false
-      $(group).addClass('error')
-      continue
+      if (value? and
+          value != "" and
+          input.hasClass('should-check-pattern') and
+          not new RegExp(input.attr("pattern")).test(value))
+        valid = false
+        $(group).addClass('error')
+        continue
 
-    if (value? and
-        value != "" and
-        input.hasClass('should-check-integer') and
-        isNaN(parseInt(value)))
-      valid = false
-      $(group).addClass('error')
-      $(group).find('.controls').append('<span class="help-inline">'+ I18n.t("lib.utils.should_be_integer") + '</span>')
-      continue
+      if (value? and
+          value != "" and
+          input.hasClass('should-check-integer') and
+          isNaN(parseInt(value)))
+        valid = false
+        $(group).addClass('error')
+        $(group).find('.controls').append('<span class="help-inline">'+ I18n.t("lib.utils.should_be_integer") + '</span>')
+        continue
 
-    if (value? and
-        value != "" and
-        input.hasClass('should-check-float') and
-        isNaN(parseFloat(value)))
-      valid = false
-      $(group).addClass('error')
-      $(group).find('.controls').append('<span class="help-inline">'+ I18n.t("lib.utils.should_be_number") + '</span>')
-      continue
+      if (value? and
+          value != "" and
+          input.hasClass('should-check-float') and
+          isNaN(parseFloat(value)))
+        valid = false
+        $(group).addClass('error')
+        $(group).find('.controls').append('<span class="help-inline">'+ I18n.t("lib.utils.should_be_number") + '</span>')
+        continue
 
-    if (value? and
-        value != "" and
-        input.hasClass('should-check-natural-number') and
-        (isNaN(parseInt(value)) or parseInt(value) < 0))
-      valid = false
-      $(group).addClass('error')
-      $(group).find('.controls').append('<span class="help-inline">'+ I18n.t("lib.utils.should_be_natural_number") + '</span>')
-      continue
+      if (value? and
+          value != "" and
+          input.hasClass('should-check-natural-number') and
+          (isNaN(parseInt(value)) or parseInt(value) < 0))
+        valid = false
+        $(group).addClass('error')
+        $(group).find('.controls').append('<span class="help-inline">'+ I18n.t("lib.utils.should_be_natural_number") + '</span>')
+        continue
 
   valid
 

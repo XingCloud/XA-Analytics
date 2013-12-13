@@ -1,12 +1,12 @@
-<div class="controls" index=<%=@index%>>
+<div class="controls scale" index=<%=@index%>>
     <input class="input-mini should-check-empty should-check-float" type="text"
-        name="scales[<%=@index%>][scale_value]"
+        name=<%="#{@target}[#{@index}][scale_value]"%>
         value="<%= @scale_value %>"/>
 
     <%= I18n.t("templates.metrics.form.since") %>
 
     <input class="input-small datepicker" type="text"
-        name="scales[<%=@index%>][scale_startdate]"
+        name=<%="#{@target}[#{@index}][scale_startdate]"%>
         value="<%= if @scale_startdate? and @scale_startdate.length > 0 then @scale_startdate else Analytics.Utils.formatUTCDate(new Date(0).getTime(), 'YYYY-MM-DD') %>"/>
 
     <%=I18n.t("templates.metrics.form.start")%>
