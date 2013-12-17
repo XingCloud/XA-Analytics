@@ -20,8 +20,8 @@ class Analytics.Views.ReportTabs.ShowView extends Backbone.View
       selector: @model # report_tab
       filters: @model.dimensions_filters()
     })
-    @dimensions.initialize_charts(@model.get("metric_ids"), Instances.Collections.segments.selected())
     @dimensions.orderby = @model.get("metric_ids")[0] if @model.get("metric_ids")[0]?
+    @dimensions.initialize_charts(@model.get("metric_ids"), Instances.Collections.segments.selected())
 
   render: () ->
     $(@el).html(@template(@model.show_attributes()))   #report_tab.show_attributes() will check if we need to set report_tab.dimenssion to null, like we click one dimension value

@@ -35,16 +35,15 @@ class Analytics.Models.Metric extends Backbone.Model
     if not scale_startdate then scale_startdate = Analytics.Utils.formatUTCDate(new Date(0).getTime(), 'YYYY-MM-DD')
     options = {
       items: [@item_options("x", segment_id, filters)]
-      formula: "x*1|" + @get("scales")
     }
     if @get("combine_attributes")?
       combine = new Analytics.Models.Metric(@get("combine_attributes"))
       options.items.push(combine.item_options("y", segment_id, filters))
       switch @get("combine_action").toUpperCase()
-        when "ADDITION" then options.formula = "x*"+@get("scale")+"+y*"+combine.get("scale")+"|x+y|"+scale_startdate
-        when "DIVISION" then options.formula = "(x*"+@get("scale")+")/(y*"+combine.get("scale") + ")"+"|x/y|"+scale_startdate
-        when "MULTIPLICATION" then options.formula = "x*"+@get("scale")+"*y*"+combine.get("scale")+"|x*y|"+scale_startdate
-        when "SUBDUCTION" then options.formula = "x*"+@get("scale")+"-y*"+combine.get("scale")+"|x-y|"+scale_startdate
+        when "ADDITION" then options.op = "A"
+        when "DIVISION" then options.op = "D"
+        when "MULTIPLICATION" then options.op = "M"
+        when "SUBDUCTION" then options.op = "S"
     options
 
 
@@ -53,6 +52,7 @@ class Analytics.Models.Metric extends Backbone.Model
       name: name
       event_key: @event_key(filters)
       count_method: @get("condition").toUpperCase()
+      scale: @get("scales")
     }
     if @get("number_of_day")?
       options["number_of_day"] = @get("number_of_day")
