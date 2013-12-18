@@ -186,7 +186,8 @@ I18n.translations = {
                     "offset":"默认截止到距今",
                     "frequency":"报告频率",
                     "compare":"与过去对比",
-                    "show_table":"显示数据表格"
+                    "show_table":"显示数据表格",
+                    "show_summary":"显示数据汇总"
                 },
                 "form_header":{
                     "default_title":"新建标签"

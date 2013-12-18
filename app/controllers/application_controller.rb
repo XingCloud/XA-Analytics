@@ -27,11 +27,13 @@ class ApplicationController < ActionController::Base
   #  end
   #end
 
+  # 获取所有项目的简要信息：project_header.coffee请求，填充项目下拉列表
   def projects_summary
     projects = BasisService.get_projects(session[:cas_user])
     render :json => projects.map{|project| {:identifier => project["identifier"], :name => project["name"]}}
   end
 
+  # 获取所有项目的信息：projects.coffee请求
   def projects_details
     projects = BasisService.get_projects(session[:cas_user])
     user = User.find_by_name(session[:cas_user])

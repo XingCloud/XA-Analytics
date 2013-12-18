@@ -80,6 +80,15 @@
             <input type="checkbox" id="compare-checkbox" <%= if @compare != 0 then 'checked="checked"' else ' ' %> />
         </div>
     </div>
+
+    <div class="control-group">
+        <label class="control-label" for="report_tabs_attributes_<%= @index %>_compare"><%= I18n.t("templates.report_tabs.form_body.show_summary") %></label>
+        <div class="controls">
+            <input type="hidden" id="report_tabs_attributes_<%= @index %>_show_summary" name="report_tabs_attributes[<%= @index %>][show_summary]" value="<%= if @show_summary then '1' else '0' %>" />
+            <input type="checkbox" id="show-summary-checkbox" <%= if @show_summary then 'checked="checked"' else ' ' %> />
+        </div>
+    </div>
+
     <div class="control-group">
         <label class="control-label" for="report_tabs_attributes_<%= @index %>_compare"><%= I18n.t("templates.report_tabs.form_body.show_table") %></label>
         <div class="controls">
@@ -87,4 +96,6 @@
             <input type="checkbox" id="show-table-checkbox" <%= if @show_table then 'checked="checked"' else ' ' %> />
         </div>
     </div>
+
+
 </div>

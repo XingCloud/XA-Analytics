@@ -129,7 +129,7 @@ class AnalyticService
     if url_str.index("query") and APP_CONFIG[:sql][:query].eql? "open"
       project_id = JSON.parse(options[:params])[0]["project_id"]
       if APP_CONFIG[:sql][:projects].eql? "all" or APP_CONFIG[:sql][:projects].split(",").include? project_id
-        url = URI.parse(File.join("http://65.255.35.141:8081", url_str))
+        url = URI.parse(File.join(APP_CONFIG[:sql][:url], url_str))
       end
     end
 

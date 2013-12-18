@@ -187,7 +187,8 @@ I18n.translations = {
                     "offset":"Before",
                     "frequency":"Frequency",
                     "compare":"Compare to past",
-                    "show_table":"Show data table"
+                    "show_table":"Show data table",
+                    "show_summary":"Show data summary"
                 },
                 "form_header":{
                     "default_title":"new tab"

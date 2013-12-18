@@ -43,6 +43,7 @@
         <% end %>
     </tr>
     <% for segment_id in @segment_ids: %>
+        <% if @selector.get("show_summary"):%>
         <tr>
             <% if has_segments: %>
                 <td class="segment-name" value="<%= segment_id %>"><%= Instances.Collections.segments.get(segment_id).get("name") %></td>
@@ -121,6 +122,7 @@
                 <% index = index + 1 %>
             <% end %>
         </tr>
+        <% end %>
         <% cmap = @charts_map() %>
         <% if cmap[segment_id]? and not @for_widget and @segment_ids.length < 2 and @selector.get("show_table"): %>
             <% dates = [] %>

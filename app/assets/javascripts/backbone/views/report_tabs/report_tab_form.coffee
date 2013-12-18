@@ -37,6 +37,7 @@ class Analytics.Views.ReportTabs.FormBodyView extends Backbone.View
     "click button.interval" : "change_interval"
     "change input#compare-checkbox" : "change_compare"
     "change input#show-table-checkbox": "change_show_table"
+    "change input#show-summary-checkbox": "change_show_summary"
     "blur #advanced-options input": "validate_date_range"
   initialize: () ->
     _.bindAll this, "render", "validate_date_range"
@@ -95,6 +96,12 @@ class Analytics.Views.ReportTabs.FormBodyView extends Backbone.View
       $('#report_tabs_attributes_'+@model.index+'_show_table').val(1)
     else
       $('#report_tabs_attributes_'+@model.index+'_show_table').val(0)
+
+  change_show_summary: (ev) ->
+    if $(ev.currentTarget)[0].checked
+      $('#report_tabs_attributes_'+@model.index+'_show_summary').val(1)
+    else
+      $('#report_tabs_attributes_'+@model.index+'_show_summary').val(0)
 
   validate_date_range: () ->
     @clear_error()

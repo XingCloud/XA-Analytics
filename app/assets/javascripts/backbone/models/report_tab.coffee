@@ -6,6 +6,7 @@ class Analytics.Models.ReportTab extends Backbone.Model
     compare: 0
     day_offset: 1
     show_table: false
+    show_summary: false
     metric_ids: []
 
   initialize: (attributes, options) ->
