@@ -103,7 +103,7 @@
 
             </div>
 
-            <div class="x control-group filter <%= if @filter_operator? and @filter_operator != '' then 'should-check' %> ">
+            <!--div class="x control-group filter <%= if @filter_operator? and @filter_operator != '' then 'should-check' %> ">
                 <label class="control-label">
                     <%= I18n.t("templates.metrics.form.filter") %>
                 </label>
@@ -122,7 +122,7 @@
                         <input type="text" name="filter_value" value="<%= @filter_value %>" style="display: none"/>
                     <% end %>
                 </div>
-            </div>
+            </div-->
 
             <div class="control-group">
                 <label class="control-label" for="metric_combine_action"> <%= I18n.t("templates.metrics.form.combine") %></label>

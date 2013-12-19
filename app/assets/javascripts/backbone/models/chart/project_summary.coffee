@@ -14,8 +14,8 @@ class Analytics.Models.ProjectSummaryChart extends Backbone.Model
       name: "x"
       event_key: "pay.*.*.*.*.*"
       count_method: "SUM"
+      scale: "1970-01-01:0.01"
     ]
-    formula: "x*0.01"
     id: @id
     start_time: @get("start_time")
     end_time: @get("end_time")
@@ -28,9 +28,9 @@ class Analytics.Models.ProjectSummaryChart extends Backbone.Model
       name: "x"
       event_key: "visit.*.*.*.*.*"
       count_method: "USER_NUM"
+      scale: "1970-01-01:1.0"
       segment: '{"register_time":[{"op":"gte", "expr":"$date_add(0)","type":"VAR"},{"op":"lte", "expr":"$date_add(0)","type":"VAR"}]}'
     ]
-    formula: "x"
     id: @id
     start_time: @get("start_time")
     end_time: @get("end_time")
@@ -43,10 +43,10 @@ class Analytics.Models.ProjectSummaryChart extends Backbone.Model
       name: "x"
       event_key: "visit.*.*.*.*.*"
       count_method: "USER_NUM"
+      scale: "1970-01-01:1.0"
       number_of_day: (if @get("interval") == "WEEK" then 7 else 0)
       number_of_day_origin: 0
     ]
-    formula: "x"
     id: @id
     start_time: @get("start_time")
     end_time: @get("end_time")
