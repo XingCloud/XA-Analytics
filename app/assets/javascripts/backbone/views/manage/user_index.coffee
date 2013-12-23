@@ -5,9 +5,11 @@ class Analytics.Views.Manage.UserIndexView extends Backbone.View
     "click a.remove-user" : "remove_user"
     "click a.edit-user" : "edit_user"
     "click a.search" : "search"
+    "click a.list-unapproved" : "list_unapproved"
     "click li.pre.enabled a" : "pre_page"
     "click li.nex.enabled a" : "nex_page"
     "keyup .form-search input" : "keyup_toggle"
+    "change input#approved-checkbox": "change_approved"
     "click .modal a.submit" : "update_user"
     "hidden .modal" : "remove_modal"
 
@@ -22,12 +24,14 @@ class Analytics.Views.Manage.UserIndexView extends Backbone.View
     @users = Instances.Collections.Users
     @users.bind "all", @redraw
     @page = 1
+    @show_unapproved = false
 
   render: ()->
     @calc_page()
     $(@el).html(@.template({
       users: @users_to_show()
       filter_value: @filter_value
+      unapproved: @unapproved
       page: @page
       max_page: @max_page
     }))
@@ -47,12 +51,22 @@ class Analytics.Views.Manage.UserIndexView extends Backbone.View
     switch ev.keyCode
       when 13 then @search(ev)
 
+  list_unapproved:()->
+    @show_unapproved = not @show_unapproved
+    @search()
+
   users_to_show: ()->
     _this = @
     if @filter_value and @filter_value != ""
-      _.filter(@users.models, (x) -> x.get("name").indexOf(_this.filter_value)!=-1 or x.get("email").indexOf(_this.filter_value)!=-1 or x.get("role").indexOf(_this.filter_value)!=-1)
+      models = _.filter(@users.models, (x) -> x.get("name").indexOf(_this.filter_value)!=-1 or x.get("email").indexOf(_this.filter_value)!=-1 or x.get("role").indexOf(_this.filter_value)!=-1)
     else
-      @users.models
+      models = @users.models
+
+    @unapproved = _.filter(models, (x)->x.get("approved") == false).length
+    if @show_unapproved
+      _.filter(models, (x)->x.get("approved") == false)
+    else
+      models
 
   edit_user: (ev)->
     id = $(ev.currentTarget).attr("value")
@@ -63,10 +77,17 @@ class Analytics.Views.Manage.UserIndexView extends Backbone.View
       'margin-left': () -> -($(this).width() / 2)
     })
 
+  change_approved: (ev)->
+    if $(ev.currentTarget)[0].checked
+      $('#approved').val(1)
+    else
+      $('#approved').val(0)
+
   update_user: (ev)->
     role = $(@el).find(".modal .role").val()
+    approved = $(@el).find(".modal #approved").val()
     $(@el).find(".modal").modal("hide")
-    @current_edit_user.save({role:role}, {
+    @current_edit_user.save({role:role, approved:approved}, {
       success:()->
     })
 
@@ -89,7 +110,7 @@ class Analytics.Views.Manage.UserIndexView extends Backbone.View
 
   calc_page: () ->
     ret = @users_to_show()
-    @max_page = (if ret.length == 0 then 1 else Math.ceil(ret.length / 100))
+    @max_page = (if ret.length == 0 then 1 else Math.ceil(ret.length / 50))
     if @page > @max_page
       @page = @max_page
 

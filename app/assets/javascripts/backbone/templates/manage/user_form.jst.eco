@@ -16,13 +16,22 @@
         <div class="control-group">
           <label class="control-label"><abbr title="<%= I18n.t('commons.required') %>">*</abbr><%= I18n.t("templates.project_users.role") %></label>
           <div class="controls">
-        <select class="role" name="role">
-          <option value="admin" <%=if @user.get("role")=="admin" then "selected"%> ><%=I18n.t("templates.project_users.admin_role")%></option>
-          <option value="normal" <%=if @user.get("role")=="normal" then "selected"%> ><%=I18n.t("templates.project_users.normal_role")%></option>
-          <option value="mgriant" <%=if @user.get("role")=="mgriant" then "selected"%>><%=I18n.t("templates.project_users.mgriant_role")%></option>
-        </select>
+            <select class="role" name="role">
+              <option value="admin" <%=if @user.get("role")=="admin" then "selected"%> ><%=I18n.t("templates.project_users.admin_role")%></option>
+              <option value="normal" <%=if @user.get("role")=="normal" then "selected"%> ><%=I18n.t("templates.project_users.normal_role")%></option>
+              <option value="mgriant" <%=if @user.get("role")=="mgriant" then "selected"%>><%=I18n.t("templates.project_users.mgriant_role")%></option>
+            </select>
           </div>
         </div>
+
+        <div class="control-group">
+          <label class="control-label"><abbr title="<%= I18n.t('commons.required') %>">*</abbr>激活</label>
+          <div class="controls">
+            <input id="approved" type="hidden" value="<%= if @user.get("approved") then "1" else "0" %>" />
+            <input type="checkbox" id="approved-checkbox" <%= if @user.get("approved") then 'checked="checked"' else ' ' %> />
+          </div>
+        </div>
+
       </form>
     </div>
 

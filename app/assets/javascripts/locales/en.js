@@ -291,6 +291,7 @@ I18n.translations = {
                 "user":"members",
                 "role":"role",
                 "email": "email",
+                "status": "status",
                 "access_reports":"access reports",
                 "normal_role":"normal",
                 "mgriant_role":"mgriant",

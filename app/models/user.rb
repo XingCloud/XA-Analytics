@@ -5,7 +5,7 @@ class User < ActiveRecord::Base
          :recoverable, :rememberable, :trackable, :validatable
 
   # Setup accessible (or protected) attributes for your model
-  attr_accessible  :name, :email, :role, :password, :password_confirmation, :remember_me
+  attr_accessible  :name, :email, :role, :approved, :password, :password_confirmation, :remember_me
   has_many :project_users, :dependent=> :destroy
   has_many :projects, :through => :project_users
 
@@ -14,4 +14,17 @@ class User < ActiveRecord::Base
   def js_attributes
     attributes
   end
+
+  def active_for_authentication?
+    super && approved?
+  end
+
+  def inactive_message
+    if !approved?
+      :not_approved
+    else
+      super # Use whatever other message
+    end
+  end
+
 end

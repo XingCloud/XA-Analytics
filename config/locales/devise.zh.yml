@@ -14,6 +14,8 @@ zh:
       timeout: 您已登录超时，请重新登录.
       unauthenticated: 继续操作前请注册或者登录.
       unconfirmed: 继续操作前请先确认您的帐号.
+      user:
+        not_approved: "帐号还未被管理员激活．"
     mailer:
       confirmation_instructions:
         subject: 确认信息

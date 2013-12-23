@@ -71,7 +71,7 @@ class ProjectsController < ProjectBaseController
     users.each do |user|
       @user = User.find_by_name(user)
       if @user.nil?
-        @user = User.new({:name=>user, :email=>user+"@xingcloud.com", :password=>"12315P@ssw0rd"})
+        @user = User.new({:name=>user, :email=>user+"@xingcloud.com", :password=>"12315P@ssw0rd", :role=>"normal"})
       end
       User.transaction do
         begin

@@ -290,6 +290,7 @@ I18n.translations = {
                 "user":"项目成员",
                 "role":"角色",
                 "email" : "邮箱",
+                "status" : "状态",
                 "access_reports":"允许查看报告",
                 "normal_role":"普通用户",
                 "mgriant_role":"外来用户",

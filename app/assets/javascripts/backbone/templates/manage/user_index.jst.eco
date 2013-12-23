@@ -1,27 +1,38 @@
 <%- JST["backbone/templates/manage/manage_header"]({manage_project:false}) %>
 
+<%if @unapproved>0:%>
+    <div class="alert">
+      <button type="button" class="close" data-dismiss="alert">&times;</button>
+      有<%=@unapproved%>个用户正在等待管理员激活，点击'显示未激活用户'按钮查看需要激活的用户．
+    </div>
+<%end%>
+
 <span style="float:right;margin-right:5px;margin-top:10px;">共有 <%=@users.length%> 个用户</span>
+
 
 <div class="form-search" style="margin-bottom:10px;">
   <input type="text" class="input-medium search-query" value="<%=@filter_value%>">
   <a type="submit" class="btn search">Search</a>
+  <a class="btn btn-primary list-unapproved">显示未激活用户</a>
 </div>
 
 <div class="row-fluid">
     <table class="table table-bordered user_attributes">
         <tr>
-            <th width="25%"><%= I18n.t("templates.project_users.user") %></th>
-            <th width="25%"><%= I18n.t("templates.project_users.email") %></th>
-            <th width="25%"><%= I18n.t("templates.project_users.role") %></th>
-            <th width="10%"></th>
+            <th width="20%"><%= I18n.t("templates.project_users.user") %></th>
+            <th width="30%"><%= I18n.t("templates.project_users.email") %></th>
+            <th width="15%"><%= I18n.t("templates.project_users.role") %></th>
+            <th width="15%"><%= I18n.t("templates.project_users.status") %></th>
+            <th width="20%"></th>
         </tr>
         <% if @users.length > 0: %>
-            <% for index in [(@page - 1)*100..Math.min(@page*100 - 1, @users.length - 1)]: %>
+            <% for index in [(@page - 1)*50..Math.min(@page*50 - 1, @users.length - 1)]: %>
                 <% user = @users[index] %>
                 <tr>
                   <td><%= user.get("name")%></td>
                   <td><%= user.get("email")%></td>
                   <td><%= I18n.t("templates.project_users."+user.get("role")+"_role") %></td>
+                  <td><%= if user.get("approved") then "激活" else "未激活" %></td>
                   <td>
                     <a class="btn btn-mini left edit-user" value="<%= user.id %>"><i class="icon-edit"/></a>
                     <a class="btn btn-mini left remove-user" value="<%= user.id %>"><i class="icon-remove"/></a>
