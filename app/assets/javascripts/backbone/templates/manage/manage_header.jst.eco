@@ -51,7 +51,6 @@
             <a href="#" class="dropdown-toggle" data-toggle="dropdown"><%=Instances.Models.user.get("email")%> <b class="caret"></b></a>
             <ul class="dropdown-menu">
               <li><a href="/users/sign_out">登出</a></li>
-              <li><a href="/account">项目管理</a></li>
             </ul>
           </li>
         </ul>

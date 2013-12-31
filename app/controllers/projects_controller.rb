@@ -71,7 +71,11 @@ class ProjectsController < ProjectBaseController
     users.each do |user|
       @user = User.find_by_name(user)
       if @user.nil?
-        @user = User.new({:name=>user, :email=>user+"@xingcloud.com", :password=>"12315P@ssw0rd", :role=>"normal"})
+        email = user+"@xingcloud.com"
+        if user.index("@")
+          email = user
+        end
+        @user = User.new({:name=>user, :email=>email, :password=>"12315P@ssw0rd", :role=>"normal"})
       end
       User.transaction do
         begin
@@ -83,7 +87,7 @@ class ProjectsController < ProjectBaseController
                                              :privilege=>{:report_ids=>[]}})
           end
         rescue ActiveRecord::RecordInvalid
-
+          logger.error "RecordInvalid"
           raise ActiveRecord::Rollback
         rescue Exception => e
           logger.error e.message
