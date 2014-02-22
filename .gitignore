@@ -14,3 +14,4 @@ analytic/.idea/*
 */.DS_Store
 *~
 *.js.map
+config/app_config.yml
