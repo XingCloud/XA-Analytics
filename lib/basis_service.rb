@@ -8,7 +8,19 @@ class BasisService
   SSL_PORT = APP_CONFIG[:basis][:ssl_port]
   BASIC_USERNAME = APP_CONFIG[:basis][:basic_username]
   BASIC_PASSWORD = APP_CONFIG[:basis][:basic_password]
-  
+
+  def self.logger
+    unless @logger
+      @logger ||= Logger.new(Rails.root.join("log/api_request.log"))
+      @logger.formatter = proc { |severity, datetime, progname, msg|
+        "#{datetime.strftime("%m-%d %H:%M:%S")}: #{msg}\n"
+      }
+    end
+
+    @logger
+
+  end
+
   def self.base_url(scheme)
     if scheme == "https"
       URI::HTTPS.build({:host => HOST, :port => SSL_PORT}).to_s
@@ -26,10 +38,13 @@ class BasisService
     }
     
     pp res.body
+    logger.info "response body:"+body
+
     if res.is_a?(Net::HTTPSuccess)
       JSON.parse(res.body)
     else
       puts "#{res.code} #{res.message}"
+      logger.error "#{res.code} #{res.message}"
       nil
     end
   end

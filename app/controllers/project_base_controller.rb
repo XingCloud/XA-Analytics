@@ -12,7 +12,7 @@ class ProjectBaseController < ApplicationController
     if params[:project_id].present?
       @project = Project.fetch(params[:project_id])
     else
-      @project = Project.fetch(params[:id])
+      @project = Project.fetch(params[:id])  # ref Project#fetch, we will create project(if not exist) here
     end
   end
 
